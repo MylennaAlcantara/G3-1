@@ -75,6 +75,9 @@ export const Cadastro = () => {
             <C.Display>
 
             </C.Display>
+            <C.Footer>
+                
+            </C.Footer>
         </C.Container>   
     );
 }

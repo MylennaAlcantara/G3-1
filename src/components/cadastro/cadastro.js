@@ -93,3 +93,9 @@ export const Display = styled.div`
     height: 20vh;
     width: 80%;
 `
+export const Footer = styled.div`
+    background-color: #339afe;
+    width: 100%;
+    height: 5%;
+    
+`
