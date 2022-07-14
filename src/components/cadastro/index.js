@@ -76,7 +76,24 @@ export const Cadastro = () => {
 
             </C.Display>
             <C.Footer>
-                
+                <form>
+                <label>Pré-desconto:</label>
+                <input/>
+                <label>Acrésc. Total(R$): </label>
+                <input/>
+                <label className="total-itens"></label>
+                <label>Subtotal da Rotina: </label>
+                <input/>
+                <label>Total da Rotina: </label>
+                <input/>
+                <label>Desconto Total(R$): </label>
+                <input/>
+                </form>
+                <div className="buttons">
+                    <button className="liberar">Liberar</button>
+                    <button className="Excluir">Excluir</button>
+                    <button className="Voltar">Voltar</button>
+                </div>
             </C.Footer>
         </C.Container>   
     );

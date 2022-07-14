@@ -94,8 +94,12 @@ export const Display = styled.div`
     width: 80%;
 `
 export const Footer = styled.div`
-    background-color: #339afe;
     width: 100%;
-    height: 5%;
-    
+    justify-content: space-btween;
+   .buttons{
+        height: 5vh;
+        background-color: #339afe;
+        aling-itens: center;
+        justify-content: center;
+   }
 `
