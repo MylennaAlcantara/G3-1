@@ -83,7 +83,12 @@ export const Info = styled.div`
 `;
 export const Add = styled.div`
     height: 15%;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    .descrição{
+        width: 80vw;
+    }
 `
 export const Display = styled.div`
     background-color: #f0f0f0;
@@ -95,10 +100,11 @@ export const Display = styled.div`
 `
 export const Footer = styled.div`
     width: 100%;
-    justify-content: space-btween;
+    display-flex: wrapper;
+    justify-content: space-between;
    .buttons{
         height: 5vh;
-        background-color: #339afe;
+        background-color: #8ac2df;
         aling-itens: center;
         justify-content: center;
    }

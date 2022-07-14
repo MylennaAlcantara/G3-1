@@ -69,7 +69,7 @@ export const Cadastro = () => {
                 <label>Tota do item: </label>
                 <input/>
                 <label>Descrição: </label>
-                <input/>
+                <input className="descrição"/>
             </form>
             </C.Add>
             <C.Display>
