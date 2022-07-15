@@ -43,8 +43,9 @@ export const Cadastro = () => {
                     <input className="f1"/>
                     <input className="partner"/>
                     </label>
-                    <label>CPF/CNPJ: </label>
+                    <label>CPF/CNPJ: 
                     <input/>
+                    </label>
                     <label>Tipo pgto: 
                     <input className="f1"/>
                     <input className="option"/>
@@ -60,16 +61,17 @@ export const Cadastro = () => {
                 <label>Código: </label>
                 <input/>
                 <label>Quantidade: </label>
-                <input/>
+                <input className="add-item" placeholder="1,000"/>
                 <label>Valor Unitário: </label>
-                <input list="#"></input>
+                <input className="add-item"list="#"></input>
                 <datalist></datalist>
                 <label>Desconto: </label>
-                <input/><input/>
+                <input className="add-item" placeholder="0,000000"/><input className="add-item"/>
                 <label>Tota do item: </label>
                 <input/>
-                <label>Descrição: </label>
-                <input className="descrição"/>
+                <br/>
+                <label>Descrição: 
+                <input className="descrição"/></label>
             </form>
             </C.Add>
             <C.Display>
@@ -77,17 +79,21 @@ export const Cadastro = () => {
             </C.Display>
             <C.Footer>
                 <form>
-                <label>Pré-desconto:</label>
-                <input/>
-                <label>Acrésc. Total(R$): </label>
-                <input/>
-                <label className="total-itens"></label>
-                <label>Subtotal da Rotina: </label>
-                <input/>
-                <label>Total da Rotina: </label>
-                <input/>
-                <label>Desconto Total(R$): </label>
-                <input/>
+                    <div>
+                    <label>Pré-desconto:</label>
+                    <input placeholder="0,000000"/>
+                    <label>Acrésc. Total(R$): </label>
+                    <input placeholder="0,000000"/>
+                    <label className="total-itens"></label>
+                    <label>Subtotal da Rotina: </label>
+                    <input/>
+                    <label>Total da Rotina: </label>
+                    <input/>
+                    </div>
+                    <div>
+                    <label>Desconto Total(R$): </label>
+                    <input placeholder="0,000000"/>
+                    </div>
                 </form>
                 <div className="buttons">
                     <button className="liberar">Liberar</button>

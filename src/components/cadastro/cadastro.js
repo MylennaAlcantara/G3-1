@@ -67,14 +67,11 @@ export const Info = styled.div`
     }
     .partner{
         background-color: #f0f0f0;
-        width: 55vw;
-        margin: 0 10px;
+        width: 59vw;
+       
     }
     input{
         margin-right: 10px;
-    }
-    label{
-        margin: 0 5px;
     }
     fieldset{
        margin: 0 10px ;
@@ -84,10 +81,16 @@ export const Info = styled.div`
 export const Add = styled.div`
     height: 15%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     .descrição{
         width: 80vw;
+    }
+    .add-item{
+        width: 80px;
+    }
+    label{
+        margin: 0 5px;
     }
 `
 export const Display = styled.div`
@@ -96,12 +99,20 @@ export const Display = styled.div`
     justify-content: center;
     border: 1px solid black;
     height: 20vh;
-    width: 80%;
+    width: 100%;
+    
 `
 export const Footer = styled.div`
     width: 100%;
     display-flex: wrapper;
     justify-content: space-between;
+    form{
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        margin: 5px 0;
+        
+    }
    .buttons{
         height: 5vh;
         background-color: #8ac2df;
