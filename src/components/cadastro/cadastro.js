@@ -20,7 +20,7 @@ export const Header = styled.div`
     }
 `;
 export const Info = styled.div`
-    height: 40%;
+    height: 35%;
     display: block;
     flex-wrap: wrap;
     align-content: center;
@@ -52,6 +52,18 @@ export const Info = styled.div`
         width: 0;
         border-right: 1px solid #000;
     }
+    .information{
+        
+        width: calc(100% - 1em);
+        display: inline-block;
+        margin: 5px 0;
+        align-content: center;
+        
+    }
+    div{
+        display:flex;
+        justify-content: end;
+    }
     .f1{
         width: 60px;
     }
@@ -59,11 +71,6 @@ export const Info = styled.div`
         background-color: #f0f0f0;
         width: 75vw;
         margin: 0 10px;
-    }
-    .information{
-        margin: 5px 0;
-        align-content: center;
-        justify-content: end;
     }
     .partner{
         background-color: #f0f0f0;
@@ -105,7 +112,7 @@ export const Display = styled.div`
 export const Footer = styled.div`
     width: 100%;
     display-flex: wrapper;
-    justify-content: space-between;
+
     form{
         display: flex;
         flex-wrap: wrap;

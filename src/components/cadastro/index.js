@@ -27,29 +27,33 @@ export const Cadastro = () => {
                 </div>
                 </form>
                 <form className="information">
-                    <label>Emitente: 
-                    <input className="f1"/>
-                    </label>
-                    <input className="option"/>
-                    <label>T.O.P: 
+                    <div>
+                    <label>Emitente: </label>
                     <input className="f1"/>
                     <input className="option"/>
-                    </label>
-                    <label>Vendedor: 
+                    </div>
+                    <div>
+                    <label>T.O.P: </label>
                     <input className="f1"/>
                     <input className="option"/>
-                    </label>
-                    <label>Parceiro: 
+                    </div>
+                    <div>
+                    <label>Vendedor: </label>
+                    <input className="f1"/>
+                    <input className="option"/>
+                    </div>
+                    <div>
+                    <label>Parceiro: </label>
                     <input className="f1"/>
                     <input className="partner"/>
-                    </label>
-                    <label>CPF/CNPJ: 
+                    <label>CPF/CNPJ: </label>
                     <input/>
-                    </label>
-                    <label>Tipo pgto: 
+                    </div>
+                    <div>
+                    <label>Tipo pgto: </label>
                     <input className="f1"/>
                     <input className="option"/>
-                    </label>
+                    </div>
                 </form>
                 <fieldset><legend>Observação</legend>Observação</fieldset>
             </C.Info>
