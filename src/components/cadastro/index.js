@@ -69,13 +69,17 @@ export const Cadastro = () => {
                 <label>Valor Unitário: </label>
                 <input className="add-item"list="#"></input>
                 <datalist></datalist>
+                <div>
                 <label>Desconto: </label>
                 <input className="add-item" placeholder="0,000000"/><input className="add-item"/>
+                </div>
                 <label>Tota do item: </label>
                 <input/>
                 <br/>
-                <label>Descrição: 
-                <input className="descrição"/></label>
+                <div>
+                <label>Descrição: </label>
+                <input className="descrição"/>
+                </div>
             </form>
             </C.Add>
             <C.Display>

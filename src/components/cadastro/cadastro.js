@@ -86,10 +86,16 @@ export const Info = styled.div`
     
 `;
 export const Add = styled.div`
-    height: 15%;
     display: flex;
     justify-content: center;
     align-items: center;
+    form{
+        background-color: yellow;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        margin: 5px 0; 
+    }
     .descrição{
         width: 80vw;
     }
