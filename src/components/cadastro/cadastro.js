@@ -73,6 +73,7 @@ export const Info = styled.div`
         margin: 0 10px;
     }
     .partner{
+        margin-left: 10px;
         background-color: #f0f0f0;
         width: 59vw;
        

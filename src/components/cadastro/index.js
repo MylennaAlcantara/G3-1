@@ -1,7 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
+import { Modal } from "../modal/index.js";
+import "../modal/modal.js";
 import * as C from './cadastro.js';
 
 export const Cadastro = () => {
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    
     return(
         <C.Container>
             <C.Header>
@@ -29,7 +34,8 @@ export const Cadastro = () => {
                 <form className="information">
                     <div>
                     <label>Emitente: </label>
-                    <input className="f1"/>
+                    <input className="f1" onClick={() => setModalVisible(true)}/>
+                    {isModalVisible ? <Modal/> : null}
                     <input className="option"/>
                     </div>
                     <div>
@@ -57,6 +63,7 @@ export const Cadastro = () => {
                 </form>
                 <fieldset><legend>Observação</legend>Observação</fieldset>
             </C.Info>
+            
             <C.Header>
                 <button>Produtos</button><button>Financeiro</button>
             </C.Header>
@@ -90,14 +97,20 @@ export const Cadastro = () => {
                     <div>
                     <label>Pré-desconto:</label>
                     <input placeholder="0,000000"/>
+                    </div>
+                    <div>
                     <label>Acrésc. Total(R$): </label>
                     <input placeholder="0,000000"/>
+                    </div>
                     <label className="total-itens"></label>
+                    <div>
                     <label>Subtotal da Rotina: </label>
                     <input/>
+                    </div>
+                    <div>
                     <label>Total da Rotina: </label>
                     <input/>
-                    </div>
+                    </div> 
                     <div>
                     <label>Desconto Total(R$): </label>
                     <input placeholder="0,000000"/>
