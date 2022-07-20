@@ -20,7 +20,7 @@ export const Header = styled.div`
     }
 `;
 export const Info = styled.div`
-    height: 35%;
+    height: 30vh;
     display: block;
     flex-wrap: wrap;
     align-content: center;
@@ -86,11 +86,12 @@ export const Info = styled.div`
     
 `;
 export const Add = styled.div`
+    height: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
     form{
-        background-color: yellow;
+        
         display: flex;
         flex-wrap: wrap;
         align-content: center;
@@ -116,10 +117,14 @@ export const Display = styled.div`
     
 `
 export const Footer = styled.div`
+    height: 20vh;
     width: 100%;
+    display: flex;
     display-flex: wrapper;
-
+    flex-direction: column;
+    justify-content: flex-end;
     form{
+        
         display: flex;
         flex-wrap: wrap;
         align-content: center;
