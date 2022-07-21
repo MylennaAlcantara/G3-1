@@ -19,4 +19,9 @@ export const Container = styled.div`
     width: 60%;
     height: 60%;
     background-color: #fff;
+    .content{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 `;

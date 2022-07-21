@@ -2,13 +2,16 @@ import React, {useState} from "react";
 import { Modal } from "../modal/index.js";
 import "../modal/modal.js";
 import * as C from './cadastro.js';
+import '../../App.js';
 
-export const Cadastro = () => {
-    const [isModalVisible, setModalVisible] = useState(false);
+export const Cadastro = ({children}) => {
 
-    
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
     return(
+        
         <C.Container>
+            
             <C.Header>
                 <button>Consultar</button><button>Cadastrar</button>
             </C.Header>
@@ -34,36 +37,35 @@ export const Cadastro = () => {
                 <form className="information">
                     <div>
                     <label>Emitente: </label>
-                    <input className="f1" onClick={() => setModalVisible(true)}/>
-                    {isModalVisible ? <Modal/> : null}
+                    <input className="f1" onClick={() => setIsModalVisible(true)}/>                    
                     <input className="option"/>
                     </div>
                     <div>
                     <label>T.O.P: </label>
-                    <input className="f1"/>
+                    <input className="f1" onClick={() => setIsModalVisible(true)}/>
                     <input className="option"/>
                     </div>
                     <div>
                     <label>Vendedor: </label>
-                    <input className="f1"/>
+                    <input className="f1" onClick={() => setIsModalVisible(true)}/>
                     <input className="option"/>
                     </div>
                     <div>
                     <label>Parceiro: </label>
-                    <input className="f1"/>
+                    <input className="f1" onClick={() => setIsModalVisible(true)}/>
                     <input className="partner"/>
                     <label>CPF/CNPJ: </label>
                     <input/>
                     </div>
                     <div>
                     <label>Tipo pgto: </label>
-                    <input className="f1"/>
+                    <input className="f1" onClick={() => setIsModalVisible(true)}/>
                     <input className="option"/>
                     </div>
                 </form>
                 <fieldset><legend>Observação</legend>Observação</fieldset>
             </C.Info>
-            
+                
             <C.Header>
                 <button>Produtos</button><button>Financeiro</button>
             </C.Header>
@@ -122,6 +124,9 @@ export const Cadastro = () => {
                     <button className="Voltar">Voltar</button>
                 </div>
             </C.Footer>
+            {isModalVisible ? (
+                <Modal onClose = {() => setIsModalVisible(false)}/>
+            ) : null}
         </C.Container>   
     );
 }
