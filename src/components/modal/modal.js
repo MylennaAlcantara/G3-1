@@ -25,3 +25,12 @@ export const Container = styled.div`
         align-items: center;
     }
 `;
+
+export const Header = styled.div`
+    width: 100%;
+    height: 10%;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
