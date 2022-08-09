@@ -24,6 +24,24 @@ export const Container = styled.div`
         justify-content: center;
         align-items: center;
     }
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    th{
+        background-color: #ffffff;
+        border: 1px solid grey;
+    }
+    td{
+        border: 1px solid grey;
+    }
+    table tr:nth-child(even){
+        background-color: #ffffe6;
+    }
+    table tr:nth-child(odd){
+        background-color: #f0f0f0;   
+    }
 `;
 
 export const Header = styled.div`
@@ -34,3 +52,4 @@ export const Header = styled.div`
     justify-content: space-between;
     align-items: center;
 `;
+

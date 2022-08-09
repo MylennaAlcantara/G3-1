@@ -10,7 +10,7 @@ export const Modal = ({ onClose = () => {} }) => {
                     <label>Cadastro Parceiros</label>
                     <button className="close" onClick={onClose}>X</button>
                 </C.Header>
-                <table border={1}>
+                <table >
                     <thead>
                         <tr>
                             <th>Código</th>
@@ -27,7 +27,45 @@ export const Modal = ({ onClose = () => {} }) => {
                         </tr>
                     </thead>
                     <tbody>
-
+                        <tr>
+                            <td>Código</td>
+                            <td>Data Cadastro</td>
+                            <td>Razão Social</td>
+                            <td>Nome Fantasia</td>
+                            <td>Documento</td>
+                            <td>Endereço</td>
+                            <td>CEP</td>
+                            <td>Município</td>
+                            <td>Telefone</td>
+                            <td>Celular</td>
+                            <td>Vendedor</td>
+                        </tr>
+                        <tr>
+                            <td>Código</td>
+                            <td>Data Cadastro</td>
+                            <td>Razão Social</td>
+                            <td>Nome Fantasia</td>
+                            <td>Documento</td>
+                            <td>Endereço</td>
+                            <td>CEP</td>
+                            <td>Município</td>
+                            <td>Telefone</td>
+                            <td>Celular</td>
+                            <td>Vendedor</td>
+                        </tr>
+                        <tr>
+                            <td>Código</td>
+                            <td>Data Cadastro</td>
+                            <td>Razão Social</td>
+                            <td>Nome Fantasia</td>
+                            <td>Documento</td>
+                            <td>Endereço</td>
+                            <td>CEP</td>
+                            <td>Município</td>
+                            <td>Telefone</td>
+                            <td>Celular</td>
+                            <td>Vendedor</td>
+                        </tr>
                     </tbody>
                 </table>
             </C.Container>
