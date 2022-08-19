@@ -8,10 +8,15 @@ function App() {
 
   return (
     <div className="App">
-      <Cadastro>
-        <Modal/>
-      </Cadastro>
-      
+      <div className='nav-bar'>
+        <label>Logotipo</label>
+        <button className='button-login'>Entrar</button>
+      </div>
+      <div>
+        <Cadastro>
+          <Modal/>
+        </Cadastro>
+      </div>
     </div>
   );
 }
