@@ -1,12 +1,23 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Modal } from "../modal/index.js";
 import "../modal/modal.js";
 import * as C from './cadastro.js';
 import '../../App.js';
+import api from "../../services/api.js";
 
 export const Cadastro = ({children}) => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [users, setUsers] = useState();
+
+    useEffect(() => {
+        api
+            .get("/api/?results=100")
+            .then((response) => setUsers(response.data))
+            .catch((err) => {
+                console.error("Ocorreu um erro" + err);
+            });
+    }, []);
 
     return(
         
