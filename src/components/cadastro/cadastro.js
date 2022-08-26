@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     background-color: white;
-    height: 80vh;
-    width: 80vw;
+    height: 70vh;
+    width: 70vw;
     border: 1px solid black;
     overflow-y: auto;
 `;
@@ -21,7 +21,7 @@ export const Header = styled.div`
     }
 `;
 export const Info = styled.div`
-    height: 30vh;
+    height: 20vh;
     display: block;
     flex-wrap: wrap;
     align-content: center;
@@ -70,14 +70,12 @@ export const Info = styled.div`
     }
     .option{
         background-color: #f0f0f0;
-        width: 75vw;
-        margin: 0 10px;
+        width: 55vw;
+        margin-right: 10px;
     }
     .partner{
-        margin-left: 10px;
         background-color: #f0f0f0;
-        width: 59vw;
-       
+        width: 39vw;
     }
     input{
         margin-right: 10px;
@@ -88,8 +86,7 @@ export const Info = styled.div`
     
 `;
 export const Add = styled.div`
-    height: 10vh;
-    margin-top: 10px;
+    height: 8vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,10 +98,10 @@ export const Add = styled.div`
         margin: 5px 0; 
     }
     .descrição{
-        width: 80vw;
+        width: 60vw;
     }
     .add-item{
-        width: 80px;
+        width: 70px;
     }
     label{
         margin: 0 5px;
@@ -117,11 +114,11 @@ export const Display = styled.div`
     justify-content: center;
     border: 1px solid black;
     height: 20vh;
-    width: 100%;
+    width: 99%;
     
 `
 export const Footer = styled.div`
-    margin-top: 15px;
+    margin-top: 0px;
     height: 10vh;
     width: 100%;
     display: flex;
@@ -138,8 +135,9 @@ export const Footer = styled.div`
     }
    .buttons{
         height: 5vh;
+        display: flex;
         background-color: #8ac2df;
         aling-itens: center;
-        justify-content: center;
+        justify-content: space-around;
    }
 `

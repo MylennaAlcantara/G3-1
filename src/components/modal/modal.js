@@ -19,6 +19,7 @@ export const Container = styled.div`
     width: 60%;
     height: 60%;
     background-color: #fff;
+    overflow-y: auto;
     .content{
         display: flex;
         justify-content: center;

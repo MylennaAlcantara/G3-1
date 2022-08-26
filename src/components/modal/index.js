@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as C from './modal.js';
 import "../cadastro/index.js";
 
 export const Modal = ({ onClose = () => {} }) => {
+
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        async function fetchData (){
+            const response = await fetch("https://rickandmortyapi.com/api/character");
+            const data = await response.json();
+            setUsers(data.results);
+        }
+            fetchData();
+    }, []);
+
     return(
         <C.Modal>
             <C.Container>
@@ -27,45 +39,23 @@ export const Modal = ({ onClose = () => {} }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Código</td>
-                            <td>Data Cadastro</td>
-                            <td>Razão Social</td>
-                            <td>Nome Fantasia</td>
-                            <td>Documento</td>
-                            <td>Endereço</td>
-                            <td>CEP</td>
-                            <td>Município</td>
-                            <td>Telefone</td>
-                            <td>Celular</td>
-                            <td>Vendedor</td>
-                        </tr>
-                        <tr>
-                            <td>Código</td>
-                            <td>Data Cadastro</td>
-                            <td>Razão Social</td>
-                            <td>Nome Fantasia</td>
-                            <td>Documento</td>
-                            <td>Endereço</td>
-                            <td>CEP</td>
-                            <td>Município</td>
-                            <td>Telefone</td>
-                            <td>Celular</td>
-                            <td>Vendedor</td>
-                        </tr>
-                        <tr>
-                            <td>Código</td>
-                            <td>Data Cadastro</td>
-                            <td>Razão Social</td>
-                            <td>Nome Fantasia</td>
-                            <td>Documento</td>
-                            <td>Endereço</td>
-                            <td>CEP</td>
-                            <td>Município</td>
-                            <td>Telefone</td>
-                            <td>Celular</td>
-                            <td>Vendedor</td>
-                        </tr>
+                        {users.map( (user) => {
+                            return(
+                                <tr>
+                                    <td>{user.id}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.status}</td>
+                                    <td>{user.species}</td>
+                                    <td>{user.type}</td>
+                                    <td>{user.gender}</td>
+                                    <td>{user.id}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.status}</td>
+                                    <td>{user.status}</td>
+                                    <td>{user.status}</td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </C.Container>

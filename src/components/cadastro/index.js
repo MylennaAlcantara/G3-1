@@ -3,21 +3,12 @@ import { Modal } from "../modal/index.js";
 import "../modal/modal.js";
 import * as C from './cadastro.js';
 import '../../App.js';
-import api from "../../services/api.js";
+
 
 export const Cadastro = ({children}) => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [users, setUsers] = useState();
-
-    useEffect(() => {
-        api
-            .get("/api/?results=100")
-            .then((response) => setUsers(response.data))
-            .catch((err) => {
-                console.error("Ocorreu um erro" + err);
-            });
-    }, []);
+    
 
     return(
         
@@ -74,7 +65,7 @@ export const Cadastro = ({children}) => {
                     <input className="option"/>
                     </div>
                 </form>
-                <fieldset><legend>Observação</legend>Observação</fieldset>
+                {/*<fieldset><legend>Observação</legend>Observação</fieldset>*/}
             </C.Info>
                 
             <C.Header>
@@ -130,9 +121,11 @@ export const Cadastro = ({children}) => {
                     </div>
                 </form>
                 <div className="buttons">
-                    <button className="liberar">Liberar</button>
-                    <button className="Excluir">Excluir</button>
-                    <button className="Voltar">Voltar</button>
+                    <div>
+                        <button className="liberar">Liberar</button>
+                        <button className="Excluir">Excluir</button>
+                        <button className="Voltar">Voltar</button>
+                    </div>
                 </div>
             </C.Footer>
             {isModalVisible ? (
