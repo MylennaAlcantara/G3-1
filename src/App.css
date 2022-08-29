@@ -3,17 +3,6 @@
   padding: 0;
 }
 
-.nav-bar{
-  position:fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: space-around;
-  background-color: white;
-  width: 100vw;
-  height: 10vh;
-}
-
 .App {
   display: flex;
   justify-content: center;
