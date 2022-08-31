@@ -8,18 +8,26 @@ export const Login = () => {
             
     const colors = ["#0088FE", "#00C49F", "#FFBB28"];
     const [index, setIndex] = useState(0);
-    const delay = 4500;
+    const delay = 3500;
     const timeoutRef = useRef(null);
 
-    useEffect(() => {
-        setTimeout(
-            timeoutRef = setTimeout(
+    function resetTimeout(){
+        if (timeoutRef.current){
+            clearTimeout(timeoutRef.current);
+        }
+    }
+
+    useEffect(() => {   
+        resetTimeout();     
+            timeoutRef.current = setTimeout(
             () => setIndex((prevIndex) =>
                 prevIndex === colors.length - 1 ? 0 : prevIndex + 1
-            )),
+            ),
             delay
         );
-        return () => {};
+        return () => {
+            resetTimeout();
+        };
     }, [index]);
 
     return(
