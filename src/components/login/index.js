@@ -6,7 +6,7 @@ import * as C from "./login.js";
 
 export const Login = () => {
             
-    const colors = ["#0088FE", "#00C49F", "#FFBB28"];
+    const colors = ["#050630","../../images/Image02.jpeg","../../images/Image03.jpeg"];
     const [index, setIndex] = useState(0);
     const delay = 3500;
     const timeoutRef = useRef(null);
@@ -37,7 +37,7 @@ export const Login = () => {
                 <div className="slideShow">
                     <div className="slideshowSlider" style={{transform: `translate3d(${-index * 100}%, 0, 0)`}}>
                        {colors.map((background, index) => (
-                        <div className="slide" key={index} style={{background}}></div>
+                        <img className="slide" key={index} style={{background}}></div>
                        ))}  
                     </div>
                     <div className="slideshowDots">

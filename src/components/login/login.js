@@ -4,7 +4,7 @@ export const Container = styled.div`
     width: 100vw;
     height: 100vh;
     display: grid;
-    background-color: white;
+
     grid-template-columns: 50% 50%;
     grid-template-rows: 100vh;
     grid-template-areas:
@@ -54,7 +54,7 @@ export const Image = styled.div`
 export const Acessar = styled.div`
     height: 100vh;
     width: 50vw;
-    background-image: url('./images/FundoLogin.jpeg');
+   
     display: flex;
     flex-direction: column;
     justify-content: center;
