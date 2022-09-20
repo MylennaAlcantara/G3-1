@@ -54,16 +54,25 @@ export const Login = () => {
                 </div>
             </C.Image>
             <C.Acessar>
-                
-                    <h1>Logo</h1>
-                    <form>
-                        <label>Matricula: </label>
-                        <input/><br/>
-                        <label>senha: </label>
-                        <input/><br/>  
-                        <button type="submit">Entrar</button>
-                    </form>
-              
+                <div className="login">
+                    <div className="auth">
+                        <label>Autentificação</label>
+                    </div>
+                    <div className="user">                        
+                            <label>Empresa</label>
+                            <input className="company"/>
+                        <div >
+                            <div className="matricula-senha">
+                                <label>Matricula</label>
+                                <input/>
+                            </div>
+                            <div className="matricula-senha">
+                                <label>Senha</label>
+                                <input/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </C.Acessar>
         </C.Container>
     )
