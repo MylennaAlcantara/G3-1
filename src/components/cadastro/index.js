@@ -28,11 +28,11 @@ export const Cadastro = ({children}) => {
                 <label>Varejo</label>
                 <div id="line"></div>
                 <div className="checkbox">
-                    <input type="checkbox"/>
+                    <input type="checkbox" className="checkbox-box"/>
                     <label>Aprovado</label>
-                    <input type="checkbox"/>
+                    <input type="checkbox" className="checkbox-box"/>
                     <label>Cancelado</label>
-                    <input type="checkbox"/>
+                    <input type="checkbox" className="checkbox-box"/>
                     <label>Entregue</label>
                 </div>
                 </form>
@@ -94,7 +94,17 @@ export const Cadastro = ({children}) => {
             </form>
             </C.Add>
             <C.Display>
-
+                <div className="div-col">
+                    <div>Item</div>
+                    <div>Cód. I. </div>
+                    <div>EAN</div>
+                    <div>Descrição</div>
+                    <div>Unidade</div>
+                    <div>Quant.</div>
+                    <div>Valor Unid.</div>
+                    <div>Subtotal</div>
+                    <div>Acres. R$</div>
+                </div>
             </C.Display>
             <C.Footer>
                 <form>
@@ -121,11 +131,9 @@ export const Cadastro = ({children}) => {
                     </div>
                 </form>
                 <div className="buttons">
-                    <div>
-                        <button className="liberar">Liberar</button>
-                        <button className="Excluir">Excluir</button>
-                        <button className="Voltar">Voltar</button>
-                    </div>
+                    <button className="liberar"><img src="/images/salvar.png"/>Liberar</button>
+                    <button className="Excluir"><img src="/images/lixeira.png"/>Excluir</button>
+                    <button className="Voltar"><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
             {isModalVisible ? (

@@ -1,18 +1,23 @@
 import styled from 'styled-components'; 
 
 export const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: white;
-    height: 70vh;
-    width: 70vw;
+    height: 90vh;
+    width: 60vw;
     border: 1px solid black;
+    border-radius: 12px;
     overflow-y: auto;
+
 `;
 export const Header = styled.div`
     border: 1.5px;
     display: flex;
     justify-content: start;
     align-items: center;
-    height: 5vh;
+    height: 24px;
     width: 100%;
     background-color: #f0f0f0;
     button{
@@ -21,7 +26,6 @@ export const Header = styled.div`
     }
 `;
 export const Info = styled.div`
-    height: 20vh;
     display: block;
     flex-wrap: wrap;
     align-content: center;
@@ -38,14 +42,20 @@ export const Info = styled.div`
         margin: 0 15px;
         background-color: #339afe;
         align-content: center;
+        
+    }
+    .checkbox-box{
+        box-shadow: none;
     }
     .radio{
         margin: 0 10px;
+        box-shadow: none;
     }
     .cod{
-        margin-right: 30%;
+        margin-right: 20%;
         margin-left: 15px;
         width: 60px;
+        height: 24px;
     }
     #line{
         margin-left: 20px;
@@ -62,23 +72,46 @@ export const Info = styled.div`
         
     }
     div{
+        
         display:flex;
         justify-content: end;
     }
     .f1{
-        width: 60px;
+        width: 120px;
+        heigth: 24px;
+        border: none;
+        background-color: #D9D9D9;
+        margin: 3px;
+        box-shadow: 0 3px 5px gray;
     }
     .option{
-        background-color: #f0f0f0;
-        width: 55vw;
-        margin-right: 10px;
+        background-color: #D9D9D9;
+        border: none;
+        margin: 3px 10px 3px 3px;
+        width: 700px;
+        height: 24px;
+        box-shadow: 0 3px 5px gray;
     }
     .partner{
-        background-color: #f0f0f0;
-        width: 39vw;
+        width: 445px;
+        height: 24px;
+        border: none;
+        background-color: #D9D9D9;
+        margin: 3px;
+        box-shadow: 0 3px 5px gray;
+    }
+    label{
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;
     }
     input{
         margin-right: 10px;
+        height: 24px;
+        border: none;
+        background-color: #D9D9D9;
+        box-shadow: 0 3px 5px gray;
+        
     }
     fieldset{
        margin: 0 10px ;
@@ -91,35 +124,52 @@ export const Add = styled.div`
     justify-content: center;
     align-items: center;
     form{
-        
+        justify-content: end;
         display: flex;
         flex-wrap: wrap;
         align-content: center;
-        margin: 5px 0; 
+        margin: 5px; 
     }
     .descrição{
-        width: 60vw;
+        width: 52vw;
+        height: 24px;
     }
     .add-item{
         width: 70px;
+        height: 24px;
+    }
+    input{
+        height: 24px;
+        width: 70px;
+        border: none;
+        background-color: #D9D9D9;
+        margin: 3px;
+        box-shadow: 0 3px 5px gray;
     }
     label{
         margin: 0 5px;
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;
     }
 `
 export const Display = styled.div`
     margin: 5px 0;
     background-color: #f0f0f0;
-    align-items: center;
+    display: flex;
+    align-items: start;
     justify-content: center;
     border: 1px solid black;
     height: 20vh;
     width: 99%;
+    div{
+        display: flex;
+        flex-grow: 1;
+        border: solid 1px gray;
+    }
     
 `
 export const Footer = styled.div`
-    margin-top: 0px;
-    height: 10vh;
     width: 100%;
     display: flex;
     display-flex: wrapper;
@@ -131,13 +181,37 @@ export const Footer = styled.div`
         flex-wrap: wrap;
         align-content: center;
         margin: 5px 0;
+        input{
+            width: 70px;
+            height: 24px;
+            border: none;
+            background-color: #F0F0F0;
+            margin: 3px;
+            box-shadow: 0 5px 5px #ABADB3;
+        }
+        label{
+            font-size: 15px;
+            font-weight: bold;
+            color: #373435;
+        }
         
     }
    .buttons{
-        height: 5vh;
+        height: 67px;
         display: flex;
-        background-color: #8ac2df;
-        aling-itens: center;
-        justify-content: space-around;
+        background-color: #F0F0F0;
+        align-items: center;
+        justify-content: center;
+        button{
+            width: 117px;
+            height: 33px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        img{
+            height: 20px;
+            width: 20px;
+        }
    }
 `

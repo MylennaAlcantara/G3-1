@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div className="App">
-        <NavBar/>
+        
           <Routes>
             <Route path = "/" element = {<Login/>}/>
             <Route path = "/rotina" element = {<Cadastro/>}/>
