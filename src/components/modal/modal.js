@@ -43,6 +43,16 @@ export const Container = styled.div`
     table tr:nth-child(odd){
         background-color: #f0f0f0;   
     }
+    #table tr td{
+        cursor: pointer;
+    }
+    #table tr:hover td{
+        background-color: #87CEFA;
+    }
+    .ativo{
+        background-color: blue;
+        color: white;
+    }
 `;
 
 export const Header = styled.div`
@@ -52,5 +62,6 @@ export const Header = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
 `;
 
