@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as C from './modal.js';
 import "../cadastro/index.js";
-import $ from 'jquery';
 
 export const Modal = ({ onClose = () => {} }) => {
 
@@ -15,15 +14,6 @@ export const Modal = ({ onClose = () => {} }) => {
         }
             fetchData();
     }, []);
-
-    var tr = $('table tr:not(:first-child)');
-    tr.on('click', function () {
-    var self = this;
-    tr.each(function(){
-        if(this === self) $(this).toggleClass('ativo');
-        else $(this).removeClass('ativo');
-    })
-    });
 
     return(
         <C.Modal>

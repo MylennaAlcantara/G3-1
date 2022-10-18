@@ -33,9 +33,10 @@ export const Info = styled.div`
    
     form{
         display: flex;
-        flex-wrap: wrap;
+        width: 950px;
         align-content: center;
         margin: 5px 0;
+
         
     }
     .checkbox{
@@ -65,11 +66,11 @@ export const Info = styled.div`
     }
     .information{
         
-        width: calc(100% - 1em);
+        width: 950px;
         display: inline-block;
         margin: 5px 0;
         align-content: center;
-        
+        overflow-x: auto;
     }
     div{
         
@@ -123,6 +124,7 @@ export const Add = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 950px;
     form{
         justify-content: end;
         display: flex;
@@ -131,7 +133,7 @@ export const Add = styled.div`
         margin: 5px; 
     }
     .descrição{
-        width: 52vw;
+        width: 800px;
         height: 24px;
     }
     .add-item{
@@ -161,7 +163,8 @@ export const Display = styled.div`
     justify-content: center;
     border: 1px solid black;
     height: 20vh;
-    width: 99%;
+    width: 950px;
+    overflow-x: auto;
     div{
         display: flex;
         flex-grow: 1;
