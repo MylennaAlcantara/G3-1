@@ -212,6 +212,9 @@ export const Footer = styled.div`
             justify-content: center;
             align-items: center;
         }
+        button:hover{
+            cursor: pointer;
+        }
         img{
             height: 20px;
             width: 20px;

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Container, Header, Modal} from './../modal/modal.js';
+import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
 export const Top = ({onClose = () =>{}}) => {
@@ -19,23 +19,32 @@ export const Top = ({onClose = () =>{}}) => {
         <Modal>
             <Container>
             <Header>
-                <label>Cadastro Top</label>
+                <label> Top</label>
                 <button className="close" onClick={onClose}>X</button>
             </Header>
+            <Filtro>
+            <div className="div-checkbox">
+                        <div>
+                            <input type="radio" className="checkbox"/>
+                            <label> Código </label>
+                        </div>
+                        <div>
+                            <input type="radio" className="checkbox"/>
+                            <label> Descrição </label>
+                        </div>
+                    </div>
+                    <div className="div-search">
+                        <input className="search" placeholder="Buscar"/>
+                    </div>                
+            </Filtro>
                 <table id="table" >
                     <thead>
                         <tr>
                             <th>Código</th>
-                            <th>Data Cadastro</th>
-                            <th>Razão Social</th>
-                            <th>Nome Fantasia</th>
-                            <th>Documento</th>
-                            <th>Endereço</th>
-                            <th>CEP</th>
-                            <th>Município</th>
-                            <th>Telefone</th>
-                            <th>Celular</th>
-                            <th>Vendedor</th>
+                            <th>Descrição</th>
+                            <th>Nat. Operação</th>
+                            <th>Mov. Est. reservado</th>
+                            <th>MOv. Est. Real</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,13 +55,7 @@ export const Top = ({onClose = () =>{}}) => {
                                     <td>{user.cep}</td>
                                     <td>{user.cep}</td>
                                     <td>{user.cep}</td>
-                                    <td>{user.cep}</td>
-                                    <td>{user.cep}</td>
-                                    <td>{user.cep}</td>
-                                    <td>{user.cep}</td>
-                                    <td>{user.cep}</td>
-                                    <td>{user.cep}</td>
-                                    <td>{user.cep}</td>
+                                    <td>{user.cep}</td>                                   
                                 </tr>
                             );
                         })}

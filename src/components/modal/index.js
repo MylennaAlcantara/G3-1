@@ -29,7 +29,37 @@ export const Modal = ({ onClose = () => {} }) => {
                     <label>Cadastro Parceiros</label>
                     <button className="close" onClick={onClose}>X</button>
                 </C.Header>
-                <input/>
+                <C.Filtro>
+                    <div className="div-checkbox">
+                        <div>
+                            <input type="radio" className="checkbox"/>
+                            <label> Código </label>
+                            <input type="radio" className="checkbox"/>
+                            <label> Município </label>
+                            <input type="radio" className="checkbox"/>
+                            <label> CPF </label>
+                        </div>
+                        <div>
+                            <input type="radio" className="checkbox"/>
+                            <label> Nome </label>
+                            <input type="radio" className="checkbox"/>
+                            <label> Fantasia </label>
+                            <input type="radio" className="checkbox"/>
+                            <label> RG </label>
+                        </div>
+                    </div>
+                    <div className="div-search">
+                        <div>
+                            <input type="radio" className="checkbox-search"/>
+                            <label>Ativos</label>
+                            <input type="radio" className="checkbox-search"/>
+                            <label>Desativados</label>
+                            <input type="radio" className="checkbox-search"/>
+                            <label>Geral</label>
+                        </div>
+                        <input className="search" placeholder="Buscar"/>
+                    </div>                    
+                </C.Filtro>
                 
                 <table id="table" >
                     <thead>

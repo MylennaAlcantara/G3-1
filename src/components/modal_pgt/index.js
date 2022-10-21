@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Container, Header, Modal} from './../modal/modal.js';
+import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
 export const Pgt = ({onClose = () =>{}}) => {
@@ -19,23 +19,22 @@ export const Pgt = ({onClose = () =>{}}) => {
         <Modal>
             <Container>
             <Header>
-                <label>Cadastro Tipo de Pagamento</label>
+                <label>Tipo Pagamento</label>
                 <button className="close" onClick={onClose}>X</button>
             </Header>
+            <Filtro>                        
+                <div className="div-search">
+                    <label>Buscar: </label>                    
+                    <input className="search" placeholder="Buscar"/>
+                </div>                
+            </Filtro>
                 <table id="table" >
                     <thead>
                         <tr>
                             <th>Código</th>
-                            <th>Data Cadastro</th>
-                            <th>Razão Social</th>
-                            <th>Nome Fantasia</th>
-                            <th>Documento</th>
-                            <th>Endereço</th>
-                            <th>CEP</th>
-                            <th>Município</th>
-                            <th>Telefone</th>
-                            <th>Celular</th>
-                            <th>Vendedor</th>
+                            <th>Ativo</th>
+                            <th>Descrição</th>
+                            <th>Raiz</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,13 +42,6 @@ export const Pgt = ({onClose = () =>{}}) => {
                             return(
                                 <tr >
                                     <td>{user.id}</td>
-                                    <td>{user.estado}</td>
-                                    <td>{user.estado}</td>
-                                    <td>{user.estado}</td>
-                                    <td>{user.estado}</td>
-                                    <td>{user.estado}</td>
-                                    <td>{user.estado}</td>
-                                    <td>{user.estado}</td>
                                     <td>{user.estado}</td>
                                     <td>{user.estado}</td>
                                     <td>{user.estado}</td>
