@@ -46,7 +46,7 @@ export const Cadastro = ({children}) => {
                     <div>
                     <label>T.O.P: </label>
                     <input className="f1" onClick={() => setIsModalVisible(true)}/>
-                    <input className="option"/>
+                    <input className="option" />
                     </div>
                     <div>
                     <label>Vendedor: </label>

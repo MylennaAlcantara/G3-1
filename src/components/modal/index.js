@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import * as C from './modal.js';
 import "../cadastro/index.js";
+import { event } from "jquery";
 
 export const Modal = ({ onClose = () => {} }) => {
 
     const [users, setUsers] = useState([]);
+    const [select, setSelect] = useState();
 
     useEffect(() => {
         async function fetchData (){
@@ -14,6 +16,11 @@ export const Modal = ({ onClose = () => {} }) => {
         }
             fetchData();
     }, []);
+
+    function Selected () {
+        const item = event.target.value;
+        setSelect(item);
+    };
 
     return(
         <C.Modal>
@@ -41,7 +48,7 @@ export const Modal = ({ onClose = () => {} }) => {
                     <tbody>
                         {users.map( (user) => {
                             return(
-                                <tr>
+                                <tr key={user} onClick={Selected}>
                                     <td>{user.id}</td>
                                     <td>{user.name}</td>
                                     <td>{user.status}</td>
