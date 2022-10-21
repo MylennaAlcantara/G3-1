@@ -1,14 +1,21 @@
 import React, {useEffect, useState} from "react";
 import { Modal } from "../modal/index.js";
+import { Saler } from "../modal_vendedor/index.js";
 import "../modal/modal.js";
 import * as C from './cadastro.js';
 import '../../App.js';
+import { Emitente } from "../modal_emitente/index.js";
+import { Top } from "../modal_top/index.js";
+import { Pgt } from "../modal_pgt/index.js";
 
 
 export const Cadastro = ({children}) => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-    
+    const [isModalSaler, setIsModalSaler] = useState(false);
+    const [isModalTop, setIsModalTop] = useState(false);
+    const [isModalPgt, setIsModalPgt] = useState(false);
+    const [isModalEmitente, setIsModalEmitente] = useState(false);
     
 
     return(
@@ -40,17 +47,17 @@ export const Cadastro = ({children}) => {
                 <form className="information">
                     <div>
                     <label>Emitente: </label>
-                    <input className="f1" onClick={() => setIsModalVisible(true)}/>                    
+                    <input className="f1" onClick={() => setIsModalEmitente(true)}/>                    
                     <input className="option"/>
                     </div>
                     <div>
                     <label>T.O.P: </label>
-                    <input className="f1" onClick={() => setIsModalVisible(true)}/>
+                    <input className="f1" onClick={() => setIsModalTop(true)}/>
                     <input className="option" />
                     </div>
                     <div>
                     <label>Vendedor: </label>
-                    <input className="f1" onClick={() => setIsModalVisible(true)}/>
+                    <input className="f1" onClick={() => setIsModalSaler(true)}/>
                     <input className="option"/>
                     </div>
                     <div>
@@ -62,7 +69,7 @@ export const Cadastro = ({children}) => {
                     </div>
                     <div>
                     <label>Tipo pgto: </label>
-                    <input className="f1" onClick={() => setIsModalVisible(true)}/>
+                    <input className="f1" onClick={() => setIsModalPgt(true)}/>
                     <input className="option"/>
                     </div>
                 </form>
@@ -139,6 +146,18 @@ export const Cadastro = ({children}) => {
             </C.Footer>
             {isModalVisible ? (
                 <Modal onClose = {() => setIsModalVisible(false)}/>
+            ) : null}
+            {isModalEmitente ? (
+                <Emitente onClose = {() => setIsModalEmitente(false)}/>
+            ) : null}
+            {isModalTop ? (
+                <Top onClose = {() => setIsModalTop(false)}/>
+            ) : null}
+            {isModalSaler ? (
+                <Saler onClose = {() => setIsModalSaler(false)}/>
+            ) : null}
+            {isModalPgt ? (
+                <Pgt onClose = {() => setIsModalPgt(false)}/>
             ) : null}
         </C.Container>   
     );

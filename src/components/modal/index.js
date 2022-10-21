@@ -29,6 +29,8 @@ export const Modal = ({ onClose = () => {} }) => {
                     <label>Cadastro Parceiros</label>
                     <button className="close" onClick={onClose}>X</button>
                 </C.Header>
+                <input/>
+                
                 <table id="table" >
                     <thead>
                         <tr>

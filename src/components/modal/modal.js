@@ -62,6 +62,11 @@ export const Header = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+    .close{
+        height: 30px;
+        width: 30px;
+        background-color: red;
+        border: none;
+    }
 `;
 
