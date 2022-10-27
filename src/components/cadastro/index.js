@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Modal } from "../modal/index.js";
+import { Modal, Selected } from "../modal/index.js";
 import { Saler } from "../modal_vendedor/index.js";
 import "../modal/modal.js";
 import * as C from './cadastro.js';
@@ -7,6 +7,7 @@ import '../../App.js';
 import { Emitente } from "../modal_emitente/index.js";
 import { Top } from "../modal_top/index.js";
 import { Pgt } from "../modal_pgt/index.js";
+
 
 
 export const Cadastro = ({children}) => {
@@ -63,7 +64,7 @@ export const Cadastro = ({children}) => {
                     <div>
                     <label>Parceiro: </label>
                     <input className="f1" onClick={() => setIsModalVisible(true)}/>
-                    <input className="partner"/>
+                    <input className="partner" />
                     <label>CPF/CNPJ: </label>
                     <input/>
                     </div>

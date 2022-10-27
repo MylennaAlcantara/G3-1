@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as C from './modal.js';
 import "../cadastro/index.js";
-import { event } from "jquery";
 
 export const Modal = ({ onClose = () => {} }) => {
 
@@ -17,9 +16,8 @@ export const Modal = ({ onClose = () => {} }) => {
             fetchData();
     }, []);
 
-    function Selected () {
-        const item = event.target.value;
-        setSelect(item);
+    const Selected = (user) => {
+        setSelect(user.name);
     };
 
     return(
@@ -57,7 +55,7 @@ export const Modal = ({ onClose = () => {} }) => {
                             <input type="radio" className="checkbox-search"/>
                             <label>Geral</label>
                         </div>
-                        <input className="search" placeholder="Buscar"/>
+                        <input className="search" placeholder={select}/>
                     </div>                    
                 </C.Filtro>
                 
@@ -80,7 +78,7 @@ export const Modal = ({ onClose = () => {} }) => {
                     <tbody>
                         {users.map( (user) => {
                             return(
-                                <tr key={user} onClick={Selected}>
+                                <tr key={user.id} onClick={Selected.bind(this, user)}>
                                     <td>{user.id}</td>
                                     <td>{user.name}</td>
                                     <td>{user.status}</td>
@@ -100,4 +98,6 @@ export const Modal = ({ onClose = () => {} }) => {
             </C.Container>
         </C.Modal>
     );
+    
 };
+
