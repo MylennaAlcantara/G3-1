@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import * as C from './modal.js';
 import "../cadastro/index.js";
 
-export const Modal = ({ onClose = () => {} }) => {
+
+export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelectPartner }) => {
 
     const [users, setUsers] = useState([]);
-    const [select, setSelect] = useState();
+    const [selectPartner, setSelectPartner] = useState();
+    const [selectIdPartner, setSelectIdPartner] = useState();
+    
 
     useEffect(() => {
         async function fetchData (){
@@ -17,11 +20,16 @@ export const Modal = ({ onClose = () => {} }) => {
     }, []);
 
     const Selected = (user) => {
-        setSelect(user.name);
+        setSelectPartner(user.name);
+        setSelectIdPartner(user.id)
+        setDataSelectPartner(user.name);
+        setDataIdSelectPartner(user.id);
+        onClose();
     };
 
+
     return(
-        <C.Modal>
+        <C.Modal>            
             <C.Container>
                 <C.Header>
                     <label>Cadastro Parceiros</label>
@@ -55,7 +63,7 @@ export const Modal = ({ onClose = () => {} }) => {
                             <input type="radio" className="checkbox-search"/>
                             <label>Geral</label>
                         </div>
-                        <input className="search" placeholder={select}/>
+                        <input className="search" />
                     </div>                    
                 </C.Filtro>
                 

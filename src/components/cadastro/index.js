@@ -18,6 +18,17 @@ export const Cadastro = ({children}) => {
     const [isModalPgt, setIsModalPgt] = useState(false);
     const [isModalEmitente, setIsModalEmitente] = useState(false);
     
+    const [dataSelectPartner, setDataSelectPartner] = useState('');
+    const [dataSelectEmitente, setDataSelectEmitente] = useState('');
+    const [dataSelectTop, setDataSelectTop] = useState('');
+    const [dataSelectSaler, setDataSelectSaler] = useState('');
+    const [dataSelectPgt, setDataSelectPgt] = useState('');
+
+    const [dataIdSelectPartner, setDataIdSelectPartner] = useState('');
+    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState('');
+    const [dataIdSelectTop, setDataIdSelectTop] = useState('');
+    const [dataIdSelectSaler, setDataIdSelectSaler] = useState('');
+    const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
 
     return(
         
@@ -48,30 +59,30 @@ export const Cadastro = ({children}) => {
                 <form className="information">
                     <div>
                     <label>Emitente: </label>
-                    <input className="f1" onClick={() => setIsModalEmitente(true)}/>                    
-                    <input className="option"/>
+                    <input className="f1" onClick={() => setIsModalEmitente(true)} value={dataIdSelectEmitente}/>                    
+                    <input className="option" value={dataSelectEmitente}/>
                     </div>
                     <div>
                     <label>T.O.P: </label>
-                    <input className="f1" onClick={() => setIsModalTop(true)}/>
-                    <input className="option" />
+                    <input className="f1" onClick={() => setIsModalTop(true)} value={dataIdSelectTop}/>
+                    <input className="option" value={dataSelectTop}/>
                     </div>
                     <div>
                     <label>Vendedor: </label>
-                    <input className="f1" onClick={() => setIsModalSaler(true)}/>
-                    <input className="option"/>
+                    <input className="f1" onClick={() => setIsModalSaler(true)} value={dataIdSelectSaler}/>
+                    <input className="option" value={dataSelectSaler}/>
                     </div>
                     <div>
                     <label>Parceiro: </label>
-                    <input className="f1" onClick={() => setIsModalVisible(true)}/>
-                    <input className="partner" />
+                    <input className="f1" onClick={() => setIsModalVisible(true)}value={dataIdSelectPartner}/>
+                    <input className="partner" value={dataSelectPartner}/>
                     <label>CPF/CNPJ: </label>
                     <input/>
                     </div>
                     <div>
                     <label>Tipo pgto: </label>
-                    <input className="f1" onClick={() => setIsModalPgt(true)}/>
-                    <input className="option"/>
+                    <input className="f1" onClick={() => setIsModalPgt(true)} value={dataIdSelectPgt}/>
+                    <input className="option" value={dataSelectPgt}/>
                     </div>
                 </form>
                 {/*<fieldset><legend>Observação</legend>Observação</fieldset>*/}
@@ -146,19 +157,19 @@ export const Cadastro = ({children}) => {
                 </div>
             </C.Footer>
             {isModalVisible ? (
-                <Modal onClose = {() => setIsModalVisible(false)}/>
+                <Modal onClose = {() => setIsModalVisible(false)} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner}/>
             ) : null}
             {isModalEmitente ? (
-                <Emitente onClose = {() => setIsModalEmitente(false)}/>
+                <Emitente onClose = {() => setIsModalEmitente(false)} setDataSelectEmitente={setDataSelectEmitente}/>
             ) : null}
             {isModalTop ? (
-                <Top onClose = {() => setIsModalTop(false)}/>
+                <Top onClose = {() => setIsModalTop(false)} setDataSelectTop={setDataSelectTop}/>
             ) : null}
             {isModalSaler ? (
-                <Saler onClose = {() => setIsModalSaler(false)}/>
+                <Saler onClose = {() => setIsModalSaler(false)} setDataSelectSaler={setDataSelectSaler}/>
             ) : null}
             {isModalPgt ? (
-                <Pgt onClose = {() => setIsModalPgt(false)}/>
+                <Pgt onClose = {() => setIsModalPgt(false)} setDataSelectPgt={setDataSelectPgt}/>
             ) : null}
         </C.Container>   
     );

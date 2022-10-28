@@ -2,18 +2,25 @@ import React, {useEffect, useState} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Saler = ({onClose = () =>{}}) => {
+export const Saler = ({onClose = () =>{}, setDataSelectSaler}) => {
 
     const [users, setUsers] = useState([]);
+    const [selectSaler, setSelectSaler] = useState();
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.46:8090/clientes");
+            const response = await fetch("http://10.0.1.46:8099/clientes");
             const data = await response.json();
             setUsers(data);
         }
             fetchData();
     }, []);
+
+    const SelectedSaler = (user) => {
+        setSelectSaler(user.endereco);
+        setDataSelectSaler(user.endereco);
+        onClose();
+    };
 
     return(
         <Modal>
@@ -43,7 +50,7 @@ export const Saler = ({onClose = () =>{}}) => {
                     <tbody>
                         {users.map( (user) => {
                             return(
-                                <tr >
+                                <tr key={user.id} onClick={SelectedSaler.bind(this, user)} >
                                     <td>{user.id}</td>
                                     <td>{user.endereco}</td>
                                     <td>{user.endereco}</td>

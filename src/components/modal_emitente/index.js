@@ -2,18 +2,26 @@ import React, {useEffect, useState} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Emitente = ({onClose = () =>{}}) => {
+export const Emitente = ({onClose = () =>{}, setDataSelectEmitente}) => {
 
     const [users, setUsers] = useState([]);
+    const [selectEmitente, setSelectEmitente] = useState();
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.46:8090/clientes");
+            const response = await fetch("http://10.0.1.46:8099/clientes");
             const data = await response.json();
             setUsers(data);
         }
             fetchData();
     }, []);
+
+    const SelectedEmitente = (user) => {
+        setSelectEmitente(user.nome);
+        setDataSelectEmitente(user.nome);
+        onClose();
+        console.log(selectEmitente);
+    };
 
     return(
         <Modal>
@@ -54,7 +62,7 @@ export const Emitente = ({onClose = () =>{}}) => {
                     <tbody>
                         {users.map( (user) => {
                             return(
-                                <tr >
+                                <tr key={user.id} onClick={SelectedEmitente.bind(this, user)}>
                                     <td>{user.id}</td>
                                     <td>{user.nome}</td>
                                     <td>{user.nome}</td>

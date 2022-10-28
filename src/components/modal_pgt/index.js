@@ -2,18 +2,25 @@ import React, {useEffect, useState} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Pgt = ({onClose = () =>{}}) => {
+export const Pgt = ({onClose = () =>{}, setDataSelectPgt}) => {
 
     const [users, setUsers] = useState([]);
+    const [selectPgt, setSelectPgt] = useState();
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.46:8090/clientes");
+            const response = await fetch("http://10.0.1.46:8099/clientes");
             const data = await response.json();
             setUsers(data);
         }
             fetchData();
     }, []);
+
+    const SelectedPgt = (user) => {
+        setSelectPgt(user.estado);
+        setDataSelectPgt(user.estado);
+        onClose();
+    };
 
     return(
         <Modal>
@@ -40,7 +47,7 @@ export const Pgt = ({onClose = () =>{}}) => {
                     <tbody>
                         {users.map( (user) => {
                             return(
-                                <tr >
+                                <tr key={user.id} onClick={SelectedPgt.bind(this, user)} >
                                     <td>{user.id}</td>
                                     <td>{user.estado}</td>
                                     <td>{user.estado}</td>

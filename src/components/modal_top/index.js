@@ -2,18 +2,25 @@ import React, {useEffect, useState} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Top = ({onClose = () =>{}}) => {
+export const Top = ({onClose = () =>{}, setDataSelectTop}) => {
 
     const [users, setUsers] = useState([]);
+    const [selectTop, setSelectTop] = useState();
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.46:8090/clientes");
+            const response = await fetch("http://10.0.1.46:8099/clientes");
             const data = await response.json();
             setUsers(data);
         }
             fetchData();
     }, []);
+
+    const SelectedTop = (user) => {
+        setSelectTop(user.cep);
+        setDataSelectTop(user.cep);
+        onClose();
+    };
 
     return(
         <Modal>
@@ -50,7 +57,7 @@ export const Top = ({onClose = () =>{}}) => {
                     <tbody>
                         {users.map( (user) => {
                             return(
-                                <tr >
+                                <tr key={user.id} onClick={SelectedTop.bind(this, user)} >
                                     <td>{user.id}</td>
                                     <td>{user.cep}</td>
                                     <td>{user.cep}</td>
