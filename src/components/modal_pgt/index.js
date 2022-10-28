@@ -2,10 +2,11 @@ import React, {useEffect, useState} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Pgt = ({onClose = () =>{}, setDataSelectPgt}) => {
+export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) => {
 
     const [users, setUsers] = useState([]);
     const [selectPgt, setSelectPgt] = useState();
+    const [selectIdPgt, setSelectIdPgt] = useState();
 
     useEffect(() => {
         async function fetchData (){
@@ -18,7 +19,9 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt}) => {
 
     const SelectedPgt = (user) => {
         setSelectPgt(user.estado);
+        setSelectIdPgt(user.id);
         setDataSelectPgt(user.estado);
+        setDataIdSelectPgt(user.id);
         onClose();
     };
 

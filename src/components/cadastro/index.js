@@ -7,6 +7,7 @@ import '../../App.js';
 import { Emitente } from "../modal_emitente/index.js";
 import { Top } from "../modal_top/index.js";
 import { Pgt } from "../modal_pgt/index.js";
+import { Produtos } from "../modal_produtos/index.js";
 
 
 
@@ -17,6 +18,7 @@ export const Cadastro = ({children}) => {
     const [isModalTop, setIsModalTop] = useState(false);
     const [isModalPgt, setIsModalPgt] = useState(false);
     const [isModalEmitente, setIsModalEmitente] = useState(false);
+    const [isModalProdutos, setIsModalProdutos] = useState(false);
     
     const [dataSelectPartner, setDataSelectPartner] = useState('');
     const [dataSelectEmitente, setDataSelectEmitente] = useState('');
@@ -94,7 +96,7 @@ export const Cadastro = ({children}) => {
             <C.Add>
             <form>
                 <label>Código: </label>
-                <input/>
+                <input onClick={() => setIsModalProdutos(true)}/>
                 <label>Quantidade: </label>
                 <input className="add-item" placeholder="1,000"/>
                 <label>Valor Unitário: </label>
@@ -160,16 +162,19 @@ export const Cadastro = ({children}) => {
                 <Modal onClose = {() => setIsModalVisible(false)} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner}/>
             ) : null}
             {isModalEmitente ? (
-                <Emitente onClose = {() => setIsModalEmitente(false)} setDataSelectEmitente={setDataSelectEmitente}/>
+                <Emitente onClose = {() => setIsModalEmitente(false)} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/>
             ) : null}
             {isModalTop ? (
-                <Top onClose = {() => setIsModalTop(false)} setDataSelectTop={setDataSelectTop}/>
+                <Top onClose = {() => setIsModalTop(false)} setDataSelectTop={setDataSelectTop} setDataIdSelectTop={setDataIdSelectTop}/>
             ) : null}
             {isModalSaler ? (
-                <Saler onClose = {() => setIsModalSaler(false)} setDataSelectSaler={setDataSelectSaler}/>
+                <Saler onClose = {() => setIsModalSaler(false)} setDataSelectSaler={setDataSelectSaler} setDataIdSelectSaler={setDataIdSelectSaler}/>
             ) : null}
             {isModalPgt ? (
-                <Pgt onClose = {() => setIsModalPgt(false)} setDataSelectPgt={setDataSelectPgt}/>
+                <Pgt onClose = {() => setIsModalPgt(false)} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
+            ) : null}
+            {isModalProdutos ? (
+                <Produtos onClose = {() => setIsModalProdutos(false)}/>
             ) : null}
         </C.Container>   
     );

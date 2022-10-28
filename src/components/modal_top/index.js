@@ -2,10 +2,11 @@ import React, {useEffect, useState} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Top = ({onClose = () =>{}, setDataSelectTop}) => {
+export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) => {
 
     const [users, setUsers] = useState([]);
     const [selectTop, setSelectTop] = useState();
+    const [selectIdTop, setSelectIdTop] = useState();
 
     useEffect(() => {
         async function fetchData (){
@@ -18,7 +19,9 @@ export const Top = ({onClose = () =>{}, setDataSelectTop}) => {
 
     const SelectedTop = (user) => {
         setSelectTop(user.cep);
+        setSelectIdTop(user.id);
         setDataSelectTop(user.cep);
+        setDataIdSelectTop(user.id);
         onClose();
     };
 

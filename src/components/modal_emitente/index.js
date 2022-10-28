@@ -2,10 +2,11 @@ import React, {useEffect, useState} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Emitente = ({onClose = () =>{}, setDataSelectEmitente}) => {
+export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSelectEmitente}) => {
 
     const [users, setUsers] = useState([]);
     const [selectEmitente, setSelectEmitente] = useState();
+    const [selectIdEmitente, setSelectIdEmitente] = useState();
 
     useEffect(() => {
         async function fetchData (){
@@ -18,9 +19,11 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente}) => {
 
     const SelectedEmitente = (user) => {
         setSelectEmitente(user.nome);
+        setSelectIdEmitente(user.id);
         setDataSelectEmitente(user.nome);
+        setDataIdSelectEmitente(user.id);
         onClose();
-        console.log(selectEmitente);
+        
     };
 
     return(
