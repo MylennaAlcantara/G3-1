@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as C from './modal.js';
 import "../cadastro/index.js";
 
-export const Modal = ({ onClose = () => {} }) => {
+export const Modal = ({ onClose = () => {}, setDataSelect }) => {
 
     const [users, setUsers] = useState([]);
     const [select, setSelect] = useState();
@@ -18,6 +18,8 @@ export const Modal = ({ onClose = () => {} }) => {
 
     const Selected = (user) => {
         setSelect(user.name);
+        setDataSelect(user.name)
+        onClose()
     };
 
     return(

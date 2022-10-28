@@ -17,7 +17,7 @@ export const Cadastro = ({children}) => {
     const [isModalTop, setIsModalTop] = useState(false);
     const [isModalPgt, setIsModalPgt] = useState(false);
     const [isModalEmitente, setIsModalEmitente] = useState(false);
-    
+    const [dataSelect, setDataSelect] = useState('');
 
     return(
         
@@ -63,7 +63,7 @@ export const Cadastro = ({children}) => {
                     </div>
                     <div>
                     <label>Parceiro: </label>
-                    <input className="f1" onClick={() => setIsModalVisible(true)}/>
+                    <input className="f1" onClick={() => setIsModalVisible(true)} value={dataSelect}/>
                     <input className="partner" />
                     <label>CPF/CNPJ: </label>
                     <input/>
@@ -146,7 +146,7 @@ export const Cadastro = ({children}) => {
                 </div>
             </C.Footer>
             {isModalVisible ? (
-                <Modal onClose = {() => setIsModalVisible(false)}/>
+                <Modal onClose = {() => setIsModalVisible(false)} setDataSelect={setDataSelect}/>
             ) : null}
             {isModalEmitente ? (
                 <Emitente onClose = {() => setIsModalEmitente(false)}/>
