@@ -165,6 +165,37 @@ export const Display = styled.div`
     height: 20vh;
     width: 950px;
     overflow-x: auto;
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    th{    
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;    
+        background-color: #ffffff;
+        border: 1px solid grey;
+    }
+    td{
+        border: 1px solid grey;
+    }
+    table tr:nth-child(even){
+        background-color: #ffffe6;
+    }
+    table tr:nth-child(odd){
+        background-color: #f0f0f0;   
+    }
+    .table tr td{
+        cursor: pointer;
+    }
+    .table tr:hover td{
+        background-color: #87CEFA;
+    }
+    .ativo{
+        background-color: blue;
+        color: white;
+    }
     div{
         display: flex;
         flex-grow: 1;

@@ -1,26 +1,35 @@
 import React, { useEffect, useState } from "react";
-import {Container, Header, Modal} from "./../modal/modal.js";
+import { Header, Modal} from "./../modal/modal.js";
 import * as C from "./produtos.js";
 
-export const Produtos = ({onClose = () => {}}) => {
+export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelectItem}) => {
 
-    const [items, setItems] = useState([]);
+    const [itens, setItens] = useState([]);
+    const [selectItem, setSelectItem] = useState();
+    const [selectIdItem, setSelectIdItem] = useState();
 
     useEffect(() => {
         async function fetchData (){
             const response = await fetch ("https://rickandmortyapi.com/api/character");
             const data = await response.json();
-            setItems(data.results);
+            setItens(data.results);
         }
         fetchData();
         
     }, []);
 
-    console.log(items);
+    const SelectedItem = (item) => {
+        setSelectItem(item.name);
+        setDataSelectItem(item.name);
+        setSelectIdItem(item.id);
+        setDataIdSelectItem(item.id);
+        onClose();
+    };
+
 
     return (
         <Modal>
-            <Container>
+            <C.ContainerProdutos>
                 <Header>
                     <label> Lista de Produtos </label>
                     <button className="close" onClick={onClose}>X</button>
@@ -48,8 +57,8 @@ export const Produtos = ({onClose = () => {}}) => {
                         </select>
                     </div>
                 </C.Filtro>
-                <C.ListItems>
-                <table id="table-items" >
+                <C.ListItens>
+                <table className="table" >
                     <thead>
                         <tr>
                             <th>Cód. Interno</th>
@@ -61,9 +70,9 @@ export const Produtos = ({onClose = () => {}}) => {
                         </tr>
                     </thead>
                     <tbody>
-                    {items.slice(0, 5).map( (item) => {
+                    {itens.slice(0, 8).map( (item) => {
                         return(
-                            <tr key={item.id} >
+                            <tr key={item.id} onClick={SelectedItem.bind(this, item)} >
                                 <td>{item.id}</td>
                                 <td>{item.name}</td>
                                 <td>{item.id}</td>
@@ -75,30 +84,46 @@ export const Produtos = ({onClose = () => {}}) => {
                     })}                                                      
                     </tbody>
                 </table>
-                </C.ListItems>
-                <C.Container>
+                </C.ListItens>
+                <C.Valores>
                     <C.Preço>
-                        <label>Preço</label>
-                        <input type="radio"/>
-                        <label>Varejo</label>
-                        <input type="radio"/>
-                        <label>Atac.</label>
-                        <table >
+                        <div>
+                            <div className="head-valores">
+                                <label className="valores">Preço</label>
+                                <div className="radio">
+                                    <input type="radio"/>
+                                    <label> Varejo </label>
+                                    <input type="radio"/>
+                                    <label> Atac. </label>
+                                </div>
+                            </div>
+                        </div>
+                        <table className="table">
                             <thead>
                                 <tr>
-                                    <td>Tipo Pagamento</td>
-                                    <td>Vlr. Custo</td>
-                                    <td>Vlr. Produto</td>
-                                    <td>Deconto (%)</td>
-                                    <td>Vlr. Venda</td>
-                                    <td>Vlr. ST</td>
-                                    <td>Venda + ST</td>
-                                    <td>Qtd. Atac.</td>
+                                    <th>Tipo Pagamento</th>
+                                    <th>Vlr. Custo</th>
+                                    <th>Vlr. Produto</th>
+                                    <th>Deconto (%)</th>
+                                    <th>Vlr. Venda</th>
+                                    <th>Vlr. ST</th>
+                                    <th>Venda + ST</th>
+                                    <th>Qtd. Atac.</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>A vista</td>
                                     <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                </tr>
+                                <tr>
+                                    <td>Cartão</td>
                                     <td>123156</td>
                                     <td>123156</td>
                                     <td>123156</td>
@@ -111,33 +136,46 @@ export const Produtos = ({onClose = () => {}}) => {
                         </table>
                     </C.Preço>
                     <C.Estoque>
-                        <label>Estoque</label>
-                        <input type="checkbox"/>
-                        <label>Listar todas empresas</label>
-                        <div className="tab-estoque">                            
-                            <div>Tipo Pagamento</div>
-                            <div>Vlr. Custo</div>
-                            <div>Vlr. Produto</div>
-                            <div>Deconto (%)</div>
-                            <div>Vlr. Venda</div>
-                            <div>Vlr. ST</div>
-                            <div>Venda + ST</div>
-                            <div>Qtd. Atac.</div>
+                        <div>
+                            <div className="head-valores">
+                                <label className="valores">Estoque</label>
+                                <div>
+                                    <input type="checkbox"/>
+                                    <label>Listar todas empresas</label>
+                                </div>
+                            </div>
                         </div>
-                        <table>
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Filial</th>
+                                    <th>Qtd. Total</th>
+                                    <th>Reservado</th>
+                                    <th>Dep. Interno</th>
+                                    <th>Disponivel</th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 <tr>
+                                    <td>123156</td>
+                                    <td>123156</td>
                                     <td>123156</td>
                                     <td>123156</td>
                                     <td>123156</td>
                                 </tr>
                             </tbody>
                         </table>
-                        <label>Estoque Disp. Total</label>
-                        <input/>
+                        <label>Estoque Disp. Total: </label>
+                        <input className="estoque-tot"/>
                     </C.Estoque>
-                </C.Container>
-            </Container>
+                </C.Valores>
+                <C.Footer>
+                    <div>
+                        <label> 0 - GRUPO DE ICMS </label>
+                        <label> 0 - REGRA DE ICMS </label>
+                    </div>
+                </C.Footer>
+            </C.ContainerProdutos>
             
         </Modal>
     );

@@ -13,6 +13,7 @@ import { Produtos } from "../modal_produtos/index.js";
 
 export const Cadastro = ({children}) => {
 
+    /*Estado dos Modais */
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalSaler, setIsModalSaler] = useState(false);
     const [isModalTop, setIsModalTop] = useState(false);
@@ -20,17 +21,27 @@ export const Cadastro = ({children}) => {
     const [isModalEmitente, setIsModalEmitente] = useState(false);
     const [isModalProdutos, setIsModalProdutos] = useState(false);
     
+    /*Etado do elemento selecionado no modal */
     const [dataSelectPartner, setDataSelectPartner] = useState('');
     const [dataSelectEmitente, setDataSelectEmitente] = useState('');
     const [dataSelectTop, setDataSelectTop] = useState('');
     const [dataSelectSaler, setDataSelectSaler] = useState('');
     const [dataSelectPgt, setDataSelectPgt] = useState('');
-
+    const [dataSelectItem, setDataSelectItem] = useState('');
+    
+    /*Estado do id dos elementos selecionados no modal */
     const [dataIdSelectPartner, setDataIdSelectPartner] = useState('');
     const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState('');
     const [dataIdSelectTop, setDataIdSelectTop] = useState('');
     const [dataIdSelectSaler, setDataIdSelectSaler] = useState('');
     const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
+    const [dataIdSelectItem, setDataIdSelectItem] = useState('');
+
+    const [itens, setItens] = useState();
+    const [listItens, setListItens] = useState([]);
+
+    console.log(itens);
+    console.log(listItens);
 
     return(
         
@@ -94,9 +105,10 @@ export const Cadastro = ({children}) => {
                 <button>Produtos</button><button>Financeiro</button>
             </C.Header>
             <C.Add>
-            <form>
+            <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, itens]);}} >
                 <label>Código: </label>
-                <input onClick={() => setIsModalProdutos(true)}/>
+                <input onClick={() => setIsModalProdutos(true)} type="text" value={dataIdSelectItem} onChange={event => setItens(event.target.value)} />
+                <button type="sumit">lista</button>
                 <label>Quantidade: </label>
                 <input className="add-item" placeholder="1,000"/>
                 <label>Valor Unitário: </label>
@@ -111,22 +123,41 @@ export const Cadastro = ({children}) => {
                 <br/>
                 <div>
                 <label>Descrição: </label>
-                <input className="descrição"/>
+                <input className="descrição" type="text" value={dataSelectItem} onChange={event => setItens(event.target.value)}/>
                 </div>
             </form>
             </C.Add>
             <C.Display>
-                <div className="div-col">
-                    <div>Item</div>
-                    <div>Cód. I. </div>
-                    <div>EAN</div>
-                    <div>Descrição</div>
-                    <div>Unidade</div>
-                    <div>Quant.</div>
-                    <div>Valor Unid.</div>
-                    <div>Subtotal</div>
-                    <div>Acres. R$</div>
-                </div>
+                <table className="table" >
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Cód. I.</th>
+                            <th>EAN</th>
+                            <th>Descrição</th>
+                            <th>Unidade</th>
+                            <th>Quant.</th>
+                            <th>Valor Unid.</th>
+                            <th>Subtotal</th>
+                            <th>Acres. R$</th>                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>bla</td>
+                            <td>bla</td>
+                            <td>bla</td>
+                        </tr>
+                        <ul>
+                        {listItens.map((list, index) => {
+                            return(
+                                <li key={index}>
+                                    {list}
+                                </li>
+                            )
+                            })}    </ul>                            
+                    </tbody>
+                </table>
             </C.Display>
             <C.Footer>
                 <form>
@@ -174,7 +205,7 @@ export const Cadastro = ({children}) => {
                 <Pgt onClose = {() => setIsModalPgt(false)} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)}/>
+                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem} setDataIdSelectItem={setDataIdSelectItem} />
             ) : null}
         </C.Container>   
     );
