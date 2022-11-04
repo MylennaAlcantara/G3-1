@@ -8,9 +8,9 @@ export const Produtos = ({onClose = () => {}}) => {
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch ("");
+            const response = await fetch ("https://rickandmortyapi.com/api/character");
             const data = await response.json();
-            setItems(data);
+            setItems(data.results);
         }
         fetchData();
         
@@ -47,36 +47,98 @@ export const Produtos = ({onClose = () => {}}) => {
                             <option value="4">Cód. Interno</option>
                         </select>
                     </div>
-                    </C.Filtro>
-                    <C.ListItems>
-                    <table id="table-items" >
-                        <thead>
-                            <tr>
-                                <th>Cód. Interno</th>
-                                <th>Cód. referência</th>
-                                <th>Código Barras</th>
-                                <th>Descrição</th>
-                                <th>Qtd. Estoque</th>
-                                <th>Promoção</th>                        
+                </C.Filtro>
+                <C.ListItems>
+                <table id="table-items" >
+                    <thead>
+                        <tr>
+                            <th>Cód. Interno</th>
+                            <th>Cód. referência</th>
+                            <th>Código Barras</th>
+                            <th>Descrição</th>
+                            <th>Qtd. Estoque</th>
+                            <th>Promoção</th>                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {items.slice(0, 5).map( (item) => {
+                        return(
+                            <tr key={item.id} >
+                                <td>{item.id}</td>
+                                <td>{item.name}</td>
+                                <td>{item.id}</td>
+                                <td>{item.name}</td>
+                                <td>{item.id}</td>
+                                <td>N</td>                                    
                             </tr>
-                        </thead>
-                        <tbody>
-                        {items.map( (item) => {
-                            return(
-                                <tr key={item.id} >
-                                    <td>{item.id}</td>
-                                    <td>{item.referencia}</td>
-                                    <td>{item.gtin}</td>
-                                    <td>{item.descricaoPdv}</td>
-                                    <td>{item.qtd_estoque}</td>
-                                    <td>N</td>                                    
+                        );
+                    })}                                                      
+                    </tbody>
+                </table>
+                </C.ListItems>
+                <C.Container>
+                    <C.Preço>
+                        <label>Preço</label>
+                        <input type="radio"/>
+                        <label>Varejo</label>
+                        <input type="radio"/>
+                        <label>Atac.</label>
+                        <table >
+                            <thead>
+                                <tr>
+                                    <td>Tipo Pagamento</td>
+                                    <td>Vlr. Custo</td>
+                                    <td>Vlr. Produto</td>
+                                    <td>Deconto (%)</td>
+                                    <td>Vlr. Venda</td>
+                                    <td>Vlr. ST</td>
+                                    <td>Venda + ST</td>
+                                    <td>Qtd. Atac.</td>
                                 </tr>
-                            );
-                        })}                                                      
-                        </tbody>
-                    </table>
-                    </C.ListItems>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </C.Preço>
+                    <C.Estoque>
+                        <label>Estoque</label>
+                        <input type="checkbox"/>
+                        <label>Listar todas empresas</label>
+                        <div className="tab-estoque">                            
+                            <div>Tipo Pagamento</div>
+                            <div>Vlr. Custo</div>
+                            <div>Vlr. Produto</div>
+                            <div>Deconto (%)</div>
+                            <div>Vlr. Venda</div>
+                            <div>Vlr. ST</div>
+                            <div>Venda + ST</div>
+                            <div>Qtd. Atac.</div>
+                        </div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                    <td>123156</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <label>Estoque Disp. Total</label>
+                        <input/>
+                    </C.Estoque>
+                </C.Container>
             </Container>
+            
         </Modal>
     );
 };

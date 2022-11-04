@@ -24,3 +24,32 @@ export const ListItems = styled.div`
         border: solid 1px gray
     }
 `;
+
+export const Container = styled.div`
+    display: flex;
+    
+`;
+
+export const Preço = styled.div`
+    border: solid 1px gray;
+    margin: 5px;
+    .tab-preco{
+        display: flex;
+    }
+    div{
+        flex-grow: 1;
+        border: solid 1px gray;
+    }
+`;
+
+export const Estoque = styled.div`
+    margin: 5px;
+    border: solid 1px gray;
+    .tab-estoque{
+        display: flex;
+    }
+    div{
+        flex-grow: 1;
+        border: solid 1px gray;
+    }
+`;
