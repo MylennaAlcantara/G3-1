@@ -10,17 +10,17 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelect
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch ("https://rickandmortyapi.com/api/character");
+            const response = await fetch ("http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50");
             const data = await response.json();
-            setItens(data.results);
+            setItens(data.content);
         }
         fetchData();
         
     }, []);
 
     const SelectedItem = (item) => {
-        setSelectItem(item.name);
-        setDataSelectItem(item.name);
+        setSelectItem(item.descricaoPdv);
+        setDataSelectItem(item.descricaoPdv);
         setSelectIdItem(item.id);
         setDataIdSelectItem(item.id);
         onClose();
@@ -74,11 +74,11 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelect
                         return(
                             <tr key={item.id} onClick={SelectedItem.bind(this, item)} >
                                 <td>{item.id}</td>
-                                <td>{item.name}</td>
-                                <td>{item.id}</td>
-                                <td>{item.name}</td>
-                                <td>{item.id}</td>
-                                <td>N</td>                                    
+                                <td>{item.referencia}</td>
+                                <td>{item.gtin}</td>
+                                <td>{item.descricaoPdv}</td>
+                                <td>{item.qtd_estoque}</td>
+                                <td></td>                                    
                             </tr>
                         );
                     })}                                                      

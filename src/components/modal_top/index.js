@@ -10,7 +10,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.46:8099/clientes");
+            const response = await fetch("http://10.0.1.10:8099/clientes");
             const data = await response.json();
             setUsers(data);
         }
