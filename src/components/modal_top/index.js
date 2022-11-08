@@ -58,7 +58,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map( (user) => {
+                        {users.slice(0, 10).map( (user) => {
                             return(
                                 <tr key={user.id} onClick={SelectedTop.bind(this, user)} >
                                     <td>{user.id}</td>

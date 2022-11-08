@@ -37,8 +37,32 @@ export const Cadastro = ({children}) => {
     const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
     const [dataIdSelectItem, setDataIdSelectItem] = useState('');
 
-    const [itens, setItens] = useState();
+    const [itens, setItens] = useState({
+        cod: '', 
+        quantidade: '',
+        valorUnit: '',
+        valorTotal: '',
+        descricao: '',
+    });
     const [listItens, setListItens] = useState([]);
+    const [valorItem, setValorItem] = useState('');
+
+    const changeHandler = e => {
+        setItens({...itens, [e.target.name]: e.target.value})
+    }
+
+    function calcular() {
+        var num1 = Number(document.getElementById("num1").value);
+        var num2 = Number(document.getElementById("num2").value);
+        var elemResult = document.getElementById("resultado");
+    
+        if (elemResult.textContent === undefined) {
+           elemResult.textContent = "O resultado é " + String(num1 + num2) + ".";
+        }
+        else { // IE
+           elemResult.innerText = "O resultado é " + String(num1 + num2) + ".";
+        }
+    }
 
     console.log(itens);
     console.log(listItens);
@@ -107,23 +131,23 @@ export const Cadastro = ({children}) => {
             <C.Add>
             <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, itens]);}} >
                 <label>Código: </label>
-                <input onClick={() => setIsModalProdutos(true)} type="text" value={dataIdSelectItem} onChange={event => setItens(event.target.value)} />
-                <button type="sumit">lista</button>
+                <input onClick={() => setIsModalProdutos(true)} type="text" value={dataIdSelectItem} name="cod" onChange={changeHandler} />
+                <button type="submit">lista</button>
                 <label>Quantidade: </label>
-                <input className="add-item" placeholder="1,000"/>
+                <input className="add-item" placeholder="1,000" name="quantidade" onChange={changeHandler} type="text" id="num1" onKeyUp="calcular();" />
                 <label>Valor Unitário: </label>
-                <input className="add-item"list="#"></input>
+                <input className="add-item" value={valorItem} name="valorUnit" onChange={changeHandler} type="text" id="num1" onKeyUp="calcular();"></input>
                 <datalist></datalist>
                 <div>
                 <label>Desconto: </label>
                 <input className="add-item" placeholder="0,000000"/><input className="add-item"/>
                 </div>
-                <label>Tota do item: </label>
-                <input/>
+                <label>Total do item: </label>
+                <input name="valorTot" onChange={changeHandler}/>
                 <br/>
                 <div>
                 <label>Descrição: </label>
-                <input className="descrição" type="text" value={dataSelectItem} onChange={event => setItens(event.target.value)}/>
+                <input id="resultado" className="descrição" type="text" value={dataSelectItem} onChange={changeHandler} name="descricao" readonly/>
                 </div>
             </form>
             </C.Add>
@@ -143,19 +167,21 @@ export const Cadastro = ({children}) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>bla</td>
-                            <td>bla</td>
-                            <td>bla</td>
-                        </tr>
-                        <ul>
                         {listItens.map((list, index) => {
                             return(
-                                <li key={index}>
-                                    {list}
-                                </li>
+                                <tr key={list}>
+                                    <td>{index}</td>
+                                    <td>{list.cod}</td>
+                                    <td></td>
+                                    <td>{list.descricao}</td>
+                                    <td></td>
+                                    <td>{list.quantidade}</td>
+                                    <td>{list.valorUnit}</td>
+                                    <td>{list.valorTotal}</td>
+                                    <td></td>
+                                </tr>
                             )
-                            })}    </ul>                            
+                            })}                         
                     </tbody>
                 </table>
             </C.Display>
@@ -205,7 +231,7 @@ export const Cadastro = ({children}) => {
                 <Pgt onClose = {() => setIsModalPgt(false)} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem} setDataIdSelectItem={setDataIdSelectItem} />
+                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem} setDataIdSelectItem={setDataIdSelectItem} setValorItem={setValorItem} />
             ) : null}
         </C.Container>   
     );

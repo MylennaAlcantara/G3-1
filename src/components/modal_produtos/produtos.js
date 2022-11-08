@@ -32,7 +32,7 @@ export const Valores = styled.div`
 
 export const ContainerProdutos = styled.div`
     width: 70%;
-    height: 60%;
+    height: 70%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -74,6 +74,7 @@ export const ContainerProdutos = styled.div`
 export const Preço = styled.div`
     border: solid 1px gray;
     margin: 5px;
+    height: 15vw;
     .valores{
         color: #373435;
         font-weight: bold;

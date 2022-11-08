@@ -51,7 +51,7 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map( (user) => {
+                        {users.slice(0,10).map( (user) => {
                             return(
                                 <tr key={user.id} onClick={SelectedSaler.bind(this, user)} >
                                     <td>{user.id}</td>

@@ -48,7 +48,7 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) =
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map( (user) => {
+                        {users.slice(0, 10).map( (user) => {
                             return(
                                 <tr key={user.id} onClick={SelectedPgt.bind(this, user)} >
                                     <td>{user.id}</td>

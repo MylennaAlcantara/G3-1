@@ -63,7 +63,7 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map( (user) => {
+                        {users.slice(0, 20).map( (user) => {
                             return(
                                 <tr key={user.id} onClick={SelectedEmitente.bind(this, user)}>
                                     <td>{user.id}</td>
