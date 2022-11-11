@@ -43,7 +43,7 @@ export const Cadastro = ({children}) => {
         cod: '', 
         quantidade: '',
         valorUnit: '',
-        valorTotal: '',
+        Total: '',
         descricao: '',
     });
     const [listItens, setListItens] = useState([]);
@@ -174,19 +174,20 @@ export const Cadastro = ({children}) => {
                 <label>Quantidade: </label>
                 <input  placeholder="1,000" name="quantidade" type="text" value={numero1} onChange={(e) => setNumero1(e.target.value)} onBlur={changeHandler} id="quantidade"  />
                 <label>Valor Unitário: </label>
-                <input className="add-item" value={valorItem} name="valorUnit" onChange={(e) => setNumero2(e.target.value)} onBlur={changeHandler} type="text" id="valorUnit"/>
+                <input className="add-item" value={valorItem} name="valorUnit" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} type="text" id="valorUnit"/>
                 <datalist></datalist>
                 <div>
                 <label>Desconto: </label>
                 <input className="add-item" placeholder="0,000000"/><input className="add-item" type="text"  />
                 </div>
                 <label>Total do item: </label>
-                <input type="text" name="total" id="total" value={total} onBlur={changeHandler} />
+                <input type="text" name="Total" id="Total" value={total} onBlur={changeHandler} />
                 <br/>
                 <div>
                 <label>Descrição: </label>
                 <input id="resultado" className="descrição" type="text" value={dataSelectItem} onBlur={changeHandler} name="descricao" readOnly/>
                 </div>
+                <button type="submit"> enviar </button>
             </form>
             </C.Add>
             <C.Display>
@@ -215,7 +216,7 @@ export const Cadastro = ({children}) => {
                                     <td></td>
                                     <td>{list.quantidade}</td>
                                     <td>{list.valorUnit}</td>
-                                    <td>{list.valorTotal}</td>
+                                    <td>{list.Total}</td>
                                     <td></td>
                                 </tr>
                             )
