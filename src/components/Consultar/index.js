@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import * as C from "./consultar.js";
 
 
@@ -6,7 +7,8 @@ export const Consultar = () => {
     return(
         <C.Container>
             <C.Header>
-                <button>Consultar</button><button>Cadastrar</button>
+                <button>Consultar</button>
+                <Link to="/rotina"><button>Cadastrar</button></Link>
             </C.Header>
             <C.Filtro>
                 <div className="div-checkbox">
@@ -42,6 +44,51 @@ export const Consultar = () => {
                     <input type="checkbox" />
                 </div>
             </C.Filtro>
+            <C.Rotinas>
+                <table id="table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Data Venda</th>
+                            <th>Empresa</th>
+                            <th>Cliente</th>
+                            <th>Situação</th>
+                            <th>Valor</th>
+                            <th>TOP</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>bla lba la</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </C.Rotinas>
+            <C.Footer>
+                <div>
+                    <label>Para exibir atalhos pressione [Alt]</label>
+                </div>
+                <div>
+                    <button>Novo</button>
+                    <button>Abrir</button>
+                    <button>Fechar</button>
+                </div>
+                <div className="indice">
+                    <div>
+                        <div className="yellow"/><label>Pendente</label>
+                    </div>
+                    <div>
+                        <div className="white"/><label>NF-e/NFC-e</label>
+                    </div>
+                    <div>
+                        <div className="green"/><label>Cupom F.</label>
+                    </div>
+                    <div>
+                        <div className="blue"/><label>Mesclada</label>
+                    </div>
+                </div>
+            </C.Footer>
         </C.Container>
     );
 };

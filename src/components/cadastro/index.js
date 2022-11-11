@@ -8,13 +8,15 @@ import { Emitente } from "../modal_emitente/index.js";
 import { Top } from "../modal_top/index.js";
 import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
+import { Link } from "react-router-dom";
+import { event } from "jquery";
 
 
 
 export const Cadastro = ({children}) => {
 
     /*Estado dos Modais */
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isModalPartner, setIsModalPartner] = useState(false);
     const [isModalSaler, setIsModalSaler] = useState(false);
     const [isModalTop, setIsModalTop] = useState(false);
     const [isModalPgt, setIsModalPgt] = useState(false);
@@ -48,31 +50,68 @@ export const Cadastro = ({children}) => {
     const [valorItem, setValorItem] = useState('');
 
     const changeHandler = e => {
-        setItens({...itens, [e.target.name]: e.target.value})
+        setItens({...itens, [e.target?.name]: e.target?.value});
     }
 
-    function calcular() {
-        var num1 = Number(document.getElementById("num1").value);
-        var num2 = Number(document.getElementById("num2").value);
-        var elemResult = document.getElementById("resultado");
+    const [numero1, setNumero1] = useState(0);
+    const [numero2, setNumero2] = useState(0);
+    const [total, setTotal] = useState(0);
+
+    const calcular = () =>{
+        return parseFloat(numero1) * parseFloat(numero2);
+    }
+
+    useEffect(()=>{
+        setTotal(calcular());
+    }, [numero1,numero2]);
     
-        if (elemResult.textContent === undefined) {
-           elemResult.textContent = "O resultado é " + String(num1 + num2) + ".";
+    console.log(listItens);
+
+    function onKeyUp(event){
+        if(	event.keyCode === 113){
+            setIsModalEmitente(true);
+        }    
+    }
+    function keyProduto(event){
+        if( event.keyCode === 113){
+            setIsModalProdutos(true);
         }
-        else { // IE
-           elemResult.innerText = "O resultado é " + String(num1 + num2) + ".";
+    }
+    function keyTop(event){
+        if( event.keyCode === 113){
+            setIsModalTop(true);
+        }
+    }
+    function keyTop(event){
+        if( event.keyCode === 113){
+            setIsModalTop(true);
+        }
+    }
+    function keySaler(event){
+        if( event.keyCode === 113){
+            setIsModalSaler(true);
+        }
+    }
+    function keyPartner(event){
+        if( event.keyCode === 113){
+            setIsModalPartner(true);
+        }
+    }
+    function keyPgt(event){
+        if( event.keyCode === 113){
+            setIsModalPgt(true);
         }
     }
 
-    console.log(itens);
-    console.log(listItens);
+
 
     return(
         
         <C.Container>
             
             <C.Header>
-                <button>Consultar</button><button>Cadastrar</button>
+            <Link to="/consultar"><button>Consultar</button></Link>
+                <button>Cadastrar</button>
             </C.Header>
             <C.Info>
                 <form>
@@ -96,29 +135,29 @@ export const Cadastro = ({children}) => {
                 <form className="information">
                     <div>
                     <label>Emitente: </label>
-                    <input className="f1" onClick={() => setIsModalEmitente(true)} value={dataIdSelectEmitente}/>                    
+                    <input className="f1" onKeyUp={onKeyUp} value={dataIdSelectEmitente}/>                    
                     <input className="option" value={dataSelectEmitente}/>
                     </div>
                     <div>
                     <label>T.O.P: </label>
-                    <input className="f1" onClick={() => setIsModalTop(true)} value={dataIdSelectTop}/>
+                    <input className="f1" onKeyUp={keyTop} value={dataIdSelectTop}/>
                     <input className="option" value={dataSelectTop}/>
                     </div>
                     <div>
                     <label>Vendedor: </label>
-                    <input className="f1" onClick={() => setIsModalSaler(true)} value={dataIdSelectSaler}/>
+                    <input className="f1" onKeyUp={keySaler} value={dataIdSelectSaler}/>
                     <input className="option" value={dataSelectSaler}/>
                     </div>
                     <div>
                     <label>Parceiro: </label>
-                    <input className="f1" onClick={() => setIsModalVisible(true)}value={dataIdSelectPartner}/>
+                    <input className="f1" onKeyUp={keyPartner} value={dataIdSelectPartner}/>
                     <input className="partner" value={dataSelectPartner}/>
                     <label>CPF/CNPJ: </label>
                     <input/>
                     </div>
                     <div>
                     <label>Tipo pgto: </label>
-                    <input className="f1" onClick={() => setIsModalPgt(true)} value={dataIdSelectPgt}/>
+                    <input className="f1" onKeyUp={keyPgt} value={dataIdSelectPgt}/>
                     <input className="option" value={dataSelectPgt}/>
                     </div>
                 </form>
@@ -131,23 +170,22 @@ export const Cadastro = ({children}) => {
             <C.Add>
             <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, itens]);}} >
                 <label>Código: </label>
-                <input onClick={() => setIsModalProdutos(true)} type="text" value={dataIdSelectItem} name="cod" onChange={changeHandler} />
-                <button type="submit">lista</button>
+                <input onKeyUp={keyProduto} type="text" value={dataIdSelectItem} name="cod" onBlur={changeHandler} />
                 <label>Quantidade: </label>
-                <input className="add-item" placeholder="1,000" name="quantidade" onChange={changeHandler} type="text" id="num1" onKeyUp="calcular();" />
+                <input  placeholder="1,000" name="quantidade" type="text" value={numero1} onChange={(e) => setNumero1(e.target.value)} onBlur={changeHandler} id="quantidade"  />
                 <label>Valor Unitário: </label>
-                <input className="add-item" value={valorItem} name="valorUnit" onChange={changeHandler} type="text" id="num1" onKeyUp="calcular();"></input>
+                <input className="add-item" value={valorItem} name="valorUnit" onChange={(e) => setNumero2(e.target.value)} onBlur={changeHandler} type="text" id="valorUnit"/>
                 <datalist></datalist>
                 <div>
                 <label>Desconto: </label>
-                <input className="add-item" placeholder="0,000000"/><input className="add-item"/>
+                <input className="add-item" placeholder="0,000000"/><input className="add-item" type="text"  />
                 </div>
                 <label>Total do item: </label>
-                <input name="valorTot" onChange={changeHandler}/>
+                <input type="text" name="total" id="total" value={total} onBlur={changeHandler} />
                 <br/>
                 <div>
                 <label>Descrição: </label>
-                <input id="resultado" className="descrição" type="text" value={dataSelectItem} onChange={changeHandler} name="descricao" readonly/>
+                <input id="resultado" className="descrição" type="text" value={dataSelectItem} onBlur={changeHandler} name="descricao" readOnly/>
                 </div>
             </form>
             </C.Add>
@@ -215,8 +253,8 @@ export const Cadastro = ({children}) => {
                     <button className="Voltar"><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
-            {isModalVisible ? (
-                <Modal onClose = {() => setIsModalVisible(false)} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner}/>
+            {isModalPartner ? (
+                <Modal onClose = {() => setIsModalPartner(false)} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner}/>
             ) : null}
             {isModalEmitente ? (
                 <Emitente onClose = {() => setIsModalEmitente(false)} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/>
