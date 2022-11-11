@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Header, Modal} from "./../modal/modal.js";
 import * as C from "./produtos.js";
 
-export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelectItem, setValorItem}) => {
+export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelectItem, setValorItem, setUnidItem, setEanItem}) => {
 
     const [itens, setItens] = useState([]);
     const [selectItem, setSelectItem] = useState();
@@ -24,6 +24,8 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelect
         setSelectIdItem(item.id);
         setDataIdSelectItem(item.id);
         setValorItem(item.valor_venda);
+        setUnidItem(item.unidade_produto_nome);
+        setEanItem(item.gtin);
         onClose();
     };
 

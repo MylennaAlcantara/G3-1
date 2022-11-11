@@ -45,9 +45,12 @@ export const Cadastro = ({children}) => {
         valorUnit: '',
         Total: '',
         descricao: '',
+        unidade_produto_nome: '',
     });
     const [listItens, setListItens] = useState([]);
     const [valorItem, setValorItem] = useState('');
+    const [eanItem, setEanItem] = useState('');
+    const [unidItem, setUnidItem] = useState('');
 
     const changeHandler = e => {
         setItens({...itens, [e.target?.name]: e.target?.value});
@@ -64,8 +67,6 @@ export const Cadastro = ({children}) => {
     useEffect(()=>{
         setTotal(calcular());
     }, [numero1,numero2]);
-    
-    console.log(listItens);
 
     function onKeyUp(event){
         if(	event.keyCode === 113){
@@ -211,9 +212,9 @@ export const Cadastro = ({children}) => {
                                 <tr key={list}>
                                     <td>{index}</td>
                                     <td>{list.cod}</td>
-                                    <td></td>
+                                    <td>{list.gtin}</td>
                                     <td>{list.descricao}</td>
-                                    <td></td>
+                                    <td>{list.unidade_produto_nome}</td>
                                     <td>{list.quantidade}</td>
                                     <td>{list.valorUnit}</td>
                                     <td>{list.Total}</td>
@@ -270,7 +271,7 @@ export const Cadastro = ({children}) => {
                 <Pgt onClose = {() => setIsModalPgt(false)} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem} setDataIdSelectItem={setDataIdSelectItem} setValorItem={setValorItem} />
+                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem} setDataIdSelectItem={setDataIdSelectItem} setValorItem={setValorItem} setEanItem={setEanItem} setUnidItem={setUnidItem} />
             ) : null}
         </C.Container>   
     );
