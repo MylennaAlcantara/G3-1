@@ -19,15 +19,15 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelect
     }, []);
 
     const SelectedItem = (item) => {
-        setSelectItem(item.descricaoPdv);
-        setDataSelectItem(item.descricaoPdv);
-        setSelectIdItem(item.id);
-        setDataIdSelectItem(item.id);
-        setValorItem(item.valor_venda);
-        setUnidItem(item.unidade_produto_nome);
-        setEanItem(item.gtin);
-        onClose();
-    };
+        setDataSelectItem({
+            cod: item.id, 
+            descricao: item.descricaoPdv,
+            ean: item.gtin,
+            unidade_produto_nome: item.unidade_produto_nome,
+            valorUnit: item.valor_venda,
+        });
+            onClose();
+        };
 
 
     return (

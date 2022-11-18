@@ -9,8 +9,6 @@ import { Top } from "../modal_top/index.js";
 import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
 import { Link } from "react-router-dom";
-import { event } from "jquery";
-import $ from 'jquery';
 
 
 
@@ -31,17 +29,7 @@ export const Cadastro = ({children}) => {
     const [dataSelectTop, setDataSelectTop] = useState('');
     const [dataSelectSaler, setDataSelectSaler] = useState('');
     const [dataSelectPgt, setDataSelectPgt] = useState('');
-    const [dataSelectItem, setDataSelectItem] = useState('');
-    
-    /*Estado do id dos elementos selecionados no modal */
-    const [dataIdSelectPartner, setDataIdSelectPartner] = useState('');
-    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState('');
-    const [dataIdSelectTop, setDataIdSelectTop] = useState('');
-    const [dataIdSelectSaler, setDataIdSelectSaler] = useState('');
-    const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
-    const [dataIdSelectItem, setDataIdSelectItem] = useState('');
-
-    const [itens, setItens] = useState({
+    const [dataSelectItem, setDataSelectItem] = useState({
         cod: '', 
         quantidade: '',
         valorUnit: '',
@@ -49,15 +37,23 @@ export const Cadastro = ({children}) => {
         descricao: '',
         unidade_produto_nome: '',
     });
+    
+    /*Estado do id dos elementos selecionados no modal */
+    const [dataIdSelectPartner, setDataIdSelectPartner] = useState('');
+    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState('');
+    const [dataIdSelectTop, setDataIdSelectTop] = useState('');
+    const [dataIdSelectSaler, setDataIdSelectSaler] = useState('');
+    const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
+
+    //Atualização da lista de itens
     const [listItens, setListItens] = useState([]);
-    const [valorItem, setValorItem] = useState('');
-    const [eanItem, setEanItem] = useState('');
-    const [unidItem, setUnidItem] = useState('');
-
+    
     const changeHandler = e => {
-        setItens({...itens, [e.target?.name]: e.target?.value});
+        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value});
+        
     }
-
+ 
+    // Calcular o valor de quantidade vezes o valor para o total 
     const [numero1, setNumero1] = useState(0);
     const [numero2, setNumero2] = useState(0);
     const [total, setTotal] = useState(0);
@@ -70,7 +66,7 @@ export const Cadastro = ({children}) => {
         setTotal(calcular());
     }, [numero1,numero2]);
 
-    //Funções para abrir o modal de cada campo apertando F2
+    // Funções para abrir o modal de cada campo apertando F2
     function onKeyUp(event){
         if(	event.keyCode === 113){
             setIsModalEmitente(true);
@@ -208,13 +204,13 @@ export const Cadastro = ({children}) => {
                 <button>Produtos</button><button>Financeiro</button>
             </C.Header>
             <C.Add>
-            <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, itens]);}} >
+            <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]);}} >
                 <label>Código: </label>
-                <input onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataIdSelectItem} name="cod" onBlur={changeHandler} />
+                <input onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.cod} name="cod" onBlur={changeHandler} />
                 <label>Quantidade: </label>
                 <input  placeholder="1,000" name="quantidade" type="text" value={numero1} onChange={(e) => setNumero1(e.target.value)} onBlur={changeHandler} onKeyDown={NextValorUnit} id="quantidade"  />
                 <label>Valor Unitário: </label>
-                <input className="add-item" value={valorItem} name="valorUnit" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} onKeyDown={NextAddItem} type="text" id="valorUnit"/>
+                <input className="add-item" value={dataSelectItem.valorUnit} name="valorUnit" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} onKeyDown={NextAddItem} type="text" id="valorUnit"/>
                 <datalist></datalist>
                 <div>
                 <label>Desconto: </label>
@@ -225,7 +221,7 @@ export const Cadastro = ({children}) => {
                 <br/>
                 <div>
                 <label>Descrição: </label>
-                <input id="descrição" className="descrição" type="text" value={dataSelectItem} onFocus={changeHandler} name="descricao" readOnly/>
+                <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao} onFocus={changeHandler} name="descricao" readOnly/>
                 </div>
                 <button type="submit"> enviar </button>
             </form>
@@ -248,10 +244,10 @@ export const Cadastro = ({children}) => {
                     <tbody>
                         {listItens.map((list, index) => {
                             return(
-                                <tr key={list}>
+                                <tr key={index}>
                                     <td>{index}</td>
                                     <td>{list.cod}</td>
-                                    <td>{list.gtin}</td>
+                                    <td>{list.ean}</td>
                                     <td>{list.descricao}</td>
                                     <td>{list.unidade_produto_nome}</td>
                                     <td>{list.quantidade}</td>
@@ -310,7 +306,7 @@ export const Cadastro = ({children}) => {
                 <Pgt onClose = {() => setIsModalPgt(false)} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem} setDataIdSelectItem={setDataIdSelectItem} setValorItem={setValorItem} setEanItem={setEanItem} setUnidItem={setUnidItem} />
+                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem}  />
             ) : null}
         </C.Container>   
     );
