@@ -10,6 +10,8 @@ import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
 import { Link } from "react-router-dom";
 import { event } from "jquery";
+import $ from 'jquery';
+
 
 
 
@@ -68,6 +70,7 @@ export const Cadastro = ({children}) => {
         setTotal(calcular());
     }, [numero1,numero2]);
 
+    //Funções para abrir o modal de cada campo apertando F2
     function onKeyUp(event){
         if(	event.keyCode === 113){
             setIsModalEmitente(true);
@@ -104,8 +107,44 @@ export const Cadastro = ({children}) => {
         }
     }
 
-
-
+    //Funções para mudar de campo ao apertar enter
+    function NextQuantidade (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('quantidade').focus();
+        }
+    }
+    function NextValorUnit (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('valorUnit').focus();
+        }
+    }
+    function NextAddItem (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('add-item').focus();
+        }
+    }
+    function NextAddItem2 (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('add-item2').focus();
+        }
+    }
+    function NextTotal (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('Total').focus();
+        }
+    }
+    function NextDescrição (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('descrição').focus();
+        }
+    }
+    
     return(
         
         <C.Container>
@@ -171,22 +210,22 @@ export const Cadastro = ({children}) => {
             <C.Add>
             <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, itens]);}} >
                 <label>Código: </label>
-                <input onKeyUp={keyProduto} type="text" value={dataIdSelectItem} name="cod" onBlur={changeHandler} />
+                <input onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataIdSelectItem} name="cod" onBlur={changeHandler} />
                 <label>Quantidade: </label>
-                <input  placeholder="1,000" name="quantidade" type="text" value={numero1} onChange={(e) => setNumero1(e.target.value)} onBlur={changeHandler} id="quantidade"  />
+                <input  placeholder="1,000" name="quantidade" type="text" value={numero1} onChange={(e) => setNumero1(e.target.value)} onBlur={changeHandler} onKeyDown={NextValorUnit} id="quantidade"  />
                 <label>Valor Unitário: </label>
-                <input className="add-item" value={valorItem} name="valorUnit" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} type="text" id="valorUnit"/>
+                <input className="add-item" value={valorItem} name="valorUnit" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} onKeyDown={NextAddItem} type="text" id="valorUnit"/>
                 <datalist></datalist>
                 <div>
                 <label>Desconto: </label>
-                <input className="add-item" placeholder="0,000000"/><input className="add-item" type="text"  />
+                <input id="add-item" className="add-item" placeholder="0,000000" onKeyDown={NextAddItem2}/><input id="add-item2" className="add-item" type="text" onKeyDown={NextTotal} />
                 </div>
                 <label>Total do item: </label>
-                <input type="text" name="Total" id="Total" value={total} onBlur={changeHandler} />
+                <input type="text" name="Total" id="Total" value={total} onFocus={changeHandler} onKeyDown={NextDescrição} />
                 <br/>
                 <div>
                 <label>Descrição: </label>
-                <input id="resultado" className="descrição" type="text" value={dataSelectItem} onBlur={changeHandler} name="descricao" readOnly/>
+                <input id="descrição" className="descrição" type="text" value={dataSelectItem} onFocus={changeHandler} name="descricao" readOnly/>
                 </div>
                 <button type="submit"> enviar </button>
             </form>
