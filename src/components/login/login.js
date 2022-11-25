@@ -11,6 +11,18 @@ export const Container = styled.div`
         "image acessar"
     ;
 
+    @media (max-width: 1146px) {
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 50% 50%;
+        grid-template-areas:
+          "acessar"
+          "image"
+        ;
+      }
+
 `
 export const Image = styled.div`
     height: 100vh;
@@ -50,6 +62,19 @@ export const Image = styled.div`
     .slideshowDot.active{
         background-color: #0088FE;
     }
+
+    @media(max-width: 1146px){
+        width: 100%;
+        height: 100%;
+        .slideShow{
+            height: 80%;
+            width: 40%;
+        }
+        .slide{
+            width: 100%;
+            height: 200px;
+        }
+    }
 `
 export const Acessar = styled.div`
     height: 100vh;
@@ -62,8 +87,8 @@ export const Acessar = styled.div`
     grid-area: acessar;
 
     .login{
-        height: 343px;
-        width: 630px;
+        height: 40%;
+        width: 85%;
         background-color: #303136; 
         border-radius: 34px 34px 0 0;
         border: solid 10px #919597;
@@ -81,19 +106,19 @@ export const Acessar = styled.div`
     }
     .user{
         height: 80%;
-        width: 630px;
+        width: 100%;
         border-top: solid 10px #919597;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         .company{
-            width: 466px;
+            width: 90%;
             height: 33px;
             border-radius: 4px;
         }
         div{
-            width: 466px;
+            width: 95%;
             display: flex;
             justify-content: space-between;
             .matricula-senha{
@@ -103,7 +128,7 @@ export const Acessar = styled.div`
                 flex-direction: column;
                 input{
                     height: 33px;
-                    width: 223px;
+                    width: 95%;
                     border-radius: 4px;
                 }
             }
@@ -112,6 +137,20 @@ export const Acessar = styled.div`
             font-size: 20px;
             font-weight: semi-bold;
             color: white;
+        }
+    }
+    @media(max-width: 1146px){
+        width: 100%;
+        margin-top: 25px;
+        align-items: center;
+        justify-content: start;
+        .login{
+            width: 50%;
+        }
+        .auth{
+            label{
+                font-size: 25px; 
+            }   
         }
     }
 `
