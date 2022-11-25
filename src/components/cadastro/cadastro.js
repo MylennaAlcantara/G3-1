@@ -10,6 +10,22 @@ export const Container = styled.div`
     border: 1px solid black;
     border-radius: 12px;
 
+    @media (max-width: 1024px){
+        height: 100vh;
+        width: 80vw;   
+    }
+    @media (max-width: 768px){
+        height: 100vh;
+        width: 100vw;   
+    }
+    @media (max-width: 425px){
+        width: 100vw;
+        height: auto;
+        position: relative;
+        display: block;
+        align-items: end;
+        justify-content: space-between;
+    }
 `;
 export const Header = styled.div`
     border: 1.5px;
@@ -132,6 +148,65 @@ export const Info = styled.div`
     fieldset{
        margin: 0 10px ;
     }
+
+    @media (max-width: 425px){
+        height: 40vh;
+            form{
+                display: block;
+                margin-left: 0;
+                align-content: start;
+                div{
+                    justify-content: start;
+                }
+                
+            }
+            #checkbox{
+                display: block;
+                align-content: start;
+                justify-content: start;
+                margin: 0;
+                
+            }
+            .checkbox{
+                display:flex;
+                margin: 0;
+                width: 300px;
+            }
+            
+        
+        .information{
+            .cpf{
+                height: 24px;
+                border: none;
+                background-color: #D9D9D9;
+                box-shadow: 0 3px 5px gray;
+                width: 120px;
+            }
+            div{
+                width: 100%;
+                display:flex;
+                justify-content: end;
+            }
+            .div-partner{
+                width: 60%;
+                margin: 3px 3px 3px 3px;
+                display: block;
+            }
+            .partner{
+                width: 100%;
+                height: 24px;
+                border: none;
+                background-color: #D9D9D9;
+                box-shadow: 0 3px 5px gray;
+            }
+        }
+        .f1{
+            width: 60px;
+        }  
+        .option{
+            width: 60%;
+        }
+    }
     
 `;
 export const Add = styled.div`
@@ -175,6 +250,10 @@ export const Add = styled.div`
     }
     div{
         display: flex;
+    }
+
+    @media (max-width: 425px){
+        height: 30vh;
     }
 `
 export const Display = styled.div`
@@ -223,7 +302,14 @@ export const Display = styled.div`
         flex-grow: 1;
         border: solid 1px gray;
     }
-    
+
+    @media (max-width: 425px){
+        height: 20%;
+        width: 155vw;
+        margin: 10px;
+        overflow-x: auto;
+        
+    }
 `
 export const Footer = styled.div`
     width: 100%;
@@ -273,4 +359,10 @@ export const Footer = styled.div`
             width: 20px;
         }
    }
+    @media (max-width: 425px){
+        height: 30vh;
+        form{
+            margin: 0 25px;
+        }
+    }
 `

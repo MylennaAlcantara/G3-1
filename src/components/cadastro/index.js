@@ -156,7 +156,7 @@ export const Cadastro = ({children}) => {
                             <label>Código da rotina: </label>
                             <input className="cod"></input>
                         </div>
-                        <div>
+                        <div id="checkbox">
                             <div>
                                 <div id="line"></div>
                                 <input type="radio" className="radio" name="Atacado"></input>
@@ -192,13 +192,13 @@ export const Cadastro = ({children}) => {
                         <input className="option" value={dataSelectSaler}/>
                         </div>
                         <div>
-                        <label>Parceiro: </label>
-                        <input className="f1" onKeyUp={keyPartner} value={dataIdSelectPartner}/>
-                                <div className="div-partner">
-                                    <input className="partner" value={dataSelectPartner}/>
-                                    <label>CPF/CNPJ: </label>
-                                    <input className="cpf"/>
-                                </div>
+                            <label>Parceiro: </label>
+                            <input className="f1" onKeyUp={keyPartner} value={dataIdSelectPartner}/>
+                                    <div className="div-partner">
+                                        <input className="partner" value={dataSelectPartner}/>
+                                        <label>CPF/CNPJ: </label>
+                                        <input className="cpf"/>
+                                    </div>
                         </div>
                         <div>
                         <label>Tipo pgto: </label>
