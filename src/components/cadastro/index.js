@@ -150,59 +150,63 @@ export const Cadastro = ({children}) => {
                 <button>Cadastrar</button>
             </C.Header>
             <C.Info>
-                <form>
-                    <div>
-                        <label>Código da rotina: </label>
-                        <input className="cod"></input>
-                    </div>
-                    <div>
+                <div className="div-info">
+                    <form>
                         <div>
-                            <div id="line"></div>
-                            <input type="radio" className="radio" name="Atacado"></input>
-                            <label>Atacado</label>
-                            <input type="radio" className="radio" name="Varejo"></input>
-                            <label>Varejo</label>
-                            <div id="line"></div>
+                            <label>Código da rotina: </label>
+                            <input className="cod"></input>
                         </div>
-                        <div className="checkbox">
-                            <input type="checkbox" className="checkbox-box"/>
-                            <label>Aprovado</label>
-                            <input type="checkbox" className="checkbox-box"/>
-                            <label>Cancelado</label>
-                            <input type="checkbox" className="checkbox-box"/>
-                            <label>Entregue</label>
+                        <div>
+                            <div>
+                                <div id="line"></div>
+                                <input type="radio" className="radio" name="Atacado"></input>
+                                <label>Atacado</label>
+                                <input type="radio" className="radio" name="Varejo"></input>
+                                <label>Varejo</label>
+                                <div id="line"></div>
+                            </div>
+                            <div className="checkbox">
+                                <input type="checkbox" className="checkbox-box"/>
+                                <label>Aprovado</label>
+                                <input type="checkbox" className="checkbox-box"/>
+                                <label>Cancelado</label>
+                                <input type="checkbox" className="checkbox-box"/>
+                                <label>Entregue</label>
+                            </div>
                         </div>
-                    </div>
-                </form>
-                <form className="information">
-                    <div>
-                    <label>Emitente: </label>
-                    <input className="f1" onKeyUp={onKeyUp} value={dataIdSelectEmitente}/>                    
-                    <input className="option" value={dataSelectEmitente}/>
-                    </div>
-                    <div>
-                    <label>T.O.P: </label>
-                    <input className="f1" onKeyUp={keyTop} value={dataIdSelectTop}/>
-                    <input className="option" value={dataSelectTop}/>
-                    </div>
-                    <div>
-                    <label>Vendedor: </label>
-                    <input className="f1" onKeyUp={keySaler} value={dataIdSelectSaler}/>
-                    <input className="option" value={dataSelectSaler}/>
-                    </div>
-                    <div>
-                    <label>Parceiro: </label>
-                    <input className="f1" onKeyUp={keyPartner} value={dataIdSelectPartner}/>
-                    <input className="partner" value={dataSelectPartner}/>
-                    <label>CPF/CNPJ: </label>
-                    <input/>
-                    </div>
-                    <div>
-                    <label>Tipo pgto: </label>
-                    <input className="f1" onKeyUp={keyPgt} value={dataIdSelectPgt}/>
-                    <input className="option" value={dataSelectPgt}/>
-                    </div>
-                </form>
+                    </form>
+                    <form className="information">
+                        <div>
+                        <label>Emitente: </label>
+                        <input className="f1" onKeyUp={onKeyUp} value={dataIdSelectEmitente}/>                    
+                        <input className="option" value={dataSelectEmitente}/>
+                        </div>
+                        <div>
+                        <label>T.O.P: </label>
+                        <input className="f1" onKeyUp={keyTop} value={dataIdSelectTop}/>
+                        <input className="option" value={dataSelectTop}/>
+                        </div>
+                        <div>
+                        <label>Vendedor: </label>
+                        <input className="f1" onKeyUp={keySaler} value={dataIdSelectSaler}/>
+                        <input className="option" value={dataSelectSaler}/>
+                        </div>
+                        <div>
+                        <label>Parceiro: </label>
+                        <input className="f1" onKeyUp={keyPartner} value={dataIdSelectPartner}/>
+                                <div className="div-partner">
+                                    <input className="partner" value={dataSelectPartner}/>
+                                    <label>CPF/CNPJ: </label>
+                                    <input className="cpf"/>
+                                </div>
+                        </div>
+                        <div>
+                        <label>Tipo pgto: </label>
+                        <input className="f1" onKeyUp={keyPgt} value={dataIdSelectPgt}/>
+                        <input className="option" value={dataSelectPgt}/>
+                        </div>
+                    </form>
+                </div>
                 {/*<fieldset><legend>Observação</legend>Observação</fieldset>*/}
             </C.Info>
                 

@@ -9,11 +9,11 @@ export const Container = styled.div`
     width: 60vw;
     border: 1px solid black;
     border-radius: 12px;
-    overflow-y: auto;
 
 `;
 export const Header = styled.div`
     border: 1.5px;
+    border-radius: 12px 12px 0;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -29,16 +29,20 @@ export const Info = styled.div`
     display: block;
     flex-wrap: wrap;
     align-content: center;
-    padding-left: 10px;
-   
+    width: 100%;
+    .div-info{
+        width: 95%;
+        display: block;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
+   }
     form{
         display: flex;
         width: 100%;
         align-content: center;
         margin: 5px 0;
         justify-content: space-between;
-
-        
     }
     .checkbox{
         margin: 0 15px;
@@ -71,6 +75,14 @@ export const Info = styled.div`
         margin: 5px 0;
         align-content: center;
         justify-content: end;
+        .cpf{
+            margin-right: 10px;
+            height: 24px;
+            border: none;
+            background-color: #D9D9D9;
+            box-shadow: 0 3px 5px gray;
+            margin: 0 0 0 3px;
+        }
     }
     div{
         margin: 0 5px;
@@ -94,12 +106,15 @@ export const Info = styled.div`
         height: 24px;
         box-shadow: 0 3px 5px gray;
     }
+    .div-partner{
+        width: 70%;
+        margin: 3px 10px 3px 3px;
+    }
     .partner{
-        width: 40%;
+        width: 100%;
         height: 24px;
         border: none;
         background-color: #D9D9D9;
-        margin: 3px;
         box-shadow: 0 3px 5px gray;
     }
     label{
@@ -108,13 +123,11 @@ export const Info = styled.div`
         color: #373435;
     }
     input{
-        width: 20%;
         margin-right: 10px;
         height: 24px;
         border: none;
         background-color: #D9D9D9;
         box-shadow: 0 3px 5px gray;
-        
     }
     fieldset{
        margin: 0 10px ;
@@ -172,7 +185,7 @@ export const Display = styled.div`
     justify-content: center;
     border: 1px solid black;
     height: 20vh;
-    width: 950px;
+    width: 100%;
     overflow-x: auto;
     table{
         border-collapse: collapse;
@@ -237,7 +250,6 @@ export const Footer = styled.div`
             font-weight: bold;
             color: #373435;
         }
-        
     }
    .buttons{
         height: 67px;
@@ -245,6 +257,7 @@ export const Footer = styled.div`
         background-color: #F0F0F0;
         align-items: center;
         justify-content: center;
+        border-radius: 0 0 12px 12px;
         button{
             width: 117px;
             height: 33px;
