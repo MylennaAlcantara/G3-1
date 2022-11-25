@@ -156,20 +156,22 @@ export const Cadastro = ({children}) => {
                         <input className="cod"></input>
                     </div>
                     <div>
-                        <div id="line"></div>
-                        <input type="radio" className="radio" name="Atacado"></input>
-                        <label>Atacado</label>
-                        <input type="radio" className="radio" name="Varejo"></input>
-                        <label>Varejo</label>
-                        <div id="line"></div>
-                    </div>
-                    <div className="checkbox">
-                        <input type="checkbox" className="checkbox-box"/>
-                        <label>Aprovado</label>
-                        <input type="checkbox" className="checkbox-box"/>
-                        <label>Cancelado</label>
-                        <input type="checkbox" className="checkbox-box"/>
-                        <label>Entregue</label>
+                        <div>
+                            <div id="line"></div>
+                            <input type="radio" className="radio" name="Atacado"></input>
+                            <label>Atacado</label>
+                            <input type="radio" className="radio" name="Varejo"></input>
+                            <label>Varejo</label>
+                            <div id="line"></div>
+                        </div>
+                        <div className="checkbox">
+                            <input type="checkbox" className="checkbox-box"/>
+                            <label>Aprovado</label>
+                            <input type="checkbox" className="checkbox-box"/>
+                            <label>Cancelado</label>
+                            <input type="checkbox" className="checkbox-box"/>
+                            <label>Entregue</label>
+                        </div>
                     </div>
                 </form>
                 <form className="information">

@@ -33,9 +33,10 @@ export const Info = styled.div`
    
     form{
         display: flex;
-        width: 950px;
+        width: 100%;
         align-content: center;
         margin: 5px 0;
+        justify-content: space-between;
 
         
     }
@@ -65,15 +66,15 @@ export const Info = styled.div`
         border-right: 1px solid #000;
     }
     .information{
-        
-        width: 950px;
+        width: 100%;
         display: inline-block;
         margin: 5px 0;
         align-content: center;
-        overflow-x: auto;
+        justify-content: end;
     }
     div{
-        
+        margin: 0 5px;
+        width: 100%;
         display:flex;
         justify-content: end;
     }
@@ -89,12 +90,12 @@ export const Info = styled.div`
         background-color: #D9D9D9;
         border: none;
         margin: 3px 10px 3px 3px;
-        width: 700px;
+        width: 70%;
         height: 24px;
         box-shadow: 0 3px 5px gray;
     }
     .partner{
-        width: 445px;
+        width: 40%;
         height: 24px;
         border: none;
         background-color: #D9D9D9;
@@ -107,6 +108,7 @@ export const Info = styled.div`
         color: #373435;
     }
     input{
+        width: 20%;
         margin-right: 10px;
         height: 24px;
         border: none;
