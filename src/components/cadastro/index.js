@@ -211,21 +211,29 @@ export const Cadastro = ({children}) => {
             </C.Header>
             <C.Add>
             <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]);}} >
+                <div>
                 <label>Código: </label>
                 <input onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.cod} name="cod" onBlur={changeHandler} />
+                </div>
+                <div>
                 <label>Quantidade: </label>
                 <input  placeholder="1,000" name="quantidade" type="text" value={numero1} onChange={(e) => setNumero1(e.target.value)} onBlur={changeHandler} onKeyDown={NextValorUnit} id="quantidade"  />
+                </div>
+                <div>
                 <label>Valor Unitário: </label>
                 <input className="add-item" value={dataSelectItem.valorUnit} name="valorUnit" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} onKeyDown={NextAddItem} type="text" id="valorUnit"/>
                 <datalist></datalist>
+                </div>
                 <div>
                 <label>Desconto: </label>
                 <input id="add-item" className="add-item" placeholder="0,000000" onKeyDown={NextAddItem2}/><input id="add-item2" className="add-item" type="text" onKeyDown={NextTotal} />
                 </div>
+                <div>
                 <label>Total do item: </label>
                 <input type="text" name="Total" id="Total" value={total} onFocus={changeHandler} onKeyDown={NextDescrição} />
                 <br/>
-                <div>
+                </div>
+                <div className="div-descrição">
                 <label>Descrição: </label>
                 <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao} onFocus={changeHandler} name="descricao" readOnly/>
                 </div>

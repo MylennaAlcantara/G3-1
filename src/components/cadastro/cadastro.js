@@ -126,16 +126,20 @@ export const Add = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 950px;
+    width: 100%;
     form{
-        justify-content: end;
+        width: 90%;
+        justify-content: start;
         display: flex;
         flex-wrap: wrap;
         align-content: center;
         margin: 5px; 
     }
+    .div-descrição{
+        width: 90%;
+    }
     .descrição{
-        width: 800px;
+        width: 80%;
         height: 24px;
     }
     .add-item{
@@ -155,6 +159,9 @@ export const Add = styled.div`
         font-size: 15px;
         font-weight: bold;
         color: #373435;
+    }
+    div{
+        display: flex;
     }
 `
 export const Display = styled.div`
