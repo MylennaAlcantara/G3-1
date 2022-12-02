@@ -50,7 +50,6 @@ export const Cadastro = ({children}) => {
     
     const changeHandler = e => {
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value});
-        
     }
  
     // Calcular o valor de quantidade vezes o valor para o total 
@@ -140,7 +139,72 @@ export const Cadastro = ({children}) => {
             document.getElementById('descrição').focus();
         }
     }
+    function NextTop (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('top').focus();
+        }
+    }
+    function NextVendedor (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('vendedor').focus();
+        }
+    }
+    function NextParceiro (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('parceiro').focus();
+        }
+    }
+    function NextPgto (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('pgto').focus();
+        }
+    }
+
+    //Armazenar os dados para a enviar para api
+    const [informações, setInformações] = useState({
+        cod_emitente: '',
+        emitente: '',
+        cod_top: '',
+        top: '',
+        cod_vendedor: '',
+        vendedor: '',
+        cod_partner: '',
+        partner: '',
+        cod_pgto: '',
+        pgto: '',
+    });
+
+    const changeOption = e => {
+        setInformações({...informações, [e.target?.name]: e.target?.value});
+    }
+
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(informações),
+    };
+
+    //envio para a api das informações armazenadas
+    fetch('https://httpbin.org/post', options)
+        .then(data => {
+            if(!data.ok){
+                throw Error(data.status);
+            }
+            return data.json();
+        }).then(partner =>{
+            console.log(partner);
+          
+        }).catch(e => {
+            console.log(e);
+        });
     
+
     return(
         
         <C.Container>
@@ -175,36 +239,37 @@ export const Cadastro = ({children}) => {
                             </div>
                         </div>
                     </form>
-                    <form className="information">
+                    <form action="POST" id="information" className="information" onSubmit={event =>{event.preventDefault();}}>
                         <div>
                         <label>Emitente: </label>
-                        <input className="f1" onKeyUp={onKeyUp} value={dataIdSelectEmitente}/>                    
-                        <input className="option" value={dataSelectEmitente}/>
+                        <input name="cod_emitente" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} value={dataIdSelectEmitente}/>                    
+                        <input name="emitente" className="option" value={dataSelectEmitente}/>
                         </div>
                         <div>
                         <label>T.O.P: </label>
-                        <input className="f1" onKeyUp={keyTop} value={dataIdSelectTop}/>
-                        <input className="option" value={dataSelectTop}/>
+                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataIdSelectTop}/>
+                        <input name="top" className="option" value={dataSelectTop}/>
                         </div>
                         <div>
                         <label>Vendedor: </label>
-                        <input className="f1" onKeyUp={keySaler} value={dataIdSelectSaler}/>
-                        <input className="option" value={dataSelectSaler}/>
+                        <input name="cod_vendedor" className="f1" id="vendedor" onKeyDown={NextParceiro} onKeyUp={keySaler} value={dataIdSelectSaler}/>
+                        <input name="vendedor" className="option" value={dataSelectSaler}/>
                         </div>
                         <div>
                             <label>Parceiro: </label>
-                            <input className="f1" onKeyUp={keyPartner} value={dataIdSelectPartner}/>
+                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} value={dataIdSelectPartner} onFocus={changeOption}/>
                                     <div className="div-partner">
-                                        <input className="partner" value={dataSelectPartner}/>
+                                        <input name="partner" className="partner" value={dataSelectPartner} onFocus={changeOption}/>
                                         <label>CPF/CNPJ: </label>
                                         <input className="cpf"/>
                                     </div>
                         </div>
                         <div>
                         <label>Tipo pgto: </label>
-                        <input className="f1" onKeyUp={keyPgt} value={dataIdSelectPgt}/>
-                        <input className="option" value={dataSelectPgt}/>
+                        <input className="f1" id="pgto" onKeyUp={keyPgt} value={dataIdSelectPgt}/>
+                        <input id="option_pgto" className="option" value={dataSelectPgt}/>
                         </div>
+                        <button onClick={changeOption}>adicionar</button>
                     </form>
                 </div>
                 {/*<fieldset><legend>Observação</legend>Observação</fieldset>*/}
