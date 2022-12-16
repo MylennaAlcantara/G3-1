@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/Auth/authContext";
 import * as C from "./login.js";
 
 export const Login = () => {
@@ -10,6 +12,9 @@ export const Login = () => {
     const [index, setIndex] = useState(0);
     const delay = 3500;
     const timeoutRef = useRef(null);
+
+    const auth = useContext(AuthContext);
+    const navigate = useNavigate();
 
     function resetTimeout(){
         if (timeoutRef.current){
@@ -29,6 +34,21 @@ export const Login = () => {
             resetTimeout();
         };
     }, [index]);
+
+    const [company, setCompany] = useState('');
+    const [matricula, setMatricula] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = async (e) => {
+        if( company && matricula && password){
+            const isLogged = await auth.signin(company, matricula, password);
+            if(isLogged){
+                navigate('/rotina');
+            }else{
+                alert("Matricula e senha incorreta!");
+            }
+        }
+    }
 
     return(
 
@@ -54,25 +74,26 @@ export const Login = () => {
                 </div>
             </C.Image>
             <C.Acessar>
-                <div className="login">
+                <form className="login" onSubmit={handleLogin}>
                     <div className="auth">
                         <label>Autentificação</label>
                     </div>
                     <div className="user">                        
                             <label>Empresa</label>
-                            <input className="company"/>
+                            <input className="company" name="company" value={company} onChange={e => setCompany(e.target.value)}/>
                         <div >
                             <div className="matricula-senha">
                                 <label>Matricula</label>
-                                <input/>
+                                <input name="matricula" value={matricula} onChange={e => setMatricula(e.target.value)}/>
                             </div>
                             <div className="matricula-senha">
                                 <label>Senha</label>
-                                <input/>
+                                <input name="password" type="password" value={password} onChange={e => setPassword(e.target.value)}/>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <button>entrar</button>
+                </form>
             </C.Acessar>
         </C.Container>
     )

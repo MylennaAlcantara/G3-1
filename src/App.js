@@ -1,19 +1,30 @@
 import './App.css';
-import React  from 'react';
+import React, { useContext }  from 'react';
 import { Cadastro } from './components/cadastro/index.js';
 import { Login } from './components/login/index.js';
 import { Route, Routes } from 'react-router-dom';
 import { Consultar } from './components/Consultar';
+import {RequireAuth} from './contexts/Auth/requiredAuth';
+import { AuthContext } from './contexts/Auth/authContext';
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  
+  const auth = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const hadleLogout = async () =>{
+    await auth.signout();
+    window.location.href = window.location.href;
+  }
 
   return (
     <div className="App">
-        
+      <nav>
+        {auth.user && <button onClick={hadleLogout}>Sair</button>}
+      </nav>
           <Routes>
             <Route path = "/" element = {<Login/>}/>
-            <Route path = "/rotina" element = {<Cadastro/>}/>
+            <Route path = "/rotina" element = {<RequireAuth><Cadastro/></RequireAuth>}/>
             <Route path = "/consultar" element = {<Consultar/>}/>
           </Routes>
     </div>
