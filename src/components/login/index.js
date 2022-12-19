@@ -39,7 +39,7 @@ export const Login = () => {
     const [matricula, setMatricula] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = async (e) => {
+    const handleLogin = async () => {
         if( company && matricula && password){
             const isLogged = await auth.signin(company, matricula, password);
             if(isLogged){
@@ -92,7 +92,7 @@ export const Login = () => {
                             </div>
                         </div>
                     </div>
-                    <button>entrar</button>
+                    <button onClick={handleLogin}>entrar</button>
                 </form>
             </C.Acessar>
         </C.Container>

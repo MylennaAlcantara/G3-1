@@ -6,17 +6,16 @@ import { Route, Routes } from 'react-router-dom';
 import { Consultar } from './components/Consultar';
 import {RequireAuth} from './contexts/Auth/requiredAuth';
 import { AuthContext } from './contexts/Auth/authContext';
-import { useNavigate } from "react-router-dom";
 
 function App() {
   const auth = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const hadleLogout = async () =>{
     await auth.signout();
     window.location.href = window.location.href;
   }
-
+    
+  
   return (
     <div className="App">
       <nav>
