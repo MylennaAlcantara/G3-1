@@ -36,12 +36,12 @@ export const Login = () => {
     }, [index]);
 
     const [company, setCompany] = useState('');
-    const [matricula, setMatricula] = useState('');
-    const [senha, setSenha] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleLogin = async () => {
-        if(matricula && senha){
-            const isLogged = await auth.signin( matricula, senha);
+        if(email && password){
+            const isLogged = await auth.signin( email, password);
             if(isLogged){
                 navigate('/rotina');
             }else{
@@ -84,11 +84,11 @@ export const Login = () => {
                         <div >
                             <div className="matricula-senha">
                                 <label>Matricula</label>
-                                <input name="matricula" value={matricula} onChange={e => setMatricula(e.target.value)}/>
+                                <input name="email" value={email} onChange={e => setEmail(e.target.value)}/>
                             </div>
                             <div className="matricula-senha">
                                 <label>Senha</label>
-                                <input name="senha" type="password" value={senha} onChange={e => setSenha(e.target.value)}/>
+                                <input name="password" type="password" value={password} onChange={e => setPassword(e.target.value)}/>
                             </div>
                         </div>
                     </div>
