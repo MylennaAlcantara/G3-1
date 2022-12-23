@@ -6,6 +6,9 @@ const api = axios.create({
 
 export const useApi = () => ({
     validateToken: async (token: string) => {
+        return {
+            token: '123456789'
+        };
         const response = await api.post('/validate', {token});
         return response.data;
     },
