@@ -37,11 +37,11 @@ export const Login = () => {
 
     const [company, setCompany] = useState('');
     const [matricula, setMatricula] = useState('');
-    const [password, setPassword] = useState('');
+    const [senha, setSenha] = useState('');
 
-    const handleLogin = async (e) => {
-        if( company && matricula && password){
-            const isLogged = await auth.signin(company, matricula, password);
+    const handleLogin = async () => {
+        if(matricula && senha){
+            const isLogged = await auth.signin( matricula, senha);
             if(isLogged){
                 navigate('/rotina');
             }else{
@@ -88,11 +88,11 @@ export const Login = () => {
                             </div>
                             <div className="matricula-senha">
                                 <label>Senha</label>
-                                <input name="password" type="password" value={password} onChange={e => setPassword(e.target.value)}/>
+                                <input name="senha" type="password" value={senha} onChange={e => setSenha(e.target.value)}/>
                             </div>
                         </div>
                     </div>
-                    <button>entrar</button>
+                    <button onSubmit={handleLogin}>entrar</button>
                 </form>
             </C.Acessar>
         </C.Container>
