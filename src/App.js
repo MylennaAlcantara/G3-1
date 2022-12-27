@@ -23,7 +23,7 @@ function App() {
       </nav>
           <Routes>
             <Route path = "/" element = {<Login/>}/>
-            <Route path = "/rotina" element = {<RequireAuth><Cadastro/></RequireAuth>}/>
+            <Route path = "/rotina" element = {<Cadastro/>}/>
             <Route path = "/consultar" element = {<Consultar/>}/>
           </Routes>
     </div>

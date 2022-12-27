@@ -12,14 +12,6 @@ export const useApi = () => ({
         const response = await api.post('/login', {token});
         return response.data;*/
     },
-    signin: async ( matricula: string, senha: string)=>{
-        return {
-            user: {id: 5, matricula: 'Mylenna', senha: 1234},
-            token: '123456789'
-        };
-        const response = await api.post('/all/', { matricula, senha});
-        return response.data;
-    },
     logout: async () => {
         return {status: true}
         const response = await api.post('/logout');

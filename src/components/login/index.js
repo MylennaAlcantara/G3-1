@@ -39,16 +39,34 @@ export const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+       // const matricula = 'admin';
+       // const senha = '1f65e165335193ad6ee6635ae3f0f95a';
+        const [usuario, setUsuario] = useState([]);
+
+    const caracter = 'character';
+        useEffect(() => {
+            async function fetchData (){
+                const response = await fetch(`https://rickandmortyapi.com/api/${caracter}/`);
+                const data = await response.json();
+                setUsuario(data.results);
+                
+            }
+                fetchData();
+        }, []);
+
     const handleLogin = async () => {
         if(email && password){
-            const isLogged = await auth.signin( email, password);
-            if(isLogged){
-                navigate('/rotina');
-            }else{
-                alert("Matricula e senha incorreta!");
+            var login = usuario.filter(user => user.name === email && user.status === password);
+            login.forEach(user => { 
+                if(user.name===email && user.status === password){
+                        navigate('/rotina');
+                    
+                    }else{
+                    alert("Matricula e senha incorreta!");
+                }
+            });          
             }
         }
-    }
 
     return(
 
@@ -92,8 +110,29 @@ export const Login = () => {
                             </div>
                         </div>
                     </div>
-                    <button onSubmit={handleLogin}>entrar</button>
+                    <button onClick={handleLogin}>entrar</button>
                 </form>
+
+                <table>
+                
+                <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nome</th>
+                            <th>Fone</th>
+                        </tr>
+                    </thead><tbody>
+                        {usuario?.map( (item) => {
+                            return(
+                                <tr key={item.id}  >
+                                    <td>{item.name}</td>
+                                    <td>{item.status}</td>
+                                    <td>{item.id}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                    </table>
             </C.Acessar>
         </C.Container>
     )

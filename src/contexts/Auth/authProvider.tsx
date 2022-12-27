@@ -9,22 +9,13 @@ export const AuthProvider = ({children}: {children: JSX.Element}) => {
     const [user, setUser] = useState<User | null>(null);
     const api = useApi();
 
-    const signin = async ( matricula: string, senha: string) => {
-        const data = await api.signin( matricula, senha);
-        if(data.user){
-            setUser(data.user);
-            return true;
-        }
-        return false;
-    }
-
     const signout = async () => {
         await api.logout();
         setUser(null);
     }
 
     return (
-        <AuthContext.Provider value={{user, signin, signout}}>
+        <AuthContext.Provider value={{user, signout}}>
             {children}
         </AuthContext.Provider>
     );
