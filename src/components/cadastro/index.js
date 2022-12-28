@@ -8,7 +8,7 @@ import { Emitente } from "../modal_emitente/index.js";
 import { Top } from "../modal_top/index.js";
 import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -203,12 +203,27 @@ export const Cadastro = ({children}) => {
         }).catch(e => {
             console.log(e);
         });
+
+        const [token, setToken] = useState();
+        useEffect(()=>{
+            const logged = localStorage.getItem('token');
+            if(logged){
+                const foundUser = JSON.parse(logged);
+                setToken(foundUser);
+            }
+        },[]);
+
+        const navigate = useNavigate();
     
+        const handleLogout = () => {
+            setToken();
+            localStorage.clear();
+        }
 
     return(
         
         <C.Container>
-            
+            <nav><button onClick={handleLogout}>Sair</button></nav>
             <C.Header>
             <Link to="/consultar"><button>Consultar</button></Link>
                 <button>Cadastrar</button>

@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { setSourceMapRange } from "typescript";
 import { AuthContext } from "../../contexts/Auth/authContext";
 import * as C from "./login.js";
 
@@ -39,6 +40,8 @@ export const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+
+
        // const matricula = 'admin';
        // const senha = '1f65e165335193ad6ee6635ae3f0f95a';
         const [usuario, setUsuario] = useState([]);
@@ -59,17 +62,17 @@ export const Login = () => {
             var login = usuario.filter(user => user.name === email && user.status === password);
             login.forEach(user => { 
                 if(user.name===email && user.status === password){
+                        const user = {email, password};
                         navigate('/rotina');
-                    
+                        localStorage.setItem('token', 123456);
                     }else{
                     alert("Matricula e senha incorreta!");
                 }
             });          
-            }
         }
+    }
 
     return(
-
         <C.Container>
             <C.Image>
                 <div className="slideShow">
