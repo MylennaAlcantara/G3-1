@@ -10,7 +10,7 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.10:8099/clientes");
+            const response = await fetch("http://10.0.1.31:8099/user/all");
             const data = await response.json();
             setUsers(data);
         }
@@ -18,9 +18,9 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
     }, []);
 
     const SelectedSaler = (user) => {
-        setSelectSaler(user.endereco);
+        setSelectSaler(user.nome);
         setSelectIdSaler(user.id);
-        setDataSelectSaler(user.endereco);
+        setDataSelectSaler(user.nome);
         setDataIdSelectSaler(user.id);
         onClose();
     };
@@ -55,8 +55,8 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
                             return(
                                 <tr key={user.id} onClick={SelectedSaler.bind(this, user)} >
                                     <td>{user.id}</td>
-                                    <td>{user.endereco}</td>
-                                    <td>{user.endereco}</td>
+                                    <td>{user.nome}</td>
+                                    <td>{user.nome}</td>
                                 </tr>
                             );
                         })}

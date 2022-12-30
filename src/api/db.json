@@ -1,0 +1,61 @@
+{
+  "rotinas": [
+    {
+      "id": 1,
+      "cod_emitente": "1",
+      "emitente": "Loja tal",
+      "cod_top": "2",
+      "top": "201",
+      "cod_vendedor": "1",
+      "vendedor": "ADMINISTRADOR",
+      "cod_parceiro": "5",
+      "parceiro": "Cliente fulano",
+      "cod_pgto": "1",
+      "pgto": "DINHEIRO",
+      "cod_item": "",
+      "quantidade": "",
+      "valor_unit": "",
+      "valor_tot_item": "",
+      "descricao_item": "",
+      "valor_tot_rotina": "500,00"
+    },
+    {
+      "cod_emitente": "",
+      "emitente": "",
+      "cod_top": "",
+      "top": "",
+      "cod_vendedor": "",
+      "vendedor": "",
+      "cod_parceiro": 7,
+      "parceiro": "Abradolf Lincler",
+      "cod_pgto": "",
+      "pgto": "",
+      "cod_item": "",
+      "quantidade": "50",
+      "valor_unit": "",
+      "valor_tot_item": null,
+      "descricao_item": "",
+      "valor_tot_rotina": 0,
+      "id": 2
+    },
+    {
+      "cod_emitente": "",
+      "emitente": "",
+      "cod_top": "",
+      "top": "",
+      "cod_vendedor": "",
+      "vendedor": "",
+      "cod_parceiro": "",
+      "parceiro": "",
+      "cod_pgto": "",
+      "pgto": "",
+      "cod_item": "",
+      "quantidade": 0,
+      "valor_unit": "",
+      "valor_tot_item": 0,
+      "descricao_item": "",
+      "valor_tot_rotina": 0,
+      "id": 3
+    }
+  ]
+}

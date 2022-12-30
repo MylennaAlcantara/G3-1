@@ -65,6 +65,15 @@ export const Cadastro = ({children}) => {
         setTotal(calcular());
     }, [numero1,numero2]);
 
+    //Calcular total da rotina
+    const [desconto, setDesconto] = useState();
+    const [acrescimo, setAcrescimo] = useState();
+
+     const totalVenda = listItens.reduce((a,b) => a + b.total, 0);   
+
+        console.log(totalVenda)
+
+
     // Funções para abrir o modal de cada campo apertando F2
     function onKeyUp(event){
         if(	event.keyCode === 113){
@@ -164,45 +173,46 @@ export const Cadastro = ({children}) => {
         }
     }
 
-    //Armazenar os dados para a enviar para api
-    const [informações, setInformações] = useState({
-        cod_emitente: '',
-        emitente: '',
-        cod_top: '',
-        top: '',
-        cod_vendedor: '',
-        vendedor: '',
-        cod_partner: '',
-        partner: '',
-        cod_pgto: '',
-        pgto: '',
-    });
-
-    const changeOption = e => {
-        setInformações({...informações, [e.target?.name]: e.target?.value});
-    }
-
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(informações),
-    };
 
     //envio para a api das informações armazenadas
-    fetch('https://httpbin.org/post', options)
-        .then(data => {
-            if(!data.ok){
-                throw Error(data.status);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try{
+            const res = await fetch("http://localhost:5000/rotinas", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    cod_emitente: dataIdSelectEmitente,
+                    emitente: dataSelectEmitente,
+                    cod_top: dataIdSelectTop,
+                    top: dataSelectTop,
+                    cod_vendedor: dataIdSelectSaler,
+                    vendedor: dataSelectSaler,
+                    cod_parceiro: dataIdSelectPartner,
+                    parceiro: dataSelectPartner,
+                    cod_pgto: dataIdSelectPgt,
+                    pgto: dataSelectPgt,
+                    cod_item: dataSelectItem.cod,
+                    quantidade: numero1,
+                    valor_unit: dataSelectItem.valorUnit,
+                    valor_tot_item: total,
+                    descricao_item: dataSelectItem.descricao,
+                    valor_tot_rotina: totalVenda,
+                }),
+            });
+            const resJson = await res.json();
+            if(res.status === 200){
+                setDataIdSelectPartner('');
             }
-            return data.json();
-        }).then(partner =>{
-            console.log(partner);
-          
-        }).catch(e => {
-            console.log(e);
-        });
+        }catch(err){
+            console.log(err);
+        }
+        navigate('/consultar');
+    }
+
+    const Voltar = () => {
+        navigate('/consultar');
+    }
 
         const [token, setToken] = useState();
         useEffect(()=>{
@@ -255,7 +265,7 @@ export const Cadastro = ({children}) => {
                             </div>
                         </div>
                     </form>
-                    <form action="POST" id="information" className="information" onSubmit={event =>{event.preventDefault();}}>
+                    <form action="POST" id="information" className="information" onSubmit={handleSubmit}>
                         <div>
                         <label>Emitente: </label>
                         <input name="cod_emitente" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} value={dataIdSelectEmitente}/>                    
@@ -273,19 +283,18 @@ export const Cadastro = ({children}) => {
                         </div>
                         <div>
                             <label>Parceiro: </label>
-                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} value={dataIdSelectPartner} onFocus={changeOption}/>
+                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} value={dataIdSelectPartner} />
                                     <div className="div-partner">
-                                        <input name="partner" className="partner" value={dataSelectPartner} onFocus={changeOption}/>
+                                        <input name="partner" className="partner" value={dataSelectPartner} />
                                         <label>CPF/CNPJ: </label>
                                         <input className="cpf"/>
                                     </div>
                         </div>
                         <div>
                         <label>Tipo pgto: </label>
-                        <input className="f1" id="pgto" onKeyUp={keyPgt} value={dataIdSelectPgt}/>
+                        <input className="f1" id="pgto" onKeyUp={keyPgt} value={dataIdSelectPgt} />
                         <input id="option_pgto" className="option" value={dataSelectPgt}/>
                         </div>
-                        <button onClick={changeOption}>adicionar</button>
                     </form>
                 </div>
                 {/*<fieldset><legend>Observação</legend>Observação</fieldset>*/}
@@ -322,7 +331,6 @@ export const Cadastro = ({children}) => {
                 <label>Descrição: </label>
                 <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao} onFocus={changeHandler} name="descricao" readOnly/>
                 </div>
-                <button type="submit"> enviar </button>
             </form>
             </C.Add>
             <C.Display>
@@ -376,7 +384,7 @@ export const Cadastro = ({children}) => {
                     </div>
                     <div>
                     <label>Total da Rotina: </label>
-                    <input/>
+                    <input value={totalVenda}/>
                     </div> 
                     <div>
                     <label>Desconto Total(R$): </label>
@@ -384,9 +392,9 @@ export const Cadastro = ({children}) => {
                     </div>
                 </form>
                 <div className="buttons">
-                    <button className="liberar"><img src="/images/salvar.png"/>Liberar</button>
+                    <button className="liberar" onClick={handleSubmit}><img src="/images/salvar.png"/>Liberar</button>
                     <button className="Excluir"><img src="/images/lixeira.png"/>Excluir</button>
-                    <button className="Voltar"><img src="/images/voltar.png"/>Voltar</button>
+                    <button className="Voltar" onClick={Voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
             {isModalPartner ? (

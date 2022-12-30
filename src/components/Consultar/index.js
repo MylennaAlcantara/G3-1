@@ -1,9 +1,37 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import * as C from "./consultar.js";
 
 
 export const Consultar = () => {
+    const [rotinas, setRotinas] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        async function fetchData(){
+            const response = await fetch('http://localhost:5000/rotinas');
+            const data = await response.json();
+            setRotinas(data);
+        }
+        fetchData();
+    },[])
+
+    const Selecionado = (id) => {
+        const newList = rotinas.filter((item) => item != id);
+        setRotinas(newList);
+    }
+
+    //Função dos botões
+    const Novo = () => {
+        navigate("/rotina")
+    }
+    const Abrir = () => {
+
+    }
+    const Fechar = () => {
+
+    }
+
     return(
         <C.Container>
             <C.Header>
@@ -59,9 +87,21 @@ export const Consultar = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>bla lba la</td>
-                        </tr>
+                        {rotinas.map((item)=>{
+                            return(
+                                <tr key={item.id} onClick={Selecionado.bind(this, item)}>
+                                    <td>{item.id}</td>
+                                    <td>30/12/2022</td>
+                                    <td>{item.emitente}</td>
+                                    <td>{item.parceiro}</td>
+                                    <td>Pendente</td>
+                                    <td>{item.valor_tot_rotina}</td>
+                                    <td>{item.top}</td>
+                                    <td></td>
+                                </tr> 
+                            )
+                        })}
+                        
                     </tbody>
                 </table>
             </C.Rotinas>
@@ -69,8 +109,8 @@ export const Consultar = () => {
                 <div>
                     <label>Para exibir atalhos pressione [Alt]</label>
                 </div>
-                <div>
-                    <button>Novo</button>
+                <div >
+                    <button onClick={Novo}>Novo</button>
                     <button>Abrir</button>
                     <button>Fechar</button>
                 </div>
