@@ -3,7 +3,6 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setSourceMapRange } from "typescript";
 import { AuthContext } from "../../contexts/Auth/authContext";
 import * as C from "./login.js";
 
@@ -62,7 +61,6 @@ export const Login = () => {
             var login = usuario.filter(user => user.name === email && user.status === password);
             login.forEach(user => { 
                 if(user.name===email && user.status === password){
-                        const user = {email, password};
                         navigate('/rotina');
                         localStorage.setItem('token', 123456);
                     }else{
@@ -116,26 +114,6 @@ export const Login = () => {
                     <button onClick={handleLogin}>entrar</button>
                 </form>
 
-                <table>
-                
-                <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Nome</th>
-                            <th>Fone</th>
-                        </tr>
-                    </thead><tbody>
-                        {usuario?.map( (item) => {
-                            return(
-                                <tr key={item.id}  >
-                                    <td>{item.name}</td>
-                                    <td>{item.status}</td>
-                                    <td>{item.id}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                    </table>
             </C.Acessar>
         </C.Container>
     )

@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useContext }  from 'react';
+import React, { useContext, useEffect }  from 'react';
 import { Cadastro } from './components/cadastro/index.js';
 import { Login } from './components/login/index.js';
 import { Route, Routes, useNavigate } from 'react-router-dom';
@@ -12,9 +12,9 @@ function App() {
   return (
     <div className="App">
           <Routes>
-            <Route path = "/" element = {<Login/>}/>
+            <Route path = "/" element = {<Login/>}/> 
             {token ? <Route path = "/rotina" element = {<Cadastro/>}/> : navigate('/')}
-            <Route path = "/consultar" element = {<Consultar/>}/>
+            {token ? <Route path = "/consultar" element = {<Consultar/>}/> : navigate('/')}
           </Routes>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Modal, Selected } from "../modal/index.js";
+import { Modal} from "../modal/index.js";
 import { Saler } from "../modal_vendedor/index.js";
 import "../modal/modal.js";
 import * as C from './cadastro.js';
@@ -214,16 +214,17 @@ export const Cadastro = ({children}) => {
         },[]);
 
         const navigate = useNavigate();
-    
-        const handleLogout = () => {
-            setToken();
-            localStorage.clear();
-        }
 
+
+        const HandleLogout = async () => {
+                setToken();
+                localStorage.clear();
+        }
+           
     return(
         
         <C.Container>
-            <nav><button onClick={handleLogout}>Sair</button></nav>
+            <Link to="/"><button onClick={HandleLogout}>Sair</button></Link>
             <C.Header>
             <Link to="/consultar"><button>Consultar</button></Link>
                 <button>Cadastrar</button>
