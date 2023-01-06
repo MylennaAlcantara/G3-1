@@ -41,14 +41,14 @@ export const Login = () => {
 
 
 
-       // const matricula = 'admin';
-       // const senha = '1f65e165335193ad6ee6635ae3f0f95a';
+        //const matricula = 'admin';
+        //const senha = '1f65e165335193ad6ee6635ae3f0f95a';
         const [usuario, setUsuario] = useState([]);
 
     const caracter = 'character';
         useEffect(() => {
             async function fetchData (){
-                const response = await fetch(`https://rickandmortyapi.com/api/${caracter}/`);
+                const response = await fetch(`https://rickandmortyapi.com/api/${caracter}/`);//http://10.0.1.31:8099/user/${matricula}/${senha}
                 const data = await response.json();
                 setUsuario(data.results);
                 
@@ -61,7 +61,7 @@ export const Login = () => {
             var login = usuario.filter(user => user.name === email && user.status === password);
             login.forEach(user => { 
                 if(user.name===email && user.status === password){
-                        navigate('/rotina');
+                        navigate('/consultar');
                         localStorage.setItem('token', 123456);
                     }else{
                     alert("Matricula e senha incorreta!");

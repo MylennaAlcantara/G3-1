@@ -16,10 +16,8 @@ export const Consultar = () => {
         fetchData();
     },[])
 
-    const Selecionado = (id) => {
-        const newList = rotinas.filter((item) => item != id);
-        setRotinas(newList);
-    }
+    //Filtro busca
+    
 
     //Função dos botões
     const Novo = () => {
@@ -89,7 +87,7 @@ export const Consultar = () => {
                     <tbody>
                         {rotinas.map((item)=>{
                             return(
-                                <tr key={item.id} onClick={Selecionado.bind(this, item)}>
+                                <tr key={item.id} >
                                     <td>{item.id}</td>
                                     <td>30/12/2022</td>
                                     <td>{item.emitente}</td>

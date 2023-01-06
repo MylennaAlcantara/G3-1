@@ -54,27 +54,28 @@ export const Rotinas = styled.div`
         border-collapse: collapse;
         width: 100%;
         border: 1px solid grey;
-        th{    
-            font-size: 15px;
-            font-weight: bold;
-            color: #373435;    
-            background-color: #ffffff;
-            border: 1px solid grey;
-        }
-        td{
-            border: 1px solid grey;
-        }
-        #table tr td{
-            cursor: pointer;
-        }
-        #table tr:hover td{
-            background-color: #87CEFA;
-        }
-        .ativo{
-            background-color: blue;
-            color: white;
-        }
     }
+    th{    
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;    
+        background-color: #ffffff;
+        border: 1px solid grey;
+    }
+    td{
+        border: 1px solid grey;
+    }
+    #table tr td{
+        cursor: pointer;
+    }
+    #table tr:hover td{
+        background-color: #87CEFA;
+    }
+    .ativo{
+        background-color: blue;
+        color: white;
+    }
+    
 `;
 
 export const Footer = styled.div`

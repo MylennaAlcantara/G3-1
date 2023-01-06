@@ -10,12 +10,11 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelect
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch ("http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50");
+            const response = await fetch ("http://localhost:8092/produtos/general/company/3/payment/1?size=1000");//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
             const data = await response.json();
             setItens(data.content);
         }
         fetchData();
-        
     }, []);
 
     const SelectedItem = (item) => {

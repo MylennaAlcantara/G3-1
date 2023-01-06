@@ -230,6 +230,11 @@ export const Cadastro = ({children}) => {
                 setToken();
                 localStorage.clear();
         }
+
+        const Selecionado = (id) => {
+            const newList = listItens.filter((item) => item != id);
+            setListItens(newList);
+        }
            
     return(
         
@@ -351,7 +356,7 @@ export const Cadastro = ({children}) => {
                     <tbody>
                         {listItens.map((list, index) => {
                             return(
-                                <tr key={index}>
+                                <tr key={index} onClick={Selecionado.bind(this, list)}>
                                     <td>{index}</td>
                                     <td>{list.cod}</td>
                                     <td>{list.ean}</td>
