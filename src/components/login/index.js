@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext";
 import * as C from "./login.js";
+import md5 from "md5";
 
 export const Login = () => {
             
@@ -39,18 +40,16 @@ export const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-
-
-        //const matricula = 'admin';
-        //const senha = '1f65e165335193ad6ee6635ae3f0f95a';
+        const matricula = 'admin';
+        const senha = '1f65e165335193ad6ee6635ae3f0f95a';
         const [usuario, setUsuario] = useState([]);
 
     const caracter = 'character';
         useEffect(() => {
             async function fetchData (){
-                const response = await fetch(`https://rickandmortyapi.com/api/${caracter}/`);//http://10.0.1.31:8099/user/${matricula}/${senha}
+                const response = await fetch(`http://10.0.1.99:8099/user/all`);//https://rickandmortyapi.com/api/${caracter}/
                 const data = await response.json();
-                setUsuario(data.results);
+                setUsuario(data);
                 
             }
                 fetchData();
@@ -58,9 +57,10 @@ export const Login = () => {
 
     const handleLogin = async () => {
         if(email && password){
-            var login = usuario.filter(user => user.name === email && user.status === password);
+            md5(password);
+            var login = usuario.filter(user => user.matricula === email && user.senha === password);
             login.forEach(user => { 
-                if(user.name===email && user.status === password){
+                if(user.matricula===email && user.senha === password){
                         navigate('/consultar');
                         localStorage.setItem('token', 123456);
                     }else{
