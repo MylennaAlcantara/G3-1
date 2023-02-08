@@ -48,9 +48,9 @@ export const Login = () => {
     const caracter = 'character';
         useEffect(() => {
             async function fetchData (){
-                const response = await fetch(`https://rickandmortyapi.com/api/${caracter}/`);//http://10.0.1.31:8099/user/${matricula}/${senha}
+                const response = await fetch(`http://10.0.1.10:8099/user/all`);//https://rickandmortyapi.com/api/${caracter}/
                 const data = await response.json();
-                setUsuario(data.results);
+                setUsuario(data);
                 
             }
                 fetchData();
@@ -58,9 +58,9 @@ export const Login = () => {
 
     const handleLogin = async () => {
         if(email && password){
-            var login = usuario.filter(user => user.name === email && user.status === password);
+            var login = usuario.filter(user => user.matricula === email && user.senha === password);
             login.forEach(user => { 
-                if(user.name===email && user.status === password){
+                if(user.matricula===email && user.senha === password){
                         navigate('/consultar');
                         localStorage.setItem('token', 123456);
                     }else{

@@ -10,7 +10,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelect
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch ("http://localhost:8092/produtos/general/company/3/payment/1?size=1000");//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
+            const response = await fetch ("http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50");//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
             const data = await response.json();
             setItens(data.content);
         }
@@ -19,14 +19,20 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelect
 
     const SelectedItem = (item) => {
         setDataSelectItem({
-            cod: item.id, 
-            descricao: item.descricaoPdv,
-            ean: item.gtin,
-            unidade_produto_nome: item.unidade_produto_nome,
-            valorUnit: item.valor_venda,
+            id_produto: item.id,
+            gtin_produto: item.gtin,
+            valor_unitario: item.valor_venda,
+            descricao_produto: item.descricaoPdv,
+            unidade_produto: item.unidade_produto_nome,
+            valor_icms_st: 0,
+            acrescimo: 0,
+            desconto: 0,
+            ncm: item.ncm,
+            ncmEx: item.ncmex,
+            subtotal: item.subtotal
         });
             onClose();
-        };
+    };
 
 
     return (

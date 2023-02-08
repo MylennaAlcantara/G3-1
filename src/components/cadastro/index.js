@@ -9,6 +9,7 @@ import { Top } from "../modal_top/index.js";
 import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
 import { Link, useNavigate } from "react-router-dom";
+import { data } from "jquery";
 
 
 
@@ -30,11 +31,10 @@ export const Cadastro = ({children}) => {
     const [dataSelectSaler, setDataSelectSaler] = useState('');
     const [dataSelectPgt, setDataSelectPgt] = useState('');
     const [dataSelectItem, setDataSelectItem] = useState({
-        cod: '', 
-        quantidade: '',
-        valorUnit: '',
-        Total: '',
-        descricao: '',
+        id: '',
+        gtin: '',
+        valor_venda: '',
+        descricaoPdv: '',
         unidade_produto_nome: '',
     });
     
@@ -47,6 +47,7 @@ export const Cadastro = ({children}) => {
 
     //Atualização da lista de itens
     const [listItens, setListItens] = useState([]);
+    console.log(listItens);
     
     const changeHandler = e => {
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value});
@@ -69,9 +70,7 @@ export const Cadastro = ({children}) => {
     const [desconto, setDesconto] = useState();
     const [acrescimo, setAcrescimo] = useState();
 
-     const totalVenda = listItens.reduce((a,b) => a + b.total, 0);   
-
-        console.log(totalVenda)
+     const totalVenda = listItens.reduce((a,b) => parseFloat(a) + parseFloat(b.valor_total), 0);   
 
 
     // Funções para abrir o modal de cada campo apertando F2
@@ -173,41 +172,57 @@ export const Cadastro = ({children}) => {
         }
     }
 
+    const [dataEmissao, setDataEmissao] = useState('');
+    const [horaEmissao, setHoraEmissao] = useState('');
+
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth()+ 1).padStart(2, '0') ;
+    const ano = data.getFullYear();
+    const dataAtual = ano + '-' + mes + '-' + dia;
+
+    const hora = data.getHours();
+    const minuto = data.getMinutes();
+    const segundo = data.getSeconds();
+    const horaAtual = hora + ':' + minuto + ':' + segundo;
 
     //envio para a api das informações armazenadas
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setDataEmissao(dataAtual);
+        setHoraEmissao(horaAtual);
         try{
-            const res = await fetch("http://localhost:5000/rotinas", {
+            const res = await fetch("http://10.0.1.94:8091/preVenda", { //http://10.0.1.10:8091/preVenda
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
-                    cod_emitente: dataIdSelectEmitente,
-                    emitente: dataSelectEmitente,
-                    cod_top: dataIdSelectTop,
-                    top: dataSelectTop,
-                    cod_vendedor: dataIdSelectSaler,
-                    vendedor: dataSelectSaler,
-                    cod_parceiro: dataIdSelectPartner,
-                    parceiro: dataSelectPartner,
-                    cod_pgto: dataIdSelectPgt,
-                    pgto: dataSelectPgt,
-                    cod_item: dataSelectItem.cod,
-                    quantidade: numero1,
-                    valor_unit: dataSelectItem.valorUnit,
-                    valor_tot_item: total,
-                    descricao_item: dataSelectItem.descricao,
-                    valor_tot_rotina: totalVenda,
+                    id_empresa: dataIdSelectEmitente,
+                    id_top: dataIdSelectTop,
+                    id_cliente: dataIdSelectPartner,
+                    nome_cliente: dataSelectPartner,
+                    id_funcionario: dataIdSelectSaler,
+                    id_tipo_pagamento: dataIdSelectPgt,
+                    situacao: 'P',
+                    desconto: '',
+                    dataEmissao: dataEmissao,
+                    hora_emissao: horaEmissao,
+                    total: totalVenda,
+                    subtotal: totalVenda,
+                    valor_extenso: '',
+                    observacao_pre_venda: '',
+                    tipo_venda: 'V',
+                    venda_externa: false,
+                        pre_venda_detalhe: listItens
                 }),
             });
-            const resJson = await res.json();
-            if(res.status === 200){
-                setDataIdSelectPartner('');
+            if(res.status === 201){
+                alert('salvo com sucesso');
+                navigate('/consultar');
             }
         }catch(err){
             console.log(err);
         }
-        navigate('/consultar');
+        
     }
 
     const Voltar = () => {
@@ -273,7 +288,7 @@ export const Cadastro = ({children}) => {
                     <form action="POST" id="information" className="information" onSubmit={handleSubmit}>
                         <div>
                         <label>Emitente: </label>
-                        <input name="cod_emitente" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} value={dataIdSelectEmitente}/>                    
+                        <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} value={dataIdSelectEmitente}/>                    
                         <input name="emitente" className="option" value={dataSelectEmitente}/>
                         </div>
                         <div>
@@ -312,7 +327,7 @@ export const Cadastro = ({children}) => {
             <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]);}} >
                 <div>
                 <label>Código: </label>
-                <input onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.cod} name="cod" onBlur={changeHandler} />
+                <input onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.id_produto} name="id_produto" onBlur={changeHandler} />
                 </div>
                 <div>
                 <label>Quantidade: </label>
@@ -320,7 +335,7 @@ export const Cadastro = ({children}) => {
                 </div>
                 <div>
                 <label>Valor Unitário: </label>
-                <input className="add-item" value={dataSelectItem.valorUnit} name="valorUnit" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} onKeyDown={NextAddItem} type="text" id="valorUnit"/>
+                <input className="add-item" value={dataSelectItem.valor_unitario} name="valor_unitario" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} onKeyDown={NextAddItem} type="text" id="valorUnit"/>
                 <datalist></datalist>
                 </div>
                 <div>
@@ -329,13 +344,14 @@ export const Cadastro = ({children}) => {
                 </div>
                 <div>
                 <label>Total do item: </label>
-                <input type="text" name="Total" id="Total" value={total} onFocus={changeHandler} onKeyDown={NextDescrição} />
+                <input type="text" name="valor_total" id="Total" value={total} onFocus={changeHandler} onKeyDown={NextDescrição} />
                 <br/>
                 </div>
                 <div className="div-descrição">
                 <label>Descrição: </label>
-                <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao} onFocus={changeHandler} name="descricao" readOnly/>
+                <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao_produto} onFocus={changeHandler} name="descricao_produto" readOnly/>
                 </div>
+                <button>add</button>
             </form>
             </C.Add>
             <C.Display>
@@ -356,16 +372,17 @@ export const Cadastro = ({children}) => {
                     <tbody>
                         {listItens.map((list, index) => {
                             return(
-                                <tr key={index} onClick={Selecionado.bind(this, list)}>
-                                    <td>{index}</td>
-                                    <td>{list.cod}</td>
-                                    <td>{list.ean}</td>
-                                    <td>{list.descricao}</td>
-                                    <td>{list.unidade_produto_nome}</td>
+                                <tr key={index}>
+                                    <td>{index+1}</td>
+                                    <td>{list.id_produto}</td>
+                                    <td>{list.gtin_produto}</td>
+                                    <td>{list.descricao_produto}</td>
+                                    <td>{list.unidade_produto}</td>
                                     <td>{list.quantidade}</td>
-                                    <td>{list.valorUnit}</td>
-                                    <td>{list.Total}</td>
-                                    <td></td>
+                                    <td>{list.valor_unitario}</td>
+                                    <td>{list.valor_total}</td>
+                                    <td>{list.valor_total}</td>
+                                    <img src="/images/lixeira.png" className="button-excluir" onClick={Selecionado.bind(this, list)}/>
                                 </tr>
                             )
                             })}                         
@@ -385,7 +402,7 @@ export const Cadastro = ({children}) => {
                     <label className="total-itens"></label>
                     <div>
                     <label>Subtotal da Rotina: </label>
-                    <input/>
+                    <input value={totalVenda}/>
                     </div>
                     <div>
                     <label>Total da Rotina: </label>

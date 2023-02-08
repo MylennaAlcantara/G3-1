@@ -302,6 +302,16 @@ export const Display = styled.div`
         flex-grow: 1;
         border: solid 1px gray;
     }
+    .button-excluir{
+        height: 20px;
+        width: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+   }
+   .button-excluir:hover{
+    cursor: pointer;
+}
 
     @media (max-width: 425px){
         height: 20%;

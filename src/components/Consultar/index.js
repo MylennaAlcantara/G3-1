@@ -9,18 +9,19 @@ export const Consultar = () => {
 
     useEffect(()=>{
         async function fetchData(){
-            const response = await fetch('http://localhost:5000/rotinas');
+            const response = await fetch('http://10.0.1.10:8091/preVenda/ofMonth'); // api POST e PUT -> http://10.0.1.10:8091/preVenda  minha Api fake -> http://localhost:5000/rotinas
             const data = await response.json();
             setRotinas(data);
         }
         fetchData();
     },[])
+    console.log(rotinas);
 
     //Filtro busca
     const [busca, setBusca] = useState('');
+    const [cliente, setCliente] = useState(false);
 
-const resultado = rotinas.filter((rotina) => rotina.parceiro.toLowerCase().includes(busca));
-
+    const resultado = Array.isArray(rotinas) && rotinas.filter((rotina) => rotina.nome_cliente.toLowerCase().includes(busca));
 
     //Função dos botões
     const Novo = () => {
@@ -53,7 +54,7 @@ const resultado = rotinas.filter((rotina) => rotina.parceiro.toLowerCase().inclu
                         <label>Vendedor</label>
                     </div>
                     <select>
-                        <option value="1">1 -RAYANE SUPERMECADOS</option>
+                        <option value="1">1 -RAYANE SUPERMERCADOS</option>
                     </select>
                     <input className="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)}/>
                     <div>
@@ -84,7 +85,6 @@ const resultado = rotinas.filter((rotina) => rotina.parceiro.toLowerCase().inclu
                             <th>Situação</th>
                             <th>Valor</th>
                             <th>TOP</th>
-                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,13 +92,12 @@ const resultado = rotinas.filter((rotina) => rotina.parceiro.toLowerCase().inclu
                             return(
                                 <tr key={item.id} >
                                     <td>{item.id}</td>
-                                    <td>30/12/2022</td>
-                                    <td>{item.emitente}</td>
-                                    <td>{item.parceiro}</td>
-                                    <td>Pendente</td>
-                                    <td>{item.valor_tot_rotina}</td>
-                                    <td>{item.top}</td>
-                                    <td></td>
+                                    <td>{item.dataEmissao}</td>
+                                    <td>{item.id_empresa}</td>
+                                    <td>{item.nome_cliente}</td>
+                                    <td>{item.situacao}</td>
+                                    <td>{item.total}</td>
+                                    <td>{item.id_top}</td>
                                 </tr> 
                             )
                         })}
