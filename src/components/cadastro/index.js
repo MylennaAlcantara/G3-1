@@ -9,13 +9,12 @@ import { Top } from "../modal_top/index.js";
 import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
 import { Link, useNavigate } from "react-router-dom";
-import { data } from "jquery";
 
 
 
 
 export const Cadastro = ({children}) => {
-
+    const [subtotal, setSubtotal] = useState('');
     /*Estado dos Modais */
     const [isModalPartner, setIsModalPartner] = useState(false);
     const [isModalSaler, setIsModalSaler] = useState(false);
@@ -36,7 +35,9 @@ export const Cadastro = ({children}) => {
         valor_venda: '',
         descricaoPdv: '',
         unidade_produto_nome: '',
+        subtotal: ''
     });
+    
     
     /*Estado do id dos elementos selecionados no modal */
     const [dataIdSelectPartner, setDataIdSelectPartner] = useState('');
@@ -48,9 +49,11 @@ export const Cadastro = ({children}) => {
     //Atualização da lista de itens
     const [listItens, setListItens] = useState([]);
     console.log(listItens);
-    
+
+    const [counter, setCounter] = useState(0);
+    console.log(counter);
     const changeHandler = e => {
-        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value});
+        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter+1});
     }
  
     // Calcular o valor de quantidade vezes o valor para o total 
@@ -171,6 +174,12 @@ export const Cadastro = ({children}) => {
             document.getElementById('pgto').focus();
         }
     }
+    function NextSubtotal (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('subtotal').focus();
+        }
+    }
 
     const [dataEmissao, setDataEmissao] = useState('');
     const [horaEmissao, setHoraEmissao] = useState('');
@@ -185,6 +194,10 @@ export const Cadastro = ({children}) => {
     const minuto = data.getMinutes();
     const segundo = data.getSeconds();
     const horaAtual = hora + ':' + minuto + ':' + segundo;
+
+
+    //console.log(dataEmissao);
+    //console.log(horaEmissao);
 
     //envio para a api das informações armazenadas
     const handleSubmit = async (e) => {
@@ -212,7 +225,7 @@ export const Cadastro = ({children}) => {
                     observacao_pre_venda: '',
                     tipo_venda: 'V',
                     venda_externa: false,
-                        pre_venda_detalhe: listItens
+                        pre_venda_detalhe: listItens,
                 }),
             });
             if(res.status === 201){
@@ -288,12 +301,12 @@ export const Cadastro = ({children}) => {
                     <form action="POST" id="information" className="information" onSubmit={handleSubmit}>
                         <div>
                         <label>Emitente: </label>
-                        <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} value={dataIdSelectEmitente}/>                    
+                        <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} value={dataIdSelectEmitente} required/>                    
                         <input name="emitente" className="option" value={dataSelectEmitente}/>
                         </div>
                         <div>
                         <label>T.O.P: </label>
-                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataIdSelectTop}/>
+                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataIdSelectTop} required/>
                         <input name="top" className="option" value={dataSelectTop}/>
                         </div>
                         <div>
@@ -321,10 +334,10 @@ export const Cadastro = ({children}) => {
             </C.Info>
                 
             <C.Header>
-                <button>Produtos</button><button>Financeiro</button>
+                <label>Produtos</label>
             </C.Header>
             <C.Add>
-            <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]);}} >
+            <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]); setCounter(prevCounter => prevCounter + 1);}} >
                 <div>
                 <label>Código: </label>
                 <input onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.id_produto} name="id_produto" onBlur={changeHandler} />
@@ -344,10 +357,12 @@ export const Cadastro = ({children}) => {
                 </div>
                 <div>
                 <label>Total do item: </label>
-                <input type="text" name="valor_total" id="Total" value={total} onFocus={changeHandler} onKeyDown={NextDescrição} />
+                <input type="text" name="valor_total" id="Total" value={total} onFocus={changeHandler} onKeyDown={NextSubtotal}  />
+                <label>Subtotal</label>
+                <input name='subtotal' id="subtotal" value={total} onFocus={changeHandler} onKeyDown={NextDescrição}/>
                 <br/>
                 </div>
-                <div className="div-descrição">
+                <div className="div-descrição" >
                 <label>Descrição: </label>
                 <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao_produto} onFocus={changeHandler} name="descricao_produto" readOnly/>
                 </div>
@@ -381,7 +396,7 @@ export const Cadastro = ({children}) => {
                                     <td>{list.quantidade}</td>
                                     <td>{list.valor_unitario}</td>
                                     <td>{list.valor_total}</td>
-                                    <td>{list.valor_total}</td>
+                                    <td>{list.subtotal}</td>
                                     <img src="/images/lixeira.png" className="button-excluir" onClick={Selecionado.bind(this, list)}/>
                                 </tr>
                             )
@@ -435,7 +450,7 @@ export const Cadastro = ({children}) => {
                 <Pgt onClose = {() => setIsModalPgt(false)} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem}  />
+                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem}/>
             ) : null}
         </C.Container>   
     );

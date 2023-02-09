@@ -14,7 +14,7 @@ export const Login = () => {
     const delay = 3500;
     const timeoutRef = useRef(null);
 
-    const auth = useContext(AuthContext);
+    //const auth = useContext(AuthContext);
     const navigate = useNavigate();
 
     function resetTimeout(){
@@ -40,14 +40,14 @@ export const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-        const matricula = 'admin';
-        const senha = '1f65e165335193ad6ee6635ae3f0f95a';
+        //const matricula = 'admin';
+        //const senha = '1f65e165335193ad6ee6635ae3f0f95a';
         const [usuario, setUsuario] = useState([]);
 
     const caracter = 'character';
         useEffect(() => {
             async function fetchData (){
-                const response = await fetch(`http://10.0.1.99:8099/user/all`);//https://rickandmortyapi.com/api/${caracter}/
+                const response = await fetch(`http://10.0.1.10:8099/user/all`);//https://rickandmortyapi.com/api/${caracter}/
                 const data = await response.json();
                 setUsuario(data);
                 

@@ -10,7 +10,7 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.99:8099/user/all");
+            const response = await fetch("http://10.0.1.10:8099/user/all");
             const data = await response.json();
             setUsers(data);
         }

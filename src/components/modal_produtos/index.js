@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Header, Modal} from "./../modal/modal.js";
 import * as C from "./produtos.js";
 
-export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelectItem, setValorItem, setUnidItem, setEanItem}) => {
+export const Produtos = ({onClose = () => {}, setDataSelectItem}) => {
 
     const [itens, setItens] = useState([]);
-    const [selectItem, setSelectItem] = useState();
-    const [selectIdItem, setSelectIdItem] = useState();
 
     useEffect(() => {
         async function fetchData (){
@@ -29,7 +27,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, setDataIdSelect
             desconto: 0,
             ncm: item.ncm,
             ncmEx: item.ncmex,
-            subtotal: item.subtotal
+            subtotal: ''
         });
             onClose();
     };
