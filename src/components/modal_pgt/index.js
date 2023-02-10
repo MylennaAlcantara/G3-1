@@ -10,7 +10,7 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) =
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.10:8099/clientes");
+            const response = await fetch("http://10.0.1.94:8092/tipoPagamento/all");
             const data = await response.json();
             setUsers(data);
         }
@@ -18,9 +18,9 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) =
     }, []);
 
     const SelectedPgt = (user) => {
-        setSelectPgt(user.estado);
+        setSelectPgt(user.descricao);
         setSelectIdPgt(user.id);
-        setDataSelectPgt(user.estado);
+        setDataSelectPgt(user.descricao);
         setDataIdSelectPgt(user.id);
         onClose();
     };
@@ -52,9 +52,9 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) =
                             return(
                                 <tr key={user.id} onClick={SelectedPgt.bind(this, user)} >
                                     <td>{user.id}</td>
-                                    <td>{user.estado}</td>
-                                    <td>{user.estado}</td>
-                                    <td>{user.estado}</td>
+                                    <td>Sim</td>
+                                    <td>{user.descricao}</td>
+                                    <td></td>
                                 </tr>
                             );
                         })}

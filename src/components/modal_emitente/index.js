@@ -10,7 +10,7 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.10:8099/clientes");
+            const response = await fetch("http://10.0.1.94:8092/emitente/all");
             const data = await response.json();
             setUsers(data);
         }
@@ -18,9 +18,9 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
     }, []);
 
     const SelectedEmitente = (user) => {
-        setSelectEmitente(user.nome);
+        setSelectEmitente(user.razao_social);
         setSelectIdEmitente(user.id);
-        setDataSelectEmitente(user.nome);
+        setDataSelectEmitente(user.razao_social);
         setDataIdSelectEmitente(user.id);
         onClose();
         
@@ -67,10 +67,10 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
                             return(
                                 <tr key={user.id} onClick={SelectedEmitente.bind(this, user)}>
                                     <td>{user.id}</td>
-                                    <td>{user.nome}</td>
-                                    <td>{user.nome}</td>
-                                    <td>{user.nome}</td>
-                                    <td>{user.nome}</td>
+                                    <td>{user.nome_fantasia}</td>
+                                    <td>{user.razao_social}</td>
+                                    <td>{user.cnpj}</td>
+                                    <td>{user.municipio}</td>
                                 </tr>
                             );
                         })}

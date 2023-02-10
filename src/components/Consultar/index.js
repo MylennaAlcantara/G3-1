@@ -9,7 +9,7 @@ export const Consultar = () => {
 
     useEffect(()=>{
         async function fetchData(){
-            const response = await fetch('http://10.0.1.10:8091/preVenda/ofMonth'); // api POST e PUT -> http://10.0.1.10:8091/preVenda  minha Api fake -> http://localhost:5000/rotinas
+            const response = await fetch('http://10.0.1.94:8091/preVenda/ofMonth'); // api POST e PUT -> http://10.0.1.10:8091/preVenda  minha Api fake -> http://localhost:5000/rotinas
             const data = await response.json();
             setRotinas(data);
         }
@@ -68,11 +68,6 @@ export const Consultar = () => {
                         </select>
                     </div>
                     <div className="line"/>
-                    <div>
-                        <input type="number" />
-                        <label>So as minhas</label>
-                        <input type="checkbox" />
-                    </div>
             </C.Filtro>
             <C.Rotinas>
                 <table id="table">

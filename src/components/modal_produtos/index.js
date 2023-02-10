@@ -2,19 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Header, Modal} from "./../modal/modal.js";
 import * as C from "./produtos.js";
 
-export const Produtos = ({onClose = () => {}, setDataSelectItem}) => {
+export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmitente, dataIdSelectPgt}) => {
 
     const [itens, setItens] = useState([]);
+    const [busca, setBusca] = useState('');
+    const [infoItem, setInfoItem] = useState([]);
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch ("http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50");//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
+            const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
             const data = await response.json();
             setItens(data.content);
         }
         fetchData();
     }, []);
 
+    // Função para pegar as informações do produto selecionado com dois clicks
     const SelectedItem = (item) => {
         setDataSelectItem({
             id_produto: item.id,
@@ -32,6 +35,35 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem}) => {
             onClose();
     };
 
+    const EstoqueTrib = (item) =>{
+        setInfoItem({
+            qtd_estoque: item.qtd_estoque
+        })
+    }
+
+    //Filtro campo de busca de acordo com codigo ou descrição
+
+    const resultado = Array.isArray(itens) && itens.filter((item) => item.gtin.toLowerCase().includes(busca));
+    const resultado2 = Array.isArray(itens) && itens.filter((item) => item.descricaoPdv.toLowerCase().includes(busca));
+    
+    const [filtroEscolhido, setFiltroEscolhido] = useState('C');
+
+    const select = document.getElementById('opções');
+
+    function FiltroCod(){
+        if(select.value === '1'){
+            setFiltroEscolhido('C');
+        }else if(select.value === '2'){
+            setFiltroEscolhido('D');
+        }
+    }
+        
+    
+        
+
+
+
+    console.log(filtroEscolhido)
 
     return (
         <Modal>
@@ -43,12 +75,12 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem}) => {
                 <C.Filtro>
                     <div>
                         <label>Pesquisar</label>
-                        <select>
-                            <option value="1">Código</option>
-                            <option value="2">Descrição</option>
+                        <select id="opções" onChange={FiltroCod}>
+                            <option id="codigo" value="1" >Código</option>
+                            <option id="descricao" value="2" >Descrição</option>
                         </select>
                     </div>
-                    <input className="search" placeholder="Buscar" />
+                    <input className="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)}/>
                     <div>
                         <label>Fornecedor</label>
                         <input />
@@ -76,18 +108,35 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem}) => {
                         </tr>
                     </thead>
                     <tbody>
-                    {itens.slice(0, 8).map( (item) => {
-                        return(
-                            <tr key={item.id} onClick={SelectedItem.bind(this, item)} >
-                                <td>{item.id}</td>
-                                <td>{item.referencia}</td>
-                                <td>{item.gtin}</td>
-                                <td>{item.descricaoPdv}</td>
-                                <td>{item.qtd_estoque}</td>
-                                <td></td>                                    
-                            </tr>
-                        );
-                    })}                                                      
+                        { filtroEscolhido==='C' ?(
+                        resultado.slice(0, 8).map( (item) => {
+                            return(
+                                <tr key={item.id} onClick={EstoqueTrib.bind(this, item)} onDoubleClick={SelectedItem.bind(this, item)} >
+                                    <td>{item.id}</td>
+                                    <td>{item.referencia}</td>
+                                    <td>{item.gtin}</td>
+                                    <td>{item.descricaoPdv}</td>
+                                    <td>{item.qtd_estoque}</td>
+                                    <td></td>                                    
+                                </tr>
+                            );
+                        })) :(
+                            resultado2.slice(0, 8).map( (item) => {
+                                return(
+                                    <tr key={item.id} onClick={EstoqueTrib.bind(this, item)} onDoubleClick={SelectedItem.bind(this, item)} >
+                                        <td>{item.id}</td>
+                                        <td>{item.referencia}</td>
+                                        <td>{item.gtin}</td>
+                                        <td>{item.descricaoPdv}</td>
+                                        <td>{item.qtd_estoque}</td>
+                                        <td></td>                                    
+                                    </tr>
+                                );
+                            })
+                        )
+                        }
+                   
+                                                                        
                     </tbody>
                 </table>
                 </C.ListItens>
@@ -162,17 +211,17 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem}) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
+                                <tr >
+                                    <td>{dataIdSelectEmitente}</td>
+                                    <td>{infoItem.qtd_estoque}</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>{infoItem.qtd_estoque}</td>
                                 </tr>
                             </tbody>
                         </table>
-                        <label>Estoque Disp. Total: </label>
-                        <input className="estoque-tot"/>
+                        <label>Estoque Disp. Total:  </label>
+                        <input className="estoque-tot" value={infoItem.qtd_estoque}/>
                     </C.Estoque>
                 </C.Valores>
                 <C.Footer>

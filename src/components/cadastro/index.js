@@ -13,8 +13,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 
-export const Cadastro = ({children}) => {
-    const [subtotal, setSubtotal] = useState('');
+export const Cadastro = () => {
+    const navigate = useNavigate();
     /*Estado dos Modais */
     const [isModalPartner, setIsModalPartner] = useState(false);
     const [isModalSaler, setIsModalSaler] = useState(false);
@@ -83,8 +83,10 @@ export const Cadastro = ({children}) => {
         }    
     }
     function keyProduto(event){
-        if( event.keyCode === 113){
+        if( event.keyCode === 113 && document.getElementById('emitente').value != '' && document.getElementById('pgto').value != ''){
             setIsModalProdutos(true);
+        }else{
+            alert("Preencha os campos de Emitente e Tipo de pagamento!")
         }
     }
     function keyTop(event){
@@ -181,6 +183,7 @@ export const Cadastro = ({children}) => {
         }
     }
 
+    //Pegar hora do computador
     const [dataEmissao, setDataEmissao] = useState('');
     const [horaEmissao, setHoraEmissao] = useState('');
 
@@ -188,24 +191,40 @@ export const Cadastro = ({children}) => {
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth()+ 1).padStart(2, '0') ;
     const ano = data.getFullYear();
-    const dataAtual = ano + '-' + mes + '-' + dia;
+    const dataAtual = String(ano + '-' + mes + '-' + dia);
 
     const hora = data.getHours();
     const minuto = data.getMinutes();
     const segundo = data.getSeconds();
-    const horaAtual = hora + ':' + minuto + ':' + segundo;
+    const horaAtual = String(hora + ':' + minuto + ':' + segundo);
+
+    useEffect(()=>{
+        async function setarHoraData(){
+            setDataEmissao(String(dataAtual));
+            setHoraEmissao(String(horaAtual));
+        } 
+        setarHoraData();
+    },[])
 
 
-    //console.log(dataEmissao);
-    //console.log(horaEmissao);
+    //Checar varejo ou atacado
+    const [tipoVenda, setTipoVenda] = useState('V');
+
+    const validarTipoVenda = () => {
+        if(document.getElementById('varejo').value === 'varejo'){
+            setTipoVenda('V');
+        }
+    }
+    const validarTipoVenda2 = () => {
+        if(document.getElementById('atacado').value === 'atacado'){
+            setTipoVenda('A');
+        }
+    }
 
     //envio para a api das informações armazenadas
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setDataEmissao(dataAtual);
-        setHoraEmissao(horaAtual);
-        
-        if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && document.getElementById('produto').value){
+        if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && document.getElementById('produto').value ){
             try{
                 const res = await fetch("http://10.0.1.94:8091/preVenda", { //http://10.0.1.10:8091/preVenda
                     method: "POST",
@@ -219,13 +238,13 @@ export const Cadastro = ({children}) => {
                         id_tipo_pagamento: dataIdSelectPgt,
                         situacao: 'P',
                         desconto: '',
-                        dataEmissao: dataEmissao,
-                        hora_emissao: horaEmissao,
+                        dataEmissao: String(dataEmissao),
+                        hora_emissao: String(horaEmissao),
                         total: totalVenda,
                         subtotal: totalVenda,
                         valor_extenso: '',
                         observacao_pre_venda: '',
-                        tipo_venda: 'V',
+                        tipo_venda: tipoVenda,
                         venda_externa: false,
                             pre_venda_detalhe: listItens,
                     }),
@@ -237,9 +256,8 @@ export const Cadastro = ({children}) => {
             }catch(err){
                 console.log(err);
             }
-        }
-        e.preventDefault();
-        alert('Preencha todos os campos!');
+        }else{ alert('Preencha todos os campos!');}
+       
         
     }
 
@@ -256,7 +274,7 @@ export const Cadastro = ({children}) => {
             }
         },[]);
 
-        const navigate = useNavigate();
+
 
 
         const HandleLogout = async () => {
@@ -285,14 +303,14 @@ export const Cadastro = ({children}) => {
                             <input className="cod"></input>
                         </div>
                         <div id="checkbox">
-                            <div>
+                            <form>
                                 <div id="line"></div>
-                                <input type="radio" className="radio" name="Atacado"></input>
+                                <input type="radio" id="atacado" className="radio" name="radio" value='atacado' onFocus={validarTipoVenda2}></input>
                                 <label>Atacado</label>
-                                <input type="radio" className="radio" name="Varejo"></input>
+                                <input type="radio" id="varejo" className="radio" name="radio" value='varejo' onFocus={validarTipoVenda} checked></input>
                                 <label>Varejo</label>
                                 <div id="line"></div>
-                            </div>
+                            </form>
                             <div className="checkbox">
                                 <input type="checkbox" className="checkbox-box"/>
                                 <label>Aprovado</label>
@@ -455,7 +473,7 @@ export const Cadastro = ({children}) => {
                 <Pgt onClose = {() => setIsModalPgt(false)} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem}/>
+                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt}/>
             ) : null}
         </C.Container>   
     );
