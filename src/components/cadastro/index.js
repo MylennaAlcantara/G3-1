@@ -57,7 +57,7 @@ export const Cadastro = ({children}) => {
     }
  
     // Calcular o valor de quantidade vezes o valor para o total 
-    const [numero1, setNumero1] = useState(0);
+    const [numero1, setNumero1] = useState(1);
     const [numero2, setNumero2] = useState(0);
     const [total, setTotal] = useState(0);
 
@@ -204,37 +204,42 @@ export const Cadastro = ({children}) => {
         e.preventDefault();
         setDataEmissao(dataAtual);
         setHoraEmissao(horaAtual);
-        try{
-            const res = await fetch("http://10.0.1.94:8091/preVenda", { //http://10.0.1.10:8091/preVenda
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    id_empresa: dataIdSelectEmitente,
-                    id_top: dataIdSelectTop,
-                    id_cliente: dataIdSelectPartner,
-                    nome_cliente: dataSelectPartner,
-                    id_funcionario: dataIdSelectSaler,
-                    id_tipo_pagamento: dataIdSelectPgt,
-                    situacao: 'P',
-                    desconto: '',
-                    dataEmissao: dataEmissao,
-                    hora_emissao: horaEmissao,
-                    total: totalVenda,
-                    subtotal: totalVenda,
-                    valor_extenso: '',
-                    observacao_pre_venda: '',
-                    tipo_venda: 'V',
-                    venda_externa: false,
-                        pre_venda_detalhe: listItens,
-                }),
-            });
-            if(res.status === 201){
-                alert('salvo com sucesso');
-                navigate('/consultar');
+        
+        if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && document.getElementById('produto').value){
+            try{
+                const res = await fetch("http://10.0.1.94:8091/preVenda", { //http://10.0.1.10:8091/preVenda
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        id_empresa: dataIdSelectEmitente,
+                        id_top: dataIdSelectTop,
+                        id_cliente: dataIdSelectPartner,
+                        nome_cliente: dataSelectPartner,
+                        id_funcionario: dataIdSelectSaler,
+                        id_tipo_pagamento: dataIdSelectPgt,
+                        situacao: 'P',
+                        desconto: '',
+                        dataEmissao: dataEmissao,
+                        hora_emissao: horaEmissao,
+                        total: totalVenda,
+                        subtotal: totalVenda,
+                        valor_extenso: '',
+                        observacao_pre_venda: '',
+                        tipo_venda: 'V',
+                        venda_externa: false,
+                            pre_venda_detalhe: listItens,
+                    }),
+                });
+                if(res.status === 201){
+                    alert('salvo com sucesso');
+                    navigate('/consultar');
+                }
+            }catch(err){
+                console.log(err);
             }
-        }catch(err){
-            console.log(err);
         }
+        e.preventDefault();
+        alert('Preencha todos os campos!');
         
     }
 
@@ -301,22 +306,22 @@ export const Cadastro = ({children}) => {
                     <form action="POST" id="information" className="information" onSubmit={handleSubmit}>
                         <div>
                         <label>Emitente: </label>
-                        <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} value={dataIdSelectEmitente} required/>                    
+                        <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} value={dataIdSelectEmitente} title='Aperte F2 para listar as opções' required/>                    
                         <input name="emitente" className="option" value={dataSelectEmitente}/>
                         </div>
                         <div>
                         <label>T.O.P: </label>
-                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataIdSelectTop} required/>
+                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataIdSelectTop} title='Aperte F2 para listar as opções' required/>
                         <input name="top" className="option" value={dataSelectTop}/>
                         </div>
                         <div>
                         <label>Vendedor: </label>
-                        <input name="cod_vendedor" className="f1" id="vendedor" onKeyDown={NextParceiro} onKeyUp={keySaler} value={dataIdSelectSaler}/>
-                        <input name="vendedor" className="option" value={dataSelectSaler}/>
+                        <input name="cod_vendedor" className="f1" id="vendedor" onKeyDown={NextParceiro} onKeyUp={keySaler} value={dataIdSelectSaler} title='Aperte F2 para listar as opções' required/>
+                        <input name="vendedor" className="option" value={dataSelectSaler} />
                         </div>
                         <div>
                             <label>Parceiro: </label>
-                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} value={dataIdSelectPartner} />
+                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} value={dataIdSelectPartner} title='Aperte F2 para listar as opções' required/>
                                     <div className="div-partner">
                                         <input name="partner" className="partner" value={dataSelectPartner} />
                                         <label>CPF/CNPJ: </label>
@@ -325,7 +330,7 @@ export const Cadastro = ({children}) => {
                         </div>
                         <div>
                         <label>Tipo pgto: </label>
-                        <input className="f1" id="pgto" onKeyUp={keyPgt} value={dataIdSelectPgt} />
+                        <input className="f1" id="pgto" onKeyUp={keyPgt} value={dataIdSelectPgt} title='Aperte F2 para listar as opções' required/>
                         <input id="option_pgto" className="option" value={dataSelectPgt}/>
                         </div>
                     </form>
@@ -340,15 +345,15 @@ export const Cadastro = ({children}) => {
             <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]); setCounter(prevCounter => prevCounter + 1);}} >
                 <div>
                 <label>Código: </label>
-                <input onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.id_produto} name="id_produto" onBlur={changeHandler} />
+                <input id="produto" onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.id_produto} name="id_produto" onBlur={changeHandler} title='Aperte F2 para listar as opções' required/>
                 </div>
                 <div>
                 <label>Quantidade: </label>
-                <input  placeholder="1,000" name="quantidade" type="text" value={numero1} onChange={(e) => setNumero1(e.target.value)} onBlur={changeHandler} onKeyDown={NextValorUnit} id="quantidade"  />
+                <input  placeholder="1,000" name="quantidade" type="text" value={numero1} onChange={(e) => setNumero1(e.target.value)} onBlur={changeHandler} onKeyDown={NextValorUnit} id="quantidade"  required/>
                 </div>
                 <div>
                 <label>Valor Unitário: </label>
-                <input className="add-item" value={dataSelectItem.valor_unitario} name="valor_unitario" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} onKeyDown={NextAddItem} type="text" id="valorUnit"/>
+                <input className="add-item" value={dataSelectItem.valor_unitario} name="valor_unitario" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} onKeyDown={NextAddItem} type="text" id="valorUnit" required/>
                 <datalist></datalist>
                 </div>
                 <div>
@@ -357,14 +362,14 @@ export const Cadastro = ({children}) => {
                 </div>
                 <div>
                 <label>Total do item: </label>
-                <input type="text" name="valor_total" id="Total" value={total} onFocus={changeHandler} onKeyDown={NextSubtotal}  />
+                <input type="text" name="valor_total" id="Total" value={total} onFocus={changeHandler} onKeyDown={NextSubtotal}  required/>
                 <label>Subtotal</label>
-                <input name='subtotal' id="subtotal" value={total} onFocus={changeHandler} onKeyDown={NextDescrição}/>
+                <input name='subtotal' id="subtotal" value={total} onFocus={changeHandler} onKeyDown={NextDescrição} required/>
                 <br/>
                 </div>
                 <div className="div-descrição" >
                 <label>Descrição: </label>
-                <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao_produto} onFocus={changeHandler} name="descricao_produto" readOnly/>
+                <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao_produto} onFocus={changeHandler} name="descricao_produto" readOnly required/>
                 </div>
                 <button>add</button>
             </form>
@@ -388,7 +393,7 @@ export const Cadastro = ({children}) => {
                         {listItens.map((list, index) => {
                             return(
                                 <tr key={index}>
-                                    <td>{index+1}</td>
+                                    <td>{list.item}</td>
                                     <td>{list.id_produto}</td>
                                     <td>{list.gtin_produto}</td>
                                     <td>{list.descricao_produto}</td>
@@ -429,7 +434,7 @@ export const Cadastro = ({children}) => {
                     </div>
                 </form>
                 <div className="buttons">
-                    <button className="liberar" onClick={handleSubmit}><img src="/images/salvar.png"/>Liberar</button>
+                    <button className="liberar" id="submit" onClick={handleSubmit}><img src="/images/salvar.png"/>Liberar</button>
                     <button className="Excluir"><img src="/images/lixeira.png"/>Excluir</button>
                     <button className="Voltar" onClick={Voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
