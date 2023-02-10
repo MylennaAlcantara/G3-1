@@ -86,7 +86,7 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
                     <tbody>
                         {users.map( (user) => {
                             return(
-                                <tr key={user.id} onClick={Selected.bind(this, user)}>
+                                <tr key={user.id} onDoubleClick={Selected.bind(this, user)}>
                                     <td>{user.id}</td>
                                     <td>{user.name}</td>
                                     <td>{user.status}</td>

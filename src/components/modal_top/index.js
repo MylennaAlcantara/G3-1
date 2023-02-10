@@ -60,7 +60,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
                     <tbody>
                         {users.slice(0, 10).map( (user) => {
                             return(
-                                <tr key={user.id} onClick={SelectedTop.bind(this, user)} >
+                                <tr key={user.id} onDoubleClick={SelectedTop.bind(this, user)} >
                                     <td>{user.id}</td>
                                     <td>{user.cep}</td>
                                     <td>{user.cep}</td>
