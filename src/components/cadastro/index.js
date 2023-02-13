@@ -50,16 +50,12 @@ export const Cadastro = () => {
     const [listItens, setListItens] = useState([]);
     console.log(listItens);
 
-    const [counter, setCounter] = useState(0);
+    const [counter, setCounter] = useState(listItens.length+1);
     console.log(counter);
-    useEffect(() => {
-        listItens.map((item, index) => {
-        setCounter(index+1);
-    })
-    }, [])
+
     
     const changeHandler = e => {
-        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter+1});
+        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
  
     // Calcular o valor de quantidade vezes o valor para o total 
@@ -294,9 +290,21 @@ export const Cadastro = () => {
                 localStorage.clear();
         }
 
-        const Selecionado = (id) => {
+        function decrementarItem (index) {
+            for (let i = 0; i< listItens.length; i++){
+                if(listItens[i].item != 1 && listItens[i].item > index){
+                    listItens[i].item--;
+                    listItens[0].item = 1;
+                }
+                
+            }
+        }
+        const Selecionado = (id, index) => {
             const newList = listItens.filter((item) => item != id);
-            setListItens(newList);
+               setListItens(newList);
+               setCounter(listItens.length);
+               decrementarItem(index);
+            
         }
            
     return(
@@ -432,7 +440,7 @@ export const Cadastro = () => {
                                     <td>{list.valor_unitario}</td>
                                     <td>{list.valor_total}</td>
                                     <td>{list.subtotal}</td>
-                                    <img src="/images/lixeira.png" className="button-excluir" onClick={Selecionado.bind(this, list)}/>
+                                    <img src="/images/lixeira.png" className="button-excluir" onClick={Selecionado.bind(this, list, index)}/>
                                 </tr>
                             )
                             })}                         
