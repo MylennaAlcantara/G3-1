@@ -10,7 +10,7 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.94:8092/emitente/all");
+            const response = await fetch("http://10.0.1.10:8092/emitente/all");
             const data = await response.json();
             setUsers(data);
         }

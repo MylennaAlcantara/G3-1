@@ -10,7 +10,7 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) =
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.94:8092/tipoPagamento/all");
+            const response = await fetch("http://10.0.1.10:8092/tipoPagamento/all");
             const data = await response.json();
             setUsers(data);
         }

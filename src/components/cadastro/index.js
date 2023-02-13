@@ -52,6 +52,12 @@ export const Cadastro = () => {
 
     const [counter, setCounter] = useState(0);
     console.log(counter);
+    useEffect(() => {
+        listItens.map((item, index) => {
+        setCounter(index+1);
+    })
+    }, [])
+    
     const changeHandler = e => {
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter+1});
     }
@@ -77,16 +83,18 @@ export const Cadastro = () => {
 
 
     // Funções para abrir o modal de cada campo apertando F2
+    const [corProduto, setCorProduto] = useState('');
     function onKeyUp(event){
         if(	event.keyCode === 113){
             setIsModalEmitente(true);
         }    
     }
     function keyProduto(event){
-        if( event.keyCode === 113 && document.getElementById('emitente').value != '' && document.getElementById('pgto').value != ''){
+        if( event.keyCode === 113 && document.getElementById('emitente').value != '' && document.getElementById('pgto').value != '' && document.getElementById('vendedor').value != '' && document.getElementById('top').value != '' && document.getElementById('parceiro').value != ''){
             setIsModalProdutos(true);
         }else{
-            alert("Preencha os campos de Emitente e Tipo de pagamento!")
+            setCorProduto('yellow');
+            alert("Preencha os campos acima!")
         }
     }
     function keyTop(event){
@@ -222,11 +230,12 @@ export const Cadastro = () => {
     }
 
     //envio para a api das informações armazenadas
+    const[cor, setCor] = useState('');
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && document.getElementById('produto').value ){
             try{
-                const res = await fetch("http://10.0.1.94:8091/preVenda", { //http://10.0.1.10:8091/preVenda
+                const res = await fetch("http://10.0.1.10:8091/preVenda", { //http://10.0.1.10:8091/preVenda
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({
@@ -256,7 +265,10 @@ export const Cadastro = () => {
             }catch(err){
                 console.log(err);
             }
-        }else{ alert('Preencha todos os campos!');}
+        }else{
+            setCor('yellow');
+            alert('Preencha todos os campos!');
+        }
        
         
     }
@@ -324,22 +336,22 @@ export const Cadastro = () => {
                     <form action="POST" id="information" className="information" onSubmit={handleSubmit}>
                         <div>
                         <label>Emitente: </label>
-                        <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} value={dataIdSelectEmitente} title='Aperte F2 para listar as opções' required/>                    
+                        <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} value={dataIdSelectEmitente} title='Aperte F2 para listar as opções' style={{backgroundColor: cor, backgroundColor: corProduto}} required/>                    
                         <input name="emitente" className="option" value={dataSelectEmitente}/>
                         </div>
                         <div>
                         <label>T.O.P: </label>
-                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataIdSelectTop} title='Aperte F2 para listar as opções' required/>
+                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataIdSelectTop} title='Aperte F2 para listar as opções' style={{backgroundColor: cor, backgroundColor: corProduto}} required/>
                         <input name="top" className="option" value={dataSelectTop}/>
                         </div>
                         <div>
                         <label>Vendedor: </label>
-                        <input name="cod_vendedor" className="f1" id="vendedor" onKeyDown={NextParceiro} onKeyUp={keySaler} value={dataIdSelectSaler} title='Aperte F2 para listar as opções' required/>
+                        <input name="cod_vendedor" className="f1" id="vendedor" onKeyDown={NextParceiro} onKeyUp={keySaler} value={dataIdSelectSaler} title='Aperte F2 para listar as opções' style={{backgroundColor: cor, backgroundColor: corProduto}} required/>
                         <input name="vendedor" className="option" value={dataSelectSaler} />
                         </div>
                         <div>
                             <label>Parceiro: </label>
-                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} value={dataIdSelectPartner} title='Aperte F2 para listar as opções' required/>
+                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} value={dataIdSelectPartner} title='Aperte F2 para listar as opções' style={{backgroundColor: cor, backgroundColor: corProduto}} required/>
                                     <div className="div-partner">
                                         <input name="partner" className="partner" value={dataSelectPartner} />
                                         <label>CPF/CNPJ: </label>
@@ -348,7 +360,7 @@ export const Cadastro = () => {
                         </div>
                         <div>
                         <label>Tipo pgto: </label>
-                        <input className="f1" id="pgto" onKeyUp={keyPgt} value={dataIdSelectPgt} title='Aperte F2 para listar as opções' required/>
+                        <input className="f1" id="pgto" onKeyUp={keyPgt} value={dataIdSelectPgt} title='Aperte F2 para listar as opções' style={{backgroundColor: cor, backgroundColor: corProduto}} required/>
                         <input id="option_pgto" className="option" value={dataSelectPgt}/>
                         </div>
                     </form>
@@ -363,7 +375,7 @@ export const Cadastro = () => {
             <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]); setCounter(prevCounter => prevCounter + 1);}} >
                 <div>
                 <label>Código: </label>
-                <input id="produto" onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.id_produto} name="id_produto" onBlur={changeHandler} title='Aperte F2 para listar as opções' required/>
+                <input id="produto" onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.id_produto} name="id_produto" onBlur={changeHandler} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
                 </div>
                 <div>
                 <label>Quantidade: </label>
@@ -411,7 +423,7 @@ export const Cadastro = () => {
                         {listItens.map((list, index) => {
                             return(
                                 <tr key={index}>
-                                    <td>{list.item}</td>
+                                    <td>{index+1}</td>
                                     <td>{list.id_produto}</td>
                                     <td>{list.gtin_produto}</td>
                                     <td>{list.descricao_produto}</td>
