@@ -3,9 +3,8 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/Auth/authContext";
 import * as C from "./login.js";
-//import md5 from "md5";
+import { MD5 } from "crypto-js";
 
 export const Login = () => {
             
@@ -14,7 +13,6 @@ export const Login = () => {
     const delay = 3500;
     const timeoutRef = useRef(null);
 
-    //const auth = useContext(AuthContext);
     const navigate = useNavigate();
 
     function resetTimeout(){
@@ -37,17 +35,16 @@ export const Login = () => {
     }, [index]);
 
     const [company, setCompany] = useState('');
-    const [email, setEmail] = useState('');
+    const [matricula, setMatricula] = useState('');
     const [password, setPassword] = useState('');
+    
+    // Converte para MD5 o que foi digitado na senha
+    const senha = MD5(password).toString();
 
-        //const matricula = 'admin';
-        //const senha = '1f65e165335193ad6ee6635ae3f0f95a';
         const [usuario, setUsuario] = useState([]);
-
-    const caracter = 'character';
         useEffect(() => {
             async function fetchData (){
-                const response = await fetch(`http://10.0.1.10:8099/user/all`);//https://rickandmortyapi.com/api/${caracter}/
+                const response = await fetch(`http://10.0.1.10:8099/user/all`);
                 const data = await response.json();
                 setUsuario(data);
                 
@@ -56,10 +53,10 @@ export const Login = () => {
         }, []);
 
     const handleLogin = async () => {
-        if(email && password){
-            var login = usuario.filter(user => user.matricula === email && user.senha === password);
+        if(matricula && senha){
+            var login = usuario.filter(user => user.matricula === matricula && user.senha === senha);
             login.forEach(user => { 
-                if(user.matricula===email && user.senha === password){
+                if(user.matricula===matricula && user.senha === senha){
                         navigate('/consultar');
                         localStorage.setItem('token', 123456);
                     }else{
@@ -102,7 +99,7 @@ export const Login = () => {
                         <div >
                             <div className="matricula-senha">
                                 <label>Matricula</label>
-                                <input name="email" value={email} onChange={e => setEmail(e.target.value)}/>
+                                <input name="matricula" value={matricula} onChange={e => setMatricula(e.target.value)}/>
                             </div>
                             <div className="matricula-senha">
                                 <label>Senha</label>
