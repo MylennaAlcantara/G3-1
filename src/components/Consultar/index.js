@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as C from "./consultar.js";
 
 
@@ -15,13 +15,29 @@ export const Consultar = () => {
         }
         fetchData();
     },[])
-    console.log(rotinas);
 
-    //Filtro busca
+    //Filtro busca por: Top / id vendedor / codigo / cliente / data
     const [busca, setBusca] = useState('');
-    const [cliente, setCliente] = useState(false);
+    const [filtroSelecionado, setFiltroSelecionado] = useState('cliente');
 
-    const resultado = Array.isArray(rotinas) && rotinas.filter((rotina) => rotina.nome_cliente.toLowerCase().includes(busca));
+    function handleFiltroChange(event) {
+        setFiltroSelecionado(event.target.value);
+    }
+
+    const resultado = Array.isArray(rotinas) && rotinas.filter((rotina) => {
+        if(filtroSelecionado === 'cliente'){
+            return rotina.nome_cliente.toLowerCase().includes(busca);
+        }else if(filtroSelecionado === 'data'){
+            return rotina.dataEmissao.toLowerCase().includes(busca);
+        }else if(filtroSelecionado === 'top'){
+            return rotina.id_top === Number(busca);
+        }else if(filtroSelecionado === 'vendedor'){
+            return rotina.id_funcionario === Number(busca);
+        }else if(filtroSelecionado === 'numero'){
+            return rotina.id === Number(busca);
+        }
+        
+    });
 
     //Função dos botões
     const Novo = () => {
@@ -37,21 +53,20 @@ export const Consultar = () => {
     return(
         <C.Container>
             <C.Header>
-                <button>Consultar</button>
-                <Link to="/rotina"><button>Cadastrar</button></Link>
+                <h3>Consultar</h3>
             </C.Header>
             <C.Filtro>
                     <div className="div-checkbox">
-                        <input type="radio" className="checkbox" />
+                        <input type="radio"  value="numero" className="checkbox" name="checkbox" id="numero" checked={filtroSelecionado === 'numero'} onChange={handleFiltroChange}/>
                         <label>Número</label>
-                        <input type="radio" className="checkbox" />
+                        <input type="radio" value="data" className="checkbox" name="checkbox" id="data" checked={filtroSelecionado === 'data'} onChange={handleFiltroChange}/>
                         <label>Data</label>
-                        <input type="radio" className="checkbox" />
+                        <input type="radio" value="top" className="checkbox" name="checkbox" id="top" checked={filtroSelecionado === 'top'} onChange={handleFiltroChange}/>
                         <label>TOP</label>
-                        <input type="radio" className="checkbox" />
+                        <input type="radio" value="cliente" className="checkbox" name="checkbox" id="cliente" checked={filtroSelecionado === 'cliente'} onChange={handleFiltroChange}/>
                         <label>Cliente</label>
-                        <input type="radio" className="checkbox" />
-                        <label>Vendedor</label>
+                        <input type="radio" value="vendedor" className="checkbox" name="checkbox" id="vendedor" checked={filtroSelecionado === 'vendedor'} onChange={handleFiltroChange}/>
+                        <label>Id Vendedor</label>
                     </div>
                     <select>
                         <option value="1">1 -RAYANE SUPERMERCADOS</option>
@@ -83,7 +98,8 @@ export const Consultar = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {resultado.map((item)=>{
+                        { 
+                        resultado.map((item)=>{
                             return(
                                 <tr key={item.id} >
                                     <td>{item.id}</td>
@@ -95,7 +111,8 @@ export const Consultar = () => {
                                     <td>{item.id_top}</td>
                                 </tr> 
                             )
-                        })}
+                        })
+                        }
                         
                     </tbody>
                 </table>

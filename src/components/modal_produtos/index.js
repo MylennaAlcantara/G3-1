@@ -57,13 +57,6 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
             setFiltroEscolhido('D');
         }
     }
-        
-    
-        
-
-
-
-    console.log(filtroEscolhido)
 
     return (
         <Modal>

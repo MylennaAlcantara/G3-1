@@ -57,7 +57,27 @@ export const Cadastro = () => {
     const changeHandler = e => {
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
- 
+
+    const zerarInput = () => {
+        setDataSelectItem({
+            acrescimo: '',
+            desconto: '',
+            descricao_produto: '',
+            gtin_produto: '',
+            id_produto: '',
+            item: '',
+            ncm: '',
+            ncmEx: '',
+            quantidade: '',
+            subtotal: '',
+            unidade_produto: '',
+            valor_icms_st: '',
+            valor_total: '',
+            valor_unitario: ''
+        });
+        setTotal();
+    }
+    
     // Calcular o valor de quantidade vezes o valor para o total 
     const [numero1, setNumero1] = useState(1);
     const [numero2, setNumero2] = useState(0);
@@ -273,39 +293,38 @@ export const Cadastro = () => {
         navigate('/consultar');
     }
 
-        const [token, setToken] = useState();
-        useEffect(()=>{
-            const logged = localStorage.getItem('token');
-            if(logged){
-                const foundUser = JSON.parse(logged);
-                setToken(foundUser);
-            }
-        },[]);
-
-
-
-
-        const HandleLogout = async () => {
-                setToken();
-                localStorage.clear();
+    const [token, setToken] = useState();
+    useEffect(()=>{
+        const logged = localStorage.getItem('token');
+        if(logged){
+            const foundUser = JSON.parse(logged);
+            setToken(foundUser);
         }
+    },[]);
 
-        function decrementarItem (index) {
-            for (let i = 0; i< listItens.length; i++){
-                if(listItens[i].item != 1 && listItens[i].item > index){
-                    listItens[i].item--;
-                    listItens[0].item = 1;
-                }
-                
+
+
+
+    const HandleLogout = async () => {
+            setToken();
+            localStorage.clear();
+    }
+
+    function decrementarItem (index) {
+        for (let i = 0; i< listItens.length; i++){
+            if(listItens[i].item != 1 && listItens[i].item > index){
+                listItens[i].item--;
+                listItens[0].item = 1;
             }
         }
-        const Selecionado = (id, index) => {
-            const newList = listItens.filter((item) => item != id);
-               setListItens(newList);
-               setCounter(listItens.length);
-               decrementarItem(index);
-            
-        }
+    }
+    const Deletar = (id, index) => {
+        const newList = listItens.filter((item) => item != id);
+            setListItens(newList);
+            setCounter(listItens.length);
+            decrementarItem(index);
+        
+    }
            
     return(
         
@@ -380,7 +399,7 @@ export const Cadastro = () => {
                 <label>Produtos</label>
             </C.Header>
             <C.Add>
-            <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]); setCounter(prevCounter => prevCounter + 1);}} >
+            <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]); setCounter(prevCounter => prevCounter + 1); zerarInput();}} >
                 <div>
                 <label>Código: </label>
                 <input id="produto" onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.id_produto} name="id_produto" onBlur={changeHandler} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
@@ -409,7 +428,7 @@ export const Cadastro = () => {
                 <label>Descrição: </label>
                 <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao_produto} onFocus={changeHandler} name="descricao_produto" readOnly required/>
                 </div>
-                <button>add</button>
+                <button onSubmit={zerarInput}>add</button>
             </form>
             </C.Add>
             <C.Display>
@@ -440,7 +459,7 @@ export const Cadastro = () => {
                                     <td>{list.valor_unitario}</td>
                                     <td>{list.valor_total}</td>
                                     <td>{list.subtotal}</td>
-                                    <img src="/images/lixeira.png" className="button-excluir" onClick={Selecionado.bind(this, list, index)}/>
+                                    <img src="/images/lixeira.png" className="button-excluir" onClick={Deletar.bind(this, list, index)}/>
                                 </tr>
                             )
                             })}                         

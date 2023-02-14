@@ -221,7 +221,7 @@ export const Add = styled.div`
         display: flex;
         flex-wrap: wrap;
         align-content: center;
-        margin: 5px; 
+        margin: 5px;
     }
     .div-descrição{
         width: 90%;
