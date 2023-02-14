@@ -8,6 +8,8 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
     const [users, setUsers] = useState([]);
     const [selectPartner, setSelectPartner] = useState();
     const [selectIdPartner, setSelectIdPartner] = useState();
+    const [busca, setBusca] = useState('');
+    const [filtro, setFiltro] = useState('nome');
     
 
     useEffect(() => {
@@ -27,6 +29,26 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
         onClose();
     };
 
+    //Filtro de busca
+    const handleFiltroChange = (e) => {
+        setFiltro(e.target.value);
+    };
+
+    const resultado = Array.isArray(users) && users.filter((user) => {
+        if(filtro === 'codigo'){
+            return user.id === Number(busca);
+        }else if(filtro === 'municipio'){
+            return user.municipio.toLowerCase().includes(busca);
+        }else if(filtro === 'cpf'){
+            return user.type.toLowerCase().includes(busca);
+        }else if(filtro === 'nome'){
+            return user.name.toLowerCase().includes(busca);
+        }else if(filtro === 'fantasia'){
+            return user.species.toLowerCase().includes(busca);
+        }else if(filtro === 'rg'){
+            return user.type.toLowerCase().includes(busca);
+        }
+    });
 
     return(
         <C.Modal>            
@@ -38,19 +60,19 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
                 <C.Filtro>
                     <div className="div-checkbox">
                         <div>
-                            <input type="radio" className="checkbox"/>
+                            <input type="radio" value="codigo" className="checkbox" name="checkbox" checked={filtro === 'codigo'} onChange={handleFiltroChange}/>
                             <label> Código </label>
-                            <input type="radio" className="checkbox"/>
+                            <input type="radio" value="municipio" className="checkbox" name="checkbox" checked={filtro === 'municipio'} onChange={handleFiltroChange}/>
                             <label> Município </label>
-                            <input type="radio" className="checkbox"/>
+                            <input type="radio" value="cpf" className="checkbox" name="checkbox" checked={filtro === 'cpf'} onChange={handleFiltroChange}/>
                             <label> CPF </label>
                         </div>
                         <div>
-                            <input type="radio" className="checkbox"/>
+                            <input type="radio" value="nome" className="checkbox" name="checkbox" checked={filtro === 'nome'} onChange={handleFiltroChange}/>
                             <label> Nome </label>
-                            <input type="radio" className="checkbox"/>
+                            <input type="radio" value="fantasia" className="checkbox" name="checkbox" checked={filtro === 'fantasia'} onChange={handleFiltroChange}/>
                             <label> Fantasia </label>
-                            <input type="radio" className="checkbox"/>
+                            <input type="radio" value="rg" className="checkbox" name="checkbox" checked={filtro === 'rg'} onChange={handleFiltroChange}/>
                             <label> RG </label>
                         </div>
                     </div>
@@ -63,7 +85,7 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
                             <input type="radio" className="checkbox-search"/>
                             <label>Geral</label>
                         </div>
-                        <input className="search" />
+                        <input className="search"  onChange={e => setBusca(e.target.value)}/>
                     </div>                    
                 </C.Filtro>
                 
@@ -84,7 +106,7 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map( (user) => {
+                        {resultado.map( (user) => {
                             return(
                                 <tr key={user.id} onDoubleClick={Selected.bind(this, user)}>
                                     <td>{user.id}</td>
