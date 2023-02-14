@@ -4,26 +4,43 @@ import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) => {
 
-    const [users, setUsers] = useState([]);
+    const [top, setTop] = useState([]);
     const [selectTop, setSelectTop] = useState();
     const [selectIdTop, setSelectIdTop] = useState();
+    const [busca, setBusca] = useState('');
+    const [filtro, setFiltro] = useState('codigo');
 
     useEffect(() => {
         async function fetchData (){
             const response = await fetch("http://10.0.1.10:8099/clientes");
             const data = await response.json();
-            setUsers(data);
+            setTop(data);
         }
             fetchData();
     }, []);
 
-    const SelectedTop = (user) => {
-        setSelectTop(user.cep);
-        setSelectIdTop(user.id);
-        setDataSelectTop(user.cep);
-        setDataIdSelectTop(user.id);
+    const SelectedTop = (top) => {
+        setSelectTop(top.cep);
+        setSelectIdTop(top.id);
+        setDataSelectTop(top.cep);
+        setDataIdSelectTop(top.id);
         onClose();
     };
+
+    // Filtro de busca
+
+    const handleFiltroChange = (e) => {
+        setFiltro(e.target.value)
+    }
+
+    const resultado = Array.isArray(top) && top.filter((top) => {
+        if(filtro === 'codigo'){
+            return top.id === Number(busca);
+        }else if(filtro === 'descricao'){
+            //return top.descricao.toLowerCase().includes(busca);
+            return top.cep === Number(busca);
+        }
+    })
 
     return(
         <Modal>
@@ -35,16 +52,16 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
             <Filtro>
             <div className="div-checkbox">
                         <div>
-                            <input type="radio" className="checkbox"/>
+                            <input type="radio" value="codigo" className="checkbox" name="checkbox" checked={filtro === 'codigo'} onChange={handleFiltroChange}/>
                             <label> Código </label>
                         </div>
                         <div>
-                            <input type="radio" className="checkbox"/>
+                            <input type="radio" value="descricao" className="checkbox" name="checkbox" checked={filtro === 'descricao'} onChange={handleFiltroChange}/>
                             <label> Descrição </label>
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar"/>
+                        <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)}/>
                     </div>                
             </Filtro>
                 <table id="table" >
@@ -58,14 +75,14 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
                         </tr>
                     </thead>
                     <tbody>
-                        {users.slice(0, 10).map( (user) => {
+                        {resultado.slice(0, 10).map( (top) => {
                             return(
-                                <tr key={user.id} onDoubleClick={SelectedTop.bind(this, user)} >
-                                    <td>{user.id}</td>
-                                    <td>{user.cep}</td>
-                                    <td>{user.cep}</td>
-                                    <td>{user.cep}</td>
-                                    <td>{user.cep}</td>                                   
+                                <tr key={top.id} onDoubleClick={SelectedTop.bind(this, top)} >
+                                    <td>{top.id}</td>
+                                    <td>{top.cep}</td>
+                                    <td>{top.cep}</td>
+                                    <td>{top.cep}</td>
+                                    <td>{top.cep}</td>                                   
                                 </tr>
                             );
                         })}
