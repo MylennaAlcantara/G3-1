@@ -7,6 +7,7 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
     const [users, setUsers] = useState([]);
     const [selectSaler, setSelectSaler] = useState();
     const [selectIdSaler, setSelectIdSaler] = useState();
+    const [busca, setBusca] = useState('');
 
     useEffect(() => {
         async function fetchData (){
@@ -25,6 +26,10 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
         onClose();
     };
 
+    // Filtro de Busca
+    const resultado = Array.isArray(users) && users.filter((user) => user.nome.toLowerCase().includes(busca))
+    console.log(busca)
+
     return(
         <Modal>
             <Container>
@@ -39,7 +44,7 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar"/>
+                        <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)}/>
                     </div>                
             </Filtro>
                 <table id="table" >
@@ -51,7 +56,7 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
                         </tr>
                     </thead>
                     <tbody>
-                        {users.slice(0,10).map( (user) => {
+                        {resultado.slice(0,10).map( (user) => {
                             return(
                                 <tr key={user.id} onDoubleClick={SelectedSaler.bind(this, user)} >
                                     <td>{user.id}</td>
