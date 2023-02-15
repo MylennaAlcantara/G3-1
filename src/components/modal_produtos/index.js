@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Header, Modal} from "./../modal/modal.js";
 import * as C from "./produtos.js";
 
@@ -35,15 +35,16 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
             onClose();
     };
 
-    const EstoqueTrib = (item) =>{
+    const EstoqueTrib = (item, index) =>{
         setInfoItem({
             qtd_estoque: item.qtd_estoque
         })
+        setSelectIndex(index);
     }
 
     //Filtro campo de busca de acordo com codigo ou descrição
 
-    const resultado = Array.isArray(itens) && itens.filter((item) => item.gtin.toLowerCase().includes(busca));
+    const resultado = Array.isArray(itens) && itens.filter((item) => item.id === Number(busca));
     const resultado2 = Array.isArray(itens) && itens.filter((item) => item.descricaoPdv.toLowerCase().includes(busca));
     
     const [filtroEscolhido, setFiltroEscolhido] = useState('C');
@@ -57,6 +58,51 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
             setFiltroEscolhido('D');
         }
     }
+
+    //selecionar o produto atraves da seta para baixo keyCode 40
+    const [selectIndex, setSelectIndex] = useState(0);
+    const tableRef = useRef(null);
+
+    const handleKeyDown = (e) => {
+        if(e.keyCode === 38){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === 0){
+                return;
+            }
+            setSelectIndex(selectIndex-1);
+            setInfoItem({
+                qtd_estoque: resultado2[selectIndex-1].qtd_estoque
+            })
+        }else if (e.keyCode === 40){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === resultado2.length -1 ){
+                return;
+            }
+            setSelectIndex(selectIndex + 1);
+            setInfoItem({
+                qtd_estoque: resultado2[selectIndex+1].qtd_estoque
+            })
+        }else if (e.keyCode === 13){
+            e.preventDefault();
+            if(selectIndex !== null){
+                setDataSelectItem({
+                    id_produto: resultado2[selectIndex].id,
+                    gtin_produto: resultado2[selectIndex].gtin,
+                    valor_unitario: resultado2[selectIndex].valor_venda,
+                    descricao_produto: resultado2[selectIndex].descricaoPdv,
+                    unidade_produto: resultado2[selectIndex].unidade_produto_nome,
+                    valor_icms_st: 0,
+                    acrescimo: 0,
+                    desconto: 0,
+                    ncm: resultado2[selectIndex].ncm,
+                    ncmEx: resultado2[selectIndex].ncmex,
+                    subtotal: ''
+                });
+                    onClose();
+            }
+        }
+    }
+
 
     return (
         <Modal>
@@ -73,7 +119,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
                             <option id="descricao" value="2" >Descrição</option>
                         </select>
                     </div>
-                    <input className="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)}/>
+                    <input className="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     <div>
                         <label>Fornecedor</label>
                         <input />
@@ -89,7 +135,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
                     </div>
                 </C.Filtro>
                 <C.ListItens>
-                <table className="table" >
+                <table className="table"  ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0}>
                     <thead>
                         <tr>
                             <th>Cód. Interno</th>
@@ -102,27 +148,36 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
                     </thead>
                     <tbody>
                         { filtroEscolhido==='C' ?(
-                        resultado.slice(0, 8).map( (item) => {
+                        resultado.slice(0, 8).map( (item, index) => {
                             return(
-                                <tr key={item.id} onClick={EstoqueTrib.bind(this, item)} onDoubleClick={SelectedItem.bind(this, item)} >
-                                    <td>{item.id}</td>
-                                    <td>{item.referencia}</td>
-                                    <td>{item.gtin}</td>
-                                    <td>{item.descricaoPdv}</td>
-                                    <td>{item.qtd_estoque}</td>
-                                    <td></td>                                    
-                                </tr>
-                            );
-                        })) :(
-                            resultado2.slice(0, 8).map( (item) => {
-                                return(
-                                    <tr key={item.id} onClick={EstoqueTrib.bind(this, item)} onDoubleClick={SelectedItem.bind(this, item)} >
+                                <tr 
+                                    id="produto" 
+                                    key={item.id} 
+                                    onClick={EstoqueTrib.bind(this, item, index)} 
+                                    onDoubleClick={SelectedItem.bind(this, item)}
+                                    style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
                                         <td>{item.id}</td>
                                         <td>{item.referencia}</td>
                                         <td>{item.gtin}</td>
                                         <td>{item.descricaoPdv}</td>
                                         <td>{item.qtd_estoque}</td>
                                         <td></td>                                    
+                                </tr>
+                            );
+                        })) :(
+                            resultado2.slice(0, 8).map( (item, index) => {
+                                return(
+                                    <tr 
+                                        key={item.id} 
+                                        onClick={EstoqueTrib.bind(this, item, index)} 
+                                        onDoubleClick={SelectedItem.bind(this, item)}
+                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                            <td>{item.id}</td>
+                                            <td>{item.referencia}</td>
+                                            <td>{item.gtin}</td>
+                                            <td>{item.descricaoPdv}</td>
+                                            <td>{item.qtd_estoque}</td>
+                                            <td></td>                                    
                                     </tr>
                                 );
                             })
