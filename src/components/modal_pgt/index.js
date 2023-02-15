@@ -31,34 +31,34 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) =
         return pgto.descricao.toLowerCase().includes(busca);
     })
 
-            //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
-            const [selectIndex, setSelectIndex] = useState(0);
-            const tableRef = useRef(null);
-        
-            const handleKeyDown = (e) => {
-                if(e.keyCode === 38){
-                    e.preventDefault();
-                    if(selectIndex === null || selectIndex === 0){
-                        return;
-                    }
-                    setSelectIndex(selectIndex-1);
-                }else if (e.keyCode === 40){
-                    e.preventDefault();
-                    if(selectIndex === null || selectIndex === resultado.length -1 ){
-                        return;
-                    }
-                    setSelectIndex(selectIndex + 1);
-                }else if (e.keyCode === 13){
-                    e.preventDefault();
-                    if(selectIndex !== null){
-                        setSelectPgt(resultado[selectIndex].descricao);
-                        setSelectIdPgt(resultado[selectIndex].id);
-                        setDataSelectPgt(resultado[selectIndex].descricao);
-                        setDataIdSelectPgt(resultado[selectIndex].id);
-                        onClose();
-                    }
-                }
-            };
+    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
+    const [selectIndex, setSelectIndex] = useState(0);
+    const tableRef = useRef(null);
+
+    const handleKeyDown = (e) => {
+        if(e.keyCode === 38){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === 0){
+                return;
+            }
+            setSelectIndex(selectIndex-1);
+        }else if (e.keyCode === 40){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === resultado.length -1 ){
+                return;
+            }
+            setSelectIndex(selectIndex + 1);
+        }else if (e.keyCode === 13){
+            e.preventDefault();
+            if(selectIndex !== null){
+                setSelectPgt(resultado[selectIndex].descricao);
+                setSelectIdPgt(resultado[selectIndex].id);
+                setDataSelectPgt(resultado[selectIndex].descricao);
+                setDataIdSelectPgt(resultado[selectIndex].id);
+                onClose();
+            }
+        }
+    };
 
     return(
         <Modal>

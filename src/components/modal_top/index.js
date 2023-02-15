@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
@@ -31,7 +31,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
 
     const handleFiltroChange = (e) => {
         setFiltro(e.target.value)
-    }
+    };
 
     const resultado = Array.isArray(top) && top.filter((top) => {
         if(filtro === 'codigo'){
@@ -40,7 +40,36 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
             //return top.descricao.toLowerCase().includes(busca);
             return top.cep === Number(busca);
         }
-    })
+    });
+
+    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
+    const [selectIndex, setSelectIndex] = useState(0);
+    const tableRef = useRef(null);
+
+    const handleKeyDown = (e) => {
+        if(e.keyCode === 38){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === 0){
+                return;
+            }
+            setSelectIndex(selectIndex-1);
+        }else if (e.keyCode === 40){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === resultado.length -1 ){
+                return;
+            }
+            setSelectIndex(selectIndex + 1);
+        }else if (e.keyCode === 13){
+            e.preventDefault();
+            if(selectIndex !== null){
+                setSelectTop(resultado[selectIndex].cep);
+                setSelectIdTop(resultado[selectIndex].id);
+                setDataSelectTop(resultado[selectIndex].cep);
+                setDataIdSelectTop(resultado[selectIndex].id);
+                onClose();
+            }
+        }
+    };
 
     return(
         <Modal>
@@ -61,7 +90,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)}/>
+                        <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                
             </Filtro>
                 <table id="table" >
@@ -75,9 +104,12 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
                         </tr>
                     </thead>
                     <tbody>
-                        {resultado.slice(0, 10).map( (top) => {
+                        {resultado.slice(0, 10).map( (top, index) => {
                             return(
-                                <tr key={top.id} onDoubleClick={SelectedTop.bind(this, top)} >
+                                <tr 
+                                key={top.id} 
+                                onDoubleClick={SelectedTop.bind(this, top)}
+                                style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}} >
                                     <td>{top.id}</td>
                                     <td>{top.cep}</td>
                                     <td>{top.cep}</td>
