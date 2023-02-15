@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
@@ -45,6 +45,35 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
         }
     })
 
+        //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
+        const [selectIndex, setSelectIndex] = useState(0);
+        const tableRef = useRef(null);
+    
+        const handleKeyDown = (e) => {
+            if(e.keyCode === 38){
+                e.preventDefault();
+                if(selectIndex === null || selectIndex === 0){
+                    return;
+                }
+                setSelectIndex(selectIndex-1);
+            }else if (e.keyCode === 40){
+                e.preventDefault();
+                if(selectIndex === null || selectIndex === resultado.length -1 ){
+                    return;
+                }
+                setSelectIndex(selectIndex + 1);
+            }else if (e.keyCode === 13){
+                e.preventDefault();
+                if(selectIndex !== null){
+                    setSelectEmitente(resultado[selectIndex].razao_social);
+                    setSelectIdEmitente(resultado[selectIndex].id);
+                    setDataSelectEmitente(resultado[selectIndex].razao_social);
+                    setDataIdSelectEmitente(resultado[selectIndex].id);
+                    onClose();
+                }
+            }
+        };
+
     return(
         <Modal>
             <Container>
@@ -68,10 +97,10 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)}/>
+                        <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>
                 </Filtro>
-                <table id="table" >
+                <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
                     <thead>
                         <tr>
                             <th>Código</th>
@@ -82,14 +111,17 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
                         </tr>
                     </thead>
                     <tbody>
-                        {resultado.slice(0, 20).map( (user) => {
+                        {resultado.slice(0, 20).map( (user, index) => {
                             return(
-                                <tr key={user.id} onDoubleClick={SelectedEmitente.bind(this, user)}>
-                                    <td>{user.id}</td>
-                                    <td>{user.nome_fantasia}</td>
-                                    <td>{user.razao_social}</td>
-                                    <td>{user.cnpj}</td>
-                                    <td>{user.municipio}</td>
+                                <tr 
+                                    key={user.id} 
+                                    onDoubleClick={SelectedEmitente.bind(this, user)}
+                                    style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                        <td>{user.id}</td>
+                                        <td>{user.nome_fantasia}</td>
+                                        <td>{user.razao_social}</td>
+                                        <td>{user.cnpj}</td>
+                                        <td>{user.municipio}</td>
                                 </tr>
                             );
                         })}
