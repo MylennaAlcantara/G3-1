@@ -43,11 +43,15 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
     }
 
     //Filtro campo de busca de acordo com codigo ou descrição
-
-    const resultado = Array.isArray(itens) && itens.filter((item) => item.id === Number(busca));
-    const resultado2 = Array.isArray(itens) && itens.filter((item) => item.descricaoPdv.toLowerCase().includes(busca));
     
     const [filtroEscolhido, setFiltroEscolhido] = useState('C');
+
+    const resultado = Array.isArray(itens) && itens.filter((item) => {
+        if(filtroEscolhido === 'C'){
+            return item.id === Number(busca);
+        }else if(filtroEscolhido === 'D')
+            return item.descricaoPdv.toLowerCase().includes(busca);
+    });
 
     const select = document.getElementById('opções');
 
@@ -59,7 +63,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
         }
     }
 
-    //selecionar o produto atraves da seta para baixo keyCode 40
+    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
     const [selectIndex, setSelectIndex] = useState(0);
     const tableRef = useRef(null);
 
@@ -71,31 +75,31 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
             }
             setSelectIndex(selectIndex-1);
             setInfoItem({
-                qtd_estoque: resultado2[selectIndex-1].qtd_estoque
+                qtd_estoque: resultado[selectIndex-1].qtd_estoque
             })
         }else if (e.keyCode === 40){
             e.preventDefault();
-            if(selectIndex === null || selectIndex === resultado2.length -1 ){
+            if(selectIndex === null || selectIndex === resultado.length -1 ){
                 return;
             }
             setSelectIndex(selectIndex + 1);
             setInfoItem({
-                qtd_estoque: resultado2[selectIndex+1].qtd_estoque
+                qtd_estoque: resultado[selectIndex+1].qtd_estoque
             })
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
                 setDataSelectItem({
-                    id_produto: resultado2[selectIndex].id,
-                    gtin_produto: resultado2[selectIndex].gtin,
-                    valor_unitario: resultado2[selectIndex].valor_venda,
-                    descricao_produto: resultado2[selectIndex].descricaoPdv,
-                    unidade_produto: resultado2[selectIndex].unidade_produto_nome,
+                    id_produto: resultado[selectIndex].id,
+                    gtin_produto: resultado[selectIndex].gtin,
+                    valor_unitario: resultado[selectIndex].valor_venda,
+                    descricao_produto: resultado[selectIndex].descricaoPdv,
+                    unidade_produto: resultado[selectIndex].unidade_produto_nome,
                     valor_icms_st: 0,
                     acrescimo: 0,
                     desconto: 0,
-                    ncm: resultado2[selectIndex].ncm,
-                    ncmEx: resultado2[selectIndex].ncmex,
+                    ncm: resultado[selectIndex].ncm,
+                    ncmEx: resultado[selectIndex].ncmex,
                     subtotal: ''
                 });
                     onClose();
@@ -147,7 +151,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
                         </tr>
                     </thead>
                     <tbody>
-                        { filtroEscolhido==='C' ?(
+                        { 
                         resultado.slice(0, 8).map( (item, index) => {
                             return(
                                 <tr 
@@ -164,24 +168,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
                                         <td></td>                                    
                                 </tr>
                             );
-                        })) :(
-                            resultado2.slice(0, 8).map( (item, index) => {
-                                return(
-                                    <tr 
-                                        key={item.id} 
-                                        onClick={EstoqueTrib.bind(this, item, index)} 
-                                        onDoubleClick={SelectedItem.bind(this, item)}
-                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
-                                            <td>{item.id}</td>
-                                            <td>{item.referencia}</td>
-                                            <td>{item.gtin}</td>
-                                            <td>{item.descricaoPdv}</td>
-                                            <td>{item.qtd_estoque}</td>
-                                            <td></td>                                    
-                                    </tr>
-                                );
-                            })
-                        )
+                        }) 
                         }
                    
                                                                         

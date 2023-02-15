@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import * as C from './modal.js';
 import "../cadastro/index.js";
 
@@ -49,6 +49,35 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
             return user.type.toLowerCase().includes(busca);
         }
     });
+    
+    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
+    const [selectIndex, setSelectIndex] = useState(0);
+    const tableRef = useRef(null);
+
+    const handleKeyDown = (e) => {
+        if(e.keyCode === 38){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === 0){
+                return;
+            }
+            setSelectIndex(selectIndex-1);
+        }else if (e.keyCode === 40){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === resultado.length -1 ){
+                return;
+            }
+            setSelectIndex(selectIndex + 1);
+        }else if (e.keyCode === 13){
+            e.preventDefault();
+            if(selectIndex !== null){
+                setSelectPartner(resultado[selectIndex].name);
+                setSelectIdPartner(resultado[selectIndex].id)
+                setDataSelectPartner(resultado[selectIndex].name);
+                setDataIdSelectPartner(resultado[selectIndex].id);
+                onClose();
+            }
+        }
+    };
 
     return(
         <C.Modal>            
@@ -85,11 +114,11 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
                             <input type="radio" className="checkbox-search"/>
                             <label>Geral</label>
                         </div>
-                        <input className="search"  onChange={e => setBusca(e.target.value)}/>
+                        <input className="search"  onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                    
                 </C.Filtro>
                 
-                <table id="table" >
+                <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
                     <thead>
                         <tr>
                             <th>Código</th>
@@ -106,20 +135,23 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
                         </tr>
                     </thead>
                     <tbody>
-                        {resultado.map( (user) => {
+                        {resultado.map( (user, index) => {
                             return(
-                                <tr key={user.id} onDoubleClick={Selected.bind(this, user)}>
-                                    <td>{user.id}</td>
-                                    <td>{user.name}</td>
-                                    <td>{user.status}</td>
-                                    <td>{user.species}</td>
-                                    <td>{user.type}</td>
-                                    <td>{user.gender}</td>
-                                    <td>{user.id}</td>
-                                    <td>{user.name}</td>
-                                    <td>{user.status}</td>
-                                    <td>{user.status}</td>
-                                    <td>{user.status}</td>
+                                <tr 
+                                    key={user.id} 
+                                    onDoubleClick={Selected.bind(this, user)}
+                                    style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                        <td>{user.id}</td>
+                                        <td>{user.name}</td>
+                                        <td>{user.status}</td>
+                                        <td>{user.species}</td>
+                                        <td>{user.type}</td>
+                                        <td>{user.gender}</td>
+                                        <td>{user.id}</td>
+                                        <td>{user.name}</td>
+                                        <td>{user.status}</td>
+                                        <td>{user.status}</td>
+                                        <td>{user.status}</td>
                                 </tr>
                             );
                         })}
