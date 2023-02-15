@@ -54,6 +54,10 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
     const [selectIndex, setSelectIndex] = useState(0);
     const tableRef = useRef(null);
 
+    const selecionado = (user, index) => {
+        setSelectIndex(index);
+    }
+
     const handleKeyDown = (e) => {
         if(e.keyCode === 38){
             e.preventDefault();
@@ -139,6 +143,7 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
                             return(
                                 <tr 
                                     key={user.id} 
+                                    onClick={selecionado.bind(this, user, index)}
                                     onDoubleClick={Selected.bind(this, user)}
                                     style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
                                         <td>{user.id}</td>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import * as C from "./consultar.js";
 
@@ -39,6 +39,26 @@ export const Consultar = () => {
         
     });
 
+    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
+    const [selectIndex, setSelectIndex] = useState(0);
+    const tableRef = useRef(null);
+
+    const handleKeyDown = (e) => {
+        if(e.keyCode === 38){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === 0){
+                return;
+            }
+            setSelectIndex(selectIndex-1);
+        }else if (e.keyCode === 40){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === resultado.length -1 ){
+                return;
+            }
+            setSelectIndex(selectIndex + 1);
+        }
+    };
+
     //Função dos botões
     const Novo = () => {
         navigate("/rotina")
@@ -71,7 +91,7 @@ export const Consultar = () => {
                     <select>
                         <option value="1">1 -RAYANE SUPERMERCADOS</option>
                     </select>
-                    <input className="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)}/>
+                    <input className="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     <div>
                     <label>Situação da Rotina</label>
                         <select>
@@ -85,7 +105,7 @@ export const Consultar = () => {
                     <div className="line"/>
             </C.Filtro>
             <C.Rotinas>
-                <table id="table">
+                <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
                     <thead>
                         <tr>
                             <th>Código</th>
@@ -99,16 +119,19 @@ export const Consultar = () => {
                     </thead>
                     <tbody>
                         { 
-                        resultado.map((item)=>{
+                        resultado.map((item, index)=>{
                             return(
-                                <tr key={item.id} >
-                                    <td>{item.id}</td>
-                                    <td>{item.dataEmissao}</td>
-                                    <td>{item.id_empresa}</td>
-                                    <td>{item.nome_cliente}</td>
-                                    <td>{item.situacao}</td>
-                                    <td>{item.total}</td>
-                                    <td>{item.id_top}</td>
+                                <tr 
+                                    key={item.id}
+                                    onClick={() => setSelectIndex(index)}
+                                    style={{background: index === selectIndex ? '#87CEFA' : ''}} >
+                                        <td>{item.id}</td>
+                                        <td>{item.dataEmissao}</td>
+                                        <td>{item.id_empresa}</td>
+                                        <td>{item.nome_cliente}</td>
+                                        <td>{item.situacao}</td>
+                                        <td>{item.total}</td>
+                                        <td>{item.id_top}</td>
                                 </tr> 
                             )
                         })

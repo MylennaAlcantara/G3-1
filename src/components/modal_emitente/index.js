@@ -48,6 +48,10 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
         //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
         const [selectIndex, setSelectIndex] = useState(0);
         const tableRef = useRef(null);
+
+        const selecionado = (user, index) => {
+            setSelectIndex(index);
+        }
     
         const handleKeyDown = (e) => {
             if(e.keyCode === 38){
@@ -100,7 +104,7 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
                         <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>
                 </Filtro>
-                <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
+                <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
                     <thead>
                         <tr>
                             <th>Código</th>
@@ -115,6 +119,7 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
                             return(
                                 <tr 
                                     key={user.id} 
+                                    onClick={selecionado.bind(this, user, index)}
                                     onDoubleClick={SelectedEmitente.bind(this, user)}
                                     style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
                                         <td>{user.id}</td>

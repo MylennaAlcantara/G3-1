@@ -35,6 +35,10 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) =
     const [selectIndex, setSelectIndex] = useState(0);
     const tableRef = useRef(null);
 
+    const selecionado = (pgto, index) => {
+        setSelectIndex(index);
+    }
+
     const handleKeyDown = (e) => {
         if(e.keyCode === 38){
             e.preventDefault();
@@ -73,7 +77,7 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) =
                     <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                 </div>                
             </Filtro>
-                <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
+                <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0}>
                     <thead>
                         <tr>
                             <th>Código</th>
@@ -87,6 +91,7 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) =
                             return(
                                 <tr 
                                     key={pgto.id} 
+                                    onClick={selecionado.bind(this, pgto, index)}
                                     onDoubleClick={SelectedPgt.bind(this, pgto)}
                                     style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}} >
                                         <td>{pgto.id}</td>

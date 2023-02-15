@@ -46,6 +46,10 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
     const [selectIndex, setSelectIndex] = useState(0);
     const tableRef = useRef(null);
 
+    const selecionado = (top, index) => {
+        setSelectIndex(index);
+    }
+
     const handleKeyDown = (e) => {
         if(e.keyCode === 38){
             e.preventDefault();
@@ -93,7 +97,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
                         <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                
             </Filtro>
-                <table id="table" >
+                <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0} >
                     <thead>
                         <tr>
                             <th>Código</th>
@@ -108,6 +112,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
                             return(
                                 <tr 
                                 key={top.id} 
+                                onClick={selecionado.bind(this, top, index)}
                                 onDoubleClick={SelectedTop.bind(this, top)}
                                 style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}} >
                                     <td>{top.id}</td>
