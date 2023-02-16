@@ -19,6 +19,7 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
             setUsers(data.results);
         }
             fetchData();
+            document.getElementById('search').focus();
     }, []);
 
     const Selected = (user) => {
@@ -118,7 +119,7 @@ export const Modal = ({ onClose = () => {}, setDataSelectPartner, setDataIdSelec
                             <input type="radio" className="checkbox-search"/>
                             <label>Geral</label>
                         </div>
-                        <input className="search"  onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                        <input className="search" id="search" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                    
                 </C.Filtro>
                 

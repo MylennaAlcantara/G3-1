@@ -16,6 +16,7 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) =
          setPgto(data);
         }
             fetchData();
+            document.getElementById('search').focus();
     }, []);
 
     const SelectedPgt = (pgto) => {
@@ -74,7 +75,7 @@ export const Pgt = ({onClose = () =>{}, setDataSelectPgt, setDataIdSelectPgt}) =
             <Filtro>                        
                 <div className="div-search">
                     <label>Buscar: </label>                    
-                    <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                    <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                 </div>                
             </Filtro>
                 <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0}>

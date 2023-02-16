@@ -55,7 +55,11 @@ export const Rotinas = styled.div`
         width: 100%;
         border: 1px solid grey;
     }
-    th{    
+    thead{
+        position: sticky;
+        top: 0;
+    }
+    th{
         font-size: 15px;
         font-weight: bold;
         color: #373435;    

@@ -14,6 +14,7 @@ export const Consultar = () => {
             setRotinas(data);
         }
         fetchData();
+        document.getElementById('search').focus();
     },[])
 
     //Filtro busca por: Top / id vendedor / codigo / cliente / data
@@ -91,7 +92,7 @@ export const Consultar = () => {
                     <select>
                         <option value="1">1 -RAYANE SUPERMERCADOS</option>
                     </select>
-                    <input className="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                    <input className="search" id="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     <div>
                     <label>Situação da Rotina</label>
                         <select>

@@ -17,6 +17,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
             setTop(data);
         }
             fetchData();
+            document.getElementById('search').focus();
     }, []);
 
     const SelectedTop = (top) => {
@@ -94,7 +95,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                        <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                
             </Filtro>
                 <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0} >

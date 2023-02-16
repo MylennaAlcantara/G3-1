@@ -16,6 +16,7 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
             setUsers(data);
         }
             fetchData();
+            document.getElementById('search').focus();
     }, []);
 
     const SelectedSaler = (user) => {
@@ -78,7 +79,7 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                        <input className="search" id='search' placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                
             </Filtro>
                 <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0} >

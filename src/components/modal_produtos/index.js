@@ -15,6 +15,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
             setItens(data.content);
         }
         fetchData();
+        document.getElementById('search').focus();
     }, []);
 
     // Função para pegar as informações do produto selecionado com dois clicks
@@ -123,7 +124,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
                             <option id="descricao" value="2" >Descrição</option>
                         </select>
                     </div>
-                    <input className="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                    <input className="search" id="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     <div>
                         <label>Fornecedor</label>
                         <input />

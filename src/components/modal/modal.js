@@ -30,6 +30,10 @@ export const Container = styled.div`
         width: 100%;
         border: 1px solid grey;
     }
+    thead{
+        position: sticky;
+        top: 20%;
+    }
     th{    
         font-size: 15px;
         font-weight: bold;
@@ -65,6 +69,8 @@ export const Header = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
     label{
         margin-left: 5px;
     }
@@ -84,6 +90,9 @@ export const Filtro = styled.div`
     width: 100%;
     display: flex;
     margin: 5px 0;
+    position: sticky;
+    top: 10%;
+    background-color: white;
     label{
         font-size: 15px;
         font-weight: bold;
@@ -95,6 +104,8 @@ export const Filtro = styled.div`
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+        position: sticky;
+        top:0;
         .checkbox:hover{
             cursor: pointer;
         }
