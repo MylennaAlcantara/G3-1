@@ -31,7 +31,8 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
             desconto: '',
             ncm: item.ncm,
             ncmEx: item.ncmex,
-            subtotal: ''
+            subtotal: '',
+            descontoPorcen: ''
         });
             onClose();
     };

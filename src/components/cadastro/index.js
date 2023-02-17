@@ -36,7 +36,8 @@ export const Cadastro = () => {
         descricaoPdv: '',
         unidade_produto_nome: '',
         subtotal: '',
-        desconto: ''
+        desconto: '',
+        descontoPorcen:''
     });
     
     
@@ -78,15 +79,17 @@ export const Cadastro = () => {
         setTotal(0);
         setSubtotal(0);
         setDescontoValor(0);
+        setDescontoPorcen(0);
     }
 
     //Calcular total da rotina
     const [descontoValor, setDescontoValor] = useState(0);
-    const [descontoPorcen, setDescontoPorcen] = useState('');
+    const [descontoPorcen, setDescontoPorcen] = useState(0);
     const [acrescimo, setAcrescimo] = useState();
 
     function valorDescontoPer (e) {
         setDescontoPorcen((e.target.value).replace(",", "."));
+        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
     function valorDesconto (e) {
         setDescontoValor((e.target.value).replace(",", "."));
@@ -124,8 +127,9 @@ export const Cadastro = () => {
 
     useEffect(()=>{
         setTotal(calcular());
-        setSubtotal(calcularSubtotal())
-    }, [numero1,numero2,descontoValor]);
+        setDescontoValor((parseFloat(total) * parseFloat(descontoPorcen)) / 100);
+        setSubtotal(calcularSubtotal());
+    }, [numero1,numero2,descontoValor,total,descontoPorcen]);
  
      const totalVenda = listItens.reduce((a,b) => parseFloat(a) + parseFloat(b.valor_total), 0);   
 
@@ -446,8 +450,8 @@ export const Cadastro = () => {
                 </div>
                 <div>
                 <label>Desc.: </label>
-                <input id="add-item" className="add-item" placeholder="0,000000%" type="text" onFocus={changeHandler} onKeyDown={NextAddItem2} onChange={valorDescontoPer} onBlur={handleValorBlur} value={descontoPorcen}/>% / R$
-                <input id="add-item2" name="desconto" className="add-item" placeholder="R$ 0,000000" type='text' onKeyDown={NextTotal} onChange={valorDesconto} onBlur={handleValorSubtotalBlur}  value={descontoValor}/>
+                <input id="add-item" name="descontoPorcen" className="add-item" placeholder="0,000000%" type="text" onFocus={changeHandler} onKeyDown={NextAddItem2} onChange={valorDescontoPer} onBlur={handleValorBlur} value={descontoPorcen}/>% / R$
+                <input id="add-item2" name="desconto" className="add-item" placeholder="R$ 0,000000" type='text' onKeyDown={NextTotal} onChange={valorDesconto} onFocus={changeHandler} onBlur={handleValorSubtotalBlur}  value={descontoValor}/>
                 </div>
                 <div>
                 <label>Total do item: </label>
