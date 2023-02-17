@@ -125,14 +125,24 @@ export const Cadastro = () => {
         return (parseFloat(numero1) * parseFloat(numero2)) - parseFloat(descontoValor);
     }
 
-    useEffect(()=>{
+    const condição = () => {
+        if(descontoPorcen === '0,00' || descontoPorcen === 0 || descontoPorcen === ''){
+            return descontoValor
+        }else{
+            return (parseFloat(total) * parseFloat(descontoPorcen)) / 100;
+        }
+    }
+
+    useEffect((e)=>{
         setTotal(calcular());
-        setDescontoValor((parseFloat(total) * parseFloat(descontoPorcen)) / 100);
+        setDescontoValor(condição());
         setSubtotal(calcularSubtotal());
     }, [numero1,numero2,descontoValor,total,descontoPorcen]);
  
      const totalVenda = listItens.reduce((a,b) => parseFloat(a) + parseFloat(b.valor_total), 0);   
 
+     console.log('%:'+ descontoPorcen);
+     console.log('R$:' + descontoValor);
 
     // Funções para abrir o modal de cada campo apertando F2
     function onKeyUp(event){
@@ -337,9 +347,6 @@ export const Cadastro = () => {
         }
     },[]);
 
-
-
-
     const HandleLogout = async () => {
             setToken();
             localStorage.clear();
@@ -450,7 +457,7 @@ export const Cadastro = () => {
                 </div>
                 <div>
                 <label>Desc.: </label>
-                <input id="add-item" name="descontoPorcen" className="add-item" placeholder="0,000000%" type="text" onFocus={changeHandler} onKeyDown={NextAddItem2} onChange={valorDescontoPer} onBlur={handleValorBlur} value={descontoPorcen}/>% / R$
+                <input id="add-item" name="descontoPorcen" className="add-item" placeholder="0,000000%" type="text"  onKeyDown={NextAddItem2} onFocus={changeHandler} onChange={valorDescontoPer} onBlur={handleValorBlur} value={descontoPorcen}/>% / R$
                 <input id="add-item2" name="desconto" className="add-item" placeholder="R$ 0,000000" type='text' onKeyDown={NextTotal} onChange={valorDesconto} onFocus={changeHandler} onBlur={handleValorSubtotalBlur}  value={descontoValor}/>
                 </div>
                 <div>
