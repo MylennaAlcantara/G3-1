@@ -69,14 +69,15 @@ export const Cadastro = () => {
             item: '',
             ncm: '',
             ncmEx: '',
-            quantidade: '',
             subtotal: '',
             unidade_produto: '',
             valor_icms_st: '',
             valor_total: '',
             valor_unitario: ''
         });
-        setTotal();
+        setTotal(0);
+        setSubtotal(0);
+        setDescontoValor(0);
     }
 
     //Calcular total da rotina
@@ -89,6 +90,7 @@ export const Cadastro = () => {
     }
     function valorDesconto (e) {
         setDescontoValor((e.target.value).replace(",", "."));
+        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
 
     function handleValorBlur (){
@@ -100,6 +102,10 @@ export const Cadastro = () => {
     function handleValorTotalBlur () {
         const totalItem = parseFloat(total).toFixed(2).replace("NaN", " ").replace(".", ",");
         setTotal(totalItem);
+    }
+    function handleValorSubtotalBlur () {
+        const totalItem = parseFloat(subtotal).toFixed(2).replace("NaN", " ").replace(".", ",");
+        setSubtotal(totalItem);
     }
 
     // Calcular o valor de quantidade vezes o valor para o total 
@@ -440,8 +446,8 @@ export const Cadastro = () => {
                 </div>
                 <div>
                 <label>Desc.: </label>
-                <input id="add-item" className="add-item" placeholder="0,000000%" type="text"  onKeyDown={NextAddItem2} onChange={valorDescontoPer} onBlur={handleValorBlur} value={descontoPorcen}/>% / R$
-                <input id="add-item2" name="desconto" className="add-item" placeholder="R$ 0,000000" type='float' onKeyDown={NextTotal} onChange={valorDesconto}  value={descontoValor}/>
+                <input id="add-item" className="add-item" placeholder="0,000000%" type="text" onFocus={changeHandler} onKeyDown={NextAddItem2} onChange={valorDescontoPer} onBlur={handleValorBlur} value={descontoPorcen}/>% / R$
+                <input id="add-item2" name="desconto" className="add-item" placeholder="R$ 0,000000" type='text' onKeyDown={NextTotal} onChange={valorDesconto} onBlur={handleValorSubtotalBlur}  value={descontoValor}/>
                 </div>
                 <div>
                 <label>Total do item: </label>

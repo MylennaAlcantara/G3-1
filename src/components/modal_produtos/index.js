@@ -28,7 +28,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
             unidade_produto: item.unidade_produto_nome,
             valor_icms_st: 0,
             acrescimo: 0,
-            desconto: 0,
+            desconto: '',
             ncm: item.ncm,
             ncmEx: item.ncmex,
             subtotal: ''
