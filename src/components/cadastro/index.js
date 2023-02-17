@@ -139,8 +139,9 @@ export const Cadastro = () => {
         setSubtotal(calcularSubtotal());
     }, [numero1,numero2,descontoValor,total,descontoPorcen]);
  
-     const totalVenda = listItens.reduce((a,b) => parseFloat(a) + parseFloat(b.subtotal), 0).toFixed(2);   
-
+     const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal).replace(",", ".")), 0);
+ 
+console.log(totalVenda)
     // Funções para abrir o modal de cada campo apertando F2
     function onKeyUp(event){
         if(	event.keyCode === 113){
@@ -533,11 +534,11 @@ export const Cadastro = () => {
                     <label className="total-itens"></label>
                     <div>
                     <label>Subtotal da Rotina: </label>
-                    <input value={totalVenda}/>
+                    <input value={parseFloat(totalVenda).toFixed(2).replace(".", ",")}/>
                     </div>
                     <div>
                     <label>Total da Rotina: </label>
-                    <input value={totalVenda}/>
+                    <input value={parseFloat(totalVenda).toFixed(2).replace(".", ",")}/>
                     </div> 
                     <div>
                     <label>descontoValor Total(R$): </label>
