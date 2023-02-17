@@ -12,7 +12,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.10:8099/clientes");
+            const response = await fetch("http://10.0.1.94:8091/top/all");
             const data = await response.json();
             setTop(data);
         }
@@ -21,9 +21,9 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
     }, []);
 
     const SelectedTop = (top) => {
-        setSelectTop(top.cep);
+        setSelectTop(top.descricao);
         setSelectIdTop(top.id);
-        setDataSelectTop(top.cep);
+        setDataSelectTop(top.descricao);
         setDataIdSelectTop(top.id);
         onClose();
     };
@@ -38,8 +38,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
         if(filtro === 'codigo'){
             return top.id === Number(busca);
         }else if(filtro === 'descricao'){
-            //return top.descricao.toLowerCase().includes(busca);
-            return top.cep === Number(busca);
+            return top.descricao.toLowerCase().includes(busca);
         }
     });
 
@@ -67,9 +66,9 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
-                setSelectTop(resultado[selectIndex].cep);
+                setSelectTop(resultado[selectIndex].descricao);
                 setSelectIdTop(resultado[selectIndex].id);
-                setDataSelectTop(resultado[selectIndex].cep);
+                setDataSelectTop(resultado[selectIndex].descricao);
                 setDataIdSelectTop(resultado[selectIndex].id);
                 onClose();
             }
@@ -103,7 +102,6 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
                         <tr>
                             <th>Código</th>
                             <th>Descrição</th>
-                            <th>Nat. Operação</th>
                             <th>Mov. Est. reservado</th>
                             <th>MOv. Est. Real</th>
                         </tr>
@@ -117,10 +115,9 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
                                 onDoubleClick={SelectedTop.bind(this, top)}
                                 style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}} >
                                     <td>{top.id}</td>
-                                    <td>{top.cep}</td>
-                                    <td>{top.cep}</td>
-                                    <td>{top.cep}</td>
-                                    <td>{top.cep}</td>                                   
+                                    <td>{top.descricao}</td>
+                                    <td>{top.rotina_movimenta_estoque_reservado === false ? ('Não') : ('Sim')}</td>
+                                    <td>{top.rotina_movimenta_estoque_real === false ? ('Não') : ('Sim')}</td>                                   
                                 </tr>
                             );
                         })}
