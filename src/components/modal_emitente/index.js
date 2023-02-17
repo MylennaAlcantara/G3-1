@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSelectEmitente}) => {
+export const Emitente = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente}) => {
 
     const [users, setUsers] = useState([]);
     const [selectEmitente, setSelectEmitente] = useState();
@@ -26,6 +26,7 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
         setDataSelectEmitente(user.razao_social);
         setDataIdSelectEmitente(user.id);
         onClose();
+        focoCampoSeguinte();
         
     };
 
@@ -75,6 +76,7 @@ export const Emitente = ({onClose = () =>{}, setDataSelectEmitente, setDataIdSel
                     setDataSelectEmitente(resultado[selectIndex].razao_social);
                     setDataIdSelectEmitente(resultado[selectIndex].id);
                     onClose();
+                    focoCampoSeguinte();
                 }
             }
         };

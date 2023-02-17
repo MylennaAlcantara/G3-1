@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSaler}) => {
+export const Saler = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectSaler, setDataIdSelectSaler}) => {
 
     const [users, setUsers] = useState([]);
     const [selectSaler, setSelectSaler] = useState();
@@ -25,6 +25,7 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
         setDataSelectSaler(user.nome);
         setDataIdSelectSaler(user.id);
         onClose();
+        focoCampoSeguinte();
     };
 
     
@@ -61,6 +62,7 @@ export const Saler = ({onClose = () =>{}, setDataSelectSaler, setDataIdSelectSal
                 setDataSelectSaler(resultado[selectIndex].nome);
                 setDataIdSelectSaler(resultado[selectIndex].id);
                 onClose();
+                focoCampoSeguinte();
             }
         }
     };

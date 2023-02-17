@@ -133,16 +133,13 @@ export const Cadastro = () => {
         }
     }
 
-    useEffect((e)=>{
+    useEffect(()=>{
         setTotal(calcular());
         setDescontoValor(condição());
         setSubtotal(calcularSubtotal());
     }, [numero1,numero2,descontoValor,total,descontoPorcen]);
  
-     const totalVenda = listItens.reduce((a,b) => parseFloat(a) + parseFloat(b.valor_total), 0);   
-
-     console.log('%:'+ descontoPorcen);
-     console.log('R$:' + descontoValor);
+     const totalVenda = listItens.reduce((a,b) => parseFloat(a) + parseFloat(b.subtotal), 0).toFixed(2);   
 
     // Funções para abrir o modal de cada campo apertando F2
     function onKeyUp(event){
@@ -151,7 +148,7 @@ export const Cadastro = () => {
         }    
     }
     function keyProduto(event){
-        if( event.keyCode === 113 && document.getElementById('emitente').value != '' && document.getElementById('pgto').value != '' && document.getElementById('vendedor').value != '' && document.getElementById('top').value != '' && document.getElementById('parceiro').value != ''){
+        if( event.keyCode === 113 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value && document.getElementById('top').value && document.getElementById('parceiro').value){
             setIsModalProdutos(true);
         }else{
             setCor('yellow');
@@ -185,12 +182,6 @@ export const Cadastro = () => {
     }
 
     //Funções para mudar de campo ao apertar enter
-    function NextQuantidade (e){
-        if(e.keyCode === 13){
-            e.preventDefault();
-            document.getElementById('quantidade').focus();
-        }
-    }
     function NextValorUnit (e){
         if(e.keyCode === 13){
             e.preventDefault();
@@ -249,6 +240,26 @@ export const Cadastro = () => {
         if(e.keyCode === 13){
             e.preventDefault();
             document.getElementById('subtotal').focus();
+        }
+    }
+
+    //Foco para os proximos campos
+    function focoQtd () {
+        if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && document.getElementById('codigo').value){
+            document.getElementById('quantidade').focus();
+        }
+    }
+    function focoCampoSeguinte () {
+        if(isModalEmitente){
+            document.getElementById('top').focus();
+        }else if(isModalTop){
+            document.getElementById('vendedor').focus();
+        }else if(isModalSaler){
+            document.getElementById('parceiro').focus();
+        }else if(isModalPartner){
+            document.getElementById('pgto').focus();
+        }else if(isModalPgt){
+            document.getElementById('produto').focus();
         }
     }
 
@@ -444,7 +455,7 @@ export const Cadastro = () => {
             <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]); setCounter(prevCounter => prevCounter + 1); zerarInput();}} >
                 <div>
                 <label>Código: </label>
-                <input id="produto" onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.id_produto} name="id_produto" onBlur={changeHandler} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
+                <input id="produto" onKeyDown={keyProduto} type="text" value={dataSelectItem.id_produto} name="id_produto" onBlur={changeHandler} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
                 </div>
                 <div>
                 <label>Qtd: </label>
@@ -540,22 +551,22 @@ export const Cadastro = () => {
                 </div>
             </C.Footer>
             {isModalPartner ? (
-                <Modal onClose = {() => setIsModalPartner(false)} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner}/>
+                <Modal onClose = {() => setIsModalPartner(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner}/>
             ) : null}
             {isModalEmitente ? (
-                <Emitente onClose = {() => setIsModalEmitente(false)} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/>
+                <Emitente onClose = {() => setIsModalEmitente(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/>
             ) : null}
             {isModalTop ? (
-                <Top onClose = {() => setIsModalTop(false)} setDataSelectTop={setDataSelectTop} setDataIdSelectTop={setDataIdSelectTop}/>
+                <Top onClose = {() => setIsModalTop(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectTop={setDataSelectTop} setDataIdSelectTop={setDataIdSelectTop}/>
             ) : null}
             {isModalSaler ? (
-                <Saler onClose = {() => setIsModalSaler(false)} setDataSelectSaler={setDataSelectSaler} setDataIdSelectSaler={setDataIdSelectSaler}/>
+                <Saler onClose = {() => setIsModalSaler(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectSaler={setDataSelectSaler} setDataIdSelectSaler={setDataIdSelectSaler}/>
             ) : null}
             {isModalPgt ? (
-                <Pgt onClose = {() => setIsModalPgt(false)} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
+                <Pgt onClose = {() => setIsModalPgt(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt}/>
+                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt}/>
             ) : null}
         </C.Container>   
     );

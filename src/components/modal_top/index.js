@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) => {
+export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, setDataIdSelectTop}) => {
 
     const [top, setTop] = useState([]);
     const [selectTop, setSelectTop] = useState();
@@ -26,6 +26,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
         setDataSelectTop(top.descricao);
         setDataIdSelectTop(top.id);
         onClose();
+        focoCampoSeguinte();
     };
 
     // Filtro de busca
@@ -71,6 +72,7 @@ export const Top = ({onClose = () =>{}, setDataSelectTop, setDataIdSelectTop}) =
                 setDataSelectTop(resultado[selectIndex].descricao);
                 setDataIdSelectTop(resultado[selectIndex].id);
                 onClose();
+                focoCampoSeguinte();
             }
         }
     };

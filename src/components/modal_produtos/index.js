@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Header, Modal} from "./../modal/modal.js";
 import * as C from "./produtos.js";
 
-export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmitente, dataIdSelectPgt}) => {
+export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataIdSelectEmitente, dataIdSelectPgt}) => {
 
     const [itens, setItens] = useState([]);
     const [busca, setBusca] = useState('');
@@ -35,6 +35,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
             descontoPorcen: ''
         });
             onClose();
+            focoQtd();
     };
 
     const EstoqueTrib = (item, index) =>{
@@ -105,6 +106,7 @@ export const Produtos = ({onClose = () => {}, setDataSelectItem, dataIdSelectEmi
                     subtotal: ''
                 });
                     onClose();
+                    focoQtd();
             }
         }
     }
