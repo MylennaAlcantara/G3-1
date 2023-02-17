@@ -96,16 +96,19 @@ export const Cadastro = () => {
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
 
-    function handleValorBlur (){
+    function handlePorcenBlur(){
         const valor = parseFloat(descontoPorcen).toFixed(2).replace("NaN", " ").replace(".", ",");
         setDescontoPorcen(valor);
+    }
+
+    /*function handleValorBlur (){
         const valor2 = parseFloat(descontoValor).toFixed(2).replace("NaN", " ").replace(".", ",");
         setDescontoValor(valor2);
     }
     function handleValorTotalBlur () {
         const totalItem = parseFloat(total).toFixed(2).replace("NaN", " ").replace(".", ",");
         setTotal(totalItem);
-    }
+    }*/
     function handleValorSubtotalBlur () {
         const totalItem = parseFloat(subtotal).toFixed(2).replace("NaN", " ").replace(".", ",");
         setSubtotal(totalItem);
@@ -118,18 +121,18 @@ export const Cadastro = () => {
     const [subtotal, setSubtotal] = useState(0);
 
     const calcular = () =>{
-        return parseFloat(numero1) * parseFloat(numero2);
+        return parseFloat(parseFloat(numero1) * parseFloat(numero2)).toFixed(2).replace("NaN", " ").replace(".", ",");
     }
 
     const calcularSubtotal = () => {
-        return (parseFloat(numero1) * parseFloat(numero2)) - parseFloat(descontoValor);
+        return parseFloat((parseFloat(numero1) * parseFloat(numero2)) - parseFloat(descontoValor)).toFixed(2).replace("NaN", " ").replace(".", ",");
     }
 
     const condição = () => {
         if(descontoPorcen === '0,00' || descontoPorcen === 0 || descontoPorcen === ''){
             return descontoValor
         }else{
-            return (parseFloat(total) * parseFloat(descontoPorcen)) / 100;
+            return parseFloat((parseFloat(total) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ").replace(".", ",");
         }
     }
 
@@ -456,32 +459,81 @@ console.log(totalVenda)
             <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]); setCounter(prevCounter => prevCounter + 1); zerarInput();}} >
                 <div>
                 <label>Código: </label>
-                <input id="produto" onKeyDown={keyProduto} type="text" value={dataSelectItem.id_produto} name="id_produto" onBlur={changeHandler} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
+                <input 
+                    id="produto" 
+                    onKeyDown={keyProduto} 
+                    type="text" 
+                    value={dataSelectItem.id_produto} 
+                    name="id_produto" 
+                    onBlur={changeHandler} 
+                    title='Aperte F2 para listar as opções' 
+                    style={{backgroundColor: cor}} required/>
                 </div>
                 <div>
                 <label>Qtd: </label>
-                <input  placeholder="1,000" name="quantidade" type="text" value={numero1} onChange={(e) => setNumero1(e.target.value)} onBlur={changeHandler} onKeyDown={NextValorUnit} id="quantidade"  required/>
+                <input  
+                    placeholder="1,000" 
+                    name="quantidade" 
+                    type="text" 
+                    value={numero1} 
+                    onChange={(e) => setNumero1(e.target.value)} 
+                    onBlur={changeHandler} 
+                    onKeyDown={NextValorUnit} 
+                    id="quantidade"  required/>
                 </div>
                 <div>
                 <label>Vl. Unit.: </label>
-                <input className="add-item" value={dataSelectItem.valor_unitario} name="valor_unitario" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} onKeyDown={NextAddItem} type="text" id="valorUnit" required/>
+                <input 
+                    className="add-item" 
+                    value={dataSelectItem.valor_unitario} 
+                    name="valor_unitario" 
+                    onFocus={(e) => setNumero2(e.target.value)} 
+                    onBlur={changeHandler} 
+                    onKeyDown={NextAddItem} 
+                    type="text" 
+                    id="valorUnit" required/>
                 <datalist></datalist>
                 </div>
                 <div>
                 <label>Desc.: </label>
-                <input id="add-item" name="descontoPorcen" className="add-item" placeholder="0,000000%" type="text"  onKeyDown={NextAddItem2} onFocus={changeHandler} onChange={valorDescontoPer} onBlur={handleValorBlur} value={descontoPorcen}/>% / R$
-                <input id="add-item2" name="desconto" className="add-item" placeholder="R$ 0,000000" type='text' onKeyDown={NextTotal} onChange={valorDesconto} onFocus={changeHandler} onBlur={handleValorSubtotalBlur}  value={descontoValor}/>
+                <input 
+                    id="add-item" 
+                    name="descontoPorcen" 
+                    className="add-item" 
+                    placeholder="0,000000%" 
+                    type="text"  
+                    onKeyDown={NextAddItem2} 
+                    onFocus={changeHandler} 
+                    onChange={valorDescontoPer} 
+                    onBlur={handlePorcenBlur} 
+                    value={descontoPorcen}/>% / R$
+                <input 
+                    id="add-item2" 
+                    name="desconto" 
+                    className="add-item" 
+                    placeholder="R$ 0,000000" 
+                    type='text' 
+                    onKeyDown={NextTotal} 
+                    onChange={valorDesconto} 
+                    onFocus={changeHandler}
+                    value={descontoValor}/>
                 </div>
                 <div>
                 <label>Total do item: </label>
-                <input type="text" name="valor_total" id="Total" value={total} onBlur={handleValorTotalBlur} onFocus={changeHandler} onKeyDown={NextSubtotal}  required/>
+                <input 
+                    type="text" 
+                    name="valor_total" 
+                    id="Total" 
+                    value={total}  
+                    onFocus={changeHandler} 
+                    onKeyDown={NextSubtotal}  required/>
                 <label>Subtotal</label>
                 <input name='subtotal' id="subtotal" value={subtotal} onFocus={changeHandler} onKeyDown={NextDescrição} required/>
                 <br/>
                 </div>
                 <div className="div-descrição" >
                 <label>Descrição: </label>
-                <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao_produto} onFocus={changeHandler} name="descricao_produto" readOnly required/>
+                <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao_produto} onFocus={changeHandler} onBlur={handleValorSubtotalBlur} name="descricao_produto" readOnly required/>
                 </div>
                 <button onSubmit={zerarInput}>add</button>
             </form>
