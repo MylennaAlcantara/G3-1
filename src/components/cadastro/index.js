@@ -35,7 +35,8 @@ export const Cadastro = () => {
         valor_venda: '',
         descricaoPdv: '',
         unidade_produto_nome: '',
-        subtotal: ''
+        subtotal: '',
+        desconto: ''
     });
     
     
@@ -61,7 +62,7 @@ export const Cadastro = () => {
     const zerarInput = () => {
         setDataSelectItem({
             acrescimo: '',
-            desconto: '',
+            descontoValor: '',
             descricao_produto: '',
             gtin_produto: '',
             id_produto: '',
@@ -77,24 +78,49 @@ export const Cadastro = () => {
         });
         setTotal();
     }
-    
+
+    //Calcular total da rotina
+    const [descontoValor, setDescontoValor] = useState(0);
+    const [descontoPorcen, setDescontoPorcen] = useState('');
+    const [acrescimo, setAcrescimo] = useState();
+
+    function valorDescontoPer (e) {
+        setDescontoPorcen((e.target.value).replace(",", "."));
+    }
+    function valorDesconto (e) {
+        setDescontoValor((e.target.value).replace(",", "."));
+    }
+
+    function handleValorBlur (){
+        const valor = parseFloat(descontoPorcen).toFixed(2).replace("NaN", " ").replace(".", ",");
+        setDescontoPorcen(valor);
+        const valor2 = parseFloat(descontoValor).toFixed(2).replace("NaN", " ").replace(".", ",");
+        setDescontoValor(valor2);
+    }
+    function handleValorTotalBlur () {
+        const totalItem = parseFloat(total).toFixed(2).replace("NaN", " ").replace(".", ",");
+        setTotal(totalItem);
+    }
+
     // Calcular o valor de quantidade vezes o valor para o total 
     const [numero1, setNumero1] = useState(1);
     const [numero2, setNumero2] = useState(0);
     const [total, setTotal] = useState(0);
+    const [subtotal, setSubtotal] = useState(0);
 
     const calcular = () =>{
         return parseFloat(numero1) * parseFloat(numero2);
     }
 
+    const calcularSubtotal = () => {
+        return (parseFloat(numero1) * parseFloat(numero2)) - parseFloat(descontoValor);
+    }
+
     useEffect(()=>{
         setTotal(calcular());
-    }, [numero1,numero2]);
-
-    //Calcular total da rotina
-    const [desconto, setDesconto] = useState();
-    const [acrescimo, setAcrescimo] = useState();
-
+        setSubtotal(calcularSubtotal())
+    }, [numero1,numero2,descontoValor]);
+ 
      const totalVenda = listItens.reduce((a,b) => parseFloat(a) + parseFloat(b.valor_total), 0);   
 
 
@@ -261,7 +287,7 @@ export const Cadastro = () => {
                         id_funcionario: dataIdSelectSaler,
                         id_tipo_pagamento: dataIdSelectPgt,
                         situacao: 'P',
-                        desconto: '',
+                        descontoValor: '',
                         dataEmissao: String(dataEmissao),
                         hora_emissao: String(horaEmissao),
                         total: totalVenda,
@@ -404,23 +430,24 @@ export const Cadastro = () => {
                 <input id="produto" onKeyDown={NextQuantidade} onKeyUp={keyProduto} type="text" value={dataSelectItem.id_produto} name="id_produto" onBlur={changeHandler} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
                 </div>
                 <div>
-                <label>Quantidade: </label>
+                <label>Qtd: </label>
                 <input  placeholder="1,000" name="quantidade" type="text" value={numero1} onChange={(e) => setNumero1(e.target.value)} onBlur={changeHandler} onKeyDown={NextValorUnit} id="quantidade"  required/>
                 </div>
                 <div>
-                <label>Valor Unitário: </label>
+                <label>Vl. Unit.: </label>
                 <input className="add-item" value={dataSelectItem.valor_unitario} name="valor_unitario" onFocus={(e) => setNumero2(e.target.value)} onBlur={changeHandler} onKeyDown={NextAddItem} type="text" id="valorUnit" required/>
                 <datalist></datalist>
                 </div>
                 <div>
-                <label>Desconto: </label>
-                <input id="add-item" className="add-item" placeholder="0,000000" onKeyDown={NextAddItem2}/><input id="add-item2" className="add-item" type="text" onKeyDown={NextTotal} />
+                <label>Desc.: </label>
+                <input id="add-item" className="add-item" placeholder="0,000000%" type="text"  onKeyDown={NextAddItem2} onChange={valorDescontoPer} onBlur={handleValorBlur} value={descontoPorcen}/>% / R$
+                <input id="add-item2" name="desconto" className="add-item" placeholder="R$ 0,000000" type='float' onKeyDown={NextTotal} onChange={valorDesconto}  value={descontoValor}/>
                 </div>
                 <div>
                 <label>Total do item: </label>
-                <input type="text" name="valor_total" id="Total" value={total} onFocus={changeHandler} onKeyDown={NextSubtotal}  required/>
+                <input type="text" name="valor_total" id="Total" value={total} onBlur={handleValorTotalBlur} onFocus={changeHandler} onKeyDown={NextSubtotal}  required/>
                 <label>Subtotal</label>
-                <input name='subtotal' id="subtotal" value={total} onFocus={changeHandler} onKeyDown={NextDescrição} required/>
+                <input name='subtotal' id="subtotal" value={subtotal} onFocus={changeHandler} onKeyDown={NextDescrição} required/>
                 <br/>
                 </div>
                 <div className="div-descrição" >
@@ -442,7 +469,7 @@ export const Cadastro = () => {
                             <th>Quant.</th>
                             <th>Valor Unid.</th>
                             <th>Subtotal</th>
-                            <th>Acres. R$</th>                        
+                            <th>Desc. R$</th>                        
                         </tr>
                     </thead>
                     <tbody>
@@ -456,8 +483,8 @@ export const Cadastro = () => {
                                     <td>{list.unidade_produto}</td>
                                     <td>{list.quantidade}</td>
                                     <td>{list.valor_unitario}</td>
-                                    <td>{list.valor_total}</td>
                                     <td>{list.subtotal}</td>
+                                    <td>{list.desconto}</td>
                                     <img src="/images/lixeira.png" className="button-excluir" onClick={Deletar.bind(this, list, index)}/>
                                 </tr>
                             )
@@ -468,7 +495,7 @@ export const Cadastro = () => {
             <C.Footer>
                 <form>
                     <div>
-                    <label>Pré-desconto:</label>
+                    <label>Pré-descontoValor:</label>
                     <input placeholder="0,000000"/>
                     </div>
                     <div>
@@ -485,7 +512,7 @@ export const Cadastro = () => {
                     <input value={totalVenda}/>
                     </div> 
                     <div>
-                    <label>Desconto Total(R$): </label>
+                    <label>descontoValor Total(R$): </label>
                     <input placeholder="0,000000"/>
                     </div>
                 </form>
