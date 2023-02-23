@@ -27,7 +27,7 @@ export const Cadastro = () => {
     const [dataSelectPartner, setDataSelectPartner] = useState('');
     const [dataSelectEmitente, setDataSelectEmitente] = useState('');
     const [dataSelectTop, setDataSelectTop] = useState({
-        id: '',
+        id_top: '',
         id_perfil_movimentacao: '',
         libera_itens_estoque_indisponivel:  '',
         descricao:  '',
@@ -52,7 +52,6 @@ export const Cadastro = () => {
         desconto: '',
         descontoPorcen:''
     });
-    
     
     /*Estado do id dos elementos selecionados no modal */
     const [dataIdSelectPartner, setDataIdSelectPartner] = useState('');
@@ -438,7 +437,7 @@ console.log(totalVenda)
                         </div>
                         <div>
                         <label>T.O.P: </label>
-                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataSelectTop.id} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
+                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataSelectTop.id_top} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
                         <input name="top" className="option" value={dataSelectTop.descricao}/>
                         </div>
                         <div>
@@ -646,7 +645,7 @@ console.log(totalVenda)
                 <Pgt onClose = {() => setIsModalPgt(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt}/>
+                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop}/>
             ) : null}
         </C.Container>   
     );

@@ -12,7 +12,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.94:8091/top/all");
+            const response = await fetch("http://localhost:5000/tops");//http://10.0.1.31:/top/all
             const data = await response.json();
             setTop(data);
         }
@@ -21,8 +21,8 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
     }, []);
 
     const SelectedTop = (top) => {
-        setSelectTop({
-            id: top.id,
+        setDataSelectTop({
+            id_top: top.id,
             id_perfil_movimentacao:top.id_perfil_movimentacao,
             libera_itens_estoque_indisponivel: top.libera_itens_estoque_indisponivel,
             descricao: top.descricao,
@@ -35,9 +35,6 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
             editar_preco_rotina: top.editar_preco_rotina,
             tipo_edicao_preco_rotina: top.tipo_edicao_preco_rotina
         });
-        setSelectIdTop(top.id);
-        setDataSelectTop(top.descricao);
-        setDataIdSelectTop(top.id);
         onClose();
         focoCampoSeguinte();
     };
@@ -80,10 +77,20 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
-                setSelectTop(resultado[selectIndex].descricao);
-                setSelectIdTop(resultado[selectIndex].id);
-                setDataSelectTop(resultado[selectIndex].descricao);
-                setDataIdSelectTop(resultado[selectIndex].id);
+                setDataSelectTop({
+                    id_top: resultado[selectIndex].id,
+                    id_perfil_movimentacao:resultado[selectIndex].id_perfil_movimentacao,
+                    libera_itens_estoque_indisponivel: resultado[selectIndex].libera_itens_estoque_indisponivel,
+                    descricao: resultado[selectIndex].descricao,
+                    tipo_movimentacao: resultado[selectIndex].tipo_movimentacao,
+                    rotina_movimenta_estoque_reservado: resultado[selectIndex].rotina_movimenta_estoque_reservado,
+                    gera_financeiro: resultado[selectIndex].gera_financeiro,
+                    rotina_movimenta_estoque_real: resultado[selectIndex].rotina_movimenta_estoque_real,
+                    rotina_movimenta_estoque_deposito_interno: resultado[selectIndex].rotina_movimenta_estoque_deposito_interno,
+                    libera_editar_nome_do_consumidor_final: resultado[selectIndex].libera_editar_nome_do_consumidor_final,
+                    editar_preco_rotina: resultado[selectIndex].editar_preco_rotina,
+                    tipo_edicao_preco_rotina: resultado[selectIndex].tipo_edicao_preco_rotina
+                });
                 onClose();
                 focoCampoSeguinte();
             }

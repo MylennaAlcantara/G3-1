@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Header, Modal} from "./../modal/modal.js";
 import * as C from "./produtos.js";
 
-export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataIdSelectEmitente, dataIdSelectPgt}) => {
+export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataIdSelectEmitente, dataIdSelectPgt, dataSelectTop}) => {
 
     const [itens, setItens] = useState([]);
     const [busca, setBusca] = useState('');
@@ -20,22 +20,27 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
 
     // Função para pegar as informações do produto selecionado com dois clicks
     const SelectedItem = (item) => {
-        setDataSelectItem({
-            id_produto: item.id,
-            gtin_produto: item.gtin,
-            valor_unitario: item.valor_venda,
-            descricao_produto: item.descricaoPdv,
-            unidade_produto: item.unidade_produto_nome,
-            valor_icms_st: 0,
-            acrescimo: 0,
-            desconto: '',
-            ncm: item.ncm,
-            ncmEx: item.ncmex,
-            subtotal: '',
-            descontoPorcen: ''
-        });
+        if(dataSelectTop.libera_itens_estoque_indisponivel === true ){
+             setDataSelectItem({
+                id_produto: item.id,
+                gtin_produto: item.gtin,
+                valor_unitario: item.valor_venda,
+                descricao_produto: item.descricaoPdv,
+                unidade_produto: item.unidade_produto_nome,
+                valor_icms_st: 0,
+                acrescimo: 0,
+                desconto: '',
+                ncm: item.ncm,
+                ncmEx: item.ncmex,
+                subtotal: '',
+                descontoPorcen: ''
+            });
             onClose();
             focoQtd();
+        }else if(dataSelectTop.libera_itens_estoque_indisponivel === false && item.qtd_estoque <= 0){
+            alert('Produto com estoque indisponivel')
+        }
+       
     };
 
     const EstoqueTrib = (item, index) =>{
@@ -92,7 +97,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
-                setDataSelectItem({
+                if(dataSelectTop.libera_itens_estoque_indisponivel === true ){
+                    setDataSelectItem({
                     id_produto: resultado[selectIndex].id,
                     gtin_produto: resultado[selectIndex].gtin,
                     valor_unitario: resultado[selectIndex].valor_venda,
@@ -107,6 +113,10 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 });
                     onClose();
                     focoQtd();
+                }else if(dataSelectTop.libera_itens_estoque_indisponivel === false && resultado[selectIndex].qtd_estoque <= 0){
+            alert('Produto com estoque indisponivel')
+        }
+                
             }
         }
     }
