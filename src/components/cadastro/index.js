@@ -26,7 +26,20 @@ export const Cadastro = () => {
     /*Etado do elemento selecionado no modal */
     const [dataSelectPartner, setDataSelectPartner] = useState('');
     const [dataSelectEmitente, setDataSelectEmitente] = useState('');
-    const [dataSelectTop, setDataSelectTop] = useState('');
+    const [dataSelectTop, setDataSelectTop] = useState({
+        id: '',
+        id_perfil_movimentacao: '',
+        libera_itens_estoque_indisponivel:  '',
+        descricao:  '',
+        tipo_movimentacao:  '',
+        rotina_movimenta_estoque_reservado:  '',
+        gera_financeiro: '',
+        rotina_movimenta_estoque_real: '',
+        rotina_movimenta_estoque_deposito_interno: '',
+        libera_editar_nome_do_consumidor_final: '',
+        editar_preco_rotina: '',
+        tipo_edicao_preco_rotina: ''
+    });
     const [dataSelectSaler, setDataSelectSaler] = useState('');
     const [dataSelectPgt, setDataSelectPgt] = useState('');
     const [dataSelectItem, setDataSelectItem] = useState({
@@ -83,8 +96,8 @@ export const Cadastro = () => {
     }
 
     //Calcular total da rotina
-    const [descontoValor, setDescontoValor] = useState(0);
-    const [descontoPorcen, setDescontoPorcen] = useState(0);
+    const [descontoValor, setDescontoValor] = useState('0,00');
+    const [descontoPorcen, setDescontoPorcen] = useState('0,00');
     const [acrescimo, setAcrescimo] = useState();
 
     function valorDescontoPer (e) {
@@ -121,18 +134,18 @@ export const Cadastro = () => {
     const [subtotal, setSubtotal] = useState(0);
 
     const calcular = () =>{
-        return parseFloat(parseFloat(numero1) * parseFloat(numero2)).toFixed(2).replace("NaN", " ").replace(".", ",");
+        return parseFloat(parseFloat(numero1) * parseFloat(numero2)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
     }
 
     const calcularSubtotal = () => {
-        return parseFloat((parseFloat(numero1) * parseFloat(numero2)) - parseFloat(descontoValor)).toFixed(2).replace("NaN", " ").replace(".", ",");
+        return parseFloat((parseFloat(numero1) * parseFloat(numero2)) - parseFloat(descontoValor)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
     }
 
     const condição = () => {
         if(descontoPorcen === '0,00' || descontoPorcen === 0 || descontoPorcen === ''){
             return descontoValor
         }else{
-            return parseFloat((parseFloat(total) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ").replace(".", ",");
+            return parseFloat((parseFloat(total) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ")//replace(".", ",");
         }
     }
 
@@ -152,7 +165,7 @@ console.log(totalVenda)
         }    
     }
     function keyProduto(event){
-        if( event.keyCode === 113 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value && document.getElementById('top').value && document.getElementById('parceiro').value){
+        if( event.keyCode === 113 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value /*&& document.getElementById('top').value*/ && document.getElementById('parceiro').value){
             setIsModalProdutos(true);
         }else{
             setCor('yellow');
@@ -425,8 +438,8 @@ console.log(totalVenda)
                         </div>
                         <div>
                         <label>T.O.P: </label>
-                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataIdSelectTop} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
-                        <input name="top" className="option" value={dataSelectTop}/>
+                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataSelectTop.id} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
+                        <input name="top" className="option" value={dataSelectTop.descricao}/>
                         </div>
                         <div>
                         <label>Vendedor: </label>
@@ -528,12 +541,26 @@ console.log(totalVenda)
                     onFocus={changeHandler} 
                     onKeyDown={NextSubtotal}  required/>
                 <label>Subtotal</label>
-                <input name='subtotal' id="subtotal" value={subtotal} onFocus={changeHandler} onKeyDown={NextDescrição} required/>
+                <input 
+                    name='subtotal' 
+                    id="subtotal" 
+                    value={subtotal} 
+                    onFocus={changeHandler} 
+                    onKeyDown={NextDescrição} required/>
                 <br/>
                 </div>
                 <div className="div-descrição" >
                 <label>Descrição: </label>
-                <input id="descrição" className="descrição" type="text" value={dataSelectItem.descricao_produto} onFocus={changeHandler} onBlur={handleValorSubtotalBlur} name="descricao_produto" readOnly required/>
+                <input 
+                    id="descrição" 
+                    className="descrição" 
+                    type="text" 
+                    value={dataSelectItem.descricao_produto} 
+                    onFocus={changeHandler} 
+                    onBlur={handleValorSubtotalBlur} 
+                    name="descricao_produto" 
+                    readOnly 
+                    required/>
                 </div>
                 <button onSubmit={zerarInput}>add</button>
             </form>

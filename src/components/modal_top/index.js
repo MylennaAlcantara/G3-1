@@ -21,7 +21,20 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
     }, []);
 
     const SelectedTop = (top) => {
-        setSelectTop(top.descricao);
+        setSelectTop({
+            id: top.id,
+            id_perfil_movimentacao:top.id_perfil_movimentacao,
+            libera_itens_estoque_indisponivel: top.libera_itens_estoque_indisponivel,
+            descricao: top.descricao,
+            tipo_movimentacao: top.tipo_movimentacao,
+            rotina_movimenta_estoque_reservado: top.rotina_movimenta_estoque_reservado,
+            gera_financeiro: top.gera_financeiro,
+            rotina_movimenta_estoque_real: top.rotina_movimenta_estoque_real,
+            rotina_movimenta_estoque_deposito_interno: top.rotina_movimenta_estoque_deposito_interno,
+            libera_editar_nome_do_consumidor_final: top.libera_editar_nome_do_consumidor_final,
+            editar_preco_rotina: top.editar_preco_rotina,
+            tipo_edicao_preco_rotina: top.tipo_edicao_preco_rotina
+        });
         setSelectIdTop(top.id);
         setDataSelectTop(top.descricao);
         setDataIdSelectTop(top.id);
