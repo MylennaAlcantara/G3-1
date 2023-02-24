@@ -50,7 +50,8 @@ export const Cadastro = () => {
         unidade_produto_nome: '',
         subtotal: '',
         desconto: '',
-        descontoPorcen:''
+        descontoPorcen:'',
+        qtd_estoque: ''
     });
     
     /*Estado do id dos elementos selecionados no modal */
@@ -93,6 +94,18 @@ export const Cadastro = () => {
         setDescontoValor(0);
         setDescontoPorcen(0);
     }
+
+    //valida se a quantidade inserida no item é valida, se é maior que a quantidade disponivel ou se esta vazio
+    const validarQtd = () => {
+        if(dataSelectItem.qtd_estoque < numero1 && dataSelectTop.tipo_movimentacao === 'S'){
+            alert('Quantidade inserida maior que o estoque disponivel!');
+        }else if(numero1 === '0' || numero1 === '' || numero1 < 0){
+            alert('Quantidade inserida invalida!');
+        }else{
+            setListItens([...listItens, dataSelectItem]);
+        }
+    }
+
 
     //Calcular total da rotina
     const [descontoValor, setDescontoValor] = useState('0,00');
@@ -201,7 +214,16 @@ console.log(totalVenda)
     function NextValorUnit (e){
         if(e.keyCode === 13){
             e.preventDefault();
-            document.getElementById('valorUnit').focus();
+            if(dataSelectItem.qtd_estoque < numero1 && dataSelectTop.tipo_movimentacao === 'S'){
+                alert('Quantidade inserida maior que o estoque disponivel!');
+            }else if(dataSelectTop.tipo_movimentacao === 'E'){
+                e.preventDefault();
+                document.getElementById('valorUnit').focus();
+            }else if(dataSelectTop.tipo_movimentacao === 'S' && dataSelectItem.qtd_estoque >= numero1){
+                e.preventDefault();
+                document.getElementById('valorUnit').focus();
+            }
+           
         }
     }
     function NextAddItem (e){
@@ -468,7 +490,7 @@ console.log(totalVenda)
                 <label>Produtos</label>
             </C.Header>
             <C.Add>
-            <form onSubmit={event =>{event.preventDefault(); setListItens([...listItens, dataSelectItem]); setCounter(prevCounter => prevCounter + 1); zerarInput();}} >
+            <form onSubmit={event =>{event.preventDefault();  setCounter(prevCounter => prevCounter + 1); zerarInput(); validarQtd();}} >
                 <div>
                 <label>Código: </label>
                 <input 
@@ -561,7 +583,7 @@ console.log(totalVenda)
                     readOnly 
                     required/>
                 </div>
-                <button onSubmit={zerarInput}>add</button>
+                <button onSubmit={validarQtd}>add</button>
             </form>
             </C.Add>
             <C.Display>

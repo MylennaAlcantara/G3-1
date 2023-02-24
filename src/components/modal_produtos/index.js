@@ -33,7 +33,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 ncm: item.ncm,
                 ncmEx: item.ncmex,
                 subtotal: '',
-                descontoPorcen: ''
+                descontoPorcen: '',
+                qtd_estoque: item.qtd_estoque
             });
             onClose();
             focoQtd();
@@ -51,7 +52,25 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 desconto: 0,
                 ncm: item.ncm,
                 ncmEx: item.ncmex,
-                subtotal: ''
+                subtotal: '',
+                qtd_estoque: item.qtd_estoque
+            });
+            onClose();
+            focoQtd();
+        }else if(dataSelectTop.libera_itens_estoque_indisponivel === false && resultado[selectIndex].qtd_estoque >= 0 && dataSelectTop.tipo_movimentacao === 'S'){
+            setDataSelectItem({
+                id_produto: item.id,
+                gtin_produto: item.gtin,
+                valor_unitario: item.valor_venda,
+                descricao_produto: item.descricaoPdv,
+                unidade_produto: item.unidade_produto_nome,
+                valor_icms_st: 0,
+                acrescimo: 0,
+                desconto: 0,
+                ncm: item.ncm,
+                ncmEx: item.ncmex,
+                subtotal: '',
+                qtd_estoque: item.qtd_estoques
             });
             onClose();
             focoQtd();
@@ -125,7 +144,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                     desconto: 0,
                     ncm: resultado[selectIndex].ncm,
                     ncmEx: resultado[selectIndex].ncmex,
-                    subtotal: ''
+                    subtotal: '',
+                    qtd_estoque: resultado[selectIndex].qtd_estoque
                 });
                     onClose();
                     focoQtd();
@@ -143,7 +163,25 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                         desconto: 0,
                         ncm: resultado[selectIndex].ncm,
                         ncmEx: resultado[selectIndex].ncmex,
-                        subtotal: ''
+                        subtotal: '',
+                        qtd_estoque: resultado[selectIndex].qtd_estoque
+                    });
+                    onClose();
+                    focoQtd();
+                }else if(dataSelectTop.libera_itens_estoque_indisponivel === false && resultado[selectIndex].qtd_estoque >= 0 && dataSelectTop.tipo_movimentacao === 'S'){
+                    setDataSelectItem({
+                        id_produto: resultado[selectIndex].id,
+                        gtin_produto: resultado[selectIndex].gtin,
+                        valor_unitario: resultado[selectIndex].valor_venda,
+                        descricao_produto: resultado[selectIndex].descricaoPdv,
+                        unidade_produto: resultado[selectIndex].unidade_produto_nome,
+                        valor_icms_st: 0,
+                        acrescimo: 0,
+                        desconto: 0,
+                        ncm: resultado[selectIndex].ncm,
+                        ncmEx: resultado[selectIndex].ncmex,
+                        subtotal: '',
+                        qtd_estoque: resultado[selectIndex].qtd_estoque
                     });
                     onClose();
                     focoQtd();
