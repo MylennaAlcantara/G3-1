@@ -1,1 +1,1 @@
-web: bin/boot
+web: mars/create-react-app-inner-buildpack.git#v9.0.0
