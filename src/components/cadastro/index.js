@@ -51,7 +51,8 @@ export const Cadastro = () => {
         subtotal: '',
         desconto: '',
         descontoPorcen:'',
-        qtd_estoque: ''
+        qtd_estoque: '',
+        quantidade: ''
     });
     
     /*Estado do id dos elementos selecionados no modal */
@@ -117,7 +118,16 @@ export const Cadastro = () => {
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
     function valorDesconto (e) {
-        setDescontoValor((e.target.value).replace(",", "."));
+        if(numero1 === '1,000' || numero1 === '1.000'){
+            setDescontoValor((numero1).replace(",", "."));
+            setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
+        }else{
+            setDescontoValor((e.target.value).replace(",", "."));
+            setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
+        }
+    }
+    function qtdEstoque (e) {
+        setNumero1((e.target.value).replace(",", "."));
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
 
@@ -125,6 +135,12 @@ export const Cadastro = () => {
         const valor = parseFloat(descontoPorcen).toFixed(2).replace("NaN", " ").replace(".", ",");
         setDescontoPorcen(valor);
     }
+    function handleQtdEstoqueBlur(e){
+        const valor = parseFloat(numero1).toFixed(3).replace("NaN", " ").replace(".", ",");
+        setNumero1(valor);
+        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
+    }
+    
 
     /*function handleValorBlur (){
         const valor2 = parseFloat(descontoValor).toFixed(2).replace("NaN", " ").replace(".", ",");
@@ -140,24 +156,32 @@ export const Cadastro = () => {
     }
 
     // Calcular o valor de quantidade vezes o valor para o total 
-    const [numero1, setNumero1] = useState(1);
+    const [numero1, setNumero1] = useState("1.000");
     const [numero2, setNumero2] = useState(0);
     const [total, setTotal] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
 
+    const valor1 = String(numero1).replace(",", ".");
+    const valorDesc = String(descontoValor).replace(",", ".");
+
+    //Constante utilizada para exibir o valor com duas casas decimais no valor unitario
+    const valorUnitario = String(dataSelectItem.valor_unitario).replace(".", ",").replace("NaN", " ").replace("undefined", " ");
+
+    //Constante utilizada para converter de virgula para ponto para realizar o calculo de total e subtotal
+    const valorUnita = String(valorUnitario).replace(",", ".");
     const calcular = () =>{
-        return parseFloat(parseFloat(numero1) * parseFloat(numero2)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+        return parseFloat(parseFloat(valor1) * parseFloat(valorUnita)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
     }
 
     const calcularSubtotal = () => {
-        return parseFloat((parseFloat(numero1) * parseFloat(numero2)) - parseFloat(descontoValor)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+        return parseFloat((parseFloat(valor1) * parseFloat(valorUnita)) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
     }
 
     const condição = () => {
         if(descontoPorcen === '0,00' || descontoPorcen === 0 || descontoPorcen === ''){
             return descontoValor
         }else{
-            return parseFloat((parseFloat(total) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ")//replace(".", ",");
+            return parseFloat((parseFloat(total) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ").replace(".", ",");
         }
     }
 
@@ -420,7 +444,7 @@ console.log(totalVenda)
     return(
         
         <C.Container>
-            <Link to="/"><button onClick={HandleLogout}>Sair</button></Link>
+           { /*<Link to="/"><button onClick={HandleLogout}>Sair</button></Link>*/}
             <C.Header>
             <Link to="/consultar"><button>Consultar</button></Link>
                 <button>Cadastrar</button>
@@ -510,8 +534,8 @@ console.log(totalVenda)
                     name="quantidade" 
                     type="text" 
                     value={numero1} 
-                    onChange={(e) => setNumero1(e.target.value)} 
-                    onBlur={changeHandler} 
+                    onChange={qtdEstoque}
+                    onBlur={handleQtdEstoqueBlur} 
                     onKeyDown={NextValorUnit} 
                     id="quantidade"  required/>
                 </div>
@@ -519,7 +543,7 @@ console.log(totalVenda)
                 <label>Vl. Unit.: </label>
                 <input 
                     className="add-item" 
-                    value={dataSelectItem.valor_unitario} 
+                    value={valorUnitario} 
                     name="valor_unitario" 
                     onFocus={(e) => setNumero2(e.target.value)} 
                     onBlur={changeHandler} 

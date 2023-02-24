@@ -53,7 +53,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 ncm: item.ncm,
                 ncmEx: item.ncmex,
                 subtotal: '',
-                qtd_estoque: item.qtd_estoque
+                qtd_estoque: item.qtd_estoque,
+                quantidade: ''
             });
             onClose();
             focoQtd();
@@ -70,7 +71,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 ncm: item.ncm,
                 ncmEx: item.ncmex,
                 subtotal: '',
-                qtd_estoque: item.qtd_estoques
+                qtd_estoque: item.qtd_estoque,
+                quantidade: ''
             });
             onClose();
             focoQtd();
@@ -145,7 +147,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                     ncm: resultado[selectIndex].ncm,
                     ncmEx: resultado[selectIndex].ncmex,
                     subtotal: '',
-                    qtd_estoque: resultado[selectIndex].qtd_estoque
+                    qtd_estoque: resultado[selectIndex].qtd_estoque,
+                    quantidade: ''
                 });
                     onClose();
                     focoQtd();
@@ -164,7 +167,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                         ncm: resultado[selectIndex].ncm,
                         ncmEx: resultado[selectIndex].ncmex,
                         subtotal: '',
-                        qtd_estoque: resultado[selectIndex].qtd_estoque
+                        qtd_estoque: resultado[selectIndex].qtd_estoque,
+                        quantidade: ''
                     });
                     onClose();
                     focoQtd();
