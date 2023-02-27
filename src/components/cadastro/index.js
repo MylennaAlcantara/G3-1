@@ -43,7 +43,7 @@ export const Cadastro = () => {
     const [dataSelectSaler, setDataSelectSaler] = useState('');
     const [dataSelectPgt, setDataSelectPgt] = useState('');
     const [dataSelectItem, setDataSelectItem] = useState({
-        id: '',
+        id_produto: '',
         gtin: '',
         valor_venda: '',
         descricaoPdv: '',
@@ -98,15 +98,16 @@ export const Cadastro = () => {
 
     //valida se a quantidade inserida no item é valida, se é maior que a quantidade disponivel ou se esta vazio
     const validarQtd = () => {
-        if(dataSelectItem.qtd_estoque < numero1 && dataSelectTop.tipo_movimentacao === 'S'){
+        if( String(dataSelectItem.qtd_estoque).replace('.', ',') < dataSelectItem.quantidade && dataSelectTop.tipo_movimentacao === 'S'){
             alert('Quantidade inserida maior que o estoque disponivel!');
-        }else if(numero1 === '0' || numero1 === '' || numero1 < 0){
+        }else if(dataSelectItem.quantidade === 0 || dataSelectItem.quantidade < 0 || dataSelectItem.quantidade === "" || dataSelectItem.quantidade === "undefined" ){
             alert('Quantidade inserida invalida!');
-        }else{
+        }else if(dataSelectItem.quantidade != 0){
             setListItens([...listItens, dataSelectItem]);
         }
     }
-
+//
+    console.log('quantidade: '+dataSelectItem.quantidade)
 
     //Calcular total da rotina
     const [descontoValor, setDescontoValor] = useState('0,00');
@@ -119,7 +120,7 @@ export const Cadastro = () => {
     }
     function valorDesconto (e) {
         if(numero1 === '1,000' || numero1 === '1.000'){
-            setDescontoValor((numero1).replace(",", "."));
+            setDescontoValor((e.target.value).replace(",", "."));
             setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
         }else{
             setDescontoValor((e.target.value).replace(",", "."));
@@ -180,8 +181,12 @@ export const Cadastro = () => {
     const condição = () => {
         if(descontoPorcen === '0,00' || descontoPorcen === 0 || descontoPorcen === ''){
             return descontoValor
-        }else{
+        }else if(descontoPorcen <= 100 && descontoValor < total){
             return parseFloat((parseFloat(total) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ").replace(".", ",");
+        }else if(descontoPorcen > 100 || descontoValor > total || descontoValor < 0 || descontoPorcen < 0){
+            //alert("Desconto não pode ser maior que o valor total do item!");
+        }else{
+            return '0,00'
         }
     }
 
@@ -240,6 +245,7 @@ console.log(totalVenda)
             e.preventDefault();
             if(dataSelectItem.qtd_estoque < numero1 && dataSelectTop.tipo_movimentacao === 'S'){
                 alert('Quantidade inserida maior que o estoque disponivel!');
+                zerarInput();
             }else if(dataSelectTop.tipo_movimentacao === 'E'){
                 e.preventDefault();
                 document.getElementById('valorUnit').focus();
