@@ -9,7 +9,7 @@ export const Consultar = () => {
 
     useEffect(()=>{
         async function fetchData(){
-            const response = await fetch('http://10.0.1.10:8091/preVenda/ofMonth'); // api POST e PUT -> http://10.0.1.10:8091/preVenda  minha Api fake -> http://localhost:5000/rotinas
+            const response = await fetch('http://10.0.1.10:8091/preVenda/ofMonth'); // api POST e PUT -> http://10.0.1.10:8091/preVenda  minha Api fake ->  http://localhost:5000/rotinas
             const data = await response.json();
             setRotinas(data);
         }

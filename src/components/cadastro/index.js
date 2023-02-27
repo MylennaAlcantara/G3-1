@@ -106,8 +106,6 @@ export const Cadastro = () => {
             setListItens([...listItens, dataSelectItem]);
         }
     }
-//
-    console.log('quantidade: '+dataSelectItem.quantidade)
 
     //Calcular total da rotina
     const [descontoValor, setDescontoValor] = useState('0,00');
@@ -175,7 +173,19 @@ export const Cadastro = () => {
     }
 
     const calcularSubtotal = () => {
-        return parseFloat((parseFloat(valor1) * parseFloat(valorUnita)) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+        if(valorDesc > total ){
+            //alert('Desconto não pode ser maior que o valor total do item!');
+            return '0,00'
+        }else if(descontoPorcen === '' || valorDesc === '' || valorDesc === 'undefined'){
+            return total
+        }else if(valorDesc < 0){
+            alert('Desconto não pode ser negativo!')
+            setDescontoValor('0,00')
+            return total
+        }
+        else{
+            return parseFloat((parseFloat(valor1) * parseFloat(valorUnita)) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+        }
     }
 
     const condição = () => {
@@ -183,13 +193,14 @@ export const Cadastro = () => {
             return descontoValor
         }else if(descontoPorcen <= 100 && descontoValor < total){
             return parseFloat((parseFloat(total) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ").replace(".", ",");
-        }else if(descontoPorcen > 100 || descontoValor > total || descontoValor < 0 || descontoPorcen < 0){
+        }else if(descontoPorcen > 100 || descontoPorcen < 0){
             //alert("Desconto não pode ser maior que o valor total do item!");
+            return '0,00'
         }else{
             return '0,00'
         }
     }
-
+console.log(descontoValor)
     useEffect(()=>{
         setTotal(calcular());
         setDescontoValor(condição());
