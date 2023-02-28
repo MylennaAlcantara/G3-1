@@ -9,6 +9,10 @@ export const Container = styled.div`
     width: 60vw;
     border: 1px solid black;
     border-radius: 12px;
+    @media (max-width: 425px){
+        height: 90vh;
+        width: 90%;
+    }
 `;
 
 export const Header = styled.div`
@@ -37,6 +41,9 @@ export const Filtro = styled.div`
     .line{
         border-right: 1px solid #000;
         margin: 5px
+    }
+    @media (max-width: 425px){
+        display: block;
     }
 `;
 
@@ -129,6 +136,9 @@ export const Footer = styled.div`
     }
     button:hover{
         cursor: pointer;
+    }
+    @media (max-width: 425px){
+        display: block;
     }
     
 `;

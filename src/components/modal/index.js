@@ -124,47 +124,48 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
                         <input className="search" id="search" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                    
                 </C.Filtro>
-                
-                <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Data Cadastro</th>
-                            <th>Razão Social</th>
-                            <th>Nome Fantasia</th>
-                            <th>Documento</th>
-                            <th>Endereço</th>
-                            <th>CEP</th>
-                            <th>Município</th>
-                            <th>Telefone</th>
-                            <th>Celular</th>
-                            <th>Vendedor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {resultado.map( (user, index) => {
-                            return(
-                                <tr 
-                                    key={user.id} 
-                                    onClick={selecionado.bind(this, user, index)}
-                                    onDoubleClick={Selected.bind(this, user)}
-                                    style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
-                                        <td>{user.id}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.status}</td>
-                                        <td>{user.species}</td>
-                                        <td>{user.type}</td>
-                                        <td>{user.gender}</td>
-                                        <td>{user.id}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.status}</td>
-                                        <td>{user.status}</td>
-                                        <td>{user.status}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                <div className="table-responsive">
+                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Data Cadastro</th>
+                                <th>Razão Social</th>
+                                <th>Nome Fantasia</th>
+                                <th>Documento</th>
+                                <th>Endereço</th>
+                                <th>CEP</th>
+                                <th>Município</th>
+                                <th>Telefone</th>
+                                <th>Celular</th>
+                                <th>Vendedor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {resultado.map( (user, index) => {
+                                return(
+                                    <tr 
+                                        key={user.id} 
+                                        onClick={selecionado.bind(this, user, index)}
+                                        onDoubleClick={Selected.bind(this, user)}
+                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                            <td>{user.id}</td>
+                                            <td>{user.name}</td>
+                                            <td>{user.status}</td>
+                                            <td>{user.species}</td>
+                                            <td>{user.type}</td>
+                                            <td>{user.gender}</td>
+                                            <td>{user.id}</td>
+                                            <td>{user.name}</td>
+                                            <td>{user.status}</td>
+                                            <td>{user.status}</td>
+                                            <td>{user.status}</td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </C.Container>
         </C.Modal>
     );

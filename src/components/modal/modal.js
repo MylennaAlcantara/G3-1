@@ -12,6 +12,12 @@ export const Modal = styled.div`
     justify-content: center;
     align-items: center;
     
+    @media (max-width: 420px){
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+    }
 
 `;
 
@@ -60,6 +66,17 @@ export const Container = styled.div`
     .ativo{
         background-color: blue;
         color: white;
+    }
+    @media (max-width: 420px){
+        height: 80%;
+        width: 90%;
+        overflow-y: initial;
+        .table-responsive{
+            overflow-x: auto;
+        }
+        #table{
+            width: 100%;
+        }
     }
 `;
 

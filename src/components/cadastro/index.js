@@ -200,7 +200,7 @@ export const Cadastro = () => {
             return '0,00'
         }
     }
-console.log(descontoValor)
+    
     useEffect(()=>{
         setTotal(calcular());
         setDescontoValor(condição());
@@ -474,14 +474,14 @@ console.log(totalVenda)
                             <input className="cod"></input>
                         </div>
                         <div id="checkbox">
-                            <form>
+                            <div className="atacado-varejo">
                                 <div id="line"></div>
                                 <input type="radio" id="atacado" className="radio" name="radio" value='atacado' onFocus={validarTipoVenda2}></input>
                                 <label>Atacado</label>
                                 <input type="radio" id="varejo" className="radio" name="radio" value='varejo' onFocus={validarTipoVenda} checked></input>
                                 <label>Varejo</label>
                                 <div id="line"></div>
-                            </form>
+                            </div>
                             <div className="checkbox">
                                 <input type="checkbox" className="checkbox-box"/>
                                 <label>Aprovado</label>
@@ -495,22 +495,22 @@ console.log(totalVenda)
                     <form action="POST" id="information" className="information" onSubmit={handleSubmit}>
                         <div>
                         <label>Emitente: </label>
-                        <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} value={dataIdSelectEmitente} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>                    
+                        <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} onDoubleClick={() => setIsModalEmitente(true)} value={dataIdSelectEmitente} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>                    
                         <input name="emitente" className="option" value={dataSelectEmitente}/>
                         </div>
                         <div>
                         <label>T.O.P: </label>
-                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} value={dataSelectTop.id_top} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
+                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} onDoubleClick={() => setIsModalTop(true)} value={dataSelectTop.id_top} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
                         <input name="top" className="option" value={dataSelectTop.descricao}/>
                         </div>
                         <div>
                         <label>Vendedor: </label>
-                        <input name="cod_vendedor" className="f1" id="vendedor" onKeyDown={NextParceiro} onKeyUp={keySaler} value={dataIdSelectSaler} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
+                        <input name="cod_vendedor" className="f1" id="vendedor" onKeyDown={NextParceiro} onKeyUp={keySaler} onDoubleClick={() => setIsModalSaler(true)} value={dataIdSelectSaler} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
                         <input name="vendedor" className="option" value={dataSelectSaler} />
                         </div>
                         <div>
                             <label>Parceiro: </label>
-                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} value={dataIdSelectPartner} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
+                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} onDoubleClick={() => setIsModalPartner(true)} value={dataIdSelectPartner} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
                                     <div className="div-partner">
                                         <input name="partner" className="partner" value={dataSelectPartner} />
                                         <label>CPF/CNPJ: </label>
@@ -519,7 +519,7 @@ console.log(totalVenda)
                         </div>
                         <div>
                         <label>Tipo pgto: </label>
-                        <input className="f1" id="pgto" onKeyUp={keyPgt} value={dataIdSelectPgt} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
+                        <input className="f1" id="pgto" onKeyUp={keyPgt} onDoubleClick={() => setIsModalPgt(true)} value={dataIdSelectPgt} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
                         <input id="option_pgto" className="option" value={dataSelectPgt}/>
                         </div>
                     </form>
@@ -541,6 +541,7 @@ console.log(totalVenda)
                     value={dataSelectItem.id_produto} 
                     name="id_produto" 
                     onBlur={changeHandler} 
+                    onDoubleClick={() => setIsModalProdutos(true)}
                     title='Aperte F2 para listar as opções' 
                     style={{backgroundColor: cor}} required/>
                 </div>
@@ -628,39 +629,41 @@ console.log(totalVenda)
             </form>
             </C.Add>
             <C.Display>
-                <table className="table" >
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Cód. I.</th>
-                            <th>EAN</th>
-                            <th>Descrição</th>
-                            <th>Unidade</th>
-                            <th>Quant.</th>
-                            <th>Valor Unid.</th>
-                            <th>Subtotal</th>
-                            <th>Desc. R$</th>                        
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {listItens.map((list, index) => {
-                            return(
-                                <tr key={index}>
-                                    <td>{index+1}</td>
-                                    <td>{list.id_produto}</td>
-                                    <td>{list.gtin_produto}</td>
-                                    <td>{list.descricao_produto}</td>
-                                    <td>{list.unidade_produto}</td>
-                                    <td>{list.quantidade}</td>
-                                    <td>{list.valor_unitario}</td>
-                                    <td>{list.subtotal}</td>
-                                    <td>{list.desconto}</td>
-                                    <img src="/images/lixeira.png" className="button-excluir" onClick={Deletar.bind(this, list, index)}/>
-                                </tr>
-                            )
-                            })}                         
-                    </tbody>
-                </table>
+                <div className="table-resp">
+                    <table className="table" >
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Cód. I.</th>
+                                <th>EAN</th>
+                                <th>Descrição</th>
+                                <th>Unidade</th>
+                                <th>Quant.</th>
+                                <th>Valor Unid.</th>
+                                <th>Subtotal</th>
+                                <th>Desc. R$</th>                        
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {listItens.map((list, index) => {
+                                return(
+                                    <tr key={index}>
+                                        <td>{index+1}</td>
+                                        <td>{list.id_produto}</td>
+                                        <td>{list.gtin_produto}</td>
+                                        <td>{list.descricao_produto}</td>
+                                        <td>{list.unidade_produto}</td>
+                                        <td>{list.quantidade}</td>
+                                        <td>{list.valor_unitario}</td>
+                                        <td>{list.subtotal}</td>
+                                        <td>{list.desconto}</td>
+                                        <img src="/images/lixeira.png" className="button-excluir" onClick={Deletar.bind(this, list, index)}/>
+                                    </tr>
+                                )
+                                })}                         
+                        </tbody>
+                    </table>
+                </div>
             </C.Display>
             <C.Footer>
                 <form>

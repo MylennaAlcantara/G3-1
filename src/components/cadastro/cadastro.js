@@ -19,7 +19,7 @@ export const Container = styled.div`
         width: 100vw;   
     }
     @media (max-width: 425px){
-        width: 100vw;
+        width: 90%;
         height: auto;
         position: relative;
         display: block;
@@ -160,6 +160,9 @@ export const Info = styled.div`
                 }
                 
             }
+            .atacado-varejo{
+                margin-left: 0;
+            }
             #checkbox{
                 display: block;
                 align-content: start;
@@ -188,7 +191,7 @@ export const Info = styled.div`
                 justify-content: end;
             }
             .div-partner{
-                width: 60%;
+                width: 50%;
                 margin: 3px 3px 3px 3px;
                 display: block;
             }
@@ -204,7 +207,7 @@ export const Info = styled.div`
             width: 60px;
         }  
         .option{
-            width: 60%;
+            width: 50%;
         }
     }
     
@@ -315,10 +318,11 @@ export const Display = styled.div`
 
     @media (max-width: 425px){
         height: 20%;
-        width: 155vw;
-        margin: 10px;
-        overflow-x: auto;
-        
+        width: 100%;
+        .table-resp{
+            overflow-x: auto;
+            overflow-y: auto;
+        }
     }
 `
 export const Footer = styled.div`
