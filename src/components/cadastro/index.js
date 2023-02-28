@@ -162,6 +162,7 @@ export const Cadastro = () => {
 
     const valor1 = String(numero1).replace(",", ".");
     const valorDesc = String(descontoValor).replace(",", ".");
+    const valorPer = String(descontoPorcen).replace(',', '.');
 
     //Constante utilizada para exibir o valor com duas casas decimais no valor unitario
     const valorUnitario = String(dataSelectItem.valor_unitario).replace(".", ",").replace("NaN", " ").replace("undefined", " ");
@@ -173,9 +174,9 @@ export const Cadastro = () => {
     }
 
     const calcularSubtotal = () => {
-        if(valorDesc > total ){
+        if(valorDesc === total ){
             //alert('Desconto não pode ser maior que o valor total do item!');
-            return '0,00'
+            return total
         }else if(descontoPorcen === '' || valorDesc === '' || valorDesc === 'undefined'){
             return total
         }else if(valorDesc < 0){
@@ -189,7 +190,7 @@ export const Cadastro = () => {
     }
 
     const condição = () => {
-        if(descontoPorcen === '0,00' || descontoPorcen === 0 || descontoPorcen === ''){
+        if(descontoPorcen === '0,00' || descontoPorcen === 0 || descontoPorcen === ' '){
             return descontoValor
         }else if(descontoPorcen <= 100 && descontoValor < total){
             return parseFloat((parseFloat(total) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ").replace(".", ",");
@@ -197,10 +198,10 @@ export const Cadastro = () => {
             //alert("Desconto não pode ser maior que o valor total do item!");
             return '0,00'
         }else{
-            return '0,00'
+            return descontoValor
         }
     }
-    
+    console.log('desconto%: '+ valorPer, "total: "+ total)
     useEffect(()=>{
         setTotal(calcular());
         setDescontoValor(condição());
