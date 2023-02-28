@@ -67,8 +67,6 @@ export const Cadastro = () => {
     console.log(listItens);
 
     const [counter, setCounter] = useState(listItens.length+1);
-    console.log(counter);
-
     
     const changeHandler = e => {
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
@@ -94,14 +92,26 @@ export const Cadastro = () => {
         setSubtotal(0);
         setDescontoValor(0);
         setDescontoPorcen(0);
+        setNumero1("1.000");
     }
 
     //valida se a quantidade inserida no item é valida, se é maior que a quantidade disponivel ou se esta vazio
+    const totalQtd = listItens.reduce((acumulador, objeto) => {
+        if(objeto.id_produto === dataSelectItem.id_produto){
+            return acumulador + parseFloat(objeto.quantidade.replace(',','.'));
+        }
+        return acumulador;
+    }, 0)
+
     const validarQtd = () => {
         if( String(dataSelectItem.qtd_estoque).replace('.', ',') < dataSelectItem.quantidade && dataSelectTop.tipo_movimentacao === 'S'){
             alert('Quantidade inserida maior que o estoque disponivel!');
+            console.log("quantidade inserida: " +dataSelectItem.quantidade);
+            console.log("quantidade estoque: "+dataSelectItem.qtd_estoque);
         }else if(dataSelectItem.quantidade === 0 || dataSelectItem.quantidade < 0 || dataSelectItem.quantidade === "" || dataSelectItem.quantidade === "undefined" ){
             alert('Quantidade inserida invalida!');
+        }else if(totalQtd === dataSelectItem.qtd_estoque && dataSelectTop.tipo_movimentacao === 'S'){
+            alert('Quantidade limite atingida!');
         }else if(dataSelectItem.quantidade != 0){
             setListItens([...listItens, dataSelectItem]);
         }
@@ -139,16 +149,6 @@ export const Cadastro = () => {
         setNumero1(valor);
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
-    
-
-    /*function handleValorBlur (){
-        const valor2 = parseFloat(descontoValor).toFixed(2).replace("NaN", " ").replace(".", ",");
-        setDescontoValor(valor2);
-    }
-    function handleValorTotalBlur () {
-        const totalItem = parseFloat(total).toFixed(2).replace("NaN", " ").replace(".", ",");
-        setTotal(totalItem);
-    }*/
     function handleValorSubtotalBlur () {
         const totalItem = parseFloat(subtotal).toFixed(2).replace("NaN", " ").replace(".", ",");
         setSubtotal(totalItem);
@@ -201,16 +201,31 @@ export const Cadastro = () => {
             return descontoValor
         }
     }
-    console.log('desconto%: '+ valorPer, "total: "+ total)
+
     useEffect(()=>{
         setTotal(calcular());
         setDescontoValor(condição());
         setSubtotal(calcularSubtotal());
     }, [numero1,numero2,descontoValor,total,descontoPorcen]);
  
-     const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal).replace(",", ".")), 0);
- 
-console.log(totalVenda)
+    const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal).replace(",", ".")), 0);
+    
+
+
+    /*const totalPorId = {};
+
+    listItens.forEach((produto) => {
+        const idProduto = produto.id_produto;
+        const quantidade = parseFloat(produto.quantidade.replace(',','.'));
+        if(totalPorId[idProduto]){
+            totalPorId[idProduto] += quantidade;
+            console.log('total quantidade: '+ totalPorId[idProduto]);
+        }else{
+            totalPorId[idProduto] = quantidade;
+        }
+    })*/
+    
+
     // Funções para abrir o modal de cada campo apertando F2
     function onKeyUp(event){
         if(	event.keyCode === 113){
