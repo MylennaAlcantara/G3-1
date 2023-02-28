@@ -104,7 +104,7 @@ export const Cadastro = () => {
     }, 0)
 
     const validarQtd = () => {
-        if( String(dataSelectItem.qtd_estoque).replace('.', ',') < dataSelectItem.quantidade && dataSelectTop.tipo_movimentacao === 'S'){
+        if( dataSelectItem.qtd_estoque < dataSelectItem.quantidade && dataSelectTop.tipo_movimentacao === 'S'){
             alert('Quantidade inserida maior que o estoque disponivel!');
             console.log("quantidade inserida: " +dataSelectItem.quantidade);
             console.log("quantidade estoque: "+dataSelectItem.qtd_estoque);
