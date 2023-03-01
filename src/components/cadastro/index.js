@@ -111,7 +111,7 @@ export const Cadastro = () => {
             console.log("quantidade estoque: "+dataSelectItem.qtd_estoque);
         }else if(dataSelectItem.quantidade === 0 || dataSelectItem.quantidade < 0 || dataSelectItem.quantidade === "" || dataSelectItem.quantidade === "undefined" ){
             alert('Quantidade inserida invalida!');
-        }else if(totalQtd === dataSelectItem.qtd_estoque || totalQtd > dataSelectItem.qtd_estoque || soma >= dataSelectItem.qtd_estoque){
+        }else if(totalQtd === dataSelectItem.qtd_estoque || totalQtd > dataSelectItem.qtd_estoque || soma > dataSelectItem.qtd_estoque){
             alert('Quantidade limite atingida!');
         }else if(dataSelectItem.quantidade != 0){
             setListItens([...listItens, dataSelectItem]);
@@ -119,7 +119,7 @@ export const Cadastro = () => {
     }
 
     //Calcular total da rotina
-    const [descontoValor, setDescontoValor] = useState('0,00');
+    const [descontoValor, setDescontoValor] = useState('0.00');
     const [descontoPorcen, setDescontoPorcen] = useState('0,00');
     const [acrescimo, setAcrescimo] = useState();
 
@@ -175,6 +175,10 @@ export const Cadastro = () => {
 
     //Constante utilizada para converter de virgula para ponto para realizar o calculo de total e subtotal
     const valorUnita = String(valorUnitario).replace(",", ".");
+
+    const valorUnidade = () => {
+        setNumero2(parseFloat(dataSelectItem.valor_unitario).toFixed(2).replace(".", ",").replace("NaN", " ").replace("undefined", " "))
+    }
     const calcular = () =>{
         if(dataSelectTop.editar_preco_rotina === true){
             return parseFloat(parseFloat(valor1) * parseFloat(valor2)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
@@ -182,10 +186,6 @@ export const Cadastro = () => {
             return parseFloat(parseFloat(valor1) * parseFloat(valorUnita)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
         }
     }
-    const valorUnidade = () => {
-        setNumero2(parseFloat(dataSelectItem.valor_unitario).toFixed(2).replace(".", ",").replace("NaN", " ").replace("undefined", " "))
-    }
-console.log("dados: "+numero2)
     const calcularSubtotal = () => {
         if(valorDesc === total ){
             //alert('Desconto não pode ser maior que o valor total do item!');
@@ -278,7 +278,7 @@ console.log("dados: "+numero2)
             if(dataSelectItem.qtd_estoque < numero1 && dataSelectTop.tipo_movimentacao === 'S'){
                 alert('Quantidade inserida maior que o estoque disponivel!');
                 zerarInput();
-            }else if(soma >= dataSelectItem.qtd_estoque){
+            }else if(soma > dataSelectItem.qtd_estoque){
                 alert('Quantidade limite atingida!');
                 zerarInput();
             }
