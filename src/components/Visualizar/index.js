@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as C from "../cadastro/cadastro";
 
-export const Visualizar = () => {
+export const Visualizar = ({codigo}) => {
+    const navigate = useNavigate();
     const [rotinas, setRotinas] = useState([]);
     const [emitente, setEmitente] = useState([]);
     const [top, setTop] = useState([]);
@@ -11,7 +13,7 @@ export const Visualizar = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const responseRotina = await fetch('http://10.0.1.10:8091/preVenda/9390'); //http://10.0.1.10:8091/preVenda/id
+            const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codigo}`); //http://10.0.1.10:8091/preVenda/id
             const rotina = await responseRotina.json();
             setRotinas(rotina);
             const responseEmitente = await fetch('http://10.0.1.10:8092/emitente/all'); 
@@ -31,29 +33,33 @@ export const Visualizar = () => {
             setTipoPagamento(tipoPagamento);
         }
         fetchData();
-    }, [])
+    }, []);
 
     const razaoSocial = emitente.filter((idEmitente) => {
         if(rotinas.id_empresa === idEmitente.id){
             return idEmitente.razao_social;
         }
-    })
+    });
     const descricaoTop = top.filter((top) => {
         if(rotinas.id_top === top.id){
             return top.descricao;
         }
-    })
+    });
     const descricaoVendedor = vendedor.filter((vendedor) => {
         if(rotinas.id_funcionario === vendedor.id){
             return vendedor.nome;
         }
-    })
+    });
     const descricaoPagamento = tipoPagamento.filter((pagamento) => {
         if(rotinas.id_tipo_pagamento === pagamento.id){
             return pagamento.descricao;
         }
-    })
+    });
     console.log(rotinas.pre_venda_detalhe)
+    const voltar = () => {
+        navigate('/consultar');
+    }
+
     return(
         <C.Container>
            { /*<Link to="/"><button onClick={HandleLogout}>Sair</button></Link>*/}
@@ -270,7 +276,7 @@ export const Visualizar = () => {
                     </div>
                 </form>
                 <div className="buttons">
-                    <button className="Voltar" ><img src="/images/voltar.png"/>Voltar</button>
+                    <button className="Voltar" onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
         </C.Container>   

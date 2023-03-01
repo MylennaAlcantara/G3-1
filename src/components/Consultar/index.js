@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as C from "./consultar.js";
 
 
-export const Consultar = () => {
+export const Consultar = ( {setCodigo} ) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
 
@@ -60,12 +60,20 @@ export const Consultar = () => {
         }
     };
 
+    //Selecionar rotina para abrir para visualizar
+    const [codigoRotina, setCodigoRotina] = useState();
+    const selecionado = (index, item) => {
+        setCodigoRotina(item.id);
+        setCodigo(item.id)
+        setSelectIndex(index);
+    }
+console.log('Rotina escolhida: '+ codigoRotina)
     //Função dos botões
     const Novo = () => {
         navigate("/rotina")
     }
-    const Abrir = () => {
-
+    const abrirRotina = () => {
+        navigate(`/rotina/${codigoRotina}`)
     }
     const Fechar = () => {
 
@@ -124,7 +132,8 @@ export const Consultar = () => {
                             return(
                                 <tr 
                                     key={item.id}
-                                    onClick={() => setSelectIndex(index)}
+                                    onClick={selecionado.bind(this, index, item)}
+                                    onDoubleClick={abrirRotina}
                                     style={{background: index === selectIndex ? '#87CEFA' : ''}} >
                                         <td>{item.id}</td>
                                         <td>{item.dataEmissao}</td>
