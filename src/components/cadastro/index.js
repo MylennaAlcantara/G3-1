@@ -202,6 +202,13 @@ export const Cadastro = () => {
             return descontoValor
         }
     }
+    const calcularPorcentagem = () => {
+        if(descontoValor === "0,00" || descontoValor === 0 || descontoValor === " "){
+            return descontoPorcen
+        }else if(descontoValor < total){
+            return parseFloat((parseFloat(valorDesc) / parseFloat(total))*100).toFixed(2).replace("NaN", " ").replace(".", ",");
+        }
+    }
 
     useEffect(()=>{
         setTotal(calcular());
@@ -210,22 +217,6 @@ export const Cadastro = () => {
     }, [numero1,numero2,descontoValor,total,descontoPorcen]);
  
     const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal).replace(",", ".")), 0);
-    
-
-
-    /*const totalPorId = {};
-
-    listItens.forEach((produto) => {
-        const idProduto = produto.id_produto;
-        const quantidade = parseFloat(produto.quantidade.replace(',','.'));
-        if(totalPorId[idProduto]){
-            totalPorId[idProduto] += quantidade;
-            console.log('total quantidade: '+ totalPorId[idProduto]);
-        }else{
-            totalPorId[idProduto] = quantidade;
-        }
-    })*/
-    
 
     // Funções para abrir o modal de cada campo apertando F2
     function onKeyUp(event){
@@ -305,6 +296,7 @@ export const Cadastro = () => {
         if(e.keyCode === 13){
             e.preventDefault();
             document.getElementById('Total').focus();
+            setDescontoPorcen(calcularPorcentagem());
         }
     }
     function NextDescrição (e){
