@@ -4,7 +4,7 @@ import { Cadastro } from './components/cadastro/index.js';
 import { Login } from './components/login/index.js';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Consultar } from './components/Consultar';
-import { Visualizar } from './components/visualizar';
+import { Visualizar } from './components/Visualizar';
 
 function App() {    
   const token = localStorage.getItem('token');
