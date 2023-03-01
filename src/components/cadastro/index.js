@@ -157,11 +157,12 @@ export const Cadastro = () => {
 
     // Calcular o valor de quantidade vezes o valor para o total 
     const [numero1, setNumero1] = useState("1.000");
-    const [numero2, setNumero2] = useState(0);
+    const [numero2, setNumero2] = useState('');
     const [total, setTotal] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
 
     const valor1 = String(numero1).replace(",", ".");
+    const valor2 = String(numero2).replace(",",".");
     const valorDesc = String(descontoValor).replace(",", ".");
     const valorPer = String(descontoPorcen).replace(',', '.');
 
@@ -171,7 +172,11 @@ export const Cadastro = () => {
     //Constante utilizada para converter de virgula para ponto para realizar o calculo de total e subtotal
     const valorUnita = String(valorUnitario).replace(",", ".");
     const calcular = () =>{
-        return parseFloat(parseFloat(valor1) * parseFloat(valorUnita)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+        if(dataSelectTop.editar_preco_rotina === true){
+            return parseFloat(parseFloat(valor1) * parseFloat(valor2)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+        }else{
+            return parseFloat(parseFloat(valor1) * parseFloat(valorUnita)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+        }
     }
 
     const calcularSubtotal = () => {
@@ -186,7 +191,7 @@ export const Cadastro = () => {
             return total
         }
         else{
-            return parseFloat((parseFloat(valor1) * parseFloat(valorUnita)) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+            return parseFloat(parseFloat(total) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
         }
     }
 
@@ -573,7 +578,18 @@ export const Cadastro = () => {
                 </div>
                 <div>
                 <label>Vl. Unit.: </label>
-                <input 
+                {dataSelectTop.editar_preco_rotina === true ? (
+                    <input 
+                    className="add-item" 
+                    value={numero2} 
+                    name="valor_unitario" 
+                    onChange={(e) => setNumero2(e.target.value)} 
+                    onBlur={changeHandler} 
+                    onKeyDown={NextAddItem} 
+                    type="text" 
+                    id="valorUnit" required/>
+                    ) : (
+                    <input 
                     className="add-item" 
                     value={valorUnitario} 
                     name="valor_unitario" 
@@ -582,6 +598,10 @@ export const Cadastro = () => {
                     onKeyDown={NextAddItem} 
                     type="text" 
                     id="valorUnit" required/>
+                    )
+                }
+
+                
                 <datalist></datalist>
                 </div>
                 <div>
