@@ -104,13 +104,14 @@ export const Cadastro = () => {
     }, 0)
 
     const validarQtd = () => {
+        const soma = parseFloat(numero1.replace(",","."))+parseFloat(totalQtd);
         if( dataSelectItem.qtd_estoque < dataSelectItem.quantidade && dataSelectTop.tipo_movimentacao === 'S'){
             alert('Quantidade inserida maior que o estoque disponivel!');
             console.log("quantidade inserida: " +dataSelectItem.quantidade);
             console.log("quantidade estoque: "+dataSelectItem.qtd_estoque);
         }else if(dataSelectItem.quantidade === 0 || dataSelectItem.quantidade < 0 || dataSelectItem.quantidade === "" || dataSelectItem.quantidade === "undefined" ){
             alert('Quantidade inserida invalida!');
-        }else if(totalQtd === dataSelectItem.qtd_estoque && dataSelectTop.tipo_movimentacao === 'S'){
+        }else if(totalQtd === dataSelectItem.qtd_estoque || totalQtd > dataSelectItem.qtd_estoque || soma >= dataSelectItem.qtd_estoque){
             alert('Quantidade limite atingida!');
         }else if(dataSelectItem.quantidade != 0){
             setListItens([...listItens, dataSelectItem]);
@@ -268,12 +269,17 @@ export const Cadastro = () => {
 
     //Funções para mudar de campo ao apertar enter
     function NextValorUnit (e){
+        const soma = parseFloat(numero1.replace(",","."))+parseFloat(totalQtd);
         if(e.keyCode === 13){
             e.preventDefault();
             if(dataSelectItem.qtd_estoque < numero1 && dataSelectTop.tipo_movimentacao === 'S'){
                 alert('Quantidade inserida maior que o estoque disponivel!');
                 zerarInput();
-            }else if(dataSelectTop.tipo_movimentacao === 'E'){
+            }else if(soma >= dataSelectItem.qtd_estoque){
+                alert('Quantidade limite atingida!');
+                zerarInput();
+            }
+            else if(dataSelectTop.tipo_movimentacao === 'E'){
                 e.preventDefault();
                 document.getElementById('valorUnit').focus();
             }else if(dataSelectTop.tipo_movimentacao === 'S' && dataSelectItem.qtd_estoque >= numero1){
