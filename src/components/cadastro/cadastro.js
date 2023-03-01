@@ -29,7 +29,7 @@ export const Container = styled.div`
 `;
 export const Header = styled.div`
     border: 1.5px;
-    border-radius: 12px 12px 0;
+    border-radius: 12px 12px 0 0;
     display: flex;
     justify-content: start;
     align-items: center;

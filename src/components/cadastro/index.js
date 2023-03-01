@@ -58,7 +58,6 @@ export const Cadastro = () => {
     /*Estado do id dos elementos selecionados no modal */
     const [dataIdSelectPartner, setDataIdSelectPartner] = useState('');
     const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState('');
-    const [dataIdSelectTop, setDataIdSelectTop] = useState('');
     const [dataIdSelectSaler, setDataIdSelectSaler] = useState('');
     const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
 
@@ -417,7 +416,7 @@ export const Cadastro = () => {
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({
                         id_empresa: dataIdSelectEmitente,
-                        id_top: dataIdSelectTop,
+                        id_top: dataSelectTop.id_top,
                         id_cliente: dataIdSelectPartner,
                         nome_cliente: dataSelectPartner,
                         id_funcionario: dataIdSelectSaler,
@@ -489,8 +488,7 @@ export const Cadastro = () => {
         <C.Container>
            { /*<Link to="/"><button onClick={HandleLogout}>Sair</button></Link>*/}
             <C.Header>
-            <Link to="/consultar"><button>Consultar</button></Link>
-                <button>Cadastrar</button>
+                <h3>Cadastro de Rotina</h3>
             </C.Header>
             <C.Info>
                 <div className="div-info">
@@ -554,7 +552,7 @@ export const Cadastro = () => {
             </C.Info>
                 
             <C.Header>
-                <label>Produtos</label>
+                <h4>Produtos</h4>
             </C.Header>
             <C.Add>
             <form onSubmit={event =>{event.preventDefault();  setCounter(prevCounter => prevCounter + 1); zerarInput(); validarQtd();}} >
@@ -743,7 +741,7 @@ export const Cadastro = () => {
                 <Emitente onClose = {() => setIsModalEmitente(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/>
             ) : null}
             {isModalTop ? (
-                <Top onClose = {() => setIsModalTop(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectTop={setDataSelectTop} setDataIdSelectTop={setDataIdSelectTop}/>
+                <Top onClose = {() => setIsModalTop(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectTop={setDataSelectTop}/>
             ) : null}
             {isModalSaler ? (
                 <Saler onClose = {() => setIsModalSaler(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectSaler={setDataSelectSaler} setDataIdSelectSaler={setDataIdSelectSaler}/>
