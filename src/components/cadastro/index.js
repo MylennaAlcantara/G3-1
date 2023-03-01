@@ -148,6 +148,7 @@ export const Cadastro = () => {
     function handleQtdEstoqueBlur(e){
         const valor = parseFloat(numero1).toFixed(3).replace("NaN", " ").replace(".", ",");
         setNumero1(valor);
+        valorUnidade();
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
     function handleValorSubtotalBlur () {
@@ -166,6 +167,9 @@ export const Cadastro = () => {
     const valorDesc = String(descontoValor).replace(",", ".");
     const valorPer = String(descontoPorcen).replace(',', '.');
 
+    
+    
+
     //Constante utilizada para exibir o valor com duas casas decimais no valor unitario
     const valorUnitario = String(dataSelectItem.valor_unitario).replace(".", ",").replace("NaN", " ").replace("undefined", " ");
 
@@ -178,7 +182,10 @@ export const Cadastro = () => {
             return parseFloat(parseFloat(valor1) * parseFloat(valorUnita)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
         }
     }
-
+    const valorUnidade = () => {
+        setNumero2(parseFloat(dataSelectItem.valor_unitario).toFixed(2).replace(".", ",").replace("NaN", " ").replace("undefined", " "))
+    }
+console.log("dados: "+numero2)
     const calcularSubtotal = () => {
         if(valorDesc === total ){
             //alert('Desconto não pode ser maior que o valor total do item!');
@@ -583,7 +590,7 @@ export const Cadastro = () => {
                     className="add-item" 
                     value={numero2} 
                     name="valor_unitario" 
-                    onChange={(e) => setNumero2(e.target.value)} 
+                    onChange={(e) => setNumero2(e.target.value)}
                     onBlur={changeHandler} 
                     onKeyDown={NextAddItem} 
                     type="text" 
