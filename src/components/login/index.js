@@ -91,7 +91,7 @@ export const Login = () => {
             <C.Acessar>
                 <form className="login" onSubmit={handleLogin}>
                     <div className="auth">
-                        <label>Autentificação</label>
+                        <label>Autenticação</label>
                     </div>
                     <div className="user">                        
                             <label>Empresa</label>
