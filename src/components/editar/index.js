@@ -89,7 +89,8 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
         desconto: '',
         descontoPorcen:'',
         qtd_estoque: '',
-        quantidade: ''
+        quantidade: '',
+        id_top: top.id_top
     });
     
     /*Estado do id dos elementos selecionados no modal */
@@ -106,8 +107,9 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
     const [counter, setCounter] = useState(0);
     
     const changeHandler = e => {
-        setCounter(tamanho + 1)
-        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
+        setCounter(tamanho + 1);
+        const idTop= document.getElementById('top').value;
+        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter, id_top: idTop});
     }
     console.log("contador: "+counter, "tamanho da lista: "+listItens.length, "tamanho: "+tamanho )
 

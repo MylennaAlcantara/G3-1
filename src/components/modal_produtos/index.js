@@ -43,7 +43,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
     }, []);
 
     // Função para pegar as informações do produto selecionado com dois clicks
-    const SelectedItem = (item) => {
+    const SelectedItem = (item, dataSelectTop) => {
         if(dataSelectTop.libera_itens_estoque_indisponivel === true || liberaEstoque === true ){
              setDataSelectItem({
                 id_produto: item.id,
@@ -58,7 +58,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 ncmEx: item.ncmex,
                 subtotal: '',
                 descontoPorcen: '',
-                qtd_estoque: item.qtd_estoque
+                qtd_estoque: item.qtd_estoque,
+                id_top: dataSelectTop.id_top
             });
             onClose();
             focoQtd();
@@ -78,7 +79,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 ncmEx: item.ncmex,
                 subtotal: '',
                 qtd_estoque: item.qtd_estoque,
-                quantidade: ''
+                quantidade: '',
+                id_top: dataSelectTop.id_top
             });
             onClose();
             focoQtd();
@@ -96,7 +98,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 ncmEx: item.ncmex,
                 subtotal: '',
                 qtd_estoque: item.qtd_estoque,
-                quantidade: ''
+                quantidade: '',
+                id_top: dataSelectTop.id_top
             });
             onClose();
             focoQtd();
