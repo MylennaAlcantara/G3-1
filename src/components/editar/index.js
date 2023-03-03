@@ -515,7 +515,17 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
             setToken();
             localStorage.clear();
     }
-
+    //Ordena a exibição dos produtos de acordo com o valor de item
+    function comparar (a, b){
+        if(a.item > b.item){
+            return 1;
+        }
+        if(a.item < b.item){
+            return -1
+        }
+        return 0;
+    }
+    //Decrementa os valores de item dentro dos produtos ao deletar um produto
     function decrementarItem (index) {
         for (let i = 0; i< tamanho; i++){
             if(listItens[i].item != 1 && listItens[i].item > index){
@@ -564,15 +574,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
     const voltar = () => {
         navigate('/consultar');
     }
-    function comparar (a, b){
-        if(a.item > b.item){
-            return 1;
-        }
-        if(a.item < b.item){
-            return -1
-        }
-        return 0;
-    }
+
 
     return(
         <C.Container>
