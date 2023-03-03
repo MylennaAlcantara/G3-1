@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as C from "./consultar.js";
 
 
-export const Consultar = ( {setCodigo} ) => {
+export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
 
@@ -64,16 +64,21 @@ export const Consultar = ( {setCodigo} ) => {
     const [codigoRotina, setCodigoRotina] = useState();
     const selecionado = (index, item) => {
         setCodigoRotina(item.id);
-        setCodigo(item.id)
+        setCodigo(item.id);
+        setDataEmissao(item.dataEmissao);
+        setHoraEmissao(item.hora_emissao);
         setSelectIndex(index);
     }
 console.log('Rotina escolhida: '+ codigoRotina)
     //Função dos botões
     const Novo = () => {
-        navigate("/rotina")
+        navigate("/rotina");
     }
     const abrirRotina = () => {
-        navigate(`/rotina/${codigoRotina}`)
+        navigate(`/rotina/${codigoRotina}`);
+    }
+    const abrirEditar = () => {
+        navigate(`/editarRotina/${codigoRotina}`);
     }
     const Fechar = () => {
 
@@ -156,7 +161,7 @@ console.log('Rotina escolhida: '+ codigoRotina)
                 </div>
                 <div >
                     <button onClick={Novo}>Novo</button>
-                    <button>Abrir</button>
+                    <button onClick={abrirEditar}>Abrir</button>
                     <button>Fechar</button>
                 </div>
                 <div className="indice">

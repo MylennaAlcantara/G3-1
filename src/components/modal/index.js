@@ -3,7 +3,7 @@ import * as C from './modal.js';
 import "../cadastro/index.js";
 
 
-export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPartner, setDataIdSelectPartner }) => {
+export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPartner, setDataIdSelectPartner, setParceiroAlterado }) => {
 
     const [users, setUsers] = useState([]);
     const [selectPartner, setSelectPartner] = useState();
@@ -29,6 +29,7 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
         setDataIdSelectPartner(user.id);
         onClose();
         focoCampoSeguinte();
+        setParceiroAlterado();
     };
 
     //Filtro de busca
@@ -82,6 +83,7 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
                 setDataIdSelectPartner(resultado[selectIndex].id);
                 onClose();
                 focoCampoSeguinte();
+                setParceiroAlterado();
             }
         }
     };

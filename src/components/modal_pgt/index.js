@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt}) => {
+export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt, setTipoPgtoAlterado}) => {
 
     const [pgto, setPgto] = useState([]);
     const [selectPgt, setSelectPgt] = useState();
@@ -26,6 +26,7 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
         setDataIdSelectPgt(pgto.id);
         onClose();
         focoCampoSeguinte();
+        setTipoPgtoAlterado(true);
     };
 
     //Filtro de busca
@@ -63,6 +64,7 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
                 setDataIdSelectPgt(resultado[selectIndex].id);
                 onClose();
                 focoCampoSeguinte();
+                setTipoPgtoAlterado(true);
             }
         }
     };

@@ -1,20 +1,22 @@
-import React, {useEffect, useState} from "react";
-import { Modal} from "../modal/index.js";
-import { Saler } from "../modal_vendedor/index.js";
-import "../modal/modal.js";
-import * as C from './cadastro.js';
-import '../../App.js';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import * as C from "../cadastro/cadastro";
 import { Emitente } from "../modal_emitente/index.js";
+import { Saler } from "../modal_vendedor/index.js";
 import { Top } from "../modal_top/index.js";
 import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
-import { Link, useNavigate } from "react-router-dom";
+import { Modal} from "../modal/index.js";
 
-
-
-
-export const Cadastro = () => {
+export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
     const navigate = useNavigate();
+    const [rotinas, setRotinas] = useState([]);
+    const [emitente, setEmitente] = useState([]);
+    const [top, setTop] = useState([]);
+    const [vendedor, setVendedor] = useState([]);
+    const [parceiro, setParceiro] = useState([]);
+    const [tipoPagamento, setTipoPagamento] = useState([]);
+
     /*Estado dos Modais */
     const [isModalPartner, setIsModalPartner] = useState(false);
     const [isModalSaler, setIsModalSaler] = useState(false);
@@ -22,7 +24,42 @@ export const Cadastro = () => {
     const [isModalPgt, setIsModalPgt] = useState(false);
     const [isModalEmitente, setIsModalEmitente] = useState(false);
     const [isModalProdutos, setIsModalProdutos] = useState(false);
+
+    //Condição caso modificou alguma opção
+    const [emitenteAlterado, setEmitenteAlterado] = useState(false);
+    const [topAlterada, setTopAlterada] = useState(false);
+    const [vendedorAlterado, setVendedorAlterado] = useState(false);
+    const [parceiroAlterado, setParceiroAlterado] = useState(false);
+    const [tipoPgtoAlterado, setTipoPgtoAlterado] = useState(false);
+    console.log(tipoPgtoAlterado);
+
+    useEffect(() => {
+        async function fetchData() {
+            const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codigo}`); //http://10.0.1.10:8091/preVenda/id
+            const rotina = await responseRotina.json();
+            setRotinas(rotina);
+            setListItens(rotina.pre_venda_detalhe)
+            const responseEmitente = await fetch('http://10.0.1.10:8092/emitente/all'); 
+            const Emitente = await responseEmitente.json();
+            setEmitente(Emitente);
+            const responseTop = await fetch('http://10.0.1.10:8091/top/all'); 
+            const top = await responseTop.json();
+            setTop(top);
+            const responseVendedor = await fetch('http://10.0.1.10:8099/user/all'); 
+            const vendedor = await responseVendedor.json();
+            setVendedor(vendedor);
+            const responseParceiro = await fetch('https://rickandmortyapi.com/api/character');
+            const parceiro = await responseParceiro.json();
+            setParceiro(parceiro.results);
+            const responseTipoPagamento = await fetch('http://10.0.1.10:8092/tipoPagamento/all'); 
+            const tipoPagamento = await responseTipoPagamento.json();
+            setTipoPagamento(tipoPagamento);
+        }
+        fetchData();
+    }, []);
+
     
+
     /*Etado do elemento selecionado no modal */
     const [dataSelectPartner, setDataSelectPartner] = useState('');
     const [dataSelectEmitente, setDataSelectEmitente] = useState('');
@@ -70,7 +107,8 @@ export const Cadastro = () => {
     const changeHandler = e => {
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
- console.log(counter)
+    console.log("contador: "+counter, "tamanho da lista: "+listItens.length )
+
     const zerarInput = () => {
         setDataSelectItem({
             acrescimo: '',
@@ -97,7 +135,7 @@ export const Cadastro = () => {
     //valida se a quantidade inserida no item é valida, se é maior que a quantidade disponivel ou se esta vazio
     const totalQtd = listItens.reduce((acumulador, objeto) => {
         if(objeto.id_produto === dataSelectItem.id_produto){
-            return acumulador + parseFloat(objeto.quantidade.replace(',','.'));
+            return acumulador + parseFloat(objeto.quantidade);
         }
         return acumulador;
     }, 0)
@@ -167,9 +205,6 @@ export const Cadastro = () => {
     const valorDesc = String(descontoValor).replace(",", ".");
     const valorPer = String(descontoPorcen).replace(',', '.');
 
-    
-    
-
     //Constante utilizada para exibir o valor com duas casas decimais no valor unitario
     const valorUnitario = String(dataSelectItem.valor_unitario).replace(".", ",").replace("NaN", " ").replace("undefined", " ");
 
@@ -227,8 +262,8 @@ export const Cadastro = () => {
         setDescontoValor(condição());
         setSubtotal(calcularSubtotal());
     }, [numero1,numero2,descontoValor,total,descontoPorcen]);
- 
-    const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal).replace(",", ".")), 0);
+    
+    const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal)), 0);
 
     // Funções para abrir o modal de cada campo apertando F2
     function onKeyUp(event){
@@ -275,21 +310,21 @@ export const Cadastro = () => {
         const soma = parseFloat(numero1.replace(",","."))+parseFloat(totalQtd);
         if(e.keyCode === 13){
             e.preventDefault();
-            if(dataSelectItem.qtd_estoque < numero1 && dataSelectTop.tipo_movimentacao === 'S'){
+            if(dataSelectItem.qtd_estoque < numero1 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
                 alert('Quantidade inserida maior que o estoque disponivel!');
                 zerarInput();
             }else if(dataSelectTop === 'S' && soma > dataSelectItem.qtd_estoque ){
                 alert('Quantidade limite atingida!');
                 zerarInput();
             }
-            else if(dataSelectTop.tipo_movimentacao === 'E'){
+            else if(dataSelectTop.tipo_movimentacao === 'E' || tipoMovimentacao === 'E'){
                 e.preventDefault();
                 document.getElementById('valorUnit').focus();
-            }else if(dataSelectTop.tipo_movimentacao === 'S' && dataSelectItem.qtd_estoque >= numero1){
+            }else if((dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S') && dataSelectItem.qtd_estoque >= numero1){
                 e.preventDefault();
                 document.getElementById('valorUnit').focus();
             }
-           
+            
         }
     }
     function NextAddItem (e){
@@ -369,8 +404,8 @@ export const Cadastro = () => {
     }
 
     //Pegar hora do computador
-    const [dataEmissao, setDataEmissao] = useState('');
-    const [horaEmissao, setHoraEmissao] = useState('');
+    const [dataEdicao, setDataEdicao] = useState('');
+    const [horaEdicao, setHoraEdicao] = useState('');
 
     const data = new Date();
     const dia = String(data.getDate()).padStart(2, '0');
@@ -385,8 +420,8 @@ export const Cadastro = () => {
 
     useEffect(()=>{
         async function setarHoraData(){
-            setDataEmissao(String(dataAtual));
-            setHoraEmissao(String(horaAtual));
+            setDataEdicao(String(dataAtual));
+            setHoraEdicao(String(horaAtual));
         } 
         setarHoraData();
     },[])
@@ -405,25 +440,36 @@ export const Cadastro = () => {
             setTipoVenda('A');
         }
     }
+    console.log("data: "+dataEmissao, "hora: "+ horaEmissao, "tipo ven: "+tipoVenda)
 
     //envio para a api das informações armazenadas
     const[cor, setCor] = useState('');
     const handleSubmit = async (e) => {
         e.preventDefault();
+        //Id dos campos cabeçalho da rotina
+        const idEmitente= document.getElementById('emitente').value;
+        const idTop= document.getElementById('top').value;
+        const idVendedor= document.getElementById('vendedor').value;
+        const idParceiro= document.getElementById('parceiro').value;
+        const idPgto= document.getElementById('pgto').value;
+        const nomeParceiro = document.getElementById('nome-Parceiro').value;
+        console.log("emit: "+ idEmitente, "top: "+idTop, "vende: "+idVendedor, "parcei: "+idParceiro, "pgto: "+ idPgto, "nome par: "+nomeParceiro)
+
         if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && listItens.length > 0 ){
             try{
-                const res = await fetch("http://10.0.1.10:8091/preVenda", { //http://10.0.1.10:8091/preVenda
-                    method: "POST",
+                const res = await fetch(`http://10.0.1.94:8091/preVenda/${codigo}`, { //http://10.0.1.10:8091/preVenda
+                    method: "PUT",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({
-                        id_empresa: dataIdSelectEmitente,
-                        id_top: dataSelectTop.id_top,
-                        id_cliente: dataIdSelectPartner,
-                        nome_cliente: dataSelectPartner,
-                        id_funcionario: dataIdSelectSaler,
-                        id_tipo_pagamento: dataIdSelectPgt,
+                        id_empresa: idEmitente,
+                        id_top: idTop,
+                        id_cliente: idParceiro,
+                        nome_cliente: nomeParceiro,
+                        id_funcionario: idVendedor,
+                        id_tipo_pagamento: idPgto,
                         situacao: 'P',
                         descontoValor: '',
+                        dataEdicao: String(dataEdicao),
                         dataEmissao: String(dataEmissao),
                         hora_emissao: String(horaEmissao),
                         total: totalVenda,
@@ -435,7 +481,7 @@ export const Cadastro = () => {
                             pre_venda_detalhe: listItens,
                     }),
                 });
-                if(res.status === 201){
+                if(res.status === 200){
                     alert('salvo com sucesso');
                     navigate('/consultar');
                 }
@@ -445,9 +491,7 @@ export const Cadastro = () => {
         }else{
             setCor('yellow');
             alert('Preencha todos os campos!');
-        }
-       
-        
+        } 
     }
 
     const Voltar = () => {
@@ -483,30 +527,74 @@ export const Cadastro = () => {
             decrementarItem(index);
         
     }
-           
+
+    const razaoSocial = emitente.filter((idEmitente) => {
+        if(rotinas.id_empresa === idEmitente.id){
+            return idEmitente.razao_social;
+        }
+    });
+    const descricaoTop = top.filter((top) => {
+        if(rotinas.id_top === top.id){
+            return top.descricao;
+        }
+    });
+    const descricaoVendedor = vendedor.filter((vendedor) => {
+        if(rotinas.id_funcionario === vendedor.id){
+            return vendedor.nome;
+        }
+    });
+    const descricaoPagamento = tipoPagamento.filter((pagamento) => {
+        if(rotinas.id_tipo_pagamento === pagamento.id){
+            return pagamento.descricao;
+        }
+    });
+    const [liberaEstoque, setLiberaEstoque] = useState();
+    const [tipoMovimentacao, setTipoMovimentacao] = useState();
+        useEffect(()=>{
+            descricaoTop.map((tp) => {
+            console.log(tp.libera_itens_estoque_indisponivel);
+            setLiberaEstoque(tp.libera_itens_estoque_indisponivel);
+            setTipoMovimentacao(tp.tipo_movimentacao);
+        },[])
+    })
+    const voltar = () => {
+        navigate('/consultar');
+    }
+
     return(
-        
         <C.Container>
            { /*<Link to="/"><button onClick={HandleLogout}>Sair</button></Link>*/}
             <C.Header>
-                <h3>Cadastro de Rotina</h3>
+                <h3>Aberta para edição</h3>
             </C.Header>
             <C.Info>
                 <div className="div-info">
                     <form>
                         <div>
                             <label>Código da rotina: </label>
-                            <input className="cod"></input>
+                            <input className="cod" value={rotinas.id} readOnly></input>
                         </div>
+                        
+
                         <div id="checkbox">
+                            {rotinas.tipo_venda === 'A' ? (
                             <div className="atacado-varejo">
-                                <div id="line"></div>
-                                <input type="radio" id="atacado" className="radio" name="radio" value='atacado' onFocus={validarTipoVenda2}></input>
-                                <label>Atacado</label>
-                                <input type="radio" id="varejo" className="radio" name="radio" value='varejo' onFocus={validarTipoVenda} checked></input>
-                                <label>Varejo</label>
-                                <div id="line"></div>
+                            <div id="line"></div>
+                            <input type="radio" id="atacado" className="radio" name="radio" value='atacado' onFocus={validarTipoVenda2} checked></input>
+                            <label>Atacado</label>
+                            <input type="radio" id="varejo" className="radio" name="radio" value='varejo' onFocus={validarTipoVenda}></input>
+                            <label>Varejo</label>
+                            <div id="line"></div>
+                        </div>
+                        ) : (<div className="atacado-varejo">
+                            <div id="line"></div>
+                            <input type="radio" id="atacado" className="radio" name="radio" value='atacado' onFocus={validarTipoVenda2} ></input>
+                            <label>Atacado</label>
+                            <input type="radio" id="varejo" className="radio" name="radio" value='varejo' onFocus={validarTipoVenda} checked></input>
+                            <label>Varejo</label>
+                            <div id="line"></div>
                             </div>
+                        )}
                             <div className="checkbox">
                                 <input type="checkbox" className="checkbox-box"/>
                                 <label>Aprovado</label>
@@ -518,35 +606,91 @@ export const Cadastro = () => {
                         </div>
                     </form>
                     <form action="POST" id="information" className="information" onSubmit={handleSubmit}>
-                        <div>
-                        <label>Emitente: </label>
-                        <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} onDoubleClick={() => setIsModalEmitente(true)} value={dataIdSelectEmitente} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>                    
-                        <input name="emitente" className="option" value={dataSelectEmitente}/>
-                        </div>
-                        <div>
-                        <label>T.O.P: </label>
-                        <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} onDoubleClick={() => setIsModalTop(true)} value={dataSelectTop.id_top} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
-                        <input name="top" className="option" value={dataSelectTop.descricao}/>
-                        </div>
-                        <div>
-                        <label>Vendedor: </label>
-                        <input name="cod_vendedor" className="f1" id="vendedor" onKeyDown={NextParceiro} onKeyUp={keySaler} onDoubleClick={() => setIsModalSaler(true)} value={dataIdSelectSaler} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
-                        <input name="vendedor" className="option" value={dataSelectSaler} />
-                        </div>
-                        <div>
+                        {emitenteAlterado === false ? (
+                                <div>
+                                <label>Emitente: </label>
+                                <input name="id_empresa" className="f1" id="emitente" value={rotinas.id_empresa} onKeyDown={NextTop} onKeyUp={onKeyUp} onDoubleClick={() => setIsModalEmitente(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                                {razaoSocial.map((item) => {
+                                    return <input name="emitente" className="option" value={item.razao_social}/>
+                                })}          
+                                </div>
+                            ) : (
+                                <div>
+                                <label>Emitente: </label>
+                                <input name="id_empresa" className="f1" id="emitente" value={dataIdSelectEmitente} onKeyDown={NextTop} onKeyUp={onKeyUp} onDoubleClick={() => setIsModalEmitente(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                                <input name="emitente" className="option" value={dataSelectEmitente}/>       
+                                </div>
+                        )}
+
+                        {topAlterada === false ? (
+                            <div>
+                            <label>T.O.P: </label>
+                            <input name="cod_top" className="f1" id="top" value={rotinas.id_top} onKeyDown={NextVendedor} onKeyUp={keyTop} onDoubleClick={() => setIsModalTop(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                            {descricaoTop.map((item)=> {
+                                return <input name="top" className="option" value={item.descricao}/>
+                            })}
+                            </div>
+                        ) : (
+                            <div>
+                            <label>T.O.P: </label>
+                            <input name="cod_top" className="f1" id="top" value={dataSelectTop.id_top} onKeyDown={NextVendedor} onKeyUp={keyTop} onDoubleClick={() => setIsModalTop(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                            <input name="top" className="option" value={dataSelectTop.descricao}/>
+                            </div>
+                        )}
+
+                        {vendedorAlterado === false ? (
+                            <div>
+                            <label>Vendedor: </label>
+                            <input name="cod_vendedor" className="f1" id="vendedor" value={rotinas.id_funcionario} onKeyDown={NextParceiro} onKeyUp={keySaler} onDoubleClick={() => setIsModalSaler(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                            {descricaoVendedor.map((item) => {
+                                return <input name="vendedor" className="option" value={item.nome} />
+                            })}
+                            </div>
+                        ) : (
+                            <div>
+                            <label>Vendedor: </label>
+                            <input name="cod_vendedor" className="f1" id="vendedor" value={dataIdSelectSaler} onKeyDown={NextParceiro} onKeyUp={keySaler} onDoubleClick={() => setIsModalSaler(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                            <input name="vendedor" className="option" value={dataSelectSaler} />
+                            </div>
+                        )}
+
+                        {parceiroAlterado === false ? (
+                            <div>
                             <label>Parceiro: </label>
-                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} onDoubleClick={() => setIsModalPartner(true)} value={dataIdSelectPartner} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
+                            <input className="f1" name="cod_partner" id="parceiro" value={rotinas.id_cliente} onKeyDown={NextPgto} onKeyUp={keyPartner} onDoubleClick={() => setIsModalPartner(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
                                     <div className="div-partner">
-                                        <input name="partner" className="partner" value={dataSelectPartner} />
+                                        <input name="partner" className="partner" id="nome-Parceiro" value={rotinas.nome_cliente} readOnly/>
                                         <label>CPF/CNPJ: </label>
                                         <input className="cpf"/>
                                     </div>
-                        </div>
-                        <div>
-                        <label>Tipo pgto: </label>
-                        <input className="f1" id="pgto" onKeyUp={keyPgt} onDoubleClick={() => setIsModalPgt(true)} value={dataIdSelectPgt} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
-                        <input id="option_pgto" className="option" value={dataSelectPgt}/>
-                        </div>
+                            </div>
+                        ) : (
+                            <div>
+                            <label>Parceiro: </label>
+                            <input className="f1" name="cod_partner" id="parceiro" value={dataIdSelectPartner} onKeyDown={NextPgto} onKeyUp={keyPartner} onDoubleClick={() => setIsModalPartner(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                                    <div className="div-partner">
+                                        <input name="partner" className="partner" id="nome-Parceiro" value={dataSelectPartner} readOnly/>
+                                        <label>CPF/CNPJ: </label>
+                                        <input className="cpf"/>
+                                    </div>
+                            </div>
+                        )}
+
+                        {tipoPgtoAlterado === false ? (
+                            <div>
+                            <label>Tipo pgto: </label>
+                            <input className="f1" id="pgto" value={rotinas.id_tipo_pagamento} onKeyUp={keyPgt} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                            {descricaoPagamento.map((item)=> {
+                            return <input id="option_pgto" className="option" value={item.descricao} />
+                            })}
+                            </div>
+                        ) : (
+                            <div>
+                            <label>Tipo pgto: </label>
+                            <input className="f1" id="pgto" value={dataIdSelectPgt} onKeyUp={keyPgt} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                            <input id="option_pgto" className="option" value={dataSelectPgt} />
+                            </div>
+                        )}
                     </form>
                 </div>
                 {/*<fieldset><legend>Observação</legend>Observação</fieldset>*/}
@@ -606,8 +750,6 @@ export const Cadastro = () => {
                     id="valorUnit" required/>
                     )
                 }
-
-                
                 <datalist></datalist>
                 </div>
                 <div>
@@ -685,7 +827,7 @@ export const Cadastro = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {listItens.map((list, index) => {
+                            {Array.isArray(listItens) && listItens.map((list, index) => {
                                 return(
                                     <tr key={index}>
                                         <td>{index+1}</td>
@@ -718,11 +860,11 @@ export const Cadastro = () => {
                     <label className="total-itens"></label>
                     <div>
                     <label>Subtotal da Rotina: </label>
-                    <input value={parseFloat(totalVenda).toFixed(2).replace(".", ",")}/>
+                    <input value={parseFloat(totalVenda).toFixed(2).replace(".", ",")} readOnly/>
                     </div>
                     <div>
                     <label>Total da Rotina: </label>
-                    <input value={parseFloat(totalVenda).toFixed(2).replace(".", ",")}/>
+                    <input value={parseFloat(totalVenda).toFixed(2).replace(".", ",")} readOnly />
                     </div> 
                     <div>
                     <label>descontoValor Total(R$): </label>
@@ -736,22 +878,22 @@ export const Cadastro = () => {
                 </div>
             </C.Footer>
             {isModalPartner ? (
-                <Modal onClose = {() => setIsModalPartner(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner}/>
+                <Modal onClose = {() => setIsModalPartner(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner} setParceiroAlterado={setParceiroAlterado} />
             ) : null}
             {isModalEmitente ? (
-                <Emitente onClose = {() => setIsModalEmitente(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/>
+                <Emitente onClose = {() => setIsModalEmitente(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} setEmitenteAlterado={setEmitenteAlterado}/>
             ) : null}
             {isModalTop ? (
-                <Top onClose = {() => setIsModalTop(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectTop={setDataSelectTop}/>
+                <Top onClose = {() => setIsModalTop(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectTop={setDataSelectTop} setTopAlterada={setTopAlterada}/>
             ) : null}
             {isModalSaler ? (
-                <Saler onClose = {() => setIsModalSaler(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectSaler={setDataSelectSaler} setDataIdSelectSaler={setDataIdSelectSaler}/>
+                <Saler onClose = {() => setIsModalSaler(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectSaler={setDataSelectSaler} setDataIdSelectSaler={setDataIdSelectSaler} setVendedorAlterado={setVendedorAlterado}/>
             ) : null}
             {isModalPgt ? (
-                <Pgt onClose = {() => setIsModalPgt(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
+                <Pgt onClose = {() => setIsModalPgt(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt} setTipoPgtoAlterado={setTipoPgtoAlterado}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop}/>
+                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop} rotinas={rotinas} tipoPgtoAlterado={tipoPgtoAlterado} emitenteAlterado={emitenteAlterado} liberaEstoque={liberaEstoque} tipoMovimentacao={tipoMovimentacao} />
             ) : null}
         </C.Container>   
     );

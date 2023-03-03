@@ -2,17 +2,41 @@ import React, { useEffect, useState, useRef } from "react";
 import { Header, Modal} from "./../modal/modal.js";
 import * as C from "./produtos.js";
 
-export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataIdSelectEmitente, dataIdSelectPgt, dataSelectTop}) => {
+export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataIdSelectEmitente, dataIdSelectPgt, dataSelectTop, rotinas, tipoPgtoAlterado, emitenteAlterado, liberaEstoque, tipoMovimentacao}) => {
 
     const [itens, setItens] = useState([]);
     const [busca, setBusca] = useState('');
     const [infoItem, setInfoItem] = useState([]);
 
+
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
-            const data = await response.json();
-            setItens(data.content);
+            if(emitenteAlterado === true && tipoPgtoAlterado === true){
+                console.log("passou 1");
+                const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
+                const data = await response.json();
+                setItens(data.content);
+            }else if(emitenteAlterado === true && tipoPgtoAlterado === false){
+                console.log("passou 2");
+                const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${dataIdSelectEmitente}/payment/${rotinas.id_tipo_pagamento}?size=50`);
+                const data = await response.json();
+                setItens(data.content);
+            }else if(emitenteAlterado === false && tipoPgtoAlterado === true){
+                console.log("passou 3");
+                const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${rotinas.id_empresa}/payment/${dataIdSelectPgt}?size=50`);
+                const data = await response.json();
+                setItens(data.content);
+            }else if(emitenteAlterado === false && tipoPgtoAlterado === false){
+                console.log("passou 4");
+                const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${rotinas.id_empresa}/payment/${rotinas.id_tipo_pagamento}?size=50`);
+                const data = await response.json();
+                setItens(data.content);
+            }else{
+                console.log("passou 5");
+                const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);
+                const data = await response.json();
+                setItens(data.content);
+            }
         }
         fetchData();
         document.getElementById('search').focus();
@@ -20,7 +44,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
 
     // Função para pegar as informações do produto selecionado com dois clicks
     const SelectedItem = (item) => {
-        if(dataSelectTop.libera_itens_estoque_indisponivel === true ){
+        if(dataSelectTop.libera_itens_estoque_indisponivel === true || liberaEstoque === true ){
              setDataSelectItem({
                 id_produto: item.id,
                 gtin_produto: item.gtin,
@@ -38,9 +62,9 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
             });
             onClose();
             focoQtd();
-        }else if(dataSelectTop.libera_itens_estoque_indisponivel === false && resultado[selectIndex].qtd_estoque <= 0 && dataSelectTop.tipo_movimentacao === 'S'){
+        }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque <= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
             alert('Produto com estoque indisponivel');
-        }else if(dataSelectTop.libera_itens_estoque_indisponivel === false  && dataSelectTop.tipo_movimentacao === 'E'){
+        }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false)  && (dataSelectTop.tipo_movimentacao === 'E' || tipoMovimentacao === 'E')){
             setDataSelectItem({
                 id_produto: item.id,
                 gtin_produto: item.gtin,
@@ -58,7 +82,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
             });
             onClose();
             focoQtd();
-        }else if(dataSelectTop.libera_itens_estoque_indisponivel === false && resultado[selectIndex].qtd_estoque >= 0 && dataSelectTop.tipo_movimentacao === 'S'){
+        }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque >= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
             setDataSelectItem({
                 id_produto: item.id,
                 gtin_produto: item.gtin,
@@ -76,6 +100,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
             });
             onClose();
             focoQtd();
+        }else{
+            alert("acertou mizeravi")
         }
        
     };
@@ -134,7 +160,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
-                if(dataSelectTop.libera_itens_estoque_indisponivel === true ){
+                if(dataSelectTop.libera_itens_estoque_indisponivel === true || liberaEstoque === true ){
                     setDataSelectItem({
                     id_produto: resultado[selectIndex].id,
                     gtin_produto: resultado[selectIndex].gtin,
@@ -152,9 +178,9 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 });
                     onClose();
                     focoQtd();
-                }else if(dataSelectTop.libera_itens_estoque_indisponivel === false && resultado[selectIndex].qtd_estoque <= 0 && dataSelectTop.tipo_movimentacao === 'S'){
+                }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque <= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao ==='S')){
                     alert('Produto com estoque indisponivel');
-                }else if(dataSelectTop.libera_itens_estoque_indisponivel === false  && dataSelectTop.tipo_movimentacao === 'E'){
+                }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false)  && (dataSelectTop.tipo_movimentacao === 'E' || tipoMovimentacao === 'E')){
                     setDataSelectItem({
                         id_produto: resultado[selectIndex].id,
                         gtin_produto: resultado[selectIndex].gtin,
@@ -172,7 +198,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                     });
                     onClose();
                     focoQtd();
-                }else if(dataSelectTop.libera_itens_estoque_indisponivel === false && resultado[selectIndex].qtd_estoque >= 0 && dataSelectTop.tipo_movimentacao === 'S'){
+                }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque >= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
                     setDataSelectItem({
                         id_produto: resultado[selectIndex].id,
                         gtin_produto: resultado[selectIndex].gtin,

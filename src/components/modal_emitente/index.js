@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Emitente = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente}) => {
+export const Emitente = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado}) => {
 
     const [users, setUsers] = useState([]);
     const [selectEmitente, setSelectEmitente] = useState();
@@ -27,7 +27,7 @@ export const Emitente = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectEmi
         setDataIdSelectEmitente(user.id);
         onClose();
         focoCampoSeguinte();
-        
+        setEmitenteAlterado(true);
     };
 
     // Filtro de busca
@@ -77,6 +77,7 @@ export const Emitente = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectEmi
                     setDataIdSelectEmitente(resultado[selectIndex].id);
                     onClose();
                     focoCampoSeguinte();
+                    setEmitenteAlterado(true);
                 }
             }
         };
