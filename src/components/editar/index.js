@@ -517,7 +517,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
     }
 
     function decrementarItem (index) {
-        for (let i = 0; i< listItens.length; i++){
+        for (let i = 0; i< tamanho; i++){
             if(listItens[i].item != 1 && listItens[i].item > index){
                 listItens[i].item--;
                 listItens[0].item = 1;
@@ -527,7 +527,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
     const Deletar = (id, index) => {
         const newList = listItens.filter((item) => item != id);
             setListItens(newList);
-            setCounter(listItens.length);
+            setCounter(tamanho);
             decrementarItem(index);
         
     }
@@ -563,6 +563,15 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
     })
     const voltar = () => {
         navigate('/consultar');
+    }
+    function comparar (a, b){
+        if(a.item > b.item){
+            return 1;
+        }
+        if(a.item < b.item){
+            return -1
+        }
+        return 0;
     }
 
     return(
@@ -831,9 +840,9 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(listItens) && listItens.map((list, index) => {
+                            {Array.isArray(listItens) && listItens.sort(comparar).map((list, index) => {
                                 return(
-                                    <tr key={index}>
+                                    <tr key={list.item}>
                                         <td>{index+1}</td>
                                         <td>{list.id_produto}</td>
                                         <td>{list.gtin_produto}</td>
