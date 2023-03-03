@@ -102,12 +102,14 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
     const [listItens, setListItens] = useState([]);
     console.log(listItens);
 
-    const [counter, setCounter] = useState(listItens.length+1);
+    const tamanho = listItens.length;
+    const [counter, setCounter] = useState(0);
     
     const changeHandler = e => {
+        setCounter(tamanho + 1)
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
-    console.log("contador: "+counter, "tamanho da lista: "+listItens.length )
+    console.log("contador: "+counter, "tamanho da lista: "+listItens.length, "tamanho: "+tamanho )
 
     const zerarInput = () => {
         setDataSelectItem({
