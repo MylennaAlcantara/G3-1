@@ -8,7 +8,7 @@ import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
 import { Modal} from "../modal/index.js";
 
-export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
+export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, senhaFuncionario}) => {
     const navigate = useNavigate();
     const [rotinas, setRotinas] = useState([]);
     const [emitente, setEmitente] = useState([]);
@@ -32,6 +32,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
     const [parceiroAlterado, setParceiroAlterado] = useState(false);
     const [tipoPgtoAlterado, setTipoPgtoAlterado] = useState(false);
     console.log(tipoPgtoAlterado);
+    const [usuario, setUsuario] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -56,9 +57,15 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
             setTipoPagamento(tipoPagamento);
         }
         fetchData();
+        async function fetchUsuario(){
+            const response = await fetch(`http://10.0.1.10:8099/user/${matriculaFuncionario}/${senhaFuncionario}`); // api POST e PUT -> http://10.0.1.10:8091/preVenda  minha Api fake ->  http://localhost:5000/rotinas
+            const data = await response.json();
+            setUsuario(data);
+        }
+        fetchUsuario();
     }, []);
 
-    
+
 
     /*Etado do elemento selecionado no modal */
     const [dataSelectPartner, setDataSelectPartner] = useState('');
@@ -501,6 +508,13 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
     const Voltar = () => {
         navigate('/consultar');
     }
+    
+    const excluir = () => {
+        fetch(`http://10.0.1.94:8091/preVenda/delete/${codigo}/${usuario.id}`, {
+            method: 'DELETE',
+        }).catch(err => console.log(err))
+        navigate('/consulta');
+    }
 
     const [token, setToken] = useState();
     useEffect(()=>{
@@ -571,16 +585,13 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
             setTipoMovimentacao(tp.tipo_movimentacao);
         },[])
     })
-    const voltar = () => {
-        navigate('/consultar');
-    }
 
 
     return(
         <C.Container>
            { /*<Link to="/"><button onClick={HandleLogout}>Sair</button></Link>*/}
             <C.Header>
-                <h3>Aberta para edição</h3>
+                <h3>Aberta para edição id: {usuario.id}</h3>
             </C.Header>
             <C.Info>
                 <div className="div-info">
@@ -888,7 +899,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao}) => {
                 </form>
                 <div className="buttons">
                     <button className="liberar" id="submit" onClick={handleSubmit}><img src="/images/salvar.png"/>Liberar</button>
-                    <button className="Excluir"><img src="/images/lixeira.png"/>Excluir</button>
+                    <button className="Excluir" onClick={excluir}><img src="/images/lixeira.png"/>Excluir</button>
                     <button className="Voltar" onClick={Voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
