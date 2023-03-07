@@ -23,7 +23,6 @@ function App() {
   
   return (      
   <AuthProvider>
-    <header>Usuario: {user.map(nome => nome.nome)} - {user.map(id => id.id)}</header>
     <div className="App">
 
           <Routes>

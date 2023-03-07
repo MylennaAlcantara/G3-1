@@ -42,6 +42,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
         document.getElementById('search').focus();
     }, []);
 
+    console.log(dataSelectTop.libera_itens_estoque_indisponivel);
     // Função para pegar as informações do produto selecionado com dois clicks
     const SelectedItem = (item, dataSelectTop) => {
         if(dataSelectTop.libera_itens_estoque_indisponivel === true || liberaEstoque === true ){
@@ -103,16 +104,14 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
             });
             onClose();
             focoQtd();
-        }else{
-            alert("acertou mizeravi")
         }
-       
     };
 
     const EstoqueTrib = (item, index) =>{
         setInfoItem({
             qtd_estoque: item.qtd_estoque,
-            qtd_estoque_reservado: item.qtd_estoque_reservado
+            qtd_estoque_reservado: item.qtd_estoque_reservado,
+            qtd_estoque_di: item.qtd_estoque_di
         })
         setSelectIndex(index);
     }
@@ -367,7 +366,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                                     <td>{dataIdSelectEmitente}</td>
                                     <td>{infoItem.qtd_estoque}</td>
                                     <td>{infoItem.qtd_estoque_reservado}</td>
-                                    <td>0</td>
+                                    <td>{infoItem.qtd_estoque_di}</td>
                                     <td>{infoItem.qtd_estoque}</td>
                                 </tr>
                             </tbody>
