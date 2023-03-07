@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as C from "./login.js";
 import { MD5 } from "crypto-js";
+import { AuthContext } from "../../contexts/Auth/authContext.js";
 
 export const Login = () => {
             
@@ -34,37 +35,16 @@ export const Login = () => {
         };
     }, [index]);
 
-    const [company, setCompany] = useState('');
-    const [matricula, setMatricula] = useState('');
-    const [password, setPassword] = useState('');
-    
-    // Converte para MD5 o que foi digitado na senha
-    const senha = MD5(password).toString();
-
-        const [usuario, setUsuario] = useState([]);
-        useEffect(() => {
-            async function fetchData (){
-                const response = await fetch(`http://10.0.1.10:8099/user/all`);
-                const data = await response.json();
-                setUsuario(data);
-                
-            }
-                fetchData();
-        }, []);
-
-    const handleLogin = async () => {
-        if(matricula && senha){
-            var login = usuario.filter(user => user.matricula === matricula && user.senha === senha);
-            login.forEach(user => { 
-                if(user.matricula===matricula && user.senha === senha){
-                        navigate('/consultar');
-                        localStorage.setItem('token', 123456);
-                    }else{
-                    alert("Matricula e senha incorreta!");
-                }
-            });          
+    const {company, matricula, password, setCompany, setMatricula, setPassword, handleLogin} = useContext(AuthContext);
+    const verificar = ()=>{
+        const token = localStorage.getItem('token');
+        if( token === '123456' ){
+            navigate('/consultar');
+        }else{
+            console.log('errou')
         }
     }
+
 
     return(
         <C.Container>
@@ -89,7 +69,7 @@ export const Login = () => {
                 </div>
             </C.Image>
             <C.Acessar>
-                <form className="login" onSubmit={handleLogin}>
+                <form className="login" onSubmit={()=>{handleLogin(); verificar()}}>
                     <div className="auth">
                         <label>Autenticação</label>
                     </div>
@@ -107,7 +87,7 @@ export const Login = () => {
                             </div>
                         </div>
                     </div>
-                    <button onClick={handleLogin}>entrar</button>
+                    <button onClick={()=>{handleLogin(); verificar()}}>entrar</button>
                 </form>
 
             </C.Acessar>

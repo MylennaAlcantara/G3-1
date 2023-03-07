@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/Auth/authContext.js";
 import * as C from "./consultar.js";
 
 
-export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
+export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matriculaFuncionario, senhaFuncionario} ) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
+    const {autenticar, user} = useContext(AuthContext);
 
     useEffect(()=>{
         async function fetchData(){
@@ -14,6 +16,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
             setRotinas(data);
         }
         fetchData();
+        autenticar();
         document.getElementById('search').focus();
     },[])
 
@@ -69,7 +72,10 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
         setHoraEmissao(item.hora_emissao);
         setSelectIndex(index);
     }
-console.log('Rotina escolhida: '+ codigoRotina)
+//console.log('Rotina escolhida: '+ codigoRotina)
+
+
+
     //Função dos botões
     const Novo = () => {
         navigate("/rotina");
@@ -83,11 +89,12 @@ console.log('Rotina escolhida: '+ codigoRotina)
     const Fechar = () => {
 
     }
-
+    console.log(user)
     return(
         <C.Container>
             <C.Header>
-                <h3>Consultar</h3>
+        
+                <h3>Consultar  usuario: {Array.isArray(user) && user.map(i => i.nome )} </h3>
             </C.Header>
             <C.Filtro>
                     <div className="div-checkbox">

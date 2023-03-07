@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as C from "../cadastro/cadastro";
 import { Emitente } from "../modal_emitente/index.js";
@@ -7,9 +7,12 @@ import { Top } from "../modal_top/index.js";
 import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
 import { Modal} from "../modal/index.js";
+import { AuthContext } from "../../contexts/Auth/authContext";
 
 export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, senhaFuncionario}) => {
     const navigate = useNavigate();
+    const {autenticar, user} = useContext(AuthContext);
+
     const [rotinas, setRotinas] = useState([]);
     const [emitente, setEmitente] = useState([]);
     const [top, setTop] = useState([]);
@@ -63,6 +66,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
             setUsuario(data);
         }
         fetchUsuario();
+        autenticar();
     }, []);
 
 
@@ -508,12 +512,11 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     const Voltar = () => {
         navigate('/consultar');
     }
-    
     const excluir = () => {
-        fetch(`http://10.0.1.94:8091/preVenda/delete/${codigo}/${usuario.id}`, {
+        fetch(`http://10.0.1.94:8091/preVenda/delete/${codigo}/${user[0].id}`, {
             method: 'DELETE',
         }).catch(err => console.log(err))
-        navigate('/consulta');
+        navigate('/consultar');
     }
 
     const [token, setToken] = useState();
