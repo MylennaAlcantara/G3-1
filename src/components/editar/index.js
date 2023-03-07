@@ -35,7 +35,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     const [parceiroAlterado, setParceiroAlterado] = useState(false);
     const [tipoPgtoAlterado, setTipoPgtoAlterado] = useState(false);
     const [itensAlterados, setItensAlterados] = useState(false);
-    console.log(tipoPgtoAlterado);
+    console.log('parceiro'+ parceiroAlterado);
     const [usuario, setUsuario] = useState([]);
 
     useEffect(() => {
@@ -463,7 +463,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     const[cor, setCor] = useState('');
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(emitenteAlterado || vendedorAlterado || tipoPgtoAlterado || parceiroAlterado || topAlterada || itensAlterados){
+        if(emitenteAlterado === true || vendedorAlterado === true || tipoPgtoAlterado === true || parceiroAlterado === true || topAlterada === true || itensAlterados === true){
             //Id dos campos cabeçalho da rotina
             const idEmitente= document.getElementById('emitente').value;
             const idTop= document.getElementById('top').value;
@@ -475,7 +475,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
 
             if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && listItens.length > 0 ){
                 try{
-                    const res = await fetch(`http://10.0.1.10:8091/preVenda/${codigo}`, { //http://10.0.1.10:8091/preVenda
+                    const res = await fetch(`http://10.0.1.10:8091/preVenda/${codRotina}`, { //http://10.0.1.10:8091/preVenda
                         method: "PUT",
                         headers: {"Content-Type": "application/json"},
                         body: JSON.stringify({
@@ -512,6 +512,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
             } 
         }else{
             navigate('/consultar');
+            console.log('não alterou!')
         }
         
     }
@@ -931,7 +932,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
                 <Pgt onClose = {() => setIsModalPgt(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt} setTipoPgtoAlterado={setTipoPgtoAlterado}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop} rotinas={rotinas} tipoPgtoAlterado={tipoPgtoAlterado} emitenteAlterado={emitenteAlterado} liberaEstoque={liberaEstoque} tipoMovimentacao={tipoMovimentacao} />
+                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop} rotinas={rotinas} tipoPgtoAlterado={tipoPgtoAlterado} emitenteAlterado={emitenteAlterado} liberaEstoque={liberaEstoque} tipoMovimentacao={tipoMovimentacao}/>
             ) : null}
         </C.Container>   
     );

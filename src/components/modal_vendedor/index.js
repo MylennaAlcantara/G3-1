@@ -26,7 +26,7 @@ export const Saler = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectSaler,
         setDataIdSelectSaler(user.id);
         onClose();
         focoCampoSeguinte();
-        setVendedorAlterado();
+        setVendedorAlterado(true);
     };
 
     
@@ -64,7 +64,7 @@ export const Saler = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectSaler,
                 setDataIdSelectSaler(resultado[selectIndex].id);
                 onClose();
                 focoCampoSeguinte();
-                setVendedorAlterado();
+                setVendedorAlterado(true);
             }
         }
     };

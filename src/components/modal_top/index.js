@@ -37,7 +37,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
         });
         onClose();
         focoCampoSeguinte();
-        setTopAlterada();
+        setTopAlterada(true);
     };
 
     // Filtro de busca
@@ -94,7 +94,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                 });
                 onClose();
                 focoCampoSeguinte();
-                setTopAlterada();
+                setTopAlterada(true);
             }
         }
     };

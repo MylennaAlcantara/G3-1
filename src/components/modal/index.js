@@ -29,7 +29,7 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
         setDataIdSelectPartner(user.id);
         onClose();
         focoCampoSeguinte();
-        setParceiroAlterado();
+        setParceiroAlterado(true);
     };
 
     //Filtro de busca
@@ -83,7 +83,7 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
                 setDataIdSelectPartner(resultado[selectIndex].id);
                 onClose();
                 focoCampoSeguinte();
-                setParceiroAlterado();
+                setParceiroAlterado(true);
             }
         }
     };
