@@ -67,12 +67,12 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matricula
     const [codigoRotina, setCodigoRotina] = useState();
     const selecionado = (index, item) => {
         setCodigoRotina(item.id);
+        localStorage.setItem('rotina', item.id);
         setCodigo(item.id);
         setDataEmissao(item.dataEmissao);
         setHoraEmissao(item.hora_emissao);
         setSelectIndex(index);
     }
-//console.log('Rotina escolhida: '+ codigoRotina)
 
 
 
@@ -84,7 +84,11 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matricula
         navigate(`/rotina/${codigoRotina}`);
     }
     const abrirEditar = () => {
+        if(codigoRotina === undefined){
+            console.log('nenhuma rotina selecionada')
+        }else{
         navigate(`/editarRotina/${codigoRotina}`);
+        }
     }
     const Fechar = () => {
 

@@ -10,6 +10,7 @@ import { AuthProvider } from './contexts/Auth/authProvider';
 
 function App() {    
   const token = localStorage.getItem('token');
+  const codRotina = localStorage.getItem('rotina')
   const navigate = useNavigate();
 
   const [codigo, setCodigo] = useState();
@@ -26,8 +27,8 @@ function App() {
             <Route path = "/" element = {<Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/> 
             {token ? <Route path = "/rotina" element = {<Cadastro matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>}/> : navigate('/')}
             {token ? <Route path = "/consultar" element = {<Consultar setCodigo={setCodigo} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>}/> : navigate('/')}
-            {token ? <Route path = "/rotina/:codigo" element={<Visualizar codigo={codigo} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>}/> : navigate('/')}
-            {token ? <Route path = "/editarRotina/:codigo" element={<Editar codigo={codigo} dataEmissao={dataEmissao} horaEmissao={horaEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>}/> : navigate('/')}
+            {token ? <Route path = "/rotina/:codigo" element={<Visualizar codigo={codigo} codRotina={parseFloat(codRotina)} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>}/> : navigate('/')}
+            {token ? <Route path = "/editarRotina/:codigo" element={<Editar codigo={codigo} codRotina={parseFloat(codRotina)} dataEmissao={dataEmissao} horaEmissao={horaEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>}/> : navigate('/')}
           </Routes>
       
     </div>

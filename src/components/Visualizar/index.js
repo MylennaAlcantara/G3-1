@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as C from "../cadastro/cadastro";
 
-export const Visualizar = ({codigo}) => {
+export const Visualizar = ({codigo, codRotina}) => {
     const navigate = useNavigate();
     const [rotinas, setRotinas] = useState([]);
     const [emitente, setEmitente] = useState([]);
@@ -13,7 +13,7 @@ export const Visualizar = ({codigo}) => {
 
     useEffect(() => {
         async function fetchData() {
-            const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codigo}`); //http://10.0.1.10:8091/preVenda/id
+            const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codRotina}`); //http://10.0.1.10:8091/preVenda/id
             const rotina = await responseRotina.json();
             setRotinas(rotina);
             const responseEmitente = await fetch('http://10.0.1.10:8092/emitente/all'); 
@@ -58,6 +58,7 @@ export const Visualizar = ({codigo}) => {
     console.log(rotinas.pre_venda_detalhe)
     const voltar = () => {
         navigate('/consultar');
+        localStorage.removeItem('rotina');
     }
 
     return(

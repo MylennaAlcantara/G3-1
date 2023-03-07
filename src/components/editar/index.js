@@ -9,7 +9,7 @@ import { Produtos } from "../modal_produtos/index.js";
 import { Modal} from "../modal/index.js";
 import { AuthContext } from "../../contexts/Auth/authContext";
 
-export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, senhaFuncionario}) => {
+export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, senhaFuncionario, codRotina}) => {
     const navigate = useNavigate();
     const {autenticar, user} = useContext(AuthContext);
 
@@ -39,7 +39,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
 
     useEffect(() => {
         async function fetchData() {
-            const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codigo}`); //http://10.0.1.10:8091/preVenda/id
+            const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codRotina}`); //http://10.0.1.10:8091/preVenda/id
             const rotina = await responseRotina.json();
             setRotinas(rotina);
             setListItens(rotina.pre_venda_detalhe)
@@ -511,12 +511,14 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
 
     const Voltar = () => {
         navigate('/consultar');
+        localStorage.removeItem('rotina');
     }
     const excluir = () => {
-        fetch(`http://10.0.1.94:8091/preVenda/delete/${codigo}/${user[0].id}`, {
+        fetch(`http://10.0.1.94:8091/preVenda/delete/${codRotina}/${user[0].id}`, {
             method: 'DELETE',
         }).catch(err => console.log(err))
         navigate('/consultar');
+        localStorage.removeItem('rotina');
     }
 
     const [token, setToken] = useState();
