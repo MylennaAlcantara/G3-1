@@ -34,6 +34,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     const [vendedorAlterado, setVendedorAlterado] = useState(false);
     const [parceiroAlterado, setParceiroAlterado] = useState(false);
     const [tipoPgtoAlterado, setTipoPgtoAlterado] = useState(false);
+    const [itensAlterados, setItensAlterados] = useState(false);
     console.log(tipoPgtoAlterado);
     const [usuario, setUsuario] = useState([]);
 
@@ -168,6 +169,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
             zerarInput()
         }else if(dataSelectItem.quantidade != 0 ){
             setListItens([...listItens, dataSelectItem]);
+            setItensAlterados(true);
         }
     }
 
@@ -461,52 +463,57 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     const[cor, setCor] = useState('');
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //Id dos campos cabeçalho da rotina
-        const idEmitente= document.getElementById('emitente').value;
-        const idTop= document.getElementById('top').value;
-        const idVendedor= document.getElementById('vendedor').value;
-        const idParceiro= document.getElementById('parceiro').value;
-        const idPgto= document.getElementById('pgto').value;
-        const nomeParceiro = document.getElementById('nome-Parceiro').value;
-        console.log("emit: "+ idEmitente, "top: "+idTop, "vende: "+idVendedor, "parcei: "+idParceiro, "pgto: "+ idPgto, "nome par: "+nomeParceiro)
+        if(emitenteAlterado || vendedorAlterado || tipoPgtoAlterado || parceiroAlterado || topAlterada || itensAlterados){
+            //Id dos campos cabeçalho da rotina
+            const idEmitente= document.getElementById('emitente').value;
+            const idTop= document.getElementById('top').value;
+            const idVendedor= document.getElementById('vendedor').value;
+            const idParceiro= document.getElementById('parceiro').value;
+            const idPgto= document.getElementById('pgto').value;
+            const nomeParceiro = document.getElementById('nome-Parceiro').value;
+            console.log("emit: "+ idEmitente, "top: "+idTop, "vende: "+idVendedor, "parcei: "+idParceiro, "pgto: "+ idPgto, "nome par: "+nomeParceiro)
 
-        if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && listItens.length > 0 ){
-            try{
-                const res = await fetch(`http://10.0.1.94:8091/preVenda/${codigo}`, { //http://10.0.1.10:8091/preVenda
-                    method: "PUT",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({
-                        id_empresa: idEmitente,
-                        id_top: idTop,
-                        id_cliente: idParceiro,
-                        nome_cliente: nomeParceiro,
-                        id_funcionario: idVendedor,
-                        id_tipo_pagamento: idPgto,
-                        situacao: 'P',
-                        descontoValor: '',
-                        dataEdicao: String(dataEdicao),
-                        dataEmissao: String(dataEmissao),
-                        hora_emissao: String(horaEmissao),
-                        total: totalVenda,
-                        subtotal: totalVenda,
-                        valor_extenso: '',
-                        observacao_pre_venda: '',
-                        tipo_venda: tipoVenda,
-                        venda_externa: false,
-                            pre_venda_detalhe: listItens,
-                    }),
-                });
-                if(res.status === 200){
-                    alert('salvo com sucesso');
-                    navigate('/consultar');
+            if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && listItens.length > 0 ){
+                try{
+                    const res = await fetch(`http://10.0.1.10:8091/preVenda/${codigo}`, { //http://10.0.1.10:8091/preVenda
+                        method: "PUT",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({
+                            id_empresa: idEmitente,
+                            id_top: idTop,
+                            id_cliente: idParceiro,
+                            nome_cliente: nomeParceiro,
+                            id_funcionario: idVendedor,
+                            id_tipo_pagamento: idPgto,
+                            situacao: 'P',
+                            descontoValor: '',
+                            dataEdicao: String(dataEdicao),
+                            dataEmissao: String(dataEmissao),
+                            hora_emissao: String(horaEmissao),
+                            total: totalVenda,
+                            subtotal: totalVenda,
+                            valor_extenso: '',
+                            observacao_pre_venda: '',
+                            tipo_venda: tipoVenda,
+                            venda_externa: false,
+                                pre_venda_detalhe: listItens,
+                        }),
+                    });
+                    if(res.status === 200){
+                        alert('salvo com sucesso');
+                        navigate('/consultar');
+                    }
+                }catch(err){
+                    console.log(err);
                 }
-            }catch(err){
-                console.log(err);
-            }
+            }else{
+                setCor('yellow');
+                alert('Preencha todos os campos!');
+            } 
         }else{
-            setCor('yellow');
-            alert('Preencha todos os campos!');
-        } 
+            navigate('/consultar');
+        }
+        
     }
 
     const Voltar = () => {
@@ -514,7 +521,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
         localStorage.removeItem('rotina');
     }
     const excluir = () => {
-        fetch(`http://10.0.1.94:8091/preVenda/delete/${codRotina}/${user[0].id}`, {
+        fetch(`http://10.0.1.10:8091/preVenda/delete/${codRotina}/${user[0].id}`, {
             method: 'DELETE',
         }).catch(err => console.log(err))
         navigate('/consultar');

@@ -111,7 +111,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
 
     const EstoqueTrib = (item, index) =>{
         setInfoItem({
-            qtd_estoque: item.qtd_estoque
+            qtd_estoque: item.qtd_estoque,
+            qtd_estoque_reservado: item.qtd_estoque_reservado
         })
         setSelectIndex(index);
     }
@@ -365,7 +366,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                                 <tr >
                                     <td>{dataIdSelectEmitente}</td>
                                     <td>{infoItem.qtd_estoque}</td>
-                                    <td>0</td>
+                                    <td>{infoItem.qtd_estoque_reservado}</td>
                                     <td>0</td>
                                     <td>{infoItem.qtd_estoque}</td>
                                 </tr>
