@@ -98,7 +98,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matricula
         <C.Container>
             <C.Header>
         
-                <h3>Consultar  usuario: {Array.isArray(user) && user.map(i => i.nome )} </h3>
+                <h3>Consultar</h3>
             </C.Header>
             <C.Filtro>
                     <div className="div-checkbox">

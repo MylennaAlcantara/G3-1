@@ -604,7 +604,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
         <C.Container>
            { /*<Link to="/"><button onClick={HandleLogout}>Sair</button></Link>*/}
             <C.Header>
-                <h3>Aberta para edição id: {usuario.id}</h3>
+                <h3>Aberta para edição</h3>
             </C.Header>
             <C.Info>
                 <div className="div-info">

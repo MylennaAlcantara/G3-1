@@ -7,11 +7,13 @@ import { Consultar } from './components/Consultar';
 import { Visualizar } from './components/Visualizar';
 import { Editar } from './components/editar';
 import { AuthProvider } from './contexts/Auth/authProvider';
+import { AuthContext } from './contexts/Auth/authContext';
 
 function App() {    
   const token = localStorage.getItem('token');
   const codRotina = localStorage.getItem('rotina')
   const navigate = useNavigate();
+  const {user} = useContext(AuthContext);
 
   const [codigo, setCodigo] = useState();
   const [dataEmissao,setDataEmissao] = useState();
@@ -21,6 +23,7 @@ function App() {
   
   return (      
   <AuthProvider>
+    <header>Usuario: {user.map(nome => nome.nome)} - {user.map(id => id.id)}</header>
     <div className="App">
 
           <Routes>
