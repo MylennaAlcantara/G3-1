@@ -149,7 +149,9 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
             }
             setSelectIndex(selectIndex-1);
             setInfoItem({
-                qtd_estoque: resultado[selectIndex-1].qtd_estoque
+                qtd_estoque: resultado[selectIndex-1].qtd_estoque,
+                qtd_estoque_reservado: resultado[selectIndex-1].qtd_estoque_reservado,
+                qtd_estoque_di: resultado[selectIndex-1].qtd_estoque_di
             })
         }else if (e.keyCode === 40){
             e.preventDefault();
@@ -158,7 +160,9 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
             }
             setSelectIndex(selectIndex + 1);
             setInfoItem({
-                qtd_estoque: resultado[selectIndex+1].qtd_estoque
+                qtd_estoque: resultado[selectIndex+1].qtd_estoque,
+                qtd_estoque_reservado: resultado[selectIndex-1].qtd_estoque_reservado,
+                qtd_estoque_di: resultado[selectIndex-1].qtd_estoque_di
             })
         }else if (e.keyCode === 13){
             e.preventDefault();
@@ -222,8 +226,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
             }
         }
     }
-
-
+    
     return (
         <Modal>
             <C.ContainerProdutos>
@@ -280,7 +283,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                                         <td>{item.referencia}</td>
                                         <td>{item.gtin}</td>
                                         <td>{item.descricaoPdv}</td>
-                                        <td>{item.qtd_estoque}</td>
+                                        <td>{parseFloat(item.qtd_estoque).toFixed(3).replace('.',',')}</td>
                                         <td></td>                                    
                                 </tr>
                             );
@@ -364,15 +367,15 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                             <tbody>
                                 <tr >
                                     <td>{dataIdSelectEmitente}</td>
-                                    <td>{infoItem.qtd_estoque}</td>
-                                    <td>{infoItem.qtd_estoque_reservado}</td>
-                                    <td>{infoItem.qtd_estoque_di}</td>
-                                    <td>{infoItem.qtd_estoque}</td>
+                                    <td>{parseFloat(infoItem.qtd_estoque).toFixed(3).replace('.',',')}</td>
+                                    <td>{parseFloat(infoItem.qtd_estoque_reservado).toFixed(3).replace('.',',')}</td>
+                                    <td>{parseFloat(infoItem.qtd_estoque_di).toFixed(3).replace('.',',')}</td>
+                                    <td>{parseFloat(parseFloat(infoItem.qtd_estoque) - parseFloat(infoItem.qtd_estoque_reservado)).toFixed(3).replace('.',',')}</td>
                                 </tr>
                             </tbody>
                         </table>
                         <label>Estoque Disp. Total:  </label>
-                        <input className="estoque-tot" value={infoItem.qtd_estoque}/>
+                        <input className="estoque-tot" value={parseFloat(infoItem.qtd_estoque) - parseFloat(infoItem.qtd_estoque_reservado)} readOnly/>
                     </C.Estoque>
                 </C.Valores>
                 <C.Footer>
