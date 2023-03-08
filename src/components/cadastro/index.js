@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Modal} from "../modal/index.js";
 import { Saler } from "../modal_vendedor/index.js";
 import "../modal/modal.js";
@@ -9,12 +9,14 @@ import { Top } from "../modal_top/index.js";
 import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/Auth/authContext.js";
 
 
 
 
 export const Cadastro = () => {
     const navigate = useNavigate();
+    const {user} = useContext(AuthContext);
     /*Estado dos Modais */
     const [isModalPartner, setIsModalPartner] = useState(false);
     const [isModalSaler, setIsModalSaler] = useState(false);
@@ -453,6 +455,10 @@ export const Cadastro = () => {
     const Voltar = () => {
         navigate('/consultar');
     }
+    const sair = () => {
+        localStorage.clear();
+        document.location.reload(true);
+    }
 
     const [token, setToken] = useState();
     useEffect(()=>{
@@ -487,7 +493,7 @@ export const Cadastro = () => {
     return(
         
         <C.Container>
-           { /*<Link to="/"><button onClick={HandleLogout}>Sair</button></Link>*/}
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
                 <h3>Cadastro de Rotina</h3>
             </C.Header>

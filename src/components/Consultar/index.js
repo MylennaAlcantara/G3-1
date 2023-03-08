@@ -93,11 +93,15 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matricula
     const Fechar = () => {
 
     }
-    console.log(user)
+    const sair = () => {
+        localStorage.clear();
+        document.location.reload(true);
+    }
     return(
         <C.Container>
+        <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} <button onClick={sair}>Sair</button></C.NaviBar>
+
             <C.Header>
-        
                 <h3>Consultar</h3>
             </C.Header>
             <C.Filtro>

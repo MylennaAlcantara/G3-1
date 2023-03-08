@@ -538,10 +538,6 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
         }
     },[]);
 
-    const HandleLogout = async () => {
-            setToken();
-            localStorage.clear();
-    }
     //Ordena a exibição dos produtos de acordo com o valor de item
     function comparar (a, b){
         if(a.item > b.item){
@@ -567,6 +563,10 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
             setCounter(tamanho);
             decrementarItem(index);
         
+    }
+    const sair = () => {
+        localStorage.clear();
+        document.location.reload(true);
     }
 
     const razaoSocial = emitente.filter((idEmitente) => {
@@ -602,7 +602,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
 
     return(
         <C.Container>
-           { /*<Link to="/"><button onClick={HandleLogout}>Sair</button></Link>*/}
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
                 <h3>Aberta para edição</h3>
             </C.Header>

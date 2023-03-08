@@ -13,7 +13,6 @@ function App() {
   const token = localStorage.getItem('token');
   const codRotina = localStorage.getItem('rotina')
   const navigate = useNavigate();
-  const {user} = useContext(AuthContext);
 
   const [codigo, setCodigo] = useState();
   const [dataEmissao,setDataEmissao] = useState();
@@ -27,10 +26,10 @@ function App() {
 
           <Routes>
             <Route path = "/" element = {<Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/> 
-            {token ? <Route path = "/rotina" element = {<Cadastro matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>}/> : navigate('/')}
-            {token ? <Route path = "/consultar" element = {<Consultar setCodigo={setCodigo} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>}/> : navigate('/')}
-            {token ? <Route path = "/rotina/:codigo" element={<Visualizar codigo={codigo} codRotina={parseFloat(codRotina)} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>}/> : navigate('/')}
-            {token ? <Route path = "/editarRotina/:codigo" element={<Editar codigo={codigo} codRotina={parseFloat(codRotina)} dataEmissao={dataEmissao} horaEmissao={horaEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>}/> : navigate('/')}
+            <Route path = "/rotina" element = {token ? <Cadastro matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
+            <Route path = "/consultar" element = {token ?<Consultar setCodigo={setCodigo} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/> 
+            <Route path = "/rotina/:codigo" element={token ? <Visualizar codigo={codigo} codRotina={parseFloat(codRotina)} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
+            <Route path = "/editarRotina/:codigo" element={token ? <Editar codigo={codigo} codRotina={parseFloat(codRotina)} dataEmissao={dataEmissao} horaEmissao={horaEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
           </Routes>
       
     </div>

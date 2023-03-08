@@ -15,6 +15,28 @@ export const Container = styled.div`
     }
 `;
 
+export const NaviBar = styled.div`
+    display: flex;
+    justify-content: start;
+    align-content: start;
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    button{
+        color: white;
+        font-weight: bold;
+        width: 50px;
+        height: 30px;
+        background-color: red;
+        border: 1px solid red;
+        margin: 0 0 0 5px;
+        border-radius: 5px;
+    }
+    button:hover{
+        cursor: pointer;
+    }
+`
+
 export const Header = styled.div`
     border: 1.5px;
     border-radius: 12px 12px 0 0;

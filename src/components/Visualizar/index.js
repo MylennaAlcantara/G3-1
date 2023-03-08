@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/Auth/authContext";
 import * as C from "../cadastro/cadastro";
 
 export const Visualizar = ({codigo, codRotina}) => {
     const navigate = useNavigate();
+    const {user} = useContext(AuthContext);
     const [rotinas, setRotinas] = useState([]);
     const [emitente, setEmitente] = useState([]);
     const [top, setTop] = useState([]);
@@ -60,10 +62,14 @@ export const Visualizar = ({codigo, codRotina}) => {
         navigate('/consultar');
         localStorage.removeItem('rotina');
     }
+    const sair = () => {
+        localStorage.clear();
+        document.location.reload(true);
+    }
 
     return(
         <C.Container>
-           { /*<Link to="/"><button onClick={HandleLogout}>Sair</button></Link>*/}
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
                 <h3>Aberta para visualizar</h3>
             </C.Header>
