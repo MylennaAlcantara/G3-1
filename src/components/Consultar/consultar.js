@@ -98,6 +98,9 @@ export const Rotinas = styled.div`
     td{
         border: 1px solid grey;
     }
+    tr{
+        background-color: yellow;
+    }
     #table tr td{
         cursor: pointer;
     }

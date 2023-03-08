@@ -44,7 +44,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
 
     console.log(dataSelectTop.libera_itens_estoque_indisponivel);
     // Função para pegar as informações do produto selecionado com dois clicks
-    const SelectedItem = (item, dataSelectTop) => {
+    const SelectedItem = (item) => {
         if(dataSelectTop.libera_itens_estoque_indisponivel === true || liberaEstoque === true ){
              setDataSelectItem({
                 id_produto: item.id,
@@ -54,12 +54,13 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 unidade_produto: item.unidade_produto_nome,
                 valor_icms_st: 0,
                 acrescimo: 0,
-                desconto: '',
+                desconto: 0,
                 ncm: item.ncm,
                 ncmEx: item.ncmex,
                 subtotal: '',
                 descontoPorcen: '',
                 qtd_estoque: item.qtd_estoque,
+                quantidade: '',
                 id_top: dataSelectTop.id_top
             });
             onClose();
@@ -104,6 +105,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
             });
             onClose();
             focoQtd();
+        }else{
+            console.log('passou direto')
         }
     };
 
@@ -185,7 +188,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 });
                     onClose();
                     focoQtd();
-                }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque <= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao ==='S')){
+                }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque <= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
                     alert('Produto com estoque indisponivel');
                 }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false)  && (dataSelectTop.tipo_movimentacao === 'E' || tipoMovimentacao === 'E')){
                     setDataSelectItem({

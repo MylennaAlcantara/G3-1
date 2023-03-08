@@ -448,8 +448,6 @@ export const Cadastro = () => {
             setCor('yellow');
             alert('Preencha todos os campos!');
         }
-       
-        
     }
 
     const Voltar = () => {
