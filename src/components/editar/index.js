@@ -528,6 +528,10 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
         navigate('/consultar');
         localStorage.removeItem('rotina');
     }
+    const sair = () => {
+        localStorage.clear();
+        document.location.reload(true);
+    }
 
     const [token, setToken] = useState();
     useEffect(()=>{
@@ -564,10 +568,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
             decrementarItem(index);
         
     }
-    const sair = () => {
-        localStorage.clear();
-        document.location.reload(true);
-    }
+
 
     const razaoSocial = emitente.filter((idEmitente) => {
         if(rotinas.id_empresa === idEmitente.id){
@@ -645,21 +646,14 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
                         </div>
                     </form>
                     <form action="POST" id="information" className="information" onSubmit={handleSubmit}>
-                        {emitenteAlterado === false ? (
-                                <div>
-                                <label>Emitente: </label>
-                                <input name="id_empresa" className="f1" id="emitente" value={rotinas.id_empresa} onKeyDown={NextTop} onKeyUp={onKeyUp} onDoubleClick={() => setIsModalEmitente(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
-                                {razaoSocial.map((item) => {
-                                    return <input name="emitente" className="option" value={item.razao_social}/>
-                                })}          
-                                </div>
-                            ) : (
-                                <div>
-                                <label>Emitente: </label>
-                                <input name="id_empresa" className="f1" id="emitente" value={dataIdSelectEmitente} onKeyDown={NextTop} onKeyUp={onKeyUp} onDoubleClick={() => setIsModalEmitente(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
-                                <input name="emitente" className="option" value={dataSelectEmitente}/>       
-                                </div>
-                        )}
+                        
+                            <div>
+                            <label>Emitente: </label>
+                            <input name="id_empresa" className="f1" id="emitente" value={rotinas.id_empresa} onKeyDown={NextTop} readOnly/>
+                            {razaoSocial.map((item) => {
+                                return <input name="emitente" className="option" value={item.razao_social}/>
+                            })}          
+                            </div>
 
                         {topAlterada === false ? (
                             <div>
