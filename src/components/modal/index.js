@@ -14,18 +14,18 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("https://rickandmortyapi.com/api/character");
+            const response = await fetch("http://10.0.1.10:8099/clientes");
             const data = await response.json();
-            setUsers(data.results);
+            setUsers(data);
         }
             fetchData();
             document.getElementById('search').focus();
-    }, []);
+        }, []);
 
     const Selected = (user) => {
-        setSelectPartner(user.name);
+        setSelectPartner(user.nome);
         setSelectIdPartner(user.id)
-        setDataSelectPartner(user.name);
+        setDataSelectPartner(user.nome);
         setDataIdSelectPartner(user.id);
         onClose();
         focoCampoSeguinte();
@@ -43,13 +43,13 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
         }else if(filtro === 'municipio'){
             return user.municipio.toLowerCase().includes(busca);
         }else if(filtro === 'cpf'){
-            return user.type.toLowerCase().includes(busca);
+            return user.cpf_cnpj === Number(busca);
         }else if(filtro === 'nome'){
-            return user.name.toLowerCase().includes(busca);
-        }else if(filtro === 'fantasia'){
+            return user.nome.toLowerCase().includes(busca);
+        }else if(filtro === 'nome_fantasia'){
             return user.species.toLowerCase().includes(busca);
         }else if(filtro === 'rg'){
-            return user.type.toLowerCase().includes(busca);
+            return user.rg === Number(busca);
         }
     });
     
@@ -77,9 +77,9 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
-                setSelectPartner(resultado[selectIndex].name);
+                setSelectPartner(resultado[selectIndex].nome);
                 setSelectIdPartner(resultado[selectIndex].id)
-                setDataSelectPartner(resultado[selectIndex].name);
+                setDataSelectPartner(resultado[selectIndex].nome);
                 setDataIdSelectPartner(resultado[selectIndex].id);
                 onClose();
                 focoCampoSeguinte();
@@ -144,7 +144,7 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
                             </tr>
                         </thead>
                         <tbody>
-                            {resultado.map( (user, index) => {
+                            {resultado.slice(0, 50).map( (user, index) => {
                                 return(
                                     <tr 
                                         key={user.id} 
@@ -152,16 +152,16 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
                                         onDoubleClick={Selected.bind(this, user)}
                                         style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
                                             <td>{user.id}</td>
-                                            <td>{user.name}</td>
-                                            <td>{user.status}</td>
-                                            <td>{user.species}</td>
-                                            <td>{user.type}</td>
-                                            <td>{user.gender}</td>
-                                            <td>{user.id}</td>
-                                            <td>{user.name}</td>
-                                            <td>{user.status}</td>
-                                            <td>{user.status}</td>
-                                            <td>{user.status}</td>
+                                            <td>{user.data_cadastro}</td>
+                                            <td>{user.nome}</td>
+                                            <td>{user.nome_fantasia}</td>
+                                            <td>{user.cpf_cnpj}</td>
+                                            <td>{user.endereco}</td>
+                                            <td>{user.cep}</td>
+                                            <td>{user.municipio}</td>
+                                            <td>{user.telefone}</td>
+                                            <td>{user.celular}</td>
+                                            <td></td>
                                     </tr>
                                 );
                             })}

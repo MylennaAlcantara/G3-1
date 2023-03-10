@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext.js";
 import * as C from "./consultar.js";
+import { rotinaPDF } from "../Relatorios/rotinaPDF.js";
 
 
 export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matriculaFuncionario, senhaFuncionario} ) => {
@@ -74,7 +75,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matricula
         setSelectIndex(index);
     }
 
-
+console.log(codigoRotina)
 
     //Função dos botões
     const Novo = () => {
@@ -88,6 +89,54 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matricula
             console.log('nenhuma rotina selecionada')
         }else{
         navigate(`/editarRotina/${codigoRotina}`);
+        }
+    }
+
+    const [rotina, setRotina] = useState([]);
+    const [vendedor, setVendedor] = useState([]);
+    const [parceiro, setParceiro] = useState([]);
+    const [tipoPagamento, setTipoPagamento] = useState([]);
+    const [emitente, setEmitente] = useState([]);
+    const [horaImpressao, setHoraImpressao] = useState('');
+    
+    const data = new Date();
+    const hora = data.getHours();
+    const minuto = data.getMinutes();
+    const segundo = data.getSeconds();
+    const horaAtual = String(hora + ':' + minuto + ':' + segundo);
+    
+    useEffect(()=>{
+        async function setarHoraData(){
+            setHoraImpressao(String(horaAtual));
+        } 
+        setarHoraData();
+    },[]);
+
+    async function pegarRotina (){
+        const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codigoRotina}`); //http://10.0.1.10:8091/preVenda/id
+        const rotina = await responseRotina.json();
+        setRotina(rotina);
+        const responseVendedor = await fetch('http://10.0.1.10:8099/user/all'); 
+        const vendedor = await responseVendedor.json();
+        setVendedor(vendedor);
+        const responseParceiro = await fetch('http://10.0.1.10:8099/clientes');
+        const parceiro = await responseParceiro.json();
+        setParceiro(parceiro);
+        const responseTipoPagamento = await fetch('http://10.0.1.10:8092/tipoPagamento/all'); 
+        const tipoPagamento = await responseTipoPagamento.json();
+        setTipoPagamento(tipoPagamento);
+        const responseEmitente = await fetch('http://10.0.1.10:8092/emitente/all'); 
+        const Emitente = await responseEmitente.json();
+        setEmitente(Emitente);
+        console.log(parceiro)
+    }
+
+    const imprimir = () => {
+        pegarRotina();
+        if(codigoRotina === undefined){
+            console.log('Nenhuma rotina selecionada');
+        }else{
+            rotinaPDF(rotina, vendedor, parceiro, tipoPagamento, emitente, horaImpressao);
         }
     }
     const Fechar = () => {
@@ -177,6 +226,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matricula
                 <div >
                     <button onClick={Novo}>Novo</button>
                     <button onClick={abrirEditar}>Abrir</button>
+                    <button onClick={imprimir}>Imprimir</button>
                     <button>Fechar</button>
                 </div>
                 <div className="indice">

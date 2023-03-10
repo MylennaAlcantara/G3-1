@@ -8,6 +8,7 @@ import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
 import { Modal} from "../modal/index.js";
 import { AuthContext } from "../../contexts/Auth/authContext";
+import { rotinaPDF } from "../Relatorios/rotinaPDF";
 
 export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, senhaFuncionario, codRotina}) => {
     const navigate = useNavigate();
@@ -35,7 +36,6 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     const [parceiroAlterado, setParceiroAlterado] = useState(false);
     const [tipoPgtoAlterado, setTipoPgtoAlterado] = useState(false);
     const [itensAlterados, setItensAlterados] = useState(false);
-    console.log('parceiro'+ parceiroAlterado);
     const [usuario, setUsuario] = useState([]);
 
     useEffect(() => {
@@ -53,20 +53,14 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
             const responseVendedor = await fetch('http://10.0.1.10:8099/user/all'); 
             const vendedor = await responseVendedor.json();
             setVendedor(vendedor);
-            const responseParceiro = await fetch('https://rickandmortyapi.com/api/character');
+            const responseParceiro = await fetch('http://10.0.1.10:8099/clientes');
             const parceiro = await responseParceiro.json();
-            setParceiro(parceiro.results);
+            setParceiro(parceiro);
             const responseTipoPagamento = await fetch('http://10.0.1.10:8092/tipoPagamento/all'); 
             const tipoPagamento = await responseTipoPagamento.json();
             setTipoPagamento(tipoPagamento);
         }
         fetchData();
-        async function fetchUsuario(){
-            const response = await fetch(`http://10.0.1.10:8099/user/${matriculaFuncionario}/${senhaFuncionario}`); // api POST e PUT -> http://10.0.1.10:8091/preVenda  minha Api fake ->  http://localhost:5000/rotinas
-            const data = await response.json();
-            setUsuario(data);
-        }
-        fetchUsuario();
         autenticar();
     }, []);
 
@@ -422,7 +416,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
 
     //Pegar hora do computador
     const [dataEdicao, setDataEdicao] = useState('');
-    const [horaEdicao, setHoraEdicao] = useState('');
+    const [horaImpressao, setHoraImpressao] = useState('');
 
     const data = new Date();
     const dia = String(data.getDate()).padStart(2, '0');
@@ -438,7 +432,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     useEffect(()=>{
         async function setarHoraData(){
             setDataEdicao(String(dataAtual));
-            setHoraEdicao(String(horaAtual));
+            setHoraImpressao(String(horaAtual));
         } 
         setarHoraData();
     },[])
@@ -457,7 +451,6 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
             setTipoVenda('A');
         }
     }
-    console.log("data: "+dataEmissao, "hora: "+ horaEmissao, "tipo ven: "+tipoVenda)
 
     //envio para a api das informações armazenadas
     const[cor, setCor] = useState('');
@@ -527,6 +520,13 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
         }).catch(err => console.log(err))
         navigate('/consultar');
         localStorage.removeItem('rotina');
+    }    
+    const imprimir = () => {
+        if(codRotina === undefined){
+            console.log('Nenhuma rotina selecionada');
+        }else{
+            rotinaPDF(rotinas, vendedor, parceiro, tipoPagamento, emitente, horaImpressao);
+        }
     }
     const sair = () => {
         localStorage.clear();
@@ -906,6 +906,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
                 </form>
                 <div className="buttons">
                     <button className="liberar" id="submit" onClick={handleSubmit}><img src="/images/salvar.png"/>Liberar</button>
+                    <button onClick={imprimir}>Imprimir</button>
                     <button className="Excluir" onClick={excluir}><img src="/images/lixeira.png"/>Excluir</button>
                     <button className="Voltar" onClick={Voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
