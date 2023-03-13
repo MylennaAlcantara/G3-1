@@ -111,6 +111,15 @@ export const Rotinas = styled.div`
         background-color: blue;
         color: white;
     }
+    .red{
+        background-color: red;
+    }
+    .yellow{
+        background-color: yellow;
+    }
+    .white{
+        background-color: white;
+    }
     
 `;
 

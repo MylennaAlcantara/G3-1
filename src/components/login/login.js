@@ -139,6 +139,16 @@ export const Acessar = styled.div`
             color: white;
         }
     }
+    button{
+        font-size: 15px;
+        font-weight: semi-bold;
+        margin-top: 10px;
+        width: 100px;
+        height: 33px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     @media(max-width: 1146px){
         width: 100%;
         margin-top: 25px;

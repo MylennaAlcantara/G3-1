@@ -21,6 +21,34 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matricula
         document.getElementById('search').focus();
     },[])
 
+    //Filtro da situação das rotinas
+    const select = document.getElementById('opções');
+    const [filtroEscolhido, setFiltroEscolhido] = useState('T');
+    function FiltroSituacao (){
+        if(select.value === '1'){
+            setFiltroEscolhido('A');
+        }else if(select.value === '2'){
+            setFiltroEscolhido('T');
+        }else if(select.value === '3'){
+            setFiltroEscolhido('P');
+        }else if(select.value === '4'){
+            setFiltroEscolhido('E');
+        }else if(select.value === '5'){
+            setFiltroEscolhido('B');
+        }
+    }
+    const resultado2 = Array.isArray(rotinas) && rotinas.filter((rotina) => {
+        if(filtroEscolhido === 'P' ){
+            return rotina.situacao === 'P';
+        }else if(filtroEscolhido === 'B'){
+            return rotina.situacao ==='B';
+        }else if(filtroEscolhido === 'T'){
+            return rotina.situacao;
+        }else if(filtroEscolhido === 'E'){
+            return rotina.situacao ==='E'
+        }
+    });
+
     //Filtro busca por: Top / id vendedor / codigo / cliente / data
     const [busca, setBusca] = useState('');
     const [filtroSelecionado, setFiltroSelecionado] = useState('cliente');
@@ -29,7 +57,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matricula
         setFiltroSelecionado(event.target.value);
     }
 
-    const resultado = Array.isArray(rotinas) && rotinas.filter((rotina) => {
+    const resultado = Array.isArray(resultado2) && resultado2.filter((rotina) => {
         if(filtroSelecionado === 'cliente'){
             return rotina.nome_cliente.toLowerCase().includes(busca);
         }else if(filtroSelecionado === 'data'){
@@ -41,11 +69,10 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matricula
         }else if(filtroSelecionado === 'numero'){
             return rotina.id === Number(busca);
         }
-        
     });
 
     //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
-    const [selectIndex, setSelectIndex] = useState(0);
+    const [selectIndex, setSelectIndex] = useState(1);
     const tableRef = useRef(null);
 
     const handleKeyDown = (e) => {
@@ -156,6 +183,8 @@ console.log(codigoRotina)
         }
         return 0;
     }
+
+
     return(
         <C.Container>
         <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} <button onClick={sair}>Sair</button></C.NaviBar>
@@ -182,7 +211,7 @@ console.log(codigoRotina)
                     <input className="search" id="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     <div>
                     <label>Situação da Rotina</label>
-                        <select>
+                        <select id="opções" onChange={FiltroSituacao}>
                             <option value="2">Todas</option>
                             <option value="3">Pendente</option>
                             <option value="4">Emitida</option>
@@ -205,7 +234,7 @@ console.log(codigoRotina)
                             <th>TOP</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody >
                         { 
                         resultado.sort(comparar).map((item, index)=>{
                             return(
@@ -213,6 +242,7 @@ console.log(codigoRotina)
                                     key={item.id}
                                     onClick={selecionado.bind(this, index, item)}
                                     onDoubleClick={abrirRotina}
+                                    className={item.situacao === 'E' ? 'white' : item.situacao ==='B' ? 'red' : 'yellow'}
                                     style={{background: index === selectIndex ? '#87CEFA' : ''}} >
                                         <td>{item.id}</td>
                                         <td>{item.dataEmissao}</td>

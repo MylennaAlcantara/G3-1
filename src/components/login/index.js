@@ -86,8 +86,8 @@ export const Login = () => {
                                 <input name="password" type="password" value={password} onChange={e => setPassword(e.target.value)}/>
                             </div>
                         </div>
+                    <button onClick={()=>{handleLogin(); verificar()}}>Entrar</button>
                     </div>
-                    <button onClick={()=>{handleLogin(); verificar()}}>entrar</button>
                 </form>
 
             </C.Acessar>
