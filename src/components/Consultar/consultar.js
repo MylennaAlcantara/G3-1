@@ -64,6 +64,13 @@ export const Filtro = styled.div`
         border-right: 1px solid #000;
         margin: 5px
     }
+    label{
+        margin-right: 5px;
+    }
+    .search{
+        height: 24px;
+        width: 35%;
+    }
     @media (max-width: 425px){
         display: block;
     }
