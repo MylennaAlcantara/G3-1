@@ -146,6 +146,16 @@ console.log(codigoRotina)
         localStorage.clear();
         document.location.reload(true);
     }
+
+    function comparar (a, b){
+        if(a.id < b.id){
+            return 1;
+        }
+        if(a.id > b.id){
+            return -1
+        }
+        return 0;
+    }
     return(
         <C.Container>
         <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} <button onClick={sair}>Sair</button></C.NaviBar>
@@ -197,7 +207,7 @@ console.log(codigoRotina)
                     </thead>
                     <tbody>
                         { 
-                        resultado.map((item, index)=>{
+                        resultado.sort(comparar).map((item, index)=>{
                             return(
                                 <tr 
                                     key={item.id}
