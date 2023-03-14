@@ -113,19 +113,18 @@ console.log(codigoRotina)
     const abrirRotina = () => {
         navigate(`/rotina/${codigoRotina}`);
     }
-    const abrirEditar = () => {
+    const abrirEditar = async() => {
+        const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codigoRotina}`); //http://10.0.1.10:8091/preVenda/id
+        const rotina = await responseRotina.json();
         if(codigoRotina === undefined){
             console.log('nenhuma rotina selecionada')
+        }else if(rotina.id === codigoRotina && rotina.situacao ==='B'){
+            alert('Rotina esta bloqueada!')
         }else{
         navigate(`/editarRotina/${codigoRotina}`);
         }
     }
 
-    const [rotina, setRotina] = useState([]);
-    const [vendedor, setVendedor] = useState([]);
-    const [parceiro, setParceiro] = useState([]);
-    const [tipoPagamento, setTipoPagamento] = useState([]);
-    const [emitente, setEmitente] = useState([]);
     const [horaImpressao, setHoraImpressao] = useState('');
     
     const data = new Date();
@@ -144,20 +143,15 @@ console.log(codigoRotina)
     const imprimir = async() => {
         const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codigoRotina}`); //http://10.0.1.10:8091/preVenda/id
         const rotina = await responseRotina.json();
-        setRotina(rotina);
         const responseVendedor = await fetch('http://10.0.1.10:8099/user/all'); 
         const vendedor = await responseVendedor.json();
-        setVendedor(vendedor);
         const responseParceiro = await fetch('http://10.0.1.10:8099/clientes');
         const parceiro = await responseParceiro.json();
-        setParceiro(parceiro);
         const responseTipoPagamento = await fetch('http://10.0.1.10:8092/tipoPagamento/all'); 
         const tipoPagamento = await responseTipoPagamento.json();
-        setTipoPagamento(tipoPagamento);
         const responseEmitente = await fetch('http://10.0.1.10:8092/emitente/all'); 
         const Emitente = await responseEmitente.json();
-        setEmitente(Emitente);
-        rotinaPDF(rotina, vendedor, parceiro, tipoPagamento, emitente, horaImpressao);
+        rotinaPDF(rotina, vendedor, parceiro, tipoPagamento, Emitente, horaImpressao);
     }
     const Fechar = () => {
 
