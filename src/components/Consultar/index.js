@@ -5,7 +5,7 @@ import * as C from "./consultar.js";
 import { rotinaPDF } from "../Relatorios/rotinaPDF.js";
 
 
-export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matriculaFuncionario, senhaFuncionario} ) => {
+export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, codRotina} ) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
     const {autenticar, user} = useContext(AuthContext);
@@ -141,7 +141,7 @@ console.log(codigoRotina)
         setarHoraData();
     },[]);
 
-    async function pegarRotina (){
+    const imprimir = async() => {
         const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codigoRotina}`); //http://10.0.1.10:8091/preVenda/id
         const rotina = await responseRotina.json();
         setRotina(rotina);
@@ -157,16 +157,7 @@ console.log(codigoRotina)
         const responseEmitente = await fetch('http://10.0.1.10:8092/emitente/all'); 
         const Emitente = await responseEmitente.json();
         setEmitente(Emitente);
-        console.log(parceiro)
-    }
-
-    const imprimir = () => {
-        pegarRotina();
-        if(codigoRotina === undefined){
-            console.log('Nenhuma rotina selecionada');
-        }else{
-            rotinaPDF(rotina, vendedor, parceiro, tipoPagamento, emitente, horaImpressao);
-        }
+        rotinaPDF(rotina, vendedor, parceiro, tipoPagamento, emitente, horaImpressao);
     }
     const Fechar = () => {
 

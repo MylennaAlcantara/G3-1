@@ -75,7 +75,7 @@ export function rotinaPDF (rotina, vendedor, parceiro, tipoPagamento, emitente, 
                         {text: 'Numero pedido: ' + rotina.id, bold: true, fontSize: 10},
                     ],
                     [
-                        {text: 'CNPJ: '+ descricaoEmitente.map((item) => item.cnpj ), fontSize: 10},
+                        {text: 'CNPJ: '+ descricaoEmitente.map((item) => item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')), fontSize: 10},
                         {text: ''},
                     ],
                 ]
@@ -92,11 +92,11 @@ export function rotinaPDF (rotina, vendedor, parceiro, tipoPagamento, emitente, 
                         { text: '',}
                     ],
                     [
-                        {text: 'Nome: ' + rotina.id_cliente + ' - ' + rotina.nome_cliente  +' / '+ 'telefone: ' + descricaoParceiro.map((item)=> item.telefone), fontSize: 10},
-                        {text: 'CPF/CNPJ: ' + descricaoParceiro.map((item)=> item.cpf_cnpj), fontSize: 10},
+                        {text: 'Nome: ' + rotina.id_cliente + ' - ' + rotina.nome_cliente  +' / '+ 'telefone: ' + descricaoParceiro.map((item)=> item.telefone.replace(/\D/g, '').replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2').replace(/(-\d{4})\d+?$/, '$1')), fontSize: 10},
+                        {text: 'CPF/CNPJ: ' + descricaoParceiro.map((item)=> item.cpf_cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')), fontSize: 10},
                     ],
                     [
-                        {text: 'Rua: '+ descricaoParceiro.map((item)=> item.endereco)+ ' CEP: '+ descricaoParceiro.map((item)=> item.cep) + ' Bairro: ' + descricaoParceiro.map((item)=> item.bairro), fontSize: 10},
+                        {text: 'Rua: '+ descricaoParceiro.map((item)=> item.endereco)+ ' CEP: '+ descricaoParceiro.map((item)=> item.cep.replace(/\D/g, '').replace(/(\d{5})(\d)/, '$1-$2').replace(/(-\d{3})\d+?$/, '$1')) + ' Bairro: ' + descricaoParceiro.map((item)=> item.bairro), fontSize: 10},
                         {text: descricaoParceiro.map((item)=> item.municipio)+ ' - ' + descricaoParceiro.map((item)=> item.estado), fontSize: 10},
                     ],
                 ]
