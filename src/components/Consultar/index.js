@@ -251,7 +251,7 @@ console.log(codigoRotina)
                                         <td>{item.id_empresa}</td>
                                         <td>{item.nome_cliente}</td>
                                         <td>{item.situacao}</td>
-                                        <td>{item.total}</td>
+                                        <td>{parseFloat(item.total).toFixed(2).replace('.',',')}</td>
                                         <td>{item.id_top}</td>
                                 </tr> 
                             )

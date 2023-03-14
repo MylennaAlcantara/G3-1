@@ -247,10 +247,10 @@ export const Visualizar = ({codigo, codRotina}) => {
                                         <td>{list.gtin_produto}</td>
                                         <td>{list.descricao_produto}</td>
                                         <td>{list.unidade_produto}</td>
-                                        <td>{list.quantidade}</td>
-                                        <td>{list.valor_unitario}</td>
-                                        <td>{list.subtotal}</td>
-                                        <td>{list.desconto}</td>
+                                        <td>{parseFloat(list.quantidade).toFixed(3).replace('.',',')}</td>
+                                        <td>{String(list.valor_unitario).replace('.',',')}</td>
+                                        <td>{String(list.subtotal).replace('.',',')}</td>
+                                        <td>{parseFloat(list.desconto).toFixed(2).replace('.',',')}</td>
                                     </tr>
                                 )
                                 })}                         

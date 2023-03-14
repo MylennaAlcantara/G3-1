@@ -115,7 +115,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     const changeHandler = e => {
         setCounter(tamanho + 1);
         const idTop= document.getElementById('top').value;
-        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter, id_top: idTop});
+        setDataSelectItem({...dataSelectItem, [e.target?.name]: (e.target?.value).replace(',','.'), item: counter, id_top: idTop});
     }
     console.log("contador: "+counter, "tamanho da lista: "+listItens.length, "tamanho: "+tamanho )
 
@@ -222,6 +222,8 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     //Constante utilizada para converter de virgula para ponto para realizar o calculo de total e subtotal
     const valorUnita = String(valorUnitario).replace(",", ".");
 
+    const valorTotal = String(total).replace(',','.');
+
     const valorUnidade = () => {
         setNumero2(parseFloat(dataSelectItem.valor_unitario).toFixed(2).replace(".", ",").replace("NaN", " ").replace("undefined", " "))
     }
@@ -244,7 +246,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
             return total
         }
         else{
-            return parseFloat(parseFloat(total) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+            return parseFloat(parseFloat(valorTotal) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
         }
     }
 
@@ -252,7 +254,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
         if(descontoPorcen === '0,00' || descontoPorcen === 0 || descontoPorcen === ' '){
             return descontoValor
         }else if(descontoPorcen <= 100 && descontoValor < total){
-            return parseFloat((parseFloat(total) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ");
+            return parseFloat((parseFloat(valorTotal) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ");
         }else if(descontoPorcen > 100 || descontoPorcen < 0){
             //alert("Desconto não pode ser maior que o valor total do item!");
             return '0.00'
@@ -263,8 +265,8 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     const calcularPorcentagem = () => {
         if(descontoValor === "0,00" || descontoValor === 0 || descontoValor === " "){
             return descontoPorcen
-        }else if(descontoValor < total){
-            return parseFloat((parseFloat(valorDesc) / parseFloat(total))*100).toFixed(2).replace("NaN", " ").replace(".", ",");
+        }else{
+            return parseFloat((parseFloat(descontoValor) / parseFloat(total))*100).toFixed(2).replace("NaN", " ").replace(".", ",");
         }
     }
 
@@ -807,7 +809,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
                     onKeyDown={NextTotal} 
                     onChange={valorDesconto} 
                     onFocus={changeHandler}
-                    value={descontoValor}/>
+                    value={String(descontoValor).replace('.',',').replace('NaN','')}/>
                 </div>
                 <div>
                 <label>Total do item: </label>
@@ -815,14 +817,14 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
                     type="text" 
                     name="valor_total" 
                     id="Total" 
-                    value={total}  
+                    value={String(total).replace('.',',').replace('NaN','')} 
                     onFocus={changeHandler} 
                     onKeyDown={NextSubtotal}  required/>
                 <label>Subtotal</label>
                 <input 
                     name='subtotal' 
                     id="subtotal" 
-                    value={subtotal} 
+                    value={String(subtotal).replace('.',',').replace('NaN','')}
                     onFocus={changeHandler} 
                     onKeyDown={NextDescrição} required/>
                 <br/>
@@ -868,10 +870,10 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
                                         <td>{list.gtin_produto}</td>
                                         <td>{list.descricao_produto}</td>
                                         <td>{list.unidade_produto}</td>
-                                        <td>{list.quantidade}</td>
-                                        <td>{list.valor_unitario}</td>
-                                        <td>{list.subtotal}</td>
-                                        <td>{list.desconto}</td>
+                                        <td>{parseFloat(list.quantidade).toFixed(3).replace('.',',')}</td>
+                                        <td>{String(list.valor_unitario).replace('.',',')}</td>
+                                        <td>{String(list.subtotal).replace('.',',')}</td>
+                                        <td>{parseFloat(list.desconto).toFixed(2).replace('.',',')}</td>
                                         <img src="/images/lixeira.png" className="button-excluir" onClick={Deletar.bind(this, list, index)}/>
                                     </tr>
                                 )

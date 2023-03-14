@@ -77,11 +77,7 @@ export const Saler = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectSaler,
                 <button className="close" onClick={onClose}>X</button>
             </Header>
             <Filtro>
-            <div className="div-checkbox">
-                        <div>
-                            <input type="radio" className="checkbox"/>
-                        </div>
-                    </div>
+                    Buscar: 
                     <div className="div-search">
                         <input className="search" id='search' placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                

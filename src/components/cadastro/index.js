@@ -70,9 +70,10 @@ export const Cadastro = () => {
     const [counter, setCounter] = useState(listItens.length+1);
     
     const changeHandler = e => {
-        setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
+        setDataSelectItem({...dataSelectItem, [e.target?.name]: (e.target?.value).replace(',','.'), item: counter});
     }
- console.log(counter)
+ console.log(counter);
+
     const zerarInput = () => {
         setDataSelectItem({
             acrescimo: '',
@@ -94,6 +95,7 @@ export const Cadastro = () => {
         setDescontoValor(0);
         setDescontoPorcen(0);
         setNumero1("1.000");
+
     }
 
     //valida se a quantidade inserida no item é valida, se é maior que a quantidade disponivel ou se esta vazio
@@ -169,14 +171,13 @@ export const Cadastro = () => {
     const valorDesc = String(descontoValor).replace(",", ".");
     const valorPer = String(descontoPorcen).replace(',', '.');
 
-    
-    
-
     //Constante utilizada para exibir o valor com duas casas decimais no valor unitario
     const valorUnitario = String(dataSelectItem.valor_unitario).replace(".", ",").replace("NaN", " ").replace("undefined", " ");
 
     //Constante utilizada para converter de virgula para ponto para realizar o calculo de total e subtotal
     const valorUnita = String(valorUnitario).replace(",", ".");
+
+    const valorTotal = String(total).replace(',','.');
 
     const valorUnidade = () => {
         setNumero2(parseFloat(dataSelectItem.valor_unitario).toFixed(2).replace(".", ",").replace("NaN", " ").replace("undefined", " "))
@@ -200,7 +201,7 @@ export const Cadastro = () => {
             return total
         }
         else{
-            return parseFloat(parseFloat(total) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+            return parseFloat(parseFloat(valorTotal) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
         }
     }
 
@@ -208,7 +209,7 @@ export const Cadastro = () => {
         if(descontoPorcen === '0,00' || descontoPorcen === 0 || descontoPorcen === ' '){
             return descontoValor
         }else if(descontoPorcen <= 100 && descontoValor < total){
-            return parseFloat((parseFloat(total) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ");
+            return parseFloat((parseFloat(valorTotal) * parseFloat(descontoPorcen)) / 100).toFixed(2).replace("NaN", " ");
         }else if(descontoPorcen > 100 || descontoPorcen < 0){
             //alert("Desconto não pode ser maior que o valor total do item!");
             return '0.00'
@@ -219,8 +220,8 @@ export const Cadastro = () => {
     const calcularPorcentagem = () => {
         if(descontoValor === "0,00" || descontoValor === 0 || descontoValor === " "){
             return descontoPorcen
-        }else if(descontoValor < total){
-            return parseFloat((parseFloat(valorDesc) / parseFloat(total))*100).toFixed(2).replace("NaN", " ").replace(".", ",");
+        }else{
+            return parseFloat((parseFloat(descontoValor) / parseFloat(total))*100).toFixed(2).replace("NaN", " ").replace(".", ",");
         }
     }
 
@@ -428,8 +429,8 @@ export const Cadastro = () => {
                         descontoValor: '',
                         dataEmissao: String(dataEmissao),
                         hora_emissao: String(horaEmissao),
-                        total: totalVenda,
-                        subtotal: totalVenda,
+                        total: parseFloat(totalVenda).toFixed(2),
+                        subtotal: parseFloat(totalVenda).toFixed(2),
                         valor_extenso: '',
                         observacao_pre_venda: '',
                         tipo_venda: tipoVenda,
@@ -466,11 +467,6 @@ export const Cadastro = () => {
             setToken(foundUser);
         }
     },[]);
-
-    const HandleLogout = async () => {
-            setToken();
-            localStorage.clear();
-    }
 
     function decrementarItem (index) {
         for (let i = 0; i< listItens.length; i++){
@@ -610,8 +606,6 @@ export const Cadastro = () => {
                     id="valorUnit" required/>
                     )
                 }
-
-                
                 <datalist></datalist>
                 </div>
                 <div>
@@ -636,7 +630,7 @@ export const Cadastro = () => {
                     onKeyDown={NextTotal} 
                     onChange={valorDesconto} 
                     onFocus={changeHandler}
-                    value={descontoValor}/>
+                    value={String(descontoValor).replace('.',',').replace('NaN','')}/>
                 </div>
                 <div>
                 <label>Total do item: </label>
@@ -644,14 +638,14 @@ export const Cadastro = () => {
                     type="text" 
                     name="valor_total" 
                     id="Total" 
-                    value={total}  
+                    value={String(total).replace('.',',').replace('NaN','')}  
                     onFocus={changeHandler} 
                     onKeyDown={NextSubtotal}  required/>
                 <label>Subtotal</label>
                 <input 
                     name='subtotal' 
                     id="subtotal" 
-                    value={subtotal} 
+                    value={String(subtotal).replace('.',',').replace('NaN','')} 
                     onFocus={changeHandler} 
                     onKeyDown={NextDescrição} required/>
                 <br/>
@@ -697,10 +691,10 @@ export const Cadastro = () => {
                                         <td>{list.gtin_produto}</td>
                                         <td>{list.descricao_produto}</td>
                                         <td>{list.unidade_produto}</td>
-                                        <td>{list.quantidade}</td>
-                                        <td>{list.valor_unitario}</td>
-                                        <td>{list.subtotal}</td>
-                                        <td>{list.desconto}</td>
+                                        <td>{parseFloat(list.quantidade).toFixed(3).replace('.',',')}</td>
+                                        <td>{String(list.valor_unitario).replace('.',',')}</td>
+                                        <td>{String(list.subtotal).replace('.',',')}</td>
+                                        <td>{parseFloat(list.desconto).toFixed(2).replace('.',',')}</td>
                                         <img src="/images/lixeira.png" className="button-excluir" onClick={Deletar.bind(this, list, index)}/>
                                     </tr>
                                 )
