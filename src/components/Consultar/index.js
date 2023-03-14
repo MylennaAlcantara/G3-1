@@ -46,6 +46,8 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, matricula
             return rotina.situacao;
         }else if(filtroEscolhido === 'E'){
             return rotina.situacao ==='E'
+        }else if(filtroEscolhido === 'A'){
+            return rotina.situacao != 'E';
         }
     });
 
