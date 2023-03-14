@@ -266,10 +266,10 @@ console.log(codigoRotina)
                     <label>Para exibir atalhos pressione [Alt]</label>
                 </div>
                 <div >
-                    <button onClick={Novo}>Novo</button>
-                    <button onClick={abrirEditar}>Abrir</button>
-                    <button onClick={imprimir}>Imprimir</button>
-                    <button>Fechar</button>
+                    <button onClick={Novo}><img src="/images/add.png"/>Novo</button>
+                    <button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>
+                    <button onClick={imprimir}><img src="/images/printer.png"/>Imprimir</button>
+                    <button><img src="/images/voltar.png"/>Fechar</button>
                 </div>
                 <div className="indice">
                     <div>

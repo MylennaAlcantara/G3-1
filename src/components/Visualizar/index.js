@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext";
 import * as C from "../cadastro/cadastro";
+import { rotinaPDF } from "../Relatorios/rotinaPDF";
 
 export const Visualizar = ({codigo, codRotina}) => {
     const navigate = useNavigate();
@@ -27,9 +28,9 @@ export const Visualizar = ({codigo, codRotina}) => {
             const responseVendedor = await fetch('http://10.0.1.10:8099/user/all'); 
             const vendedor = await responseVendedor.json();
             setVendedor(vendedor);
-            const responseParceiro = await fetch('https://rickandmortyapi.com/api/character');
+            const responseParceiro = await fetch('http://10.0.1.10:8099/clientes');
             const parceiro = await responseParceiro.json();
-            setParceiro(parceiro.results);
+            setParceiro(parceiro);
             const responseTipoPagamento = await fetch('http://10.0.1.10:8092/tipoPagamento/all'); 
             const tipoPagamento = await responseTipoPagamento.json();
             setTipoPagamento(tipoPagamento);
@@ -58,9 +59,31 @@ export const Visualizar = ({codigo, codRotina}) => {
         }
     });
     console.log(rotinas.pre_venda_detalhe)
+    const [horaImpressao, setHoraImpressao] = useState('');
+    
+    const data = new Date();
+    const hora = data.getHours();
+    const minuto = data.getMinutes();
+    const segundo = data.getSeconds();
+    const horaAtual = String(hora + ':' + minuto + ':' + segundo);
+
+    useEffect(()=>{
+        async function setarHoraData(){
+            setHoraImpressao(String(horaAtual));
+        } 
+        setarHoraData();
+    },[])
+
     const voltar = () => {
         navigate('/consultar');
         localStorage.removeItem('rotina');
+    }
+    const imprimir = () => {
+        if(codRotina === undefined){
+            console.log('Nenhuma rotina selecionada');
+        }else{
+            rotinaPDF(rotinas, vendedor, parceiro, tipoPagamento, emitente, horaImpressao);
+        }
     }
     const sair = () => {
         localStorage.clear();
@@ -283,6 +306,7 @@ export const Visualizar = ({codigo, codRotina}) => {
                     </div>
                 </form>
                 <div className="buttons">
+                    <button onClick={imprimir}><img src="/images/printer.png"/>Imprimir</button>
                     <button className="Voltar" onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>

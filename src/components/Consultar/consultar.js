@@ -173,6 +173,11 @@ export const Footer = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
+        img{
+            height: 20px;
+            width: 20px;
+            margin-right: 5px;
+        }
         
     }
     button:hover{

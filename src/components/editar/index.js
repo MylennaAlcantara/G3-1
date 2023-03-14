@@ -908,7 +908,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
                 </form>
                 <div className="buttons">
                     <button className="liberar" id="submit" onClick={handleSubmit}><img src="/images/salvar.png"/>Liberar</button>
-                    <button onClick={imprimir}>Imprimir</button>
+                    <button onClick={imprimir}><img src="/images/printer.png"/>Imprimir</button>
                     <button className="Excluir" onClick={excluir}><img src="/images/lixeira.png"/>Excluir</button>
                     <button className="Voltar" onClick={Voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
