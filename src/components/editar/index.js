@@ -505,6 +505,8 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
                 setCor('yellow');
                 alert('Preencha todos os campos!');
             } 
+        }else if(listItens.length <= 0 ){
+            alert('Não pode salvar sem produtos!');
         }else{
             navigate('/consultar');
             console.log('não alterou!')
