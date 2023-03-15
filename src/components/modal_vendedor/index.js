@@ -82,30 +82,32 @@ export const Saler = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectSaler,
                         <input className="search" id='search' placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                
             </Filtro>
-                <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0} >
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Nome</th>
-                            <th>Fone</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {resultado.slice(0,10).map( (user, index) => {
-                            return(
-                                <tr 
-                                    key={user.id} 
-                                    onClick={selecionado.bind(this, user, index)}
-                                    onDoubleClick={SelectedSaler.bind(this, user)} 
-                                    style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
-                                        <td>{user.id}</td>
-                                        <td>{user.nome}</td>
-                                        <td>{user.nome}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                <div className="table-responsive">
+                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0} >
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nome</th>
+                                <th>Fone</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {resultado.slice(0,10).map( (user, index) => {
+                                return(
+                                    <tr 
+                                        key={user.id} 
+                                        onClick={selecionado.bind(this, user, index)}
+                                        onDoubleClick={SelectedSaler.bind(this, user)} 
+                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                            <td>{user.id}</td>
+                                            <td>{user.nome}</td>
+                                            <td>{user.nome}</td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </Container>
         </Modal>
     );

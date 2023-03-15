@@ -82,32 +82,34 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
                     <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                 </div>                
             </Filtro>
-                <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0}>
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Ativo</th>
-                            <th>Descrição</th>
-                            <th>Raiz</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {resultado.map( (pgto, index) => {
-                            return(
-                                <tr 
-                                    key={pgto.id} 
-                                    onClick={selecionado.bind(this, pgto, index)}
-                                    onDoubleClick={SelectedPgt.bind(this, pgto)}
-                                    style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}} >
-                                        <td>{pgto.id}</td>
-                                        <td>Sim</td>
-                                        <td>{pgto.descricao}</td>
-                                        <td></td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                <div className="table-responsive">
+                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0}>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Ativo</th>
+                                <th>Descrição</th>
+                                <th>Raiz</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {resultado.map( (pgto, index) => {
+                                return(
+                                    <tr 
+                                        key={pgto.id} 
+                                        onClick={selecionado.bind(this, pgto, index)}
+                                        onDoubleClick={SelectedPgt.bind(this, pgto)}
+                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}} >
+                                            <td>{pgto.id}</td>
+                                            <td>Sim</td>
+                                            <td>{pgto.descricao}</td>
+                                            <td></td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </Container>
         </Modal>
     );

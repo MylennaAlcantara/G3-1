@@ -121,32 +121,34 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                         <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                
             </Filtro>
-                <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0} >
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Descrição</th>
-                            <th>Mov. Est. reservado</th>
-                            <th>MOv. Est. Real</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {resultado.slice(0, 10).map( (top, index) => {
-                            return(
-                                <tr 
-                                key={top.id} 
-                                onClick={selecionado.bind(this, top, index)}
-                                onDoubleClick={SelectedTop.bind(this, top)}
-                                style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}} >
-                                    <td>{top.id}</td>
-                                    <td>{top.descricao}</td>
-                                    <td>{top.rotina_movimenta_estoque_reservado === false ? ('Não') : ('Sim')}</td>
-                                    <td>{top.rotina_movimenta_estoque_real === false ? ('Não') : ('Sim')}</td>                                   
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                <div className="table-responsive">
+                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0} >
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descrição</th>
+                                <th>Mov. Est. reservado</th>
+                                <th>MOv. Est. Real</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {resultado.slice(0, 10).map( (top, index) => {
+                                return(
+                                    <tr 
+                                    key={top.id} 
+                                    onClick={selecionado.bind(this, top, index)}
+                                    onDoubleClick={SelectedTop.bind(this, top)}
+                                    style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}} >
+                                        <td>{top.id}</td>
+                                        <td>{top.descricao}</td>
+                                        <td>{top.rotina_movimenta_estoque_reservado === false ? ('Não') : ('Sim')}</td>
+                                        <td>{top.rotina_movimenta_estoque_real === false ? ('Não') : ('Sim')}</td>                                   
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </Container>
         </Modal>
     );

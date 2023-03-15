@@ -108,34 +108,36 @@ export const Emitente = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectEmi
                         <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>
                 </Filtro>
-                <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Nome Fantasia</th>
-                            <th>Razão Social</th>
-                            <th>CNPJ</th>
-                            <th>Município</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {resultado.slice(0, 20).map( (user, index) => {
-                            return(
-                                <tr 
-                                    key={user.id} 
-                                    onClick={selecionado.bind(this, user, index)}
-                                    onDoubleClick={SelectedEmitente.bind(this, user)}
-                                    style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
-                                        <td>{user.id}</td>
-                                        <td>{user.nome_fantasia}</td>
-                                        <td>{user.razao_social}</td>
-                                        <td>{user.cnpj}</td>
-                                        <td>{user.municipio}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                <div className="table-responsive">
+                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nome Fantasia</th>
+                                <th>Razão Social</th>
+                                <th>CNPJ</th>
+                                <th>Município</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {resultado.slice(0, 20).map( (user, index) => {
+                                return(
+                                    <tr 
+                                        key={user.id} 
+                                        onClick={selecionado.bind(this, user, index)}
+                                        onDoubleClick={SelectedEmitente.bind(this, user)}
+                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                            <td>{user.id}</td>
+                                            <td>{user.nome_fantasia}</td>
+                                            <td>{user.razao_social}</td>
+                                            <td>{user.cnpj}</td>
+                                            <td>{user.municipio}</td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             </Container>
         </Modal>
     );

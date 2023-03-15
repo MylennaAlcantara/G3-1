@@ -25,7 +25,10 @@ export const Container = styled.div`
     width: 60%;
     height: 60%;
     background-color: #fff;
-    overflow-y: auto;
+    .table-responsive{
+        overflow-x: auto;
+        height: 75%;
+    }
     .content{
         display: flex;
         justify-content: center;
@@ -39,7 +42,7 @@ export const Container = styled.div`
     }
     thead{
         position: sticky;
-        top: 20%;
+        top:0;
     }
     th{    
         font-size: 15px;
