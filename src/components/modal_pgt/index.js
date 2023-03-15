@@ -11,7 +11,7 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.10:8092/tipoPagamento/all");
+            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/tipoPagamento/all");
             const data = await response.json();
          setPgto(data);
         }

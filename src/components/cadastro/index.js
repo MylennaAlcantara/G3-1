@@ -420,7 +420,7 @@ export const Cadastro = () => {
         e.preventDefault();
         if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && listItens.length > 0 ){
             try{
-                const res = await fetch("http://10.0.1.10:8091/preVenda", { //http://10.0.1.10:8091/preVenda
+                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/preVenda", { //http://10.0.1.10:8091/preVenda
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({

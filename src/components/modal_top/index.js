@@ -12,7 +12,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.10:8091/top/all");//http://localhost:5000/tops
+            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/top/all");//http://localhost:5000/tops
             const data = await response.json();
             setTop(data);
         }

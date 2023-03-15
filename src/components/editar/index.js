@@ -40,23 +40,23 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
 
     useEffect(() => {
         async function fetchData() {
-            const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codRotina}`); //http://10.0.1.10:8091/preVenda/id
+            const responseRotina = await fetch(`http://8b38091fc43d.sn.mynetname.net:2004/preVenda/${codRotina}`); //http://10.0.1.10:8091/preVenda/id
             const rotina = await responseRotina.json();
             setRotinas(rotina);
             setListItens(rotina.pre_venda_detalhe)
-            const responseEmitente = await fetch('http://10.0.1.10:8092/emitente/all'); 
+            const responseEmitente = await fetch('http://8b38091fc43d.sn.mynetname.net:2005/emitente/all'); 
             const Emitente = await responseEmitente.json();
             setEmitente(Emitente);
-            const responseTop = await fetch('http://10.0.1.10:8091/top/all'); 
+            const responseTop = await fetch('http://8b38091fc43d.sn.mynetname.net:2004/top/all'); 
             const top = await responseTop.json();
             setTop(top);
             const responseVendedor = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/user/all'); 
             const vendedor = await responseVendedor.json();
             setVendedor(vendedor);
-            const responseParceiro = await fetch('http://10.0.1.10:8099/clientes');
+            const responseParceiro = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/clientes');
             const parceiro = await responseParceiro.json();
             setParceiro(parceiro);
-            const responseTipoPagamento = await fetch('http://10.0.1.10:8092/tipoPagamento/all'); 
+            const responseTipoPagamento = await fetch('http://8b38091fc43d.sn.mynetname.net:2004/tipoPagamento/all'); 
             const tipoPagamento = await responseTipoPagamento.json();
             setTipoPagamento(tipoPagamento);
         }
@@ -469,7 +469,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
 
             if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && listItens.length > 0 ){
                 try{
-                    const res = await fetch(`http://10.0.1.10:8091/preVenda/${codRotina}`, { //http://10.0.1.10:8091/preVenda
+                    const res = await fetch(`http://8b38091fc43d.sn.mynetname.net:2004/preVenda/${codRotina}`, { //http://10.0.1.10:8091/preVenda
                         method: "PUT",
                         headers: {"Content-Type": "application/json"},
                         body: JSON.stringify({
@@ -518,7 +518,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
         localStorage.removeItem('rotina');
     }
     const excluir = () => {
-        fetch(`http://10.0.1.10:8091/preVenda/delete/${codRotina}/${user[0].id}`, {
+        fetch(`http://8b38091fc43d.sn.mynetname.net:2004/preVenda/delete/${codRotina}/${user[0].id}`, {
             method: 'DELETE',
         }).catch(err => console.log(err))
         navigate('/consultar');

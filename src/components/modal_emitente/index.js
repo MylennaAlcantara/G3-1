@@ -12,7 +12,7 @@ export const Emitente = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectEmi
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.10:8092/emitente/all");
+            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
             const data = await response.json();
             setUsers(data);
         }

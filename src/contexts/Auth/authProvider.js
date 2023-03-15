@@ -43,7 +43,7 @@ export const AuthProvider = ({children}) => {
     const autenticar = async () => {
         const id = localStorage.getItem('id');
         if(id){
-            const response = await fetch(`http://10.0.1.10:8099/user/all`);
+            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/all`);
             const data = await response.json();
             const logado = data.filter(user => user.id === parseFloat(id));
             setUser(logado);

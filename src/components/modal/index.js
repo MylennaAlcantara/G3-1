@@ -14,7 +14,7 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.10:8099/clientes");
+            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes");
             const data = await response.json();
             setUsers(data);
         }
