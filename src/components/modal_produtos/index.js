@@ -13,17 +13,17 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
         async function fetchData (){
             if(emitenteAlterado === true && tipoPgtoAlterado === true){
                 console.log("passou 1");
-                const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
+                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
                 const data = await response.json();
                 setItens(data.content);
             }else if(emitenteAlterado === true && tipoPgtoAlterado === false){
                 console.log("passou 2");
-                const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${dataIdSelectEmitente}/payment/${rotinas.id_tipo_pagamento}?size=50`);
+                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${rotinas.id_tipo_pagamento}?size=50`);
                 const data = await response.json();
                 setItens(data.content);
             }else if(emitenteAlterado === false && tipoPgtoAlterado === true){
                 console.log("passou 3");
-                const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${rotinas.id_empresa}/payment/${dataIdSelectPgt}?size=50`);
+                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${rotinas.id_empresa}/payment/${dataIdSelectPgt}?size=50`);
                 const data = await response.json();
                 setItens(data.content);
             }else if(emitenteAlterado === false && tipoPgtoAlterado === false){
@@ -33,7 +33,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 setItens(data.content);
             }else{
                 console.log("passou 5");
-                const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);
+                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);
                 const data = await response.json();
                 setItens(data.content);
             }
@@ -272,29 +272,27 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                             <th>Promoção</th>                        
                         </tr>
                     </thead>
-                    <tbody>
-                        { 
-                        resultado.slice(0, 8).map( (item, index) => {
-                            return(
-                                <tr 
-                                    id="produto" 
-                                    key={item.id} 
-                                    onClick={EstoqueTrib.bind(this, item, index)} 
-                                    onDoubleClick={SelectedItem.bind(this, item)}
-                                    style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
-                                        <td>{item.id}</td>
-                                        <td>{item.referencia}</td>
-                                        <td>{item.gtin}</td>
-                                        <td>{item.descricaoPdv}</td>
-                                        <td>{parseFloat(item.qtd_estoque).toFixed(3).replace('.',',')}</td>
-                                        <td></td>                                    
-                                </tr>
-                            );
-                        }) 
-                        }
-                   
-                                                                        
-                    </tbody>
+                        <tbody>
+                            { 
+                            resultado.slice(0, 8).map( (item, index) => {
+                                return(
+                                    <tr 
+                                        id="produto" 
+                                        key={item.id} 
+                                        onClick={EstoqueTrib.bind(this, item, index)} 
+                                        onDoubleClick={SelectedItem.bind(this, item)}
+                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                            <td>{item.id}</td>
+                                            <td>{item.referencia}</td>
+                                            <td>{item.gtin}</td>
+                                            <td>{item.descricaoPdv}</td>
+                                            <td>{parseFloat(item.qtd_estoque).toFixed(3).replace('.',',')}</td>
+                                            <td></td>                                    
+                                    </tr>
+                                );
+                            }) 
+                            }                                    
+                        </tbody>
                 </table>
                 </C.ListItens>
                 <C.Valores>

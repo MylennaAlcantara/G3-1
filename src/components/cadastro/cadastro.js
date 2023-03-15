@@ -20,11 +20,12 @@ export const Container = styled.div`
     }
     @media (max-width: 425px){
         width: 90%;
-        height: auto;
+        height: 90%;
         position: relative;
         display: block;
         align-items: end;
         justify-content: space-between;
+        overflow-y:auto;
     }
 `;
 
@@ -173,7 +174,7 @@ export const Info = styled.div`
     }
 
     @media (max-width: 425px){
-        height: 40vh;
+        height: 45vh;
             form{
                 display: block;
                 margin-left: 0;
@@ -215,7 +216,7 @@ export const Info = styled.div`
             }
             .div-partner{
                 width: 50%;
-                margin: 3px 3px 3px 3px;
+                margin: 3px 10px 3px 3px;
                 display: block;
             }
             .partner{
@@ -279,7 +280,26 @@ export const Add = styled.div`
     }
 
     @media (max-width: 425px){
-        height: 30vh;
+        height: 40vh;
+        form{
+            display: block;
+            align-items: end;
+        }
+        div{
+            width: 40vw;
+            justify-content: space-between;
+        }
+        .desconto{
+            display: flex;
+            width: 85%;
+        }        
+        button{
+            width: 117px;
+            height: 33px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 `
 export const Display = styled.div`

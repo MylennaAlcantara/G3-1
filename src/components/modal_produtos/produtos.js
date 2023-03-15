@@ -14,6 +14,11 @@ export const Filtro = styled.div`
     input{
         height: 24px;
     }
+    @media (max-width: 425px){
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 export const ListItens = styled.div`
@@ -22,12 +27,20 @@ export const ListItens = styled.div`
         display: flex;
         flex-grow: 1;
         border: solid 1px gray
+    }    
+    @media (max-width: 425px){
+
+            overflow: auto;
+            height: 50%;
     }
+
 `;
 
 export const Valores = styled.div`
     display: flex;
-    
+    @media (max-width: 425px){
+        display: block;
+    }
 `;
 
 export const ContainerProdutos = styled.div`
@@ -69,6 +82,16 @@ export const ContainerProdutos = styled.div`
         background-color: blue;
         color: white;
     }
+    @media (max-width: 425px){
+        height: 90vh;
+        width: 90vw;
+        overflow-y: auto;
+        display: block;
+        thead{
+            position: sticky;
+            top: 0;
+        }
+    }
 `;
 
 export const Preço = styled.div`
@@ -93,6 +116,11 @@ export const Preço = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: start;
+    }
+    @media (max-width: 425px){
+        display: block;
+        height: 40%;
+        overflow-x:auto;
     }
 `;
 
@@ -120,6 +148,10 @@ export const Estoque = styled.div`
     }
     .estoque-tot{
         width: 40%;
+    }
+    @media (max-width: 425px){
+        display: block;
+        height: 40%;
     }
 `;
 

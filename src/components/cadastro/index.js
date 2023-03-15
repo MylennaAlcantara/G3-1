@@ -613,7 +613,7 @@ export const Cadastro = () => {
                 }
                 <datalist></datalist>
                 </div>
-                <div>
+                <div className="desconto">
                 <label>Desc.: </label>
                 <input 
                     id="add-item" 
@@ -638,7 +638,7 @@ export const Cadastro = () => {
                     value={String(descontoValor).replace('.',',').replace('NaN','')}/>
                 </div>
                 <div>
-                <label>Total do item: </label>
+                <label>Total item: </label>
                 <input 
                     type="text" 
                     name="valor_total" 
