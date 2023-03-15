@@ -143,7 +143,7 @@ console.log(codigoRotina)
     const imprimir = async() => {
         const responseRotina = await fetch(`http://10.0.1.10:8091/preVenda/${codigoRotina}`); //http://10.0.1.10:8091/preVenda/id
         const rotina = await responseRotina.json();
-        const responseVendedor = await fetch('http://10.0.1.10:8099/user/all'); 
+        const responseVendedor = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/user/all'); 
         const vendedor = await responseVendedor.json();
         const responseParceiro = await fetch('http://10.0.1.10:8099/clientes');
         const parceiro = await responseParceiro.json();

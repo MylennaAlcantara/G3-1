@@ -50,7 +50,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
             const responseTop = await fetch('http://10.0.1.10:8091/top/all'); 
             const top = await responseTop.json();
             setTop(top);
-            const responseVendedor = await fetch('http://10.0.1.10:8099/user/all'); 
+            const responseVendedor = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/user/all'); 
             const vendedor = await responseVendedor.json();
             setVendedor(vendedor);
             const responseParceiro = await fetch('http://10.0.1.10:8099/clientes');
