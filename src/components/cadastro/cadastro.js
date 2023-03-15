@@ -394,6 +394,7 @@ export const Footer = styled.div`
         img{
             height: 20px;
             width: 20px;
+            margin-right: 5px;
         }
    }
     @media (max-width: 425px){

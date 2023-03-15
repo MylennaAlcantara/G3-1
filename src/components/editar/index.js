@@ -140,6 +140,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
         setDescontoValor(0);
         setDescontoPorcen(0);
         setNumero1("1.000");
+        document.getElementById('produto').focus();
     }
 
     //valida se a quantidade inserida no item é valida, se é maior que a quantidade disponivel ou se esta vazio
@@ -158,7 +159,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
             console.log("quantidade estoque: "+dataSelectItem.qtd_estoque);
         }else if(dataSelectItem.quantidade === 0 || dataSelectItem.quantidade < 0 || dataSelectItem.quantidade === "" || dataSelectItem.quantidade === "undefined" ){
             alert('Quantidade inserida invalida!');
-        }else if(dataSelectTop === 'S' && (totalQtd === dataSelectItem.qtd_estoque || totalQtd > dataSelectItem.qtd_estoque || soma > dataSelectItem.qtd_estoque) ){
+        }else if(dataSelectTop.tipo_movimentacao === 'S' && (totalQtd === dataSelectItem.qtd_estoque || totalQtd > dataSelectItem.qtd_estoque || soma > dataSelectItem.qtd_estoque) ){
             alert('Quantidade limite atingida!');
             zerarInput()
         }else if(dataSelectItem.quantidade != 0 ){
@@ -279,22 +280,14 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal)), 0);
 
     // Funções para abrir o modal de cada campo apertando F2
-    function onKeyUp(event){
-        if(	event.keyCode === 113){
-            setIsModalEmitente(true);
-        }    
-    }
     function keyProduto(event){
         if( event.keyCode === 113 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value /*&& document.getElementById('top').value*/ && document.getElementById('parceiro').value){
             setIsModalProdutos(true);
+        }else if(event.keyCode != 113){
+            event.preventDefault();
         }else{
             setCor('yellow');
             alert("Preencha os campos acima!")
-        }
-    }
-    function keyTop(event){
-        if( event.keyCode === 113){
-            setIsModalTop(true);
         }
     }
     function keyTop(event){
@@ -393,6 +386,12 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
         if(e.keyCode === 13){
             e.preventDefault();
             document.getElementById('subtotal').focus();
+        }
+    }
+    function NextProduto (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('produto').focus();
         }
     }
 
@@ -716,7 +715,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
                         {tipoPgtoAlterado === false ? (
                             <div>
                             <label>Tipo pgto: </label>
-                            <input className="f1" id="pgto" value={rotinas.id_tipo_pagamento} onKeyUp={keyPgt} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                            <input className="f1" id="pgto" value={rotinas.id_tipo_pagamento} onKeyUp={keyPgt} onKeyDown={NextProduto} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
                             {descricaoPagamento.map((item)=> {
                             return <input id="option_pgto" className="option" value={item.descricao} />
                             })}
@@ -724,7 +723,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
                         ) : (
                             <div>
                             <label>Tipo pgto: </label>
-                            <input className="f1" id="pgto" value={dataIdSelectPgt} onKeyUp={keyPgt} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                            <input className="f1" id="pgto" value={dataIdSelectPgt} onKeyUp={keyPgt} onKeyDown={NextProduto} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
                             <input id="option_pgto" className="option" value={dataSelectPgt} />
                             </div>
                         )}
@@ -844,7 +843,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
                     readOnly 
                     required/>
                 </div>
-                <button onSubmit={validarQtd}>add</button>
+                <button onSubmit={validarQtd}>Adicionar</button>
             </form>
             </C.Add>
             <C.Display>

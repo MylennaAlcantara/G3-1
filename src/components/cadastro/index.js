@@ -95,7 +95,7 @@ export const Cadastro = () => {
         setDescontoValor(0);
         setDescontoPorcen(0);
         setNumero1("1.000");
-
+        document.getElementById('produto').focus();
     }
 
     //valida se a quantidade inserida no item é valida, se é maior que a quantidade disponivel ou se esta vazio
@@ -108,13 +108,14 @@ export const Cadastro = () => {
 
     const validarQtd = () => {
         const soma = parseFloat(numero1.replace(",","."))+parseFloat(totalQtd);
+        console.log('soma: '+soma, 'top: '+ dataSelectTop)
         if( dataSelectItem.qtd_estoque < dataSelectItem.quantidade && dataSelectTop.tipo_movimentacao === 'S'){
             alert('Quantidade inserida maior que o estoque disponivel!');
             console.log("quantidade inserida: " +dataSelectItem.quantidade);
             console.log("quantidade estoque: "+dataSelectItem.qtd_estoque);
         }else if(dataSelectItem.quantidade === 0 || dataSelectItem.quantidade < 0 || dataSelectItem.quantidade === "" || dataSelectItem.quantidade === "undefined" ){
             alert('Quantidade inserida invalida!');
-        }else if(dataSelectTop === 'S' && (totalQtd === dataSelectItem.qtd_estoque || totalQtd > dataSelectItem.qtd_estoque || soma > dataSelectItem.qtd_estoque) ){
+        }else if(dataSelectTop.tipo_movimentacao === 'S' && (totalQtd === dataSelectItem.qtd_estoque || totalQtd > dataSelectItem.qtd_estoque || soma > dataSelectItem.qtd_estoque) ){
             alert('Quantidade limite atingida!');
             zerarInput()
         }else if(dataSelectItem.quantidade != 0 ){
@@ -240,16 +241,14 @@ export const Cadastro = () => {
         }    
     }
     function keyProduto(event){
-        if( event.keyCode === 113 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value /*&& document.getElementById('top').value*/ && document.getElementById('parceiro').value){
+        if( event.keyCode === 113 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value && document.getElementById('top').value && document.getElementById('parceiro').value){
             setIsModalProdutos(true);
-        }else{
+        }else if(event.keyCode != 113){
+            event.preventDefault();
+        }
+        else{
             setCor('yellow');
             alert("Preencha os campos acima!")
-        }
-    }
-    function keyTop(event){
-        if( event.keyCode === 113){
-            setIsModalTop(true);
         }
     }
     function keyTop(event){
@@ -348,6 +347,12 @@ export const Cadastro = () => {
         if(e.keyCode === 13){
             e.preventDefault();
             document.getElementById('subtotal').focus();
+        }
+    }
+    function NextPoduto (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            document.getElementById('produto').focus();
         }
     }
 
@@ -544,7 +549,7 @@ export const Cadastro = () => {
                         </div>
                         <div>
                         <label>Tipo pgto: </label>
-                        <input className="f1" id="pgto" onKeyUp={keyPgt} onDoubleClick={() => setIsModalPgt(true)} value={dataIdSelectPgt} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
+                        <input className="f1" id="pgto" onKeyUp={keyPgt} onKeyDown={NextPoduto} onDoubleClick={() => setIsModalPgt(true)} value={dataIdSelectPgt} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} required/>
                         <input id="option_pgto" className="option" value={dataSelectPgt}/>
                         </div>
                     </form>
@@ -663,7 +668,7 @@ export const Cadastro = () => {
                     readOnly 
                     required/>
                 </div>
-                <button onSubmit={validarQtd}>add</button>
+                <button onSubmit={validarQtd}>Adicionar</button>
             </form>
             </C.Add>
             <C.Display>
