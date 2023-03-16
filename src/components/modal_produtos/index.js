@@ -114,7 +114,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
         setInfoItem({
             qtd_estoque: item.qtd_estoque,
             qtd_estoque_reservado: item.qtd_estoque_reservado,
-            qtd_estoque_di: item.qtd_estoque_di
+            qtd_estoque_di: item.qtd_estoque_di,
+            id_regra_icms: item.id_regra_icms
         })
         setSelectIndex(index);
     }
@@ -370,7 +371,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 <C.Footer>
                     <div>
                         <label> 0 - GRUPO DE ICMS </label>
-                        <label> 0 - REGRA DE ICMS </label>
+                        <label> {infoItem.id_regra_icms} - REGRA DE ICMS </label>
                     </div>
                 </C.Footer>
             </C.ContainerProdutos>
