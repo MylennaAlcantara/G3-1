@@ -245,20 +245,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                             <option id="descricao" value="2" >Descrição</option>
                         </select>
                     </div>
+                    <label>Buscar: </label>
                     <input className="search" id="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
-                    <div>
-                        <label>Fornecedor</label>
-                        <input />
-                    </div>
-                    <div>
-                        <label>Ordenar</label>
-                        <select>
-                            <option value="1">Descrição</option>
-                            <option value="2">Data Modificação</option>
-                            <option value="3">Data Cadastro</option>
-                            <option value="4">Cód. Interno</option>
-                        </select>
-                    </div>
                 </C.Filtro>
                 <C.ListItens>
                 <table className="table"  ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0}>
@@ -324,23 +312,23 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                             <tbody>
                                 <tr>
                                     <td>A vista</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,000</td>
                                 </tr>
                                 <tr>
                                     <td>Cartão</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
-                                    <td>123156</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,000</td>
                                 </tr>
                             </tbody>
                         </table>

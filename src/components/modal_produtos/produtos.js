@@ -2,14 +2,18 @@ import styled from "styled-components";
 
 export const Filtro = styled.div`
     display: flex;
-    justify-content: space-around;
-    align-items: end;
     div{
         display: flex;
         flex-direction: column;
+        margin: 0 10px 0 10px;
     }
     .search{
         width: 50%;
+    }
+    label{
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;
     }
     input{
         height: 24px;
