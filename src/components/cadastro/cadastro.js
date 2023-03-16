@@ -9,14 +9,14 @@ export const Container = styled.div`
     width: 60vw;
     border: 1px solid black;
     border-radius: 12px;
-
     @media (max-width: 1024px){
+        margin-top: 10vh;
         height: 100vh;
         width: 80vw;   
     }
     @media (max-width: 768px){
         height: 100vh;
-        width: 100vw;   
+        width: 95vw;   
     }
     @media (max-width: 425px){
         width: 90%;
