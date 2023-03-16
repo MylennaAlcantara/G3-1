@@ -125,6 +125,8 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, codRotina
             console.log('nenhuma rotina selecionada')
         }else if(rotina.id === codigoRotina && rotina.situacao ==='B'){
             alert('Rotina esta bloqueada!')
+        }else if(rotina.id === codigoRotina && rotina.situacao ==='E'){
+            alert('Rotina já emitida!')
         }else{
         navigate(`/editarRotina/${codigoRotina}`);
         }
@@ -187,7 +189,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, codRotina
             <C.Filtro>
                     <div className="div-checkbox">
                         <input type="radio"  value="numero" className="checkbox" name="checkbox" id="numero" checked={filtroSelecionado === 'numero'} onChange={handleFiltroChange}/>
-                        <label>Número</label>
+                        <label>Código</label>
                         <input type="radio" value="data" className="checkbox" name="checkbox" id="data" checked={filtroSelecionado === 'data'} onChange={handleFiltroChange}/>
                         <label>Data</label>
                         <input type="radio" value="top" className="checkbox" name="checkbox" id="top" checked={filtroSelecionado === 'top'} onChange={handleFiltroChange}/>
