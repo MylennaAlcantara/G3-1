@@ -24,14 +24,26 @@ export const AuthProvider = ({children}) => {
             fetchData();
     }, []);
 
+    const [empresa, setEmpresa] = useState([]);
+
+    useEffect(() => {
+        async function fetchData (){
+            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
+            const data = await response.json();
+            setEmpresa(data);
+        }
+            fetchData();
+    }, []);
+
     const handleLogin = async () => {
-        if(matricula && senha){
+        if(matricula && senha && company){
             var login = usuario.filter(user => user.matricula === matricula && user.senha === senha);
             console.log(login)
             login.forEach(user => { 
                 if(user.matricula===matricula && user.senha === senha){
                         localStorage.setItem('token', 123456);
                         localStorage.setItem('id', user.id);
+                        localStorage.setItem('filial', company);
                         autenticar();
                     }else{
                     alert("Matricula e senha incorreta!");
@@ -55,7 +67,7 @@ export const AuthProvider = ({children}) => {
 
 
     return (
-        <AuthContext.Provider value={{ usuario,company, matricula, password, senha, user, setCompany, setMatricula, setPassword, handleLogin, autenticar}}>
+        <AuthContext.Provider value={{ usuario,company, matricula, password, senha, user, empresa, setCompany, setMatricula, setPassword, handleLogin, autenticar}}>
             {children}
         </AuthContext.Provider>
     );

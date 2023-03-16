@@ -10,9 +10,9 @@ import { Modal} from "../modal/index.js";
 import { AuthContext } from "../../contexts/Auth/authContext";
 import { rotinaPDF } from "../Relatorios/rotinaPDF";
 
-export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, senhaFuncionario, codRotina}) => {
+export const Editar = ({ horaEmissao, dataEmissao, codRotina, informacaoEmpresa}) => {
     const navigate = useNavigate();
-    const {autenticar, user} = useContext(AuthContext);
+    const {autenticar, user, empresa, company} = useContext(AuthContext);
 
     const [rotinas, setRotinas] = useState([]);
     const [emitente, setEmitente] = useState([]);
@@ -64,8 +64,6 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
         autenticar();
     }, []);
 
-
-
     /*Etado do elemento selecionado no modal */
     const [dataSelectPartner, setDataSelectPartner] = useState('');
     const [dataSelectEmitente, setDataSelectEmitente] = useState('');
@@ -104,6 +102,13 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
     const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState('');
     const [dataIdSelectSaler, setDataIdSelectSaler] = useState('');
     const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
+
+    //Informações do cabeçalho
+    const dadosEmpresa = Array.isArray(empresa) && empresa.filter(id => {
+        if(id.nome_fantasia === informacaoEmpresa){
+            return id.razao_social
+        }
+    })
 
     //Atualização da lista de itens
     const [listItens, setListItens] = useState([]);
@@ -606,7 +611,7 @@ export const Editar = ({codigo, horaEmissao, dataEmissao, matriculaFuncionario, 
 
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} <button onClick={sair}>Sair</button></C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {dadosEmpresa[0].razao_social} - {dadosEmpresa[0].cnpj}  <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
                 <h3>Aberta para edição</h3>
             </C.Header>

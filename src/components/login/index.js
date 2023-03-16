@@ -34,8 +34,8 @@ export const Login = () => {
             resetTimeout();
         };
     }, [index]);
+    const { matricula, password, empresa, setCompany, setMatricula, setPassword, handleLogin} = useContext(AuthContext);
 
-    const {company, matricula, password, setCompany, setMatricula, setPassword, handleLogin} = useContext(AuthContext);
     const verificar = ()=>{
         const token = localStorage.getItem('token');
         if( token === '123456' ){
@@ -75,7 +75,16 @@ export const Login = () => {
                     </div>
                     <div className="user">                        
                             <label>Empresa</label>
-                            <input className="company" name="company" value={company} onChange={e => setCompany(e.target.value)}/>
+                            <select onChange={e => setCompany(e.target.value)}>
+                                <option>Selecione a empresa</option>
+                                {empresa.map(i=>{
+                                    return (
+                                        <option className="company" name='company' key={i.id} value={i.nome_fantasia} >
+                                            {i.id} - {i.nome_fantasia} - {i.cnpj}
+                                        </option>
+                                    )
+                                })}
+                            </select>
                         <div >
                             <div className="matricula-senha">
                                 <label>Matricula</label>

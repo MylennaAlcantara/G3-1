@@ -14,9 +14,9 @@ import { AuthContext } from "../../contexts/Auth/authContext.js";
 
 
 
-export const Cadastro = () => {
+export const Cadastro = ({informacaoEmpresa}) => {
     const navigate = useNavigate();
-    const {user} = useContext(AuthContext);
+    const {user, empresa} = useContext(AuthContext);
     /*Estado dos Modais */
     const [isModalPartner, setIsModalPartner] = useState(false);
     const [isModalSaler, setIsModalSaler] = useState(false);
@@ -62,6 +62,13 @@ export const Cadastro = () => {
     const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState('');
     const [dataIdSelectSaler, setDataIdSelectSaler] = useState('');
     const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
+
+    //Informações do cabeçalho
+    const dadosEmpresa = Array.isArray(empresa) && empresa.filter(id => {
+        if(id.nome_fantasia === informacaoEmpresa){
+            return id.razao_social
+        }
+    })
 
     //Atualização da lista de itens
     const [listItens, setListItens] = useState([]);
@@ -492,7 +499,7 @@ export const Cadastro = () => {
     return(
         
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} <button onClick={sair}>Sair</button></C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {dadosEmpresa[0].razao_social} - {dadosEmpresa[0].cnpj} <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
                 <h3>Cadastro de Rotina</h3>
             </C.Header>

@@ -5,10 +5,10 @@ import * as C from "./consultar.js";
 import { rotinaPDF } from "../Relatorios/rotinaPDF.js";
 
 
-export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, codRotina} ) => {
+export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, codRotina, informacaoEmpresa} ) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
-    const {autenticar, user} = useContext(AuthContext);
+    const {autenticar, user, company, empresa} = useContext(AuthContext);
 
     useEffect(()=>{
         async function fetchData(){
@@ -20,6 +20,13 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, codRotina
         autenticar();
         document.getElementById('search').focus();
     },[])
+
+    //Informações do cabeçalho
+    const dadosEmpresa = Array.isArray(empresa) && empresa.filter(id => {
+        if(id.nome_fantasia === informacaoEmpresa){
+            return id.razao_social
+        }
+    })
 
     //Filtro da situação das rotinas
     const select = document.getElementById('opções');
@@ -104,8 +111,6 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, codRotina
         setSelectIndex(index);
     }
 
-console.log(codigoRotina)
-
     //Função dos botões
     const Novo = () => {
         navigate("/rotina");
@@ -174,7 +179,7 @@ console.log(codigoRotina)
 
     return(
         <C.Container>
-        <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} <button onClick={sair}>Sair</button></C.NaviBar>
+        <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {dadosEmpresa[0].razao_social} - {dadosEmpresa[0].cnpj} <button onClick={sair}>Sair</button></C.NaviBar>
 
             <C.Header>
                 <h3>Consultar</h3>

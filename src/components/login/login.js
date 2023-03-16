@@ -92,6 +92,10 @@ export const Acessar = styled.div`
         background-color: #303136; 
         border-radius: 34px 34px 0 0;
         border: solid 10px #919597;
+        select{
+            height: 33px;
+            width: 95%;
+        }
     }
     .auth{
         height: 20%;
@@ -112,11 +116,6 @@ export const Acessar = styled.div`
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        .company{
-            width: 90%;
-            height: 33px;
-            border-radius: 4px;
-        }
         div{
             width: 95%;
             display: flex;
