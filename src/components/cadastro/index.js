@@ -500,7 +500,7 @@ export const Cadastro = () => {
             <C.Info>
                 <div className="div-info">
                     <form>
-                        <div>
+                        <div className="codigo">
                             <label>Código da rotina: </label>
                             <input className="cod"></input>
                         </div>

@@ -10,9 +10,16 @@ export const Container = styled.div`
     width: 60vw;
     border: 1px solid black;
     border-radius: 12px;
+    @media (max-width: 1920px){
+        height: 80vh;
+        width: 80vw;   
+    }
+    @media (max-width: 1440px){
+        height: 90vh;
+        width: 80vw;   
+    }
     @media (max-width: 1024px){
-        margin-top: 10vh;
-        height: 100vh;
+        height: 90vh;
         width: 80vw;   
     }
     @media (max-width: 768px){
@@ -235,7 +242,39 @@ export const Info = styled.div`
             width: 50%;
         }
     }
-    
+    @media (max-width: 1920px){
+        .option{
+            width: 85%;
+        }
+        .div-partner{
+            width: 85%;
+        }
+        .codigo{
+            justify-content: start;
+        }   
+    }
+    @media (max-width: 1440px){
+        .option{
+            width: 80%;
+        }
+        .div-partner{
+            width: 80%;
+        }
+        .codigo{
+            justify-content: start;
+        }   
+    }
+    @media (max-width: 1024px){
+        .option{
+            width: 70%;
+        }
+        .div-partner{
+            width: 70%;
+        }
+        .codigo{
+            justify-content: start;
+        }   
+    }
 `;
 export const Add = styled.div`
     height: 8vh;
@@ -359,7 +398,9 @@ export const Display = styled.div`
    .button-excluir:hover{
     cursor: pointer;
 }
-
+    @media (max-width: 1920px){
+        height: 90vw;   
+    }
     @media (max-width: 425px){
         height: 20%;
         width: 100%;

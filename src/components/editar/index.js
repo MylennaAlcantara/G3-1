@@ -612,7 +612,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina}) => {
             <C.Info>
                 <div className="div-info">
                     <form>
-                        <div>
+                        <div className="codigo">
                             <label>Código da rotina: </label>
                             <input className="cod" value={rotinas.id} readOnly></input>
                         </div>
