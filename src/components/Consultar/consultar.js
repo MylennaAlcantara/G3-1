@@ -84,7 +84,7 @@ export const Rotinas = styled.div`
     align-items: start;
     justify-content: center;
     border: 1px solid black;
-    height: 60%;
+    height: 80%;
     width: 100%;
     overflow-x: auto;
     #table{

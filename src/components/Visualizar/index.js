@@ -4,7 +4,7 @@ import { AuthContext } from "../../contexts/Auth/authContext";
 import * as C from "../cadastro/cadastro";
 import { rotinaPDF } from "../Relatorios/rotinaPDF";
 
-export const Visualizar = ({codigo, codRotina, informacaoEmpresa}) => {
+export const Visualizar = ({ codRotina}) => {
     const navigate = useNavigate();
     const {user, empresa} = useContext(AuthContext);
     const [rotinas, setRotinas] = useState([]);
@@ -13,13 +13,6 @@ export const Visualizar = ({codigo, codRotina, informacaoEmpresa}) => {
     const [vendedor, setVendedor] = useState([]);
     const [parceiro, setParceiro] = useState([]);
     const [tipoPagamento, setTipoPagamento] = useState([]);
-    
-    //Informações do cabeçalho
-    const dadosEmpresa = Array.isArray(empresa) && empresa.filter(id => {
-        if(id.nome_fantasia === informacaoEmpresa){
-            return id.razao_social
-        }
-    })
 
     useEffect(() => {
         async function fetchData() {
@@ -99,7 +92,7 @@ export const Visualizar = ({codigo, codRotina, informacaoEmpresa}) => {
 
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {dadosEmpresa[0].razao_social} - {dadosEmpresa[0].cnpj} <button onClick={sair}>Sair</button></C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}  <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
                 <h3>Aberta para visualizar</h3>
             </C.Header>
