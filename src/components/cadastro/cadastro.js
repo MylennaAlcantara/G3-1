@@ -16,10 +16,10 @@ export const Container = styled.div`
     }
     @media (max-width: 1440px){
         height: 90vh;
-        width: 80vw;   
+        width: 60vw;   
     }
     @media (max-width: 1024px){
-        height: 90vh;
+        height: 80vh;
         width: 80vw;   
     }
     @media (max-width: 768px){
@@ -255,10 +255,10 @@ export const Info = styled.div`
     }
     @media (max-width: 1440px){
         .option{
-            width: 80%;
+            width: 70%;
         }
         .div-partner{
-            width: 80%;
+            width: 70%;
         }
         .codigo{
             justify-content: start;
@@ -319,6 +319,9 @@ export const Add = styled.div`
         display: flex;
     }
 
+    @media (max-width: 1440px){
+        height: 15vh;
+    }
     @media (max-width: 425px){
         height: 40vh;
         form{

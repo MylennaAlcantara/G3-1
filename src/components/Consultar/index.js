@@ -8,7 +8,7 @@ import { rotinaPDF } from "../Relatorios/rotinaPDF.js";
 export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
-    const {autenticar, user, empresa} = useContext(AuthContext);
+    const {autenticar, user, empresa, filiais} = useContext(AuthContext);
 
     useEffect(()=>{
         async function fetchData(){
@@ -182,19 +182,33 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
             </C.Header>
             <C.Filtro>
                     <div className="div-checkbox">
+                        <div>
                         <input type="radio"  value="numero" className="checkbox" name="checkbox" id="numero" checked={filtroSelecionado === 'numero'} onChange={handleFiltroChange}/>
                         <label>Código</label>
+                        </div>
+                        <div>
                         <input type="radio" value="data" className="checkbox" name="checkbox" id="data" checked={filtroSelecionado === 'data'} onChange={handleFiltroChange}/>
                         <label>Data</label>
+                        </div>
+                        <div>
                         <input type="radio" value="top" className="checkbox" name="checkbox" id="top" checked={filtroSelecionado === 'top'} onChange={handleFiltroChange}/>
                         <label>TOP</label>
+                        </div>
+                        <div>
                         <input type="radio" value="cliente" className="checkbox" name="checkbox" id="cliente" checked={filtroSelecionado === 'cliente'} onChange={handleFiltroChange}/>
                         <label>Cliente</label>
+                        </div>
+                        <div>
                         <input type="radio" value="vendedor" className="checkbox" name="checkbox" id="vendedor" checked={filtroSelecionado === 'vendedor'} onChange={handleFiltroChange}/>
                         <label>Id Vendedor</label>
+                        </div>
                     </div>
                     <select>
-                        <option value="1">1 -RAYANE SUPERMERCADOS</option>
+                        {filiais.map((op) => {
+                            return(
+                                <option value={op.id}>{op.id} - {op.razao_social}</option>
+                            )
+                        })}
                     </select>
                     <input className="search" id="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     <div>
@@ -251,7 +265,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
                 <div>
                     <label>Para exibir atalhos pressione [Alt]</label>
                 </div>
-                <div >
+                <div className="botoes">
                     <button onClick={Novo}><img src="/images/add.png"/>Novo</button>
                     <button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>
                     <button onClick={imprimir}><img src="/images/printer.png"/>Imprimir</button>

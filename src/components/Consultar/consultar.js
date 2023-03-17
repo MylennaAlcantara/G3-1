@@ -10,6 +10,22 @@ export const Container = styled.div`
     width: 60vw;
     border: 1px solid black;
     border-radius: 12px;
+    @media (max-width: 1920px){
+        height: 80vh;
+        width: 80vw;   
+    }
+    @media (max-width: 1440px){
+        height: 90vh;
+        width: 60vw;   
+    }
+    @media (max-width: 1024px){
+        height: 80vh;
+        width: 80vw;   
+    }
+    @media (max-width: 768px){
+        height: 80vh;
+        width: 95vw;   
+    }
     @media (max-width: 425px){
         height: 90vh;
         width: 90%;
@@ -68,11 +84,18 @@ export const Filtro = styled.div`
     label{
         margin-right: 5px;
     }
+    select{
+        height: 24px;
+        width: 35%;
+    }
     .search{
         height: 24px;
         width: 35%;
     }
     @media (max-width: 425px){
+        display: block;
+    }
+    @media (max-width: 1115px){
         display: block;
     }
 `;
@@ -183,6 +206,13 @@ export const Footer = styled.div`
     }
     button:hover{
         cursor: pointer;
+    }
+    
+    @media (max-width: 1115px){
+        display: block;
+        .botoes{
+            justify-content: center;
+        }
     }
     @media (max-width: 425px){
         display: block;
