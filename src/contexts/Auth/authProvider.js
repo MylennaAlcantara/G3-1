@@ -25,12 +25,13 @@ export const AuthProvider = ({children}) => {
     }, []);
 
     const [empresa, setEmpresa] = useState([]);
+    const [filiais, setFiliais] = useState([]);
 
     useEffect(() => {
         async function fetchData (){
             const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
             const data = await response.json();
-            setEmpresa(data);
+            setFiliais(data);
         }
             fetchData();
     }, []);
@@ -54,20 +55,26 @@ export const AuthProvider = ({children}) => {
 
     const autenticar = async () => {
         const id = localStorage.getItem('id');
-        if(id){
+        const filial = localStorage.getItem('filial');
+        if(id, filial){
             const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/all`);
             const data = await response.json();
+            const resposta = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
+            const dados = await resposta.json();
             const logado = data.filter(user => user.id === parseFloat(id));
+            const empresa = dados.filter(filiais => filiais.nome_fantasia === filial);
             setUser(logado);
+            setEmpresa(empresa)
         }else{
             localStorage.clear();
             console.log("sem usuario logado!")
         }
     }
+    console.log(empresa)
 
 
     return (
-        <AuthContext.Provider value={{ usuario,company, matricula, password, senha, user, empresa, setCompany, setMatricula, setPassword, handleLogin, autenticar}}>
+        <AuthContext.Provider value={{ usuario,company, matricula, password, senha, user, empresa, filiais, setCompany, setMatricula, setPassword, handleLogin, autenticar}}>
             {children}
         </AuthContext.Provider>
     );

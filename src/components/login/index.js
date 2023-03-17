@@ -34,7 +34,7 @@ export const Login = () => {
             resetTimeout();
         };
     }, [index]);
-    const { matricula, password, empresa, setCompany, setMatricula, setPassword, handleLogin} = useContext(AuthContext);
+    const { matricula, password, filiais, setCompany, setMatricula, setPassword, handleLogin} = useContext(AuthContext);
 
     const verificar = ()=>{
         const token = localStorage.getItem('token');
@@ -77,7 +77,7 @@ export const Login = () => {
                             <label>Empresa</label>
                             <select onChange={e => setCompany(e.target.value)}>
                                 <option>Selecione a empresa</option>
-                                {empresa.map(i=>{
+                                {filiais.map(i=>{
                                     return (
                                         <option className="company" name='company' key={i.id} value={i.nome_fantasia} >
                                             {i.id} - {i.nome_fantasia} - {i.cnpj}

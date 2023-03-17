@@ -181,7 +181,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao, codRotina
 
     return(
         <C.Container>
-        <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {dadosEmpresa[0].razao_social} - {dadosEmpresa[0].cnpj} <button onClick={sair}>Sair</button></C.NaviBar>
+        <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {dadosEmpresa.razao_social} - {dadosEmpresa.cnpj} <button onClick={sair}>Sair</button></C.NaviBar>
 
             <C.Header>
                 <h3>Consultar</h3>
