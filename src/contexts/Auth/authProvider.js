@@ -70,8 +70,6 @@ export const AuthProvider = ({children}) => {
             console.log("sem usuario logado!")
         }
     }
-    console.log(empresa)
-
 
     return (
         <AuthContext.Provider value={{ usuario,company, matricula, password, senha, user, empresa, filiais, setCompany, setMatricula, setPassword, handleLogin, autenticar}}>

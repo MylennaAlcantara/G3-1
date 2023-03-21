@@ -60,8 +60,10 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 subtotal: '',
                 descontoPorcen: '',
                 qtd_estoque: item.qtd_estoque,
-                quantidade: '',
-                id_top: dataSelectTop.id_top
+                quantidade: 1,
+                id_top: dataSelectTop.id_top,
+                preco_atacado: item.preco_atacado,
+                qtd_atacado: item.qtd_atacado
             });
             onClose();
             focoQtd();
@@ -81,8 +83,10 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 ncmEx: item.ncmex,
                 subtotal: '',
                 qtd_estoque: item.qtd_estoque,
-                quantidade: '',
-                id_top: dataSelectTop.id_top
+                quantidade: 1,
+                id_top: dataSelectTop.id_top,
+                preco_atacado: item.preco_atacado,
+                qtd_atacado: item.qtd_atacado
             });
             onClose();
             focoQtd();
@@ -100,8 +104,10 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 ncmEx: item.ncmex,
                 subtotal: '',
                 qtd_estoque: item.qtd_estoque,
-                quantidade: '',
-                id_top: dataSelectTop.id_top
+                quantidade: 1,
+                id_top: dataSelectTop.id_top,
+                preco_atacado: item.preco_atacado,
+                qtd_atacado: item.qtd_atacado
             });
             onClose();
             focoQtd();
@@ -185,7 +191,9 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                     ncmEx: resultado[selectIndex].ncmex,
                     subtotal: '',
                     qtd_estoque: resultado[selectIndex].qtd_estoque,
-                    quantidade: ''
+                    quantidade: 1,
+                    preco_atacado: resultado[selectIndex].preco_atacado,
+                    qtd_atacado: resultado[selectIndex].qtd_atacado
                 });
                     onClose();
                     focoQtd();
@@ -205,7 +213,9 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                         ncmEx: resultado[selectIndex].ncmex,
                         subtotal: '',
                         qtd_estoque: resultado[selectIndex].qtd_estoque,
-                        quantidade: ''
+                        quantidade: 1,
+                        preco_atacado: resultado[selectIndex].preco_atacado,
+                        qtd_atacado: resultado[selectIndex].qtd_atacado
                     });
                     onClose();
                     focoQtd();
@@ -222,7 +232,10 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                         ncm: resultado[selectIndex].ncm,
                         ncmEx: resultado[selectIndex].ncmex,
                         subtotal: '',
-                        qtd_estoque: resultado[selectIndex].qtd_estoque
+                        qtd_estoque: resultado[selectIndex].qtd_estoque,
+                        quantidade: 1,
+                        preco_atacado: resultado[selectIndex].preco_atacado,
+                        qtd_atacado: resultado[selectIndex].qtd_atacado
                     });
                     onClose();
                     focoQtd();

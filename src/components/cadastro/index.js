@@ -10,6 +10,7 @@ import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext.js";
+import { contains } from "jquery";
 
 
 
@@ -96,6 +97,7 @@ export const Cadastro = () => {
         setDescontoValor(0);
         setDescontoPorcen(0);
         setNumero1("1.000");
+        setNumero2(dataSelectItem.valor_unitario);
         document.getElementById('produto').focus();
     }
 
@@ -188,7 +190,7 @@ export const Cadastro = () => {
         if(dataSelectTop.editar_preco_rotina === true){
             return parseFloat(parseFloat(valor1) * parseFloat(valor2)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
         }else{
-            return parseFloat(parseFloat(valor1) * parseFloat(valorUnita)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+            return parseFloat(parseFloat(valor1) * parseFloat(valor2)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
         }
     }
     const calcularSubtotal = () => {
@@ -227,10 +229,37 @@ export const Cadastro = () => {
         }
     }
 
+    const pegarDados = () => {
+        const quantidade = document.getElementById('quantidade').value;
+        const preco = document.getElementById('valorUnit').value;
+        const subtotal = document.getElementById('subtotal').value;
+        setDataSelectItem({
+            ...dataSelectItem,
+            valor_unitario: preco,
+            subtotal: subtotal,
+            quantidade: quantidade
+        })
+        console.log("pegou")
+    }
+    const validarValor = (e) => {
+        if(dataSelectItem.qtd_atacado != 0){
+            if(String(numero1).replace(',','.') >= dataSelectItem.qtd_atacado && tipoVenda === 'A'){
+                setNumero2(dataSelectItem.preco_atacado);
+            }else if(String(numero1).replace(',','.') < dataSelectItem.qtd_atacado){
+                setNumero2(dataSelectItem.valor_unitario);
+            }
+        }else{
+            setNumero2(dataSelectItem.valor_unitario);
+        }
+        
+    }
+
     useEffect(()=>{
         setTotal(calcular());
         setDescontoValor(condição());
         setSubtotal(calcularSubtotal());
+        pegarDados();
+        validarValor();
     }, [numero1,numero2,descontoValor,total,descontoPorcen]);
  
     const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal).replace(",", ".")), 0);
@@ -244,6 +273,7 @@ export const Cadastro = () => {
     function keyProduto(event){
         if( event.keyCode === 113 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value && document.getElementById('top').value && document.getElementById('parceiro').value){
             setIsModalProdutos(true);
+            zerarInput();
         }else if(event.keyCode != 113){
             event.preventDefault();
         }
@@ -312,12 +342,6 @@ export const Cadastro = () => {
             e.preventDefault();
             document.getElementById('Total').focus();
             setDescontoPorcen(calcularPorcentagem());
-        }
-    }
-    function NextDescrição (e){
-        if(e.keyCode === 13){
-            e.preventDefault();
-            document.getElementById('descrição').focus();
         }
     }
     function NextTop (e){
@@ -590,22 +614,23 @@ export const Cadastro = () => {
                 </div>
                 <div>
                 <label>Vl. Unit.: </label>
-                {dataSelectTop.editar_preco_rotina === true ? (
+                {dataSelectTop.editar_preco_rotina === true && tipoVenda === 'V' ? (
                     <input 
                     className="add-item" 
                     value={numero2} 
                     name="valor_unitario" 
                     onChange={(e) => setNumero2(e.target.value)}
                     onBlur={changeHandler} 
+                    onFocus={validarValor}
                     onKeyDown={NextAddItem} 
                     type="text" 
                     id="valorUnit" required/>
                     ) : (
                     <input 
                     className="add-item" 
-                    value={valorUnitario} 
+                    value={numero2} 
                     name="valor_unitario" 
-                    onFocus={(e) => setNumero2(e.target.value)} 
+                    onFocus={validarValor} 
                     onBlur={changeHandler} 
                     onKeyDown={NextAddItem} 
                     type="text" 
@@ -652,8 +677,7 @@ export const Cadastro = () => {
                     name='subtotal' 
                     id="subtotal" 
                     value={String(subtotal).replace('.',',').replace('NaN','')} 
-                    onFocus={changeHandler} 
-                    onKeyDown={NextDescrição} required/>
+                    onFocus={changeHandler} required/>
                 <br/>
                 </div>
                 <div className="div-descrição" >
