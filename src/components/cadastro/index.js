@@ -18,6 +18,9 @@ import { contains } from "jquery";
 export const Cadastro = () => {
     const navigate = useNavigate();
     const {user, empresa} = useContext(AuthContext);
+    const textoQtd = document.querySelector("#quantidade-input")
+
+
     /*Estado dos Modais */
     const [isModalPartner, setIsModalPartner] = useState(false);
     const [isModalSaler, setIsModalSaler] = useState(false);
@@ -64,6 +67,9 @@ export const Cadastro = () => {
     const [dataIdSelectSaler, setDataIdSelectSaler] = useState('');
     const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
 
+    const [promocao, setPromocao] = useState([]);
+    console.log(promocao)
+
 
     //Atualização da lista de itens
     const [listItens, setListItens] = useState([]);
@@ -74,7 +80,6 @@ export const Cadastro = () => {
     const changeHandler = e => {
         setDataSelectItem({...dataSelectItem, [e.target?.name]: (e.target?.value).replace(',','.'), item: counter});
     }
- console.log(counter);
 
     const zerarInput = () => {
         setDataSelectItem({
@@ -239,21 +244,34 @@ export const Cadastro = () => {
             subtotal: subtotal,
             quantidade: quantidade
         })
-        console.log("pegou")
     }
     const validarValor = (e) => {
-        if(dataSelectItem.qtd_atacado != 0){
-            if(String(numero1).replace(',','.') >= dataSelectItem.qtd_atacado && tipoVenda === 'A'){
-                setNumero2(dataSelectItem.preco_atacado);
-            }else if(String(numero1).replace(',','.') < dataSelectItem.qtd_atacado){
-                setNumero2(dataSelectItem.valor_unitario);
+        if(promocao.length > 0){
+            if(promocao[0].aplicarNaPreVenda === true){
+                if(String(numero1).replace(',','.') >= promocao[0].qtdMinima){
+                    setNumero2(promocao[0].precoPromocional);
+                    console.log("passou 1");
+                }else{
+                    console.log("passou 2");
+                    setNumero2(dataSelectItem.valor_unitario);
+                }
             }
         }else{
-            setNumero2(dataSelectItem.valor_unitario);
-        }
-        
+            if(dataSelectItem.qtd_atacado != 0){
+                if(String(numero1).replace(',','.') >= dataSelectItem.qtd_atacado && tipoVenda === 'A'){
+                    setNumero2(dataSelectItem.preco_atacado);
+                    console.log("passou 3");
+                }else if(String(numero1).replace(',','.') < dataSelectItem.qtd_atacado){
+                    setNumero2(dataSelectItem.valor_unitario);
+                    console.log("passou 4");
+                }
+            }else{
+                setNumero2(dataSelectItem.valor_unitario);
+                console.log("passou 5");
+            }
+        }        
     }
-
+    
     useEffect(()=>{
         setTotal(calcular());
         setDescontoValor(condição());
@@ -385,6 +403,7 @@ export const Cadastro = () => {
     function focoQtd () {
         if(document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && document.getElementById('codigo').value){
             document.getElementById('quantidade').focus();
+            document.getElementById('quantidade').select();
         }
     }
     function focoCampoSeguinte () {
@@ -608,7 +627,8 @@ export const Cadastro = () => {
                     type="text" 
                     value={numero1} 
                     onChange={qtdEstoque}
-                    onBlur={handleQtdEstoqueBlur} 
+                    onBlur={handleQtdEstoqueBlur}
+                    onFocus={()=>document.getElementById('quantidade').select()} 
                     onKeyDown={NextValorUnit} 
                     id="quantidade"  required/>
                 </div>
@@ -779,7 +799,7 @@ export const Cadastro = () => {
                 <Pgt onClose = {() => setIsModalPgt(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop}/>
+                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} setPromocao={setPromocao} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop}/>
             ) : null}
         </C.Container>   
     );

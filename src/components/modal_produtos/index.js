@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Header, Modal} from "./../modal/modal.js";
 import * as C from "./produtos.js";
 
-export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataIdSelectEmitente, dataIdSelectPgt, dataSelectTop, rotinas, tipoPgtoAlterado, emitenteAlterado, liberaEstoque, tipoMovimentacao}) => {
+export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, setPromocao, dataIdSelectEmitente, dataIdSelectPgt, dataSelectTop, rotinas, tipoPgtoAlterado, emitenteAlterado, liberaEstoque, tipoMovimentacao}) => {
 
     const [itens, setItens] = useState([]);
     const [busca, setBusca] = useState('');
@@ -33,7 +33,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 setItens(data.content);
             }else{
                 console.log("passou 5");
-                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);
+                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=2000`);
                 const data = await response.json();
                 setItens(data.content);
             }
@@ -42,7 +42,12 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
         document.getElementById('search').focus();
     }, []);
 
-    console.log(dataSelectTop.libera_itens_estoque_indisponivel);
+    const validarPromocao = async(item) => {
+        const promocao = await fetch(`http://8b38091fc43d.sn.mynetname.net:2005/promocaoProduto/${item.id}/${dataIdSelectEmitente}`)
+        const data = await promocao.json();
+        setPromocao(data);
+    }
+
     // Função para pegar as informações do produto selecionado com dois clicks
     const SelectedItem = (item) => {
         if(dataSelectTop.libera_itens_estoque_indisponivel === true || liberaEstoque === true ){
@@ -123,6 +128,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
             qtd_estoque_di: item.qtd_estoque_di,
             id_regra_icms: item.id_regra_icms
         })
+        validarPromocao(item);
         setSelectIndex(index);
     }
 
@@ -163,6 +169,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 qtd_estoque_reservado: resultado[selectIndex-1].qtd_estoque_reservado,
                 qtd_estoque_di: resultado[selectIndex-1].qtd_estoque_di
             })
+            validarPromocao(resultado[selectIndex+1]);
         }else if (e.keyCode === 40){
             e.preventDefault();
             if(selectIndex === null || selectIndex === resultado.length -1 ){
@@ -173,7 +180,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, dataId
                 qtd_estoque: resultado[selectIndex+1].qtd_estoque,
                 qtd_estoque_reservado: resultado[selectIndex-1].qtd_estoque_reservado,
                 qtd_estoque_di: resultado[selectIndex-1].qtd_estoque_di
-            })
+            });
+            validarPromocao(resultado[selectIndex+1]);
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
