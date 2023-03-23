@@ -10,9 +10,6 @@ import { Pgt } from "../modal_pgt/index.js";
 import { Produtos } from "../modal_produtos/index.js";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext.js";
-import { contains } from "jquery";
-
-
 
 
 export const Cadastro = () => {
@@ -392,6 +389,13 @@ export const Cadastro = () => {
             document.getElementById('subtotal').focus();
         }
     }
+    function NextAdd (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            validarQtd();
+            zerarInput();
+        }
+    }
     function NextPoduto (e){
         if(e.keyCode === 13){
             e.preventDefault();
@@ -532,6 +536,21 @@ export const Cadastro = () => {
             decrementarItem(index);
         
     }
+
+    const [showButton, setShowButton] = useState(false);
+
+    useEffect(() => {
+      const handleResize = () => {
+        setShowButton(window.innerWidth <= 440);
+      };
+  
+      handleResize();
+      window.addEventListener('resize', handleResize);
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
            
     return(
         
@@ -678,7 +697,7 @@ export const Cadastro = () => {
                     className="add-item" 
                     placeholder="R$ 0,000000" 
                     type='text' 
-                    onKeyDown={NextTotal} 
+                    onKeyDown={NextAdd} 
                     onChange={valorDesconto} 
                     onFocus={changeHandler}
                     value={String(descontoValor).replace('.',',').replace('NaN','')}/>
@@ -697,7 +716,8 @@ export const Cadastro = () => {
                     name='subtotal' 
                     id="subtotal" 
                     value={String(subtotal).replace('.',',').replace('NaN','')} 
-                    onFocus={changeHandler} required/>
+                    onFocus={changeHandler} 
+                     required/>
                 <br/>
                 </div>
                 <div className="div-descrição" >
@@ -713,7 +733,8 @@ export const Cadastro = () => {
                     readOnly 
                     required/>
                 </div>
-                <button onSubmit={validarQtd}>Adicionar</button>
+                {showButton ? <button onSubmit={validarQtd}>Adicionar</button> : null}
+                
             </form>
             </C.Add>
             <C.Display>

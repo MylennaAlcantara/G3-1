@@ -44,7 +44,7 @@ export const Barra = styled.div `
         color: white;
         border: 1px solid #00a5dd;
         margin: 5px 0px 0 0px;
-        border-radius: 5px;
+        border-radius: 10px 10px 0 0;
     }
     img{
         height: 20px;
@@ -56,6 +56,7 @@ export const Barra = styled.div `
         margin: 0;
         height: auto;
         border: 1px solid #064a8b;
+        border-radius: 0;
     }
     div:hover{
         cursor: pointer;
