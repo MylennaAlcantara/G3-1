@@ -1,0 +1,613 @@
+.test{
+    margin-left: 58.5%;
+    margin-top: 10px;
+    max-width: 600px;
+    height: 198px;
+    display: flex;
+    border-style: outset;
+    border-width: 2px;
+    box-shadow: -1px -1px 1px #ABADB3;
+    border-top-right-radius: 10px;
+}
+
+.dashboard-label{
+    border-color: transparent;
+    position: relative;
+}
+
+.esc{
+    opacity: 0.6;
+    margin-left: 2px;
+    margin-top: 21px;
+}
+
+.dashboardTeste{
+    border-style: solid;
+    border-width: 1px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+.dashboard{
+    display: flex;
+    margin-top: 81px;
+    margin-left: 30px;
+    width: 600px;
+    height: 400px;
+}
+
+.dashboardTpPg{
+    display: flex;
+    margin-top: 81px;
+    margin-left: 30px;
+    width: 600px;
+    height: 400px;
+}
+
+.dashboard0{
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboardBtn{
+    margin-top: 20px;
+    height: 25px;
+    border-color: gray;
+    cursor: pointer;
+    border-style: solid;
+    border-radius: 10px;
+}
+
+.side-column{
+    margin-left: 50px;
+}
+
+.pie-chart{
+    margin-left: 150px;
+}
+
+.bar-chart{
+    margin-left: 100px;
+}
+
+.btns{
+    position: relative;
+    top: 10px;
+    left: 29px;
+}
+
+.test1{
+    display: grid;
+    flex-direction: row;
+}
+
+.filtro1{
+    top: 48px;
+    margin-left: 30px;
+    margin-top: 10px;
+    width: 600px;
+    height: 198px;
+    position: absolute;
+    border-style: outset;
+    border-width: 2px;
+    box-shadow: -1px -1px 1px #ABADB3;
+}
+
+.regiao{
+    height: 350px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-color: gray;
+    border-width: 2px;
+    width: 95%;
+    border-style: solid;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5px;
+}
+
+.regiaoBtn{
+    font-size: 15px;
+    border-top-left-radius: 10px;
+    width: 12%;
+    height: 30px;
+    border-width: 1px;
+    border-style: double;
+    border-left: transparent;
+    border-top: transparent;
+    border-bottom: none;
+    border-right-color: gray;
+    border-color: gray;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.filial{
+    height: 350px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-color: gray;
+    border-style: solid;
+    border-width: 2px;
+    width: 95%;
+    margin-left: 30px;
+}
+
+.filialBtn{
+    font-size: 15px;
+    width: 10%;
+    height: 30px;
+    border-width: 1px;
+    border-style: double;
+    border-left: transparent;
+    border-top: transparent;
+    border-bottom: none;
+    border-right-color: gray;
+    border-color: gray;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.vendedor{
+    height: 350px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    width: 95%;
+    margin-left: 30px;
+} 
+
+.vendedorBtn{
+    cursor: pointer;
+    border-style: double;
+    border-color: gray;
+    height: 30px;
+    width: 12%;
+    border-width: 1px;
+    border-left: transparent;
+    border-top: transparent;
+    border-bottom: none;
+    font-size: 15px;
+}
+
+.cliente{
+    height: 350px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    width: 95%;
+    margin-left: 30px;
+    overflow-x: scroll;
+}
+
+.clienteBtn{
+    width: 9%;
+    height: 30px;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: double;
+    border-color: gray;
+    border-left: transparent;
+    border-top: transparent;
+    border-bottom: none;
+    font-size: 15px;    
+}
+
+.tipoDePagamento{
+    overflow-x: scroll;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-style: solid;
+    border-color: gray;
+    border-width: 2px;
+    width: 95%;
+    height: 342px;
+    margin-left: 30px;
+}
+
+.tipoDePagamentoBtn{
+    width: 23%;
+    height: 30px;
+    border-width: 1px;
+    cursor: pointer;
+    border-style: double;
+    border-color: gray;
+    border-left: transparent;
+    border-top: transparent;
+    border-bottom: none;
+    font-size: 15px;
+}
+
+.produto{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+    width: 95%;
+    height: 342px;
+    margin-left: 30px;
+    overflow-x: scroll;
+}
+
+.produtoBtn{    
+    font-size: 15px;
+    width: 10%;
+    height: 30px;
+    cursor: pointer;
+    border-width: 1px;
+    border-color: gray;
+    border-style: double;
+    border-left: transparent;
+    border-top: transparent;
+    border-bottom: none;
+
+}
+
+.grupo{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+    width: 95%;
+    height: 342px;
+    margin-left: 30px;
+}
+
+.grupoBtn{
+    width: 9%;
+    height: 30px;
+    font-size: 15px;
+    cursor: pointer;
+    border-color: gray;
+    border-width: 1px;
+    border-style: double;
+    border-left: transparent;
+    border-top: transparent;
+    border-bottom: none;
+}
+
+.fornecedor{
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+    overflow-x: scroll;
+    width: 95%;
+    height: 342px;
+    margin-left: 30px;
+}
+
+.fornecedorBtn{
+    border-top-right-radius: 12px;
+    width: 15%;
+    height: 30px;
+    font-size: 15px;
+    cursor: pointer;
+    border-color: gray;
+    border: none;
+}
+
+.modal-content{
+    border-style: solid;
+    width: 500px;
+    height: 150px;
+
+}
+
+.dataIni{
+    border-color: #ABADB3;
+    border-style: solid;
+    width: 120px;
+    height: 52px;
+    margin-top: 5px;
+    margin-left: 8px;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    line-height: 0px;
+    border-radius: 5px;
+    border-width: 2px;
+}
+
+.dataFin{
+    width: 120px;
+    border-color: #ABADB3;
+    border-radius: 5px;
+    border-width: 2px;
+    border-style: solid;
+    height: 52px;
+    margin-top: 5px;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+    line-height: 0px;
+}
+
+.pesquisar{
+    text-decoration: none;
+    border-style: solid;
+    cursor: pointer;
+    border-radius: 10px;
+    border-color: gray;
+    border-width: 2px;
+    background-color: white;
+    margin-top: 150px;
+    margin-left: 20px;
+    position: absolute;
+
+}
+
+.checkboxs{
+    justify-content: space-between;
+    margin-left: 5px;
+    display: flex;
+    position: absolute;
+    margin-top: 110px;
+    font-size: 13px;
+}
+
+.filtros{
+    width: 45%;
+    margin-left: 30px;
+    margin-top: 2px;
+    border-color: gray;
+    border-style: solid;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-width: 2px;
+}
+
+.custom-select{
+    margin-top: 2px;
+    cursor: pointer;
+    border-color: gray;
+    border-top-width: 5px;
+    color: #333333;
+    font-size: 14px;
+    max-height: 30px;
+    width: 200px;
+    border-radius: 5px;
+    height: auto;
+    align-items: center;
+    border-width: 2.5px;
+}
+
+.search-input{
+    border-right: none;
+    margin-left: 3px;
+    margin-top: 2px;
+    height: 30px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    width: 400px;
+}
+
+.filter01{
+    display: flex;
+    flex-direction: row;
+}
+
+.icon2{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.icon{
+    cursor: pointer;
+    margin-top: 2px;
+    background-color: lightblue;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left-color: transparent;
+    border-top-color: black;
+    border-style: solid;
+    border-color: gray;
+    border-width: 0.1px;
+    height: 28.9px;
+    width: 30px;
+}
+
+.select{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-top: 10px;
+    
+}
+
+.relatorio-content{
+    height: 50px;
+    width: 120px;
+    position: absolute;
+    left: 1240px;
+    top: 208px;
+    right: 220px;
+}
+
+.relatorioBtn{
+    text-decoration: none;
+    border-style: solid;
+    cursor: pointer;
+    border-radius: 10px;
+    border-color: gray;
+    border-width: 2px;
+    background-color: white;
+    position: absolute;
+}
+
+.topFilialBtn{
+    font-size: 15px;
+    border-top-left-radius: 10px;
+    height: 25px;
+    border-width: 1px;
+    border-style: outset;
+    border-bottom: none;
+    border-right-color: gray;
+    border-color: gray;
+    text-decoration: none;
+    cursor: pointer;
+    width: 50px;
+}
+
+.topsBtn{
+    font-size: 15px;
+    height: 25px;
+    border-width: 1px;
+    border-style: outset;
+    border-bottom: none;
+    border-right-color: gray;
+    border-color: gray;
+    border-top-right-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    width: 45px;
+}
+
+.obs{
+    position: relative;
+    top: 35px;
+    right: 562px;
+    display: flex;
+}
+
+.ep1{
+    border-style: solid;
+    border-width: 1px;
+}
+
+.ep2{
+    border-style: solid;
+    border-width: 1px;
+    margin-left: 1px;
+    width: 200px;
+}
+
+.ep3{
+    border-style: solid;
+    border-width: 1px;
+    margin-left: 1px;
+    width: 100px;
+}
+
+.ep4{
+    border-style: solid;
+    border-width: 1px;
+    margin-left: 1px;
+    width: 150px;
+}
+
+.ep5{
+    border-style: solid;
+    border-width: 1px;
+    margin-left: 1px;
+    width: 80px;
+}
+
+.clear{
+    margin-top: 2.5px;
+    margin-left: 1px;
+    height: 30px;
+}
+
+.frontSpan{
+    display: flex;
+    justify-content: center;
+}
+
+.filter-all{
+    width: 90px;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 13px;
+}
+
+.filter-name{
+    width: 255px;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 13px;
+}
+
+.filter-name-cliente{
+    width: 300px;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 13px;
+}
+
+.search{
+    width: 1482px;
+    height: 25px;
+}
+
+.modal-content{
+    display: flex;
+    position: absolute;
+    border-radius: 12px;
+    width: 800px;
+    height: 600px;
+    left: 400px;
+    background-color: white;
+    bottom: 100px;    
+}
+
+.modalBtn{
+    cursor: pointer;
+    border-radius: 12px;
+    border-color: gray;
+    border-style: solid;
+    margin-top: 5px;
+    margin-left: 3px;
+    height: 30px;
+    font-size: 13px;
+}
+
+.checkboxes{
+    padding-left: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: none;
+}
+
+.checkboxes1{
+    position: relative;
+    bottom: 14px;
+    display: flex;
+    padding-left: 6px;
+}
+
+.cb{
+    text-decoration: none;
+    height: 30px;
+    border-style: solid;
+    border-radius: 8px;
+}
+
+.cbText{
+    font-size: 11px;
+    margin-left: 3px;
+}
+
+.search-input-modal{
+    margin-top: 5px;
+    height: 30px;
+    width: 400px;
+    border-style: solid;
+    border-radius: 12px;
+}
+
+.cancel-icon{
+    width: 15px;
+    height: 14px;
+    color: red;
+}

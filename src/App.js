@@ -10,6 +10,7 @@ import { AuthProvider } from './contexts/Auth/authProvider';
 import { NavBar } from './components/barra_navegacao';
 import { CadastroCliente } from './components/cadastros/cadastro_cliente';
 import { ConsultarCliente } from './components/cadastros/consulta_cliente/index';
+import { ResumoFaturamento} from './components/Relatorios/listAll'
 
 function App() {    
   const token = localStorage.getItem('token');
@@ -35,6 +36,7 @@ function App() {
             <Route path = "/editarRotina/:codigo" element={token ? <Editar codigo={codigo} codRotina={parseFloat(codRotina)} dataEmissao={dataEmissao} horaEmissao={horaEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
             <Route path = '/cadastrarCliente' element = {<CadastroCliente/>}/>
             <Route path = '/clientes' element = {<ConsultarCliente/>}/>
+            <Route path= '/resumoDeFaturamento' element = {<ResumoFaturamento/>} />
           </Routes>
       
     </div>
