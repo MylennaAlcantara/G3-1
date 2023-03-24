@@ -1,4 +1,5 @@
 .test{
+    background-color: #F0F0F0;
     margin-left: 50%;
     margin-top: 10px;
     max-width: 600px;
@@ -12,19 +13,13 @@
 
 .filtro-filial-content{
     position: absolute;
-    top: 100px;
-    left: 135px;
+    top: 98px;
+    left: 140px;
 }
 
 .dashboard-label{
     border-color: transparent;
     position: relative;
-}
-
-.esc{
-    opacity: 0.6;
-    margin-left: 2px;
-    margin-top: 21px;
 }
 
 .dashboardTeste{
@@ -56,13 +51,22 @@
     flex-direction: column;
 }
 
+label{
+    margin-left: 2px;
+}
+
 .dashboardBtn{
-    margin-top: 20px;
-    height: 25px;
-    border-color: gray;
+    margin-left: 2px;
+    margin-top: 10px;
+    height: 33px;
+    width: 117px;
     cursor: pointer;
+}
+
+.dashboardLine{
+    height: 50px;
     border-style: solid;
-    border-radius: 10px;
+    border-width: 1px;
 }
 
 .side-column{
@@ -79,8 +83,8 @@
 
 .btns{
     position: relative;
-    top: 10px;
-    right: 565px;
+    top: 8px;
+    right: 568px;
 }
 
 .test1{
@@ -92,26 +96,13 @@
     top: 48px;
     margin-left: 25px;
     margin-top: 10px;
+    background-color: #F0F0F0;
     width: 600px;
     height: 198px;
     position: absolute;
     border-style: outset;
     border-width: 2px;
     box-shadow: -1px -1px 1px #ABADB3;
-}
-
-.regiao{
-    position: relative;
-    overflow-x: scroll;
-    height: 300px;
-    bottom: 388px;
-    border-color: gray;
-    border-width: 2px;
-    width: 79%;
-    border-style: solid;
-    margin-left: 155px;
-    display: flex;
-    flex-direction: column;
 }
 
 .regiaoBtn{
@@ -130,20 +121,6 @@
     cursor: pointer;
 }
 
-.filial{
-    position: relative;
-    overflow-x: scroll;
-    height: 300px;
-    bottom: 388px;
-    border-color: gray;
-    border-width: 2px;
-    width: 79%;
-    border-style: solid;
-    margin-left: 155px;
-    display: flex;
-    flex-direction: column;
-}
-
 .filialBtn{
     font-size: 15px;
     width: 10%;
@@ -159,20 +136,6 @@
     cursor: pointer;
 }
 
-.vendedor{
-    position: relative;
-    overflow-x: scroll;
-    height: 300px;
-    bottom: 388px;
-    border-color: gray;
-    border-width: 2px;
-    width: 79%;
-    border-style: solid;
-    margin-left: 155px;
-    display: flex;
-    flex-direction: column;
-} 
-
 .vendedorBtn{
     cursor: pointer;
     border-style: double;
@@ -184,20 +147,6 @@
     border-top: transparent;
     border-bottom: none;
     font-size: 15px;
-}
-
-.cliente{
-    position: relative;
-    overflow-x: scroll;
-    height: 300px;
-    bottom: 388px;
-    border-color: gray;
-    border-width: 2px;
-    width: 79%;
-    border-style: solid;
-    margin-left: 155px;
-    display: flex;
-    flex-direction: column;
 }
 
 .clienteBtn{
@@ -213,20 +162,6 @@
     font-size: 15px;    
 }
 
-.tipoDePagamento{
-    position: relative;
-    overflow-x: scroll;
-    height: 300px;
-    bottom: 388px;
-    border-color: gray;
-    border-width: 2px;
-    width: 79%;
-    border-style: solid;
-    margin-left: 155px;
-    display: flex;
-    flex-direction: column;
-}
-
 .tipoDePagamentoBtn{
     width: 23%;
     height: 30px;
@@ -238,20 +173,6 @@
     border-top: transparent;
     border-bottom: none;
     font-size: 15px;
-}
-
-.produto{
-    position: relative;
-    overflow-x: scroll;
-    height: 300px;
-    bottom: 388px;
-    border-color: gray;
-    border-width: 2px;
-    width: 79%;
-    border-style: solid;
-    margin-left: 155px;
-    display: flex;
-    flex-direction: column;
 }
 
 .produtoBtn{    
@@ -266,20 +187,6 @@
     border-top: transparent;
     border-bottom: none;
 
-}
-
-.grupo{
-    position: relative;
-    overflow-x: scroll;
-    height: 300px;
-    bottom: 388px;
-    border-color: gray;
-    border-width: 2px;
-    width: 79%;
-    border-style: solid;
-    margin-left: 155px;
-    display: flex;
-    flex-direction: column;
 }
 
 .grupoBtn{
@@ -356,19 +263,25 @@
     margin-left: 8px;
 }
 
+table tr:nth-child(even){
+    background-color: #ffffe6;
+}
+table tr:nth-child(odd){
+    background-color: #f0f0f0;   
+}
+.table tr td{
+    cursor: pointer;
+}
+.table tr:hover td{
+    background-color: #87CEFA;
+}
+
 .pesquisar{
-    box-shadow: 1px 1px lightgray;
-    border-color: gray;
-    border-width: 2px;
-    margin-top: 150px;
+    margin-top: 144px;
     margin-left: 20px;
-    width: 134px;
+    width: 117px;
     height: 33px;
     position: absolute;
-}
-.pesquisar:hover{
-    cursor: pointer;
-    background-color: lightskyblue;
 }
 
 .checkboxs{
@@ -435,20 +348,13 @@
     height: 50px;
     width: 120px;
     position: absolute;
-    left: 1240px;
-    top: 208px;
-    right: 220px;
+    left: 1050px;
+    top: 307px;
 }
 
 .relatorioBtn{
-    text-decoration: none;
-    border-style: solid;
-    cursor: pointer;
-    border-radius: 10px;
-    border-color: gray;
-    border-width: 2px;
-    background-color: white;
-    position: absolute;
+    width: 117px;
+    height: 33px;
 }
 
 .topFilialBtn{
@@ -531,6 +437,7 @@
 }
 
 .filter-all{
+    background-color: white;
     width: 80px;
     border-style: solid;
     border-width: 1px;
@@ -538,6 +445,7 @@
 }
 
 .filter-name{
+    background-color: white;
     width: 355px;
     border-style: solid;
     border-width: 1px;
@@ -621,8 +529,6 @@
 
 .labels{
     width: 1400px;
-    display: flex;
-    flex-direction: row;
 }
 
 .labels0{
