@@ -1,5 +1,5 @@
 .test{
-    margin-left: 58.5%;
+    margin-left: 50%;
     margin-top: 10px;
     max-width: 600px;
     height: 198px;
@@ -8,6 +8,12 @@
     border-width: 2px;
     box-shadow: -1px -1px 1px #ABADB3;
     border-top-right-radius: 10px;
+}
+
+.filtro-filial-content{
+    position: absolute;
+    top: 100px;
+    left: 135px;
 }
 
 .dashboard-label{
@@ -74,7 +80,7 @@
 .btns{
     position: relative;
     top: 10px;
-    left: 29px;
+    right: 565px;
 }
 
 .test1{
@@ -84,7 +90,7 @@
 
 .filtro1{
     top: 48px;
-    margin-left: 30px;
+    margin-left: 25px;
     margin-top: 10px;
     width: 600px;
     height: 198px;
@@ -95,17 +101,17 @@
 }
 
 .regiao{
-    height: 350px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    position: relative;
+    overflow-x: scroll;
+    height: 300px;
+    bottom: 388px;
     border-color: gray;
     border-width: 2px;
-    width: 95%;
+    width: 79%;
     border-style: solid;
-    margin-left: 30px;
+    margin-left: 155px;
     display: flex;
     flex-direction: column;
-    padding-bottom: 5px;
 }
 
 .regiaoBtn{
@@ -125,14 +131,17 @@
 }
 
 .filial{
-    height: 350px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    position: relative;
+    overflow-x: scroll;
+    height: 300px;
+    bottom: 388px;
     border-color: gray;
-    border-style: solid;
     border-width: 2px;
-    width: 95%;
-    margin-left: 30px;
+    width: 79%;
+    border-style: solid;
+    margin-left: 155px;
+    display: flex;
+    flex-direction: column;
 }
 
 .filialBtn{
@@ -151,14 +160,17 @@
 }
 
 .vendedor{
-    height: 350px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-style: solid;
+    position: relative;
+    overflow-x: scroll;
+    height: 300px;
+    bottom: 388px;
     border-color: gray;
     border-width: 2px;
-    width: 95%;
-    margin-left: 30px;
+    width: 79%;
+    border-style: solid;
+    margin-left: 155px;
+    display: flex;
+    flex-direction: column;
 } 
 
 .vendedorBtn{
@@ -175,15 +187,17 @@
 }
 
 .cliente{
-    height: 350px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-style: solid;
+    position: relative;
+    overflow-x: scroll;
+    height: 300px;
+    bottom: 388px;
     border-color: gray;
     border-width: 2px;
-    width: 95%;
-    margin-left: 30px;
-    overflow-x: scroll;
+    width: 79%;
+    border-style: solid;
+    margin-left: 155px;
+    display: flex;
+    flex-direction: column;
 }
 
 .clienteBtn{
@@ -200,15 +214,17 @@
 }
 
 .tipoDePagamento{
+    position: relative;
     overflow-x: scroll;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-style: solid;
+    height: 300px;
+    bottom: 388px;
     border-color: gray;
     border-width: 2px;
-    width: 95%;
-    height: 342px;
-    margin-left: 30px;
+    width: 79%;
+    border-style: solid;
+    margin-left: 155px;
+    display: flex;
+    flex-direction: column;
 }
 
 .tipoDePagamentoBtn{
@@ -225,15 +241,17 @@
 }
 
 .produto{
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-style: solid;
-    border-width: 2px;
-    border-color: gray;
-    width: 95%;
-    height: 342px;
-    margin-left: 30px;
+    position: relative;
     overflow-x: scroll;
+    height: 300px;
+    bottom: 388px;
+    border-color: gray;
+    border-width: 2px;
+    width: 79%;
+    border-style: solid;
+    margin-left: 155px;
+    display: flex;
+    flex-direction: column;
 }
 
 .produtoBtn{    
@@ -251,14 +269,17 @@
 }
 
 .grupo{
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-style: solid;
-    border-width: 2px;
+    position: relative;
+    overflow-x: scroll;
+    height: 300px;
+    bottom: 388px;
     border-color: gray;
-    width: 95%;
-    height: 342px;
-    margin-left: 30px;
+    border-width: 2px;
+    width: 79%;
+    border-style: solid;
+    margin-left: 155px;
+    display: flex;
+    flex-direction: column;
 }
 
 .grupoBtn{
@@ -275,15 +296,17 @@
 }
 
 .fornecedor{
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-style: solid;
-    border-width: 2px;
-    border-color: gray;
+    position: relative;
     overflow-x: scroll;
-    width: 95%;
-    height: 342px;
-    margin-left: 30px;
+    height: 300px;
+    bottom: 388px;
+    border-color: gray;
+    border-width: 2px;
+    width: 79%;
+    border-style: solid;
+    margin-left: 155px;
+    display: flex;
+    flex-direction: column;
 }
 
 .fornecedorBtn{
@@ -304,47 +327,48 @@
 }
 
 .dataIni{
-    border-color: #ABADB3;
-    border-style: solid;
     width: 120px;
+    border-radius: 3px;
+    border-width: 2px;
+    border-style: solid;
     height: 52px;
-    margin-top: 5px;
-    margin-left: 8px;
+    margin-top: 10px;
     font-size: 15px;
     display: flex;
     flex-direction: column;
-    line-height: 0px;
-    border-radius: 5px;
-    border-width: 2px;
+    margin-left: 8px;
+}
+
+.check{
+    margin-left: 7px;
 }
 
 .dataFin{
     width: 120px;
-    border-color: #ABADB3;
     border-radius: 5px;
     border-width: 2px;
     border-style: solid;
     height: 52px;
-    margin-top: 5px;
+    margin-top: 10px;
     font-size: 15px;
     display: flex;
     flex-direction: column;
     margin-left: 8px;
-    line-height: 0px;
 }
 
 .pesquisar{
-    text-decoration: none;
-    border-style: solid;
-    cursor: pointer;
-    border-radius: 10px;
+    box-shadow: 1px 1px lightgray;
     border-color: gray;
     border-width: 2px;
-    background-color: white;
     margin-top: 150px;
     margin-left: 20px;
+    width: 134px;
+    height: 33px;
     position: absolute;
-
+}
+.pesquisar:hover{
+    cursor: pointer;
+    background-color: lightskyblue;
 }
 
 .checkboxs{
@@ -357,29 +381,13 @@
 }
 
 .filtros{
-    width: 45%;
-    margin-left: 30px;
-    margin-top: 2px;
-    border-color: gray;
+    width: 50%;
+    margin-left: 8px;
+    margin-top: 10px;
     border-style: solid;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-width: 2px;
-}
-
-.custom-select{
-    margin-top: 2px;
-    cursor: pointer;
-    border-color: gray;
-    border-top-width: 5px;
-    color: #333333;
-    font-size: 14px;
-    max-height: 30px;
-    width: 200px;
-    border-radius: 5px;
-    height: auto;
-    align-items: center;
-    border-width: 2.5px;
 }
 
 .search-input{
@@ -387,8 +395,6 @@
     margin-left: 3px;
     margin-top: 2px;
     height: 30px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
     width: 400px;
 }
 
@@ -476,7 +482,7 @@
 .obs{
     position: relative;
     top: 35px;
-    right: 562px;
+    right: 517px;
     display: flex;
 }
 
@@ -525,14 +531,14 @@
 }
 
 .filter-all{
-    width: 90px;
+    width: 80px;
     border-style: solid;
     border-width: 1px;
     font-size: 13px;
 }
 
 .filter-name{
-    width: 255px;
+    width: 355px;
     border-style: solid;
     border-width: 1px;
     font-size: 13px;
@@ -610,4 +616,17 @@
     width: 15px;
     height: 14px;
     color: red;
+}
+
+
+.labels{
+    width: 1400px;
+    display: flex;
+    flex-direction: row;
+}
+
+.labels0{
+    width: 1400px;
+    display: flex;
+    flex-direction: row;
 }

@@ -2,6 +2,7 @@ import React , {useState, useEffect} from 'react';
 import './listAll.css'
 import Modal from 'react-modal'
 import Chart from 'react-google-charts';
+import * as C from "../cadastro/cadastro"
 
 Modal.setAppElement("#root")
 
@@ -807,7 +808,8 @@ const dataTpPg = [
   
 //------------------------------------------------------------------Visual----------------------------------------------------------------------------------
         return (
-            <div className="wrapper">
+            <C.Container>
+                <div className="wrapper">
                 
                 <div className='test1'>
 
@@ -836,7 +838,7 @@ const dataTpPg = [
                                 
                             </div>
                                                 
-                        <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="testando" overlayClassName="modal-overlay" className="modal-content"  >   
+                        <Modal isOpen={modalIsOpen} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} onRequestClose={closeModal} contentLabel="testando" overlayClassName="modal-overlay" className="modal-content"  >   
                             
                             <div className='parla' >
 
@@ -969,7 +971,7 @@ const dataTpPg = [
                     <div className='test' >
                         
                         <div className="dataIni" >
-                            <p>Data Inicial</p>
+                            <p className='dataLabel' >Data Inicial</p>
                             <input type="date" onChange={onChangeDataIni}/>
                         </div>
 
@@ -991,16 +993,16 @@ const dataTpPg = [
                             </select>
                         </div>
 
-                        <div >
+                        <div>
                             <button className="pesquisar" onClick={handleSetData} >Pesquisar</button>
                         </div>
 
                         <div className="checkboxs" >
-                             <input type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
+                             <input className='check' type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
 
-                            <input type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
+                            <input className='check' type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
 
-                             <input type="checkbox" value="false" id='NFCE' checked={checkNFCE} onChange={handleChecked01} /><label>NFC-e</label>
+                             <input className='check' type="checkbox" value="false" id='NFCE' checked={checkNFCE} onChange={handleChecked01} /><label>NFC-e</label>
 
                         </div>
                     
@@ -1018,13 +1020,12 @@ const dataTpPg = [
                         <button className='regiaoBtn' onClick={abrirRegiao} >Região</button>          
                         <Modal isOpen={regiaoIsOpen} onRequestClose={closeRegiao} contentLabel="testando1" shouldCloseOnOverlayClick={false} overlayClassName="modal-overlay" className="regiao">
 
-                                <div>
                                 <div className='dashboardTeste' >
                                     <h3>Dashboards</h3> <p className='esc' >( Use 'Esc' para fechar )</p>
                                     <button className='dashboardBtn' onClick={openDashboardRegiao} >Graficos</button>
-                                </div>
-                                <thead>
-                                    <tr>
+                                </div>   
+
+                        <div> 
                                         <th className='filter-all'>Id.Região</th>
 
                                         <th className="filter-name" scope="col">Região</th> 
@@ -1047,13 +1048,7 @@ const dataTpPg = [
 
                                         <th className='filter-all' >Margem</th>
 
-                                        <th className='filter-all' >Markup</th>
-
-                                    </tr>
-                                </thead>      
-                                </div>
-
-                        <div>                      
+                                        <th className='filter-all' >Markup</th>                     
                             <tbody>                       
                                 {dadosRegiao.map((f1) =>{
                                     return (
@@ -1101,47 +1096,45 @@ const dataTpPg = [
                     
                         <button className='filialBtn' onClick={abrirFilial} >Filial</button>     
                         <Modal isOpen={filialIsOpen} onRequestClose={closeFilial} contentLabel="Filial" shouldCloseOnOverlayClick={true} overlayClassName="filial-overlay" className="filial">
+                                
                                 <div className='dashboardTeste' >
                                     <h3>Dashboards</h3> <p className='esc' >( Use 'Esc' para fechar )</p>
                                     <button className='dashboardBtn' onClick={openDashboardFilial} >Graficos</button>
                                 </div>
-                                <thead>
-                                    <tr>
-                                        <th className='filter-all'>Id.Filial</th>
-
-                                        <th className="filter-name" scope="col">Filial</th> 
-
-                                        <th className='filter-all'>Qtd. Vendas</th>    
-
-                                        <th className='filter-all'>Qtd. Itens</th>
-
-                                        <th className='filter-all'>Méd. Itens/Cup.</th>
-
-                                        <th className='filter-all'>Vlr. Médio Venda</th>
-
-                                        <th className='filter-all'>Vlr. Total NF-e</th>
-
-                                        <th className='filter-all'>Vlr. Total NFC-e</th>
-
-                                        <th className='filter-all'>Vlr. Venda Total</th>
-
-                                        <th className='filter-all'>Vlr. Total Credito</th>
-
-                                        <th className='filter-all' > Vlr. Total Líquido</th>
-
-                                        <th className='filter-all' >Vlr. Custo Total</th>
-
-                                        <th className='filter-all' >Vlr. Lucro Venda</th>
-
-                                        <th className='filter-all' >Vlr. Lucro Líquido</th>
-
-                                        <th className='filter-all' >% Margem</th>
-
-                                        <th className='filter-all' >Percentual</th>
-                                    </tr>
-                                </thead>
 
                                 <div>
+                                    <th className='filter-all'>Id.Filial</th>
+
+                                    <th className="filter-name" scope="col">Filial</th> 
+
+                                    <th className='filter-all'>Qtd. Vendas</th>    
+
+                                    <th className='filter-all'>Qtd. Itens</th>
+
+                                    <th className='filter-all'>Méd. Itens/Cup.</th>
+
+                                    <th className='filter-all'>Vlr. Médio Venda</th>
+
+                                    <th className='filter-all'>Vlr. Total NF-e</th>
+
+                                    <th className='filter-all'>Vlr. Total NFC-e</th>
+
+                                    <th className='filter-all'>Vlr. Venda Total</th>
+
+                                    <th className='filter-all'>Vlr. Total Credito</th>
+
+                                    <th className='filter-all' > Vlr. Total Líquido</th>
+
+                                    <th className='filter-all' >Vlr. Custo Total</th>
+
+                                    <th className='filter-all' >Vlr. Lucro Venda</th>
+
+                                    <th className='filter-all' >Vlr. Lucro Líquido</th>
+
+                                    <th className='filter-all' >% Margem</th>
+
+                                    <th className='filter-all' >Percentual</th>
+
                                     <tbody> {dados.map((f2) => { 
                                         return(
                                             <tr>
@@ -1198,8 +1191,8 @@ const dataTpPg = [
                                     <h3>Dashboards</h3> <p className='esc' >( Use 'Esc' para fechar )</p>
                                     <button className='dashboardBtn' onClick={openDashboardVendedor} >Graficos</button>
                                 </div>
-                        <thead>
-                                <tr>
+
+                                <div className='labels' >
                                     <th className='filter-all'>Id. Filial</th>
 
                                     <th className='filter-all'>Id. Vendedor</th>
@@ -1231,13 +1224,11 @@ const dataTpPg = [
                                     <th className='filter-all'>Per. Lucro Líquido</th>
 
                                     <th className='filter-all'>Percentual</th>
-                                </tr>
-                            </thead>
+                                </div>
+                                    
                         {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query4)).map((dat) => (
+                           <div className='labels'>
 
-                           <div>
-                                <tbody>
-                                    <tr>
                                         <td className='filter-all'>{dat.idFilial}</td>
 
                                         <td className='filter-all'>{dat.idVendedor}</td>
@@ -1269,8 +1260,7 @@ const dataTpPg = [
                                         <td className='filter-all'>% {(dat.plucroLiquido).toFixed(2)}</td>
 
                                         <td className='filter-all'>{(dat.percentual).toFixed(2)}</td>
-                                    </tr>
-                                </tbody>
+
                             </div>
 
                         ))}   
@@ -1295,8 +1285,8 @@ const dataTpPg = [
                                 </div>
                         
                             </div>
-                        <thead>
-                                <tr>
+                            
+                            <div className='labels'>
                                     <th className='filter-all'> Id. Filial </th>
 
                                     <th className='filter-all'> Id. Cliente </th>
@@ -1324,12 +1314,12 @@ const dataTpPg = [
                                     <th className='filter-all'> Per. Lucro Líquido </th>
 
                                     <th className='filter-all'> Percentual </th>
-                                </tr>
-                            </thead>
+                            </div>
+                                    
+
                         {dadosCliente.filter(dat => dat.cliente.toLowerCase().includes(query5)).map((dat1) => (
-                                <div>
-                                    <tbody>
-                                        <tr>
+                                <div className='labels' >
+
                                             <td className='filter-all'>{dat1.idFilial}</td>
 
                                             <td className='filter-all'>{dat1.idCliente}</td>
@@ -1356,9 +1346,8 @@ const dataTpPg = [
 
                                             <td className='filter-all'>{dat1.plucroLiquido} %</td>
 
-                                            <td className='filter-all'>{dat1.percentual}</td>
-                                        </tr>
-                                    </tbody>
+                                            <td className='filter-all'>{(dat1.percentual).toFixed(3)}</td>
+
                                 </div>
                         ))}
                            
@@ -1389,13 +1378,16 @@ const dataTpPg = [
                                 </div>
                         
                             </div>
-
-                        {keys.map((propriedade) => (
-                            <th className='filter-all'>{(propriedade).replace( '_' , ' ').toUpperCase()}</th>
-                        ))}
-                    
+                        
+                        <div className='labels' >
+                            {keys.map((nomes) => {
+                                return(
+                                    <th className='filter-all'>{(nomes).replace( '_' , ' ').toUpperCase()}</th>  
+                                )
+                            } )}
+                        </div>
                             <div>
-                                <tbody>
+                                <tbody className='labels' >
                                     {dadosTipoPagamento.map((f5) => {
                                         return(
                                                 <td className='filter-all' > {f5} </td> 
@@ -1631,6 +1623,8 @@ const dataTpPg = [
                 </div>
                 </div>
             </div>
+            </C.Container>
+            
         );
 }
 
