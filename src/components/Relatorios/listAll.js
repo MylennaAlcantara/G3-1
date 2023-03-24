@@ -1043,61 +1043,63 @@ const dataTpPg = [
                                     <button className='dashboardBtn' onClick={openDashboardRegiao} >Graficos</button>  
                                 </div>  
                     
-                        <div> 
-                                        <th className='filter-all'>Id.Região</th>
+                        <div className='table-resp' >
+                            <table className='table'>
+                                    <tr>
+                                        <th >Id.Região</th>
 
-                                        <th className="filter-name" scope="col">Região</th> 
+                                        <th >Região</th> 
 
-                                        <th className='filter-all'>Id. Filial</th>    
+                                        <th >Id. Filial</th>    
 
-                                        <th className='filter-all'>Qtd. Vendas</th>
+                                        <th >Qtd. Vendas</th>
 
-                                        <th className='filter-all'>Vlr.Médio Venda</th>
+                                        <th >Vlr.Médio Venda</th>
 
-                                        <th className='filter-all'>Vlr. Total NF-e</th>
+                                        <th >Vlr. Total NF-e</th>
 
-                                        <th className='filter-all'>Vlr. Total NFC-e</th>
+                                        <th >Vlr. Total NFC-e</th>
 
-                                        <th className='filter-all'>Vlr. Venda Total</th>
+                                        <th >Vlr. Venda Total</th>
 
-                                        <th className='filter-all'>Vlr. Custo Total</th>
+                                        <th >Vlr. Custo Total</th>
 
-                                        <th className='filter-all'>Vlr. Lucro Venda</th>
+                                        <th >Vlr. Lucro Venda</th>
 
-                                        <th className='filter-all' >Margem</th>
+                                        <th  >Margem</th>
 
-                                        <th className='filter-all' >Markup</th>                     
-                            <tbody>                       
+                                        <th  >Markup</th> 
+                                    </tr>                                    
                                 {dadosRegiao.map((f1) =>{
                                     return (
                                         <tr key={f1.idFilial} >
-                                            <td className='filter-all' >{f1.idRegiao}</td>
+                                            <td>{f1.idRegiao}</td>
                                                 
-                                            <td className='filter-name' >{f1.regiao}</td>
+                                            <td>{f1.regiao}</td>
                                             
-                                            <td className='filter-all'>{f1.idFilial}</td>
+                                            <td>{f1.idFilial}</td>
 
-                                            <td className='filter-all' >{f1.qtdVendas}</td>
+                                            <td>{f1.qtdVendas}</td>
 
-                                            <td className='filter-all' >{f1.vlMedioVendas}</td>
+                                            <td>{f1.vlMedioVendas}</td>
 
-                                            <td className='filter-all' >{f1.vlTotalNfe}</td>
+                                            <td>{f1.vlTotalNfe}</td>
 
-                                            <td className='filter-all' >{f1.vlTotalNfce}</td>
+                                            <td>{f1.vlTotalNfce}</td>
 
-                                            <td className='filter-all' >{f1.vlVendaTotal}</td>
+                                            <td>{f1.vlVendaTotal}</td>
 
-                                            <td className='filter-all' >{f1.vlCustoTotal}</td>
+                                            <td>{f1.vlCustoTotal}</td>
 
-                                            <td className='filter-all' >{f1.vlLucroVenda}</td>
+                                            <td>{f1.vlLucroVenda}</td>
 
-                                            <td className='filter-all' >{f1.margem}</td>
+                                            <td>{f1.margem}</td>
 
-                                            <td className='filter-all'>{f1.markup}</td>
+                                            <td>{f1.markup}</td>
                                         </tr>
                                     )
                                 }       )}
-                            </tbody>
+                            
                            
                             <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay">
                                 
@@ -1109,6 +1111,7 @@ const dataTpPg = [
                                 
                             </Modal>
 
+                            </table> 
                         </div>
 
                         </Modal>
@@ -1121,76 +1124,81 @@ const dataTpPg = [
                                     <button className='dashboardBtn' onClick={openDashboardFilial} >Graficos</button>
                                 </div>
 
-                                <div className='labels' >
-                                    <th className='filter-all'>Id.Filial</th>
+                                <div className='table-resp' >
+                                    <table className='table' >
+                                        <tr>
+                                            <th>Id.Filial</th>
 
-                                    <th className="filter-name" scope="col">Filial</th> 
+                                            <th>Filial</th> 
 
-                                    <th className='filter-all'>Qtd. Vendas</th>    
+                                            <th>Qtd. Vendas</th>    
 
-                                    <th className='filter-all'>Qtd. Itens</th>
+                                            <th>Qtd. Itens</th>
 
-                                    <th className='filter-all'>Méd. Itens/Cup.</th>
+                                            <th>Méd. Itens/Cup.</th>
 
-                                    <th className='filter-all'>Vlr. Médio Venda</th>
+                                            <th>Vlr. Médio Venda</th>
 
-                                    <th className='filter-all'>Vlr. Total NF-e</th>
+                                            <th>Vlr. Total NF-e</th>
 
-                                    <th className='filter-all'>Vlr. Total NFC-e</th>
+                                            <th>Vlr. Total NFC-e</th>
 
-                                    <th className='filter-all'>Vlr. Venda Total</th>
+                                            <th>Vlr. Venda Total</th>
 
-                                    <th className='filter-all'>Vlr. Total Credito</th>
+                                            <th>Vlr. Total Credito</th>
 
-                                    <th className='filter-all' > Vlr. Total Líquido</th>
+                                            <th> Vlr. Total Líquido</th>
 
-                                    <th className='filter-all' >Vlr. Custo Total</th>
+                                            <th>Vlr. Custo Total</th>
 
-                                    <th className='filter-all' >Vlr. Lucro Venda</th>
+                                            <th>Vlr. Lucro Venda</th>
 
-                                    <th className='filter-all' >Vlr. Lucro Líquido</th>
+                                            <th>Vlr. Lucro Líquido</th>
 
-                                    <th className='filter-all' >% Margem</th>
+                                            <th>% Margem</th>
 
-                                    <th className='filter-all' >Percentual</th>
+                                            <th>Percentual</th>
+                                    
+                                        </tr>
 
-                                    <tbody> {dados.map((f2) => { 
+                                     {dados.map((f2) => { 
                                         return(
                                             <tr>
-                                                <td className='filter-all' > {f2.idFilial} </td>
+                                                <td> {f2.idFilial} </td>
 
-                                                <td className='filter-name' >{f2.filial}</td>
+                                                <td>{f2.filial}</td>
 
-                                                <td className='filter-all' >{f2.qtdVendas}</td>
+                                                <td>{f2.qtdVendas}</td>
 
-                                                <td className='filter-all' >{f2.qtdItens}</td>
+                                                <td>{f2.qtdItens}</td>
 
-                                                <td className='filter-all' >{f2.qtdItensCupom}</td>
+                                                <td>{f2.qtdItensCupom}</td>
 
-                                                <td className='filter-all' >{f2.vlMedioVendas.toFixed(2)}</td>
+                                                <td>{f2.vlMedioVendas.toFixed(2)}</td>
 
-                                                <td className='filter-all' >{f2.vlTotalNfe}</td>
+                                                <td>{f2.vlTotalNfe}</td>
 
-                                                <td className='filter-all' >{f2.vlTotalNfce}</td>
+                                                <td>{f2.vlTotalNfce}</td>
 
-                                                <td className='filter-all' >{f2.vlVendaTotal}</td>
+                                                <td>{f2.vlVendaTotal}</td>
 
-                                                <td className='filter-all' >{f2.vlTotalCredito}</td>
+                                                <td>{f2.vlTotalCredito}</td>
 
-                                                <td className='filter-all' >{f2.vlTotalLiquido}</td>
+                                                <td>{f2.vlTotalLiquido}</td>
 
-                                                <td className='filter-all' >{f2.vlCustoTotal}</td>
+                                                <td>{f2.vlCustoTotal}</td>
 
-                                                <td className='filter-all' >{f2.vlLucroVenda}</td>
+                                                <td>{f2.vlLucroVenda}</td>
 
-                                                <td className='filter-all' >{f2.vlLucroLiquido}</td>
+                                                <td>{f2.vlLucroLiquido}</td>
 
-                                                <td className='filter-all' >{f2.margem}</td>
+                                                <td>{f2.margem}</td>
 
-                                                <td className='filter-all' >{(f2.percentual).toFixed(2)}</td>
+                                                <td>{(f2.percentual).toFixed(2)}</td>
                                             </tr>                                          
                                         )
-                                    })} </tbody>
+                                    })} 
+                                    </table>
                                 </div>
                            
                             <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" className="dashboard">
@@ -1206,91 +1214,94 @@ const dataTpPg = [
                         <button className='vendedorBtn' onClick={abrirVendedor} > Vendedor </button>
                         <Modal isOpen={vendedorIsOpen} onRequestClose={closeVendedor} contentLabel="Vendedor" shouldCloseOnOverlayClick={true} overlayClassName="vendedor-overlay" style={modalDados}> 
                         <input type="search" name="search-vend" id="search-vend" className="search" placeholder="Buscar por Vendedor" onChange={(e) => setQuery4(e.target.value)}/>
+                                
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
                                     <button className='dashboardBtn' onClick={openDashboardVendedor} >Graficos</button>
                                 </div>
 
-                                <div className='labels' >
-                                    <th className='filter-all'>Id. Filial</th>
+                            <div>
+                                <table className='table-resp' >
+                                    <tr className='table' >
+                                        <th>Id. Filial</th>
 
-                                    <th className='filter-all'>Id. Vendedor</th>
+                                        <th>Id. Vendedor</th>
 
-                                    <th className='filter-name'>Vendedor</th>
+                                        <th>Vendedor</th>
 
-                                    <th className='filter-all'>Qtd. Vendas</th>
+                                        <th>Qtd. Vendas</th>
 
-                                    <th className='filter-all'>Vlr. Total NF-e</th>
+                                        <th>Vlr. Total NF-e</th>
 
-                                    <th className='filter-all'>Vlr. Total NFC-e</th>
+                                        <th>Vlr. Total NFC-e</th>
 
-                                    <th className='filter-all'> Vlr. Venda Total</th>
+                                        <th> Vlr. Venda Total</th>
 
-                                    <th className='filter-all'>Vlr. Total Cancelamento</th>
+                                        <th>Vlr. Total Cancelamento</th>
 
-                                    <th className='filter-all'>Vlr. Total Desconto</th>
+                                        <th>Vlr. Total Desconto</th>
 
-                                    <th className='filter-all'>Vlr. Total Credito</th>
+                                        <th>Vlr. Total Credito</th>
 
-                                    <th className='filter-all'>Vlr. Total Comissão</th>
+                                        <th>Vlr. Total Comissão</th>
 
-                                    <th className='filter-all'>Vlr. Custo Total</th>
+                                        <th>Vlr. Custo Total</th>
 
-                                    <th className='filter-all'>Vlr. Lucro Venda</th>
+                                        <th>Vlr. Lucro Venda</th>
 
-                                    <th className='filter-all'>Vlr. Lucro Líquido</th>
+                                        <th>Vlr. Lucro Líquido</th>
 
-                                    <th className='filter-all'>Per. Lucro Líquido</th>
+                                        <th>Per. Lucro Líquido</th>
 
-                                    <th className='filter-all'>Percentual</th>
-                                </div>
-                                    
-                        {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query4)).map((dat) => (
-                           <div className='labels'>
+                                        <th>Percentual</th>
+                                    </tr>
+                                
+                            {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query4)).map((dat) => (
+                                
+                                    <tr className='labels'>
+                                        <td>{dat.idFilial}</td>
 
-                                        <td className='filter-all'>{dat.idFilial}</td>
+                                        <td>{dat.idVendedor}</td>
 
-                                        <td className='filter-all'>{dat.idVendedor}</td>
+                                        <td>{dat.vendedor}</td>
 
-                                        <td className='filter-name'>{dat.vendedor}</td>
+                                        <td>{dat.qtdVendas}</td>
 
-                                        <td className='filter-all'>{dat.qtdVendas}</td>
+                                        <td>{dat.vlTotalNfe}</td>
 
-                                        <td className='filter-all'>{dat.vlTotalNfe}</td>
+                                        <td>{dat.vlTotalNfce}</td>
 
-                                        <td className='filter-all'>{dat.vlTotalNfce}</td>
+                                        <td>{dat.vlVendaTotal}</td>
 
-                                        <td className='filter-all'>{dat.vlVendaTotal}</td>
+                                        <td>{dat.vlTotalCancelamento}</td>
 
-                                        <td className='filter-all'>{dat.vlTotalCancelamento}</td>
+                                        <td>{dat.vlTotalDesconto}</td>
 
-                                        <td className='filter-all'>{dat.vlTotalDesconto}</td>
+                                        <td>{dat.vlTotalCredito}</td>
 
-                                        <td className='filter-all'>{dat.vlTotalCredito}</td>
+                                        <td>{dat.vlTotalComissao}</td>
 
-                                        <td className='filter-all'>{dat.vlTotalComissao}</td>
+                                        <td>{(dat.vlCustoTotal).toFixed(2)}</td>
 
-                                        <td className='filter-all'>{(dat.vlCustoTotal).toFixed(2)}</td>
+                                        <td>{(dat.vlLucroVenda).toFixed(2)}</td>
 
-                                        <td className='filter-all'>{(dat.vlLucroVenda).toFixed(2)}</td>
+                                        <td>{(dat.vlLucroLiquido).toFixed(2)}</td>
 
-                                        <td className='filter-all'>{(dat.vlLucroLiquido).toFixed(2)}</td>
+                                        <td>% {(dat.plucroLiquido).toFixed(2)}</td>
 
-                                        <td className='filter-all'>% {(dat.plucroLiquido).toFixed(2)}</td>
-
-                                        <td className='filter-all'>{(dat.percentual).toFixed(2)}</td>
-
-                            </div>
+                                        <td>{(dat.percentual).toFixed(2)}</td>
+                                    </tr>
 
                         ))}   
-                         
+                            </table>
+                         </div>
                             <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" className="dashboard">
                                 <Chart chartType="ColumnChart" width="500" height="400px" data={dataFilial} className="up-column" />
                                 <Chart chartType="BarChart" width="500px" height="300px" data={barDataVen} options={barOptionsVen} className="side-column" />
                                 <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width={"500px"} height={"400px"} className="pie-chart" />
 
                             </Modal>
-                         
+
                         </Modal>
                     
                         <button className='clienteBtn' onClick={abrirCliente} > Cliente </button>
@@ -1436,67 +1447,70 @@ const dataTpPg = [
                         <button className='produtoBtn' onClick={abrirProduto} > Produto </button>
                         <Modal isOpen={produtoIsOpen} onRequestClose={closeProduto} contentLabel="Produto" shouldCloseOnOverlayClick={true} overlayClassName="Produto-overlay" style={modalDados}> 
                         <input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)}/>
+
+                        <div className='table-resp'>
                         <table className='table' >
-                            <tr className='labels' >
-                                <th className='filter-all'>Ranking</th>
+                            <tr >
+                                <th >Ranking</th>
 
-                                <th className='filter-all'>Id.Produto</th>
+                                <th >Id.Produto</th>
 
-                                <th className='filter-name'>Produto</th>
+                                <th >Produto</th>
 
-                                <th className='filter-all'>Qtd. Total</th>
+                                <th>Qtd. Total</th>
 
-                                <th className='filter-all'>Sub Total</th>
+                                <th >Sub Total</th>
 
-                                <th className='filter-all'>% Desconto</th>
+                                <th>% Desconto</th>
 
-                                <th className='filter-all'>Vlr. Desconto Total </th>
+                                <th>Vlr. Desconto Total </th>
 
-                                <th className='filter-all'>Vlr. Venda Total</th>
+                                <th>Vlr. Venda Total</th>
 
-                                <th className='filter-all'>Vlr. Custo Total</th>
+                                <th>Vlr. Custo Total</th>
 
-                                <th className='filter-all'>Vlr. Lucro Total</th>
+                                <th>Vlr. Lucro Total</th>
 
-                                <th className='filter-all'>% Markup</th>
+                                <th>% Markup</th>
 
-                                <th className='filter-all'>% Margem</th>
+                                <th>% Margem</th>
 
-                                <th className='filter-all'>Percentual</th>   
+                                <th>Percentual</th>   
                             </tr>
 
                         {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(query6)).map((dat2) => (
-                            <tr className='labels' >
+                            <tr >
                                                 
-                                                    <td className='filter-all'> {dat2.ranking} </td>
+                                                    <td> {dat2.ranking} </td>
 
-                                                    <td className='filter-all'> {dat2.id_produto} </td>
+                                                    <td > {dat2.id_produto} </td>
 
-                                                    <td className='filter-name'> {dat2.produto} </td>
+                                                    <td > {dat2.produto} </td>
 
-                                                    <td className='filter-all'> {dat2.qtd_total} </td>
+                                                    <td className='filter-all' > {dat2.qtd_total} </td>
 
-                                                    <td className='filter-all'> {dat2.sub_total} </td>
+                                                    <td> {dat2.sub_total} </td>
 
-                                                    <td className='filter-all'> {(dat2.p_desconto).toFixed(3)} </td>
+                                                    <td> {(dat2.p_desconto).toFixed(3)} </td>
 
-                                                    <td className='filter-all'> {dat2.vlr_desconto_total} </td>
+                                                    <td> {dat2.vlr_desconto_total} </td>
 
-                                                    <td className='filter-all'> {dat2.vlr_venda_total} </td>
+                                                    <td> {dat2.vlr_venda_total} </td>
 
-                                                    <td className='filter-all'> {dat2.vlr_custo_total} </td>
+                                                    <td> {dat2.vlr_custo_total} </td>
 
-                                                    <td className='filter-all'> {dat2.vlr_lucro_total} </td>
+                                                    <td> {dat2.vlr_lucro_total} </td>
 
-                                                    <td className='filter-all'> {dat2.p_markup} </td>
+                                                    <td> {dat2.p_markup} </td>
 
-                                                    <td className='filter-all'> {dat2.p_margem} </td>
+                                                    <td> {dat2.p_margem} </td>
 
-                                                    <td className='filter-all'> {(dat2.percentual).toFixed(2) } </td>
+                                                    <td> {(dat2.percentual).toFixed(2) } </td>
                                                                     
                                 </tr>
                         ))} 
-                        </table>                     
+                        </table>
+                        </div>      
                          </Modal>
 
                         <button className='grupoBtn' onClick={abrirGrupo} > Grupo </button>
