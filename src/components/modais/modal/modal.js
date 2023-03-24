@@ -154,3 +154,60 @@ export const Filtro = styled.div`
         
     }
 `
+export const Footer = styled.div`
+    width: 100%;
+    display: flex;
+    display-flex: wrapper;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 40%;
+    form{
+        
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        margin: 5px 0;
+        input{
+            width: 70px;
+            height: 24px;
+            border: none;
+            background-color: #F0F0F0;
+            margin: 3px;
+            box-shadow: 0 5px 5px #ABADB3;
+        }
+        label{
+            font-size: 15px;
+            font-weight: bold;
+            color: #373435;
+        }
+    }
+    .buttons{
+        height: 67px;
+        display: flex;
+        background-color: #F0F0F0;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0 0 12px 12px;
+        button{
+            width: 117px;
+            height: 33px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        button:hover{
+            cursor: pointer;
+        }
+        img{
+            height: 20px;
+            width: 20px;
+            margin-right: 5px;
+        }
+    }
+    @media (max-width: 425px){
+        height: 30vh;
+        form{
+            margin: 0 25px;
+        }
+    }
+`

@@ -45,6 +45,13 @@ export const Documentos = styled.div`
         display: flex;
         justify-content: end;
     }
+    img{
+        height: 20px;
+        width: 20px;
+    }
+    img:hover{
+        cursor: pointer;
+    }
 `
 export const Informacao = styled.div`
     width: 100%;
@@ -54,6 +61,7 @@ export const Informacao = styled.div`
     align-items: center;
     .informacao{
         width: 90%;
+        height: 95%;
         display: block;
         background-color: #F0F0F0;
         overflow-x: auto;
@@ -83,5 +91,18 @@ export const Informacao = styled.div`
     }
     label{
         margin: 5px;
+    }
+    img{
+        height: 20px;
+        width: 20px;
+    }
+    img:hover{
+        cursor: pointer;
+    }
+    .div-input{
+        align-items: center;
+        select{
+            margin-right: 5px;
+        }
     }
 `

@@ -1,21 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as C from "../../cadastro/cadastro";
-import { Emitente } from "../../modal_emitente";
-import { ListaMunicipio } from "../../modal_municipio";
-import { PerfilCliente } from "../../modal_perfil_cliente";
+import { Emitente } from "../../modais/modal_emitente/index";
+import { ListaMunicipio } from "../../modais/modal_municipio/index";
+import { PerfilCliente } from "../../modais/modal_perfil_cliente";
 import { RamoAtividade } from "../../modal_ramo_atividade";
 import * as CC from "../cadastro_cliente/cadastroCliente";
 
 export const CadastroCliente = () => {
     const navigate = useNavigate();
+    const [endereco, setEndereco] = useState([]);
+    const [estados, setEstados] = useState([]);
+    const [dadosCidades, setDadosCidades] = useState({
+        codigo: "",
+        nome: ""
+    });
+    const [dadosPerfil, setDadosPerfil] = useState({
+        id: "",
+        descricao: ""
+    });
+    const [dadosRamo, setDadosRamo] = useState({
+        id: "",
+        descricao: ""
+    });
+    const [dataSelectEmitente, setDataSelectEmitente] = useState();
+    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState();
+    
+    //Dados da parte de documentos
+    const [cnpj, setCnpj] = useState('');
+    const [municipal, setMunicipal] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [rg, setRg] = useState('');
+    const [orgao, setOrgao] = useState('');
+    const [estadual, setEstadual] = useState('');
+    const [cpfCnpj, setCpfCnpj] = useState('');
+    const [tipoPessoa, setTipoPessoa] = useState('J');
+    const select = document.getElementById('option');
+    const dataNascimento = document.getElementById("dataNascimento");
+
+    //dados da parte de informações
+    const [cep, setCep] = useState('');
+    const [nome, setNome] = useState('');
+    const [fantasia, setFantasia] = useState('');
+    const [complemento, setComplemento] = useState('');
+    const [logradouro, setLogradouro] = useState('');
+    const [numero, setNumero] = useState('');
+    const [bairro, setBairro] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [celular, setCelular] = useState('');
+
+    //estados dos modais
     const [isModalPerfil, setIsModalPerfil] = useState(false);
     const [isModalRamo, setIsModalRamo] = useState(false);
     const [isModalMunicipio, setIsModalMunicipio] = useState(false);
     const [isModalEmpresa, setIsModalEmpresa] = useState(false);
-
-    const [cep, setCep] = useState('');
-    const [endereco, setEndereco] = useState([]);
 
     //Função para abrir o modal com F2
     function keyPerfil (e){
@@ -32,9 +70,10 @@ export const CadastroCliente = () => {
     }    
     function keyMunicipio (e){
         e.preventDefault();
-        setIsModalMunicipio(true);
         if(e.keyCode === 113){
             setIsModalMunicipio(true);
+        }else if(e.keyCode != 113){
+            e.preventDefault();
         }
     }
     function keyEmpresa (e){
@@ -44,15 +83,116 @@ export const CadastroCliente = () => {
         }
     }
 
+    useEffect(() => {
+        async function fetchData (){
+            const response = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados");
+            const data = await response.json();
+            setEstados(data);
+        }
+            fetchData();
+            validarDocumento();
+    }, []);
+
+    function pesquisarMuni(){
+        setIsModalMunicipio(true);
+    }
     async function pesquisarCep () {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const data = await response.json();
         setEndereco(data);
     }
 
+    const [documentoSelecionado, setDocumentoSelecionado] = useState('juridica');
+    const [cor, setCor] = useState('');
+    const [corFisica, setCorFisica] = useState('');
+
+    function handleDocumentoChange(event) {
+        setDocumentoSelecionado(event.target.value);
+    }
+    const documento =()=>{
+        if(documentoSelecionado === 'juridica'){
+            setCpfCnpj(cnpj);
+            setTipoPessoa("J");
+        }else if (documentoSelecionado === 'fisica'){
+            setCpfCnpj(cpf);
+            setTipoPessoa("F");
+        }
+    }
+    const validarDocumento = () => {
+        if(documentoSelecionado === 'juridica'){
+            setCorFisica('#F0F0F0');
+        }else if (documentoSelecionado === 'fisica'){
+            setCor('#F0F0F0');
+        }
+    }
+        //Pegar hora do computador
+        const [dataCadastro, setDataCadastro] = useState('');
+    
+        const data = new Date();
+        const dia = String(data.getDate()).padStart(2, '0');
+        const mes = String(data.getMonth()+ 1).padStart(2, '0') ;
+        const ano = data.getFullYear();
+        const dataAtual = String(ano + '-' + mes + '-' + dia);
+    
+        useEffect(()=>{
+            async function setarHoraData(){
+                setDataCadastro(String(dataAtual));
+            } 
+            setarHoraData();
+        },[])
+
+    const salvar = () => {
+        const endereco = document.getElementById("endereco").value;
+        const municipio = document.getElementById("municipio").value;
+        const bairro = document.getElementById("bairro").value;
+        const codigoMunicipio = document.getElementById("codigoMunicipio").value;
+        try{
+            const response = fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
+                method: "POST",
+                headers:{"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    nome: nome,
+                    nome_fantasia: fantasia,
+                    tipo_pessoa: tipoPessoa,
+                    cpf_cnpj: cpfCnpj,
+                    endereco: endereco,
+                    numero: numero,
+                    bairro: bairro,
+                    municipio: municipio,
+                    estado: select.value,
+                    complemento: complemento,
+                    cep: cep,
+                    inscricao_estadual: estadual,
+                    cod_municipio: codigoMunicipio,
+                    rg: rg,
+                    orgao_rg: orgao,
+                    inscricao_municipal: municipal,
+                    data_cadastro: dataCadastro,
+                    celular: celular,
+                    data_nasc: dataNascimento.value,
+                    observacao: '',
+                    limite: 0.0,
+                    limite_total: 200000.0,
+                    id_tipo_pagamento: null,
+                    id_funcionario: 1,
+                    id_perfil_regra: dadosPerfil.id,
+                    email: "",
+                    telefone: telefone
+                })
+            });
+            if(response.status === 201){
+                alert("Salvo com sucesso!");
+                navigate("/clientes");
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
+
     const cancelar = () => {
         navigate('/clientes');
     }
+
     return (
         <C.Container>
             <C.Header>
@@ -61,11 +201,11 @@ export const CadastroCliente = () => {
             <CC.DadosCliente>
                 <div>
                     <label>Código: </label>
-                    <input/>
+                    <input readOnly/>
                 </div>
                 <div>
                     <label>Data: </label>
-                    <input/>
+                    <input readOnly/>
                 </div>
                 <div className="checkbox">
                     <div>
@@ -87,100 +227,144 @@ export const CadastroCliente = () => {
                     <legend>Documentos</legend>
                     <div className="cnpj-cpf">
                         <div>
-                            <input name="documento" type='radio' checked/>
+                            <input name="documento" type='radio' value="juridica" id="juridica"  checked={documentoSelecionado === 'juridica'} onChange={handleDocumentoChange} onClick={validarDocumento}/>
                             <label>Pessoa Jurídica</label>
                         </div>
                         <div>
                             <label>CNPJ: </label>
-                            <input className="input-documentos"/>
-                            <button>Buscar</button>
+                            {documentoSelecionado === "juridica" ? (
+                                <input className="input-documentos" value={cnpj} onChange={(e)=> setCnpj(e.target.value)} onBlur={documento}/>
+                            ) : (
+                                <input className="input-documentos" style={{backgroundColor: cor}} readOnly/>
+                            )}
+                            <img src="/images/LUPA.png"/>
                         </div>
                         <div>
                             <label>Inscr. Municipal: </label>
-                            <input className="input-documentos"/>
+                            {documentoSelecionado === "juridica" ? (
+                                <input className="input-documentos" value={municipal} onChange={(e)=> setMunicipal(e.target.value)}/>
+                            ) : (
+                                <input className="input-documentos" style={{backgroundColor: cor}} readOnly/>
+                            )}
                         </div>
                     </div>
                     <div className="cnpj-cpf">
                         <div>
-                            <input name="documento" type='radio'/>
+                            {documentoSelecionado === "fisica" ? (
+                                <input name="documento" type='radio' value="fisica" id="fisica"  checked={documentoSelecionado === 'fisica'} onChange={handleDocumentoChange} onClick={validarDocumento}/>
+                            ) : (
+                                <input name="documento" type='radio' value="fisica" id="fisica"  checked={documentoSelecionado === 'fisica'} onChange={handleDocumentoChange} onClick={validarDocumento}/>
+                            )}
                             <label>Pessoa Física</label>
                         </div>
                         <div>
                             <label>CPF: </label>
-                            <input className="input-documentos"/>
+                            {documentoSelecionado === "fisica" ? (
+                                <input className="input-documentos" value={cpf} onChange={(e)=> setCpf(e.target.value)} onBlur={documento}/>
+                            ) : (
+                                <input className="input-documentos" style={{backgroundColor: corFisica}} readOnly/>
+                            )}
                         </div>
                         <div>
                             <label>RG: </label>
-                            <input className="input-documentos"/>
+                            {documentoSelecionado === "fisica" ? (
+                                <input className="input-documentos" value={rg} onChange={(e)=> setRg(e.target.value)}/>
+                            ) : (
+                                <input className="input-documentos" style={{backgroundColor: corFisica}} readOnly/>
+                            )}
                         </div>
                         <div>
                             <label>Orgão: </label>
-                            <input className="input-documentos"/>
+                            {documentoSelecionado === "fisica" ? (
+                                <input className="input-documentos" value={orgao} onChange={(e)=> setOrgao(e.target.value)}/>
+                            ) : (
+                                <input className="input-documentos" style={{backgroundColor: corFisica}} readOnly/>
+                            )}
                         </div>
                     </div>
                     <div className="cnpj-cpf">
                         <div>
                             <label>Ins. Estadual: </label>
-                            <input className="input-documentos"/>
+                            <input className="input-documentos" value={estadual} onChange={(e)=> setEstadual(e.target.value)}/>
                         </div>
                         <input type="checkbox"/>
                         <label>Contribuinte de ICMS</label>
                     </div>
                 </fieldset>
-                
             </CC.Documentos>
             <CC.Informacao>
                 <fieldset className="informacao">
                     <legend>Informações</legend>
                     <div>
                         <label>Nome: </label>
-                        <input className="input-unico"/>
+                        <input className="input-unico" value={nome} onChange={(e)=> setNome(e.target.value)} />
                     </div>
                     <div>
                         <label>Fantasia/Apelido: </label>
-                        <input className="input-unico"/>
+                        <input className="input-unico" value={fantasia} onChange={(e)=> setFantasia(e.target.value)}/>
                     </div>
                     <div className="div-input">
                         <label>CEP: </label>
                         <input className="codigo" value={cep} onChange={(e) => setCep(e.target.value)}/>
-                        <button onClick={pesquisarCep}>busca</button>
+                        <img src="/images/LUPA.png" onClick={pesquisarCep}/>
                         <label>Complemento: </label>
-                        <input className="complemento"/>
+                        <input className="complemento" value={complemento} onChange={(e)=> setComplemento(e.target.value)}/>
                     </div>
                     <div className="div-input">
                         <label>Logradouro: </label>
-                        <input value={endereco.logradouro}/>
-                        <input className="codigo"/>
+                        {endereco != [] ? (
+                            <input value={endereco.logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)}/>
+                        ) : (
+                            <input value={logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)}/>
+                        )}
+                        <input className="codigo" value={numero} onChange={(e)=> setNumero(e.target.value)}/>
                     </div>
                     <div>
                         <label>Bairro: </label>
-                        <input className="input-unico" value={endereco.bairro}/>
+                        {endereco != [] ? (
+                            <input className="input-unico" id="bairro" value={endereco.bairro} onChange={(e)=> setBairro(e.target.value)}/>
+                        ) : (
+                            <input className="input-unico" id="bairro" value={bairro} onChange={(e)=> setBairro(e.target.value)}/>
+                        )}
                     </div>
                     <div className="div-input">
                         <label>Municipio: </label>
-                        <input className="codigo" value={endereco.ibge} onKeyDown={keyMunicipio}/>
-                        <button onClick={keyMunicipio}>+</button>
-                        <input className="municipio" value={endereco.localidade} readOnly/>
+                        {endereco.ibge ? (
+                            <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} readOnly/>
+                        ) : (
+                            <input className="codigo" id="codigoMunicipio" value={dadosCidades.codigo} onKeyDown={keyMunicipio} readOnly/>
+                        )}
+                        <img src="/images/add.png" onClick={pesquisarMuni}/>
+                        {endereco.localidade ? (
+                            <input className="municipio" id="municipio" value={endereco.localidade} readOnly/>
+                        ) : (
+                            <input className="municipio" id="municipio" value={dadosCidades.nome} readOnly/>
+                        )}
                         <label>UF: </label>
-                        <input className="codigo" value={endereco.uf}/>
+                        <select className="codigo" id="option">
+                            <option>UF</option>
+                            {estados.map((estado)=> {
+                                return <option value={estado.sigla}>{estado.sigla}</option>
+                            })}
+                        </select>
                     </div>
                     <div>
                         <label>Telefone: </label>
-                        <input className="codigo"/>
+                        <input className="codigo" value={telefone} onChange={(e)=> setTelefone(e.target.value)}/>
                         <label>Celular: </label>
-                        <input className="codigo"/>
+                        <input className="codigo" value={celular} onChange={(e)=> setCelular(e.target.value)}/>
                         <label>Data Nasc: </label>
-                        <input className="codigo"/>
+                        <input className="codigo" id="dataNascimento" type="date" />
                     </div>
                     <div className="div-input">
                         <label>Perfil Tributá.: </label>
-                        <input className="codigo" onKeyDown={keyPerfil}/>
-                        <input readOnly/>
+                        <input className="codigo" value={dadosPerfil.id} onKeyDown={keyPerfil}/>
+                        <input value={dadosPerfil.descricao} readOnly/>
                     </div>
                     <div className="div-input">
                         <label>Ramo de Ativ.: </label>
-                        <input className="codigo" onKeyDown={keyRamo}/>
-                        <input readOnly/>
+                        <input className="codigo" value={dadosRamo.id} onKeyDown={keyRamo}/>
+                        <input value={dadosRamo.descricao} readOnly/>
                     </div>
                     <div>
                         <label>Última Alter.: </label>
@@ -188,22 +372,21 @@ export const CadastroCliente = () => {
                     </div>
                     <div>
                         <label>Filial: </label>
-                        <input className="codigo" onKeyDown={keyEmpresa}/>
-                        <input readOnly/>
+                        <input className="codigo" value={dataIdSelectEmitente} onKeyDown={keyEmpresa}/>
+                        <input value={dataSelectEmitente} readOnly/>
                     </div>
                 </fieldset>
-                
             </CC.Informacao>
             <C.Footer>
                 <div className="buttons">
-                    <button><img src="/images/salvar.png"/>Salvar</button>
+                    <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
                     <button onClick={cancelar}><img src="/images/voltar.png"/>Cancelar</button>
                 </div>
             </C.Footer>
-            {isModalPerfil ? <PerfilCliente close={()=> setIsModalPerfil(false)}/> : null}
-            {isModalRamo ? <RamoAtividade close={()=> setIsModalRamo(false)}/> : null}
-            {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)}/> : null}
-            {isModalEmpresa ? <Emitente setIsModalEmpresa = {setIsModalEmpresa}/> : null}
+            {isModalPerfil ? <PerfilCliente close={()=> setIsModalPerfil(false)} setDadosPerfil={setDadosPerfil} /> : null}
+            {isModalRamo ? <RamoAtividade close={()=> setIsModalRamo(false)} setDadosRamo={setDadosRamo}/> : null}
+            {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)} setDadosCidades={setDadosCidades}/> : null}
+            {isModalEmpresa ? <Emitente setIsModalEmpresa = {setIsModalEmpresa} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/> : null}
         </C.Container>
     )
 }

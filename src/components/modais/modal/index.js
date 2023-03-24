@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import * as C from './modal.js';
-import "../cadastro/index.js";
+import * as C from '../modal/modal';
+import "../../cadastro/index.js";
 
 
 export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPartner, setDataIdSelectPartner, setParceiroAlterado }) => {

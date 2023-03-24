@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from "react";
 import * as M from "../modal/modal";
 
-export const ListaMunicipio = ({close}) => {
+export const ListaMunicipio = ({close, setDadosCidades}) => {
     const [municipios, setMunicipios] = useState([]);
 
-    useEffect(()=>{
-        async function fetch (){
-            const response = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+    useEffect(() => {
+        async function fetchData (){
+            const response = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/municipios");
             const data = await response.json();
             setMunicipios(data);
         }
-        fetch();
-    },[])
-    console.log(municipios)
+            fetchData();
+    }, []);
+
+    function selecionado (municipio){
+        setDadosCidades({
+            codigo: municipio.id,
+            nome: municipio.nome
+        })
+        close();
+    }
+
     return(
         <M.Modal>
             <M.Container>
                 <M.Header>
-                    <label>Cadastro de Perfil</label>
+                    <label>Lista de Municípios</label>
                     <button className="close" onClick={close}>X</button>
                 </M.Header>
                 <M.Filtro>
@@ -38,10 +46,10 @@ export const ListaMunicipio = ({close}) => {
                         <tbody>
                             {municipios.map((municipio) => {
                                 return(
-                                    <tr key={municipio.id}>
+                                    <tr key={municipio.id} onDoubleClick={selecionado.bind(this, municipio)}>
                                         <td>{municipio.id}</td>
                                         <td>{municipio.nome}</td>
-                                        <td>{municipio.uf.sigla}</td>
+                                        <td>{municipio.microrregiao.mesorregiao.UF.sigla}</td>
                                     </tr>
                                 )
                             })}

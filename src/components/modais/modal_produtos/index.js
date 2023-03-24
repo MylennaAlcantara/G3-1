@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Header, Modal} from "./../modal/modal.js";
-import * as C from "./produtos.js";
+import * as C from "../modal_produtos/produtos";
 
 export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, setPromocao, dataIdSelectEmitente, dataIdSelectPgt, dataSelectTop, rotinas, tipoPgtoAlterado, emitenteAlterado, liberaEstoque, tipoMovimentacao}) => {
 

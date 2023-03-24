@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as C from "../cadastro/cadastro";
-import { Emitente } from "../modal_emitente/index.js";
-import { Saler } from "../modal_vendedor/index.js";
-import { Top } from "../modal_top/index.js";
-import { Pgt } from "../modal_pgt/index.js";
-import { Produtos } from "../modal_produtos/index.js";
-import { Modal} from "../modal/index.js";
+import { Emitente } from "../modais/modal_emitente/index.js";
+import { Saler } from "../modais/modal_vendedor/index.js";
+import { Top } from "../modais/modal_top/index.js";
+import { Pgt } from "../modais/modal_pgt/index.js";
+import { Produtos } from "../modais/modal_produtos/index.js";
+import { Modal} from "../modais/modal/index.js";
 import { AuthContext } from "../../contexts/Auth/authContext";
 import { rotinaPDF } from "../Relatorios/rotinaPDF";
 
