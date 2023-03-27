@@ -25,7 +25,7 @@ export const NavBar = () => {
                     ) : null}
                     <div onClick={()=> navigate('/consultar')}><img src="/images/ponto-de-venda.png"/>Rotina</div>
                     <div onClick={() =>setRelatorio(!relatorio)}><img src="/images/relatorio.png"/>Relatorios</div>
-                    {relatorio ? (<div className="gaveta">Resumo de Faturamento</div>) : null}
+                    {relatorio ? (<div className="gaveta" onClick={()=> navigate('/resumoDeFaturamento')} >Resumo de Faturamento</div>) : null}
                 </C.Barra>
             ) : null}
             <button className="menu" onClick={abrirBarra} style={{left: aberto === false ? '0' : null}}/>
