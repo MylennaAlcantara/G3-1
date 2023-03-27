@@ -18,7 +18,10 @@ export const NavBar = () => {
                 <C.Barra>
                     <div onClick={() =>setCadastros(!cadastros)}>Cadastros</div>
                     {cadastros ? (
-                        <div className="gaveta" onClick={()=> navigate('/clientes')}>Cadastro de Cliente</div>
+                        <div className="gaveta">
+                            <div className="gaveta" onClick={()=> navigate('/clientes')}>Cadastro de Cliente</div>
+                            <div className="gaveta" onClick={()=> navigate('/fornecedores')}>Cadastro de Fornecedor</div>
+                        </div>
                     ) : null}
                     <div onClick={()=> navigate('/consultar')}><img src="/images/ponto-de-venda.png"/>Rotina</div>
                     <div onClick={() =>setRelatorio(!relatorio)}><img src="/images/relatorio.png"/>Relatorios</div>

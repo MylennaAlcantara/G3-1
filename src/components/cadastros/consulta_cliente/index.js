@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as M from "../../modais/modal/modal";
 import * as C from "../../cadastro/cadastro";
 import * as CCL from "./consultaCliente";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../contexts/Auth/authContext";
 
 export const ConsultarCliente = () => {
     const [users, setUsers] = useState([]);
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('nome');
     const navigate = useNavigate();
+    const {user, empresa} = useContext(AuthContext);
 
     useEffect(() => {
         async function fetchData (){
@@ -44,9 +46,14 @@ export const ConsultarCliente = () => {
     const novo = () => {
         navigate('/cadastrarCliente')
     }
+    const sair = () => {
+        localStorage.clear();
+        document.location.reload(true);
+    }
 
     return(         
         <C.Container>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}  <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
                 <h3>Clientes</h3>
             </C.Header>

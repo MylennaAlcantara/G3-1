@@ -57,6 +57,7 @@ export const Barra = styled.div `
         height: auto;
         border: 1px solid #064a8b;
         border-radius: 0;
+        display: block;
     }
     div:hover{
         cursor: pointer;

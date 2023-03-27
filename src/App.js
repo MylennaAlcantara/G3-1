@@ -10,6 +10,7 @@ import { AuthProvider } from './contexts/Auth/authProvider';
 import { NavBar } from './components/barra_navegacao';
 import { CadastroCliente } from './components/cadastros/cadastro_cliente';
 import { ConsultarCliente } from './components/cadastros/consulta_cliente/index';
+import { CadastroFornecedor } from './components/cadastros/cadastro_fornecedor';
 
 function App() {    
   const token = localStorage.getItem('token');
@@ -33,8 +34,10 @@ function App() {
             <Route path = "/consultar" element = {token ?<Consultar setCodigo={setCodigo} codRotina={parseFloat(codRotina)} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} /> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>  
             <Route path = "/rotina/:codigo" element={token ? <Visualizar codigo={codigo} codRotina={parseFloat(codRotina)} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
             <Route path = "/editarRotina/:codigo" element={token ? <Editar codigo={codigo} codRotina={parseFloat(codRotina)} dataEmissao={dataEmissao} horaEmissao={horaEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
-            <Route path = '/cadastrarCliente' element = {<CadastroCliente/>}/>
-            <Route path = '/clientes' element = {<ConsultarCliente/>}/>
+            <Route path = '/cadastrarCliente' element = {token ? <CadastroCliente/> : <Login/>}/>
+            <Route path = '/clientes' element = {token ? <ConsultarCliente/> : <Login/>}/>
+            <Route path = '/cadastrarFornecedor' element = {token ? <CadastroFornecedor/> : <Login/>}/>
+            <Route path = '/clientes' element = {token ? <ConsultarCliente/> : <Login/>}/>
           </Routes>
       
     </div>

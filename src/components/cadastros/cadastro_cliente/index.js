@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../contexts/Auth/authContext";
 import * as C from "../../cadastro/cadastro";
 import { Emitente } from "../../modais/modal_emitente/index";
 import { ListaMunicipio } from "../../modais/modal_municipio/index";
@@ -9,6 +10,10 @@ import * as CC from "../cadastro_cliente/cadastroCliente";
 
 export const CadastroCliente = () => {
     const navigate = useNavigate();
+    const {user, empresa} = useContext(AuthContext);
+    const idFuncionario = Array.isArray(user) && user.map((user) => user.id)
+
+    const [funcionario, setFuncionario] = useState([]);
     const [endereco, setEndereco] = useState([]);
     const [estados, setEstados] = useState([]);
     const [dadosCidades, setDadosCidades] = useState({
@@ -48,6 +53,7 @@ export const CadastroCliente = () => {
     const [bairro, setBairro] = useState('');
     const [telefone, setTelefone] = useState('');
     const [celular, setCelular] = useState('');
+    const [email, setEmail] = useState('');
 
     //estados dos modais
     const [isModalPerfil, setIsModalPerfil] = useState(false);
@@ -89,6 +95,12 @@ export const CadastroCliente = () => {
             const data = await response.json();
             setEstados(data);
         }
+        async function fetchDataFuncionario (){
+            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/all");
+            const data = await response.json();
+            setFuncionario(data);
+        }
+            fetchDataFuncionario();
             fetchData();
             validarDocumento();
     }, []);
@@ -142,13 +154,13 @@ export const CadastroCliente = () => {
         setarHoraData();
     },[])
 
-    const salvar = () => {
+    const salvar = async () => {
         const endereco = document.getElementById("endereco").value;
         const municipio = document.getElementById("municipio").value;
         const bairro = document.getElementById("bairro").value;
         const codigoMunicipio = document.getElementById("codigoMunicipio").value;
         try{
-            const response = fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
+            const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
                 method: "POST",
                 headers:{"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -176,20 +188,21 @@ export const CadastroCliente = () => {
                     limite_total: 200000.0,
                     id_tipo_pagamento: null,
                     id_funcionario: 1,
+                    id_usuario_insercao: idFuncionario,
                     id_perfil_regra: dadosPerfil.id,
-                    email: "",
+                    email: email,
                     telefone: telefone
                 })
             });
-            if(response.status === 201){
-                alert("Salvo com sucesso!");
-                navigate("/clientes");
+            if(res.status === 201){
+                alert('salvo com sucesso');
+                navigate('/clientes');
             }
         }catch(err){
             console.log(err);
         }
     }
-
+    
     const [aba, setAba] = useState('dados-gerais');
 
     function dadosGerais (){
@@ -229,9 +242,14 @@ export const CadastroCliente = () => {
     const cancelar = () => {
         navigate('/clientes');
     }
+    const sair = () => {
+        localStorage.clear();
+        document.location.reload(true);
+    }
 
     return (
         <C.Container>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}  <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
                 <h3>Cadastrar Cliente</h3>
             </C.Header>
@@ -400,6 +418,10 @@ export const CadastroCliente = () => {
                                 <input className="codigo" value={celular} onChange={(e)=> setCelular(e.target.value)}/>
                                 <label>Data Nasc: </label>
                                 <input className="codigo" id="dataNascimento" type="date" />
+                            </div>
+                            <div>
+                                <label>Email: </label>
+                                <input type="email" className="input-unico" value={email} onChange={(e) => setEmail(e.target.value)}/>
                             </div>
                             <div className="div-input">
                                 <label>Perfil Tributá.: </label>
