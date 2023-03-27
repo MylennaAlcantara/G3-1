@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
-import * as M from "../modais/modal/modal";
-import * as C from "../cadastro/cadastro";
-import { CadastroRamo } from "../modais/modal_cadastro_ramo/index";
+import * as M from "../modal/modal";
+import * as C from "../../cadastro/cadastro";
+import { CadastroRamo } from "../modal_cadastro_ramo/index";
 
 export const RamoAtividade = ({close, setDadosRamo}) => {
     const [ramos, setRamos] = useState([]);

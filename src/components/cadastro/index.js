@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from "react";
-import { Modal} from "../modais/modal/index.js";
+import { Modal} from "../modais/modal/index";
 import { Saler } from "../modais/modal_vendedor/index.js";
-import "../modal/modal.js";
+import "../modais/modal/modal.js";
 import * as C from './cadastro.js';
 import '../../App.js';
 import { Emitente } from "../modais/modal_emitente/index.js";
 import { Top } from "../modais/modal_top/index";
-import { Pgt } from "../modais/modal_pgt/index.js";
+import { Pgt } from "../modais/modal_pgt/index";
 import { Produtos } from "../modais/modal_produtos/index.js";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext.js";

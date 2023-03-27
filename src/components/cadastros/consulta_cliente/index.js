@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import * as M from "../../modal/modal";
+import * as M from "../../modais/modal/modal";
 import * as C from "../../cadastro/cadastro";
 import * as CCL from "./consultaCliente";
 import { useNavigate } from "react-router-dom";
