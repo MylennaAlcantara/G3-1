@@ -31,11 +31,18 @@
 }
 
 .dashboard{
+    align-items: center;
     display: flex;
+    flex-direction: column;
     margin-top: 81px;
     margin-left: 30px;
     width: 600px;
     height: 400px;
+}
+
+.paia{
+    display: flex;
+    flex-direction: row;
 }
 
 .dashboardTpPg{
@@ -83,8 +90,8 @@ label{
 
 .btns{
     position: relative;
-    top: 8px;
-    right: 568px;
+    top: 30%;
+    right: 45.5%;
 }
 
 .test1{
@@ -93,9 +100,8 @@ label{
 }
 
 .filtro1{
-    top: 48px;
-    margin-left: 25px;
-    margin-top: 10px;
+    top: 3.7vw;
+    left: 1.7vw;
     background-color: #F0F0F0;
     width: 600px;
     height: 198px;
@@ -293,7 +299,8 @@ table tr:nth-child(odd){
 
 .filtros{
     width: 50%;
-    margin-left: 8px;
+    left: 3%;
+    position: relative;
     margin-top: 10px;
     border-style: solid;
     border-top-left-radius: 10px;
@@ -356,21 +363,17 @@ table tr:nth-child(odd){
 }
 
 .topFilialBtn{
-    font-size: 15px;
     border-top-left-radius: 10px;
     height: 25px;
     border-width: 1px;
-    border-style: outset;
     border-bottom: none;
     border-right-color: gray;
     border-color: gray;
-    text-decoration: none;
     cursor: pointer;
     width: 50px;
 }
 
 .topsBtn{
-    font-size: 15px;
     height: 25px;
     border-width: 1px;
     border-style: outset;
@@ -390,37 +393,11 @@ table tr:nth-child(odd){
     display: flex;
 }
 
-.ep1{
-    border-style: solid;
-    border-width: 1px;
-}
-
-.ep2{
-    border-style: solid;
-    border-width: 1px;
-    margin-left: 1px;
-    width: 200px;
-}
-
 .ep3{
     border-style: solid;
     border-width: 1px;
     margin-left: 1px;
     width: 100px;
-}
-
-.ep4{
-    border-style: solid;
-    border-width: 1px;
-    margin-left: 1px;
-    width: 150px;
-}
-
-.ep5{
-    border-style: solid;
-    border-width: 1px;
-    margin-left: 1px;
-    width: 80px;
 }
 
 .clear{
@@ -435,10 +412,9 @@ table tr:nth-child(odd){
 }
 
 .filter-all{
-    width: 80px;
+    width: 100px;
     border-style: solid;
     border-width: 1px;
-    font-size: 13px;
 }
 
 table{
@@ -470,11 +446,9 @@ table tr:nth-child(odd){
 }
 
 .filter-name{
-    background-color: white;
     width: 355px;
     border-style: solid;
     border-width: 1px;
-    font-size: 13px;
 }
 
 .filter-name-cliente{
@@ -550,7 +524,6 @@ table tr:nth-child(odd){
     height: 14px;
     color: red;
 }
-
 
 .labels{
     width: 1400px;

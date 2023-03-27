@@ -265,6 +265,19 @@ export const ResumoFaturamento = () => {
         },
       };
 
+      const styleDashboard = {
+        content: {
+          backgroundColor: '#d3d3d3',
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          transform: 'translate(-50%, -50%)',
+          width: '75%',
+          height: '80%',
+        },
+      };
+
       const modalDados = {
         content: {
           margin: '0px',
@@ -274,7 +287,7 @@ export const ResumoFaturamento = () => {
           right: 'auto',
           bottom: 'auto',
           transform: 'translate(-50%, -50%)',
-          width: '79%',
+          width: '75%',
           height: '37%',
           border: 'solid',
           borderWidth: '1px',
@@ -500,6 +513,7 @@ export const ResumoFaturamento = () => {
     const options = {
         title: "Valores",
         is3D: true,
+        backgroundColor: "#d3d3d3",
     };
 
     const barData = [
@@ -823,7 +837,37 @@ const dataTpPg = [
     ["Cartão de Credito", resultTpPg2 ,"#D44A26"],
     ["Cartão de Debito", resultTpPg3 ,"#D40B0B"],
 ];
+
+//------------------------------------------------------------------Picos----------------------------------------------------------------------------------
+const[modalPico, setIsOpenModalPico] = useState(false);
+
+function openModalPico (){
+    setIsOpenModalPico(true);
+}
+
+function closeModalPico (){
+    setIsOpenModalPico(false);
+}
+
+function closeFilterFilial (){
+    setIsOpenFilterFilial(false);
+}
+
+
+const dataPico = [
+    ["Mês", "Ano Anterior", "Ano Atual"],
+    ["Janeiro", 1000, 2000],
+    ["Fevereiro", 1170, 460],
+    ["Março", 660, 1120],
+    ["Abril", 1030, 540],
+  ];
   
+const optionsPico = {
+    title: "Pico de Vendas",
+    hAxis: { title: "Mês", titleTextStyle: { color: "#333" } },
+    vAxis: { minValue: 0 },
+    chartArea: { width: "50%", height: "70%" },
+  };
 //------------------------------------------------------------------Visual----------------------------------------------------------------------------------
         return (
             <C.Container>
@@ -897,15 +941,15 @@ const dataTpPg = [
                         <div>
                                 <thead>
                                     <tr className='obs'>
-                                        <th className='ep1' >Código</th>
+                                        <th >Código</th>
 
-                                        <th className='ep2' >Fantasia</th>
+                                        <th >Fantasia</th>
 
                                         <th className='ep3' >Razão Social</th>
 
-                                        <th className='ep4' >Documento</th>
+                                        <th >Documento</th>
 
-                                        <th className='ep5' >Município</th>
+                                        <th >Município</th>
                                     </tr>
                                 </thead>
                             </div>
@@ -1025,11 +1069,6 @@ const dataTpPg = [
                         </div>
                     
                     </div>
-
-                    <div>
-                        <p></p>
-                    </div>
-
                 </div>
 
                 <div className="search-wrapper">
@@ -1075,7 +1114,7 @@ const dataTpPg = [
                                         <tr key={f1.idFilial} >
                                             <td>{f1.idRegiao}</td>
                                                 
-                                            <td>{f1.regiao}</td>
+                                            <td className='filter-name' >{f1.regiao}</td>
                                             
                                             <td>{f1.idFilial}</td>
 
@@ -1101,9 +1140,15 @@ const dataTpPg = [
                                 }       )}
                             
                            
-                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay">
+                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={styleDashboard} >
                                 
                                 <div className='dashboard' >
+                                        <h1>Dashboard</h1>
+
+                                    <div className='paia' >
+                                        <p>gg</p> <p>gg</p> <p>gg</p>
+                                    </div>
+
                                     <Chart chartType="ColumnChart" width="500px" height="400px" data={dataRegiao} className="up-column" />
                                     <Chart chartType="BarChart" width="500px" height="250px" data={barData} options={barOptions} className="side-column" />
                                     <Chart chartType="PieChart" data={dataRegiao} options={options} width={"500px"} height={"400px"} className="pie-chart" />
@@ -1166,7 +1211,7 @@ const dataTpPg = [
                                             <tr>
                                                 <td> {f2.idFilial} </td>
 
-                                                <td>{f2.filial}</td>
+                                                <td className='filter-name' >{f2.filial}</td>
 
                                                 <td>{f2.qtdVendas}</td>
 
@@ -1201,7 +1246,7 @@ const dataTpPg = [
                                     </table>
                                 </div>
                            
-                            <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" className="dashboard">
+                            <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" >
                                 
                                 <Chart chartType="ColumnChart" width="500" height="400px" data={dataFilial} className="up-column" />
                                 <Chart chartType="BarChart" width="400px" height="200px" data={barDataFi} options={barOptionsFi} className="side-column" />
@@ -1220,7 +1265,6 @@ const dataTpPg = [
                                     <button className='dashboardBtn' onClick={openDashboardVendedor} >Graficos</button>
                                 </div>
 
-                            <div>
                                 <table className='table-resp' >
                                     <tr className='table' >
                                         <th>Id. Filial</th>
@@ -1263,7 +1307,7 @@ const dataTpPg = [
 
                                         <td>{dat.idVendedor}</td>
 
-                                        <td>{dat.vendedor}</td>
+                                        <td className='filter-name' >{dat.vendedor}</td>
 
                                         <td>{dat.qtdVendas}</td>
 
@@ -1287,15 +1331,15 @@ const dataTpPg = [
 
                                         <td>{(dat.vlLucroLiquido).toFixed(2)}</td>
 
-                                        <td>% {(dat.plucroLiquido).toFixed(2)}</td>
+                                        <td className='filter-all' >% {(dat.plucroLiquido).toFixed(2)}</td>
 
-                                        <td>{(dat.percentual).toFixed(2)}</td>
+                                        <td >{(dat.percentual).toFixed(2)}</td>
                                     </tr>
 
                         ))}   
                             </table>
-                         </div>
-                            <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" className="dashboard">
+                         
+                            <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" >
                                 <Chart chartType="ColumnChart" width="500" height="400px" data={dataFilial} className="up-column" />
                                 <Chart chartType="BarChart" width="500px" height="300px" data={barDataVen} options={barOptionsVen} className="side-column" />
                                 <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width={"500px"} height={"400px"} className="pie-chart" />
@@ -1316,72 +1360,76 @@ const dataTpPg = [
                         
                             </div>
                             
-                            <div className='labels'>
-                                    <th className='filter-all'> Id. Filial </th>
+                            <table className='table-resp'>
+                                <tr className='labels'>
+                                    <th > Id. Filial </th>
 
-                                    <th className='filter-all'> Id. Cliente </th>
+                                    <th > Id. Cliente </th>
 
-                                    <th className='filter-name-cliente'> Cliente </th>
+                                    <th > Cliente </th>
 
-                                    <th className='filter-all'> Qtd. Vendas </th>
+                                    <th > Qtd. Vendas </th>
 
-                                    <th className='filter-all'> Vlr. Total NF-e </th>
+                                    <th > Vlr. Total NF-e </th>
 
-                                    <th className='filter-all'> Vlr. Total NFC-e </th>
+                                    <th > Vlr. Total NFC-e </th>
 
-                                    <th className='filter-all'> Vlr. Venda Total </th>
+                                    <th > Vlr. Venda Total </th>
 
-                                    <th className='filter-all'> Vlr. Total Desconto </th>
+                                    <th > Vlr. Total Desconto </th>
 
-                                    <th className='filter-all'> Vlr. Total Credito </th>
+                                    <th > Vlr. Total Credito </th>
 
-                                    <th className='filter-all'> Vlr. Custo Total </th>
+                                    <th > Vlr. Custo Total </th>
 
-                                    <th className='filter-all'> Vlr. Lucro Venda </th>
+                                    <th > Vlr. Lucro Venda </th>
 
-                                    <th className='filter-all'> Vlr. Lucro Líquido </th>
+                                    <th > Vlr. Lucro Líquido </th>
 
-                                    <th className='filter-all'> Per. Lucro Líquido </th>
+                                    <th > Per. Lucro Líquido </th>
 
-                                    <th className='filter-all'> Percentual </th>
-                            </div>
+                                    <th > Percentual </th>
+                                </tr>
+
+                            
                                     
 
                         {dadosCliente.filter(dat => dat.cliente.toLowerCase().includes(query5)).map((dat1) => (
-                                <div className='labels' >
+                                <tr className='labels'>
 
-                                            <td className='filter-all'>{dat1.idFilial}</td>
+                                            <td >{dat1.idFilial}</td>
 
-                                            <td className='filter-all'>{dat1.idCliente}</td>
+                                            <td >{dat1.idCliente}</td>
 
-                                            <td className='filter-name-cliente'>{dat1.cliente}</td>
+                                            <td className='filter-name' >{dat1.cliente}</td>
 
-                                            <td className='filter-all'>{dat1.qtdVendas}</td>
+                                            <td >{dat1.qtdVendas}</td>
 
-                                            <td className='filter-all'>{dat1.vlTotalNfe}</td>
+                                            <td >{dat1.vlTotalNfe}</td>
 
-                                            <td className='filter-all'>{dat1.vlTotalNfce}</td>
+                                            <td >{dat1.vlTotalNfce}</td>
 
-                                            <td className='filter-all'>{dat1.vlVendaTotal}</td>
+                                            <td >{dat1.vlVendaTotal}</td>
 
-                                            <td className='filter-all'>{dat1.vlTotalDesconto}</td>
+                                            <td >{dat1.vlTotalDesconto}</td>
 
-                                            <td className='filter-all'>{dat1.vlTotalCredito}</td>
+                                            <td >{dat1.vlTotalCredito}</td>
 
-                                            <td className='filter-all'>{dat1.vlCustoTotal}</td>
+                                            <td >{dat1.vlCustoTotal}</td>
 
-                                            <td className='filter-all'>{dat1.vlLucroVenda}</td>
+                                            <td >{dat1.vlLucroVenda}</td>
 
-                                            <td className='filter-all'>{dat1.vlLucroLiquido}</td>
+                                            <td >{dat1.vlLucroLiquido}</td>
 
-                                            <td className='filter-all'>{dat1.plucroLiquido} %</td>
+                                            <td >{dat1.plucroLiquido} %</td>
 
-                                            <td className='filter-all'>{(dat1.percentual).toFixed(3)}</td>
+                                            <td >{(dat1.percentual).toFixed(3)}</td>
 
-                                </div>
+                                </tr>
                         ))}
-                           
-                            <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" className="dashboard">
+                           </table>
+
+                            <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" >
                                 
                                 <div className='dashboard0' >
                                     <Chart chartType="ColumnChart" width="500px" height="400px" data={dataCliente} className="up-column" />
@@ -1407,8 +1455,8 @@ const dataTpPg = [
                                     <button className='dashboardBtn' onClick={openDashboardTipoDePagamento} >Graficos</button>
                                 </div>
                         
-                            </div>
-                        
+                            
+                        <table>
                         <div className='labels' >
                             {keys.map((nomes) => {
                                 return(
@@ -1422,9 +1470,9 @@ const dataTpPg = [
                                         return(
                                                 <td className='filter-all' > {f5} </td> 
                                         )
-                                    } )}
+                                    } )}                             
                                 </div>
-                
+                </table>
                             <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
                                 
                                 <div className='dashboardTpPg' >
@@ -1441,13 +1489,13 @@ const dataTpPg = [
                                 </div>                                                                
                             </Modal>            
 
-
+                        </div>
                         </Modal>
 
                         <button className='produtoBtn' onClick={abrirProduto} > Produto </button>
                         <Modal isOpen={produtoIsOpen} onRequestClose={closeProduto} contentLabel="Produto" shouldCloseOnOverlayClick={true} overlayClassName="Produto-overlay" style={modalDados}> 
                         <input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)}/>
-
+                        <Modal isOpen={modalPico} onRequestClose={closeModalPico} contentLabel="Picos"  > <Chart chartType="AreaChart" width="100%" height="400px" data={dataPico} options={optionsPico}/> </Modal>            
                         <div className='table-resp'>
                         <table className='table' >
                             <tr >
@@ -1485,7 +1533,7 @@ const dataTpPg = [
 
                                                     <td > {dat2.id_produto} </td>
 
-                                                    <td > {dat2.produto} </td>
+                                                    <td onDoubleClick={openModalPico} > {dat2.produto} </td>
 
                                                     <td className='filter-all' > {dat2.qtd_total} </td>
 
