@@ -109,19 +109,41 @@ export const Navegacao = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    position: relative;
+    top: 0;
     div{
         border: 1px solid gray;
+        border-radius: 5px 5px 0 0;
+        width: 100%;
+        background-color: #F0F0F0;
     }
     div:hover{
+        cursor: pointer;
+        background-color: white;
+    }
+`
+export const NavegacaoLimites = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 0;
+    div{
+        border: 1px solid gray;
+        width: 100%;
+        border-radius: 5px 5px 0 0;
+        background-color: #F0F0F0;
+    }
+    div:hover{
+        background-color: white;
         cursor: pointer;
     }
 `
 export const DadosGerais = styled.div`
-
+    overflow: auto;
 `
 export const DadosAdicionais = styled.div`
-    widht: 100%;
-    height: 100%;
+    height: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -169,14 +191,91 @@ export const DadosAdicionais = styled.div`
         }
     }
     textarea{
-        height: 100%;
+        height: 200px;
         width: 100%;
     }
 
 `
 export const Foto = styled.div`
-
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    div{
+        height: 200px;
+        width: 200px;
+        border: 1px solid black;
+    }
+    input{
+        width: 200px;
+        margin-top: 5px;
+    }
 `
 export const Historico = styled.div`
-
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    fieldset{
+        height: 300px;
+    }
+    .table-responsive{
+        overflow-x: auto;
+        height: 300px;
+        width: 100%;
+    }
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    thead{
+        position: sticky;
+        top:0;
+    }
+    th{    
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;    
+        background-color: #ffffff;
+        border: 1px solid grey;
+    }
+    td{
+        border: 1px solid grey;
+    }
+    table tr:nth-child(even){
+        background-color: #ffffe6;
+    }
+    table tr:nth-child(odd){
+        background-color: #f0f0f0;   
+    }
+    #table tr td{
+        cursor: pointer;
+    }
+    #table tr:hover td{
+        background-color: #87CEFA;
+    }
+    .total{
+        display: flex;
+        justify-content: end;
+        label{
+            margin-right: 10px;
+                    font-weight: bold;
+        color: #373435;
+        }
+    }
+    .limite{
+        .limites{
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            div{
+                display: flex;
+                justify-content: end;
+            }
+        }
+    }
+    
 `

@@ -205,6 +205,27 @@ export const CadastroCliente = () => {
         setAba('historico');
     }
 
+    const [abaHistorico, setAbaHistorico] = useState('limite');
+
+    function limite (){
+        setAbaHistorico('limite');
+    }
+    function cupom (){
+        setAbaHistorico('cupom');
+    }
+    function vendas (){
+        setAbaHistorico('vendas');
+    }
+
+    const [abaVendas, setAbaVendas] = useState('nfe');
+
+    function nfe (){
+        setAbaVendas('nfe');
+    }
+    function pgto (){
+        setAbaVendas('pgto');
+    }
+
     const cancelar = () => {
         navigate('/clientes');
     }
@@ -215,10 +236,10 @@ export const CadastroCliente = () => {
                 <h3>Cadastrar Cliente</h3>
             </C.Header>
             <CC.Navegacao>
-                <div onClick={dadosGerais}>Dados Gerais</div>
-                <div onClick={dadosAdicionais}>Dados Adicionais</div>
-                <div onClick={foto}>Fotos</div>
-                <div onClick={historico}>Historico</div>
+                <div onClick={dadosGerais} style={{backgroundColor: aba === "dados-gerais" ? "white" : "", borderBottom: aba === "dados-gerais" ? "0" : ""}}>Dados Gerais</div>
+                <div onClick={dadosAdicionais} style={{backgroundColor: aba === "dados-adicionais" ? "white" : "", borderBottom: aba === "dados-adicionais" ? "0" : ""}}>Dados Adicionais</div>
+                <div onClick={foto} style={{backgroundColor: aba === "foto" ? "white" : "", borderBottom: aba === "foto" ? "0" : ""}}>Fotos</div>
+                <div onClick={historico} style={{backgroundColor: aba === "historico" ? "white" : "", borderBottom: aba === "historico" ? "0" : ""}}>Historico</div>
             </CC.Navegacao>
             {aba === 'dados-gerais' ? (
                 <CC.DadosGerais>
@@ -462,11 +483,178 @@ export const CadastroCliente = () => {
                 </CC.DadosAdicionais>
             ) : aba === 'foto' ? (
                 <CC.Foto>
-
+                    <div></div>
+                    <input/>
                 </CC.Foto>
             ) : (
                 <CC.Historico>
+                    <CC.NavegacaoLimites>
+                        <div >Contas Vencidas/NF-es</div>
+                        <div>Pagamentos</div>
+                        <div>Controle de Cheques</div>
+                        <div onClick={limite} style={{backgroundColor: abaHistorico === "limite" ? "white" : "", borderBottom: abaHistorico === "limite" ? "0" : ""}}>Limite / Contas em Aberto</div>
+                        <div onClick={cupom} style={{backgroundColor: abaHistorico === "cupom" ? "white" : "", borderBottom: abaHistorico === "cupom" ? "0" : ""}}>Cupom de Crédito</div>
+                        <div onClick={vendas} style={{backgroundColor: abaHistorico === "vendas" ? "white" : "", borderBottom: abaHistorico === "vendas" ? "0" : ""}}>Vendas</div>
+                    </CC.NavegacaoLimites>
+                    {abaHistorico === "limite" ? (
+                        <div className="limite">
+                            <div className="limites">
+                                <div>
+                                    <label>Limite Total: </label>
+                                    <input/>
+                                </div>
+                                <div>
+                                    <label>Saldo Devedor: </label>
+                                    <input/>
+                                </div>
+                                <div>
+                                    <label>Limite disponível: </label>
+                                    <input/>
+                                </div>
+                            </div>
+                            <div>
+                                <fieldset>
+                                    <legend>Contas Abertas</legend>
+                                    <div className="table-resp">
+                                        <table id="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Empresa</th>
+                                                    <th>Data</th>
+                                                    <th>Data Venc.</th>
+                                                    <th>Referente</th>
+                                                    <th>Valor Total</th>
+                                                    <th>Valor Pago</th>
+                                                    <th>Restante</th>
+                                                    <th>N. Nota</th>
+                                                    <th>Nosso Número</th>
+                                                    <th>Parcela</th>
+                                                    <th>Documento</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <td>asdsad</td>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div className="total">
+                                        <label>Total: </label>
+                                        <label>0,00</label>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    ) : abaHistorico === 'cupom' ? (
+                        <div className="cupom-credito">
+                            <fieldset>
+                                <div className="table-resp">
+                                    <table id="table">
+                                        <thead>
+                                            <th>Código</th>
+                                            <th>Filial</th>
+                                            <th>Descrição</th>
+                                            <th>Valor</th>
+                                            <th>Dt. Emissão</th>
+                                            <th>Dt. Validade</th>
+                                            <th>Status</th>
+                                        </thead>
+                                        <tbody>
 
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className="total">
+                                    <label>Total de cupons de crédito: </label>
+                                    <label>0,00</label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    ): (
+                        <div className="vendas">
+                            <CC.NavegacaoLimites>
+                                <div onClick={nfe} style={{backgroundColor: abaVendas === "nfe" ? "white" : "", borderBottom: abaVendas === "nfe" ? "0" : ""}}>NF-e e NFC-e</div>
+                                <div onClick={pgto} style={{backgroundColor: abaVendas === "pgto" ? "white" : "", borderBottom: abaVendas === "pgto" ? "0" : ""}}>Tipos de Pagamento</div>
+                            </CC.NavegacaoLimites>
+                            {abaVendas === 'nfe' ? (
+                                <div>
+                                    <div className="table-responsive">
+                                        <table id="table">
+                                            <thead>
+                                                <th>Filial</th>
+                                                <th>NumeroNota</th>
+                                                <th>Serie</th>
+                                                <th>Status</th>
+                                                <th>Top</th>
+                                                <th>cfop_descricao</th>
+                                                <th>data_emissao</th>
+                                                <th>data_saida</th>
+                                                <th>hora_saida</th>
+                                                <th>chave</th>
+                                                <th>idCliente</th>
+                                                <th>nomCliente</th>
+                                                <th>desc_operacao</th>
+                                                <th>finalidade_emissao_desc</th>
+                                                <th>tipo_mov_fiscal_descri</th>
+                                                <th>total_produto</th>
+                                                <th>total_icms</th>
+                                                <th>total_icms_st</th>
+                                                <th>total_pis</th>
+                                                <th>total_cofins</th>
+                                                <th>total_ipi</th>
+                                                <th>total_desconto</th>
+                                                <th>total_frete</th>
+                                                <th>total_nota</th>
+                                            </thead>
+                                            <tbody>
+                                                <td>teste</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div className="total">
+                                        <label>Total: </label>
+                                        <label>0,00</label>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    <div className="table-responsive">
+                                        <table id="table">
+                                            <thead>
+                                                <th>Código</th>
+                                                <th>Descricao</th>
+                                                <th>Total</th>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </CC.Historico>
             )}
             <C.Footer>
