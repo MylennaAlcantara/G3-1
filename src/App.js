@@ -10,18 +10,17 @@ import { AuthProvider } from './contexts/Auth/authProvider';
 import { NavBar } from './components/barra_navegacao';
 import { CadastroCliente } from './components/cadastros/cadastro_cliente';
 import { ConsultarCliente } from './components/cadastros/consulta_cliente/index';
-<<<<<<< HEAD
-import { CadastroFornecedor } from './components/cadastros/cadastro_fornecedor';
-=======
 import { ResumoFaturamento} from './components/Relatorios/listAll'
->>>>>>> 476fece28117f2909244c4ca94fb0a57d860354c
+import { CadastroFornecedor } from './components/cadastros/cadastro_fornecedor';
+import { EditarCliente } from './components/cadastros/editar_cliente';
 
 function App() {    
   const token = localStorage.getItem('token');
   const codRotina = localStorage.getItem('rotina');
-  const navigate = useNavigate();
+  const codCliente = localStorage.getItem('idCliente')
 
   const [codigo, setCodigo] = useState();
+  const [cliente, setCliente] = useState();
   const [dataEmissao,setDataEmissao] = useState();
   const [horaEmissao,setHoraEmissao] = useState();
   const [matriculaFuncionario,setMatriculaFuncionario] = useState('');
@@ -39,9 +38,10 @@ function App() {
             <Route path = "/rotina/:codigo" element={token ? <Visualizar codigo={codigo} codRotina={parseFloat(codRotina)} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
             <Route path = "/editarRotina/:codigo" element={token ? <Editar codigo={codigo} codRotina={parseFloat(codRotina)} dataEmissao={dataEmissao} horaEmissao={horaEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
             <Route path = '/cadastrarCliente' element = {token ? <CadastroCliente/> : <Login/>}/>
-            <Route path = '/clientes' element = {token ? <ConsultarCliente/> : <Login/>}/>
+            <Route path = '/clientes' element = {token ? <ConsultarCliente setCliente={setCliente}/> : <Login/>}/>
+            <Route path = '/editarCliente/:cliente' element = {token ? <EditarCliente cliente={cliente} codCliente={parseFloat(codCliente)}/> : <Login/>}/>
             <Route path = '/cadastrarFornecedor' element = {token ? <CadastroFornecedor/> : <Login/>}/>
-            <Route path = '/clientes' element = {token ? <ConsultarCliente/> : <Login/>}/>
+            <Route path = '/resumoDeFaturamento' element = {token ? <ResumoFaturamento/> : <Login/>}/>
           </Routes>
       
     </div>

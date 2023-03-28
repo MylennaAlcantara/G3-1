@@ -74,7 +74,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
         }
     });
 
-    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
+    //selecionar a rotina atraves da seta para baixo e para cima
     const [selectIndex, setSelectIndex] = useState(1);
     const tableRef = useRef(null);
 

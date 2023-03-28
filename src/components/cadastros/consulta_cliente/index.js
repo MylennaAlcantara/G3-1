@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import * as M from "../../modais/modal/modal";
 import * as C from "../../cadastro/cadastro";
 import * as CCL from "./consultaCliente";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/Auth/authContext";
 
-export const ConsultarCliente = () => {
+export const ConsultarCliente = ({setCliente}) => {
     const [users, setUsers] = useState([]);
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('nome');
@@ -43,6 +43,42 @@ export const ConsultarCliente = () => {
         }
     });
 
+    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
+    const [selectIndex, setSelectIndex] = useState(1);
+    const tableRef = useRef(null);
+
+    const handleKeyDown = (e) => {
+        if(e.keyCode === 38){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === 0){
+                return;
+            }
+            setSelectIndex(selectIndex-1);
+        }else if (e.keyCode === 40){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === resultado.length -1 ){
+                return;
+            }
+            setSelectIndex(selectIndex + 1);
+        }
+    };
+
+    const [codigoCliente, setCodigoCliente] = useState();
+    const selecionado = (user, index) => {
+        setCliente(user.id);
+        setCodigoCliente(user.id);
+        localStorage.setItem('idCliente', user.id);
+        setSelectIndex(index);
+    }
+    const abrirEditar = async() => {
+        const responseCliente = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/clientes/${codigoCliente}`); //http://10.0.1.10:8091/preVenda/id
+        const cliente = await responseCliente.json();
+        if(codigoCliente === undefined){
+            console.log('nenhum cliente selecionado')
+        }else{
+        navigate(`/editarCliente/${codigoCliente}`);
+        }
+    }
     const novo = () => {
         navigate('/cadastrarCliente')
     }
@@ -90,7 +126,7 @@ export const ConsultarCliente = () => {
             </M.Filtro>
             <CCL.Lista>
                 <div className="table-responsive">
-                    <table id="table">
+                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
                         <thead>
                             <tr>
                                 <th>Código</th>
@@ -109,7 +145,7 @@ export const ConsultarCliente = () => {
                         <tbody>
                             {resultado.slice(0, 50).map( (user, index) => {
                                 return(
-                                    <tr key={user.id}>
+                                    <tr key={user.id} onClick={selecionado.bind(this, user, index)} style={{background: index === selectIndex ? '#87CEFA' : ''}}>
                                         <td>{user.id}</td>
                                         <td>{user.data_cadastro}</td>
                                         <td>{user.nome}</td>
@@ -131,7 +167,7 @@ export const ConsultarCliente = () => {
             <C.Footer>
                 <div className="buttons">
                     <button onClick={novo}><img src="/images/add.png"/>Novo</button>
-                    <button><img src="/images/abrir.png"/>Abrir</button>
+                    <button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>
                     <button><img src="/images/voltar.png"/>Fechar</button>
                 </div>
             </C.Footer>

@@ -54,6 +54,7 @@ export const CadastroCliente = () => {
     const [telefone, setTelefone] = useState('');
     const [celular, setCelular] = useState('');
     const [email, setEmail] = useState('');
+    const selectFuncionario = document.getElementById('option-funcionario');
 
     //estados dos modais
     const [isModalPerfil, setIsModalPerfil] = useState(false);
@@ -187,7 +188,7 @@ export const CadastroCliente = () => {
                     limite: 0.0,
                     limite_total: 200000.0,
                     id_tipo_pagamento: null,
-                    id_funcionario: 1,
+                    id_funcionario: selectFuncionario.value,
                     id_usuario_insercao: idFuncionario,
                     id_perfil_regra: dadosPerfil.id,
                     email: email,
@@ -449,9 +450,14 @@ export const CadastroCliente = () => {
                 <CC.DadosAdicionais>
                 <div>
                     <label>Vendedor: </label>
-                    <select>
-                        <option>id - vendedor</option>
-                    </select>
+                        <select id="option-funcionario">
+                            <option>0 - SEM VENDEDOR</option>
+                            {funcionario.map((funcionario) => {
+                                return(
+                                    <option value={funcionario.id} key={funcionario.id}>{funcionario.id} - {funcionario.nome}</option>
+                                )
+                            })}
+                        </select>
                 </div>
                 <div>
                     <label>Tipo pgt.: </label>
