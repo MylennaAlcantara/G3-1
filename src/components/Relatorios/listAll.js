@@ -278,24 +278,6 @@ export const ResumoFaturamento = () => {
         },
       };
 
-      const modalDados = {
-        content: {
-          margin: '0px',
-          padding: '0px',
-          top: '69.4%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          transform: 'translate(-50%, -50%)',
-          width: '75%',
-          height: '37%',
-          border: 'solid',
-          borderWidth: '1px',
-          borderRadius: '0px',
-          backgroundColor: '#F0F0F0',
-        },
-      };     
-
     const handleChecked = (e) => {
         setCheckNFE(e.currentTarget.checked);
       }
@@ -1075,7 +1057,7 @@ const optionsPico = {
               
                     <div className="filtros" >                               
                         <button className='regiaoBtn' onClick={abrirRegiao} >Região</button>          
-                        <Modal isOpen={regiaoIsOpen} onRequestClose={closeRegiao} contentLabel="testando1" shouldCloseOnOverlayClick={false} overlayClassName="modal-overlay" style={modalDados} >
+                        <Modal isOpen={regiaoIsOpen} onRequestClose={closeRegiao} contentLabel="testando1" shouldCloseOnOverlayClick={false} overlayClassName="modal-overlay" className="ModalDados" >
 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label className='esc' >( Use 'Esc' para fechar )</label>
@@ -1112,6 +1094,7 @@ const optionsPico = {
                                 {dadosRegiao.map((f1) =>{
                                     return (
                                         <tr key={f1.idFilial} >
+                                            
                                             <td>{f1.idRegiao}</td>
                                                 
                                             <td className='filter-name' >{f1.regiao}</td>
@@ -1162,7 +1145,7 @@ const optionsPico = {
                         </Modal>
 
                         <button className='filialBtn' onClick={abrirFilial} >Filial</button>     
-                        <Modal isOpen={filialIsOpen} onRequestClose={closeFilial} contentLabel="Filial" shouldCloseOnOverlayClick={true} overlayClassName="filial-overlay" style={modalDados}>
+                        <Modal isOpen={filialIsOpen} onRequestClose={closeFilial} contentLabel="Filial" shouldCloseOnOverlayClick={true} overlayClassName="filial-overlay" className="ModalDados">
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
@@ -1257,7 +1240,7 @@ const optionsPico = {
                         </Modal>
                     
                         <button className='vendedorBtn' onClick={abrirVendedor} > Vendedor </button>
-                        <Modal isOpen={vendedorIsOpen} onRequestClose={closeVendedor} contentLabel="Vendedor" shouldCloseOnOverlayClick={true} overlayClassName="vendedor-overlay" style={modalDados}> 
+                        <Modal isOpen={vendedorIsOpen} onRequestClose={closeVendedor} contentLabel="Vendedor" shouldCloseOnOverlayClick={true} overlayClassName="vendedor-overlay" className="ModalDados"> 
                         <input type="search" name="search-vend" id="search-vend" className="search" placeholder="Buscar por Vendedor" onChange={(e) => setQuery4(e.target.value)}/>
                                 
                                 <div className='dashboardLine' >
@@ -1349,7 +1332,7 @@ const optionsPico = {
                         </Modal>
                     
                         <button className='clienteBtn' onClick={abrirCliente} > Cliente </button>
-                        <Modal isOpen={clienteIsOpen} onRequestClose={closeCliente} contentLabel="Cliente" shouldCloseOnOverlayClick={true} overlayClassName="Cliente-overlay" style={modalDados}> 
+                        <Modal isOpen={clienteIsOpen} onRequestClose={closeCliente} contentLabel="Cliente" shouldCloseOnOverlayClick={true} overlayClassName="Cliente-overlay" className="ModalDados"> 
                         <input type="search" name="search-cli" id="search-cli" className="search" placeholder="Buscar por Cliente" onChange={(e) => setQuery5(e.target.value)} />
                         <div className='dashboard-label' >
                                 
@@ -1447,7 +1430,7 @@ const optionsPico = {
                         </Modal>
                     
                         <button className='tipoDePagamentoBtn' onClick={abrirTipoPg} > Tipo de Pagamento </button>
-                        <Modal isOpen={tipoPgIsOpen} onRequestClose={closeTipoPg} contentLabel="Tipo de Pagamento" shouldCloseOnOverlayClick={true} overlayClassName="TipoPg-overlay" style={modalDados}> 
+                        <Modal isOpen={tipoPgIsOpen} onRequestClose={closeTipoPg} contentLabel="Tipo de Pagamento" shouldCloseOnOverlayClick={true} overlayClassName="TipoPg-overlay" className="ModalDados"> 
                             <div className='dashboard-label' >
                                 
                                 <div className='dashboardLine' >
@@ -1493,7 +1476,7 @@ const optionsPico = {
                         </Modal>
 
                         <button className='produtoBtn' onClick={abrirProduto} > Produto </button>
-                        <Modal isOpen={produtoIsOpen} onRequestClose={closeProduto} contentLabel="Produto" shouldCloseOnOverlayClick={true} overlayClassName="Produto-overlay" style={modalDados}> 
+                        <Modal isOpen={produtoIsOpen} onRequestClose={closeProduto} contentLabel="Produto" shouldCloseOnOverlayClick={true} overlayClassName="Produto-overlay" className="ModalDados"> 
                         <input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)}/>
                         <Modal isOpen={modalPico} onRequestClose={closeModalPico} contentLabel="Picos"  > <Chart chartType="AreaChart" width="100%" height="400px" data={dataPico} options={optionsPico}/> </Modal>            
                         <div className='table-resp'>
@@ -1562,7 +1545,7 @@ const optionsPico = {
                          </Modal>
 
                         <button className='grupoBtn' onClick={abrirGrupo} > Grupo </button>
-                        <Modal isOpen={grupoIsOpen} onRequestClose={closeGrupo} shouldCloseOnOverlayClick={true} overlayClassName="Grupo-overlay" contentLabel="Grupo" style={modalDados}>                                                     
+                        <Modal isOpen={grupoIsOpen} onRequestClose={closeGrupo} shouldCloseOnOverlayClick={true} overlayClassName="Grupo-overlay" contentLabel="Grupo" className="ModalDados">                                                     
                         <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Grupo" onChange={(e) => setQuery7(e.target.value)} />
                         
                         <div className='labels' >
@@ -1628,7 +1611,7 @@ const optionsPico = {
                         </Modal>
 
                         <button className='fornecedorBtn' onClick={abrirFornecedor} >Fornecedor</button>
-                        <Modal  isOpen={fornecdorIsOpen} onRequestClose={closeFornecedor} contentLabel="Fornecedor" shouldCloseOnOverlayClick={true} overlayClassName="Fornecedor-overlay" style={modalDados}> 
+                        <Modal  isOpen={fornecdorIsOpen} onRequestClose={closeFornecedor} contentLabel="Fornecedor" shouldCloseOnOverlayClick={true} overlayClassName="Fornecedor-overlay" className="ModalDados"> 
                         <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)}/>
                         <div className='labels'>
                                     <th className='filter-all'>Ranking</th>
