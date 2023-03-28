@@ -519,8 +519,8 @@ export const ResumoFaturamento = () => {
       
     const barOptions = {
         title: "Tabela Valores Totais.",
-        width: 600,
-        height: 400,
+        width: 400,
+        height: 200,
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
       };
@@ -1123,7 +1123,7 @@ const optionsPico = {
                                 }       )}
                             
                            
-                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={styleDashboard} >
+                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" className="ModalDashboard" >
                                 
                                 <div className='dashboard' >
                                         <h1>Dashboard</h1>
@@ -1132,9 +1132,9 @@ const optionsPico = {
                                         <p>gg</p> <p>gg</p> <p>gg</p>
                                     </div>
 
-                                    <Chart chartType="ColumnChart" width="500px" height="400px" data={dataRegiao} className="up-column" />
-                                    <Chart chartType="BarChart" width="500px" height="250px" data={barData} options={barOptions} className="side-column" />
-                                    <Chart chartType="PieChart" data={dataRegiao} options={options} width={"500px"} height={"400px"} className="pie-chart" />
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dataRegiao} options={options} />
+                                    <Chart chartType="BarChart" width="300px" height="100px" data={barData} options={barOptions}  />
+                                    <Chart chartType="PieChart" data={dataRegiao} options={options} width="300px" height="200px" />
                                 </div>
                                 
                             </Modal>
@@ -1440,22 +1440,22 @@ const optionsPico = {
                         
                             
                         <table>
-                        <div className='labels' >
+                        <tr className='labels' >
                             {keys.map((nomes) => {
                                 return(
                                     <th className='filter-all'>{(nomes).replace( '_' , ' ').toUpperCase()}</th>  
                                 )
                             } )}
-                        </div>
+                        </tr>
                             
-                                <div className='labels' >
+                                <tr className='labels' >
                                     {dadosTipoPagamento.map((f5) => {
                                         return(
                                                 <td className='filter-all' > {f5} </td> 
                                         )
                                     } )}                             
-                                </div>
-                </table>
+                                </tr>
+                    </table>
                             <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
                                 
                                 <div className='dashboardTpPg' >
@@ -1548,7 +1548,8 @@ const optionsPico = {
                         <Modal isOpen={grupoIsOpen} onRequestClose={closeGrupo} shouldCloseOnOverlayClick={true} overlayClassName="Grupo-overlay" contentLabel="Grupo" className="ModalDados">                                                     
                         <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Grupo" onChange={(e) => setQuery7(e.target.value)} />
                         
-                        <div className='labels' >
+                    <table>
+                        <tr className='labels' >
                                     <th className='filter-all'>Ranking</th>
 
                                     <th className='filter-all'>Id. Grupo</th>
@@ -1574,46 +1575,49 @@ const optionsPico = {
                                     <th className='filter-all'>% Margem</th>
 
                                     <th className='filter-all'>Percentual</th>
-                            </div>
+                            </tr>
 
                         {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(query7)).map((dat3) => (
                             
-                            <div className='labels' >
-                                <td className='filter-all'>{dat3.ranking}</td>
+                            <tr className='labels' >
+                                <td >{dat3.ranking}</td>
 
-                                <td className='filter-all'>{dat3.id_grupo}</td>
+                                <td >{dat3.id_grupo}</td>
 
-                                <td className='filter-name'> {dat3.grupo} </td>
+                                <td > {dat3.grupo} </td>
 
-                                <td className='filter-all'> {dat3.qtd_total} </td>
+                                <td > {dat3.qtd_total} </td>
 
-                                <td className='filter-all'> {dat3.sub_total} </td>
+                                <td > {dat3.sub_total} </td>
 
-                                <td className='filter-all'> {dat3.p_desconto} </td>
+                                <td > {dat3.p_desconto} </td>
 
-                                <td className='filter-all'> {dat3.vlr_desconto_total} </td>
+                                <td > {dat3.vlr_desconto_total} </td>
 
-                                <td className='filter-all'> {dat3.vlr_venda_total} </td>
+                                <td > {dat3.vlr_venda_total} </td>
 
-                                <td className='filter-all'> {dat3.vlr_custo_total} </td>
+                                <td > {dat3.vlr_custo_total} </td>
 
-                                <td className='filter-all'> {dat3.vlr_lucro_total} </td>
+                                <td > {dat3.vlr_lucro_total} </td>
 
-                                <td className='filter-all'> {dat3.p_markup} </td>
+                                <td > {dat3.p_markup} </td>
 
-                                <td className='filter-all'> {dat3.p_margem} </td>
+                                <td > {dat3.p_margem} </td>
 
-                               <td className='filter-all'> {(dat3.percentual).toFixed(3)} </td>
-                            </div>
+                               <td > {(dat3.percentual).toFixed(3)} </td>
+                            </tr>
 
                         ))}
-                                                       
+                    </table>    
+
                         </Modal>
 
                         <button className='fornecedorBtn' onClick={abrirFornecedor} >Fornecedor</button>
                         <Modal  isOpen={fornecdorIsOpen} onRequestClose={closeFornecedor} contentLabel="Fornecedor" shouldCloseOnOverlayClick={true} overlayClassName="Fornecedor-overlay" className="ModalDados"> 
                         <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)}/>
-                        <div className='labels'>
+                        
+                    <table>
+                        <tr className='labels'>                           
                                     <th className='filter-all'>Ranking</th>
 
                                     <th className='filter-all'>Id. Fornecedor</th>
@@ -1639,9 +1643,11 @@ const optionsPico = {
                                     <th className='filter-all'>% Margem</th>
 
                                     <th className='filter-all'>Percentual</th>
-                            </div>
+                            </tr>
+
                         {dadosFornecedor.filter(dat => dat.fornecedor.toLowerCase().includes(query8)).map((dat) => (
-                                <div className='labels'>
+                                
+                                <tr className='labels'>
                                         <td className='filter-all' > {dat.ranking} </td>
 
                                         <td className='filter-all' > {dat.id_fornecedor} </td>
@@ -1667,8 +1673,9 @@ const optionsPico = {
                                         <td className='filter-all' > {dat.p_margem} </td>
 
                                         <td className='filter-all' > {(dat.percentual).toFixed(2)} </td>
-                                </div>
-                        ))}                            
+                                </tr>
+                        ))}   
+                    </table>
                         </Modal>
                     </div>
                 </div>

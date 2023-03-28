@@ -480,6 +480,19 @@ table tr:nth-child(odd){
     height: 25px;
 }
 
+.ModalDashboard{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 80%;
+    border-style: solid;
+    background-color: #d3d3d3;
+}
+
 .modal-content{
     display: flex;
     position: absolute;
@@ -577,14 +590,14 @@ table tr:nth-child(odd){
 }
 @media (max-width:1600px){
     .ModalDados{
-        top: 69.3%;
+        top: 70%;
     }
     .filtro1{
-        top: 4.3vw;
-        left: 3vw;
+        top: 3.8vw;
+        left: 2vw;
     }
     .btns{
-        right: 44%;
+        right: 45.1%;
         top: 35%;
     }
     .pesquisar{
@@ -592,8 +605,11 @@ table tr:nth-child(odd){
         right: 15%;
     }
     .relatorio-content{
-        top: 34%;
-        left: 68%;
+        top: 36.2%;
+        left: 69%;
+    }
+    .filtros{
+        top: 10%;
     }
 }
 @media (max-width:1440px){
@@ -634,8 +650,8 @@ table tr:nth-child(odd){
         width: 300px;
     }
     .filtro1{
-        top: 1.2vw;
-        left: 10.1vw;
+        top: 1.4vw;
+        left: 9.5vw;
         width: 420px;
     }
     .obs{
@@ -652,5 +668,31 @@ table tr:nth-child(odd){
     }
     .test{
         width: 46%;
+    }
+    .relatorio-content{
+        top: 33.3%;
+        left: 58.5%;
+    }
+}
+@media (max-width:1024px){
+    .filtro1{
+        top: 5.7vw;
+        left: -3vw;
+    }
+    .ModalDados{
+        width: 75%;
+        height: 280px;
+    }
+    .filtros{
+        top: 12%;
+        left: 3%;
+    }
+    .pesquisar{
+        top: 20%;
+        right: 12%;
+    }
+    .relatorio-content{
+        top: 38.2%;
+        left: 64%;
     }
 }
