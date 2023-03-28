@@ -34,6 +34,10 @@ export const EditarCliente = ({codCliente}) => {
     const [dataCadastro, setDataCadastro] = useState();
     const [dataSelectEmitente, setDataSelectEmitente] = useState();
     const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState();
+    const [filial, setFilial] = useState({
+        id: dataIdSelectEmitente,
+        razaoSocial: dataSelectEmitente
+    })
 
     useEffect(() => {
         async function fetchData (){
@@ -82,6 +86,14 @@ export const EditarCliente = ({codCliente}) => {
             setDadosPerfil({
                 id: data.perfilRegra.id,
                 descricao: data.perfilRegra.descricao
+            });
+            setDadosRamo({
+                id: data.ramoAtividade.id,
+                descricao: data.ramoAtividade.descricao
+            });
+            setFilial({
+                id: data.filial.id,
+                razaoSocial: data.filial.razaoSocial
             })
         }
             fetchDataCliente();
@@ -194,14 +206,15 @@ export const EditarCliente = ({codCliente}) => {
             setDataEdicao(String(dataAtual));
         } 
         setarHoraData();
-    },[])
+    },[]);
+    
     const salvar = async () => {
         const endereco = document.getElementById("endereco").value;
         const municipio = document.getElementById("municipio").value;
         const bairro = document.getElementById("bairro").value;
         const codigoMunicipio = document.getElementById("codigoMunicipio").value;
         try{
-            const res = await fetch(`http://10.0.1.36:8099/clientes`,{ //8b38091fc43d.sn.mynetname.net:2003
+            const res = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/clientes`,{
                 method: "PUT",
                 headers:{"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -234,6 +247,7 @@ export const EditarCliente = ({codCliente}) => {
                     id_usuario_edicao: parseFloat(idFuncionario),
                     perfilRegra: dadosPerfil,
                     ramoAtividade: dadosRamo,
+                    filial: filial,
                     email: email,
                     telefone: telefone
                 })
