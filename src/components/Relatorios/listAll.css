@@ -30,6 +30,23 @@
     flex-direction: row;
 }
 
+.ModalDados{
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: scroll;
+    top: 69.4%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 37%;
+    border-style: solid;
+    border-width: 1px;
+  }
+
+
 .dashboard{
     align-items: center;
     display: flex;
@@ -253,7 +270,7 @@ label{
 }
 
 .check{
-    margin-left: 7px;
+    margin-left: 8px;
 }
 
 .dataFin{
@@ -459,7 +476,7 @@ table tr:nth-child(odd){
 }
 
 .search{
-    width: 1482px;
+    width: 100%;
     height: 25px;
 }
 
@@ -533,4 +550,107 @@ table tr:nth-child(odd){
     width: 1400px;
     display: flex;
     flex-direction: row;
+}
+
+@media (max-width:1920px){
+    .filtros{
+        top: 100%;
+    }
+    .ModalDados{
+        top: 60.5%;
+    }
+    .filtro1{
+        left: 5vw;
+    }
+    .btns{
+        top: 50%;
+        right: 44.1%;
+    }
+    .relatorio-content{
+        top: 28.5%;
+        left: 63.5%;
+    }
+    .pesquisar{
+        top: 15.2%;
+        right: 20%;
+    }
+}
+@media (max-width:1600px){
+    .ModalDados{
+        top: 69.3%;
+    }
+    .filtro1{
+        top: 4.3vw;
+        left: 3vw;
+    }
+    .btns{
+        right: 44%;
+        top: 35%;
+    }
+    .pesquisar{
+        top: 18%;
+        right: 15%;
+    }
+    .relatorio-content{
+        top: 34%;
+        left: 68%;
+    }
+}
+@media (max-width:1440px){
+    .ModalDados{
+        width: 58%;
+        height: 48%;
+    }
+    .test{
+        width: 45%;
+        margin-left: 53%;
+    }
+    .search-input{
+        width: 310px;
+    }
+    .filtro1{
+        left: 11vw;
+        top: 1.7vw;
+        width: 430px;
+    }
+    .pesquisar{
+        top: 15%;
+        right: 23%;
+    }
+    .obs{
+        right: 425px;
+    }
+    .btns{
+        right: 43.5%;
+    }
+    .filtros{
+        left: 1.5%;
+        top: 90%;
+        width: 70%;
+    }
+}
+@media (max-width: 1366px){
+    .search-input{
+        width: 300px;
+    }
+    .filtro1{
+        top: 1.2vw;
+        left: 10.1vw;
+        width: 420px;
+    }
+    .obs{
+        right: 415px;
+    }
+    .btns{
+        right: 43.7%;
+    }
+    .filtros{
+        top: 5%;
+    }
+    .ModalDados{
+        height: 44%;
+    }
+    .test{
+        width: 46%;
+    }
 }
