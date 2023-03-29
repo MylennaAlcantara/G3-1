@@ -3,6 +3,7 @@ import * as M from "../modal/modal";
 
 export const ListaMunicipio = ({close, setDadosCidades}) => {
     const [municipios, setMunicipios] = useState([]);
+    const [busca, setBusca] = useState([]);
 
     useEffect(() => {
         async function fetchData (){
@@ -20,6 +21,7 @@ export const ListaMunicipio = ({close, setDadosCidades}) => {
         })
         close();
     }
+    const resultado = Array.isArray(municipios) && municipios.filter((municipio) => municipio.nome.toLowerCase().includes(busca));
 
     return(
         <M.Modal>
@@ -31,7 +33,7 @@ export const ListaMunicipio = ({close, setDadosCidades}) => {
                 <M.Filtro>
                     <div className="div-search">
                         <label>Buscar: </label>
-                        <input className="search" id="search" placeholder="Buscar"/>
+                        <input className="search" id="search" placeholder="Buscar" value={busca} onChange={(e)=> setBusca(e.target.value)}/>
                     </div>
                 </M.Filtro>
                 <div className="table-responsive">
@@ -44,7 +46,7 @@ export const ListaMunicipio = ({close, setDadosCidades}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {municipios.map((municipio) => {
+                            {resultado.map((municipio) => {
                                 return(
                                     <tr key={municipio.id} onDoubleClick={selecionado.bind(this, municipio)}>
                                         <td>{municipio.id}</td>

@@ -12,8 +12,7 @@ export const EditarCliente = ({codCliente}) => {
     const navigate = useNavigate();
     const {user, empresa} = useContext(AuthContext);
     const idFuncionario = Array.isArray(user) && user.map((user) => user.id)
-    console.log(parseFloat(idFuncionario));
-
+    
     const [funcionario, setFuncionario] = useState([]);
     const [endereco, setEndereco] = useState([]);
     const [estados, setEstados] = useState([]);
@@ -32,6 +31,7 @@ export const EditarCliente = ({codCliente}) => {
     const [idCliente, setIdCliente] = useState();
     const [idFuncionarioSelecionado, setidFuncionarioSelecionado] = useState();
     const [dataCadastro, setDataCadastro] = useState();
+    const [dataNascimentoInicial, setDataNascimentoInicial] = useState();
     const [dataSelectEmitente, setDataSelectEmitente] = useState();
     const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState();
     const [filial, setFilial] = useState({
@@ -53,6 +53,7 @@ export const EditarCliente = ({codCliente}) => {
         async function fetchDataCliente (){
             const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/clientes/${codCliente}`);
             const data = await response.json();
+            setDataNascimentoInicial(data.data_nasc);
             setNome(data.nome);
             setFantasia(data.nome_fantasia);
             setCep(data.cep);
@@ -330,15 +331,15 @@ export const EditarCliente = ({codCliente}) => {
                     </div>
                     <div className="checkbox">
                         <div>
-                            <input type='checkbox'/>
+                            <input className="checkbox" type='checkbox'/>
                             <label>SPC</label>
                         </div>
                         <div>
-                            <input type='checkbox'/>
+                            <input className="checkbox" type='checkbox'/>
                             <label>DESATIVADO</label>
                         </div>
                         <div>
-                            <input type='checkbox'/>
+                            <input className="checkbox" type='checkbox'/>
                             <label>Cliente Simplificado</label>
                         </div>
                     </div>
@@ -475,7 +476,7 @@ export const EditarCliente = ({codCliente}) => {
                             <label>Celular: </label>
                             <input className="codigo" value={celular} onChange={(e)=> setCelular(e.target.value)}/>
                             <label>Data Nasc: </label>
-                            <input className="codigo" id="dataNascimento" type="date" />
+                            <input className="codigo" id="dataNascimento" type="date" value={dataNascimentoInicial} onChange={(e)=>setDataNascimentoInicial(e.target.value)}/>
                         </div>
                         <div>
                             <label>Email: </label>
