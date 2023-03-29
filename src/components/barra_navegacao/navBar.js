@@ -15,6 +15,10 @@ export const Container = styled.div`
         position: fixed;
         left: 150px;
         z-index: 1;
+        img{
+            height: 20px;
+            width: 20px;
+        }
     }
     .menu:hover{
         cursor: pointer;
