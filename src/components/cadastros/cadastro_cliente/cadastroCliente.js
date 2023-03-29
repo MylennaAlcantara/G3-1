@@ -141,6 +141,7 @@ export const NavegacaoLimites = styled.div`
 `
 export const DadosGerais = styled.div`
     overflow: auto;
+    height: 80%;
 `
 export const DadosAdicionais = styled.div`
     height: 80%;

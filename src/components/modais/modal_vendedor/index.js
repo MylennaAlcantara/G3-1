@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Saler = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectSaler, setDataIdSelectSaler, setVendedorAlterado}) => {
+export const Saler = ({onClose = () =>{setIsModalFuncionario(false)},setIsModalFuncionario, focoCampoSeguinte, setDataSelectSaler, setDataIdSelectSaler, setVendedorAlterado}) => {
 
     const [users, setUsers] = useState([]);
     const [selectSaler, setSelectSaler] = useState();
