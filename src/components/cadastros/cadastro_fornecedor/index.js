@@ -38,6 +38,8 @@ export const CadastrarFornecedor = () => {
     const[cnpj, setCnpj] = useState('');
     const[ie, setIe] = useState('');
 
+    const [corObrigatorios, setCorObrigatorios] = useState('');
+
     async function pesquisarCep () {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const data = await response.json();
@@ -81,6 +83,15 @@ export const CadastrarFornecedor = () => {
         setAba('controle-Cheques');
     }
     
+    const salvar = () => {
+        if(cnpj && ie && nome && cep && logradouro && bairro && numero && endereco && selectIdSaler){
+            alert('salvou!')
+        }else{
+            setCorObrigatorios('yellow');
+            alert("Preencha os campos acima!")
+        }
+    }
+
     const sair = () => {
         localStorage.clear();
         document.location.reload(true);
@@ -102,7 +113,7 @@ export const CadastrarFornecedor = () => {
                     </div>
                     <div className="checkbox">
                         <div>
-                            <input type='checkbox'/>
+                            <input className="checkbox" type='checkbox'/>
                             <label>Ativo</label>
                     </div>
                     <div>
@@ -132,12 +143,12 @@ export const CadastrarFornecedor = () => {
                                 </div>
                                 <div>
                                     <label>Nº: </label>
-                                    <input className="input-documentos" value={cnpj} onChange={(e)=> setCnpj(e.target.value)}/>
+                                    <input className="input-documentos" value={cnpj} onChange={(e)=> setCnpj(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
                                     <img src="/images/LUPA.png"/>
                                 </div>
                                 <div>
                                     <label>IE.: </label>
-                                    <input className="input-documentos" value={ie} onChange={(e)=> setIe(e.target.value)}/>
+                                    <input className="input-documentos" value={ie} onChange={(e)=> setIe(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
                                 </div>
                                 <select>
                                     <option>0 - Escolha um regime...</option>
@@ -154,7 +165,7 @@ export const CadastrarFornecedor = () => {
                                 <legend>Informações</legend>
                                 <div>
                                     <label>Razão Social: </label>
-                                    <input className="input-unico" value={nome} onChange={(e)=> setNome(e.target.value)} />
+                                    <input className="input-unico" value={nome} onChange={(e)=> setNome(e.target.value)} style={{backgroundColor: corObrigatorios}} />
                                 </div>
                                 <div>
                                     <label>Nome Fantasia: </label>
@@ -162,24 +173,24 @@ export const CadastrarFornecedor = () => {
                                 </div>
                                 <div className="div-input">
                                     <label>CEP: </label>
-                                    <input className="codigo" value={cep} onChange={(e) => setCep(e.target.value)}/>
+                                    <input className="codigo" value={cep} onChange={(e) => setCep(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
                                     <img src="/images/LUPA.png" onClick={pesquisarCep}/>
                                 </div>
                                 <div className="div-input">
                                     <label>Endereço/Nº: </label>
                                     {endereco != [] ? (
-                                        <input value={endereco.logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)}/>
+                                        <input value={endereco.logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
                                         ) : (
-                                        <input value={logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)}/>
+                                        <input value={logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
                                     )}
-                                    <input className="codigo" value={numero} onChange={(e)=> setNumero(e.target.value)}/>
+                                    <input className="codigo" value={numero} onChange={(e)=> setNumero(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
                                 </div>
                                 <div className="div-input">
                                     <label>Bairro: </label>
                                     {endereco != [] ? (
-                                        <input className="bairro" id="bairro" value={endereco.bairro} onChange={(e)=> setBairro(e.target.value)}/>
+                                        <input className="bairro" id="bairro" value={endereco.bairro} onChange={(e)=> setBairro(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
                                     ) : (
-                                        <input className="bairro" id="bairro" value={bairro} onChange={(e)=> setBairro(e.target.value)}/>
+                                        <input className="bairro" id="bairro" value={bairro} onChange={(e)=> setBairro(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
                                     )}
                                     <label>Complemento: </label>
                                     <input className="complemento" value={complemento} onChange={(e)=> setComplemento(e.target.value)}/>
@@ -187,15 +198,15 @@ export const CadastrarFornecedor = () => {
                                 <div className="div-input">
                                     <label>Municipio: </label>
                                     {endereco.ibge ? (
-                                        <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} readOnly/>
+                                        <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} style={{backgroundColor: corObrigatorios}} readOnly/>
                                     ) : (
-                                        <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} readOnly/>
+                                        <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} style={{backgroundColor: corObrigatorios}} readOnly/>
                                     )}
                                     <img src="/images/add.png" onClick={pesquisarMuni}/>
                                     {endereco.localidade ? (
-                                        <input className="municipio" id="municipio" value={endereco.localidade} readOnly/>
+                                        <input className="municipio" id="municipio" value={endereco.localidade} style={{backgroundColor: corObrigatorios}} readOnly/>
                                     ) : (
-                                        <input className="municipio" id="municipio" value={endereco.localidade} readOnly/>
+                                        <input className="municipio" id="municipio" value={endereco.localidade} style={{backgroundColor: corObrigatorios}} readOnly/>
                                     )}
                                     <label>UF: </label>
                                     <select className="codigo" id="option">
@@ -213,7 +224,7 @@ export const CadastrarFornecedor = () => {
                                 </div>
                                 <div className="div-input">
                                     <label>Comprador: </label>
-                                    <input className="codigo" value={selectIdSaler} onKeyDown={keyComprador}/>
+                                    <input className="codigo" value={selectIdSaler} onKeyDown={keyComprador} style={{backgroundColor: corObrigatorios}}/>
                                     <input value={selectSaler} readOnly/>
                                 </div>
                                 <div>
@@ -296,11 +307,9 @@ export const CadastrarFornecedor = () => {
                 </CF.Historico>
             )
             }
-            
-            
             <C.Footer>
                 <div className="buttons">
-                    <button><img src="/images/salvar.png"/>Salvar</button>
+                    <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
                     <button onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>

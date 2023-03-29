@@ -120,7 +120,7 @@ export const CadastroCliente = () => {
     }
 
     const [isChecked, setIsChecked] = useState(false);
-console.log(isChecked)
+
     const handleCheckSimplificado = () => {
         setIsChecked(!isChecked);
     }
@@ -341,15 +341,15 @@ console.log(isChecked)
                         </div>
                         <div className="checkbox">
                             <div>
-                                <input type='checkbox'/>
+                                <input className="checkbox" type='checkbox'/>
                                 <label>SPC</label>
                             </div>
                             <div>
-                                <input type='checkbox'/>
+                                <input className="checkbox" type='checkbox'/>
                                 <label>DESATIVADO</label>
                             </div>
                             <div>
-                                <input type='checkbox' checked={isChecked} onChange={handleCheckSimplificado}/>
+                                <input className="checkbox" type='checkbox' checked={isChecked} onChange={handleCheckSimplificado}/>
                                 <label>Cliente Simplificado</label>
                             </div>
                         </div>

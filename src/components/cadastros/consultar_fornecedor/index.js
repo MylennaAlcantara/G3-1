@@ -75,7 +75,7 @@ export const ConsultarFornecedor = () => {
         <C.Container>
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}  <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
-                <h3>Cadastro Fornecedor</h3>
+                <h3>Fornecedores</h3>
             </C.Header>
             <M.Filtro>
             <div className="div-checkbox">

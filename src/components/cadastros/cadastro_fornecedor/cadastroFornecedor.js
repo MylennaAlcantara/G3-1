@@ -21,6 +21,8 @@ export const Documentos = styled.div`
     .input-documentos{
         height: 24px;
         width: 100px;
+        border: none;        
+        box-shadow: 0 3px 5px gray;
     }
     div{
         display: flex;
@@ -51,6 +53,8 @@ export const Informacao = styled.div`
     .codigo{
         width: 100px;
         height: 24px;
+        border: none;        
+        box-shadow: 0 3px 5px gray;
     }
     div{
         display: flex;
@@ -64,6 +68,8 @@ export const Informacao = styled.div`
         height: 24px;
         width: 66%;
         margin: 5px 5px 0 0;
+        border: none;        
+        box-shadow: 0 3px 5px gray;
     }
     .bairro{
         width: 39%;

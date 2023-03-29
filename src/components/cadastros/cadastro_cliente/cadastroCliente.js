@@ -5,6 +5,7 @@ export const DadosCliente = styled.div`
     justify-content: space-around;
     align-items: center;
     .checkbox{
+        height: auto;
         display: flex;
         align-items: center;
         div{
@@ -15,6 +16,9 @@ export const DadosCliente = styled.div`
     }
     input{
         height: 24px;
+        border: none;        
+        box-shadow: 0 3px 5px gray;
+        margin: 5px;
     }
 `
 export const Documentos = styled.div`
@@ -39,6 +43,8 @@ export const Documentos = styled.div`
     .input-documentos{
         height: 24px;
         width: 100px;
+        border: none;        
+        box-shadow: 0 3px 5px gray;
     }
     div{
         display: flex;
@@ -68,6 +74,8 @@ export const Informacao = styled.div`
     .codigo{
         width: 100px;
         height: 24px;
+        border: none;        
+        box-shadow: 0 3px 5px gray;
     }
     div{
         display: flex;
@@ -81,6 +89,8 @@ export const Informacao = styled.div`
         height: 24px;
         width: 66%;
         margin: 5px 5px 0 0;
+        border: none;        
+        box-shadow: 0 3px 5px gray;
     }
     .complemento{
         width: 46%;
@@ -155,6 +165,8 @@ export const DadosAdicionais = styled.div`
         width: 90%;
         input{
             height: 24px;
+            border: none;        
+            box-shadow: 0 3px 5px gray;
         }
         select{
             height: 24px;
@@ -219,6 +231,12 @@ export const Historico = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    input{
+        height: 24px;
+        margin: 5px;
+        border: none;        
+        box-shadow: 0 3px 5px gray;
+    }
     fieldset{
         height: 300px;
     }
