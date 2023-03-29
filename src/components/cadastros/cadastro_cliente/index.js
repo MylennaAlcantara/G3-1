@@ -16,6 +16,8 @@ export const CadastroCliente = () => {
     const [funcionario, setFuncionario] = useState([]);
     const [endereco, setEndereco] = useState([]);
     const [estados, setEstados] = useState([]);
+    const [dataSelectEmitente, setDataSelectEmitente] = useState();
+    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState();
     const [dadosCidades, setDadosCidades] = useState({
         codigo: "",
         nome: ""
@@ -28,8 +30,10 @@ export const CadastroCliente = () => {
         id: "",
         descricao: ""
     });
-    const [dataSelectEmitente, setDataSelectEmitente] = useState();
-    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState();
+    const [filial, setFilial] = useState({
+        id: dataIdSelectEmitente,
+        razaoSocial: dataSelectEmitente
+    })
     
     //Dados da parte de documentos
     const [cnpj, setCnpj] = useState('');
@@ -115,9 +119,17 @@ export const CadastroCliente = () => {
         setEndereco(data);
     }
 
+    const [isChecked, setIsChecked] = useState(false);
+console.log(isChecked)
+    const handleCheckSimplificado = () => {
+        setIsChecked(!isChecked);
+    }
+
     const [documentoSelecionado, setDocumentoSelecionado] = useState('juridica');
     const [cor, setCor] = useState('');
     const [corFisica, setCorFisica] = useState('');
+    const [corObrigatorios, setCorObrigatorios] = useState('');
+    const [corSimplificado, setCorSimplificado] = useState('');
 
     function handleDocumentoChange(event) {
         setDocumentoSelecionado(event.target.value);
@@ -160,48 +172,104 @@ export const CadastroCliente = () => {
         const municipio = document.getElementById("municipio").value;
         const bairro = document.getElementById("bairro").value;
         const codigoMunicipio = document.getElementById("codigoMunicipio").value;
-        try{
-            const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
-                method: "POST",
-                headers:{"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    nome: nome,
-                    nome_fantasia: fantasia,
-                    tipo_pessoa: tipoPessoa,
-                    cpf_cnpj: cpfCnpj,
-                    endereco: endereco,
-                    numero: numero,
-                    bairro: bairro,
-                    municipio: municipio,
-                    estado: select.value,
-                    complemento: complemento,
-                    cep: cep,
-                    inscricao_estadual: estadual,
-                    cod_municipio: codigoMunicipio,
-                    rg: rg,
-                    orgao_rg: orgao,
-                    inscricao_municipal: municipal,
-                    data_cadastro: dataCadastro,
-                    celular: celular,
-                    data_nasc: dataNascimento.value,
-                    observacao: '',
-                    limite: 0.0,
-                    limite_total: 200000.0,
-                    id_tipo_pagamento: null,
-                    id_funcionario: selectFuncionario.value,
-                    id_usuario_insercao: idFuncionario,
-                    id_perfil_regra: dadosPerfil.id,
-                    email: email,
-                    telefone: telefone
-                })
-            });
-            if(res.status === 201){
-                alert('salvo com sucesso');
-                navigate('/clientes');
+        if(codigoMunicipio && nome && cep && endereco && bairro && filial){
+            try{
+                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
+                    method: "POST",
+                    headers:{"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        nome: nome,
+                        nome_fantasia: fantasia,
+                        tipo_pessoa: tipoPessoa,
+                        cpf_cnpj: cpfCnpj,
+                        endereco: endereco,
+                        numero: numero,
+                        bairro: bairro,
+                        municipio: municipio,
+                        estado: select.value,
+                        complemento: complemento,
+                        cep: cep,
+                        inscricao_estadual: estadual,
+                        cod_municipio: codigoMunicipio,
+                        rg: rg,
+                        orgao_rg: orgao,
+                        inscricao_municipal: municipal,
+                        data_cadastro: dataCadastro,
+                        celular: celular,
+                        data_nasc: dataNascimento.value,
+                        observacao: '',
+                        limite: 0.0,
+                        limite_total: 200000.0,
+                        id_tipo_pagamento: null,
+                        id_funcionario: selectFuncionario.value,
+                        id_usuario_insercao: parseFloat(idFuncionario),
+                        perfilRegra: dadosPerfil,
+                        ramoAtividade: dadosRamo,
+                        filial: filial,
+                        email: email,
+                        telefone: telefone
+                    })
+                });
+                if(res.status === 201){
+                    alert('salvo com sucesso');
+                    navigate('/clientes');
+                }
+            }catch(err){
+                console.log(err);
             }
-        }catch(err){
-            console.log(err);
+        }else if(nome && codigoMunicipio && isChecked){
+            try{
+                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
+                    method: "POST",
+                    headers:{"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        nome: nome,
+                        nome_fantasia: fantasia,
+                        tipo_pessoa: tipoPessoa,
+                        cpf_cnpj: cpfCnpj,
+                        endereco: endereco,
+                        numero: numero,
+                        bairro: bairro,
+                        municipio: municipio,
+                        estado: select.value,
+                        complemento: complemento,
+                        cep: cep,
+                        inscricao_estadual: estadual,
+                        cod_municipio: codigoMunicipio,
+                        rg: rg,
+                        orgao_rg: orgao,
+                        inscricao_municipal: municipal,
+                        data_cadastro: dataCadastro,
+                        celular: celular,
+                        data_nasc: dataNascimento.value,
+                        observacao: '',
+                        limite: 0.0,
+                        limite_total: 200000.0,
+                        id_tipo_pagamento: null,
+                        id_funcionario: selectFuncionario.value,
+                        id_usuario_insercao: parseFloat(idFuncionario),
+                        perfilRegra: dadosPerfil,
+                        ramoAtividade: dadosRamo,
+                        filial: filial,
+                        email: email,
+                        telefone: telefone
+                    })
+                });
+                if(res.status === 201){
+                    alert('salvo com sucesso');
+                    navigate('/clientes');
+                }
+            }catch(err){
+                console.log(err);
+            }
+        }else if(isChecked){
+            setCorSimplificado('yellow');
+            alert('Preencha os campos a cima!');
+        }else{
+            setCorObrigatorios('yellow');
+            alert('Preencha os campos a cima!');
         }
+        
     }
     
     const [aba, setAba] = useState('dados-gerais');
@@ -281,7 +349,7 @@ export const CadastroCliente = () => {
                                 <label>DESATIVADO</label>
                             </div>
                             <div>
-                                <input type='checkbox'/>
+                                <input type='checkbox' checked={isChecked} onChange={handleCheckSimplificado}/>
                                 <label>Cliente Simplificado</label>
                             </div>
                         </div>
@@ -297,7 +365,7 @@ export const CadastroCliente = () => {
                                 <div>
                                     <label>CNPJ: </label>
                                     {documentoSelecionado === "juridica" ? (
-                                        <input className="input-documentos" value={cnpj} onChange={(e)=> setCnpj(e.target.value)} onBlur={documento}/>
+                                        <input className="input-documentos" value={cnpj} onChange={(e)=> setCnpj(e.target.value)} onBlur={documento} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                     ) : (
                                         <input className="input-documentos" style={{backgroundColor: cor}} readOnly/>
                                     )}
@@ -315,7 +383,7 @@ export const CadastroCliente = () => {
                             <div className="cnpj-cpf">
                                 <div>
                                     {documentoSelecionado === "fisica" ? (
-                                        <input name="documento" type='radio' value="fisica" id="fisica"  checked={documentoSelecionado === 'fisica'} onChange={handleDocumentoChange} onClick={validarDocumento}/>
+                                        <input name="documento" type='radio' value="fisica" id="fisica"  checked={documentoSelecionado === 'fisica'} onChange={handleDocumentoChange} onClick={validarDocumento} />
                                     ) : (
                                         <input name="documento" type='radio' value="fisica" id="fisica"  checked={documentoSelecionado === 'fisica'} onChange={handleDocumentoChange} onClick={validarDocumento}/>
                                     )}
@@ -324,7 +392,7 @@ export const CadastroCliente = () => {
                                 <div>
                                     <label>CPF: </label>
                                     {documentoSelecionado === "fisica" ? (
-                                        <input className="input-documentos" value={cpf} onChange={(e)=> setCpf(e.target.value)} onBlur={documento}/>
+                                        <input className="input-documentos" value={cpf} onChange={(e)=> setCpf(e.target.value)} onBlur={documento} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                     ) : (
                                         <input className="input-documentos" style={{backgroundColor: corFisica}} readOnly/>
                                     )}
@@ -361,7 +429,7 @@ export const CadastroCliente = () => {
                             <legend>Informações</legend>
                             <div>
                                 <label>Nome: </label>
-                                <input className="input-unico" value={nome} onChange={(e)=> setNome(e.target.value)} />
+                                <input className="input-unico" value={nome} onChange={(e)=> setNome(e.target.value)} style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
                             </div>
                             <div>
                                 <label>Fantasia/Apelido: </label>
@@ -369,7 +437,7 @@ export const CadastroCliente = () => {
                             </div>
                             <div className="div-input">
                                 <label>CEP: </label>
-                                <input className="codigo" value={cep} onChange={(e) => setCep(e.target.value)}/>
+                                <input className="codigo" value={cep} onChange={(e) => setCep(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                 <img src="/images/LUPA.png" onClick={pesquisarCep}/>
                                 <label>Complemento: </label>
                                 <input className="complemento" value={complemento} onChange={(e)=> setComplemento(e.target.value)}/>
@@ -377,26 +445,26 @@ export const CadastroCliente = () => {
                             <div className="div-input">
                                 <label>Logradouro: </label>
                                 {endereco != [] ? (
-                                    <input value={endereco.logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)}/>
+                                    <input value={endereco.logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                 ) : (
-                                    <input value={logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)}/>
+                                    <input value={logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                 )}
                                 <input className="codigo" value={numero} onChange={(e)=> setNumero(e.target.value)}/>
                             </div>
                             <div>
                                 <label>Bairro: </label>
                                 {endereco != [] ? (
-                                    <input className="input-unico" id="bairro" value={endereco.bairro} onChange={(e)=> setBairro(e.target.value)}/>
+                                    <input className="input-unico" id="bairro" value={endereco.bairro} onChange={(e)=> setBairro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                 ) : (
-                                    <input className="input-unico" id="bairro" value={bairro} onChange={(e)=> setBairro(e.target.value)}/>
+                                    <input className="input-unico" id="bairro" value={bairro} onChange={(e)=> setBairro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                 )}
                             </div>
                             <div className="div-input">
                                 <label>Municipio: </label>
                                 {endereco.ibge ? (
-                                    <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} readOnly/>
+                                    <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
                                 ) : (
-                                    <input className="codigo" id="codigoMunicipio" value={dadosCidades.codigo} onKeyDown={keyMunicipio} readOnly/>
+                                    <input className="codigo" id="codigoMunicipio" value={dadosCidades.codigo} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
                                 )}
                                 <img src="/images/add.png" onClick={pesquisarMuni}/>
                                 {endereco.localidade ? (
