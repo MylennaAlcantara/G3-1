@@ -495,7 +495,7 @@ export const ResumoFaturamento = () => {
     const options = {
         title: "Valores",
         is3D: true,
-        backgroundColor: "#d3d3d3",
+        backgroundColor: "#FFF",
     };
 
     const barData = [
@@ -511,7 +511,7 @@ export const ResumoFaturamento = () => {
           },
         ],
         ["Valor Lucro", result2, "#F7C64F", null],
-        ["Valor Custo", result, "#b87333", null],
+        ["Valor Custo", result, "#bc1b2b", null],
         ["Valor Total ", result1, "#39E055", null],
         ["Valor  Nf-e", result3, "#8226ED", null],
         ["Valor NFC-e", result4, "#2686ED", null],
@@ -529,7 +529,7 @@ export const ResumoFaturamento = () => {
     const dataRegiao = [
         ["Element", "Valor Total", { role: "style" }],
         ["Lucro Venda", result2, "#F7C64F"], 
-        ["Valor Custo", result , "#b87333"],     
+        ["Valor Custo", result , "#bc1b2b"],     
         ["Venda Total", result1, "#39E055"], 
         ["Valor Nf-e", result3 , "#8226ED"],     
         ["Venda NFC-e", result4, "#2686ED"], 
@@ -872,9 +872,8 @@ const optionsPico = {
                             <option>Região</option>
                         </select>
                                        
-                            <label htmlFor="search-form">
-                            <input type="search" name="search-form" id="search-form" className="search-input" placeholder="Buscar..." onChange={(e) => setQuery(e.target.value)}/>
-                        
+                            <label htmlFor="search-form" className='botãoEmodal' >
+                                <input type="search" name="search-form" id="search-form" className="search-input" placeholder="Buscar..." onChange={(e) => setQuery(e.target.value)}/><img className='lupa' src="/images/LUPA.png" onClick={openModal}/>                    
                             </label>
                         
                             <div className='icon2'>
@@ -956,7 +955,7 @@ const optionsPico = {
                                 className="search-input"
                                 placeholder="Buscar..."
                                 onChange={(e) => setQuery2(e.target.value)}
-                            />
+                            /><img src="/images/LUPA.png"/>
                         
                             </label>
 
@@ -1061,7 +1060,7 @@ const optionsPico = {
 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label className='esc' >( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardRegiao} >Graficos</button>  
+                                    <button className='dashboardBtn' onClick={openDashboardRegiao} ><img className='grafico' src="/images/grafico.png"/> <p>Graficos </p></button>  
                                 </div>  
                     
                         <div className='table-resp' >
@@ -1124,17 +1123,41 @@ const optionsPico = {
                             
                            
                             <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" className="ModalDashboard" >
+
+                                <div >
+
+                                    <h1>Dashboard (Região)</h1>
+
+                                    <div className='dashboardTexts' >
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAmarelo.png' />  Valor de Lucro: R$ {result2}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoVermelho.png' /> Valor de Custo: R$ {result}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoVerde.jpg' /> Valor Total: R$ {result1}
+                                        </h2>
+                                        
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoRoxo.png' /> NF-e: R$ {result3}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAzul.png' /> NFC-e: R$ {result4}
+                                        </h2>
+
+                                    </div>
                                 
                                 <div className='dashboard' >
-                                        <h1>Dashboard</h1>
-
-                                    <div className='paia' >
-                                        <p>gg</p> <p>gg</p> <p>gg</p>
-                                    </div>
-
-                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dataRegiao} options={options} />
-                                    <Chart chartType="BarChart" width="300px" height="100px" data={barData} options={barOptions}  />
-                                    <Chart chartType="PieChart" data={dataRegiao} options={options} width="300px" height="200px" />
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dataRegiao} options={options} className="grafico1" />
+                                    <Chart chartType="BarChart" width="300px" height="100px" data={barData} options={barOptions} className="grafico2" />
+                                    <Chart chartType="PieChart" data={dataRegiao} options={options} width="300px" height="200px"  />
+                                </div>
+                                    
                                 </div>
                                 
                             </Modal>
@@ -1149,7 +1172,7 @@ const optionsPico = {
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardFilial} >Graficos</button>
+                                    <button className='dashboardBtn' onClick={openDashboardFilial} > <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p> </button>
                                 </div>
 
                                 <div className='table-resp' >
@@ -1245,7 +1268,7 @@ const optionsPico = {
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardVendedor} >Graficos</button>
+                                    <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p> </button>
                                 </div>
 
                                 <table className='table-resp' >
@@ -1338,7 +1361,7 @@ const optionsPico = {
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardCliente} >Graficos</button>
+                                    <button className='dashboardBtn' onClick={openDashboardCliente} > <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p> </button>
                                 </div>
                         
                             </div>
@@ -1435,7 +1458,7 @@ const optionsPico = {
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardTipoDePagamento} >Graficos</button>
+                                    <button className='dashboardBtn' onClick={openDashboardTipoDePagamento} > <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p></button>
                                 </div>
                         
                             
