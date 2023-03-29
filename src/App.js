@@ -11,7 +11,7 @@ import { NavBar } from './components/barra_navegacao';
 import { CadastroCliente } from './components/cadastros/cadastro_cliente';
 import { ConsultarCliente } from './components/cadastros/consulta_cliente/index';
 import { ResumoFaturamento} from './components/Relatorios/listAll'
-import { ConsultarFornecedor } from './components/consultar_fornecedor';
+import { ConsultarFornecedor } from './components/cadastros/consultar_fornecedor/index';
 import { EditarCliente } from './components/cadastros/editar_cliente';
 import { CadastrarFornecedor } from './components/cadastros/cadastro_fornecedor';
 
