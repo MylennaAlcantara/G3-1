@@ -3,18 +3,21 @@ import { useNavigate } from "react-router";
 import { AuthContext } from "../../../contexts/Auth/authContext";
 import * as C from "../../cadastro/cadastro";
 import { ListaMunicipio } from "../../modais/modal_municipio";
+import { ListaPais } from "../../modais/modal_pais";
 import { Saler } from "../../modais/modal_vendedor";
 import * as CC from "../cadastro_cliente/cadastroCliente";
 import * as CF from "./cadastroFornecedor";
 
 export const CadastrarFornecedor = () => {
-    const {user, empresa} = useContext(AuthContext);
     const navigate = useNavigate();
+    const {user, empresa} = useContext(AuthContext);
+    const idFuncionario = Array.isArray(user) && user.map((user) => user.id)
     const [endereco, setEndereco] = useState([]);
     const [estados, setEstados] = useState([]);
     const [dadosCidades, setDadosCidades] = useState([]);
-    const [selectIdSaler,setSelectIdSaler] = useState([]);
-    const [selectSaler,setSelectSaler] = useState([]);
+    const [dadosPaises, setDadosPaises] = useState([]);
+    const [dataIdSelectSaler,setDataIdSelectSaler] = useState([]);
+    const [dataSelectSaler,setDataSelectSaler] = useState([]);
 
     useEffect(() => {
         async function fetchData (){
@@ -29,11 +32,18 @@ export const CadastrarFornecedor = () => {
     const [cep, setCep] = useState('');
     const [nome, setNome] = useState('');
     const [fantasia, setFantasia] = useState('');
+    const [contato, setContato] = useState('');
     const [complemento, setComplemento] = useState('');
     const [logradouro, setLogradouro] = useState('');
     const [numero, setNumero] = useState('');
     const [bairro, setBairro] = useState('');
     const [telefone, setTelefone] = useState('');
+    const [email, setEmail] = useState('');
+    const [fax, setFax] = useState('');
+    const selectUf = document.getElementById('option');
+    const selectRegi = document.getElementById('optionRegi');
+    const selectTipoDoc = document.getElementById('optionTipoDoc');
+
 
     const[cnpj, setCnpj] = useState('');
     const[ie, setIe] = useState('');
@@ -48,13 +58,25 @@ export const CadastrarFornecedor = () => {
     function pesquisarMuni(){
         setIsModalMunicipio(true);
     }
+    function pesquisarPais(){
+        setIsModalPaises(true);
+    }
 
     const [isModalFuncionario, setIsModalFuncionario] = useState(false);
     const [isModalMunicipio, setIsModalMunicipio] = useState(false);
+    const [isModalPaises, setIsModalPaises] = useState(false);
     function keyMunicipio (e){
         e.preventDefault();
         if(e.keyCode === 113){
             setIsModalMunicipio(true);
+        }else if(e.keyCode != 113){
+            e.preventDefault();
+        }
+    }
+    function keyPaises (e){
+        e.preventDefault();
+        if(e.keyCode === 113){
+            setIsModalPaises(true);
         }else if(e.keyCode != 113){
             e.preventDefault();
         }
@@ -82,10 +104,68 @@ export const CadastrarFornecedor = () => {
     function controleCheques (){
         setAba('controle-Cheques');
     }
+
+    //Pegar hora do computador
+    const [dataCadastro, setDataCadastro] = useState('');
+
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth()+ 1).padStart(2, '0') ;
+    const ano = data.getFullYear();
+    const dataAtual = String(ano + '-' + mes + '-' + dia);
+
+    useEffect(()=>{
+        async function setarHoraData(){
+            setDataCadastro(String(dataAtual));
+        } 
+        setarHoraData();
+    },[])
     
-    const salvar = () => {
-        if(cnpj && ie && nome && cep && logradouro && bairro && numero && endereco && selectIdSaler){
-            alert('salvou!')
+    const salvar = async () => {
+        const enderecoRua = document.getElementById('endereco').value;
+        const bairro = document.getElementById('bairro').value;
+        if(cnpj && nome && cep && enderecoRua && bairro && numero && endereco.ibge && endereco.localidade && dataIdSelectSaler){
+            try{
+                const res = await fetch("http://10.0.1.10:8092/fornecedor/save", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        razao_social: nome,
+                        contato: contato,
+                        endereco: enderecoRua,
+                        numero: numero,
+                        complemento: complemento,
+                        municipio: endereco.localidade,
+                        codigo_municipio: endereco.ibge,
+                        codigo_pais: dadosPaises.codigo,
+                        pais: dadosPaises.nome,
+                        bairro: bairro,
+                        uf: selectUf.value,
+                        cep: cep,
+                        tipo_documento: selectTipoDoc.value,
+                        ie: ie,
+                        telefone: telefone,
+                        fax: fax,
+                        email: email,
+                        data_cadastro: dataCadastro,
+                        ativo:true,
+                        numero_documento: parseFloat(cnpj),
+                        nome_fantasia: fantasia,
+                        excluido:false,
+                        id_usuario_insercao: parseFloat(idFuncionario),
+                        idRegimeTributario: parseFloat(selectRegi.value),
+                        id_comprador: dataIdSelectSaler,
+                        nome_comprador: dataSelectSaler,
+                        senha_cotacao:null
+                    })
+                });
+                if(res.status === 201){
+                    navigate('/fornecedores');
+                    alert("Salvo com sucesso!");
+                }
+            }catch (err){
+                console.log(err);
+            }
         }else{
             setCorObrigatorios('yellow');
             alert("Preencha os campos acima!")
@@ -136,9 +216,9 @@ export const CadastrarFornecedor = () => {
                             <div className="cnpj-cpf">
                                 <div>
                                     <label>Tipo</label>
-                                    <select>
-                                        <option>CNPJ</option>
-                                        <option>CPF</option>
+                                    <select id="optionTipoDoc">
+                                        <option value="CNPJ">CNPJ</option>
+                                        <option value="CPF">CPF</option>
                                     </select>
                                 </div>
                                 <div>
@@ -150,12 +230,12 @@ export const CadastrarFornecedor = () => {
                                     <label>IE.: </label>
                                     <input className="input-documentos" value={ie} onChange={(e)=> setIe(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
                                 </div>
-                                <select>
-                                    <option>0 - Escolha um regime...</option>
-                                    <option>1 - SIMPLES NACIONAL</option>
-                                    <option>2 - SIMPLES NACIONAL EXCESSO</option>
-                                    <option>3 - REGIME NORMAL</option>
-                                    <option>4 - PAT</option>
+                                <select id="optionRegi">
+                                    <option value="0">0 - Escolha um regime...</option>
+                                    <option value="1">1 - SIMPLES NACIONAL</option>
+                                    <option value="2">2 - SIMPLES NACIONAL EXCESSO</option>
+                                    <option value="3">3 - REGIME NORMAL</option>
+                                    <option value="4">4 - PAT</option>
                                 </select>
                             </div>
                         </fieldset>
@@ -170,6 +250,10 @@ export const CadastrarFornecedor = () => {
                                 <div>
                                     <label>Nome Fantasia: </label>
                                     <input className="input-unico" value={fantasia} onChange={(e)=> setFantasia(e.target.value)}/>
+                                </div>
+                                <div>
+                                    <label>Contato: </label>
+                                    <input className="input-unico" value={contato} onChange={(e)=> setContato(e.target.value)}/>
                                 </div>
                                 <div className="div-input">
                                     <label>CEP: </label>
@@ -217,6 +301,12 @@ export const CadastrarFornecedor = () => {
                                     </select>
                                 </div>
                                 <div>
+                                    <label>País:</label>
+                                    <input className="codigo" value={dadosPaises.codigo} onKeyDown={keyPaises}/>
+                                    <img src="images/lupa.png" onClick={pesquisarPais}/>
+                                    <label style={{color: "red"}}>{dadosPaises.nome}</label>
+                                </div>
+                                <div>
                                     <label>Telefone: </label>
                                     <input className="codigo" value={telefone} onChange={(e)=> setTelefone(e.target.value)}/>
                                     <label>Senha Cotação</label>
@@ -224,8 +314,8 @@ export const CadastrarFornecedor = () => {
                                 </div>
                                 <div className="div-input">
                                     <label>Comprador: </label>
-                                    <input className="codigo" value={selectIdSaler} onKeyDown={keyComprador} style={{backgroundColor: corObrigatorios}}/>
-                                    <input value={selectSaler} readOnly/>
+                                    <input className="codigo" value={dataIdSelectSaler} onKeyDown={keyComprador} style={{backgroundColor: corObrigatorios}}/>
+                                    <input value={dataSelectSaler} readOnly/>
                                 </div>
                                 <div>
                                     <label>Última Alter.: </label>
@@ -238,11 +328,11 @@ export const CadastrarFornecedor = () => {
                 <CF.OutrosDados>
                     <div>
                         <label>fax: </label>
-                        <input/>
+                        <input value={fax} onChange={(e)=> setFax(e.target.value)}/>
                     </div>
                     <div>
                         <label>e-mail: </label>
-                        <input/>
+                        <input value={email} onChange={(e)=> setEmail(e.target.value)}/>
                     </div>
                 </CF.OutrosDados>
             ) : (
@@ -314,7 +404,8 @@ export const CadastrarFornecedor = () => {
                 </div>
             </C.Footer>
             {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)} setDadosCidades={setDadosCidades}/> : null}
-            {isModalFuncionario ? <Saler close={()=> setIsModalFuncionario(false)} setIsModalFuncionario={setIsModalFuncionario} setSelectIdSaler={setSelectIdSaler} setSelectSaler={setSelectSaler}/> : null}
+            {isModalPaises ? <ListaPais close={()=> setIsModalPaises(false)} setDadosPaises={setDadosPaises}/> : null}
+            {isModalFuncionario ? <Saler close={()=> setIsModalFuncionario(false)} setIsModalFuncionario={setIsModalFuncionario} setDataIdSelectSaler={setDataIdSelectSaler} setDataSelectSaler={setDataSelectSaler}/> : null}
         </C.Container>
     )
 }
