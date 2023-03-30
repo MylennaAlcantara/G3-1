@@ -45,7 +45,9 @@ export const ConsultarFornecedor = () => {
 
     const selecionado = (user, index) => {
         setSelectIndex(index);
+        localStorage.setItem('idFornecedor', user.id);
     }
+
 
     const handleKeyDown = (e) => {
         if(e.keyCode === 38){
@@ -65,6 +67,16 @@ export const ConsultarFornecedor = () => {
 
     const novo = () => {
         navigate("/cadastrarFornecedor");
+    }
+    const codigoFornecedor = localStorage.getItem('idFornecedor');
+    const abrirEditar = async() => {
+        const responseFornecedor = await fetch(`http://10.0.1.10:8092/fornecedor/${codigoFornecedor}`);
+        const fornecedor = await responseFornecedor.json();
+        if(codigoFornecedor === undefined || codigoFornecedor === null){
+            console.log('nenhum fornecedor selecionado')
+        }else{
+        navigate(`/editarFornecedor/${codigoFornecedor}`);
+        }
     }
     const sair = () => {
         localStorage.clear();
@@ -127,6 +139,7 @@ export const ConsultarFornecedor = () => {
             <C.Footer>
                 <div className="buttons">
                     <button onClick={novo}><img src="images/add.png" />Novo</button>
+                    <button onClick={abrirEditar}><img src="images/abrir.png" />Abrir</button>
                     <button><img src="images/voltar.png" />Voltar</button>
                 </div>
             </C.Footer>

@@ -16,11 +16,12 @@ import { EditarCliente } from './components/cadastros/editar_cliente';
 import { CadastrarFornecedor } from './components/cadastros/cadastro_fornecedor';
 import { CounsultarProduto } from './components/cadastros/consulta_produto';
 import { CadastroProduto } from './components/cadastros/cadastro_produto';
+import { EditarFornecedor } from './components/cadastros/editar_fornecedor';
 
 function App() {    
   const token = localStorage.getItem('token');
   const codRotina = localStorage.getItem('rotina');
-  const codCliente = localStorage.getItem('idCliente')
+  const codCliente = localStorage.getItem('idCliente');
 
   const [codigo, setCodigo] = useState();
   const [cliente, setCliente] = useState();
@@ -29,7 +30,6 @@ function App() {
   const [matriculaFuncionario,setMatriculaFuncionario] = useState('');
   const [senhaFuncionario, setSenhaFuncionario] = useState('');
 
-  
   return (      
   <AuthProvider>
     <div className="App">
@@ -45,6 +45,7 @@ function App() {
             <Route path = '/editarCliente/:cliente' element = {token ? <EditarCliente cliente={cliente} codCliente={parseFloat(codCliente)}/> : <Login/>}/>
             <Route path = '/fornecedores' element = {token ? <ConsultarFornecedor/> : <Login/>}/>
             <Route path = '/cadastrarFornecedor' element = {token ? <CadastrarFornecedor/> : <Login/>}/>
+            <Route path = '/editarFornecedor/:fornecedor' element = {token ? <EditarFornecedor /> : <Login/>}/>
             <Route path = '/produtos' element = {token ? <CounsultarProduto/> : <Login/>}/>
             <Route path = '/cadastrarProduto' element = {token ? <CadastroProduto/> : <Login/>}/>
             <Route path = '/resumoDeFaturamento' element = {token ? <ResumoFaturamento/> : <Login/>}/>

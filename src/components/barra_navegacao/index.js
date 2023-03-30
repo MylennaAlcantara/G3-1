@@ -29,7 +29,7 @@ export const NavBar = () => {
                     {relatorio ? (<div className="gaveta" onClick={()=> navigate('/resumoDeFaturamento')} >Resumo de Faturamento</div>) : null}
                 </C.Barra>
             ) : null}
-            <button className="menu" onClick={abrirBarra} style={{left: aberto === false ? '0' : null}}><img src="images/seta.png"/></button>
+            <button className="menu" onClick={abrirBarra} style={{left: aberto === false ? '0' : null}}><img src="/images/seta.png"/></button>
         </C.Container>
     )
 }
