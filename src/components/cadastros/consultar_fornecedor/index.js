@@ -19,7 +19,7 @@ export const ConsultarFornecedor = () => {
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes");
+            const response = await fetch("http://10.0.1.10:8092/fornecedor/all");
             const data = await response.json();
             setUsers(data);
         }
@@ -33,9 +33,9 @@ export const ConsultarFornecedor = () => {
         }else if(filtro === 'codigo'){
             return user.id === Number(busca);
         }else if(filtro === 'documento'){
-            return user.cpf_cnpj === Number(busca);
+            return user.numero_documento === Number(busca);
         }else{
-            return user.nome.toLowerCase().includes(busca);
+            return user.razao_social.toLowerCase().includes(busca);
         }
     })
 
@@ -112,11 +112,11 @@ export const ConsultarFornecedor = () => {
                             {resultado.slice(0, 50).map( (user, index) => {
                                 return(
                                     <tr key={user.id} onClick={selecionado.bind(this, user, index)} style={{background: index === selectIndex ? '#87CEFA' : ''}}>
+                                        <td>SIM</td>
                                         <td>{user.id}</td>
-                                        <td>{user.data_cadastro}</td>
-                                        <td>{user.nome}</td>
+                                        <td>{user.razao_social}</td>
                                         <td>{user.nome_fantasia}</td>
-                                        <td>{user.cpf_cnpj}</td>
+                                        <td>{user.numero_documento}</td>
                                     </tr>
                                 );
                             })}
