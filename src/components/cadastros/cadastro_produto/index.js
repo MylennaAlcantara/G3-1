@@ -2,8 +2,75 @@ import React, { useState } from "react";
 import * as C from "../../cadastro/cadastro";
 import * as CP from "./cadastroProduto";
 import * as CC from "../cadastro_cliente/cadastroCliente"
+import { useNavigate } from "react-router";
 
 export const CadastroProduto = () => {
+    const navigate = useNavigate();
+
+    // Dados da area de informações
+    const [codigo1, setCodigo1] = useState('');
+    const [codigo2, setCodigo2] = useState('');
+    const [codigoRef, setCodigoRef] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [ncm, setNcm] = useState('');
+    const [cest, setCest] = useState('');
+    const [tribNac, setTribNac] = useState('');
+    const [tribImport, setTribImport] = useState('');
+    const [tribEstad, setTribEstad] = useState('');
+    const [dataCadastro, setDataCadastro] = useState('');
+    const [ultimaModi, setUltimaModi] = useState('');
+
+    // Dados aba de Geral do item
+    const [qtdCaixa, setQtdCaixa] = useState('');
+    const [descontoMax, setDescontoMax] = useState('');
+    const [dadosFornecedor, setDadosFornecedor] = useState({
+        codigo: "",
+        descricao: ""
+    });
+    const [dadosGrupo, setDadosGrupo] = useState({
+        codigo: "",
+        descricao: ""
+    });
+
+    // Dados aba de Tributações para emissão
+    const [codigoEcf, setCodigoEfc] = useState();
+    const [totalizadorEcf, setTotalizadorEcf] = useState();
+    const [dadosRegraIcms, setDadosRegraIcms] = useState({
+        codigo: "",
+        descricao: ""
+    });
+    const [dadosRegraPis, setDadosRegraPis] = useState({
+        codigo: "",
+        descricao: ""
+    });
+    const [dadosRegraCofins, setDadosRegraCofins] = useState({
+        codigo: "",
+        descricao: ""
+    });
+    const [dadosNatuRec, setDadosNatuRec] = useState({
+        codigo: "",
+        descricao: ""
+    });
+    const [dadosAnp, setDadosAnp] = useState({
+        codigo: "",
+        descricao: ""
+    });
+    const [valorPartida, setValorPartida] = useState();
+    const [codigoIpi, setCodigoIpi] = useState();
+    const [bcMontante, setBcMontante] = useState("0,000000");
+    const [valorMontante, setValorMontante] = useState("0,000000");
+    const [bcUnid, setBcUnid] = useState("0,000000");
+    const [valorUnid, setValorUnid] = useState("0,000000");
+
+    // Dados aba Movimentação
+    const [dataInicial, setDataInicial] = useState();
+    const [dataFinal, setDataFinal] = useState();
+
+
+    //modais de fornecedor e grupo
+    const [isModalFornecedor, setIsModalFornecedor] = useState(false);
+    const [isModalGrupo, setIsModalGrupo] = useState(false);
+
     const [empresas, setEmpresas] = useState([]);
     const [aba, setAba] = useState('geral');
 
@@ -46,7 +113,7 @@ export const CadastroProduto = () => {
                     <input/>
                 </div>
                 <div>
-                    <input className="checkbox" type="checkbox"/>
+                    <input className="checkbox" type="checkbox" />
                     <label>Desativado</label>
                 </div>
             </CC.DadosCliente>
@@ -94,6 +161,22 @@ export const CadastroProduto = () => {
                         <div>
                             <label>Trib. Estad.:</label>
                             <input readOnly/>
+                        </div>
+                    </div>
+                    <div className="campos">
+                        <div>
+                            <label>Família: </label>
+                            <input/>
+                            <img src="/images/LUPA.png"/>
+                        </div>
+                        <div>
+                            <label>Perfil: </label>
+                            <input className="checkbox" type="checkbox"/>
+                            <label>Logística</label>
+                        </div>
+                        <div>
+                            <input className="checkbox" type="checkbox"/>
+                            <label>Revenda</label>
                         </div>
                     </div>
                 </div>
@@ -207,12 +290,12 @@ export const CadastroProduto = () => {
                             </div>
                             <fieldset>
                                 <legend>Fornecedor</legend>
-                                <input/><input/>
+                                <input className="codigo"/><input/>
                             </fieldset>
                             <fieldset className="fieldset">
                                 <legend>Grupo</legend>
                                 <div>
-                                    <input/><input/>
+                                    <input className="codigo"/><input/>
                                 </div>
                                 <textarea readOnly/>
                             </fieldset>
@@ -233,6 +316,8 @@ export const CadastroProduto = () => {
                                 <div>
                                     <label>Aliquota no ECF (Imp. Fiscal)</label>
                                     <input className="codigo"/>
+                                </div>
+                                <div>
                                     <label>Totalizador Parcial no ECF:</label>
                                     <select></select>
                                 </div>

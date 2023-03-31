@@ -22,10 +22,14 @@ export const InfoItem = styled.div`
             width: 20px;
         }
         div{
-        display:flex;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
+            display:flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+        .checkbox{
+            height: auto;
+            width: auto;
         }
     }
     .input-check{
@@ -92,6 +96,10 @@ export const Geral = styled.div`
             margin: 5px;
             height: 70%;
             width: 90%;
+        }    
+        .codigo{
+            width: 50px;
+            margin: 5px;
         }
         input{
             height: 24px;
@@ -117,6 +125,7 @@ export const Tributacao = styled.div`
         width: 100%;
         input{
             height: 24px;
+            width: 30%;
             border: none;        
             box-shadow: 0 3px 5px gray;
             margin: 5px;
@@ -143,13 +152,14 @@ export const Tributacao = styled.div`
             width: 100%;
             display: flex;
             button{
-                height: 35px;
+                height: 50px;
             }
             button:hover{
                 cursor: pointer;
             }
         }
         select{
+            height: 24px;
             width: 100px;
         }
     }
