@@ -70,12 +70,12 @@ export const CadastroProduto = () => {
                         <div>
                             <label>NCM / SH:</label>
                             <input/>
-                            <img src="images/lupa.png"/>
+                            <img src="/images/lupa.png"/>
                         </div>
                         <div>
                             <label>CEST:</label>
                             <input/>
-                            <img src="images/lupa.png"/>
+                            <img src="/images/lupa.png"/>
                         </div>
                     </div>
                     <div className="campos">
@@ -193,7 +193,7 @@ export const CadastroProduto = () => {
                                     <option>2 - UN</option>
                                     <option>3 - PC</option>
                                 </select>
-                                <img src="images/add.png"/>
+                                <img src="/images/add.png"/>
                                 <label>Qtd. p/ caixa: </label>
                                 <input/>
                             </div>
@@ -350,8 +350,8 @@ export const CadastroProduto = () => {
                 
             <C.Footer>
                 <div className="buttons">
-                    <button><img src="images/salvar.png"/>Salvar</button>
-                    <button><img src="images/voltar.png"/>Voltar</button>
+                    <button><img src="/images/salvar.png"/>Salvar</button>
+                    <button><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
         </C.Container>
