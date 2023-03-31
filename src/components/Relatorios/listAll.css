@@ -50,14 +50,14 @@
 .dashboard{
     align-items: center;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-top: 81px;
     margin-left: 30px;
     width: 600px;
     height: 400px;
 }
 
-.paia{
+.dashboardTexts{
     display: flex;
     flex-direction: row;
 }
@@ -80,29 +80,39 @@ label{
 }
 
 .dashboardBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-left: 2px;
-    margin-top: 10px;
+    margin-top: 5px;
     height: 33px;
     width: 117px;
     cursor: pointer;
+    font-size: 15px;
 }
 
 .dashboardLine{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
     height: 50px;
     border-style: solid;
     border-width: 1px;
 }
 
-.side-column{
-    margin-left: 50px;
+.grafico1{
+    justify-content: space-between;
+    position: relative;
+    bottom: 80%;
+    right: 5%;
+    border-style: solid;
+    border-radius: 8px;
 }
 
-.pie-chart{
-    margin-left: 150px;
-}
-
-.bar-chart{
-    margin-left: 100px;
+.grafico2{
+   border-style: solid;
+   border-radius: 8px; 
+   
 }
 
 .btns{
@@ -126,6 +136,29 @@ label{
     border-style: outset;
     border-width: 2px;
     box-shadow: -1px -1px 1px #ABADB3;
+}
+
+.prices{
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-style: solid;
+    height: 95px;
+    width: 350px;
+}
+
+.lupa{
+    cursor: pointer;
+    margin-top: 2px;
+    height: 30px;
+    width: 30px;
+}
+
+.grafico{
+    height: 28px;
+    width: 28px;
+    margin-right: 5px;
 }
 
 .regiaoBtn{
@@ -480,6 +513,26 @@ table tr:nth-child(odd){
     height: 25px;
 }
 
+.ModalDashboard{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 80%;
+    border-style: solid;
+    background-color: white;
+}
+
+.cifrões{
+    margin-left: 3px;
+    height: 40px;
+    width: 40px;
+    margin-right: 5px;
+}
+
 .modal-content{
     display: flex;
     position: absolute;
@@ -526,6 +579,11 @@ table tr:nth-child(odd){
 .cbText{
     font-size: 11px;
     margin-left: 3px;
+}
+
+.botãoEmodal{
+    display: flex;
+    flex-direction: row;
 }
 
 .search-input-modal{
@@ -577,14 +635,14 @@ table tr:nth-child(odd){
 }
 @media (max-width:1600px){
     .ModalDados{
-        top: 69.3%;
+        top: 70%;
     }
     .filtro1{
-        top: 4.3vw;
-        left: 3vw;
+        top: 3.8vw;
+        left: 2vw;
     }
     .btns{
-        right: 44%;
+        right: 45.1%;
         top: 35%;
     }
     .pesquisar{
@@ -592,8 +650,11 @@ table tr:nth-child(odd){
         right: 15%;
     }
     .relatorio-content{
-        top: 34%;
-        left: 68%;
+        top: 36.2%;
+        left: 69%;
+    }
+    .filtros{
+        top: 10%;
     }
 }
 @media (max-width:1440px){
@@ -631,11 +692,11 @@ table tr:nth-child(odd){
 }
 @media (max-width: 1366px){
     .search-input{
-        width: 300px;
+        width: 270px;
     }
     .filtro1{
-        top: 1.2vw;
-        left: 10.1vw;
+        top: 1.4vw;
+        left: 9.5vw;
         width: 420px;
     }
     .obs{
@@ -645,6 +706,7 @@ table tr:nth-child(odd){
         right: 43.7%;
     }
     .filtros{
+        width: 95%;
         top: 5%;
     }
     .ModalDados{
@@ -652,5 +714,31 @@ table tr:nth-child(odd){
     }
     .test{
         width: 46%;
+    }
+    .relatorio-content{
+        top: 33.3%;
+        left: 58.5%;
+    }
+}
+@media (max-width:1024px){
+    .filtro1{
+        top: 5.7vw;
+        left: -3vw;
+    }
+    .ModalDados{
+        width: 75%;
+        height: 280px;
+    }
+    .filtros{
+        top: 12%;
+        left: 3%;
+    }
+    .pesquisar{
+        top: 20%;
+        right: 12%;
+    }
+    .relatorio-content{
+        top: 38.2%;
+        left: 64%;
     }
 }

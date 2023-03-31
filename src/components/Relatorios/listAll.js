@@ -495,7 +495,7 @@ export const ResumoFaturamento = () => {
     const options = {
         title: "Valores",
         is3D: true,
-        backgroundColor: "#d3d3d3",
+        backgroundColor: "#FFF",
     };
 
     const barData = [
@@ -511,7 +511,7 @@ export const ResumoFaturamento = () => {
           },
         ],
         ["Valor Lucro", result2, "#F7C64F", null],
-        ["Valor Custo", result, "#b87333", null],
+        ["Valor Custo", result, "#bc1b2b", null],
         ["Valor Total ", result1, "#39E055", null],
         ["Valor  Nf-e", result3, "#8226ED", null],
         ["Valor NFC-e", result4, "#2686ED", null],
@@ -519,8 +519,8 @@ export const ResumoFaturamento = () => {
       
     const barOptions = {
         title: "Tabela Valores Totais.",
-        width: 600,
-        height: 400,
+        width: 400,
+        height: 200,
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
       };
@@ -529,7 +529,7 @@ export const ResumoFaturamento = () => {
     const dataRegiao = [
         ["Element", "Valor Total", { role: "style" }],
         ["Lucro Venda", result2, "#F7C64F"], 
-        ["Valor Custo", result , "#b87333"],     
+        ["Valor Custo", result , "#bc1b2b"],     
         ["Venda Total", result1, "#39E055"], 
         ["Valor Nf-e", result3 , "#8226ED"],     
         ["Venda NFC-e", result4, "#2686ED"], 
@@ -872,9 +872,8 @@ const optionsPico = {
                             <option>Região</option>
                         </select>
                                        
-                            <label htmlFor="search-form">
-                            <input type="search" name="search-form" id="search-form" className="search-input" placeholder="Buscar..." onChange={(e) => setQuery(e.target.value)}/>
-                        
+                            <label htmlFor="search-form" className='botãoEmodal' >
+                                <input type="search" name="search-form" id="search-form" className="search-input" placeholder="Buscar..." onChange={(e) => setQuery(e.target.value)}/><img className='lupa' src="/images/LUPA.png" onClick={openModal}/>                    
                             </label>
                         
                             <div className='icon2'>
@@ -956,7 +955,7 @@ const optionsPico = {
                                 className="search-input"
                                 placeholder="Buscar..."
                                 onChange={(e) => setQuery2(e.target.value)}
-                            />
+                            /><img src="/images/LUPA.png"/>
                         
                             </label>
 
@@ -1061,7 +1060,7 @@ const optionsPico = {
 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label className='esc' >( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardRegiao} >Graficos</button>  
+                                    <button className='dashboardBtn' onClick={openDashboardRegiao} ><img className='grafico' src="/images/grafico.png"/> <p>Graficos </p></button>  
                                 </div>  
                     
                         <div className='table-resp' >
@@ -1123,18 +1122,42 @@ const optionsPico = {
                                 }       )}
                             
                            
-                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={styleDashboard} >
+                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" className="ModalDashboard" >
+
+                                <div >
+
+                                    <h1>Dashboard (Região)</h1>
+
+                                    <div className='dashboardTexts' >
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAmarelo.png' />  Valor de Lucro: R$ {result2}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoVermelho.png' /> Valor de Custo: R$ {result}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoVerde.jpg' /> Valor Total: R$ {result1}
+                                        </h2>
+                                        
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoRoxo.png' /> NF-e: R$ {result3}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAzul.png' /> NFC-e: R$ {result4}
+                                        </h2>
+
+                                    </div>
                                 
                                 <div className='dashboard' >
-                                        <h1>Dashboard</h1>
-
-                                    <div className='paia' >
-                                        <p>gg</p> <p>gg</p> <p>gg</p>
-                                    </div>
-
-                                    <Chart chartType="ColumnChart" width="500px" height="400px" data={dataRegiao} className="up-column" />
-                                    <Chart chartType="BarChart" width="500px" height="250px" data={barData} options={barOptions} className="side-column" />
-                                    <Chart chartType="PieChart" data={dataRegiao} options={options} width={"500px"} height={"400px"} className="pie-chart" />
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dataRegiao} options={options} className="grafico1" />
+                                    <Chart chartType="BarChart" width="300px" height="100px" data={barData} options={barOptions} className="grafico2" />
+                                    <Chart chartType="PieChart" data={dataRegiao} options={options} width="300px" height="200px"  />
+                                </div>
+                                    
                                 </div>
                                 
                             </Modal>
@@ -1149,7 +1172,7 @@ const optionsPico = {
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardFilial} >Graficos</button>
+                                    <button className='dashboardBtn' onClick={openDashboardFilial} > <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p> </button>
                                 </div>
 
                                 <div className='table-resp' >
@@ -1245,7 +1268,7 @@ const optionsPico = {
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardVendedor} >Graficos</button>
+                                    <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p> </button>
                                 </div>
 
                                 <table className='table-resp' >
@@ -1338,7 +1361,7 @@ const optionsPico = {
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardCliente} >Graficos</button>
+                                    <button className='dashboardBtn' onClick={openDashboardCliente} > <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p> </button>
                                 </div>
                         
                             </div>
@@ -1435,27 +1458,27 @@ const optionsPico = {
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardTipoDePagamento} >Graficos</button>
+                                    <button className='dashboardBtn' onClick={openDashboardTipoDePagamento} > <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p></button>
                                 </div>
                         
                             
                         <table>
-                        <div className='labels' >
+                        <tr className='labels' >
                             {keys.map((nomes) => {
                                 return(
                                     <th className='filter-all'>{(nomes).replace( '_' , ' ').toUpperCase()}</th>  
                                 )
                             } )}
-                        </div>
+                        </tr>
                             
-                                <div className='labels' >
+                                <tr className='labels' >
                                     {dadosTipoPagamento.map((f5) => {
                                         return(
                                                 <td className='filter-all' > {f5} </td> 
                                         )
                                     } )}                             
-                                </div>
-                </table>
+                                </tr>
+                    </table>
                             <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
                                 
                                 <div className='dashboardTpPg' >
@@ -1548,7 +1571,8 @@ const optionsPico = {
                         <Modal isOpen={grupoIsOpen} onRequestClose={closeGrupo} shouldCloseOnOverlayClick={true} overlayClassName="Grupo-overlay" contentLabel="Grupo" className="ModalDados">                                                     
                         <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Grupo" onChange={(e) => setQuery7(e.target.value)} />
                         
-                        <div className='labels' >
+                    <table>
+                        <tr className='labels' >
                                     <th className='filter-all'>Ranking</th>
 
                                     <th className='filter-all'>Id. Grupo</th>
@@ -1574,46 +1598,49 @@ const optionsPico = {
                                     <th className='filter-all'>% Margem</th>
 
                                     <th className='filter-all'>Percentual</th>
-                            </div>
+                            </tr>
 
                         {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(query7)).map((dat3) => (
                             
-                            <div className='labels' >
-                                <td className='filter-all'>{dat3.ranking}</td>
+                            <tr className='labels' >
+                                <td >{dat3.ranking}</td>
 
-                                <td className='filter-all'>{dat3.id_grupo}</td>
+                                <td >{dat3.id_grupo}</td>
 
-                                <td className='filter-name'> {dat3.grupo} </td>
+                                <td > {dat3.grupo} </td>
 
-                                <td className='filter-all'> {dat3.qtd_total} </td>
+                                <td > {dat3.qtd_total} </td>
 
-                                <td className='filter-all'> {dat3.sub_total} </td>
+                                <td > {dat3.sub_total} </td>
 
-                                <td className='filter-all'> {dat3.p_desconto} </td>
+                                <td > {dat3.p_desconto} </td>
 
-                                <td className='filter-all'> {dat3.vlr_desconto_total} </td>
+                                <td > {dat3.vlr_desconto_total} </td>
 
-                                <td className='filter-all'> {dat3.vlr_venda_total} </td>
+                                <td > {dat3.vlr_venda_total} </td>
 
-                                <td className='filter-all'> {dat3.vlr_custo_total} </td>
+                                <td > {dat3.vlr_custo_total} </td>
 
-                                <td className='filter-all'> {dat3.vlr_lucro_total} </td>
+                                <td > {dat3.vlr_lucro_total} </td>
 
-                                <td className='filter-all'> {dat3.p_markup} </td>
+                                <td > {dat3.p_markup} </td>
 
-                                <td className='filter-all'> {dat3.p_margem} </td>
+                                <td > {dat3.p_margem} </td>
 
-                               <td className='filter-all'> {(dat3.percentual).toFixed(3)} </td>
-                            </div>
+                               <td > {(dat3.percentual).toFixed(3)} </td>
+                            </tr>
 
                         ))}
-                                                       
+                    </table>    
+
                         </Modal>
 
                         <button className='fornecedorBtn' onClick={abrirFornecedor} >Fornecedor</button>
                         <Modal  isOpen={fornecdorIsOpen} onRequestClose={closeFornecedor} contentLabel="Fornecedor" shouldCloseOnOverlayClick={true} overlayClassName="Fornecedor-overlay" className="ModalDados"> 
                         <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)}/>
-                        <div className='labels'>
+                        
+                    <table>
+                        <tr className='labels'>                           
                                     <th className='filter-all'>Ranking</th>
 
                                     <th className='filter-all'>Id. Fornecedor</th>
@@ -1639,9 +1666,11 @@ const optionsPico = {
                                     <th className='filter-all'>% Margem</th>
 
                                     <th className='filter-all'>Percentual</th>
-                            </div>
+                            </tr>
+
                         {dadosFornecedor.filter(dat => dat.fornecedor.toLowerCase().includes(query8)).map((dat) => (
-                                <div className='labels'>
+                                
+                                <tr className='labels'>
                                         <td className='filter-all' > {dat.ranking} </td>
 
                                         <td className='filter-all' > {dat.id_fornecedor} </td>
@@ -1667,8 +1696,9 @@ const optionsPico = {
                                         <td className='filter-all' > {dat.p_margem} </td>
 
                                         <td className='filter-all' > {(dat.percentual).toFixed(2)} </td>
-                                </div>
-                        ))}                            
+                                </tr>
+                        ))}   
+                    </table>
                         </Modal>
                     </div>
                 </div>
