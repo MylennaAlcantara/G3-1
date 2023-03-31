@@ -58,36 +58,23 @@ export const CounsultarProduto = () =>{
                 <h3>Produtos</h3>
             </C.Header>
             <CP.Filtro>
-                <div>
-                    <label>Coluna: </label>
-                    <select>
-                        <option>Descrição</option>
-                        <option>cód.</option>
-                        <option>Cód. Barra</option>
-                        <option>Fornecedor</option>
-                        <option>Gurpo / Sub</option>
-                        <option>Data Cadastro</option>
-                        <option>NCM</option>
-                        <option>Familia</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Ativo: </label>
-                    <select>
-                        <option>SIM</option>
-                        <option>NÃO</option>
-                        <option>TODOS</option>
-                    </select>
-                </div>
-                <div>
-                    <label>Tipo de Busca: </label>
-                    <select>
-                        <option>Iniciados por</option>
-                        <option>Terminados por</option>
-                        <option>Contenha</option>
-                        <option>Igual</option>
-                    </select>
-                </div>
+                <label>Coluna: </label>
+                <select>
+                    <option>Descrição</option>
+                    <option>cód.</option>
+                    <option>Cód. Barra</option>
+                    <option>Fornecedor</option>
+                    <option>Gurpo / Sub</option>
+                    <option>Data Cadastro</option>
+                    <option>NCM</option>
+                    <option>Familia</option>
+                </select>
+                <label>Ativo: </label>
+                <select>
+                    <option>SIM</option>
+                    <option>NÃO</option>
+                    <option>TODOS</option>
+                </select>
                 <input placeholder="Buscar..."/>
             </CP.Filtro>
             <CP.Lista>

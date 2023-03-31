@@ -102,6 +102,10 @@ export const CadastroProduto = () => {
         setEmpresas(data);
     }
 
+    const voltar = () => {
+        navigate('/produtos')
+    }
+
     return(
         <C.Container>
             <C.Header>
@@ -703,7 +707,7 @@ export const CadastroProduto = () => {
             <C.Footer>
                 <div className="buttons">
                     <button><img src="/images/salvar.png"/>Salvar</button>
-                    <button><img src="/images/voltar.png"/>Voltar</button>
+                    <button onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
         </C.Container>
