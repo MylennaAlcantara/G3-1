@@ -19,7 +19,7 @@ export const ConsultarFornecedor = () => {
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://10.0.1.10:8092/fornecedor/all");
+            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/all");
             const data = await response.json();
             setUsers(data);
         }
@@ -70,7 +70,7 @@ export const ConsultarFornecedor = () => {
     }
     const codigoFornecedor = localStorage.getItem('idFornecedor');
     const abrirEditar = async() => {
-        const responseFornecedor = await fetch(`http://10.0.1.10:8092/fornecedor/${codigoFornecedor}`);
+        const responseFornecedor = await fetch(`http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/${codigoFornecedor}`);
         const fornecedor = await responseFornecedor.json();
         if(codigoFornecedor === undefined || codigoFornecedor === null){
             console.log('nenhum fornecedor selecionado')

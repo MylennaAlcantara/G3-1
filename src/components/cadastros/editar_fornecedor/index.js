@@ -36,7 +36,7 @@ console.log(dadosCidades)
             setEstados(data);
         }
         async function fetchDataFornecedor (){
-            const response = await fetch(`http://10.0.1.10:8092/fornecedor/${codigoFornecedor}`);
+            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/${codigoFornecedor}`);
             const data = await response.json();
             setIdFornecedor(data.id);
             setCep(data.cep);
@@ -173,7 +173,7 @@ console.log(dadosCidades)
         const codMunicipio = document.getElementById('codigoMunicipio').value;
         if(cnpj && nome && cep && enderecoRua && bairro && numero && codMunicipio && municipio && dataIdSelectSaler){
             try{
-                const res = await fetch("http://10.0.1.10:8092/fornecedor/edit", {
+                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/edit", {
                     method: "PUT",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({

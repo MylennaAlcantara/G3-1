@@ -102,7 +102,23 @@ export const Geral = styled.div`
     }
 `
 export const Tributacao = styled.div`
-
+    height: 80%;
+    width: 100%;
+    .tributacao{
+        display: flex;
+        input{
+            height: 24px;
+        }
+        .codigo{
+            width: 50px;
+        }
+    }
+    .ippt{
+        img{
+            height: 20px;
+            width: 20px;
+        }
+    }
 `
 export const Custo = styled.div`
 

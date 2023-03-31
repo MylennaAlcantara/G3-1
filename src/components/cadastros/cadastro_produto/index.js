@@ -220,8 +220,130 @@ export const CadastroProduto = () => {
                         </div>
                     </div>
                 </CP.Geral>
-            ) : aba === "tibutacao" ? (
-                <CP.Tributacao/>
+            ) : aba === "tributacao" ? (
+                <CP.Tributacao>
+                    <div className="tributacao">
+                        <div className="icms">
+                            <fieldset>
+                                <legend>ICMS</legend>
+                                <div>
+                                    <label>Aliquota no ECF (Imp. Fiscal)</label>
+                                    <input className="codigo"/>
+                                    <label>Totalizador Parcial no ECF:</label>
+                                    <select></select>
+                                </div>
+                                <div>
+                                    <label>Grupo de Regra ICMS:</label>
+                                    <input className="codigo"/>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>--</legend>
+                                <div>
+                                    <div>
+                                        <label style={{color: "red"}}>Grupo de Regra para IPI: </label>
+                                        <input className="codigo"/>
+                                        <input/>
+                                    </div>
+                                    <div>
+                                        <label style={{color: "blue"}}>Grupo de Regra para PIS: </label>
+                                        <input className="codigo"/>
+                                        <input/>
+                                    </div>
+                                    <div>
+                                        <label style={{color: "blue"}}>Grupo de Regra para COFINS: </label>
+                                        <input className="codigo"/>
+                                        <input/>
+                                    </div>
+                                    <div>
+                                        <label style={{color: "green"}}>Natureza da Receita: </label>
+                                        <input className="codigo"/>
+                                        <input/>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div>
+                                <button>Visualizar Árvore MVA ST</button>
+                                <fieldset>
+                                    <div>
+                                        <input type='checkbox'/>
+                                        <label>Produto Regulamentado pela ANP</label>
+                                        <label>Valor de PArtida: </label>
+                                        <input value="0,00"/>
+                                    </div>
+                                    <div>
+                                        <label>Identificação ANP: </label>
+                                        <input className="codigo"/>
+                                        <input/>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <fieldset>
+                                <legend>Origem do Produto</legend>
+                                <div>
+                                    <select>
+                                        <option>0 - Nacional</option>
+                                        <option>1 - ESTRANGEIRA - IMPORTAÇÃO DIRETA</option>
+                                        <option>2 - ESTRANGEIRA - ADQUIRIDA NO MERCADO INTERNO</option>
+                                        <option>3 - NACIONAL</option>
+                                        <option>4 - NACIONAL</option>
+                                        <option>5 - NACIONAL</option>
+                                        <option>6 - ESTRANGEIRA</option>
+                                        <option>7 - ESTRANGEIRA</option>
+                                    </select>
+                                    <textarea readOnly/>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div className="ippt">
+                            <div>
+                                <label>IPPT: </label>
+                                <div>
+                                    <input type="radio" name="ippt"/>
+                                    <label>Próprio</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="ippt"/>
+                                    <label>Terceiros</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label>IAT: </label>
+                                <div>
+                                    <input type="radio" name="iat"/>
+                                    <label>Arredondamento</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="iat"/>
+                                    <label>Truncamento</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label>Cód. Enquadramento IPI: </label>
+                                <input className="codigo"/>
+                                <img src="/images/lupa.png"/>
+                            </div>
+                            <div>
+                                <div>
+                                    <label>BC do ICMS ST Retido Montante: </label>
+                                    <input value="0,000000"/>
+                                </div>
+                                <div>
+                                    <label>Valor ICMS ST Retido Montante: </label>
+                                    <input value="0,000000"/>
+                                </div>
+                                <div>
+                                    <label>BC do ICMS ST Retido por Unid: </label>
+                                    <input value="0,000000"/>
+                                </div>
+                                <div>
+                                    <label>Valor ICMS ST Retido por Unid: </label>
+                                    <input value="0,000000"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </CP.Tributacao>
             ) : (
                 <CP.Custo/>
             )}
