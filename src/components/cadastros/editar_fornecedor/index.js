@@ -353,7 +353,7 @@ console.log(dadosCidades)
                                 <div>
                                     <label>País:</label>
                                     <input className="codigo" value={dadosPaises.codigo} onKeyDown={keyPaises}/>
-                                    <img src="/images/lupa.png" onClick={pesquisarPais}/>
+                                    <img src="/images/LUPA.png" onClick={pesquisarPais}/>
                                     <label style={{color: "red"}}>{dadosPaises.nome}</label>
                                 </div>
                                 <div>

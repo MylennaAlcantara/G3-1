@@ -81,6 +81,7 @@ export const Geral = styled.div`
     }
     .table-responsive{
         overflow: auto;
+        height: 80%;
     }
     .unid-fornecedor{
         display: block;

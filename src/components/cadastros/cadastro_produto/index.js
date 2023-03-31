@@ -231,7 +231,7 @@ export const CadastroProduto = () => {
                 <CP.Geral>
                     <div className="geral">
                         <div className="table-responsive">
-                            <table>
+                            <table className="table">
                                 <thead>
                                     <tr>
                                         <th>id</th>
@@ -259,11 +259,26 @@ export const CadastroProduto = () => {
                                         <td>0,00</td>
                                         <td>0,00</td>
                                         <td>0,00</td>
+                                        <td>0,00</td>
                                     </tr>
                                     <tr>
-                                        <td>0</td>
+                                        <td>1</td>
                                         <td>3</td>
-                                        <td>A VISTA</td>
+                                        <td>CREDITO</td>
+                                        <td>0,00</td>
+                                        <td>0,00</td>
+                                        <td>0,00</td>
+                                        <td>0,00</td>
+                                        <td>0,00</td>
+                                        <td>0,00</td>
+                                        <td>0,00</td>
+                                        <td>0,00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>DEBITO</td>
+                                        <td>0,00</td>
                                         <td>0,00</td>
                                         <td>0,00</td>
                                         <td>0,00</td>
@@ -361,6 +376,8 @@ export const CadastroProduto = () => {
                                     <div>
                                         <input className="input-check" type='checkbox'/>
                                         <label>Produto Regulamentado pela ANP</label>
+                                    </div>
+                                    <div>
                                         <label>Valor de PArtida: </label>
                                         <input value="0,00"/>
                                     </div>
