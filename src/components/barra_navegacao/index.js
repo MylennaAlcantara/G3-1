@@ -16,7 +16,7 @@ export const NavBar = () => {
         <C.Container>
             {aberto ? (
                 <C.Barra>
-                    <div onClick={() =>setCadastros(!cadastros)}>Cadastros</div>
+                    <div onClick={() =>setCadastros(!cadastros)}><img src="/images/cadastro.png"/>Cadastros</div>
                     {cadastros ? (
                         <div className="gaveta">
                             <div className="gaveta" onClick={()=> navigate('/clientes')}>Cadastro de Cliente</div>

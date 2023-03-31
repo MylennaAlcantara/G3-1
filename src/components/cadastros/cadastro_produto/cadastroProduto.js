@@ -3,6 +3,9 @@ import styled from "styled-components";
 export const InfoItem = styled.div`
     width: 100%;
     display: flex;
+    background-color: #F0F0F0;
+    border-radius: 5px;
+    margin-bottom: 5px;
     .campos{
         display: flex;
         width: 100%;
@@ -26,6 +29,8 @@ export const InfoItem = styled.div`
         height: 24px;
         width: 80%;
         margin: 5px;
+        border: none;        
+        box-shadow: 0 3px 5px gray;
     }
     #checkbox{
         display: block;
@@ -55,6 +60,9 @@ export const Geral = styled.div`
     width: 100%;
     .geral{
         height: 100%;
+        background-color: #F0F0F0;
+        border-radius: 5px;
+        margin:  5px 0 5px 0;
     }
     div{
         display: flex;
@@ -81,6 +89,8 @@ export const Geral = styled.div`
         input{
             height: 24px;
             width: 120px;
+            border: none;        
+            box-shadow: 0 3px 5px gray;
         }
         select{
             height: 24px;
