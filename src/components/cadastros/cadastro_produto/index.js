@@ -105,21 +105,21 @@ export const CadastroProduto = () => {
                     <div>
                         <div className="checkbox">
                             <div className="check">
-                                <input type="checkbox"/>
+                                <input className="input-check" type="checkbox"/>
                                 <label>Pesagem no Caixa</label> 
                             </div>
                             <div className="check">
-                                <input type="checkbox"/>
+                                <input className="input-check" type="checkbox"/>
                                 <label>Produto de Balança</label>
                             </div>
                         </div>
                         <div className="checkbox">
                             <div className="check">
-                                <input type="checkbox"/>
+                                <input className="input-check" type="checkbox"/>
                                 <label>Venda PDV</label>
                             </div>
                             <div className="check">
-                                <input type="checkbox"/>
+                                <input className="input-check" type="checkbox"/>
                                 <label>Sazonal</label>
                             </div>
                         </div>
@@ -262,11 +262,11 @@ export const CadastroProduto = () => {
                                     </div>
                                 </div>
                             </fieldset>
-                            <div>
+                            <div className="mva">
                                 <button>Visualizar Árvore MVA ST</button>
                                 <fieldset>
                                     <div>
-                                        <input type='checkbox'/>
+                                        <input className="input-check" type='checkbox'/>
                                         <label>Produto Regulamentado pela ANP</label>
                                         <label>Valor de PArtida: </label>
                                         <input value="0,00"/>
@@ -280,7 +280,7 @@ export const CadastroProduto = () => {
                             </div>
                             <fieldset>
                                 <legend>Origem do Produto</legend>
-                                <div>
+                                <div className="origem">
                                     <select>
                                         <option>0 - Nacional</option>
                                         <option>1 - ESTRANGEIRA - IMPORTAÇÃO DIRETA</option>
@@ -298,24 +298,28 @@ export const CadastroProduto = () => {
                         <div className="ippt">
                             <div>
                                 <label>IPPT: </label>
-                                <div>
-                                    <input type="radio" name="ippt"/>
-                                    <label>Próprio</label>
-                                </div>
-                                <div>
-                                    <input type="radio" name="ippt"/>
-                                    <label>Terceiros</label>
+                                <div className="opcao">
+                                    <div>
+                                        <input type="radio" className="input-check" name="ippt"/>
+                                        <label>Próprio</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" className="input-check" name="ippt"/>
+                                        <label>Terceiros</label>
+                                    </div>
                                 </div>
                             </div>
                             <div>
                                 <label>IAT: </label>
-                                <div>
-                                    <input type="radio" name="iat"/>
-                                    <label>Arredondamento</label>
-                                </div>
-                                <div>
-                                    <input type="radio" name="iat"/>
-                                    <label>Truncamento</label>
+                                <div className="opcao">
+                                    <div>
+                                        <input type="radio" className="input-check" name="iat"/>
+                                        <label>Arredondamento</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" className="input-check" name="iat"/>
+                                        <label>Truncamento</label>
+                                    </div>
                                 </div>
                             </div>
                             <div>
@@ -323,7 +327,7 @@ export const CadastroProduto = () => {
                                 <input className="codigo"/>
                                 <img src="/images/lupa.png"/>
                             </div>
-                            <div>
+                            <div className="bc-icms">
                                 <div>
                                     <label>BC do ICMS ST Retido Montante: </label>
                                     <input value="0,000000"/>

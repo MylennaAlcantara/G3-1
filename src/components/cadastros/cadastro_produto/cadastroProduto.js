@@ -24,7 +24,10 @@ export const InfoItem = styled.div`
         align-items: center;
         }
     }
-    
+    .input-check{
+        height: auto;
+        box-shadow: none;
+    }
     input{
         height: 24px;
         width: 80%;
@@ -104,16 +107,64 @@ export const Geral = styled.div`
 export const Tributacao = styled.div`
     height: 80%;
     width: 100%;
+    overflow: auto;
     .tributacao{
         display: flex;
         input{
             height: 24px;
+            border: none;        
+            box-shadow: 0 3px 5px gray;
+            margin: 5px;
+        }
+        .input-check{
+            height: auto;
+            box-shadow: none;
         }
         .codigo{
             width: 50px;
         }
+        fieldset{
+            background-color: #F0F0F0;
+        }
+    }
+    .icms{
+        .origem{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mva{
+            display: flex;
+            button{
+                height: 35px;
+            }
+            button:hover{
+                cursor: pointer;
+            }
+        }
+        select{
+            width: 100px;
+        }
     }
     .ippt{
+        background-color: #F0F0F0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 5px;
+        .opcao{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .bc-icms{
+            display: block;
+        }
+        div{
+            display: flex;
+            align-items: center;
+        }
         img{
             height: 20px;
             width: 20px;
