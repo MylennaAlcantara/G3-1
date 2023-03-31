@@ -6,6 +6,9 @@ export const InfoItem = styled.div`
     background-color: #F0F0F0;
     border-radius: 5px;
     margin-bottom: 5px;
+    .div-info{
+        width: 100%;
+    }
     .campos{
         display: flex;
         width: 100%;
@@ -22,6 +25,7 @@ export const InfoItem = styled.div`
         display:flex;
         width: 100%;
         align-items: center;
+        justify-content: center;
         }
     }
     .input-check{
@@ -110,6 +114,7 @@ export const Tributacao = styled.div`
     overflow: auto;
     .tributacao{
         display: flex;
+        width: 100%;
         input{
             height: 24px;
             border: none;        
@@ -128,12 +133,14 @@ export const Tributacao = styled.div`
         }
     }
     .icms{
+        width: 100%;
         .origem{
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .mva{
+            width: 100%;
             display: flex;
             button{
                 height: 35px;
@@ -147,6 +154,7 @@ export const Tributacao = styled.div`
         }
     }
     .ippt{
+        width: 100%;
         background-color: #F0F0F0;
         display: flex;
         flex-direction: column;
@@ -172,20 +180,291 @@ export const Tributacao = styled.div`
     }
 `
 export const Custo = styled.div`
-
+    height: 80%;
+    width: 100%;
+    .table-responsive{
+        height: 90%;
+        overflow: auto;
+    }
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    th{    
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;    
+        background-color: #ffffff;
+        border: 1px solid grey;
+    }
+    td{
+        border: 1px solid grey;
+    }
+    table tr:nth-child(even){
+        background-color: #ffffe6;
+    }
+    table tr:nth-child(odd){
+        background-color: #f0f0f0;   
+    }
+    .table tr td{
+        cursor: pointer;
+    }
+    .table tr:hover td{
+        background-color: #87CEFA;
+    }
 `
 export const Estoque = styled.div`
-
+    height: 80%;
+    width: 100%;
+    .table-responsive{
+        height: 90%;
+        overflow: auto;
+    }
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    th{    
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;    
+        background-color: #ffffff;
+        border: 1px solid grey;
+    }
+    td{
+        border: 1px solid grey;
+    }
+    table tr:nth-child(even){
+        background-color: #ffffe6;
+    }
+    table tr:nth-child(odd){
+        background-color: #f0f0f0;   
+    }
+    .table tr td{
+        cursor: pointer;
+    }
+    .table tr:hover td{
+        background-color: #87CEFA;
+    }
 `
 export const Movimentação = styled.div`
-
+    height: 80%;
+    width: 100%;
+    img{
+        height: 20px;
+        width: 20px;
+    }
+    input{
+        height: 24px;
+        border: none;
+        margin: 5px;        
+        box-shadow: 0 3px 5px gray;
+    }
+    #data{
+        display: flex;
+        width: 100%;
+        background-color: #F0F0F0;
+        margin: 5px 0 5px 0;
+    }
+    .data{
+        display: flex;
+    }
+    div{
+        width: 100%;
+    }
+    .ultima{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+    }
+    .table-responsive{
+        height: 90%;
+        overflow: auto;
+    }
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    th{    
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;    
+        background-color: #ffffff;
+        border: 1px solid grey;
+    }
+    td{
+        border: 1px solid grey;
+    }
+    table tr:nth-child(even){
+        background-color: #ffffe6;
+    }
+    table tr:nth-child(odd){
+        background-color: #f0f0f0;   
+    }
+    .table tr td{
+        cursor: pointer;
+    }
+    .table tr:hover td{
+        background-color: #87CEFA;
+    }
 `
 export const Fornecedores = styled.div`
-
+    height: 80%;
+    width: 100%;
+    img{
+        height: 20px;
+        width: 20px;
+    }
+    input{
+        height: 24px;
+        width: 150px;
+        border: none;
+        margin: 5px;        
+        box-shadow: 0 3px 5px gray;
+    }
+    .fornecedores{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        fieldset{
+            height: 30%;
+            background-color: #F0F0F0;
+        }
+        .foto{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #foto{
+            height: 150px;
+            width: 150px;
+            border: 1px solid black;
+        }
+        .div-fornecedor{
+            height: 100%;
+            width: 80%;
+            margin: 5px;
+            textarea{
+                height: 80%;
+                width: 90%;
+            }                
+            .pesos{
+                display: flex;
+            }
+            .table-responsive{
+                height: 100%;
+                overflow: auto;
+            }
+            table{
+                border-collapse: collapse;
+                width: 100%;
+                border: 1px solid grey;
+            }
+            th{    
+                font-size: 15px;
+                font-weight: bold;
+                color: #373435;    
+                background-color: #ffffff;
+                border: 1px solid grey;
+            }
+            td{
+                border: 1px solid grey;
+            }
+            table tr:nth-child(even){
+                background-color: #ffffe6;
+            }
+            table tr:nth-child(odd){
+                background-color: #f0f0f0;   
+            }
+            .table tr td{
+                cursor: pointer;
+            }
+            .table tr:hover td{
+                background-color: #87CEFA;
+            }
+        }
+    }
 `
 export const Promocao = styled.div`
-
+    height: 80%;
+    width: 100%;
+    .table-responsive{
+        height: 90%;
+        overflow: auto;
+    }
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    th{    
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;    
+        background-color: #ffffff;
+        border: 1px solid grey;
+    }
+    td{
+        border: 1px solid grey;
+    }
+    table tr:nth-child(even){
+        background-color: #ffffe6;
+    }
+    table tr:nth-child(odd){
+        background-color: #f0f0f0;   
+    }
+    .table tr td{
+        cursor: pointer;
+    }
+    .table tr:hover td{
+        background-color: #87CEFA;
+    }
 `
 export const Validade = styled.div`
-
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    select{
+        width: 50%;
+        margin: 5px;
+    }
+    .table-responsive{
+        height: 90%;
+        overflow: auto;
+    }
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    th{    
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;    
+        background-color: #ffffff;
+        border: 1px solid grey;
+    }
+    td{
+        border: 1px solid grey;
+    }
+    table tr:nth-child(even){
+        background-color: #ffffe6;
+    }
+    table tr:nth-child(odd){
+        background-color: #f0f0f0;   
+    }
+    .table tr td{
+        cursor: pointer;
+    }
+    .table tr:hover td{
+        background-color: #87CEFA;
+    }
 `

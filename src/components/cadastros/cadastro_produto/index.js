@@ -4,6 +4,7 @@ import * as CP from "./cadastroProduto";
 import * as CC from "../cadastro_cliente/cadastroCliente"
 
 export const CadastroProduto = () => {
+    const [empresas, setEmpresas] = useState([]);
     const [aba, setAba] = useState('geral');
 
     function geral (){
@@ -27,8 +28,11 @@ export const CadastroProduto = () => {
     function promocao (){
         setAba('promocao');
     }
-    function validade (){
+    async function validade (){
         setAba('validade');
+        const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
+        const data = await response.json();
+        setEmpresas(data);
     }
 
     return(
@@ -47,7 +51,7 @@ export const CadastroProduto = () => {
                 </div>
             </CC.DadosCliente>
             <CP.InfoItem>
-                <div>
+                <div className="div-info">
                     <div className="campos">
                         <div>
                             <label>Código: </label>
@@ -70,12 +74,12 @@ export const CadastroProduto = () => {
                         <div>
                             <label>NCM / SH:</label>
                             <input/>
-                            <img src="/images/lupa.png"/>
+                            <img src="/images/LUPA.png"/>
                         </div>
                         <div>
                             <label>CEST:</label>
                             <input/>
-                            <img src="/images/lupa.png"/>
+                            <img src="/images/LUPA.png"/>
                         </div>
                     </div>
                     <div className="campos">
@@ -133,7 +137,7 @@ export const CadastroProduto = () => {
                 <div onClick={estoque} style={{backgroundColor: aba === "estoque" ? "white" : "", borderBottom: aba === "estoque" ? "0" : ""}}>Estoque</div>
                 <div onClick={movimentacao} style={{backgroundColor: aba === "movimentacao" ? "white" : "", borderBottom: aba === "movimentacao" ? "0" : ""}}>Movimentação</div>
                 <div onClick={fornecedores} style={{backgroundColor: aba === "fornecedores" ? "white" : "", borderBottom: aba === "fornecedores" ? "0" : ""}}>Fornecedores / +</div>
-                <div onClick={promocao} style={{backgroundColor: aba === "prommocao" ? "white" : "", borderBottom: aba === "promocao" ? "0" : ""}}>Promoção</div>
+                <div onClick={promocao} style={{backgroundColor: aba === "promocao" ? "white" : "", borderBottom: aba === "promocao" ? "0" : ""}}>Promoção</div>
                 <div onClick={validade} style={{backgroundColor: aba === "validade" ? "white" : "", borderBottom: aba === "validade" ? "0" : ""}}>Validade Est.</div>
             </CC.Navegacao>
             {aba === "geral"? (
@@ -325,7 +329,7 @@ export const CadastroProduto = () => {
                             <div>
                                 <label>Cód. Enquadramento IPI: </label>
                                 <input className="codigo"/>
-                                <img src="/images/lupa.png"/>
+                                <img src="/images/LUPA.png"/>
                             </div>
                             <div className="bc-icms">
                                 <div>
@@ -348,10 +352,269 @@ export const CadastroProduto = () => {
                         </div>
                     </div>
                 </CP.Tributacao>
+            ) : aba === "info-custo" ? (
+                <CP.Custo>
+                    <div>
+                        <input type="checkbox"/>
+                        <label>Listar de Todas Filiais</label>
+                    </div>
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Filial</th>
+                                    <th>V. Compra</th>
+                                    <th>Desconto</th>
+                                    <th>Frete</th>
+                                    <th>Seguro</th>
+                                    <th>Desp. Adu.</th>
+                                    <th>Encargos C.</th>
+                                    <th>IPI Compra</th>
+                                    <th>ICMS Compra</th>
+                                    <th>ICMS Antecip.</th>
+                                    <th>ST Compra</th>
+                                    <th>ST Retiro C.</th>
+                                    <th>PIS Compra</th>
+                                    <th>COFINS C.</th>
+                                    <th>Bonificação C.</th>
+                                    <th>Out. Incentivos</th>
+                                    <th>Desconto Dup.</th>
+                                    <th>Outras Desp.</th>
+                                    <th>Verba Compra</th>
+                                    <th>IPI</th>
+                                    <th>ICMS</th>
+                                    <th>PIS</th>
+                                    <th>COFINS</th>
+                                    <th>Outros C. Venda</th>
+                                    <th>Comissão</th>
+                                    <th>Divulgação</th>
+                                    <th>Outros Cust. V.</th>
+                                    <th>Custo Venda Variav. </th>
+                                    <th>Custo Venda Fixo</th>
+                                    <th>Custo Final</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </CP.Custo>
+            ) : aba === "estoque" ? (
+                <CP.Estoque>
+                    <div>
+                        <input type="checkbox"/>
+                        <label>Listar de Todas Filiais</label>
+                    </div>
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Ativo?</th>
+                                    <th>Filial</th>
+                                    <th>Nome</th>
+                                    <th>Est. Inicial</th>
+                                    <th>Mín.</th>
+                                    <th>Máx.</th>
+                                    <th>Real</th>
+                                    <th>Res. Faturar</th>
+                                    <th>Dep. Interno</th>
+                                    <th>Disponivel</th>
+                                    <th>Ajuste</th>
+                                    <th>Tipo Ajuste</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox"/></td>
+                                    <td>1</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                    <td>0,00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </CP.Estoque>
+            ) : aba === "movimentacao" ? (
+                <CP.Movimentação>
+                    <div id="data">
+                        <div>
+                            <div className="data">
+                                <div >
+                                    <input type="date"/>
+                                    <label>à</label>
+                                    <input type="date"/>
+                                </div>
+                                <button><img src="/images/add.png"/>Gerar Movimentação</button>
+                            </div>
+                            <label> * Tipo Mov.: (E: Entrada / S: Saída / R-E: Remessa-Entrada / R-S: Remessa-Saída)</label>
+                        </div>
+                        <div className="ultima">
+                            <div>
+                                <label>Ultima Venda:</label>
+                                <input/>
+                            </div>
+                            <div>
+                                <label>Ultima Compra:</label>
+                                <input/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Código PV</th>
+                                    <th>Código Nota</th>
+                                    <th>Tipo Mov. *</th>
+                                    <th>Quantidade</th>
+                                    <th>Valor</th>
+                                    <th>Emitente</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </CP.Movimentação>
+            ) : aba === "fornecedores" ? (
+                <CP.Fornecedores>
+                    <div className="fornecedores">
+                        <div className="foto">
+                            <div id="foto"></div>
+                            <div>
+                                <input placeholder="Selecione uma foto"/>
+                                <img src="/images/LUPA.png"/>
+                            </div>
+                        </div>
+                        <div className="div-fornecedor">
+                            <fieldset>
+                                <legend>Fornecedor</legend>
+                                <div className="table-responsive">
+                                    <table className="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Fornecedor</th>
+                                                <th>Último Preço</th>
+                                                <th>Última Compra</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                            <div className="pesos">
+                                <div>
+                                    <label>Peso Líquido: </label>
+                                    <input value="0,0000"/>
+                                </div>
+                                <div>
+                                    <label>Peso Bruto: </label>
+                                    <input value="0,0000"/>
+                                </div>
+                                <div>
+                                    <label>Volume: </label>
+                                    <input value="0,0000"/>
+                                </div>
+                            </div>
+                            <fieldset>
+                                <legend>Observações: </legend>
+                                <textarea/>
+                            </fieldset>
+                        </div>
+                    </div>
+                </CP.Fornecedores>
+            ) : aba === "promocao" ? (
+                <CP.Promocao>
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Promoção</th>
+                                    <th>Ativa</th>
+                                    <th>Filial</th>
+                                    <th>Aplicar Região</th>
+                                    <th>Data Cadastro</th>
+                                    <th>Descrição da Promoção</th>
+                                    <th>Produto</th>
+                                    <th>Principal</th>
+                                    <th>Preço (R$)</th>
+                                    <th>Período</th>
+                                    <th>Aplicar Família</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </CP.Promocao>
             ) : (
-                <CP.Custo/>
+                <CP.Validade>
+                    <select>
+                        {empresas.map((empresa)=> {
+                            return(
+                                <option value={empresa.id}>{empresa.id} - {empresa.razao_social} - {empresa.cnpj}</option>
+                            )
+                        })}
+                    </select>
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Filial</th>
+                                    <th>Qtd.</th>
+                                    <th>Dt. Fabricação</th>
+                                    <th>Dt. Validade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </CP.Validade>
             )}
-                
             <C.Footer>
                 <div className="buttons">
                     <button><img src="/images/salvar.png"/>Salvar</button>
