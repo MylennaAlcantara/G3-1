@@ -107,12 +107,68 @@ label{
     right: 5%;
     border-style: solid;
     border-radius: 8px;
+    border-width: 1px;
 }
 
 .grafico2{
+   position: relative;
    border-style: solid;
-   border-radius: 8px; 
+   border-width: 1px;
+   border-radius: 8px;
+   bottom: 80%; 
    
+}
+
+.grafico3{
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+    bottom: 120%;
+    left: 5%;
+}
+
+.dashboardOk{
+    display: flex;
+    flex-direction: row;
+}
+
+.tlou{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.bandeira{
+    margin-left: 10px;
+    height: 40px;
+    width: 60px;
+    margin-right: 5px;
+}
+
+.regiaoImg{
+    margin-left: 60px;
+    height: 150px;
+    width: 180px;
+}
+
+.spanName{
+    right: 6vw;
+    top: 5vw;
+    position: relative;
+    margin-right: 5px;
+}
+
+.bestRegion{
+    background-color: #d3d3d3;
+    position: relative;
+    border-style: solid;
+    border-radius: 7px;
+    border-width: 1px;
+    width: 400px;
+    left: 2.5%;
+    bottom: 15.3vw;
 }
 
 .btns{
@@ -139,6 +195,7 @@ label{
 }
 
 .prices{
+    background-color: #d3d3d3;
     font-size: 15px;
     display: flex;
     justify-content: center;

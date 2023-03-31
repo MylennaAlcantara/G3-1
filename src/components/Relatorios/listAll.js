@@ -307,7 +307,7 @@ export const ResumoFaturamento = () => {
         "idFilial": "1",
         "idTop": null
     }
-    
+
     console.log(dados)
     console.log(dadosCliente)
     console.log(dadosRegiao)
@@ -495,7 +495,7 @@ export const ResumoFaturamento = () => {
     const options = {
         title: "Valores",
         is3D: true,
-        backgroundColor: "#FFF",
+        backgroundColor: "#d3d3d3",
     };
 
     const barData = [
@@ -519,9 +519,10 @@ export const ResumoFaturamento = () => {
       
     const barOptions = {
         title: "Tabela Valores Totais.",
+        backgroundColor: '#d3d3d3',
         width: 400,
         height: 200,
-        bar: { groupWidth: "95%" },
+        bar: { groupWidth: "95%" ,  },
         legend: { position: "none" },
       };
       
@@ -1154,8 +1155,136 @@ const optionsPico = {
                                 
                                 <div className='dashboard' >
                                     <Chart chartType="ColumnChart" width="300px" height="200px" data={dataRegiao} options={options} className="grafico1" />
-                                    <Chart chartType="BarChart" width="300px" height="100px" data={barData} options={barOptions} className="grafico2" />
-                                    <Chart chartType="PieChart" data={dataRegiao} options={options} width="300px" height="200px"  />
+                                    <Chart chartType="BarChart" data={barData} options={barOptions} className="grafico2" />
+                                    
+                                </div>
+
+                                <div className='dashboardOk' >
+                                    <Chart chartType="PieChart" data={dataRegiao} options={options} width="300px" height="200px" className="grafico3" />
+                                    <label className='bestRegion' >{dadosRegiao.map((banRe) => {                                      
+                                            
+                                            if(banRe.regiao === 'PERNAMBUCO'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/PE.png' />  
+                                                      <p>Pernambuco</p> <img className='regiaoImg' src='images/nordeste.png' /> <span className='spanName' >Nordeste</span>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'PARAIBA'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/PB.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'ACRE'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/AC.png' />  
+                                                      <p>Região Norte</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'AMAZONAS'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/AM.png' />  
+                                                      <p>Região Norte</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'ALAGOAS'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/AL.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'PIAUÍ'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/PI.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'AMAPÁ'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/AP.png' />  
+                                                      <p>Região Norte</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'SÃO PAULO'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/SP.png' />  
+                                                      <p>Região Suldeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'RIO DE JANEIRO'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/RJ.png' />  
+                                                      <p>Região Suldeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'MINAS GERAIS'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/MG.png' />  
+                                                      <p>Região Suldeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'ESPÍRITO SANTO'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/ES.png' />  
+                                                      <p>Região Suldeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'BAHIA'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/BA.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'CEARA'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/CE.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'MATO GROSSO'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/MT.png' />  
+                                                      <p>Região Centro Oeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'TOCANTINS'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/TO.png' />  
+                                                      <p>Região Norte</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'PARANÁ'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/PB.png' />  
+                                                      <p>Região Sul</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === ''){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/PB.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }
+                                        
+                                    } )}</label>
                                 </div>
                                     
                                 </div>
