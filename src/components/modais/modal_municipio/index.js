@@ -17,8 +17,9 @@ export const ListaMunicipio = ({close, setDadosCidades}) => {
     function selecionado (municipio){
         setDadosCidades({
             codigo: municipio.id,
-            nome: municipio.nome
-        })
+            nome: municipio.nome,
+            uf: municipio.microrregiao.mesorregiao.UF.sigla
+        });
         close();
     }
     const resultado = Array.isArray(municipios) && municipios.filter((municipio) => municipio.nome.toLowerCase().includes(busca));
