@@ -90,23 +90,23 @@ export const ConsultarFornecedor = () => {
                 <h3>Fornecedores</h3>
             </C.Header>
             <M.Filtro>
-            <div className="div-checkbox">
-                        <div>
-                            <input type="radio" value="codigo" className="checkbox" name="checkbox" checked={filtro === 'codigo'} onChange={handleFiltroChange}/>
-                            <label> Código </label>
-                            <input type="radio" value="social" className="checkbox" name="checkbox" checked={filtro === 'social'} onChange={handleFiltroChange}/>
-                            <label> R. Social </label>                            
-                        </div>
-                        <div>
-                            <input type="radio" value="fantasia" className="checkbox" name="checkbox" checked={filtro === 'fantasia'} onChange={handleFiltroChange}/>
-                            <label> N. Fantasia </label>
-                            <input type="radio" value="documento" className="checkbox" name="checkbox" checked={filtro === 'documento'} onChange={handleFiltroChange}/>
-                            <label> N.Documento </label>                            
-                        </div>
+                <div className="div-checkbox">
+                    <div>
+                        <input type="radio" value="codigo" className="checkbox" name="checkbox" checked={filtro === 'codigo'} onChange={handleFiltroChange}/>
+                        <label> Código </label>
+                        <input type="radio" value="social" className="checkbox" name="checkbox" checked={filtro === 'social'} onChange={handleFiltroChange}/>
+                        <label> R. Social </label>                            
                     </div>
-                    <div className="div-search">
-                        <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)}/>
+                    <div>
+                        <input type="radio" value="fantasia" className="checkbox" name="checkbox" checked={filtro === 'fantasia'} onChange={handleFiltroChange}/>
+                        <label> N. Fantasia </label>
+                        <input type="radio" value="documento" className="checkbox" name="checkbox" checked={filtro === 'documento'} onChange={handleFiltroChange}/>
+                        <label> N.Documento </label>                            
                     </div>
+                </div>
+                <div className="div-search">
+                    <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)}/>
+                </div>
             </M.Filtro>
             <CCL.Lista>
                 <div className="table-responsive">
@@ -138,9 +138,9 @@ export const ConsultarFornecedor = () => {
             </CCL.Lista>
             <C.Footer>
                 <div className="buttons">
-                    <button onClick={novo}><img src="images/add.png" />Novo</button>
-                    <button onClick={abrirEditar}><img src="images/abrir.png" />Abrir</button>
-                    <button><img src="images/voltar.png" />Voltar</button>
+                    <button onClick={novo}><img src="/images/add.png" />Novo</button>
+                    <button onClick={abrirEditar}><img src="/images/abrir.png" />Abrir</button>
+                    <button><img src="/images/voltar.png" />Voltar</button>
                 </div>
             </C.Footer>
         </C.Container>

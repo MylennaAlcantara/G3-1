@@ -17,6 +17,8 @@ import { CadastrarFornecedor } from './components/cadastros/cadastro_fornecedor'
 import { CounsultarProduto } from './components/cadastros/consulta_produto';
 import { CadastroProduto } from './components/cadastros/cadastro_produto';
 import { EditarFornecedor } from './components/cadastros/editar_fornecedor';
+import { CadastroFuncionario } from './components/cadastros/cadastro_funcionario';
+import { ConsultarFuncionario } from './components/cadastros/consultar_funcionario';
 
 function App() {    
   const token = localStorage.getItem('token');
@@ -48,6 +50,8 @@ function App() {
             <Route path = '/editarFornecedor/:fornecedor' element = {token ? <EditarFornecedor /> : <Login/>}/>
             <Route path = '/produtos' element = {token ? <CounsultarProduto/> : <Login/>}/>
             <Route path = '/cadastrarProduto' element = {token ? <CadastroProduto/> : <Login/>}/>
+            <Route path = '/cadastrarFuncionario' element = {token ? <CadastroFuncionario/> : <Login/>}/>
+            <Route path = '/funcionarios' element = {token ? <ConsultarFuncionario/> : <Login/>}/>
             <Route path = '/resumoDeFaturamento' element = {token ? <ResumoFaturamento/> : <Login/>}/>
           </Routes>
       

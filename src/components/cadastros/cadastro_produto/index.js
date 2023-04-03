@@ -3,6 +3,8 @@ import * as C from "../../cadastro/cadastro";
 import * as CP from "./cadastroProduto";
 import * as CC from "../cadastro_cliente/cadastroCliente"
 import { useNavigate } from "react-router";
+import { Familia } from "../../modais/modais_tela_produtos/modal_familia";
+import { Fornecedor } from "../../modais/modais_tela_produtos/modal_fornecedor";
 
 export const CadastroProduto = () => {
     const navigate = useNavigate();
@@ -70,6 +72,18 @@ export const CadastroProduto = () => {
     //modais de fornecedor e grupo
     const [isModalFornecedor, setIsModalFornecedor] = useState(false);
     const [isModalGrupo, setIsModalGrupo] = useState(false);
+    const [isModalFamilia, setIsModalFamilia] = useState(false);
+
+    function modalFornecedor (e){
+        e.preventDefault();
+        if(e.keyCode === 113){
+            setIsModalFornecedor(true);
+        }
+    }
+
+    function modalFamilia () {
+        setIsModalFamilia(true);
+    }
 
     const [empresas, setEmpresas] = useState([]);
     const [aba, setAba] = useState('geral');
@@ -171,7 +185,7 @@ export const CadastroProduto = () => {
                         <div>
                             <label>Família: </label>
                             <input/>
-                            <img src="/images/LUPA.png"/>
+                            <img src="/images/LUPA.png" onClick={modalFamilia}/>
                         </div>
                         <div>
                             <label>Perfil: </label>
@@ -309,7 +323,7 @@ export const CadastroProduto = () => {
                             </div>
                             <fieldset>
                                 <legend>Fornecedor</legend>
-                                <input className="codigo"/><input/>
+                                <input className="codigo" onKeyDown={modalFornecedor}/><input/>
                             </fieldset>
                             <fieldset className="fieldset">
                                 <legend>Grupo</legend>
@@ -727,6 +741,8 @@ export const CadastroProduto = () => {
                     <button onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
+            {isModalFamilia ? <Familia close={()=> setIsModalFamilia(false)}/> : null}
+            {isModalFornecedor ? <Fornecedor close={()=> setIsModalFornecedor(false)}/> : null}
         </C.Container>
     )
 }

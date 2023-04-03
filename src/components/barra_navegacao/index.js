@@ -20,6 +20,7 @@ export const NavBar = () => {
                     {cadastros ? (
                         <div className="gaveta">
                             <div className="gaveta" onClick={()=> navigate('/clientes')}>Cadastro de Cliente</div>
+                            <div className="gaveta" onClick={()=> navigate('/funcionarios')}>Cadastro de Funcionários</div>
                             <div className="gaveta" onClick={()=> navigate('/fornecedores')}>Cadastro de Fornecedor</div>
                             <div className="gaveta" onClick={()=> navigate('/produtos')}>Cadastro de Produto</div>
                         </div>
