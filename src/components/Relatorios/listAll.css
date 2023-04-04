@@ -48,13 +48,12 @@
 
 
 .dashboard{
+    justify-content: space-between;
     align-items: center;
     display: flex;
     flex-direction: row;
     margin-top: 81px;
     margin-left: 30px;
-    width: 600px;
-    height: 400px;
 }
 
 .dashboardTexts{
@@ -101,10 +100,9 @@ label{
 }
 
 .grafico1{
-    justify-content: space-between;
     position: relative;
-    bottom: 80%;
-    right: 5%;
+    bottom: 30%;
+    right: 10%;
     border-style: solid;
     border-radius: 8px;
     border-width: 1px;
@@ -115,8 +113,7 @@ label{
    border-style: solid;
    border-width: 1px;
    border-radius: 8px;
-   bottom: 80%; 
-   
+   bottom: 37%; 
 }
 
 .grafico3{
@@ -124,8 +121,29 @@ label{
     border-style: solid;
     border-width: 1px;
     border-radius: 8px;
-    bottom: 120%;
-    left: 5%;
+    bottom: 15%;
+}
+
+.grafico4{
+    position: relative;
+    left: 6%;
+    bottom: 13.7vw;
+    border-width: 1px;
+    border-radius: 10px;
+    background-color: #d3d3d3;
+    border-style: solid;
+    
+}
+
+.grafico5{
+    position: relative;
+    left: 95%;
+    bottom: 16.2vw;
+    border-width: 1px;
+    border-radius: 10px;
+    background-color: #d3d3d3;
+    border-style: solid;
+    
 }
 
 .dashboardOk{
@@ -167,8 +185,9 @@ label{
     border-radius: 7px;
     border-width: 1px;
     width: 400px;
-    left: 2.5%;
-    bottom: 15.3vw;
+    left: -0.5vw;
+    height: 12vw;
+    bottom: 4vw;
 }
 
 .btns{
@@ -194,15 +213,25 @@ label{
     box-shadow: -1px -1px 1px #ABADB3;
 }
 
+h1{
+    display: flex;
+    height: 45px;
+    font-size: 22px;
+    justify-content: center;
+    align-items: center;
+}
+
 .prices{
-    background-color: #d3d3d3;
-    font-size: 15px;
+    background-color: white;
+    font-size: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-style: solid;
-    height: 95px;
+    height: 75px;
     width: 350px;
+    margin: 2px;
+    border-radius: 6px;
 }
 
 .lupa{
@@ -570,23 +599,10 @@ table tr:nth-child(odd){
     height: 25px;
 }
 
-.ModalDashboard{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    transform: translate(-50%, -50%);
-    width: 75%;
-    height: 80%;
-    border-style: solid;
-    background-color: white;
-}
-
 .cifrões{
     margin-left: 3px;
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     margin-right: 5px;
 }
 

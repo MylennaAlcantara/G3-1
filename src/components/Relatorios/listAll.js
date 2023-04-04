@@ -262,19 +262,7 @@ export const ResumoFaturamento = () => {
           transform: 'translate(-50%, -50%)',
           width: '75%',
           height: '80%',
-        },
-      };
-
-      const styleDashboard = {
-        content: {
-          backgroundColor: '#d3d3d3',
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          transform: 'translate(-50%, -50%)',
-          width: '75%',
-          height: '80%',
+          backgroundColor: '#6EC2FA',
         },
       };
 
@@ -476,6 +464,8 @@ export const ResumoFaturamento = () => {
 
     console.log(filter)
 
+    
+
 //------------------------------------------------------------------Dashboards (Dashboard Região)-------------------------------------------------------------------------------
     const[dashboardRegiao, setIsOpenDashboardRegiao] = useState(false);
  
@@ -493,9 +483,15 @@ export const ResumoFaturamento = () => {
     const result4 = dadosRegiao.reduce((a, b) => a + b.vlTotalNfce, 0) 
     
     const options = {
-        title: "Valores",
+        title: "Valores Lucro e Custo",
         is3D: true,
-        backgroundColor: "#d3d3d3",
+        backgroundColor: "#ffff",
+    };
+
+    const options2 = {
+        title: "Valores NF-e / NFC-e",
+        is3D: true,
+        backgroundColor: "#ffff",
     };
 
     const barData = [
@@ -529,12 +525,43 @@ export const ResumoFaturamento = () => {
 
     const dataRegiao = [
         ["Element", "Valor Total", { role: "style" }],
-        ["Lucro Venda", result2, "#F7C64F"], 
-        ["Valor Custo", result , "#bc1b2b"],     
-        ["Venda Total", result1, "#39E055"], 
-        ["Valor Nf-e", result3 , "#8226ED"],     
-        ["Venda NFC-e", result4, "#2686ED"], 
+        ["Valor de Lucro", result2, "#F7C64F"], 
+        ["Valor de Custo", result , "#bc1b2b"],     
+        ["Valor Total", result1, "#39E055"], 
       ];
+
+      const dataRegiao2 = [
+        ["Element", "Valor Total", { role: "style" }],
+        ["NF-e", result3, "#F7C64F"], 
+        ["NFC-e", result4 , "#bc1b2b"],     
+      ];
+
+      const dataRe0 = [
+        ["Valores em R$", "", ""],
+        ["NF-e / NFC-e  ", result3, result4],
+        ["Custo / Lucro", result, result2],
+      ];
+    
+    const optionsRe0 = {
+        chart: {
+          title: "Valores Gerais", 
+          subtitle: "Comparativo",
+        },
+        hAxis: {
+          title: "GGG",
+          minValue: 0,
+        },
+        vAxis: {
+          title: "Valores",
+        },
+        bars: "vertical",
+       
+        axes: {
+          y: {
+            0: { side: "right" },
+          },
+        },
+      };
 //-------------------------------------------------------------Dashboard Filial-------------------------------------------------------------------------
 
 const[dashboardFilial, setIsOpenDashboardFilial] = useState(false);
@@ -555,9 +582,11 @@ const resultFi1 = dados.reduce((a, b) => a + b.vlVendaTotal, 0)
 const resultFi2 = dados.reduce((a, b) => a + b.vlLucroVenda, 0) 
 const resultFi3 = dados.reduce((a, b) => a + b.vlTotalNfe, 0)
 const resultFi4 = dados.reduce((a, b) => a + b.vlTotalNfce, 0) 
+const resultFi5 = dados.reduce((a, b) => a + b.vlTotalCredito, 0)
+const resultFi6 = dados.reduce((a, b) => a + b.vlTotalLiquido, 0)
 
 const optionsFi = {
-    title: "Valores",
+    title: "Liquido e Bruto",
     is3D: true,
 };
 
@@ -578,12 +607,14 @@ const barDataFi = [
     ["Valor Total ", resultFi1, "#39E055", null],
     ["Valor  Nf-e", resultFi3, "#8226ED", null],
     ["Valor NFC-e", resultFi4, "#2686ED", null],
+    ["Valor Credito", resultFi5, "#ff6ad8", null],
+    ["Valor Liquido", resultFi6, "#ffaf56" , null]
   ];
   
 const barOptionsFi = {
     title: "Tabela Valores Totais.",
-    width: 600,
-    height: 400,
+    width: 450,
+    height: 200,
     bar: { groupWidth: "95%" },
     legend: { position: "none" },
   };
@@ -592,10 +623,41 @@ const dataFilial = [
     ["Element", "Valor Total", { role: "style" }],
     ["Lucro Venda", result2, "#F7C64F"], 
     ["Valor Custo", result , "#b87333"],     
-    ["Venda Total", result1, "#39E055"], 
-    ["Valor Nf-e", result3 , "#8226ED"],     
-    ["Venda NFC-e", result4, "#2686ED"], 
   ];
+
+  const dataFilial2 = [
+    ["Element", "Valor Total", { role: "style" }],
+    ["Valor Liquido", resultFi6, "#ffaf56"], 
+    ["Valor Total", resultFi1 , "#39E055"],     
+  ];
+
+  const dataFi0 = [
+    ["Valores em R$", "", ""],
+    ["Custo / Lucro", resultFi, resultFi2],
+    ["NF-e / NFC-e  ", resultFi3, resultFi4],
+    ["Liquido / Total", resultFi6, resultFi1 ],
+  ];
+
+  const optionsFi0 = {
+    chart: {
+      title: "Valores Gerais", 
+      subtitle: "Comparativo",
+    },
+    hAxis: {
+      title: "GGG",
+      minValue: 0,
+    },
+    vAxis: {
+      title: "Valores",
+    },
+    bars: "vertical",
+   
+    axes: {
+      y: {
+        0: { side: "right" },
+      },
+    },
+  };
 
 //------------------------------------------------------------------Dashboard Vendedor----------------------------------------------------------------------  
 const[dashboardVendedor, setIsOpenDashboardVendedor] = useState(false);
@@ -607,11 +669,31 @@ function closeDashboardVendedor (){
     setIsOpenDashboardVendedor(false)
 }
 
+
 const resultVen = dadosVendedor.reduce((a, b) => a + b.vlCustoTotal, 0)
 const resultVen1 = dadosVendedor.reduce((a, b) => a + b.vlVendaTotal, 0)
 const resultVen2 = dadosVendedor.reduce((a, b) => a + b.vlLucroVenda, 0) 
 const resultVen3 = dadosVendedor.reduce((a, b) => a + b.vlTotalNfe, 0)
-const resultVen4 = dadosVendedor.reduce((a, b) => a + b.vlTotalNfce, 0) 
+const resultVen4 = dadosVendedor.reduce((a, b) => a + b.vlTotalNfce, 0)
+const resultVen5 = dadosVendedor.reduce((a, b) => a + b.vlTotalCredito, 0) 
+const resultVen6 = dadosVendedor.reduce((a, b) => a + b.vlTotalCancelamento, 0)
+const resultVen7 = dadosVendedor.reduce((a, b) => a + b.vlTotalComissao, 0)
+const resultVen8 = dadosVendedor.reduce((a, b) => a + b.vlTotalDesconto, 0 )
+
+const datVendedor = [
+    ["Element", "Valor Total", { role: "style" }],
+    ["Cancelamento", resultVen6, "#ffaf56"], 
+    ["Comissão", resultVen7 , "#57ffe8"],
+    ["Desconto", resultVen8 , "#727272" ],    
+  ];
+
+
+const datVendedor0 = [
+    ["Element", "Valor Total", { role: "style" }],
+    ["Lucro", resultVen2, "#f6d001"],
+    ["Custo", resultVen, "#bc1b2b"],
+    ["Total ", resultVen1, "#b2bb1c"],
+  ];
 
 const optionsVen = {
     title: "Valores",
@@ -630,28 +712,29 @@ const barDataVen = [
         calc: "stringify",
       },
     ],
-    ["Valor Lucro", resultVen2, "#F7C64F", null],
-    ["Valor Custo", resultVen, "#b87333", null],
-    ["Valor Total ", resultVen1, "#39E055", null],
-    ["Valor  Nf-e", resultVen3, "#8226ED", null],
-    ["Valor NFC-e", resultVen4, "#2686ED", null],
+    ["Lucro", resultVen2, "#f6d001", null],
+    ["Custo", resultVen, "#bc1b2b", null],
+    ["Total ", resultVen1, "#b2bb1c", null],
+    ["Nf-e", resultVen3, "#8226ED", null],
+    ["NFC-e", resultVen4, "#2686ED", null],
+    ["Credito", resultVen5, "#ff6ad8", null],
+    ["Cancelamento", resultVen6, "#ffaf56", null],
+    ["Comissão", resultVen7, "#57ffe8", null],
+    ["Desconto", resultVen8, "#727272", null]
   ];
   
 const barOptionsVen = {
     title: "Tabela Valores Totais.",
-    width: 600,
-    height: 400,
+    width: 400,
+    height: 250,
     bar: { groupWidth: "95%" },
     legend: { position: "none" },
   };
   
 const dataVendedor = [
     ["Element", "Valor Total", { role: "style" }],
-    ["Lucro Venda", resultVen2, "#F7C64F"], 
-    ["Valor Custo", resultVen , "#b87333"],     
-    ["Venda Total", resultVen1, "#39E055"], 
-    ["Valor Nf-e", resultVen3 , "#8226ED"],     
-    ["Venda NFC-e", resultVen4, "#2686ED"], 
+    ["Nf-e", resultVen3, "#8226ED"],
+    ["NFC-e", resultVen4, "#2686ED"], 
   ];
 
 //---------------------------------------------------------------Dashboard Cliente--------------------------------------------------------------------------
@@ -725,8 +808,8 @@ const barDataCli = [
   
 const barOptionsCli = {
     title: "Tabela Valores Totais.",
-    width: 600,
-    height: 400,
+    width: 400,
+    height: 250,
     bar: { groupWidth: "95%" },
     legend: { position: "none" },
   };
@@ -1123,11 +1206,11 @@ const optionsPico = {
                                 }       )}
                             
                            
-                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" className="ModalDashboard" >
+                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
 
                                 <div >
 
-                                    <h1>Dashboard (Região)</h1>
+                                    <h1>Dados Região</h1>
 
                                     <div className='dashboardTexts' >
 
@@ -1154,13 +1237,12 @@ const optionsPico = {
                                     </div>
                                 
                                 <div className='dashboard' >
-                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dataRegiao} options={options} className="grafico1" />
-                                    <Chart chartType="BarChart" data={barData} options={barOptions} className="grafico2" />
-                                    
+                                    <Chart chartType="ColumnChart" width="350px" height="250px" data={dataRegiao} options={options} className="grafico1" />
+                                    <Chart chartType="BarChart" data={barData} options={barOptions} className="grafico1" />
+                                    <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="220px" className="grafico1" />
                                 </div>
 
                                 <div className='dashboardOk' >
-                                    <Chart chartType="PieChart" data={dataRegiao} options={options} width="300px" height="200px" className="grafico3" />
                                     <label className='bestRegion' >{dadosRegiao.map((banRe) => {                                      
                                             
                                             if(banRe.regiao === 'PERNAMBUCO'){
@@ -1285,9 +1367,11 @@ const optionsPico = {
                                             }
                                         
                                     } )}</label>
+                                    <Chart chartType="Bar" width="300px" height="200px" data={dataRe0} options={optionsRe0} backgroundColor="#d3d3d3" className="grafico2" />
                                 </div>
                                     
                                 </div>
+                                
                                 
                             </Modal>
 
@@ -1381,12 +1465,51 @@ const optionsPico = {
                                     </table>
                                 </div>
                            
-                            <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" >
+                            <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
                                 
-                                <Chart chartType="ColumnChart" width="500" height="400px" data={dataFilial} className="up-column" />
-                                <Chart chartType="BarChart" width="400px" height="200px" data={barDataFi} options={barOptionsFi} className="side-column" />
-                                <Chart chartType="PieChart" data={dataFilial} options={optionsFi} width={"500px"} height={"400px"} className="pie-chart" />
-    
+                                <div>
+
+                                    <h1>Dados Filial</h1>
+
+                                    <div className='dashboardTexts' >
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAmarelo.png' />  Valor de Lucro: R$ {resultFi2}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoVermelho.png' /> Valor de Custo: R$ {resultFi}
+                                        </h2>
+
+                                        <h2 className='prices'>
+                                            <img className='cifrões' src='images/cifrãoVerde.jpg' /> Valor Total: R$ {resultFi1}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoRoxo.png' /> NF-e: R$ {resultFi3}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAzul.png' /> NFC-e: R$ {resultFi4}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoRosa.png' /> Valor Credito: R$ {resultFi5}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoLaranja.png' /> Valor Liquido: R$ {resultFi6}
+                                        </h2>
+                                    </div>
+
+                                    <div className='dashboard' >
+                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFilial} className="grafico1" />
+                                        <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} className="grafico1" />
+                                        <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="300px" height="200px" className="grafico1" />
+                                    </div>
+                                    <Chart chartType="Bar" width="350px" height="250px" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" className="grafico3" />
+                                </div>
+                                
+                                
                             </Modal>
 
                         </Modal>
@@ -1474,11 +1597,56 @@ const optionsPico = {
                         ))}   
                             </table>
                          
-                            <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" >
-                                <Chart chartType="ColumnChart" width="500" height="400px" data={dataFilial} className="up-column" />
-                                <Chart chartType="BarChart" width="500px" height="300px" data={barDataVen} options={barOptionsVen} className="side-column" />
-                                <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width={"500px"} height={"400px"} className="pie-chart" />
+                            <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
+                               
+                                <div>
+                                    <h1>Dados Vendedor</h1>
 
+                                    <div className='dashboardTexts' >
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAmarelo.png' /> Lucro: R$ {(resultVen2).toFixed(3)}
+                                        </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoVermelho.png' /> Custo: R$ {(resultVen).toFixed(2)}
+                                    </h2>
+
+                                    <h2 className='prices'>
+                                        <img className='cifrões' src='images/cifrãoVerde.jpg' /> Total: R$ {resultVen1}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoRoxo.png' /> NF-e: R$ {resultVen3}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAzul.png' /> NFC-e: R$ {resultVen4}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoRosa.png' /> Credito: R$ {resultVen5}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoLaranja.png' /> Cancelamento: R$ {resultVen6}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAzulClaro.png' /> Comissão: R$ {resultVen7} 
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoCinza.png' /> Desconto: R$ {resultVen8}
+                                    </h2>
+                                </div>
+
+                                    <div className='dashboard' >
+                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor} className="grafico1" />
+                                        <Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} className="grafico1" />
+                                        <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="300px" height="200px" className="grafico1" />
+                                    </div>
+                                </div>
+                                <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} className="grafico2" />
                             </Modal>
 
                         </Modal>
@@ -1564,19 +1732,54 @@ const optionsPico = {
                         ))}
                            </table>
 
-                            <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" >
-                                
-                                <div className='dashboard0' >
-                                    <Chart chartType="ColumnChart" width="500px" height="400px" data={dataCliente} className="up-column" />
-                                    <Chart chartType="BarChart" width="500px" height="250px" data={barDataCli} options={barOptionsCli} className="side-column" />
-                                </div>          
-                                
-                                
-                                <div className='dashboard0'>
-                                    <Chart chartType="PieChart" data={dataCliente} options={optionsCli} width={"500px"} height={"400px"} className="pie-chart" />
-                                    <Chart chartType="Bar" width="95%" height="300px" data={dataCli0} options={optionsCli0} className="bar-chart" />
+                            <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
+
+                            <div>
+                                 <h1>Dados Cliente</h1>
+
+                                 <div className='dashboardTexts' >
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAmarelo.png' /> Lucro: R$ {resultCli1.toFixed(2)}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoVermelho.png' /> Custo: R$ {resultCli4}
+                                    </h2>
+
+                                    <h2 className='prices'>
+                                        <img className='cifrões' src='images/cifrãoVerde.jpg' /> 
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoRoxo.png' /> 
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAzul.png' /> 
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoRosa.png' /> 
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoLaranja.png' /> 
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAzulClaro.png' /> 
+                                    </h2>
+
                                 </div>
-                                
+
+                                <div className='dashboard' >
+                                    <Chart chartType="ColumnChart" width="300px" height="250px" data={dataCliente} className="grafico1" />
+                                    <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico1" />
+                                    <Chart chartType="PieChart" data={dataCliente} options={optionsCli} width={"300px"} height={"200px"} className="grafico1" />
+                                </div>          
+                                                      
+                            </div>
+                                <Chart chartType="Bar" width="300px" height="250px" data={dataCli0} options={optionsCli0} className="grafico2" />
                             </Modal>
 
                         </Modal>
@@ -1590,7 +1793,6 @@ const optionsPico = {
                                     <button className='dashboardBtn' onClick={openDashboardTipoDePagamento} > <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p></button>
                                 </div>
                         
-                            
                         <table>
                         <tr className='labels' >
                             {keys.map((nomes) => {
@@ -1599,7 +1801,7 @@ const optionsPico = {
                                 )
                             } )}
                         </tr>
-                            
+        
                                 <tr className='labels' >
                                     {dadosTipoPagamento.map((f5) => {
                                         return(
