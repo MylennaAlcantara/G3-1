@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import * as M from "../modal/modal";
 import * as C from "../../cadastro/cadastro";
+import { CadastroSetor } from "../modal_cadastro_setor";
+import { EditarSetor } from "../modal_editar_setor";
 
-export const Setor = ({setSetor, close}) => {
+export const Setor = ({setSetor, close, consultaFuncionario}) => {
     const [setores, setSetores] = useState([]);
+    const [modalNovoSetor, setModalNovoSetor] = useState(false);
+    const [modalEditarSetor, setModalEditarSetor] = useState(false);
 
     useEffect(()=> {
         async function fetchData (){
@@ -20,6 +24,25 @@ export const Setor = ({setSetor, close}) => {
             nome: setor.descricao
         });
         close();
+    }
+    const [setorSelecionado, setSetorSelecionado] = useState();
+    const [dadosSetor, setDadosSetor] = useState([]);
+    const [indexSetor, setIndexSetor] = useState(0);
+    const selecionadoEditar = (setor, index) => {
+        localStorage.setItem('idSetor', setor.id);
+        setSetorSelecionado(localStorage.getItem("idSetor"));
+        setIndexSetor(index);
+    }
+
+    const abrirEditar = async () => {
+        const responseSetor = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/setorFuncionario/${setorSelecionado}`);
+        const setor = await responseSetor.json();
+        if(setorSelecionado === undefined || setorSelecionado === null){
+            console.log('nenhum setor selecionado');
+        }else{
+            setDadosSetor(setor);
+            setModalEditarSetor(true);
+        }
     }
 
     return(
@@ -53,9 +76,12 @@ export const Setor = ({setSetor, close}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(setores) && setores.map((setor) => {
+                            {Array.isArray(setores) && setores.map((setor, index) => {
                                 return(
-                                    <tr key={setor.id} onDoubleClick={selecionado.bind(this, setor)}>
+                                    <tr key={setor.id} 
+                                        onDoubleClick={selecionado.bind(this, setor)}
+                                        onClick={selecionadoEditar.bind(this, setor, index)}
+                                        style={{background: index === indexSetor ? 'blue' : ""}}>
                                         <td>{setor.id}</td>
                                         <td>{setor.descricao}</td>
                                     </tr>
@@ -66,9 +92,12 @@ export const Setor = ({setSetor, close}) => {
                 </div>
                 <C.Footer>
                     <div className="buttons">
-                        <button><img src="/images/add.png"/>Novo</button>
+                        <button onClick={()=> setModalNovoSetor(true)}><img src="/images/add.png"/>Novo</button>
+                        {consultaFuncionario ? (<button onClick={abrirEditar}><img src="/images/abrir.png"/>abrir</button>) : null}
                     </div>
                 </C.Footer>
+                {modalNovoSetor ? <CadastroSetor close={()=> setModalNovoSetor(false)}/> : null}
+                {modalEditarSetor ? <EditarSetor close={()=> setModalEditarSetor(false)} dadosSetor={dadosSetor} /> : null}
             </M.Container>
         </M.Modal>
     )

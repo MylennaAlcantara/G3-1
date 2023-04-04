@@ -3,6 +3,7 @@ import * as C from "../../cadastro/cadastro";
 import * as CF from "./consultarFuncionario";
 import * as CCL from "../consulta_cliente/consultaCliente";
 import { useNavigate } from "react-router";
+import { Setor } from "../../modais/modal_setor";
 
 export const ConsultarFuncionario = () => {
     const navigate = useNavigate();
@@ -18,6 +19,13 @@ export const ConsultarFuncionario = () => {
             fetchData();
             document.getElementById('search').focus();
     }, []);
+
+    const [consultaFuncionario, setConsultaFuncionario] = useState(false);
+    const [isModalSetor, setIsModalSetor] = useState(false);
+    const setor = () => {
+        setIsModalSetor(true);
+        setConsultaFuncionario(true);
+    }
     
     const novo = () => {
         navigate('/cadastrarFuncionario');
@@ -81,9 +89,11 @@ export const ConsultarFuncionario = () => {
                 <div className="buttons">
                     <button onClick={novo}><img src="/images/add.png"/>Novo</button>
                     <button><img src="/images/abrir.png"/>Abrir</button>
+                    <button onClick={setor}><img src="/images/add.png"/>Setor</button>
                     <button><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
+            {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} consultaFuncionario={consultaFuncionario} /> : null}
         </C.Container>
     )
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import * as C from "../../cadastro/cadastro";
 import { Emitente } from "../../modais/modal_emitente";
 import { ListaMunicipio } from "../../modais/modal_municipio";
@@ -8,6 +9,8 @@ import * as CC from "../cadastro_cliente/cadastroCliente";
 import * as CF from "./cadastroFuncionario";
 
 export const CadastroFuncionario = () => {
+    const navigate = useNavigate();
+
     const [isModalMunicipio, setIsModalMunicipio] = useState(false);
     const [isModalFilial, setIsModalFilial] = useState(false);
     const [isModalSetor, setIsModalSetor] = useState(false);
@@ -86,6 +89,10 @@ export const CadastroFuncionario = () => {
     }
     function municipios (e){
         setIsModalMunicipio(true);
+    }
+
+    function voltar (){
+        navigate('/funcionarios');
     }
 
     return(
@@ -257,7 +264,7 @@ export const CadastroFuncionario = () => {
             <C.Footer>
                 <div className="buttons">
                     <button><img src="/images/salvar.png"/>Salvar</button>
-                    <button><img src="/images/voltar.png"/>Voltar</button>
+                    <button onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
             {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)} setDadosCidades ={setDadosCidades} setIsModalMunicipio={setIsModalMunicipio}/> : null}

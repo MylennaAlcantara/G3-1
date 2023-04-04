@@ -3,13 +3,13 @@ import * as M from "../modal/modal";
 import * as C from "../../cadastro/cadastro";
 
 export const Nivel = ({setNivel, close}) => {
-    const [setores, setSetores] = useState([]);
+    const [niveis, setNiveis] = useState([]);
 
     useEffect(()=> {
         async function fetchData (){
-            const response = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/setorFuncionario/all');
+            const response = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/nivel/all');
             const data = await response.json();
-            setSetores(data);
+            setNiveis(data);
         }
         fetchData();
     },[])
@@ -53,7 +53,7 @@ export const Nivel = ({setNivel, close}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(setores) && setores.map((setor) => {
+                            {Array.isArray(niveis) && niveis.map((setor) => {
                                 return(
                                     <tr key={setor.id} onDoubleClick={selecionado.bind(this, setor)}>
                                         <td>{setor.id}</td>
