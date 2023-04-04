@@ -21,13 +21,15 @@ export const Setor = ({setSetor, close, cadastroSetor}) => {
     const selecionado = (setor) => {
         setSetor({
             codigo: setor.id,
-            nome: setor.descricao
+            nome: setor.descricao,
+            operador: setor.operadorDeCaixa
         });
         close();
     }
     const [setorSelecionado, setSetorSelecionado] = useState();
     const [dadosSetor, setDadosSetor] = useState([]);
     const [indexSetor, setIndexSetor] = useState(0);
+
     const selecionadoEditar = (setor, index) => {
         localStorage.setItem('idSetor', setor.id);
         setSetorSelecionado(localStorage.getItem("idSetor"));
@@ -93,7 +95,7 @@ export const Setor = ({setSetor, close, cadastroSetor}) => {
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalNovoSetor(true)}><img src="/images/add.png"/>Novo</button>
-                        {cadastroSetor ? (<button onClick={abrirEditar}><img src="/images/abrir.png"/>abrir</button>) : null}
+                        {cadastroSetor ? (<button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>) : null}
                     </div>
                 </C.Footer>
                 {modalNovoSetor ? <CadastroSetor close={()=> setModalNovoSetor(false)}/> : null}

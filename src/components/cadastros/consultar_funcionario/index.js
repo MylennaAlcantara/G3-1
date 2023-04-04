@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import * as C from "../../cadastro/cadastro";
 import * as CF from "./consultarFuncionario";
 import * as CCL from "../consulta_cliente/consultaCliente";
@@ -20,6 +20,43 @@ export const ConsultarFuncionario = () => {
             fetchData();
             document.getElementById('search').focus();
     }, []);
+
+    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
+    const [selectIndex, setSelectIndex] = useState(1);
+    const tableRef = useRef(null);
+
+    const handleKeyDown = (e) => {
+        if(e.keyCode === 38){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === 0){
+                return;
+            }
+            setSelectIndex(selectIndex-1);
+        }else if (e.keyCode === 40){
+            e.preventDefault();
+            if(selectIndex === null || selectIndex === users.length -1 ){
+                return;
+            }
+            setSelectIndex(selectIndex + 1);
+        }
+    };
+
+    const [codigoFuncionario, setCodigoFuncionario] = useState();
+    const selecionado = (user, index) => {
+        setCodigoFuncionario(user.id);
+        localStorage.setItem('idFuncionario', user.id);
+        setSelectIndex(index);
+    }
+
+    const abrirEditar = async() => {
+        const responseFuncionario = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/${codigoFuncionario}`);
+        const cliente = await responseFuncionario.json();
+        if(codigoFuncionario === undefined){
+            console.log('nenhum cliente selecionado')
+        }else{
+            navigate(`/editarFuncionario/${codigoFuncionario}`);
+        }
+    }
     
     const novo = () => {
         navigate('/cadastrarFuncionario');
@@ -60,7 +97,7 @@ export const ConsultarFuncionario = () => {
             </CF.Filtro>
             <CCL.Lista>
                 <div className="table-responsive">
-                    <table id="table" style={{margin: "0"}}>
+                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0} style={{margin: "0"}}>
                         <thead>
                             <tr>
                                 <th>Código</th>
@@ -71,11 +108,11 @@ export const ConsultarFuncionario = () => {
                         <tbody>
                             {users.map( (user, index) => {
                                 return(
-                                    <tr 
-                                        key={user.id}>
-                                            <td>{user.id}</td>
-                                            <td>{user.nome}</td>
-                                            <td>{user.nome}</td>
+                                    <tr key={user.id}
+                                        onClick={selecionado.bind(this, user, index)}>
+                                        <td>{user.id}</td>
+                                        <td>{user.nome}</td>
+                                        <td>{user.nome}</td>
                                     </tr>
                                 );
                             })}
@@ -86,7 +123,7 @@ export const ConsultarFuncionario = () => {
             <C.Footer>
                 <div className="buttons">
                     <button onClick={novo}><img src="/images/add.png"/>Novo</button>
-                    <button><img src="/images/abrir.png"/>Abrir</button>
+                    <button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>
                     <button><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>

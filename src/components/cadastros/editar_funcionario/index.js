@@ -7,12 +7,63 @@ import { ListaMunicipio } from "../../modais/modal_municipio";
 import { Nivel } from "../../modais/modal_nivel";
 import { Setor } from "../../modais/modal_setor";
 import * as CC from "../cadastro_cliente/cadastroCliente";
-import * as CF from "./cadastroFuncionario";
+import * as CF from "../cadastro_funcionario/cadastroFuncionario";
 import { MD5 } from "crypto-js";
 
-export const CadastroFuncionario = () => {
+export const EditarFuncionario = () => {
     const navigate = useNavigate();
     const {user, empresa} = useContext(AuthContext);
+    const codigoFuncionario = localStorage.getItem('idFuncionario');
+
+    useEffect(() => {
+        async function fetchDataFuncionario (){
+            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/${codigoFuncionario}`);
+            const data = await response.json();
+            setCodigo(data.id);
+            setNome(data.nome);
+            setEndereco(data.endereco);
+            setNumero(data.numero_endereco);
+            setComplemento(data.complemento_endereco);
+            setBairro(data.bairro);
+            setCep(data.cep);
+            setContato(data.pessoa_contato);
+            setDadosCidades({
+                codigo: data.codigo_municipio,
+                nome: data.municipio,
+                uf: data.uf
+            });
+            setTelefone(data.telefone);
+            setCelular(data.celular);
+            setEmail(data.email);
+            setComissao(data.comissao);
+            setMeta(data.meta);
+            setSalario(data.salario);
+            setSetor({
+                codigo: data.setorFuncionario.id,
+                nome: data.setorFuncionario.descricao,
+                operador: data.setorFuncionario.operadorDeCaixa
+            });
+            setNivel({
+                codigo: data.id_nivel_acesso
+            });
+            setDataIdSelectEmitente(data.id_filial);
+            setMotorista(data.motorista);
+            setCpf(data.cpf);
+            setRg(data.rg);
+            setRic(data.ric);
+            setCtps(data.ctps);
+            setSerie(data.ctps_serie);
+            setTitulo(data.titulo_eleitor);
+            setPis(data.pis);
+            setObs(data.obs)
+            setDataNascimento(data.dataNascimento);
+            setDataAdmissao(data.data_admissao);
+            setMatricula(data.matricula);
+            setSenha(data.senha);
+            setUsuarioSistema(data.usuarioSistema);
+        }
+        fetchDataFuncionario();
+    }, []);
 
     const [isModalMunicipio, setIsModalMunicipio] = useState(false);
     const [isModalFilial, setIsModalFilial] = useState(false);
@@ -20,6 +71,7 @@ export const CadastroFuncionario = () => {
     const [isModalNivel, setIsModalNivel] = useState(false);
 
     // Dados da aba de geral
+    const [codigo, setCodigo] = useState();
     const [nome, setNome] = useState('');
     const [endereco, setEndereco] = useState('');
     const [numero, setNumero] = useState('');
@@ -119,10 +171,11 @@ export const CadastroFuncionario = () => {
 
     const salvar = async () => {
         try{
-            const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/save",{
-                method: "POST",
+            const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/edit",{
+                method: "PUT",
                 headers:{"Content-Type": "application/json"},
                 body: JSON.stringify({
+                    id: codigo,
                     nome: nome,
                     matricula: matricula,
                     senha: password,
@@ -167,7 +220,7 @@ export const CadastroFuncionario = () => {
                 })
             });
             if(res.status === 201 || res.status === 200){
-                alert('salvo com sucesso');
+                alert('Editado com sucesso!');
                 navigate('/funcionarios');
             }
         }catch(err){
@@ -187,16 +240,16 @@ export const CadastroFuncionario = () => {
         <C.Container>
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}  <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
-                <h3> Cadastrar Funcionário</h3>
+                <h3> Editar Funcionário</h3>
             </C.Header>
             <CF.DadosFuncionario>
                 <div>
                     <label>Código:</label>
-                    <input readOnly/>
+                    <input value={codigo} readOnly/>
                 </div>
                 <div className="campo">
                     <div style={{justifyContent: "start", alignContent: "center", height: "100%"}}>
-                        <input className="checkbox" type="checkbox" onChange={()=> setMotorista(true)}/>
+                        <input className="checkbox" type="checkbox" onChange={()=> setMotorista(true)} checked={motorista === true}/>
                         <label>Motorista</label>
                     </div>
                 </div>
@@ -336,20 +389,21 @@ export const CadastroFuncionario = () => {
                 <fieldset>
                     <legend>Controle de Usuário</legend>
                     <div>
-                        <input type="checkbox" className="checkbox" onChange={()=> setUsuarioSistema(true)}/>
+                        <input type="checkbox" className="checkbox" onChange={()=> setUsuarioSistema(true)} checked={usuarioSistema === true}/>
                         <label>Usuário do sistema</label>
                     </div>
                     <div>
                         <label>Matrícula: </label>
                         <input value={matricula} onChange={(e)=> {setMatricula(e.target.value)}}/>
                         <label>Senha: </label>
-                        <input value={senha} onChange={(e)=> {setSenha(e.target.value)}}/>
+                        <input type="password" value={senha} onChange={(e)=> {setSenha(e.target.value)}}/>
                     </div>
                 </fieldset>
             </CF.Fieldset>
             <C.Footer>
                 <div className="buttons">
                     <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
+                    <button onClick={salvar}>Desativar</button>
                     <button onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
