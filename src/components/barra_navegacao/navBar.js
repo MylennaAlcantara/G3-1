@@ -14,7 +14,7 @@ export const Container = styled.div`
         border-radius: 0 40% 40% 0;
         position: fixed;
         left: 150px;
-        z-index: 1;
+        z-index: 2;
         img{
             height: 20px;
             width: 20px;
@@ -37,7 +37,7 @@ export const Barra = styled.div `
     justify-content: center;
     align-items: center;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     div{
         display: flex;
         align-items: center;
@@ -46,6 +46,7 @@ export const Barra = styled.div `
         width: 100%;
         background-color: #064a8b;
         color: white;
+        font-size: 13px;
         border: 1px solid #00a5dd;
         margin: 5px 0px 0 0px;
         border-radius: 10px 10px 0 0;
@@ -55,11 +56,16 @@ export const Barra = styled.div `
         width: 20px;
         margin-right: 5px;
     }
+    .seta{
+        transform: rotate(90deg);
+        height: 15px;
+        width: 15px;
+    }
     .gaveta{
         background-color: #00a5dd;
         margin: 0;
         height: auto;
-        border: 1px solid #064a8b;
+        border-bottom: 1px solid #064a8b;
         border-radius: 0;
         display: block;
     }

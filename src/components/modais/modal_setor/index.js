@@ -4,7 +4,7 @@ import * as C from "../../cadastro/cadastro";
 import { CadastroSetor } from "../modal_cadastro_setor";
 import { EditarSetor } from "../modal_editar_setor";
 
-export const Setor = ({setSetor, close, consultaFuncionario}) => {
+export const Setor = ({setSetor, close, cadastroSetor}) => {
     const [setores, setSetores] = useState([]);
     const [modalNovoSetor, setModalNovoSetor] = useState(false);
     const [modalEditarSetor, setModalEditarSetor] = useState(false);
@@ -81,7 +81,7 @@ export const Setor = ({setSetor, close, consultaFuncionario}) => {
                                     <tr key={setor.id} 
                                         onDoubleClick={selecionado.bind(this, setor)}
                                         onClick={selecionadoEditar.bind(this, setor, index)}
-                                        style={{background: index === indexSetor ? 'blue' : ""}}>
+                                        style={{background: index === indexSetor ? '#87CEFA' : ""}}>
                                         <td>{setor.id}</td>
                                         <td>{setor.descricao}</td>
                                     </tr>
@@ -93,7 +93,7 @@ export const Setor = ({setSetor, close, consultaFuncionario}) => {
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalNovoSetor(true)}><img src="/images/add.png"/>Novo</button>
-                        {consultaFuncionario ? (<button onClick={abrirEditar}><img src="/images/abrir.png"/>abrir</button>) : null}
+                        {cadastroSetor ? (<button onClick={abrirEditar}><img src="/images/abrir.png"/>abrir</button>) : null}
                     </div>
                 </C.Footer>
                 {modalNovoSetor ? <CadastroSetor close={()=> setModalNovoSetor(false)}/> : null}

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router";
+import { AuthContext } from "../../../contexts/Auth/authContext";
 import * as C from "../../cadastro/cadastro";
 import { Emitente } from "../../modais/modal_emitente";
 import { ListaMunicipio } from "../../modais/modal_municipio";
@@ -10,6 +11,7 @@ import * as CF from "./cadastroFuncionario";
 
 export const CadastroFuncionario = () => {
     const navigate = useNavigate();
+    const {user, empresa} = useContext(AuthContext);
 
     const [isModalMunicipio, setIsModalMunicipio] = useState(false);
     const [isModalFilial, setIsModalFilial] = useState(false);
@@ -94,10 +96,14 @@ export const CadastroFuncionario = () => {
     function voltar (){
         navigate('/funcionarios');
     }
+    const sair = () => {
+        localStorage.clear();
+        document.location.reload(true);
+    }
 
     return(
         <C.Container>
-            <C.NaviBar></C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}  <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
                 <h3> Cadastrar Funcionário</h3>
             </C.Header>
