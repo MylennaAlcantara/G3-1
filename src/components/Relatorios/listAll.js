@@ -753,6 +753,9 @@ const resultCli2 = dadosCliente.reduce((a, b) => a + b.vlTotalNfe, 0 )
 const resultCli3 = dadosCliente.reduce((a, b) => a + b.vlTotalNfce, 0 )
 const resultCli4 = dadosCliente.reduce((a, b) => a + b.vlCustoTotal, 0 )
 const resultCli5 = dadosCliente.reduce((a, b) => a + b.vlTotalDesconto, 0 )
+const resultCli6 = dadosCliente.reduce((a, b) => a + b.vlLucroLiquido, 0)
+const resultCli7 = dadosCliente.reduce((a, b) => a + b.vlTotalCredito, 0)
+
 
 
 const optionsCli = {
@@ -761,16 +764,17 @@ const optionsCli = {
 };
 
 const dataCli0 = [
-    ["Valores em R$", "V1", "V2"],
+    ["Valores em R$", "", ""],
     ["NF-e / NFC-e  ", resultCli2, resultCli3],
     ["Custo / Lucro", resultCli4, resultCli1],
     ["Desconto / Venda", resultCli5, resultCli],
+    ["Liquido/ Bruto", resultCli6, resultCli],
   ];
 
 const optionsCli0 = {
     chart: {
       title: "Valores Gerais",
-      subtitle: "Testando",
+      subtitle: "Comparativo",
     },
     hAxis: {
       title: "GGG",
@@ -779,7 +783,7 @@ const optionsCli0 = {
     vAxis: {
       title: "Valores",
     },
-    bars: "vertical",
+    bars: "horizontal",
     axes: {
       y: {
         0: { side: "right" },
@@ -799,11 +803,14 @@ const barDataCli = [
         calc: "stringify",
       },
     ],
-    ["Valor Lucro", resultCli1, "#F7C64F", null],
-    ["Valor Custo", resultCli4, "#b87333", null],
-    ["Valor Total ", resultCli, "#39E055", null],
-    ["Valor  Nf-e", resultCli2, "#8226ED", null],
-    ["Valor NFC-e", resultCli3, "#2686ED", null],
+    ["Lucro", resultCli1, "#f6d001", null],
+    ["Custo", resultCli4, "#bc1b2b", null],
+    ["Total ", resultCli, "#39E055", null],
+    ["NF-e", resultCli2, "#8226ED", null],
+    ["NFC-e", resultCli3, "#2686ED", null],
+    ["Credito", resultCli7, "#ff6ad8", null],
+    ["Liquido", resultCli6, "#ffaf56", null],
+    ["Desconto", resultCli5, "#57ffe8", null],
   ];
   
 const barOptionsCli = {
@@ -816,12 +823,16 @@ const barOptionsCli = {
   
 const dataCliente = [
     ["Element", "Valor Total", { role: "style" }],
-    ["Lucro Venda", resultCli1, "#F7C64F"], 
-    ["Valor Custo", resultCli4 , "#b87333"],     
-    ["Venda Total", resultCli, "#39E055"], 
-    ["Valor Nf-e", resultCli2 , "#8226ED"],     
-    ["Venda NFC-e", resultCli3, "#2686ED"], 
+    ["Custo", resultCli4 , "#bc1b2b"], 
+    ["Lucro", resultCli1, "#f6d001"], 
+    ["Total", resultCli, "#b2bb1c"], 
   ];    
+
+  const dataCliente0 = [
+    ["Element", "Valor Total", { role: "style" }],
+    ["NF-e", resultCli2, "#8226ED"],
+    ["NFC-e", resultCli3, "#2686ED"],
+  ];   
 
 //------------------------------------------------------------------Dashboard Tipo de Pagamento-------------------------------------------------------------
 
@@ -838,6 +849,15 @@ const resultTpPg = dadosLeitura.reduce((a, b) => a + b.dinheiro, 0 )
 const resultTpPg1 = dadosLeitura.reduce((a, b) => a + b.total, 0 )
 const resultTpPg2 = dadosLeitura.reduce((a, b) => a + b.cartao_de_credito, 0)
 const resultTpPg3 = dadosLeitura.reduce((a, b) => a + b.cartao_de_debito, 0 )
+const resultTpPg4 = dadosLeitura.reduce((a, b) => a + b.cheque, 0)
+const resultTpPg5 = dadosLeitura.reduce((a, b) => a + b.boleto_bancario, 0)
+const resultTpPg6 = dadosLeitura.reduce((a, b) => a + b.credito_loja, 0)
+const resultTpPg7 = dadosLeitura.reduce((a, b) => a + b.cancelamento_total, 0)
+const resultTpPg8 = dadosLeitura.reduce((a, b) => a + b.desconto_total, 0)
+const resultTpPg9 = dadosLeitura.reduce((a, b) => a + b.vale_alimentacao, 0)
+const resultTpPg10 = dadosLeitura.reduce((a, b) => a + b.vale_combustivel, 0)
+const resultTpPg11 = dadosLeitura.reduce((a, b) => a + b.vale_presente, 0)
+const resultTpPg12 = dadosLeitura.reduce((a, b) => a + b.vale_refeicao, 0)
 
 const optionsTpPg = {
     title: "Valores",
@@ -845,7 +865,7 @@ const optionsTpPg = {
 };
 
 const dataTpPg0 = [
-    ["Valores em R$", "V1" , "V2"],
+    ["Valores em R$", "",""],
     [" (Cima)Dinheiro / (Baixo)Total", resultTpPg , resultTpPg1],
     ["Cartão(Acima Credito) , (Abaixo Debito)", resultTpPg2, resultTpPg3],
 ];
@@ -890,8 +910,8 @@ const optionsTpPg0 = {
 
 const barOptionsTpPg = {
     title: "Valores",
-    width: 600,
-    height: 400,
+    width: 400,
+    height: 200,
     bar: {groupWidth: "95%"},
     legend: {position: "none"},
 };
@@ -899,7 +919,6 @@ const barOptionsTpPg = {
 const dataTpPg = [
     ["Element", "Valor", { role: "style"}],
     ["Dinheiro", resultTpPg, "#A3DE68"],
-    ["Total" , resultTpPg1, "#8848D4"],
     ["Cartão de Credito", resultTpPg2 ,"#D44A26"],
     ["Cartão de Debito", resultTpPg3 ,"#D40B0B"],
 ];
@@ -1739,7 +1758,7 @@ const optionsPico = {
 
                                  <div className='dashboardTexts' >
                                     <h2 className='prices' >
-                                        <img className='cifrões' src='images/cifrãoAmarelo.png' /> Lucro: R$ {resultCli1.toFixed(2)}
+                                        <img className='cifrões' src='images/cifrãoAmarelo.png' /> Lucro Venda: R$ {resultCli1.toFixed(2)}
                                     </h2>
 
                                     <h2 className='prices' >
@@ -1747,27 +1766,27 @@ const optionsPico = {
                                     </h2>
 
                                     <h2 className='prices'>
-                                        <img className='cifrões' src='images/cifrãoVerde.jpg' /> 
+                                        <img className='cifrões' src='images/cifrãoVerde.jpg' /> Venda Total: R$ {resultCli.toFixed(2)}
                                     </h2>
 
                                     <h2 className='prices' >
-                                        <img className='cifrões' src='images/cifrãoRoxo.png' /> 
+                                        <img className='cifrões' src='images/cifrãoRoxo.png' /> NF-e: R$ {resultCli2.toFixed(2)}
                                     </h2>
 
                                     <h2 className='prices' >
-                                        <img className='cifrões' src='images/cifrãoAzul.png' /> 
+                                        <img className='cifrões' src='images/cifrãoAzul.png' /> NFC-e: R$ {resultCli3}
+                                    </h2>
+
+                                    <h2 className='prices' > 
+                                        <img className='cifrões' src='images/cifrãoRosa.png' /> Credito: {resultCli7}
                                     </h2>
 
                                     <h2 className='prices' >
-                                        <img className='cifrões' src='images/cifrãoRosa.png' /> 
+                                        <img className='cifrões' src='images/cifrãoLaranja.png' /> Lucro Liqudido: R$ {resultCli6.toFixed(2)}
                                     </h2>
 
                                     <h2 className='prices' >
-                                        <img className='cifrões' src='images/cifrãoLaranja.png' /> 
-                                    </h2>
-
-                                    <h2 className='prices' >
-                                        <img className='cifrões' src='images/cifrãoAzulClaro.png' /> 
+                                        <img className='cifrões' src='images/cifrãoAzulClaro.png' /> Desconto {resultCli5}
                                     </h2>
 
                                 </div>
@@ -1775,18 +1794,17 @@ const optionsPico = {
                                 <div className='dashboard' >
                                     <Chart chartType="ColumnChart" width="300px" height="250px" data={dataCliente} className="grafico1" />
                                     <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico1" />
-                                    <Chart chartType="PieChart" data={dataCliente} options={optionsCli} width={"300px"} height={"200px"} className="grafico1" />
+                                    <Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"300px"} height={"200px"} className="grafico1" />
                                 </div>          
                                                       
                             </div>
-                                <Chart chartType="Bar" width="300px" height="250px" data={dataCli0} options={optionsCli0} className="grafico2" />
+                                <Chart chartType="Bar" width="400px" height="250px" data={dataCli0} options={optionsCli0} className="grafico3" />
                             </Modal>
 
                         </Modal>
                     
                         <button className='tipoDePagamentoBtn' onClick={abrirTipoPg} > Tipo de Pagamento </button>
                         <Modal isOpen={tipoPgIsOpen} onRequestClose={closeTipoPg} contentLabel="Tipo de Pagamento" shouldCloseOnOverlayClick={true} overlayClassName="TipoPg-overlay" className="ModalDados"> 
-                            <div className='dashboard-label' >
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
@@ -1812,21 +1830,82 @@ const optionsPico = {
                     </table>
                             <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
                                 
-                                <div className='dashboardTpPg' >
-                                    <div className='dashboard0' >
-                                        <Chart chartType="ColumnChart" width="500px" height="400px" data={dataTpPg} className="up-column" />
-                                        <Chart chartType="BarChart" width="500px" height="250px" data={dataTpPg} options={barOptionsTpPg} className="side-column" />
-                                    </div>          
-                                
-                                
-                                    <div className='dashboard0'>
-                                        <Chart chartType="PieChart" data={dataTpPg} options={optionsTpPg} width={"500px"} height={"400px"} className="pie-chart" />
-                                        <Chart chartType="Bar" width="95%" height="300px" data={dataTpPg0} options={optionsTpPg0} className="bar-chart" />
+                                <div>
+
+                                    <h1>Dados Tipo Pagamento</h1>
+
+                                    <div className='dashboardTexts' >
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAmarelo.png' /> Dinheiro : R$ {resultTpPg}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/credito.png' /> Cartão Credito: R$ {resultTpPg2}
+                                        </h2>
+
+                                        <h2 className='prices'>
+                                            <img className='cifrões' src='images/debito.png' /> Cartão Debito: R$ {resultTpPg3}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoRoxo.png' /> Cheque : R$ {resultTpPg4}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAzul.png' /> Boleto Bancario: R$ {resultTpPg5}
+                                        </h2>
+
+                                        <h2 className='prices' > 
+                                            <img className='cifrões' src='images/cifrãoRosa.png' /> Credito Loja: R$ {resultTpPg6}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoLaranja.png' /> Cancelamento Total: R$ {resultTpPg7}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAzulClaro.png' /> Desconto Total: R$ {resultTpPg8}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAzulClaro.png' /> Desconto Total: R$ {resultTpPg8}
+                                        </h2>
+
+                                </div>
+                                        
+                                    <h1>Vales(Opcional)</h1>
+
+                                    <div className='dashboardTexts'>
+                                        
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/valeRefeição.png' /> Alimentação: R$ {resultTpPg9}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAzulClaro.png' /> 
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAzulClaro.png' /> 
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAzulClaro.png' /> 
+                                        </h2>
                                     </div>
-                                </div>                                                                
+
+                                    <div className='dashboard' >
+                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataTpPg} className="grafico1" />
+                                        <Chart chartType="BarChart" data={dataTpPg} options={barOptionsTpPg} className="grafico1" />
+                                        <Chart chartType="PieChart" data={dataTpPg} options={optionsTpPg} width="300px" height="200px" className="grafico1" />
+                                    </div>          
+                                        
+                                </div> 
+                                <Chart chartType="Bar" width="400px" height="250px" data={dataCli0} options={optionsCli0} className="grafico3" />                                                             
                             </Modal>            
 
-                        </div>
+                                                                
                         </Modal>
 
                         <button className='produtoBtn' onClick={abrirProduto} > Produto </button>
