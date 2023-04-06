@@ -113,7 +113,9 @@ label{
    border-style: solid;
    border-width: 1px;
    border-radius: 8px;
-   bottom: 37%; 
+   bottom: 15%; 
+   right: 15vw;
+   
 }
 
 .grafico3{
@@ -122,28 +124,6 @@ label{
     border-width: 1px;
     border-radius: 8px;
     bottom: 15%;
-}
-
-.grafico4{
-    position: relative;
-    left: 6%;
-    bottom: 13.7vw;
-    border-width: 1px;
-    border-radius: 10px;
-    background-color: #d3d3d3;
-    border-style: solid;
-    
-}
-
-.grafico5{
-    position: relative;
-    left: 95%;
-    bottom: 16.2vw;
-    border-width: 1px;
-    border-radius: 10px;
-    background-color: #d3d3d3;
-    border-style: solid;
-    
 }
 
 .dashboardOk{

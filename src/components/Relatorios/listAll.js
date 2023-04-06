@@ -867,49 +867,11 @@ const optionsTpPg = {
 const dataTpPg0 = [
     ["Valores em R$", "",""],
     [" (Cima)Dinheiro / (Baixo)Total", resultTpPg , resultTpPg1],
-    ["Cartão(Acima Credito) , (Abaixo Debito)", resultTpPg2, resultTpPg3],
+    ["Credito , Debito", resultTpPg2, resultTpPg3],
 ];
 
-const optionsTpPg0 = {
-    chart: {
-      title: "Valores Gerais",
-      subtitle: "Testando",
-    },
-    hAxis: {
-      title: "GGG",
-      minValue: 0,
-    },
-    vAxis: {
-      title: "Valores",
-    },
-    bars: "horizontal",
-    axes: {
-      y: {
-        0: { side: "right" },
-      },
-    },
-  };
-
-  const barDataTpPg = [
-    [
-      "Element",
-      "Valor",
-      { role: "style" },
-      {
-        sourceColumn: 0,
-        role: "annotation",
-        type: "string",
-        calc: "stringify",
-      },
-    ],
-    ["Dinheiro", resultTpPg, "#A3DE68"],
-    ["Total" , resultTpPg1, "#8848D4"],
-    ["Cartão de Credito", resultTpPg2 ,"#D44A26"],
-    ["Cartão de Debito", resultTpPg3 ,"#D40B0B"],
-  ];
-
 const barOptionsTpPg = {
-    title: "Valores",
+    title: "Pagamentos",
     width: 400,
     height: 200,
     bar: {groupWidth: "95%"},
@@ -918,10 +880,51 @@ const barOptionsTpPg = {
 
 const dataTpPg = [
     ["Element", "Valor", { role: "style"}],
-    ["Dinheiro", resultTpPg, "#A3DE68"],
-    ["Cartão de Credito", resultTpPg2 ,"#D44A26"],
-    ["Cartão de Debito", resultTpPg3 ,"#D40B0B"],
+    ["Credito Loja", resultTpPg6, "#ff6ad8"],
+    ["Cancelamento", resultTpPg7 ,"#ffaf56"],
+    ["Desconto", resultTpPg8 ,"#ffaf56"],
 ];
+
+const dataTpPgVale = [
+    ["Element", "Valor", { role: "style"}],
+    ["Alimentação", resultTpPg9 ,"#D44A26"],
+    ["Combustivel", resultTpPg10 ,"#D40B0B"],
+    ["Presente", resultTpPg11 ,"#D44A26"],
+    ["Refeição", resultTpPg12 ,"#D40B0B"],
+];
+
+const dataTipoPagamento = [
+    ["Element", "Valor", { role: "style"}],
+    ["Boleto", resultTpPg5, "#1f80ed"],
+    ["Cheque", resultTpPg4 , "#d24159"],
+    ["Cartão de Credito", resultTpPg2 ,"#9bf967"],
+    ["Cartão de Debito", resultTpPg3 ,"#f98b68"],
+    ["Dinheiro", resultTpPg, "#ffe670"],
+    ["Total", resultTpPg1 , "#b2bb1c"],
+];
+
+const dataTipoPagamentoPizza = [
+    ["Element", "Valor", { role: "style"}],
+    ["Boleto", resultTpPg5, "#1f80ed"],
+    ["Cheque", resultTpPg4 , "#d24159"],
+    ["C.Credito", resultTpPg2 ,"#9bf967"],
+    ["C.Debito", resultTpPg3 ,"#f98b68"],
+    ["Dinheiro", resultTpPg, "#ffe670"],
+];
+
+//------------------------------------------------------------------Dashboard Produtos---------------------------------------------------------------------
+
+const [dashboardProdutos, setIsOpenDashboardProdutos] = useState(false);
+
+function openDashboardProdutos(){
+    setIsOpenDashboardProdutos(true)
+}
+function closeDashboardProdutos(){
+    setIsOpenDashboardProdutos(false)
+}
+
+
+
 
 //------------------------------------------------------------------Picos----------------------------------------------------------------------------------
 const[modalPico, setIsOpenModalPico] = useState(false);
@@ -1837,7 +1840,7 @@ const optionsPico = {
                                     <div className='dashboardTexts' >
 
                                         <h2 className='prices' >
-                                            <img className='cifrões' src='images/cifrãoAmarelo.png' /> Dinheiro : R$ {resultTpPg}
+                                            <img className='cifrões' src='images/dinheiro.png' /> Dinheiro : R$ {resultTpPg}
                                         </h2>
 
                                         <h2 className='prices' >
@@ -1849,11 +1852,11 @@ const optionsPico = {
                                         </h2>
 
                                         <h2 className='prices' >
-                                            <img className='cifrões' src='images/cifrãoRoxo.png' /> Cheque : R$ {resultTpPg4}
+                                            <img className='cifrões' src='images/cheque.png' /> Cheque : R$ {resultTpPg4}
                                         </h2>
 
                                         <h2 className='prices' >
-                                            <img className='cifrões' src='images/cifrãoAzul.png' /> Boleto Bancario: R$ {resultTpPg5}
+                                            <img className='cifrões' src='images/boleto.png' /> Boleto Bancario: R$ {resultTpPg5}
                                         </h2>
 
                                         <h2 className='prices' > 
@@ -1865,44 +1868,48 @@ const optionsPico = {
                                         </h2>
 
                                         <h2 className='prices' >
-                                            <img className='cifrões' src='images/cifrãoAzulClaro.png' /> Desconto Total: R$ {resultTpPg8}
+                                            <img className='cifrões' src='images/cifrãoVermelho.png' /> Desconto Total: R$ {resultTpPg8}
                                         </h2>
 
                                         <h2 className='prices' >
-                                            <img className='cifrões' src='images/cifrãoAzulClaro.png' /> Desconto Total: R$ {resultTpPg8}
+                                            <img className='cifrões' src='images/cifrãoVerde.jpg' /> Total: R$ {resultTpPg1}
                                         </h2>
 
                                 </div>
                                         
-                                    <h1>Vales(Opcional)</h1>
+                                    <h1>Vales(Caso possua)</h1>
 
                                     <div className='dashboardTexts'>
                                         
                                         <h2 className='prices' >
-                                            <img className='cifrões' src='images/valeRefeição.png' /> Alimentação: R$ {resultTpPg9}
+                                            <img className='cifrões' src='images/valeAlimentação.png' /> Alimentação: R$ {resultTpPg9}
                                         </h2>
 
                                         <h2 className='prices' >
-                                            <img className='cifrões' src='images/cifrãoAzulClaro.png' /> 
+                                            <img className='cifrões' src='images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10}
                                         </h2>
 
                                         <h2 className='prices' >
-                                            <img className='cifrões' src='images/cifrãoAzulClaro.png' /> 
+                                            <img className='cifrões' src='images/valePresente.png' /> Presente: R$ {resultTpPg11}
                                         </h2>
 
                                         <h2 className='prices' >
-                                            <img className='cifrões' src='images/cifrãoAzulClaro.png' /> 
+                                            <img className='cifrões' src='images/valeRefeição.png' /> Refeição: R$ {resultTpPg12}
                                         </h2>
                                     </div>
 
                                     <div className='dashboard' >
                                         <Chart chartType="ColumnChart" width="300px" height="200px" data={dataTpPg} className="grafico1" />
-                                        <Chart chartType="BarChart" data={dataTpPg} options={barOptionsTpPg} className="grafico1" />
-                                        <Chart chartType="PieChart" data={dataTpPg} options={optionsTpPg} width="300px" height="200px" className="grafico1" />
+                                        <Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} className="grafico1" />
+                                        <Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="300px" height="200px" className="grafico1" />
                                     </div>          
                                         
                                 </div> 
-                                <Chart chartType="Bar" width="400px" height="250px" data={dataCli0} options={optionsCli0} className="grafico3" />                                                             
+                                <div className='dashboard' >
+                                    <Chart chartType="Bar" width="500px" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico3" /> 
+                                    <Chart chartType="ColumnChart" width="350px" height="250px" data={dataTpPgVale} className="grafico2" />
+                                </div>
+                                                                                           
                             </Modal>            
 
                                                                 
@@ -1942,9 +1949,11 @@ const optionsPico = {
                                 <th>Percentual</th>   
                             </tr>
 
-                        {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(query6)).map((dat2) => (
-                            <tr >
-                                                
+                        {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(query6)).map((dat2) => {
+
+                            return(
+
+                                                <tr >                                              
                                                     <td> {dat2.ranking} </td>
 
                                                     <td > {dat2.id_produto} </td>
@@ -1969,11 +1978,12 @@ const optionsPico = {
 
                                                     <td> {dat2.p_margem} </td>
 
-                                                    <td> {(dat2.percentual).toFixed(2) } </td>
-                                                                    
-                                </tr>
-                        ))} 
+                                                    <td> {(dat2.percentual).toFixed(2) } </td>                  
+                                                </tr>  
+                            )                
+                        })} 
                         </table>
+
                         </div>      
                          </Modal>
 
