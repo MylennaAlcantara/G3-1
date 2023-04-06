@@ -19,6 +19,10 @@ export const EditarFuncionario = () => {
         async function fetchDataFuncionario (){
             const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/${codigoFuncionario}`);
             const data = await response.json();
+            setNivel({
+                codigo: data.nivelAcesso.id,
+                nome: data.nivelAcesso.descricao
+            });
             setCodigo(data.id);
             setNome(data.nome);
             setEndereco(data.endereco);
@@ -43,10 +47,8 @@ export const EditarFuncionario = () => {
                 nome: data.setorFuncionario.descricao,
                 operador: data.setorFuncionario.operadorDeCaixa
             });
-            setNivel({
-                codigo: data.id_nivel_acesso
-            });
-            setDataIdSelectEmitente(data.id_filial);
+            setDataIdSelectEmitente(data.filial.id);
+            setDataSelectEmitente(data.filial.razaoSocial);
             setMotorista(data.motorista);
             setCpf(data.cpf);
             setRg(data.rg);
@@ -58,6 +60,7 @@ export const EditarFuncionario = () => {
             setObs(data.obs)
             setDataNascimento(data.dataNascimento);
             setDataAdmissao(data.data_admissao);
+            setDataCadastro(data.data_cadastro)
             setMatricula(data.matricula);
             setSenha(data.senha);
             setUsuarioSistema(data.usuarioSistema);
@@ -65,6 +68,7 @@ export const EditarFuncionario = () => {
         fetchDataFuncionario();
     }, []);
 
+    // Estados dos modais
     const [isModalMunicipio, setIsModalMunicipio] = useState(false);
     const [isModalFilial, setIsModalFilial] = useState(false);
     const [isModalSetor, setIsModalSetor] = useState(false);
@@ -114,12 +118,14 @@ export const EditarFuncionario = () => {
     const [obs, setObs] = useState('');
     const [dataNascimento, setDataNascimento] = useState('');
     const [dataAdmissao, setDataAdmissao] = useState('');
+    const [dataCadastro, setDataCadastro] = useState('');
 
     // Dados de acesso
     const [matricula, setMatricula] = useState('');
     const [senha, setSenha] = useState('');
     const [usuarioSistema, setUsuarioSistema] = useState(false);
     const password = MD5(senha).toString();
+    const [ativado, setAtivado] = useState(true);
 
     const [aba, setAba] = useState('geral');
 
@@ -152,22 +158,6 @@ export const EditarFuncionario = () => {
     function municipios (e){
         setIsModalMunicipio(true);
     }
-
-    //Pegar hora do computador
-    const [dataCadastro, setDataCadastro] = useState('');
-
-    const data = new Date();
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth()+ 1).padStart(2, '0') ;
-    const ano = data.getFullYear();
-    const dataAtual = String(ano + '-' + mes + '-' + dia);
-
-    useEffect(()=>{
-        async function setarHoraData(){
-            setDataCadastro(String(dataAtual));
-        } 
-        setarHoraData();
-    },[])
 
     const salvar = async () => {
         try{
@@ -208,15 +198,21 @@ export const EditarFuncionario = () => {
                         descricao: setor.nome,
                         operadorDeCaixa: setor.operador
                     },
-                    id_nivel_acesso: nivel.codigo,
+                    nivelAcesso: {
+                        id: nivel.codigo,
+                        descricao: nivel.nome
+                    },
                     meta: meta,
                     senhaExpirada: false,
-                    id_filial: dataIdSelectEmitente,
+                    filial: {
+                        id: dataIdSelectEmitente,
+                        razaoSocial: dataSelectEmitente
+                    },
                     usuarioSistema: usuarioSistema,
                     motorista: motorista,
                     dataNascimento: dataNascimento,
                     excluido: false,
-                    ativo: true
+                    ativo: ativado
                 })
             });
             if(res.status === 201 || res.status === 200){
@@ -255,7 +251,7 @@ export const EditarFuncionario = () => {
                 </div>
                 <div className="campo">
                     <div style={{justifyContent: "end"}}>
-                        <label>Data Modificação: </label>
+                        <label>Data de Cadastro: </label>
                         <input value={dataCadastro} readOnly/>
                     </div>
                     <div style={{justifyContent: "end"}}>
@@ -403,12 +399,16 @@ export const EditarFuncionario = () => {
             <C.Footer>
                 <div className="buttons">
                     <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
-                    <button onClick={salvar}>Desativar</button>
+                    {ativado ? (
+                        <button onClick={()=> setAtivado(false)}><img src="/images/off.png" className="ativo"/>Desativar</button>
+                    ) : (
+                        <button onClick={()=> setAtivado(true)}><img src="/images/on.png" className="ativo"/>Ativar</button>
+                    )}
                     <button onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
             {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)} setDadosCidades ={setDadosCidades} setIsModalMunicipio={setIsModalMunicipio}/> : null}
-            {isModalFilial ? <Emitente onClose={()=> setIsModalFilial(false)} setDataIdSelectEmitente ={setDataIdSelectEmitente} setDataSelectEmitente={setDataSelectEmitente} setIsModalFilial={setIsModalFilial}/> : null}
+            {isModalFilial ? <Emitente onClose={()=> setIsModalFilial(false)} setDataIdSelectEmitente ={setDataIdSelectEmitente} setDataSelectEmitente={setDataSelectEmitente} setIsModalFilial={setIsModalFilial} /> : null}
             {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} setSetor={setSetor}/> : null}
             {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} setNivel={setNivel}/> : null}
         </C.Container>

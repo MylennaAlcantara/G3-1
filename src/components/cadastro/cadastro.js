@@ -446,6 +446,10 @@ export const Footer = styled.div`
         align-items: center;
         justify-content: center;
         border-radius: 0 0 12px 12px;
+        .ativo{
+            height: 30px;
+            width: 30px;
+        }
         button{
             width: 117px;
             height: 33px;

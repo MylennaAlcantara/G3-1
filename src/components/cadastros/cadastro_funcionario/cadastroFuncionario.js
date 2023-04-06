@@ -86,6 +86,7 @@ export const Geral = styled.div`
 export const Documentos = styled.div`
     height: 80%;
     width: 100%;
+    overflow: auto;
     input{
         height: 24px;
         border: none;        

@@ -109,7 +109,8 @@ export const ConsultarFuncionario = () => {
                             {users.map( (user, index) => {
                                 return(
                                     <tr key={user.id}
-                                        onClick={selecionado.bind(this, user, index)}>
+                                        onClick={selecionado.bind(this, user, index)}
+                                        style={{background: index === selectIndex ? '#87CEFA' : ''}}>
                                         <td>{user.id}</td>
                                         <td>{user.nome}</td>
                                         <td>{user.nome}</td>
