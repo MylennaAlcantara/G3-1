@@ -48,13 +48,12 @@
 
 
 .dashboard{
+    justify-content: space-between;
     align-items: center;
     display: flex;
     flex-direction: row;
     margin-top: 81px;
     margin-left: 30px;
-    width: 600px;
-    height: 400px;
 }
 
 .dashboardTexts{
@@ -101,18 +100,74 @@ label{
 }
 
 .grafico1{
-    justify-content: space-between;
     position: relative;
-    bottom: 80%;
-    right: 5%;
+    bottom: 30%;
+    right: 10%;
     border-style: solid;
     border-radius: 8px;
+    border-width: 1px;
 }
 
 .grafico2{
+   position: relative;
    border-style: solid;
-   border-radius: 8px; 
+   border-width: 1px;
+   border-radius: 8px;
+   bottom: 15%; 
+   right: 15vw;
    
+}
+
+.grafico3{
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+    bottom: 15%;
+}
+
+.dashboardOk{
+    display: flex;
+    flex-direction: row;
+}
+
+.tlou{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.bandeira{
+    margin-left: 10px;
+    height: 40px;
+    width: 60px;
+    margin-right: 5px;
+}
+
+.regiaoImg{
+    margin-left: 60px;
+    height: 150px;
+    width: 180px;
+}
+
+.spanName{
+    right: 6vw;
+    top: 5vw;
+    position: relative;
+    margin-right: 5px;
+}
+
+.bestRegion{
+    background-color: #d3d3d3;
+    position: relative;
+    border-style: solid;
+    border-radius: 7px;
+    border-width: 1px;
+    width: 400px;
+    left: -0.5vw;
+    height: 12vw;
+    bottom: 4vw;
 }
 
 .btns{
@@ -138,14 +193,25 @@ label{
     box-shadow: -1px -1px 1px #ABADB3;
 }
 
+h1{
+    display: flex;
+    height: 45px;
+    font-size: 22px;
+    justify-content: center;
+    align-items: center;
+}
+
 .prices{
-    font-size: 15px;
+    background-color: white;
+    font-size: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-style: solid;
-    height: 95px;
+    height: 75px;
     width: 350px;
+    margin: 2px;
+    border-radius: 6px;
 }
 
 .lupa{
@@ -513,23 +579,10 @@ table tr:nth-child(odd){
     height: 25px;
 }
 
-.ModalDashboard{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    transform: translate(-50%, -50%);
-    width: 75%;
-    height: 80%;
-    border-style: solid;
-    background-color: white;
-}
-
 .cifrões{
     margin-left: 3px;
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
     margin-right: 5px;
 }
 

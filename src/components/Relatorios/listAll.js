@@ -262,19 +262,7 @@ export const ResumoFaturamento = () => {
           transform: 'translate(-50%, -50%)',
           width: '75%',
           height: '80%',
-        },
-      };
-
-      const styleDashboard = {
-        content: {
-          backgroundColor: '#d3d3d3',
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          transform: 'translate(-50%, -50%)',
-          width: '75%',
-          height: '80%',
+          backgroundColor: '#6EC2FA',
         },
       };
 
@@ -307,7 +295,7 @@ export const ResumoFaturamento = () => {
         "idFilial": "1",
         "idTop": null
     }
-    
+
     console.log(dados)
     console.log(dadosCliente)
     console.log(dadosRegiao)
@@ -476,6 +464,8 @@ export const ResumoFaturamento = () => {
 
     console.log(filter)
 
+    
+
 //------------------------------------------------------------------Dashboards (Dashboard Região)-------------------------------------------------------------------------------
     const[dashboardRegiao, setIsOpenDashboardRegiao] = useState(false);
  
@@ -493,9 +483,15 @@ export const ResumoFaturamento = () => {
     const result4 = dadosRegiao.reduce((a, b) => a + b.vlTotalNfce, 0) 
     
     const options = {
-        title: "Valores",
+        title: "Valores Lucro e Custo",
         is3D: true,
-        backgroundColor: "#FFF",
+        backgroundColor: "#ffff",
+    };
+
+    const options2 = {
+        title: "Valores NF-e / NFC-e",
+        is3D: true,
+        backgroundColor: "#ffff",
     };
 
     const barData = [
@@ -519,21 +515,53 @@ export const ResumoFaturamento = () => {
       
     const barOptions = {
         title: "Tabela Valores Totais.",
+        backgroundColor: '#d3d3d3',
         width: 400,
         height: 200,
-        bar: { groupWidth: "95%" },
+        bar: { groupWidth: "95%" ,  },
         legend: { position: "none" },
       };
       
 
     const dataRegiao = [
         ["Element", "Valor Total", { role: "style" }],
-        ["Lucro Venda", result2, "#F7C64F"], 
-        ["Valor Custo", result , "#bc1b2b"],     
-        ["Venda Total", result1, "#39E055"], 
-        ["Valor Nf-e", result3 , "#8226ED"],     
-        ["Venda NFC-e", result4, "#2686ED"], 
+        ["Valor de Lucro", result2, "#F7C64F"], 
+        ["Valor de Custo", result , "#bc1b2b"],     
+        ["Valor Total", result1, "#39E055"], 
       ];
+
+      const dataRegiao2 = [
+        ["Element", "Valor Total", { role: "style" }],
+        ["NF-e", result3, "#F7C64F"], 
+        ["NFC-e", result4 , "#bc1b2b"],     
+      ];
+
+      const dataRe0 = [
+        ["Valores em R$", "", ""],
+        ["NF-e / NFC-e  ", result3, result4],
+        ["Custo / Lucro", result, result2],
+      ];
+    
+    const optionsRe0 = {
+        chart: {
+          title: "Valores Gerais", 
+          subtitle: "Comparativo",
+        },
+        hAxis: {
+          title: "GGG",
+          minValue: 0,
+        },
+        vAxis: {
+          title: "Valores",
+        },
+        bars: "vertical",
+       
+        axes: {
+          y: {
+            0: { side: "right" },
+          },
+        },
+      };
 //-------------------------------------------------------------Dashboard Filial-------------------------------------------------------------------------
 
 const[dashboardFilial, setIsOpenDashboardFilial] = useState(false);
@@ -554,9 +582,11 @@ const resultFi1 = dados.reduce((a, b) => a + b.vlVendaTotal, 0)
 const resultFi2 = dados.reduce((a, b) => a + b.vlLucroVenda, 0) 
 const resultFi3 = dados.reduce((a, b) => a + b.vlTotalNfe, 0)
 const resultFi4 = dados.reduce((a, b) => a + b.vlTotalNfce, 0) 
+const resultFi5 = dados.reduce((a, b) => a + b.vlTotalCredito, 0)
+const resultFi6 = dados.reduce((a, b) => a + b.vlTotalLiquido, 0)
 
 const optionsFi = {
-    title: "Valores",
+    title: "Liquido e Bruto",
     is3D: true,
 };
 
@@ -577,12 +607,14 @@ const barDataFi = [
     ["Valor Total ", resultFi1, "#39E055", null],
     ["Valor  Nf-e", resultFi3, "#8226ED", null],
     ["Valor NFC-e", resultFi4, "#2686ED", null],
+    ["Valor Credito", resultFi5, "#ff6ad8", null],
+    ["Valor Liquido", resultFi6, "#ffaf56" , null]
   ];
   
 const barOptionsFi = {
     title: "Tabela Valores Totais.",
-    width: 600,
-    height: 400,
+    width: 450,
+    height: 200,
     bar: { groupWidth: "95%" },
     legend: { position: "none" },
   };
@@ -591,10 +623,41 @@ const dataFilial = [
     ["Element", "Valor Total", { role: "style" }],
     ["Lucro Venda", result2, "#F7C64F"], 
     ["Valor Custo", result , "#b87333"],     
-    ["Venda Total", result1, "#39E055"], 
-    ["Valor Nf-e", result3 , "#8226ED"],     
-    ["Venda NFC-e", result4, "#2686ED"], 
   ];
+
+  const dataFilial2 = [
+    ["Element", "Valor Total", { role: "style" }],
+    ["Valor Liquido", resultFi6, "#ffaf56"], 
+    ["Valor Total", resultFi1 , "#39E055"],     
+  ];
+
+  const dataFi0 = [
+    ["Valores em R$", "", ""],
+    ["Custo / Lucro", resultFi, resultFi2],
+    ["NF-e / NFC-e  ", resultFi3, resultFi4],
+    ["Liquido / Total", resultFi6, resultFi1 ],
+  ];
+
+  const optionsFi0 = {
+    chart: {
+      title: "Valores Gerais", 
+      subtitle: "Comparativo",
+    },
+    hAxis: {
+      title: "GGG",
+      minValue: 0,
+    },
+    vAxis: {
+      title: "Valores",
+    },
+    bars: "vertical",
+   
+    axes: {
+      y: {
+        0: { side: "right" },
+      },
+    },
+  };
 
 //------------------------------------------------------------------Dashboard Vendedor----------------------------------------------------------------------  
 const[dashboardVendedor, setIsOpenDashboardVendedor] = useState(false);
@@ -606,11 +669,31 @@ function closeDashboardVendedor (){
     setIsOpenDashboardVendedor(false)
 }
 
+
 const resultVen = dadosVendedor.reduce((a, b) => a + b.vlCustoTotal, 0)
 const resultVen1 = dadosVendedor.reduce((a, b) => a + b.vlVendaTotal, 0)
 const resultVen2 = dadosVendedor.reduce((a, b) => a + b.vlLucroVenda, 0) 
 const resultVen3 = dadosVendedor.reduce((a, b) => a + b.vlTotalNfe, 0)
-const resultVen4 = dadosVendedor.reduce((a, b) => a + b.vlTotalNfce, 0) 
+const resultVen4 = dadosVendedor.reduce((a, b) => a + b.vlTotalNfce, 0)
+const resultVen5 = dadosVendedor.reduce((a, b) => a + b.vlTotalCredito, 0) 
+const resultVen6 = dadosVendedor.reduce((a, b) => a + b.vlTotalCancelamento, 0)
+const resultVen7 = dadosVendedor.reduce((a, b) => a + b.vlTotalComissao, 0)
+const resultVen8 = dadosVendedor.reduce((a, b) => a + b.vlTotalDesconto, 0 )
+
+const datVendedor = [
+    ["Element", "Valor Total", { role: "style" }],
+    ["Cancelamento", resultVen6, "#ffaf56"], 
+    ["Comissão", resultVen7 , "#57ffe8"],
+    ["Desconto", resultVen8 , "#727272" ],    
+  ];
+
+
+const datVendedor0 = [
+    ["Element", "Valor Total", { role: "style" }],
+    ["Lucro", resultVen2, "#f6d001"],
+    ["Custo", resultVen, "#bc1b2b"],
+    ["Total ", resultVen1, "#b2bb1c"],
+  ];
 
 const optionsVen = {
     title: "Valores",
@@ -629,28 +712,29 @@ const barDataVen = [
         calc: "stringify",
       },
     ],
-    ["Valor Lucro", resultVen2, "#F7C64F", null],
-    ["Valor Custo", resultVen, "#b87333", null],
-    ["Valor Total ", resultVen1, "#39E055", null],
-    ["Valor  Nf-e", resultVen3, "#8226ED", null],
-    ["Valor NFC-e", resultVen4, "#2686ED", null],
+    ["Lucro", resultVen2, "#f6d001", null],
+    ["Custo", resultVen, "#bc1b2b", null],
+    ["Total ", resultVen1, "#b2bb1c", null],
+    ["Nf-e", resultVen3, "#8226ED", null],
+    ["NFC-e", resultVen4, "#2686ED", null],
+    ["Credito", resultVen5, "#ff6ad8", null],
+    ["Cancelamento", resultVen6, "#ffaf56", null],
+    ["Comissão", resultVen7, "#57ffe8", null],
+    ["Desconto", resultVen8, "#727272", null]
   ];
   
 const barOptionsVen = {
     title: "Tabela Valores Totais.",
-    width: 600,
-    height: 400,
+    width: 400,
+    height: 250,
     bar: { groupWidth: "95%" },
     legend: { position: "none" },
   };
   
 const dataVendedor = [
     ["Element", "Valor Total", { role: "style" }],
-    ["Lucro Venda", resultVen2, "#F7C64F"], 
-    ["Valor Custo", resultVen , "#b87333"],     
-    ["Venda Total", resultVen1, "#39E055"], 
-    ["Valor Nf-e", resultVen3 , "#8226ED"],     
-    ["Venda NFC-e", resultVen4, "#2686ED"], 
+    ["Nf-e", resultVen3, "#8226ED"],
+    ["NFC-e", resultVen4, "#2686ED"], 
   ];
 
 //---------------------------------------------------------------Dashboard Cliente--------------------------------------------------------------------------
@@ -669,6 +753,9 @@ const resultCli2 = dadosCliente.reduce((a, b) => a + b.vlTotalNfe, 0 )
 const resultCli3 = dadosCliente.reduce((a, b) => a + b.vlTotalNfce, 0 )
 const resultCli4 = dadosCliente.reduce((a, b) => a + b.vlCustoTotal, 0 )
 const resultCli5 = dadosCliente.reduce((a, b) => a + b.vlTotalDesconto, 0 )
+const resultCli6 = dadosCliente.reduce((a, b) => a + b.vlLucroLiquido, 0)
+const resultCli7 = dadosCliente.reduce((a, b) => a + b.vlTotalCredito, 0)
+
 
 
 const optionsCli = {
@@ -677,16 +764,17 @@ const optionsCli = {
 };
 
 const dataCli0 = [
-    ["Valores em R$", "V1", "V2"],
+    ["Valores em R$", "", ""],
     ["NF-e / NFC-e  ", resultCli2, resultCli3],
     ["Custo / Lucro", resultCli4, resultCli1],
     ["Desconto / Venda", resultCli5, resultCli],
+    ["Liquido/ Bruto", resultCli6, resultCli],
   ];
 
 const optionsCli0 = {
     chart: {
       title: "Valores Gerais",
-      subtitle: "Testando",
+      subtitle: "Comparativo",
     },
     hAxis: {
       title: "GGG",
@@ -695,7 +783,7 @@ const optionsCli0 = {
     vAxis: {
       title: "Valores",
     },
-    bars: "vertical",
+    bars: "horizontal",
     axes: {
       y: {
         0: { side: "right" },
@@ -715,29 +803,36 @@ const barDataCli = [
         calc: "stringify",
       },
     ],
-    ["Valor Lucro", resultCli1, "#F7C64F", null],
-    ["Valor Custo", resultCli4, "#b87333", null],
-    ["Valor Total ", resultCli, "#39E055", null],
-    ["Valor  Nf-e", resultCli2, "#8226ED", null],
-    ["Valor NFC-e", resultCli3, "#2686ED", null],
+    ["Lucro", resultCli1, "#f6d001", null],
+    ["Custo", resultCli4, "#bc1b2b", null],
+    ["Total ", resultCli, "#39E055", null],
+    ["NF-e", resultCli2, "#8226ED", null],
+    ["NFC-e", resultCli3, "#2686ED", null],
+    ["Credito", resultCli7, "#ff6ad8", null],
+    ["Liquido", resultCli6, "#ffaf56", null],
+    ["Desconto", resultCli5, "#57ffe8", null],
   ];
   
 const barOptionsCli = {
     title: "Tabela Valores Totais.",
-    width: 600,
-    height: 400,
+    width: 400,
+    height: 250,
     bar: { groupWidth: "95%" },
     legend: { position: "none" },
   };
   
 const dataCliente = [
     ["Element", "Valor Total", { role: "style" }],
-    ["Lucro Venda", resultCli1, "#F7C64F"], 
-    ["Valor Custo", resultCli4 , "#b87333"],     
-    ["Venda Total", resultCli, "#39E055"], 
-    ["Valor Nf-e", resultCli2 , "#8226ED"],     
-    ["Venda NFC-e", resultCli3, "#2686ED"], 
+    ["Custo", resultCli4 , "#bc1b2b"], 
+    ["Lucro", resultCli1, "#f6d001"], 
+    ["Total", resultCli, "#b2bb1c"], 
   ];    
+
+  const dataCliente0 = [
+    ["Element", "Valor Total", { role: "style" }],
+    ["NF-e", resultCli2, "#8226ED"],
+    ["NFC-e", resultCli3, "#2686ED"],
+  ];   
 
 //------------------------------------------------------------------Dashboard Tipo de Pagamento-------------------------------------------------------------
 
@@ -754,6 +849,15 @@ const resultTpPg = dadosLeitura.reduce((a, b) => a + b.dinheiro, 0 )
 const resultTpPg1 = dadosLeitura.reduce((a, b) => a + b.total, 0 )
 const resultTpPg2 = dadosLeitura.reduce((a, b) => a + b.cartao_de_credito, 0)
 const resultTpPg3 = dadosLeitura.reduce((a, b) => a + b.cartao_de_debito, 0 )
+const resultTpPg4 = dadosLeitura.reduce((a, b) => a + b.cheque, 0)
+const resultTpPg5 = dadosLeitura.reduce((a, b) => a + b.boleto_bancario, 0)
+const resultTpPg6 = dadosLeitura.reduce((a, b) => a + b.credito_loja, 0)
+const resultTpPg7 = dadosLeitura.reduce((a, b) => a + b.cancelamento_total, 0)
+const resultTpPg8 = dadosLeitura.reduce((a, b) => a + b.desconto_total, 0)
+const resultTpPg9 = dadosLeitura.reduce((a, b) => a + b.vale_alimentacao, 0)
+const resultTpPg10 = dadosLeitura.reduce((a, b) => a + b.vale_combustivel, 0)
+const resultTpPg11 = dadosLeitura.reduce((a, b) => a + b.vale_presente, 0)
+const resultTpPg12 = dadosLeitura.reduce((a, b) => a + b.vale_refeicao, 0)
 
 const optionsTpPg = {
     title: "Valores",
@@ -761,64 +865,66 @@ const optionsTpPg = {
 };
 
 const dataTpPg0 = [
-    ["Valores em R$", "V1" , "V2"],
+    ["Valores em R$", "",""],
     [" (Cima)Dinheiro / (Baixo)Total", resultTpPg , resultTpPg1],
-    ["Cartão(Acima Credito) , (Abaixo Debito)", resultTpPg2, resultTpPg3],
+    ["Credito , Debito", resultTpPg2, resultTpPg3],
 ];
 
-const optionsTpPg0 = {
-    chart: {
-      title: "Valores Gerais",
-      subtitle: "Testando",
-    },
-    hAxis: {
-      title: "GGG",
-      minValue: 0,
-    },
-    vAxis: {
-      title: "Valores",
-    },
-    bars: "horizontal",
-    axes: {
-      y: {
-        0: { side: "right" },
-      },
-    },
-  };
-
-  const barDataTpPg = [
-    [
-      "Element",
-      "Valor",
-      { role: "style" },
-      {
-        sourceColumn: 0,
-        role: "annotation",
-        type: "string",
-        calc: "stringify",
-      },
-    ],
-    ["Dinheiro", resultTpPg, "#A3DE68"],
-    ["Total" , resultTpPg1, "#8848D4"],
-    ["Cartão de Credito", resultTpPg2 ,"#D44A26"],
-    ["Cartão de Debito", resultTpPg3 ,"#D40B0B"],
-  ];
-
 const barOptionsTpPg = {
-    title: "Valores",
-    width: 600,
-    height: 400,
+    title: "Pagamentos",
+    width: 400,
+    height: 200,
     bar: {groupWidth: "95%"},
     legend: {position: "none"},
 };
 
 const dataTpPg = [
     ["Element", "Valor", { role: "style"}],
-    ["Dinheiro", resultTpPg, "#A3DE68"],
-    ["Total" , resultTpPg1, "#8848D4"],
-    ["Cartão de Credito", resultTpPg2 ,"#D44A26"],
-    ["Cartão de Debito", resultTpPg3 ,"#D40B0B"],
+    ["Credito Loja", resultTpPg6, "#ff6ad8"],
+    ["Cancelamento", resultTpPg7 ,"#ffaf56"],
+    ["Desconto", resultTpPg8 ,"#ffaf56"],
 ];
+
+const dataTpPgVale = [
+    ["Element", "Valor", { role: "style"}],
+    ["Alimentação", resultTpPg9 ,"#D44A26"],
+    ["Combustivel", resultTpPg10 ,"#D40B0B"],
+    ["Presente", resultTpPg11 ,"#D44A26"],
+    ["Refeição", resultTpPg12 ,"#D40B0B"],
+];
+
+const dataTipoPagamento = [
+    ["Element", "Valor", { role: "style"}],
+    ["Boleto", resultTpPg5, "#1f80ed"],
+    ["Cheque", resultTpPg4 , "#d24159"],
+    ["Cartão de Credito", resultTpPg2 ,"#9bf967"],
+    ["Cartão de Debito", resultTpPg3 ,"#f98b68"],
+    ["Dinheiro", resultTpPg, "#ffe670"],
+    ["Total", resultTpPg1 , "#b2bb1c"],
+];
+
+const dataTipoPagamentoPizza = [
+    ["Element", "Valor", { role: "style"}],
+    ["Boleto", resultTpPg5, "#1f80ed"],
+    ["Cheque", resultTpPg4 , "#d24159"],
+    ["C.Credito", resultTpPg2 ,"#9bf967"],
+    ["C.Debito", resultTpPg3 ,"#f98b68"],
+    ["Dinheiro", resultTpPg, "#ffe670"],
+];
+
+//------------------------------------------------------------------Dashboard Produtos---------------------------------------------------------------------
+
+const [dashboardProdutos, setIsOpenDashboardProdutos] = useState(false);
+
+function openDashboardProdutos(){
+    setIsOpenDashboardProdutos(true)
+}
+function closeDashboardProdutos(){
+    setIsOpenDashboardProdutos(false)
+}
+
+
+
 
 //------------------------------------------------------------------Picos----------------------------------------------------------------------------------
 const[modalPico, setIsOpenModalPico] = useState(false);
@@ -1122,11 +1228,11 @@ const optionsPico = {
                                 }       )}
                             
                            
-                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" className="ModalDashboard" >
+                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
 
                                 <div >
 
-                                    <h1>Dashboard (Região)</h1>
+                                    <h1>Dados Região</h1>
 
                                     <div className='dashboardTexts' >
 
@@ -1153,12 +1259,141 @@ const optionsPico = {
                                     </div>
                                 
                                 <div className='dashboard' >
-                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dataRegiao} options={options} className="grafico1" />
-                                    <Chart chartType="BarChart" width="300px" height="100px" data={barData} options={barOptions} className="grafico2" />
-                                    <Chart chartType="PieChart" data={dataRegiao} options={options} width="300px" height="200px"  />
+                                    <Chart chartType="ColumnChart" width="350px" height="250px" data={dataRegiao} options={options} className="grafico1" />
+                                    <Chart chartType="BarChart" data={barData} options={barOptions} className="grafico1" />
+                                    <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="220px" className="grafico1" />
+                                </div>
+
+                                <div className='dashboardOk' >
+                                    <label className='bestRegion' >{dadosRegiao.map((banRe) => {                                      
+                                            
+                                            if(banRe.regiao === 'PERNAMBUCO'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/PE.png' />  
+                                                      <p>Pernambuco</p> <img className='regiaoImg' src='images/nordeste.png' /> <span className='spanName' >Nordeste</span>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'PARAIBA'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/PB.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'ACRE'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/AC.png' />  
+                                                      <p>Região Norte</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'AMAZONAS'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/AM.png' />  
+                                                      <p>Região Norte</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'ALAGOAS'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/AL.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'PIAUÍ'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/PI.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'AMAPÁ'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/AP.png' />  
+                                                      <p>Região Norte</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'SÃO PAULO'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/SP.png' />  
+                                                      <p>Região Suldeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'RIO DE JANEIRO'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/RJ.png' />  
+                                                      <p>Região Suldeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'MINAS GERAIS'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/MG.png' />  
+                                                      <p>Região Suldeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'ESPÍRITO SANTO'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/ES.png' />  
+                                                      <p>Região Suldeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'BAHIA'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/BA.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'CEARA'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/CE.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'MATO GROSSO'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/MT.png' />  
+                                                      <p>Região Centro Oeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'TOCANTINS'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/TO.png' />  
+                                                      <p>Região Norte</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === 'PARANÁ'){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/PB.png' />  
+                                                      <p>Região Sul</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }else if(banRe.regiao === ''){
+                                                return(
+                                                    <div className='tlou'>
+                                                      <img className='bandeira' src='images/bandeiras/PB.png' />  
+                                                      <p>Região Nordeste</p>
+                                                    </div>                                                 
+                                                )                                           
+                                            }
+                                        
+                                    } )}</label>
+                                    <Chart chartType="Bar" width="300px" height="200px" data={dataRe0} options={optionsRe0} backgroundColor="#d3d3d3" className="grafico2" />
                                 </div>
                                     
                                 </div>
+                                
                                 
                             </Modal>
 
@@ -1252,12 +1487,51 @@ const optionsPico = {
                                     </table>
                                 </div>
                            
-                            <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" >
+                            <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
                                 
-                                <Chart chartType="ColumnChart" width="500" height="400px" data={dataFilial} className="up-column" />
-                                <Chart chartType="BarChart" width="400px" height="200px" data={barDataFi} options={barOptionsFi} className="side-column" />
-                                <Chart chartType="PieChart" data={dataFilial} options={optionsFi} width={"500px"} height={"400px"} className="pie-chart" />
-    
+                                <div>
+
+                                    <h1>Dados Filial</h1>
+
+                                    <div className='dashboardTexts' >
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAmarelo.png' />  Valor de Lucro: R$ {resultFi2}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoVermelho.png' /> Valor de Custo: R$ {resultFi}
+                                        </h2>
+
+                                        <h2 className='prices'>
+                                            <img className='cifrões' src='images/cifrãoVerde.jpg' /> Valor Total: R$ {resultFi1}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoRoxo.png' /> NF-e: R$ {resultFi3}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAzul.png' /> NFC-e: R$ {resultFi4}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoRosa.png' /> Valor Credito: R$ {resultFi5}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoLaranja.png' /> Valor Liquido: R$ {resultFi6}
+                                        </h2>
+                                    </div>
+
+                                    <div className='dashboard' >
+                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFilial} className="grafico1" />
+                                        <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} className="grafico1" />
+                                        <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="300px" height="200px" className="grafico1" />
+                                    </div>
+                                    <Chart chartType="Bar" width="350px" height="250px" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" className="grafico3" />
+                                </div>
+                                
+                                
                             </Modal>
 
                         </Modal>
@@ -1345,11 +1619,56 @@ const optionsPico = {
                         ))}   
                             </table>
                          
-                            <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" >
-                                <Chart chartType="ColumnChart" width="500" height="400px" data={dataFilial} className="up-column" />
-                                <Chart chartType="BarChart" width="500px" height="300px" data={barDataVen} options={barOptionsVen} className="side-column" />
-                                <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width={"500px"} height={"400px"} className="pie-chart" />
+                            <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
+                               
+                                <div>
+                                    <h1>Dados Vendedor</h1>
 
+                                    <div className='dashboardTexts' >
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoAmarelo.png' /> Lucro: R$ {(resultVen2).toFixed(3)}
+                                        </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoVermelho.png' /> Custo: R$ {(resultVen).toFixed(2)}
+                                    </h2>
+
+                                    <h2 className='prices'>
+                                        <img className='cifrões' src='images/cifrãoVerde.jpg' /> Total: R$ {resultVen1}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoRoxo.png' /> NF-e: R$ {resultVen3}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAzul.png' /> NFC-e: R$ {resultVen4}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoRosa.png' /> Credito: R$ {resultVen5}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoLaranja.png' /> Cancelamento: R$ {resultVen6}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAzulClaro.png' /> Comissão: R$ {resultVen7} 
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoCinza.png' /> Desconto: R$ {resultVen8}
+                                    </h2>
+                                </div>
+
+                                    <div className='dashboard' >
+                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor} className="grafico1" />
+                                        <Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} className="grafico1" />
+                                        <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="300px" height="200px" className="grafico1" />
+                                    </div>
+                                </div>
+                                <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} className="grafico2" />
                             </Modal>
 
                         </Modal>
@@ -1435,33 +1754,66 @@ const optionsPico = {
                         ))}
                            </table>
 
-                            <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" >
-                                
-                                <div className='dashboard0' >
-                                    <Chart chartType="ColumnChart" width="500px" height="400px" data={dataCliente} className="up-column" />
-                                    <Chart chartType="BarChart" width="500px" height="250px" data={barDataCli} options={barOptionsCli} className="side-column" />
-                                </div>          
-                                
-                                
-                                <div className='dashboard0'>
-                                    <Chart chartType="PieChart" data={dataCliente} options={optionsCli} width={"500px"} height={"400px"} className="pie-chart" />
-                                    <Chart chartType="Bar" width="95%" height="300px" data={dataCli0} options={optionsCli0} className="bar-chart" />
+                            <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
+
+                            <div>
+                                 <h1>Dados Cliente</h1>
+
+                                 <div className='dashboardTexts' >
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAmarelo.png' /> Lucro Venda: R$ {resultCli1.toFixed(2)}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoVermelho.png' /> Custo: R$ {resultCli4}
+                                    </h2>
+
+                                    <h2 className='prices'>
+                                        <img className='cifrões' src='images/cifrãoVerde.jpg' /> Venda Total: R$ {resultCli.toFixed(2)}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoRoxo.png' /> NF-e: R$ {resultCli2.toFixed(2)}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAzul.png' /> NFC-e: R$ {resultCli3}
+                                    </h2>
+
+                                    <h2 className='prices' > 
+                                        <img className='cifrões' src='images/cifrãoRosa.png' /> Credito: {resultCli7}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoLaranja.png' /> Lucro Liqudido: R$ {resultCli6.toFixed(2)}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAzulClaro.png' /> Desconto {resultCli5}
+                                    </h2>
+
                                 </div>
-                                
+
+                                <div className='dashboard' >
+                                    <Chart chartType="ColumnChart" width="300px" height="250px" data={dataCliente} className="grafico1" />
+                                    <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico1" />
+                                    <Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"300px"} height={"200px"} className="grafico1" />
+                                </div>          
+                                                      
+                            </div>
+                                <Chart chartType="Bar" width="400px" height="250px" data={dataCli0} options={optionsCli0} className="grafico3" />
                             </Modal>
 
                         </Modal>
                     
                         <button className='tipoDePagamentoBtn' onClick={abrirTipoPg} > Tipo de Pagamento </button>
                         <Modal isOpen={tipoPgIsOpen} onRequestClose={closeTipoPg} contentLabel="Tipo de Pagamento" shouldCloseOnOverlayClick={true} overlayClassName="TipoPg-overlay" className="ModalDados"> 
-                            <div className='dashboard-label' >
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
                                     <button className='dashboardBtn' onClick={openDashboardTipoDePagamento} > <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p></button>
                                 </div>
                         
-                            
                         <table>
                         <tr className='labels' >
                             {keys.map((nomes) => {
@@ -1470,7 +1822,7 @@ const optionsPico = {
                                 )
                             } )}
                         </tr>
-                            
+        
                                 <tr className='labels' >
                                     {dadosTipoPagamento.map((f5) => {
                                         return(
@@ -1481,21 +1833,86 @@ const optionsPico = {
                     </table>
                             <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
                                 
-                                <div className='dashboardTpPg' >
-                                    <div className='dashboard0' >
-                                        <Chart chartType="ColumnChart" width="500px" height="400px" data={dataTpPg} className="up-column" />
-                                        <Chart chartType="BarChart" width="500px" height="250px" data={dataTpPg} options={barOptionsTpPg} className="side-column" />
-                                    </div>          
-                                
-                                
-                                    <div className='dashboard0'>
-                                        <Chart chartType="PieChart" data={dataTpPg} options={optionsTpPg} width={"500px"} height={"400px"} className="pie-chart" />
-                                        <Chart chartType="Bar" width="95%" height="300px" data={dataTpPg0} options={optionsTpPg0} className="bar-chart" />
+                                <div>
+
+                                    <h1>Dados Tipo Pagamento</h1>
+
+                                    <div className='dashboardTexts' >
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/dinheiro.png' /> Dinheiro : R$ {resultTpPg}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/credito.png' /> Cartão Credito: R$ {resultTpPg2}
+                                        </h2>
+
+                                        <h2 className='prices'>
+                                            <img className='cifrões' src='images/debito.png' /> Cartão Debito: R$ {resultTpPg3}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cheque.png' /> Cheque : R$ {resultTpPg4}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/boleto.png' /> Boleto Bancario: R$ {resultTpPg5}
+                                        </h2>
+
+                                        <h2 className='prices' > 
+                                            <img className='cifrões' src='images/cifrãoRosa.png' /> Credito Loja: R$ {resultTpPg6}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoLaranja.png' /> Cancelamento Total: R$ {resultTpPg7}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoVermelho.png' /> Desconto Total: R$ {resultTpPg8}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/cifrãoVerde.jpg' /> Total: R$ {resultTpPg1}
+                                        </h2>
+
+                                </div>
+                                        
+                                    <h1>Vales(Caso possua)</h1>
+
+                                    <div className='dashboardTexts'>
+                                        
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/valeAlimentação.png' /> Alimentação: R$ {resultTpPg9}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/valePresente.png' /> Presente: R$ {resultTpPg11}
+                                        </h2>
+
+                                        <h2 className='prices' >
+                                            <img className='cifrões' src='images/valeRefeição.png' /> Refeição: R$ {resultTpPg12}
+                                        </h2>
                                     </div>
-                                </div>                                                                
+
+                                    <div className='dashboard' >
+                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataTpPg} className="grafico1" />
+                                        <Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} className="grafico1" />
+                                        <Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="300px" height="200px" className="grafico1" />
+                                    </div>          
+                                        
+                                </div> 
+                                <div className='dashboard' >
+                                    <Chart chartType="Bar" width="500px" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico3" /> 
+                                    <Chart chartType="ColumnChart" width="350px" height="250px" data={dataTpPgVale} className="grafico2" />
+                                </div>
+                                                                                           
                             </Modal>            
 
-                        </div>
+                                                                
                         </Modal>
 
                         <button className='produtoBtn' onClick={abrirProduto} > Produto </button>
@@ -1532,9 +1949,11 @@ const optionsPico = {
                                 <th>Percentual</th>   
                             </tr>
 
-                        {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(query6)).map((dat2) => (
-                            <tr >
-                                                
+                        {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(query6)).map((dat2) => {
+
+                            return(
+
+                                                <tr >                                              
                                                     <td> {dat2.ranking} </td>
 
                                                     <td > {dat2.id_produto} </td>
@@ -1559,11 +1978,12 @@ const optionsPico = {
 
                                                     <td> {dat2.p_margem} </td>
 
-                                                    <td> {(dat2.percentual).toFixed(2) } </td>
-                                                                    
-                                </tr>
-                        ))} 
+                                                    <td> {(dat2.percentual).toFixed(2) } </td>                  
+                                                </tr>  
+                            )                
+                        })} 
                         </table>
+
                         </div>      
                          </Modal>
 
