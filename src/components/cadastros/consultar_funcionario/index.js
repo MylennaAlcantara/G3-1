@@ -8,6 +8,8 @@ import { AuthContext } from "../../../contexts/Auth/authContext";
 export const ConsultarFuncionario = () => {
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
+    const [empresas, setEmpresas] = useState([]);
+    const [setores, setSetores] = useState([]);
     const [busca, setBusca] = useState('');
     const {user, empresa} = useContext(AuthContext);
 
@@ -17,9 +19,92 @@ export const ConsultarFuncionario = () => {
             const data = await response.json();
             setUsers(data);
         }
+        async function fetchDataEmpresas (){
+            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
+            const data = await response.json();
+            setEmpresas(data);
+        }
+        async function fetchDataSetores (){
+            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/setorFuncionario/all");
+            const data = await response.json();
+            setSetores(data);
+        }
             fetchData();
+            fetchDataEmpresas();
+            fetchDataSetores();
             document.getElementById('search').focus();
     }, []);
+
+    //Filtros de clientes
+    const select = document.getElementById('op');
+    const selectStatus = document.getElementById('status');
+    const [filtroEscolhido, setFiltroEscolhido] = useState('nome');
+    const [statusEscolhido, setStatusEscolhido] = useState("todos");
+    const [filialEscolhido, setFilialEscolhido] = useState("0");
+    const [motorista, setMotorista] = useState(false);
+    const [setorEscolhido, setSetorEscolhido] = useState("0");
+
+    function filtroTipo (){
+        if(select.value === '1'){
+            setFiltroEscolhido('nome');
+        }else if(select.value === "2"){
+            setFiltroEscolhido('codigo');
+        }else if(select.value === '3'){
+            setFiltroEscolhido('municipio');
+        }else if(select.value === '4'){
+            setFiltroEscolhido('cpf');
+        }
+    }
+    function filtroStatus (){
+        if(selectStatus.value === '0'){
+            setStatusEscolhido('todos');
+        }else if(selectStatus.value === "1"){
+            setStatusEscolhido(true);
+        }else if(selectStatus.value === '2'){
+            setStatusEscolhido(false);
+        }
+    }
+
+    const resultado5 = users.filter(item=>{
+        if(setorEscolhido != "0"){
+            return item.setorFuncionario.id === Number(setorEscolhido)
+        }else if(setorEscolhido === "0"){
+            return users;
+        }
+    })
+    const resultado4 = resultado5.filter(item => {
+        if(motorista=== true){
+            return item.motorista
+        }else if(motorista === false){
+            return resultado5;
+        }
+    })
+    const resultado3 = resultado4.filter(item=> {
+        if(filialEscolhido != '0' && item.filial != null ){
+            return item.filial.id === Number(filialEscolhido);
+        }else if(filialEscolhido=== "0"){
+            return resultado4;
+        }
+    })
+    const resultado2 = resultado3.filter(item=> {
+        if(statusEscolhido != "todos"){
+            return item.ativo === statusEscolhido;
+        }else if(statusEscolhido === "todos"){
+            return resultado3;
+        }
+    })
+
+    const resultado = Array.isArray(resultado2) && resultado2.filter((user) => {
+        if(filtroEscolhido === 'codigo' ){
+            return user.id === parseFloat(busca);
+        }else if(filtroEscolhido === 'nome'){
+            return user.nome.toLowerCase().includes(busca);
+        }else if(filtroEscolhido === 'municipio'){
+            return user.municipio.toLowerCase().includes(busca);
+        }else if(filtroEscolhido === 'cpf'){
+            return user.cpf.toLowerCase().includes(busca);
+        }
+    });
 
     //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
     const [selectIndex, setSelectIndex] = useState(1);
@@ -74,24 +159,35 @@ export const ConsultarFuncionario = () => {
             </C.Header>
             <CF.Filtro>
                 <div>
-                    <select className="empresa">
-                        <option> 0 - TODAS</option>
+                    <select className="empresa" id="filial" onChange={(e)=> setFilialEscolhido(e.target.value)}>
+                        <option value="0"> 0 - TODAS</option>
+                        {empresas.map((empresa)=> {
+                            return <option value={empresa.id}>{empresa.id} - {empresa.razao_social}</option>
+                        })}
                     </select>
-                    <input type="checkbox"/>
+                    <input type="checkbox" onChange={()=> setMotorista(!motorista)}/>
                     <label>Motorista</label>
                     <label>Setor: </label>
-                    <select className="setor-status">
-                        <option> 0 - Todos</option>
+                    <select className="setor-status" onChange={(e)=> setSetorEscolhido(e.target.value)}>
+                        <option value="0"> 0 - Todos</option>
+                        {setores.map((setor)=>{
+                            return <option value={setor.id}>{setor.id} - {setor.descricao}</option>
+                        })}
                     </select>
                 </div>
                 <div>
-                    <select>
-                        <option>Código</option>
+                    <select id="op" onChange={filtroTipo}>
+                        <option value="1">Nome</option>
+                        <option value="2">Código</option>
+                        <option value="3">Municipio</option>
+                        <option value="4">CPF</option>
                     </select>
-                    <input className="search" id="search" placeholder="Buscar..."/>
+                    <input className="search" id="search" placeholder="Buscar..." value={busca} onChange={(e)=> setBusca(e.target.value)}/>
                     <label>Status: </label>
-                    <select className="setor-status">
-                        <option>TODOS</option>
+                    <select className="setor-status" id="status" onChange={filtroStatus}>
+                        <option value="0">TODOS</option>
+                        <option value="1">Ativo</option>
+                        <option value="2">Desativado</option>
                     </select>
                 </div>
             </CF.Filtro>
@@ -106,7 +202,7 @@ export const ConsultarFuncionario = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map( (user, index) => {
+                            {resultado.map( (user, index) => {
                                 return(
                                     <tr key={user.id}
                                         onClick={selecionado.bind(this, user, index)}

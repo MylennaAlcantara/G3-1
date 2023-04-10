@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
+import { AuthContext } from "../../../contexts/Auth/authContext";
 import * as C from "../../cadastro/cadastro";
 import * as CP from "./consultarProduto";
 
@@ -7,6 +8,7 @@ import * as CP from "./consultarProduto";
 export const CounsultarProduto = () =>{
     const [itens, setItens] = useState([]);
     const navigate = useNavigate();
+    const {user, empresa} = useContext(AuthContext);
 
     useEffect(() => {
         async function fetchData (){
@@ -52,8 +54,13 @@ export const CounsultarProduto = () =>{
     const novo = () => {
         navigate("/cadastrarProduto");
     }
+    const sair = () => {
+        localStorage.clear();
+        document.location.reload(true);
+    }
     return(
         <C.Container>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}  <button onClick={sair}>Sair</button></C.NaviBar>
             <C.Header>
                 <h3>Produtos</h3>
             </C.Header>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Nivel } from "../modais/modal_nivel";
 import { Setor } from "../modais/modal_setor";
 import { OpFuncionarios } from "../opcoes_funcionario";
+import { OpProdutos } from "../opcoes_produto";
 import * as C from "./navBar";
 
 export const NavBar = () => {
@@ -16,6 +17,9 @@ export const NavBar = () => {
     const [cadastroSetor, setCadastroSetor] = useState(false)
     const [isModalNivel, setIsModalNivel] = useState(false);
     const [cadastroNivel, setCadastroNivel] = useState(false)
+    
+    const [opProdutos, setOpProdutos] = useState(false);
+    const [produtos, setProdutos] = useState(false);
 
     function abrirBarra (){
         setAberto(!aberto);
@@ -38,7 +42,22 @@ export const NavBar = () => {
                             {funcionario === false ? (
                                 <div className="gaveta">
                                     <div className="gaveta" onClick={()=> navigate('/fornecedores')}>Cadastro de Fornecedor</div>
-                                    <div className="gaveta" onClick={()=> navigate('/produtos')}>Cadastro de Produto</div>
+                                    <div style={{backgroundColor: produtos ? '#064a8b' : '#00a5dd', borderRadius: produtos ? '10px 10px 0 0' : '', borderBottom: '1px solid #064a8b', margin: "0"}}>
+                                            <div className="gaveta" onClick={()=> setOpProdutos(!opProdutos)} style={{backgroundColor: produtos ? '#064a8b' : '', border: "none"}}>
+                                                Produtos
+                                            </div>
+                                        <img src="/images/seta.png" className="seta" onClick={()=> setProdutos(!produtos)}/>
+                                    </div>
+                                    {produtos ? (
+                                        <div className="gaveta">
+                                            <div className="gaveta" onClick={()=> navigate('/produtos')}>Cadastro</div>
+                                            <div className="gaveta" >Cadastrar Familia</div>
+                                            <div className="gaveta" >Cadastrar Grupo</div>
+                                            <div className="gaveta" >Cadastrar Grupos ICMS/Regras de ICMS</div>
+                                            <div className="gaveta" >Cadastrar Grupos IPI</div>
+                                            <div className="gaveta" >Cadastrar Grupo PIS/COFINS</div>
+                                        </div>
+                                    ) : null}
                                 </div>
                             ) : (
                                 <div className="gaveta">
@@ -58,6 +77,7 @@ export const NavBar = () => {
             {opFuncionario ? <OpFuncionarios setOpfuncionario={setOpfuncionario}/> : null}
             {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} cadastroSetor={cadastroSetor} /> : null}
             {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} /> : null}
+            {opProdutos ? <OpProdutos setOpProdutos={setOpProdutos}/> : null}
         </C.Container>
     )
 }
