@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Nivel } from "../modais/modal_nivel";
 import { Setor } from "../modais/modal_setor";
 import { OpFuncionarios } from "../opcoes_funcionario";
 import * as C from "./navBar";
@@ -13,6 +14,8 @@ export const NavBar = () => {
     const [opFuncionario, setOpfuncionario] = useState(false);
     const [isModalSetor, setIsModalSetor] = useState(false);
     const [cadastroSetor, setCadastroSetor] = useState(false)
+    const [isModalNivel, setIsModalNivel] = useState(false);
+    const [cadastroNivel, setCadastroNivel] = useState(false)
 
     function abrirBarra (){
         setAberto(!aberto);
@@ -41,7 +44,7 @@ export const NavBar = () => {
                                 <div className="gaveta">
                                     <div className="gaveta" onClick={()=> navigate('/funcionarios')}>Cadastro</div>
                                     <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true)}}>Cadastro de Setor</div>
-                                    <div className="gaveta" >Cadastro de Nivel</div>
+                                    <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true)}}>Cadastro de Nivel</div>
                                 </div>
                             )}
                         </div>
@@ -54,6 +57,7 @@ export const NavBar = () => {
             <button className="menu" onClick={abrirBarra} style={{left: aberto === false ? '0' : null}}><img src="/images/seta.png"/></button>
             {opFuncionario ? <OpFuncionarios setOpfuncionario={setOpfuncionario}/> : null}
             {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} cadastroSetor={cadastroSetor} /> : null}
+            {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} /> : null}
         </C.Container>
     )
 }
