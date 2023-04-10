@@ -56,6 +56,14 @@
     margin-left: 30px;
 }
 
+.dashboard01{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-top: 81px;
+    margin-left: 30px;
+}
+
 .dashboardTexts{
     display: flex;
     flex-direction: row;
@@ -108,6 +116,16 @@ label{
     border-width: 1px;
 }
 
+.grafico0{
+    margin-left: 10px;
+    position: relative;
+    bottom: 30%;
+    right: 10%;
+    border-style: solid;
+    border-radius: 8px;
+    border-width: 1px;
+}
+
 .grafico2{
    position: relative;
    border-style: solid;
@@ -116,6 +134,12 @@ label{
    bottom: 15%; 
    right: 15vw;
    
+}
+
+.a{
+    display: flex;
+    margin-left: 50px;
+    margin-top: 50px;
 }
 
 .grafico3{

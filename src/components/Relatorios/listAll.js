@@ -698,6 +698,7 @@ const datVendedor0 = [
 const optionsVen = {
     title: "Valores",
     is3D: true,
+    colors: ["#8226ED", "#2686ED"]
 };
 
 const barDataVen = [
@@ -761,6 +762,7 @@ const resultCli7 = dadosCliente.reduce((a, b) => a + b.vlTotalCredito, 0)
 const optionsCli = {
     title: "Valores",
     is3D: true,
+    colors: ["#8226ED", "#2686ED"]
 };
 
 const dataCli0 = [
@@ -862,6 +864,7 @@ const resultTpPg12 = dadosLeitura.reduce((a, b) => a + b.vale_refeicao, 0)
 const optionsTpPg = {
     title: "Valores",
     is3D: true,
+    colors: ["#1f80ed", "#d24159", "#9bf967", "#f98b68", "#ffe670"],
 };
 
 const dataTpPg0 = [
@@ -897,8 +900,8 @@ const dataTipoPagamento = [
     ["Element", "Valor", { role: "style"}],
     ["Boleto", resultTpPg5, "#1f80ed"],
     ["Cheque", resultTpPg4 , "#d24159"],
-    ["Cartão de Credito", resultTpPg2 ,"#9bf967"],
-    ["Cartão de Debito", resultTpPg3 ,"#f98b68"],
+    ["C.Credito", resultTpPg2 ,"#9bf967"],
+    ["C.Debito", resultTpPg3 ,"#f98b68"],
     ["Dinheiro", resultTpPg, "#ffe670"],
     ["Total", resultTpPg1 , "#b2bb1c"],
 ];
@@ -923,8 +926,48 @@ function closeDashboardProdutos(){
     setIsOpenDashboardProdutos(false)
 }
 
+const resultProd = dadosProduto.reduce((a, b) => a + b.vlr_venda_total , 0)
+const resultProd1 = dadosProduto.reduce((a, b) => a + b.vlr_lucro_total, 0)
 
+const dataProd = [
+    ["Element", "Valor", { role: "style"}],
+    ["Venda:", resultProd, "#f6d001"],
+    ["Lucro", resultProd1 ,"#1b7abc"],
+];
 
+const optionsProd = {
+    title: "Valores",
+    is3D: true,
+    colors: ['#f6d001', '#1b7abc']
+};
+
+//------------------------------------------------------------------------Dashboard Grupo------------------------------------------------------------------
+
+const [dashboardGrupo, setIsOpenDashboardGrupo] = useState(false);
+const [dashboardGrupoDetalhado, setIsOpenDashboardGrupoDetalhado] = useState(false);
+
+function openDashboardGrupoDetalhado(){
+    setIsOpenDashboardGrupoDetalhado(true);
+}
+function closeDashboardGrupoDetalhado(){
+    setIsOpenDashboardGrupoDetalhado(false);
+}
+
+function openDashboardGrupo(){
+    setIsOpenDashboardGrupo(true);
+}
+function closeDashboardGrupo(){
+    setIsOpenDashboardGrupo(false);
+}
+
+const resultGru = dadosGrupo.reduce((a, b) => a + b.vlr_venda_total, 0)
+const resultGru1 = dadosGrupo.reduce((a, b) => a + b.vlr_lucro_total, 0)
+
+const dataGru = [
+    ["Element", "Valor", {role: "style"}],
+    ["Venda:", resultGru, "red"],
+    ["Lucro", resultGru1, "blue"],
+];
 
 //------------------------------------------------------------------Picos----------------------------------------------------------------------------------
 const[modalPico, setIsOpenModalPico] = useState(false);
@@ -1716,9 +1759,6 @@ const optionsPico = {
                                     <th > Percentual </th>
                                 </tr>
 
-                            
-                                    
-
                         {dadosCliente.filter(dat => dat.cliente.toLowerCase().includes(query5)).map((dat1) => (
                                 <tr className='labels'>
 
@@ -1918,6 +1958,12 @@ const optionsPico = {
                         <button className='produtoBtn' onClick={abrirProduto} > Produto </button>
                         <Modal isOpen={produtoIsOpen} onRequestClose={closeProduto} contentLabel="Produto" shouldCloseOnOverlayClick={true} overlayClassName="Produto-overlay" className="ModalDados"> 
                         <input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)}/>
+                                
+                                <div className='dashboardLine' >
+                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                    <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p></button>
+                                </div>
+
                         <Modal isOpen={modalPico} onRequestClose={closeModalPico} contentLabel="Picos"  > <Chart chartType="AreaChart" width="100%" height="400px" data={dataPico} options={optionsPico}/> </Modal>            
                         <div className='table-resp'>
                         <table className='table' >
@@ -1983,6 +2029,32 @@ const optionsPico = {
                             )                
                         })} 
                         </table>
+                            <Modal isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} > 
+                                
+                                <div>
+                                    
+                                    <h1>Dados Produtos</h1>
+
+                                        <div className='dashboardTexts' >
+
+                                            <h2 className='prices' >
+                                                <img className='cifrões' src='images/cifrãoAmarelo.png'/> Valor venda: {resultProd.toFixed(3)}
+                                            </h2>
+
+                                            <h2 className='prices' >
+                                                <img className='cifrões' src='images/cifrãoAzul.png'/> Lucro: {resultProd1.toFixed(3)}
+                                            </h2>
+                                            
+                                        </div>
+
+                                    <div className='dashboard01' >
+                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataProd} className="grafico1" />
+                                        <Chart chartType="PieChart" data={dataProd} options={optionsProd} width="300px" height="200px" className="grafico0" />
+                                    </div>  
+
+                                </div>
+
+                            </Modal>
 
                         </div>      
                          </Modal>
@@ -1991,6 +2063,11 @@ const optionsPico = {
                         <Modal isOpen={grupoIsOpen} onRequestClose={closeGrupo} shouldCloseOnOverlayClick={true} overlayClassName="Grupo-overlay" contentLabel="Grupo" className="ModalDados">                                                     
                         <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Grupo" onChange={(e) => setQuery7(e.target.value)} />
                         
+                                <div className='dashboardLine' >
+                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                    <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p></button>
+                                </div>
+
                     <table>
                         <tr className='labels' >
                                     <th className='filter-all'>Ranking</th>
@@ -2020,9 +2097,12 @@ const optionsPico = {
                                     <th className='filter-all'>Percentual</th>
                             </tr>
 
-                        {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(query7)).map((dat3) => (
+                        {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(query7)).map((dat3) => {
+
+                            return(
                             
                             <tr className='labels' >
+
                                 <td >{dat3.ranking}</td>
 
                                 <td >{dat3.id_grupo}</td>
@@ -2049,9 +2129,53 @@ const optionsPico = {
 
                                <td > {(dat3.percentual).toFixed(3)} </td>
                             </tr>
+  
+                            )
+                            
+                            
+                        })}
+                    </table>
 
-                        ))}
-                    </table>    
+                        <Modal isOpen={dashboardGrupo} onRequestClose={closeDashboardGrupo} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
+                            
+                            <div>
+
+                                <h1>Dados Grupo  <button onClick={openDashboardGrupoDetalhado} > Cada Grupo </button> </h1>
+
+                                <div className='dashboardTexts' >
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoVermelho.png'/> Valor Venda: {resultGru}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoLaranja.png'/> Valor Lucro: {resultGru1}
+                                    </h2>
+                                </div>
+
+                                <div className='dashboard01' >
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} className="grafico1" />
+                                </div>  
+
+                            </div>
+
+                            <Modal isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" >
+                                {dadosGrupo.map((detalhado) => {
+
+                                    const grupoDetalhado = [
+                                        ["Element", "Valor", {role: "style"}],
+                                        ["Venda:", detalhado.vlr_venda_total, "black"],
+                                        ["Lucro", detalhado.vlr_lucro_total, "gray"],
+                                    ];
+
+                                    return(
+                                        <div className='a' >
+                                            <Chart chartType="ColumnChart" width="300px" height="200px" data={grupoDetalhado} className="grafico1" />
+                                        </div>
+                                    )
+                                })}
+                            </Modal>
+
+                        </Modal>    
 
                         </Modal>
 
