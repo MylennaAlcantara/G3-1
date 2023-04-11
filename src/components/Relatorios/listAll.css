@@ -98,6 +98,21 @@ label{
     font-size: 15px;
 }
 
+.btnDetalhes{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 117px;
+    height: 33px;
+    border-radius: 5px;
+    border-width: 1px;
+}
+
+.btnDetalhes:hover{
+    background-color: #a6f4ff;
+}
+
 .dashboardLine{
     align-items: center;
     display: flex;
@@ -137,9 +152,37 @@ label{
 }
 
 .a{
+    height: 250px;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 2px;
     display: flex;
+    flex-direction: column;
     margin-left: 50px;
     margin-top: 50px;
+}
+
+
+.dashboardDetalhado{
+    overflow-x: scroll;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 75%;
+    background-color: white;
+}
+
+.grafico4{
+    margin-top: 5px;
+    margin-left: 10px;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
 }
 
 .grafico3{
@@ -191,7 +234,7 @@ label{
     width: 400px;
     left: -0.5vw;
     height: 12vw;
-    bottom: 4vw;
+    bottom: 2vw;
 }
 
 .btns{
@@ -223,6 +266,14 @@ h1{
     font-size: 22px;
     justify-content: center;
     align-items: center;
+}
+
+h2{
+    border-style: solid;
+    border-width: 1px;
+    margin-top: 3px;
+    margin-left: 10px;
+    font-size: 18px;
 }
 
 .prices{
@@ -737,18 +788,18 @@ table tr:nth-child(odd){
 @media (max-width:1440px){
     .ModalDados{
         width: 58%;
-        height: 48%;
+        height: 38%;
     }
     .test{
         width: 45%;
         margin-left: 53%;
     }
     .search-input{
-        width: 310px;
+        width: 280px;
     }
     .filtro1{
         left: 11vw;
-        top: 1.7vw;
+        top: 1vw;
         width: 430px;
     }
     .pesquisar{
@@ -763,8 +814,12 @@ table tr:nth-child(odd){
     }
     .filtros{
         left: 1.5%;
-        top: 90%;
+        top: 0.5%;
         width: 70%;
+    }
+    .relatorio-content{
+        left: 850px;
+        top: 249px;
     }
 }
 @media (max-width: 1366px){
