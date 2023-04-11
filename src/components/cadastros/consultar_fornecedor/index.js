@@ -46,6 +46,7 @@ export const ConsultarFornecedor = () => {
     const selecionado = (user, index) => {
         setSelectIndex(index);
         localStorage.setItem('idFornecedor', user.id);
+        setCodigoFornecedor(user.id);
     }
 
 
@@ -68,7 +69,7 @@ export const ConsultarFornecedor = () => {
     const novo = () => {
         navigate("/cadastrarFornecedor");
     }
-    const codigoFornecedor = localStorage.getItem('idFornecedor');
+    const [codigoFornecedor, setCodigoFornecedor] = useState();
     const abrirEditar = async() => {
         const responseFornecedor = await fetch(`http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/${codigoFornecedor}`);
         const fornecedor = await responseFornecedor.json();
@@ -105,7 +106,7 @@ export const ConsultarFornecedor = () => {
                     </div>
                 </div>
                 <div className="div-search">
-                    <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)}/>
+                    <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                 </div>
             </M.Filtro>
             <CCL.Lista>

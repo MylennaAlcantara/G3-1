@@ -9,6 +9,7 @@ export const CounsultarProduto = () =>{
     const [itens, setItens] = useState([]);
     const navigate = useNavigate();
     const {user, empresa} = useContext(AuthContext);
+    const [busca, setBusca] = useState('');
 
     useEffect(() => {
         async function fetchData (){
@@ -19,37 +20,44 @@ export const CounsultarProduto = () =>{
         fetchData();
     }, []);
 
+    const selectColuna = document.getElementById('coluna');
+    const selectAtivo = document.getElementById('ativo');
+
+    const resultado = itens.filter((item)=> {
+        if(selectColuna.value === "1"){
+            return item.descricaoPdv.toLowerCase().includes(busca);
+        }else if(selectColuna.value === "2"){
+            return item.id === Number(busca);
+        }else if(selectColuna.value === "3"){
+            return item.gtin.toLowerCase().includes(busca);
+        }else if(selectColuna.value === "4"){
+            return item.fornecedor.toLowerCase().includes(busca);
+        }else if(selectColuna.value === "5"){
+            return item.grupo.toLowerCase().includes(busca);
+        }else if(selectColuna.value === "7"){
+            return item.ncm.toLowerCase().includes(busca);        //falta por familia e por data que não tem a informação na api
+        }
+    })
+
     //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
     const [selectIndex, setSelectIndex] = useState(0);
     const tableRef = useRef(null);
 
-    /*const handleKeyDown = (e) => {
+    const handleKeyDown = (e) => {
         if(e.keyCode === 38){
             e.preventDefault();
             if(selectIndex === null || selectIndex === 0){
                 return;
             }
             setSelectIndex(selectIndex-1);
-            setInfoItem({
-                qtd_estoque: resultado[selectIndex-1].qtd_estoque,
-                qtd_estoque_reservado: resultado[selectIndex-1].qtd_estoque_reservado,
-                qtd_estoque_di: resultado[selectIndex-1].qtd_estoque_di
-            })
-            validarPromocao(resultado[selectIndex+1]);
         }else if (e.keyCode === 40){
             e.preventDefault();
             if(selectIndex === null || selectIndex === resultado.length -1 ){
                 return;
             }
             setSelectIndex(selectIndex + 1);
-            setInfoItem({
-                qtd_estoque: resultado[selectIndex+1].qtd_estoque,
-                qtd_estoque_reservado: resultado[selectIndex-1].qtd_estoque_reservado,
-                qtd_estoque_di: resultado[selectIndex-1].qtd_estoque_di
-            });
-            validarPromocao(resultado[selectIndex+1]);
         }
-    }*/
+    }
 
     const novo = () => {
         navigate("/cadastrarProduto");
@@ -66,27 +74,27 @@ export const CounsultarProduto = () =>{
             </C.Header>
             <CP.Filtro>
                 <label>Coluna: </label>
-                <select>
-                    <option>Descrição</option>
-                    <option>cód.</option>
-                    <option>Cód. Barra</option>
-                    <option>Fornecedor</option>
-                    <option>Gurpo / Sub</option>
-                    <option>Data Cadastro</option>
-                    <option>NCM</option>
-                    <option>Familia</option>
+                <select id="coluna">
+                    <option value="1">Descrição</option>
+                    <option value="2">cód.</option>
+                    <option value="3">Cód. Barra</option>
+                    <option value="4">Fornecedor</option>
+                    <option value="5">Gurpo / Sub</option>
+                    <option value="6">Data Cadastro</option>
+                    <option value="7">NCM</option>
+                    <option value="8">Familia</option>
                 </select>
                 <label>Ativo: </label>
-                <select>
-                    <option>SIM</option>
-                    <option>NÃO</option>
-                    <option>TODOS</option>
+                <select id="ativo">
+                    <option value="1">SIM</option>
+                    <option value="2">NÃO</option>
+                    <option value="3">TODOS</option>
                 </select>
-                <input placeholder="Buscar..."/>
+                <input placeholder="Buscar..." value={busca} onChange={(e)=> setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
             </CP.Filtro>
             <CP.Lista>
                 <div className="table-responsive">
-                <table className="table"  ref={tableRef} tabIndex={0}>
+                <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
                         <thead>
                             <tr>
                                 <th>Cód. Interno</th>
@@ -98,7 +106,7 @@ export const CounsultarProduto = () =>{
                         </thead>
                             <tbody>
                                 { 
-                                itens.slice(0, 50).map( (item, index) => {
+                                resultado.slice(0, 50).map( (item, index) => {
                                     return(
                                         <tr 
                                             id="produto" 

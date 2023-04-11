@@ -24,7 +24,10 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
 
     //Filtro da situação das rotinas
     const select = document.getElementById('opções');
+    const selectFilial = document.getElementById('filial');
     const [filtroEscolhido, setFiltroEscolhido] = useState('T');
+    const [filialEscolhida, setFilialEscolhida] = useState('1')
+    
     function FiltroSituacao (){
         if(select.value === '1'){
             setFiltroEscolhido('A');
@@ -38,7 +41,10 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
             setFiltroEscolhido('B');
         }
     }
-    const resultado2 = Array.isArray(rotinas) && rotinas.filter((rotina) => {
+
+    const resultado3 = Array.isArray(rotinas) && rotinas.filter((rotina)=> rotina.id_empresa === Number(filialEscolhida))
+
+    const resultado2 = Array.isArray(resultado3) && resultado3.filter((rotina) => {
         if(filtroEscolhido === 'P' ){
             return rotina.situacao === 'P';
         }else if(filtroEscolhido === 'B'){
@@ -203,7 +209,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
                         <label>Id Vendedor</label>
                         </div>
                     </div>
-                    <select>
+                    <select id="filial" onChange={()=>setFilialEscolhida(selectFilial.value)}>
                         {filiais.map((op) => {
                             return(
                                 <option value={op.id}>{op.id} - {op.razao_social}</option>
