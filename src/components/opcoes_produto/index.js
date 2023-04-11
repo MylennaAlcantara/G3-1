@@ -11,7 +11,7 @@ export const OpProdutos = ({setOpProdutos}) => {
         <M.Modal>
             <C.Container>
                 <C.Header>
-                    <h3>Opções Funcionários</h3>
+                    <h3>Opções Produtos</h3>
                 </C.Header>
                <CO.Opcoes>
                     <div onClick={()=> {navigate('/produtos'); setOpProdutos(false)}}>Cadastrar</div>
