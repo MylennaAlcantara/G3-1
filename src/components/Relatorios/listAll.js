@@ -24,7 +24,6 @@ export const ResumoFaturamento = () => {
     function openFilterFilial (){
         setIsOpenFilterFilial(true);
     }
-
     function closeFilterFilial (){
         setIsOpenFilterFilial(false);
     }
@@ -32,7 +31,6 @@ export const ResumoFaturamento = () => {
     function openFilterTops (){
         setIsOpenFilterTops(true);
     }
-
     function closeFilterTops (){
         setIsOpenFilterTops(false);
     }
@@ -40,7 +38,6 @@ export const ResumoFaturamento = () => {
     function openRelatorio (){
         setIsOpenRelatorio(true);
     }
-
     function closeRelatorio (){
         setIsOpenRelatorio(false);
     }
@@ -48,7 +45,6 @@ export const ResumoFaturamento = () => {
     function openModal() {
         setIsOpen(true);
     } 
-
     function closeModal(){
         setIsOpen(false);
     }
@@ -56,7 +52,6 @@ export const ResumoFaturamento = () => {
     function openRegiao() {
         setIsOpenRegiao(true);
     } 
-
     function closeRegiao(){
         setIsOpenRegiao(false);
     }
@@ -64,7 +59,6 @@ export const ResumoFaturamento = () => {
     function openFilial() {
         setIsOpenFilial(true);
     } 
-
     function closeFilial(){
         setIsOpenFilial(false);
     }
@@ -72,7 +66,6 @@ export const ResumoFaturamento = () => {
     function openVendedor(){
         setIsOpenVendedor(true);
     }
-
     function closeVendedor (){
         setIsOpenVendedor(false);
     }
@@ -80,7 +73,6 @@ export const ResumoFaturamento = () => {
     function openCliente (){
         setIsOpenCliente(true);
     }
-
     function closeCliente (){
         setIsOpenCliente(false);
     }
@@ -88,7 +80,6 @@ export const ResumoFaturamento = () => {
     function openTipoPg (){
         setIsOpenTipoPg(true);
     }
-
     function closeTipoPg (){
         setIsOpenTipoPg(false);
     }
@@ -96,7 +87,6 @@ export const ResumoFaturamento = () => {
     function openProduto (){
         setIsOpenProduto(true);
     }
-
     function closeProduto (){
         setIsOpenProduto(false);
     }
@@ -104,7 +94,6 @@ export const ResumoFaturamento = () => {
     function openGrupo (){
         setIsOpenGrupo(true);
     }
-
     function closeGrupo (){
         setIsOpenGrupo(false);
     }
@@ -112,7 +101,6 @@ export const ResumoFaturamento = () => {
     function openFornecedor (){
         setIsOpenFornecedor(true);
     }
-
     function closeFornecedor (){
         setIsOpenFornecedor(false);
     }
@@ -121,12 +109,10 @@ export const ResumoFaturamento = () => {
         openFilterFilial()
         closeFilterTops()
     }
-
     function abrirFiltroTops (){
         openFilterTops()
         closeFilterFilial()
     }
-
     function abrirRegiao (){
         closeRelatorio()
         closeFornecedor()
@@ -138,7 +124,6 @@ export const ResumoFaturamento = () => {
         closeProduto()
         openRegiao()
     }
-
     function abrirFilial (){
         closeRelatorio()
         closeGrupo()
@@ -150,7 +135,6 @@ export const ResumoFaturamento = () => {
         closeRegiao()
         openFilial()
     }
-
     function abrirVendedor (){
         closeCliente()
         closeGrupo()
@@ -162,7 +146,6 @@ export const ResumoFaturamento = () => {
         openRelatorio()
         openVendedor()
     }
-
     function abrirCliente (){
         closeRelatorio()
         closeTipoPg()
@@ -174,7 +157,6 @@ export const ResumoFaturamento = () => {
         closeGrupo()
         openCliente()
     }
-
     function abrirTipoPg (){
         closeFilial()
         closeRegiao()
@@ -186,7 +168,6 @@ export const ResumoFaturamento = () => {
         openRelatorio()
         openTipoPg()
     }
-
     function abrirProduto(){
         closeFilial()
         closeCliente()
@@ -198,7 +179,6 @@ export const ResumoFaturamento = () => {
         openRelatorio()
         openProduto()
     }
-
     function abrirGrupo (){
         closeCliente()
         closeFilial()
@@ -210,7 +190,6 @@ export const ResumoFaturamento = () => {
         openRelatorio()
         openGrupo()
     }
-
     function abrirFornecedor (){
         closeCliente()
         closeFilial()
@@ -492,6 +471,7 @@ export const ResumoFaturamento = () => {
         title: "Valores NF-e / NFC-e",
         is3D: true,
         backgroundColor: "#ffff",
+        colors: ["#bc1b9c", "#1b7abc"]
     };
 
     const barData = [
@@ -918,6 +898,7 @@ const dataTipoPagamentoPizza = [
 //------------------------------------------------------------------Dashboard Produtos---------------------------------------------------------------------
 
 const [dashboardProdutos, setIsOpenDashboardProdutos] = useState(false);
+const [dashboardProdutosDetalhado, setIsOpenDashboardProdutosDetalhados] = useState(false);
 
 function openDashboardProdutos(){
     setIsOpenDashboardProdutos(true)
@@ -925,6 +906,15 @@ function openDashboardProdutos(){
 function closeDashboardProdutos(){
     setIsOpenDashboardProdutos(false)
 }
+
+function openDashboardProdutosDetalhados(){
+    setIsOpenDashboardProdutosDetalhados(true)
+}
+function closeDashboardProdutosDetalhados(){
+    setIsOpenDashboardProdutosDetalhados(false)
+}
+
+const dadosProdutoReduzidos = dadosProduto.slice(0, 10);
 
 const resultProd = dadosProduto.reduce((a, b) => a + b.vlr_venda_total , 0)
 const resultProd1 = dadosProduto.reduce((a, b) => a + b.vlr_lucro_total, 0)
@@ -960,14 +950,46 @@ function closeDashboardGrupo(){
     setIsOpenDashboardGrupo(false);
 }
 
+const dadosGrupoDetalhado = dadosGrupo.slice(0, 10)
+
 const resultGru = dadosGrupo.reduce((a, b) => a + b.vlr_venda_total, 0)
 const resultGru1 = dadosGrupo.reduce((a, b) => a + b.vlr_lucro_total, 0)
 
 const dataGru = [
     ["Element", "Valor", {role: "style"}],
-    ["Venda:", resultGru, "red"],
-    ["Lucro", resultGru1, "blue"],
+    ["Venda:", resultGru, "#bc1b2b"],
+    ["Lucro", resultGru1, "#ffaf56"],
 ];
+
+//------------------------------------------------------------------Dashboard Fornecedor------------------------------------------------------------------
+
+const [dashboardFornecedor, setIsOpenDashboardFornecedor] = useState(false)
+const [dashboardFornecedorDetalhado, setIsOpenDashboardFornecedorDetalhado] = useState(false)
+
+function openDashboardFornecedor(){
+    setIsOpenDashboardFornecedor(true);
+}
+function closeDashboardFornecedor(){
+    setIsOpenDashboardFornecedor(false);
+}
+
+function openDashboardFornecedorDetalhado(){
+    setIsOpenDashboardFornecedorDetalhado(true)
+}
+function closeDashboardFornecedorDetalhado(){
+    setIsOpenDashboardFornecedorDetalhado(false)
+}
+
+const dadosFornecedorDetalhado = dadosFornecedor.slice(0, 10);
+
+const resultFor = dadosFornecedor.reduce((a, b) => a + b.vlr_venda_total, 0)
+const resultFor1 = dadosFornecedor.reduce((a , b) => a + b.vlr_lucro_total, 0)
+
+const dataFor = [
+    ["Element", "Valor", {role: "style"}],
+    ["Venda", resultFor, "#bc1b2b"],
+    ["Lucro", resultFor1, "#57ffe8"],
+]
 
 //------------------------------------------------------------------Picos----------------------------------------------------------------------------------
 const[modalPico, setIsOpenModalPico] = useState(false);
@@ -1271,7 +1293,7 @@ const optionsPico = {
                                 }       )}
                             
                            
-                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
+                            <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
                                 <div >
 
@@ -1302,7 +1324,7 @@ const optionsPico = {
                                     </div>
                                 
                                 <div className='dashboard' >
-                                    <Chart chartType="ColumnChart" width="350px" height="250px" data={dataRegiao} options={options} className="grafico1" />
+                                    <Chart chartType="ColumnChart" width="300px" height="220px" data={dataRegiao} options={options} className="grafico1" />
                                     <Chart chartType="BarChart" data={barData} options={barOptions} className="grafico1" />
                                     <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="220px" className="grafico1" />
                                 </div>
@@ -1432,7 +1454,7 @@ const optionsPico = {
                                             }
                                         
                                     } )}</label>
-                                    <Chart chartType="Bar" width="300px" height="200px" data={dataRe0} options={optionsRe0} backgroundColor="#d3d3d3" className="grafico2" />
+                                    <Chart chartType="Bar" width="300px" height="200px" data={dataRe0} options={optionsRe0} backgroundColor="#d3d3d3" className="grafico3" />
                                 </div>
                                     
                                 </div>
@@ -1446,7 +1468,7 @@ const optionsPico = {
                         </Modal>
 
                         <button className='filialBtn' onClick={abrirFilial} >Filial</button>     
-                        <Modal isOpen={filialIsOpen} onRequestClose={closeFilial} contentLabel="Filial" shouldCloseOnOverlayClick={true} overlayClassName="filial-overlay" className="ModalDados">
+                        <Modal isOpen={filialIsOpen} onRequestClose={closeFilial} contentLabel="Filial" shouldCloseOnOverlayClick={false} overlayClassName="filial-overlay" className="ModalDados">
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
@@ -1530,7 +1552,7 @@ const optionsPico = {
                                     </table>
                                 </div>
                            
-                            <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
+                            <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
                                 
                                 <div>
 
@@ -1580,7 +1602,7 @@ const optionsPico = {
                         </Modal>
                     
                         <button className='vendedorBtn' onClick={abrirVendedor} > Vendedor </button>
-                        <Modal isOpen={vendedorIsOpen} onRequestClose={closeVendedor} contentLabel="Vendedor" shouldCloseOnOverlayClick={true} overlayClassName="vendedor-overlay" className="ModalDados"> 
+                        <Modal isOpen={vendedorIsOpen} onRequestClose={closeVendedor} contentLabel="Vendedor" shouldCloseOnOverlayClick={false} overlayClassName="vendedor-overlay" className="ModalDados"> 
                         <input type="search" name="search-vend" id="search-vend" className="search" placeholder="Buscar por Vendedor" onChange={(e) => setQuery4(e.target.value)}/>
                                 
                                 <div className='dashboardLine' >
@@ -1662,7 +1684,7 @@ const optionsPico = {
                         ))}   
                             </table>
                          
-                            <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
+                            <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
                                
                                 <div>
                                     <h1>Dados Vendedor</h1>
@@ -1711,13 +1733,13 @@ const optionsPico = {
                                         <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="300px" height="200px" className="grafico1" />
                                     </div>
                                 </div>
-                                <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} className="grafico2" />
+                                <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} className="grafico3" />
                             </Modal>
 
                         </Modal>
                     
                         <button className='clienteBtn' onClick={abrirCliente} > Cliente </button>
-                        <Modal isOpen={clienteIsOpen} onRequestClose={closeCliente} contentLabel="Cliente" shouldCloseOnOverlayClick={true} overlayClassName="Cliente-overlay" className="ModalDados"> 
+                        <Modal isOpen={clienteIsOpen} onRequestClose={closeCliente} contentLabel="Cliente" shouldCloseOnOverlayClick={false} overlayClassName="Cliente-overlay" className="ModalDados"> 
                         <input type="search" name="search-cli" id="search-cli" className="search" placeholder="Buscar por Cliente" onChange={(e) => setQuery5(e.target.value)} />
                         <div className='dashboard-label' >
                                 
@@ -1794,7 +1816,7 @@ const optionsPico = {
                         ))}
                            </table>
 
-                            <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
+                            <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
                             <div>
                                  <h1>Dados Cliente</h1>
@@ -1847,7 +1869,7 @@ const optionsPico = {
                         </Modal>
                     
                         <button className='tipoDePagamentoBtn' onClick={abrirTipoPg} > Tipo de Pagamento </button>
-                        <Modal isOpen={tipoPgIsOpen} onRequestClose={closeTipoPg} contentLabel="Tipo de Pagamento" shouldCloseOnOverlayClick={true} overlayClassName="TipoPg-overlay" className="ModalDados"> 
+                        <Modal isOpen={tipoPgIsOpen} onRequestClose={closeTipoPg} contentLabel="Tipo de Pagamento" shouldCloseOnOverlayClick={false} overlayClassName="TipoPg-overlay" className="ModalDados"> 
                                 
                                 <div className='dashboardLine' >
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
@@ -1871,7 +1893,7 @@ const optionsPico = {
                                     } )}                             
                                 </tr>
                     </table>
-                            <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={true} overlayClassName="dashboard-overlay" style={customStyles} >
+                            <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
                                 
                                 <div>
 
@@ -1956,7 +1978,7 @@ const optionsPico = {
                         </Modal>
 
                         <button className='produtoBtn' onClick={abrirProduto} > Produto </button>
-                        <Modal isOpen={produtoIsOpen} onRequestClose={closeProduto} contentLabel="Produto" shouldCloseOnOverlayClick={true} overlayClassName="Produto-overlay" className="ModalDados"> 
+                        <Modal isOpen={produtoIsOpen} onRequestClose={closeProduto} contentLabel="Produto" shouldCloseOnOverlayClick={false} overlayClassName="Produto-overlay" className="ModalDados"> 
                         <input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)}/>
                                 
                                 <div className='dashboardLine' >
@@ -2033,7 +2055,7 @@ const optionsPico = {
                                 
                                 <div>
                                     
-                                    <h1>Dados Produtos</h1>
+                                    <h1>Dados Produtos <button className='btnDetalhes' onClick={openDashboardProdutosDetalhados} ><img className='grafico' src='images/itens.png'/> Por itens </button> </h1>
 
                                         <div className='dashboardTexts' >
 
@@ -2053,6 +2075,25 @@ const optionsPico = {
                                     </div>  
 
                                 </div>
+
+                                <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                                    {dadosProdutoReduzidos.map((prod) => {
+
+                                        const dashboard = [
+                                            ["Element", "Valor", { role: "style"}],
+                                            ["Venda:", prod.vlr_venda_total , "#f6d001"],
+                                            ["Lucro", prod.vlr_lucro_total ,"#1b7abc"],
+                                        ];
+
+                                        return(
+                                            <div  className='a'>
+                                                <h2>{prod.produto}</h2>
+                                                <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="grafico4" />
+                                            </div>
+                                        )
+
+                                    })}
+                                </Modal>
 
                             </Modal>
 
@@ -2140,7 +2181,7 @@ const optionsPico = {
                             
                             <div>
 
-                                <h1>Dados Grupo  <button onClick={openDashboardGrupoDetalhado} > Cada Grupo </button> </h1>
+                                <h1>Dados Grupo  <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado} > <img className='grafico' src='images/itens.png'/> Cada Grupo  </button> </h1>
 
                                 <div className='dashboardTexts' >
                                     <h2 className='prices' >
@@ -2158,18 +2199,19 @@ const optionsPico = {
 
                             </div>
 
-                            <Modal isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" >
-                                {dadosGrupo.map((detalhado) => {
+                            <Modal isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                                {dadosGrupoDetalhado.map((detalhado) => {
 
                                     const grupoDetalhado = [
                                         ["Element", "Valor", {role: "style"}],
-                                        ["Venda:", detalhado.vlr_venda_total, "black"],
-                                        ["Lucro", detalhado.vlr_lucro_total, "gray"],
+                                        ["Venda:", detalhado.vlr_venda_total, "#bc1b2b"],
+                                        ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
                                     ];
 
                                     return(
                                         <div className='a' >
-                                            <Chart chartType="ColumnChart" width="300px" height="200px" data={grupoDetalhado} className="grafico1" />
+                                            <h2>{detalhado.grupo}</h2>
+                                            <Chart chartType="ColumnChart" width="300px" height="200px" data={grupoDetalhado} className="grafico4" />
                                         </div>
                                     )
                                 })}
@@ -2183,6 +2225,11 @@ const optionsPico = {
                         <Modal  isOpen={fornecdorIsOpen} onRequestClose={closeFornecedor} contentLabel="Fornecedor" shouldCloseOnOverlayClick={true} overlayClassName="Fornecedor-overlay" className="ModalDados"> 
                         <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)}/>
                         
+                            <div className='dashboardLine' >
+                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p></button>
+                            </div>
+
                     <table>
                         <tr className='labels'>                           
                                     <th className='filter-all'>Ranking</th>
@@ -2243,6 +2290,47 @@ const optionsPico = {
                                 </tr>
                         ))}   
                     </table>
+                        <Modal isOpen={dashboardFornecedor} onRequestClose={closeDashboardFornecedor} shouldCloseOnOverlayClick={false} style={customStyles} >
+                            <div>
+
+                                <h1>Dados Fornecedor <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='grafico' src='images/itens.png'/> Cada Item</button> </h1>
+
+                                <div className='dashboardTexts' >
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoVermelho.png'/> Valor Venda: 
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAzulClaro.png'/> Valor Lucro: 
+                                    </h2>
+                                </div>
+
+                                <div className='dashboard01' >
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} className="grafico1" />
+                                </div>  
+
+                            </div>
+                        </Modal>
+                        
+                        <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardDetalhado' >
+                            {dadosFornecedorDetalhado.map((forn) => {
+
+                                const dashboard = [
+                                    ["Element", "Valor", {role: "style"}],
+                                    ["Venda", forn.vlr_venda_total, "#bc1b2b"],
+                                    ["Lucro", forn.vlr_lucro_total, "#57ffe8"],
+                                ]
+
+                                return(
+                                    <div className='a' >
+                                        <h2>{forn.fornecedor}</h2>
+                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="grafico4" />
+                                    </div>
+                                )
+
+                            })}
+                        </Modal>
+                        
                         </Modal>
                     </div>
                 </div>
