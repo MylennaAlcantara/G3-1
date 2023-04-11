@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import * as M from "../../modal/modal";
 import * as C from "../../../cadastro/cadastro"
-import { Fornecedor } from "../modal_fornecedor";
+import { CadastrarFamilia } from "../modal_cadastro_familia";
 
 export const Familia = ({close}) => {
+    const [cadastrarFamilia, setCadastrarFamilia] = useState(false);
 
     return(
         <M.Modal>
@@ -49,9 +50,11 @@ export const Familia = ({close}) => {
                 </div>
                 <C.Footer>
                     <div className="buttons">
-                        <button><img src="/images/add.png"/>Novo</button>
+                        <button onClick={()=> setCadastrarFamilia(true)}><img src="/images/add.png"/>Novo</button>
+                        <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </C.Footer>
+                {cadastrarFamilia ? <CadastrarFamilia close={()=> setCadastrarFamilia(false)}/> : null}
             </M.Container>
         </M.Modal>
     )

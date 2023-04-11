@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CadastrarFamilia } from "../modais/modais_tela_produtos/modal_cadastro_familia";
 import { Nivel } from "../modais/modal_nivel";
 import { Setor } from "../modais/modal_setor";
 import { OpFuncionarios } from "../opcoes_funcionario";
@@ -20,6 +21,7 @@ export const NavBar = () => {
     
     const [opProdutos, setOpProdutos] = useState(false);
     const [produtos, setProdutos] = useState(false);
+    const [isModalFamilia, setIsModalFamilia] = useState(false);
 
     function abrirBarra (){
         setAberto(!aberto);
@@ -51,7 +53,7 @@ export const NavBar = () => {
                                     {produtos ? (
                                         <div className="gaveta">
                                             <div className="gaveta" onClick={()=> navigate('/produtos')}>Cadastro</div>
-                                            <div className="gaveta" >Cadastrar Familia</div>
+                                            <div className="gaveta" onClick={()=> setIsModalFamilia(true)}>Cadastrar Familia</div>
                                             <div className="gaveta" >Cadastrar Grupo</div>
                                             <div className="gaveta" >Cadastrar Grupos ICMS/Regras de ICMS</div>
                                             <div className="gaveta" >Cadastrar Grupos IPI</div>
@@ -78,6 +80,7 @@ export const NavBar = () => {
             {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} cadastroSetor={cadastroSetor} /> : null}
             {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} /> : null}
             {opProdutos ? <OpProdutos setOpProdutos={setOpProdutos}/> : null}
+            {isModalFamilia ? <CadastrarFamilia close={()=> setIsModalFamilia(false)}/> : null}
         </C.Container>
     )
 }
