@@ -495,7 +495,7 @@ export const ResumoFaturamento = () => {
       
     const barOptions = {
         title: "Tabela Valores Totais.",
-        backgroundColor: '#d3d3d3',
+        //backgroundColor: '#d3d3d3',
         width: 400,
         height: 200,
         bar: { groupWidth: "95%" ,  },
@@ -918,6 +918,9 @@ const dadosProdutoReduzidos = dadosProduto.slice(0, 10);
 
 const resultProd = dadosProduto.reduce((a, b) => a + b.vlr_venda_total , 0)
 const resultProd1 = dadosProduto.reduce((a, b) => a + b.vlr_lucro_total, 0)
+const resultProd2 = dadosProduto.reduce((a, b) => a + b.vlr_custo_total,  0)
+const resultProd3 = dadosProduto.reduce((a, b) => a + b.sub_total, 0)
+const resultProd4 = dadosProduto.reduce((a, b) => a + b.vlr_desconto_total, 0)
 
 const dataProd = [
     ["Element", "Valor", { role: "style"}],
@@ -930,6 +933,32 @@ const optionsProd = {
     is3D: true,
     colors: ['#f6d001', '#1b7abc']
 };
+
+const barDataPro = [
+    [
+      "Element",
+      "Valor",
+      { role: "style" },
+      {
+        sourceColumn: 0,
+        role: "annotation",
+        type: "string",
+        calc: "stringify",
+      },
+    ],
+    ["Lucro", resultProd1, "#1b7abc", null],
+    ["Custo", resultProd2, "#727272", null],
+    ["Venda", resultProd, "#f6d001", null],
+    ["Sub Total", resultProd3, "#ff6ad8", null],
+  ];
+  
+const barOptionsPro = {
+    title: "Tabela Valores Totais.",
+    width: 300,
+    height: 200,
+    bar: { groupWidth: "95%" },
+    legend: { position: "none" },
+  };
 
 //------------------------------------------------------------------------Dashboard Grupo------------------------------------------------------------------
 
@@ -952,14 +981,42 @@ function closeDashboardGrupo(){
 
 const dadosGrupoDetalhado = dadosGrupo.slice(0, 10)
 
-const resultGru = dadosGrupo.reduce((a, b) => a + b.vlr_venda_total, 0)
-const resultGru1 = dadosGrupo.reduce((a, b) => a + b.vlr_lucro_total, 0)
+const resultGru = dadosGrupo.reduce((a, b) => a + b.vlr_venda_total, 0);
+const resultGru1 = dadosGrupo.reduce((a, b) => a + b.vlr_lucro_total, 0);
+const resultGru2 = dadosGrupo.reduce((a, b) => a + b.sub_total, 0);
+const resultGru3 = dadosGrupo.reduce((a, b) => a + b.vlr_desconto_total, 0);
 
 const dataGru = [
     ["Element", "Valor", {role: "style"}],
     ["Venda:", resultGru, "#bc1b2b"],
     ["Lucro", resultGru1, "#ffaf56"],
 ];
+
+const barDataGru = [
+    [
+      "Element",
+      "Valor",
+      { role: "style" },
+      {
+        sourceColumn: 0,
+        role: "annotation",
+        type: "string",
+        calc: "stringify",
+      },
+    ],
+    ["Venda", resultGru, "#bc1b2b", null],
+    ["Lucro", resultGru1, "#ffaf56", null],
+    ["Sub Total", resultGru2, "#f6d001", null],
+    ["Desconto Total", resultGru3, "#1b7abc", null],
+  ];
+  
+const barOptionsGru = {
+    title: "Tabela Valores Totais.",
+    width: 300,
+    height: 200,
+    bar: { groupWidth: "95%" },
+    legend: { position: "none" },
+  };
 
 //------------------------------------------------------------------Dashboard Fornecedor------------------------------------------------------------------
 
@@ -984,12 +1041,42 @@ const dadosFornecedorDetalhado = dadosFornecedor.slice(0, 10);
 
 const resultFor = dadosFornecedor.reduce((a, b) => a + b.vlr_venda_total, 0)
 const resultFor1 = dadosFornecedor.reduce((a , b) => a + b.vlr_lucro_total, 0)
+const resultFor2 = dadosFornecedor.reduce((a, b) => a + b.vlr_custo_total, 0)
+const resultFor3 = dadosFornecedor.reduce((a, b) => a + b.vlr_desconto_total, 0)
+
 
 const dataFor = [
     ["Element", "Valor", {role: "style"}],
     ["Venda", resultFor, "#bc1b2b"],
     ["Lucro", resultFor1, "#57ffe8"],
 ]
+
+const barDataFor = [
+    [
+      "Element",
+      "Valor",
+      { role: "style" },
+      {
+        sourceColumn: 0,
+        role: "annotation",
+        type: "string",
+        calc: "stringify",
+      },
+    ],
+    ["Lucro", resultFor1, "#57ffe8", null],
+    ["Custo", resultFor2, "#727272", null],
+    ["Venda", resultFor, "#bc1b2b", null],
+    ["Desconto", resultFor3, "#ff6ad8", null],
+  ];
+  
+const barOptionsFor = {
+    title: "Tabela Valores Totais.",
+    width: 300,
+    height: 200,
+    bar: { groupWidth: "95%" },
+    legend: { position: "none" },
+  };
+
 
 //------------------------------------------------------------------Picos----------------------------------------------------------------------------------
 const[modalPico, setIsOpenModalPico] = useState(false);
@@ -1325,7 +1412,7 @@ const optionsPico = {
                                 
                                 <div className='dashboard' >
                                     <Chart chartType="ColumnChart" width="300px" height="220px" data={dataRegiao} options={options} className="grafico1" />
-                                    <Chart chartType="BarChart" data={barData} options={barOptions} className="grafico1" />
+                                    <Chart chartType="Bar" width="300px" height="220px" data={dataRe0} options={optionsRe0} className="grafico1" />
                                     <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="220px" className="grafico1" />
                                 </div>
 
@@ -1454,7 +1541,7 @@ const optionsPico = {
                                             }
                                         
                                     } )}</label>
-                                    <Chart chartType="Bar" width="300px" height="200px" data={dataRe0} options={optionsRe0} backgroundColor="#d3d3d3" className="grafico3" />
+                                    <Chart chartType="BarChart" data={barData} options={barOptions} className="grafico3" />
                                 </div>
                                     
                                 </div>
@@ -1729,11 +1816,11 @@ const optionsPico = {
 
                                     <div className='dashboard' >
                                         <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor} className="grafico1" />
-                                        <Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} className="grafico1" />
+                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} className="grafico1" />
                                         <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="300px" height="200px" className="grafico1" />
                                     </div>
                                 </div>
-                                <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} className="grafico3" />
+                                <Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} className="grafico3" />
                             </Modal>
 
                         </Modal>
@@ -2020,36 +2107,37 @@ const optionsPico = {
                         {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(query6)).map((dat2) => {
 
                             return(
+                                
+                                <tr >                                              
+                                    <td> {dat2.ranking} </td>
 
-                                                <tr >                                              
-                                                    <td> {dat2.ranking} </td>
+                                    <td > {dat2.id_produto} </td>
 
-                                                    <td > {dat2.id_produto} </td>
+                                    <td onDoubleClick={openModalPico} > {dat2.produto} </td>
 
-                                                    <td onDoubleClick={openModalPico} > {dat2.produto} </td>
+                                    <td className='filter-all' > {dat2.qtd_total} </td>
 
-                                                    <td className='filter-all' > {dat2.qtd_total} </td>
+                                    <td> {dat2.sub_total} </td>
 
-                                                    <td> {dat2.sub_total} </td>
+                                    <td> {(dat2.p_desconto).toFixed(3)} </td>
 
-                                                    <td> {(dat2.p_desconto).toFixed(3)} </td>
+                                    <td> {dat2.vlr_desconto_total} </td>
 
-                                                    <td> {dat2.vlr_desconto_total} </td>
+                                    <td> {dat2.vlr_venda_total} </td>
 
-                                                    <td> {dat2.vlr_venda_total} </td>
+                                    <td> {dat2.vlr_custo_total} </td>
 
-                                                    <td> {dat2.vlr_custo_total} </td>
+                                    <td> {dat2.vlr_lucro_total} </td>
 
-                                                    <td> {dat2.vlr_lucro_total} </td>
+                                    <td> {dat2.p_markup} </td>
 
-                                                    <td> {dat2.p_markup} </td>
+                                    <td> {dat2.p_margem} </td>
 
-                                                    <td> {dat2.p_margem} </td>
-
-                                                    <td> {(dat2.percentual).toFixed(2) } </td>                  
-                                                </tr>  
+                                    <td> {(dat2.percentual).toFixed(2) } </td>                  
+                                </tr>  
                             )                
                         })} 
+
                         </table>
                             <Modal isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} > 
                                 
@@ -2066,12 +2154,21 @@ const optionsPico = {
                                             <h2 className='prices' >
                                                 <img className='cifrões' src='images/cifrãoAzul.png'/> Lucro: {resultProd1.toFixed(3)}
                                             </h2>
+
+                                            <h2 className='prices' >
+                                                <img className='cifrões' src='images/cifrãoRosa.png' /> Sub Total:0
+                                            </h2>
                                             
+                                            <h2 className='prices' >
+                                                <img className='cifrões' src='images/cifrãoCinza.png' /> Custo:
+                                            </h2>
+
                                         </div>
 
-                                    <div className='dashboard01' >
+                                    <div className='dashboard' >
                                         <Chart chartType="ColumnChart" width="300px" height="200px" data={dataProd} className="grafico1" />
-                                        <Chart chartType="PieChart" data={dataProd} options={optionsProd} width="300px" height="200px" className="grafico0" />
+                                        <Chart chartType="PieChart" data={dataProd} options={optionsProd} width="300px" height="200px" className="grafico1" />
+                                        <Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} className="grafico1" />
                                     </div>  
 
                                 </div>
@@ -2088,7 +2185,7 @@ const optionsPico = {
                                         return(
                                             <div  className='a'>
                                                 <h2>{prod.produto}</h2>
-                                                <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="grafico4" />
+                                                <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
                                             </div>
                                         )
 
@@ -2184,6 +2281,7 @@ const optionsPico = {
                                 <h1>Dados Grupo  <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado} > <img className='grafico' src='images/itens.png'/> Cada Grupo  </button> </h1>
 
                                 <div className='dashboardTexts' >
+
                                     <h2 className='prices' >
                                         <img className='cifrões' src='images/cifrãoVermelho.png'/> Valor Venda: {resultGru}
                                     </h2>
@@ -2191,10 +2289,20 @@ const optionsPico = {
                                     <h2 className='prices' >
                                         <img className='cifrões' src='images/cifrãoLaranja.png'/> Valor Lucro: {resultGru1}
                                     </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAmarelo.png' /> Sub Total: {resultGru2.toFixed(2)}
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAzul.png' /> Desconto Total: {resultGru3}
+                                    </h2>
+
                                 </div>
 
                                 <div className='dashboard01' >
                                     <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} className="grafico1" />
+                                    <Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} className="grafico0" />
                                 </div>  
 
                             </div>
@@ -2208,10 +2316,39 @@ const optionsPico = {
                                         ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
                                     ];
 
+                                    const grupoDetalhadoBar = [
+                                        [
+                                          "Element",
+                                          "Valor",
+                                          { role: "style" },
+                                          {
+                                            sourceColumn: 0,
+                                            role: "annotation",
+                                            type: "string",
+                                            calc: "stringify",
+                                          },
+                                        ],
+                                        ["Venda", detalhado.vlr_venda_total, "#bc1b2b", null],
+                                        ["Lucro", detalhado.vlr_lucro_total, "ffaf56", null],
+                                        ["Sub Total", detalhado.sub_total, "#f6d001", null],
+                                        ["Desconto Total", detalhado.vlr_desconto_total, "#1b7abc", null],
+                                      ];
+                                      
+                                    const barGruOptions = {
+                                        title: "Tabela Valores Totais.",
+                                        width: 300,
+                                        height: 200,
+                                        bar: { groupWidth: "95%" },
+                                        legend: { position: "none" },
+                                      };
+
                                     return(
                                         <div className='a' >
                                             <h2>{detalhado.grupo}</h2>
-                                            <Chart chartType="ColumnChart" width="300px" height="200px" data={grupoDetalhado} className="grafico4" />
+                                            <div className='b'>
+                                                <Chart chartType="ColumnChart" width="300px" height="200px" data={grupoDetalhado} className="graficoA" />
+                                                <Chart chartType="BarChart" data={grupoDetalhadoBar} options={barGruOptions} className="graficoB" /> 
+                                            </div>
                                         </div>
                                     )
                                 })}
@@ -2225,7 +2362,7 @@ const optionsPico = {
                         <Modal  isOpen={fornecdorIsOpen} onRequestClose={closeFornecedor} contentLabel="Fornecedor" shouldCloseOnOverlayClick={true} overlayClassName="Fornecedor-overlay" className="ModalDados"> 
                         <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)}/>
                         
-                            <div className='dashboardLine' >
+                            <div className='dashboardLine' >     
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
                                 <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png"/> <p>Graficos</p></button>
                             </div>
@@ -2303,10 +2440,20 @@ const optionsPico = {
                                     <h2 className='prices' >
                                         <img className='cifrões' src='images/cifrãoAzulClaro.png'/> Valor Lucro: 
                                     </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoRoxo.png' /> Valor Custo:
+                                    </h2>
+
+                                    <h2 className='prices' >
+                                        <img className='cifrões' src='images/cifrãoAzul.png' /> Valor Desconto:
+                                    </h2>
+
                                 </div>
 
                                 <div className='dashboard01' >
                                     <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} className="grafico1" />
+                                    <Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} className="grafico0" />
                                 </div>  
 
                             </div>
@@ -2324,7 +2471,7 @@ const optionsPico = {
                                 return(
                                     <div className='a' >
                                         <h2>{forn.fornecedor}</h2>
-                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="grafico4" />
+                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
                                     </div>
                                 )
 

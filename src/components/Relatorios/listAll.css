@@ -162,6 +162,11 @@ label{
     margin-top: 50px;
 }
 
+.b{
+    display: flex;
+    flex-direction: row;
+}
+
 
 .dashboardDetalhado{
     overflow-x: scroll;
@@ -176,13 +181,22 @@ label{
     background-color: white;
 }
 
-.grafico4{
+.graficoA{
     margin-top: 5px;
     margin-left: 10px;
     position: relative;
     border-style: solid;
     border-width: 1px;
     border-radius: 8px;
+}
+
+.graficoB{
+    border-radius: 8px;
+    left: 20px;
+    top: 5px;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
 }
 
 .grafico3{
@@ -206,6 +220,8 @@ label{
 }
 
 .bandeira{
+    border-width: 1px;
+    border-style: solid;
     margin-left: 10px;
     height: 40px;
     width: 60px;
@@ -226,7 +242,7 @@ label{
 }
 
 .bestRegion{
-    background-color: #d3d3d3;
+    background-color: white;
     position: relative;
     border-style: solid;
     border-radius: 7px;
@@ -235,6 +251,7 @@ label{
     left: -0.5vw;
     height: 12vw;
     bottom: 2vw;
+    margin-right: 20px;
 }
 
 .btns{
