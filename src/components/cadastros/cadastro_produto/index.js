@@ -6,6 +6,9 @@ import { useNavigate } from "react-router";
 import { Familia } from "../../modais/modais_tela_produtos/modal_familia";
 import { Fornecedor } from "../../modais/modais_tela_produtos/modal_fornecedor";
 import { AuthContext } from "../../../contexts/Auth/authContext";
+import { Ipi } from "../../modais/modais_tela_produtos/modal_ipi";
+import { PisCofins } from "../../modais/modais_tela_produtos/modal_pis_cofins";
+import { Ncm } from "../../modais/modais_tela_produtos/modal_ncm";
 
 export const CadastroProduto = () => {
     const navigate = useNavigate();
@@ -75,11 +78,34 @@ export const CadastroProduto = () => {
     const [isModalFornecedor, setIsModalFornecedor] = useState(false);
     const [isModalGrupo, setIsModalGrupo] = useState(false);
     const [isModalFamilia, setIsModalFamilia] = useState(false);
+    const [isModalNcm, setIsModalNcm] = useState(false);
+    const [isModalCest, setIsModalCest] = useState(false);
+    const [isModalIpi, setIsModalIpi] = useState(false);
+    const [isModalPis, setIsModalPis] = useState(false);
+    const [isModalCofins, setIsModalCofins] = useState(false);
 
     function modalFornecedor (e){
         e.preventDefault();
         if(e.keyCode === 113){
             setIsModalFornecedor(true);
+        }
+    }
+    function modalIPI (e){
+        e.preventDefault();
+        if(e.keyCode === 113){
+            setIsModalIpi(true);
+        }
+    }
+    function modalPis (e){
+        e.preventDefault();
+        if(e.keyCode === 113){
+            setIsModalPis(true);
+        }
+    }    
+    function modalCofins (e){
+        e.preventDefault();
+        if(e.keyCode === 113){
+            setIsModalCofins(true);
         }
     }
 
@@ -166,7 +192,7 @@ export const CadastroProduto = () => {
                         <div>
                             <label>NCM / SH:</label>
                             <input/>
-                            <img src="/images/LUPA.png"/>
+                            <img src="/images/LUPA.png" onClick={()=> setIsModalNcm(true)}/>
                         </div>
                         <div>
                             <label>CEST:</label>
@@ -371,17 +397,17 @@ export const CadastroProduto = () => {
                                 <div>
                                     <div>
                                         <label style={{color: "red"}}>Grupo de Regra para IPI: </label>
-                                        <input className="codigo"/>
+                                        <input className="codigo" onKeyDown={modalIPI}/>
                                         <input/>
                                     </div>
                                     <div>
                                         <label style={{color: "blue"}}>Grupo de Regra para PIS: </label>
-                                        <input className="codigo"/>
+                                        <input className="codigo" onKeyDown={modalPis}/>
                                         <input/>
                                     </div>
                                     <div>
                                         <label style={{color: "blue"}}>Grupo de Regra para COFINS: </label>
-                                        <input className="codigo"/>
+                                        <input className="codigo" onKeyDown={modalCofins}/>
                                         <input/>
                                     </div>
                                     <div>
@@ -750,6 +776,9 @@ export const CadastroProduto = () => {
             </C.Footer>
             {isModalFamilia ? <Familia close={()=> setIsModalFamilia(false)}/> : null}
             {isModalFornecedor ? <Fornecedor close={()=> setIsModalFornecedor(false)}/> : null}
+            {isModalIpi ? <Ipi close={()=> setIsModalIpi(false)}/> : null}
+            {isModalPis ? <PisCofins close={()=> setIsModalPis(false)}/> : null}
+            {isModalNcm ? <Ncm close={()=> setIsModalNcm(false)}/> : null}
         </C.Container>
     )
 }

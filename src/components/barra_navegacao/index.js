@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CadastrarFamilia } from "../modais/modais_tela_produtos/modal_cadastro_familia";
+import { Ipi } from "../modais/modais_tela_produtos/modal_ipi";
+import { PisCofins } from "../modais/modais_tela_produtos/modal_pis_cofins";
 import { Nivel } from "../modais/modal_nivel";
 import { Setor } from "../modais/modal_setor";
 import { OpFuncionarios } from "../opcoes_funcionario";
 import { OpProdutos } from "../opcoes_produto";
+import { GrupoIcms } from "../modais/modais_tela_produtos/modal_grupo_icms";
 import * as C from "./navBar";
 
 export const NavBar = () => {
@@ -22,6 +25,9 @@ export const NavBar = () => {
     const [opProdutos, setOpProdutos] = useState(false);
     const [produtos, setProdutos] = useState(false);
     const [isModalFamilia, setIsModalFamilia] = useState(false);
+    const [isModalGrupoIpi, setIsModalGrupoIpi] = useState(false);
+    const [isModalGrupoPis, setIsModalGrupoPis] = useState(false);
+    const [isModalRegraIcms, setIsModalRegraIcms] = useState(false);
 
     function abrirBarra (){
         setAberto(!aberto);
@@ -59,9 +65,9 @@ export const NavBar = () => {
                                             <div className="gaveta" onClick={()=> navigate('/produtos')}>Cadastro</div>
                                             <div className="gaveta" onClick={()=> setIsModalFamilia(true)}>Cadastrar Familia</div>
                                             <div className="gaveta" >Cadastrar Grupo</div>
-                                            <div className="gaveta" >Cadastrar Grupos ICMS/Regras de ICMS</div>
-                                            <div className="gaveta" >Cadastrar Grupos IPI</div>
-                                            <div className="gaveta" >Cadastrar Grupo PIS/COFINS</div>
+                                            <div className="gaveta" onClick={()=> setIsModalRegraIcms(true)}>Cadastrar Grupos ICMS/Regras de ICMS</div>
+                                            <div className="gaveta" onClick={()=> setIsModalGrupoIpi(true)}>Cadastrar Grupos IPI</div>
+                                            <div className="gaveta" onClick={()=> setIsModalGrupoPis(true)}>Cadastrar Grupo PIS/COFINS</div>
                                         </div>
                                     ) : null}
                                 </div>
@@ -85,6 +91,9 @@ export const NavBar = () => {
             {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} /> : null}
             {opProdutos ? <OpProdutos setOpProdutos={setOpProdutos}/> : null}
             {isModalFamilia ? <CadastrarFamilia close={()=> setIsModalFamilia(false)}/> : null}
+            {isModalGrupoIpi ? <Ipi close={()=> setIsModalGrupoIpi(false)}/> : null}
+            {isModalGrupoPis ? <PisCofins close={()=> setIsModalGrupoPis(false)}/> : null}
+            {isModalRegraIcms ? <GrupoIcms close={()=> setIsModalRegraIcms(false)}/> : null}
         </C.Container>
     )
 }
