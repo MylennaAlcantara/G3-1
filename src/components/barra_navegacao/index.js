@@ -26,6 +26,10 @@ export const NavBar = () => {
     function abrirBarra (){
         setAberto(!aberto);
     }
+    function fecharOp (){
+        setOpProdutos(false);
+        setOpfuncionario(false);
+    } 
 
     return(
         <C.Container>
@@ -34,7 +38,7 @@ export const NavBar = () => {
                     <div onClick={() =>setCadastros(!cadastros)}><img src="/images/cadastro.png"/>Cadastros</div>
                     {cadastros ? (
                         <div className="gaveta">
-                            <div className="gaveta" onClick={()=> navigate('/clientes')}>Cadastro de Cliente</div>
+                            <div className="gaveta" onClick={()=> {navigate('/clientes'); fecharOp()}}>Cadastro de Cliente</div>
                             <div style={{backgroundColor: funcionario ? '#064a8b' : '#00a5dd', borderRadius: funcionario ? '10px 10px 0 0' : '', borderBottom: '1px solid #064a8b', margin: "0"}}>
                                 <div className="gaveta" onClick={()=> setOpfuncionario(!opFuncionario)} style={{backgroundColor: funcionario ? '#064a8b' : '', border: "none"}}>
                                     Funcionários
@@ -43,7 +47,7 @@ export const NavBar = () => {
                             </div>
                             {funcionario === false ? (
                                 <div className="gaveta">
-                                    <div className="gaveta" onClick={()=> navigate('/fornecedores')}>Cadastro de Fornecedor</div>
+                                    <div className="gaveta" onClick={()=> {navigate('/fornecedores'); fecharOp()}}>Cadastro de Fornecedor</div>
                                     <div style={{backgroundColor: produtos ? '#064a8b' : '#00a5dd', borderRadius: produtos ? '10px 10px 0 0' : '', borderBottom: '1px solid #064a8b', margin: "0"}}>
                                             <div className="gaveta" onClick={()=> setOpProdutos(!opProdutos)} style={{backgroundColor: produtos ? '#064a8b' : '', border: "none"}}>
                                                 Produtos
@@ -70,9 +74,9 @@ export const NavBar = () => {
                             )}
                         </div>
                     ) : null}
-                    <div onClick={()=> navigate('/consultar')}><img src="/images/ponto-de-venda.png"/>Rotina</div>
-                    <div onClick={() =>setRelatorio(!relatorio)}><img src="/images/relatorio.png"/>Relatorios</div>
-                    {relatorio ? (<div className="gaveta" onClick={()=> navigate('/resumoDeFaturamento')} >Resumo de Faturamento</div>) : null}
+                    <div onClick={()=> {navigate('/consultar'); fecharOp()}}><img src="/images/ponto-de-venda.png"/>Rotina</div>
+                    <div onClick={() =>{setRelatorio(!relatorio)}}><img src="/images/relatorio.png"/>Relatorios</div>
+                    {relatorio ? (<div className="gaveta" onClick={()=> {navigate('/resumoDeFaturamento'); fecharOp()}} >Resumo de Faturamento</div>) : null}
                 </C.Barra>
             ) : null}
             <button className="menu" onClick={abrirBarra} style={{left: aberto === false ? '0' : null}}><img src="/images/seta.png"/></button>

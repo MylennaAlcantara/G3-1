@@ -18,7 +18,7 @@ export const GrupoIcms = ({close}) => {
     },[])
 
     return(
-        <M.Modal>
+        <M.SubModal>
             <C.Container>
                 <GI.Header>
                     <h3>Grupos de ICMS</h3>
@@ -221,6 +221,6 @@ export const GrupoIcms = ({close}) => {
                     </GI.DadosRegra>
                 </GI.Content>
             </C.Container>
-        </M.Modal>
+        </M.SubModal>
     )
 }

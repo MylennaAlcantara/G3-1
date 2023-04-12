@@ -8,7 +8,7 @@ export const CadastrarNivel = ({close}) => {
     const [aba, setAba] = useState('cadastros');
 
     return(
-        <M.Modal>
+        <M.SubModal>
             <C.Container>
                 <C.Header>
                     <h3>Cadastrar Nível</h3>
@@ -2126,6 +2126,6 @@ export const CadastrarNivel = ({close}) => {
                     </div>
                 </C.Footer>
             </C.Container>
-        </M.Modal>
+        </M.SubModal>
     )
 }

@@ -6,7 +6,7 @@ import * as CF from "./cadastroFamilia";
 export const CadastrarFamilia = ({close}) => {
 
     return(
-        <M.Modal>
+        <M.SubModal>
             <C.Container>
                 <C.Header>
                     <h3>Cadastrar Familia</h3>
@@ -99,6 +99,6 @@ export const CadastrarFamilia = ({close}) => {
                     </div>
                 </C.Footer>
             </C.Container>
-        </M.Modal>
+        </M.SubModal>
     )
 }

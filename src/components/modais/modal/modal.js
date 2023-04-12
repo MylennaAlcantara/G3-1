@@ -20,6 +20,26 @@ export const Modal = styled.div`
     }
 
 `;
+export const SubModal = styled.div`
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.20);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    @media (max-width: 420px){
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+    }
+
+`;
 
 export const Container = styled.div`
     width: 60%;

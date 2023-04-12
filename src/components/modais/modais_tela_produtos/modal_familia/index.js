@@ -7,7 +7,7 @@ export const Familia = ({close}) => {
     const [cadastrarFamilia, setCadastrarFamilia] = useState(false);
 
     return(
-        <M.Modal>
+        <M.SubModal>
             <M.Container>
                 <M.Header>
                     <h3>Familia</h3><button className="close" onClick={close}>X</button>
@@ -56,6 +56,6 @@ export const Familia = ({close}) => {
                 </C.Footer>
                 {cadastrarFamilia ? <CadastrarFamilia close={()=> setCadastrarFamilia(false)}/> : null}
             </M.Container>
-        </M.Modal>
+        </M.SubModal>
     )
 }
