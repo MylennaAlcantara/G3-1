@@ -72,5 +72,20 @@ export const Barra = styled.div `
     div:hover{
         cursor: pointer;
     }
+    
+    button{
+        position: fixed;
+        bottom: 15px;
+        color: white;
+        font-weight: bold;
+        width: 100px;
+        height: 30px;
+        background-color: red;
+        border: 1px solid red;
+        border-radius: 5px;
+    }
+    button:hover{
+        cursor: pointer;
+    }
 
 `

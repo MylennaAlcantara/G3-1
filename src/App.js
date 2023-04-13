@@ -20,6 +20,7 @@ import { EditarFornecedor } from './components/cadastros/editar_fornecedor';
 import { CadastroFuncionario } from './components/cadastros/cadastro_funcionario';
 import { ConsultarFuncionario } from './components/cadastros/consultar_funcionario';
 import { EditarFuncionario } from './components/cadastros/editar_funcionario';
+import { Home } from './components/home';
 
 function App() {    
   const token = localStorage.getItem('token');
@@ -39,6 +40,7 @@ function App() {
           {token ? <NavBar/> : null}
           <Routes>
             <Route path = "/" element = {<Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/> 
+            <Route path = "/home" element = {token ? <Home/> : <Login/>}/> 
             <Route path = "/rotina" element = {token ? <Cadastro matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
             <Route path = "/consultar" element = {token ?<Consultar setCodigo={setCodigo} codRotina={parseFloat(codRotina)} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} /> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>  
             <Route path = "/rotina/:codigo" element={token ? <Visualizar codigo={codigo} codRotina={parseFloat(codRotina)} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>

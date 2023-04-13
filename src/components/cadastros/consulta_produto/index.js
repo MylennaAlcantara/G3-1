@@ -62,13 +62,9 @@ export const CounsultarProduto = () =>{
     const novo = () => {
         navigate("/cadastrarProduto");
     }
-    const sair = () => {
-        localStorage.clear();
-        document.location.reload(true);
-    }
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}  <button onClick={sair}>Sair</button></C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
             <C.Header>
                 <h3>Produtos</h3>
             </C.Header>
@@ -93,44 +89,58 @@ export const CounsultarProduto = () =>{
                 <input placeholder="Buscar..." value={busca} onChange={(e)=> setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
             </CP.Filtro>
             <CP.Lista>
-                <div className="table-responsive">
-                <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
-                        <thead>
-                            <tr>
-                                <th>Cód. Interno</th>
-                                <th>Ativo</th>
-                                <th>Referência</th>
-                                <th>GTIN / EAN</th>
-                                <th>Descrição</th>                     
-                            </tr>
-                        </thead>
-                            <tbody>
-                                { 
-                                resultado.slice(0, 50).map( (item, index) => {
-                                    return(
-                                        <tr 
-                                            id="produto" 
-                                            key={item.id}
-                                            style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
-                                                <td>{item.id}</td>
-                                                <td>SIM</td>                                    
-                                                <td>{item.referencia}</td>
-                                                <td>{item.gtin}</td>
-                                                <td>{item.descricaoPdv}</td>
-                                        </tr>
-                                    );
-                                }) 
-                                }                                    
-                            </tbody>
-                    </table>
-                </div>
+                {itens.length === 0 ? (
+                    <div>
+                        <div className="image">
+                            <img src="/favicon.ico"/>
+                        </div>
+                        <div id="pontos">
+                            <label>Carregando</label>
+                            <div className="ponto1"/>
+                            <div className="ponto2"/>
+                            <div className="ponto3"/>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="table-responsive">
+                    <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                            <thead>
+                                <tr>
+                                    <th>Cód. Interno</th>
+                                    <th>Ativo</th>
+                                    <th>Referência</th>
+                                    <th>GTIN / EAN</th>
+                                    <th>Descrição</th>                     
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    { 
+                                    resultado.slice(0, 50).map( (item, index) => {
+                                        return(
+                                            <tr 
+                                                id="produto" 
+                                                key={item.id}
+                                                style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                                    <td>{item.id}</td>
+                                                    <td>SIM</td>                                    
+                                                    <td>{item.referencia}</td>
+                                                    <td>{item.gtin}</td>
+                                                    <td>{item.descricaoPdv}</td>
+                                            </tr>
+                                        );
+                                    }) 
+                                    }                                    
+                                </tbody>
+                        </table>
+                    </div>
+                )}
             </CP.Lista>
             
             <C.Footer>
                 <div className="buttons">
                     <button onClick={novo}><img src="/images/add.png"/>Novo</button>
                     <button><img src="/images/abrir.png"/>Abrir</button>
-                    <button><img src="/images/voltar.png"/>Fechar</button>
+                    <button onClick={()=> navigate('/home')}><img src="/images/voltar.png"/>Fechar</button>
                 </div>
             </C.Footer>
         </C.Container>

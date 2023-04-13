@@ -26,8 +26,7 @@ export const EditarFornecedor = () => {
     const selectTipoDoc = document.getElementById('optionTipoDoc');
     const selectRegi = document.getElementById('optionRegi');
     const selectUf = document.getElementById('option');
-console.log(endereco)
-console.log(dadosCidades)
+
     const codigoFornecedor = localStorage.getItem('idFornecedor')
     useEffect(() => {
         async function fetchData (){
@@ -220,11 +219,6 @@ console.log(dadosCidades)
             alert("Preencha os campos acima!")
         }
     }
-
-    const sair = () => {
-        localStorage.clear();
-        document.location.reload(true);
-    }
     const voltar = () => {
         localStorage.removeItem('idFornecedor');
         navigate('/fornecedores');
@@ -232,7 +226,7 @@ console.log(dadosCidades)
 
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}  <button onClick={sair}>Sair</button></C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
             <C.Header>
                 <h3>Cadastrar Fornecedor</h3>
             </C.Header>

@@ -163,10 +163,6 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
     const Fechar = () => {
 
     }
-    const sair = () => {
-        localStorage.clear();
-        document.location.reload(true);
-    }
 
     function comparar (a, b){
         if(a.id < b.id){
@@ -181,7 +177,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
 
     return(
         <C.Container>
-        <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)} <button onClick={sair}>Sair</button></C.NaviBar>
+        <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)} </C.NaviBar>
 
             <C.Header>
                 <h3>Consultar</h3>
@@ -275,7 +271,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
                     <button onClick={Novo}><img src="/images/add.png"/>Novo</button>
                     <button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>
                     <button onClick={imprimir}><img src="/images/printer.png"/>Imprimir</button>
-                    <button><img src="/images/voltar.png"/>Fechar</button>
+                    <button onClick={()=> navigate('/home')}><img src="/images/voltar.png"/>Fechar</button>
                 </div>
                 <div className="indice">
                     <div>

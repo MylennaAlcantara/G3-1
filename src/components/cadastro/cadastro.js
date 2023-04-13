@@ -44,19 +44,6 @@ export const NaviBar = styled.div`
     position: fixed;
     top: 5px;
     left: auto;
-    button{
-        color: white;
-        font-weight: bold;
-        width: 50px;
-        height: 30px;
-        background-color: red;
-        border: 1px solid red;
-        margin: 0 0 0 5px;
-        border-radius: 5px;
-    }
-    button:hover{
-        cursor: pointer;
-    }
 `
 
 export const Header = styled.div`

@@ -79,14 +79,10 @@ export const ConsultarFornecedor = () => {
         navigate(`/editarFornecedor/${codigoFornecedor}`);
         }
     }
-    const sair = () => {
-        localStorage.clear();
-        document.location.reload(true);
-    }
 
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}  <button onClick={sair}>Sair</button></C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
             <C.Header>
                 <h3>Fornecedores</h3>
             </C.Header>
@@ -141,7 +137,7 @@ export const ConsultarFornecedor = () => {
                 <div className="buttons">
                     <button onClick={novo}><img src="/images/add.png" />Novo</button>
                     <button onClick={abrirEditar}><img src="/images/abrir.png" />Abrir</button>
-                    <button><img src="/images/voltar.png" />Voltar</button>
+                    <button onClick={()=> navigate('/home')}><img src="/images/voltar.png" />Voltar</button>
                 </div>
             </C.Footer>
         </C.Container>

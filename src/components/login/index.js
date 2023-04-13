@@ -39,7 +39,7 @@ export const Login = () => {
     const verificar = ()=>{
         const token = localStorage.getItem('token');
         if( token === '123456' ){
-            navigate('/consultar');
+            navigate('/home');
         }else{
             console.log('errou')
         }
