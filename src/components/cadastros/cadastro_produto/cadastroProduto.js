@@ -21,6 +21,9 @@ export const InfoItem = styled.div`
             height: 20px;
             width: 20px;
         }
+        img:hover{
+            cursor: pointer;
+        }
         div{
             display:flex;
             width: 100%;
@@ -80,6 +83,7 @@ export const Geral = styled.div`
         width: 100%;
     }
     .table-responsive{
+        display: block;
         overflow: auto;
         height: 80%;
     }
@@ -114,6 +118,9 @@ export const Geral = styled.div`
         img{
             height: 20px;
             width: 20px;
+        }
+        img:hover{
+            cursor: pointer;
         }
     }
 `

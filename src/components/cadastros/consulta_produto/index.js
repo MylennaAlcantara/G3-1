@@ -13,7 +13,7 @@ export const CounsultarProduto = () =>{
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/1/payment/1?size=2000`);
+            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/1/payment/1?size=50`);
             const data = await response.json();
             setItens(data.content);
         }

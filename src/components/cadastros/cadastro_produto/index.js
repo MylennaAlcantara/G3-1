@@ -9,6 +9,7 @@ import { AuthContext } from "../../../contexts/Auth/authContext";
 import { Ipi } from "../../modais/modais_tela_produtos/modal_ipi";
 import { PisCofins } from "../../modais/modais_tela_produtos/modal_pis_cofins";
 import { Ncm } from "../../modais/modais_tela_produtos/modal_ncm";
+import { Cest } from "../../modais/modais_tela_produtos/modal_cest";
 
 export const CadastroProduto = () => {
     const navigate = useNavigate();
@@ -197,7 +198,7 @@ export const CadastroProduto = () => {
                         <div>
                             <label>CEST:</label>
                             <input/>
-                            <img src="/images/LUPA.png"/>
+                            <img src="/images/LUPA.png" onClick={()=> setIsModalCest(true)}/>
                         </div>
                     </div>
                     <div className="campos">
@@ -779,6 +780,7 @@ export const CadastroProduto = () => {
             {isModalIpi ? <Ipi close={()=> setIsModalIpi(false)}/> : null}
             {isModalPis ? <PisCofins close={()=> setIsModalPis(false)}/> : null}
             {isModalNcm ? <Ncm close={()=> setIsModalNcm(false)}/> : null}
+            {isModalCest ? <Cest close={()=> setIsModalCest(false)}/> : null}
         </C.Container>
     )
 }
