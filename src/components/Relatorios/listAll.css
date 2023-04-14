@@ -11,6 +11,21 @@
     border-top-right-radius: 10px;
 }
 
+.close{
+    width: 28px;
+    height: 28px;
+}
+
+.closeBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 90%;
+    position: relative;
+    width: 117px;
+    height: 33px;
+}
+
 .filtro-filial-content{
     position: absolute;
     top: 98px;
@@ -757,21 +772,22 @@ table tr:nth-child(odd){
 
 @media (max-width:1920px){
     .filtros{
-        top: 100%;
+        top: 10%;
     }
     .ModalDados{
-        top: 60.5%;
+        top: 69%;
     }
     .filtro1{
-        left: 5vw;
+        top: 2.2vw;
+        left: 4.3vw;
     }
     .btns{
         top: 50%;
         right: 44.1%;
     }
     .relatorio-content{
-        top: 28.5%;
-        left: 63.5%;
+        top: 33.5%;
+        left: 65%;
     }
     .pesquisar{
         top: 15.2%;
@@ -816,7 +832,7 @@ table tr:nth-child(odd){
     }
     .filtro1{
         left: 11vw;
-        top: 1vw;
+        top: 1.3vw;
         width: 430px;
     }
     .pesquisar{
@@ -831,12 +847,12 @@ table tr:nth-child(odd){
     }
     .filtros{
         left: 1.5%;
-        top: 0.5%;
+        top: 10%;
         width: 70%;
     }
     .relatorio-content{
         left: 850px;
-        top: 249px;
+        top: 264px;
     }
 }
 @media (max-width: 1366px){
