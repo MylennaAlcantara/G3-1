@@ -8,7 +8,7 @@ import {Loading} from "../loading";
 export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
-    const {autenticar, user, empresa, filiais} = useContext(AuthContext);
+    const {autenticar, user, empresa, filiais, nivel} = useContext(AuthContext);
 
     useEffect(()=>{
         async function fetchData(){

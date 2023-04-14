@@ -75,7 +75,7 @@ export const NavBar = () => {
                     {cadastros && nivel.cadastro_acessivel ? (
                         <div className="gaveta">
                             {nivel.cadastro_cliente_acessivel ? <div className="gaveta" onClick={()=> {navigate('/clientes'); fecharOp()}}>Cadastro de Cliente</div> : null}                            
-                            {nivel.cadastro_funcionario ? (
+                            {nivel.cadastro_funcionario || nivel.tabela_auxiliar_setor_funcionario || nivel.tabela_auxiliar_tipo_funcionario ? (
                                 <div style={{backgroundColor: funcionario ? '#064a8b' : '#00a5dd', borderRadius: funcionario ? '10px 10px 0 0' : '', borderBottom: '1px solid #064a8b', margin: "0"}}>
                                     <>
                                     <div className="gaveta" onClick={()=> {setOpfuncionario(!opFuncionario); setOpProdutos(false);}} style={{backgroundColor: funcionario ? '#064a8b' : '', border: "none"}}>
@@ -111,9 +111,9 @@ export const NavBar = () => {
                                 </div>
                             ) : (
                                 <div className="gaveta">
-                                    <div className="gaveta" onClick={()=> navigate('/funcionarios')}>Cadastro</div>
-                                    <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true)}}>Cadastro de Setor</div>
-                                    <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true)}}>Cadastro de Nivel</div>
+                                    {nivel.cadastro_funcionario ? <div className="gaveta" onClick={()=> navigate('/funcionarios')}>Cadastro</div> : null}                                    
+                                    {nivel.tabela_auxiliar_setor_funcionario ? <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true)}}>Cadastro de Setor</div> : null}
+                                    {nivel.tabela_auxiliar_tipo_funcionario ? <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true)}}>Cadastro de Nivel</div> : null}
                                 </div>
                             )}
                         </div>
