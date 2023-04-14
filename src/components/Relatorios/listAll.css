@@ -11,6 +11,21 @@
     border-top-right-radius: 10px;
 }
 
+.close{
+    width: 28px;
+    height: 28px;
+}
+
+.closeBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 90%;
+    position: relative;
+    width: 117px;
+    height: 33px;
+}
+
 .filtro-filial-content{
     position: absolute;
     top: 98px;

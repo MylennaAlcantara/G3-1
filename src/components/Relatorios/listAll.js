@@ -359,6 +359,12 @@ export const ResumoFaturamento = () => {
         }
     }
 
+    const [dadoNomeProd, setNomeProd] = useState(); const [dadoNomeProd1, setNomeProd1] = useState();
+
+    const [dadoVenProd, setVenProd] = useState(); const [dadoVenProd1, setVenProd1] = useState();
+
+    const [dadoLuProd, setLuProd] = useState(); const [dadoLuProd1, setLuProd1] = useState();
+
     async function setDataProduto() {
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorProduto", {
             method: "POST",
@@ -368,12 +374,23 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosProduto(data);
+
+                setNomeProd(data[0].produto); setVenProd(data[0].vlr_venda_total); setLuProd(data[0].vlr_lucro_total)
             })
         }
     }
 
-    const [dadoNomeGrupo, setNomeGrupo] = useState(); const [dadoNomeGrupo1, setNomeGrupo1] = useState(); const [dadoNomeGrupo2, setNomeGrupo2] = useState(); const [dadoNomeGrupo3, setNomeGrupo3] = useState();
-    
+    console.log(dadoNomeProd, dadoVenProd, dadoLuProd)
+
+    const [dadoNomeGrupo, setNomeGrupo] = useState(); const [dadoNomeGrupo1, setNomeGrupo1] = useState(); const [dadoNomeGrupo2, setNomeGrupo2] = useState(); const [dadoNomeGrupo3, setNomeGrupo3] = useState(); const [dadoNomeGrupo4, setNomeGrupo4] = useState(); const [dadoNomeGrupo5, setNomeGrupo5] = useState();
+    const [dadoNomeGrupo6, setNomeGrupo6] = useState(); const [dadoNomeGrupo7, setNomeGrupo7] = useState(); const [dadoNomeGrupo8, setNomeGrupo8] = useState(); const [dadoNomeGrupo9, setNomeGrupo9] = useState();
+
+    const [dadoVenGrupo, setVenGrupo] = useState(); const [dadoVenGrupo1, setVenGrupo1] = useState(); const [dadoVenGrupo2, setVenGrupo2] = useState(); const [dadoVenGrupo3, setVenGrupo3] = useState(); const [dadoVenGrupo4, setVenGrupo4] = useState(); const [dadoVenGrupo5, setVenGrupo5] = useState();
+    const [dadoVenGrupo6, setVenGrupo6] = useState(); const [dadoVenGrupo7, setVenGrupo7] = useState(); const [dadoVenGrupo8, setVenGrupo8] = useState(); const [dadoVenGrupo9, setVenGrupo9] = useState();
+
+    const [dadoLuGrupo, setLuGrupo] = useState(); const [dadoLuGrupo1, setLuGrupo1] = useState(); const [dadoLuGrupo2, setLuGrupo2] = useState(); const [dadoLuGrupo3, setLuGrupo3] = useState(); const [dadoLuGrupo4, setLuGrupo4] = useState(); const [dadoLuGrupo5, setLuGrupo5] = useState();
+    const [dadoLuGrupo6, setLuGrupo6] = useState(); const [dadoLuGrupo7, setLuGrupo7] = useState(); const [dadoLuGrupo8, setLuGrupo8] = useState(); const [dadoLuGrupo9, setLuGrupo9] = useState();
+
     async function setDataGrupo() {
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorGrupo", {
             method: "POST",
@@ -383,13 +400,21 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosGrupo(data);
-                setNomeGrupo(data[0].grupo); setNomeGrupo1(data[1].grupo); setNomeGrupo2(data[2].grupo); setNomeGrupo3(data[3].grupo);
-                
+
+                setNomeGrupo(data[0].grupo); setVenGrupo(data[0].vlr_venda_total); setLuGrupo(data[0].vlr_lucro_total)
+                setNomeGrupo1(data[1].grupo); setVenGrupo1(data[1].vlr_venda_total); setLuGrupo1(data[1].vlr_lucro_total)
+                setNomeGrupo2(data[2].grupo); setVenGrupo2(data[2].vlr_venda_total); setLuGrupo2(data[2].vlr_lucro_total)
+                setNomeGrupo3(data[3].grupo); setVenGrupo3(data[3].vlr_venda_total); setLuGrupo3(data[3].vlr_lucro_total)
+                setNomeGrupo4(data[4].grupo); setVenGrupo4(data[4].vlr_venda_total); setLuGrupo4(data[4].vlr_lucro_total)
+                setNomeGrupo5(data[5].grupo); setVenGrupo5(data[5].vlr_venda_total); setLuGrupo5(data[5].vlr_lucro_total)
+                setNomeGrupo6(data[6].grupo); setVenGrupo6(data[6].vlr_venda_total); setLuGrupo6(data[6].vlr_lucro_total)
+                setNomeGrupo7(data[7].grupo); setVenGrupo7(data[7].vlr_venda_total); setLuGrupo7(data[7].vlr_lucro_total)
+                setNomeGrupo8(data[8].grupo); setVenGrupo8(data[8].vlr_venda_total); setLuGrupo8(data[8].vlr_lucro_total)
+                setNomeGrupo9(data[9].grupo); setVenGrupo9(data[9].vlr_venda_total); setLuGrupo9(data[9].vlr_custo_total)
+
             })
         }
     }
-
-    console.log(dadoNomeGrupo , dadoNomeGrupo1, dadoNomeGrupo2, dadoNomeGrupo3 )
 
     async function setDataFornecedor() {
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFornecedor", {
@@ -404,9 +429,6 @@ export const ResumoFaturamento = () => {
         }
     }
 
-    console.log(dadosProduto)
-    console.log(dadosFornecedor)
-
     const handleSetData = () => {
         setDataCliente();
         setDataFilial();
@@ -417,8 +439,6 @@ export const ResumoFaturamento = () => {
         setDataGrupo();
         setDataFornecedor();
     }
-
-    console.log(dadosGrupo)
 
     useEffect(() => {
         async function fetchData() {
@@ -438,10 +458,6 @@ export const ResumoFaturamento = () => {
     function onChangeDataFin(e) {
         setDataFin(e.currentTarget.value)
     }
-
-    console.log(filter)
-
-
 
     //------------------------------------------------------------------Dashboards (Dashboard Região)----------------------------------------------------------------------------------------------------------------------------------------
     const [dashboardRegiao, setIsOpenDashboardRegiao] = useState(false);
@@ -521,6 +537,9 @@ export const ResumoFaturamento = () => {
     ];
 
     const optionsRe0 = {
+
+        colors: ["#bc1b9c", "#1b7abc"],
+
         chart: {
             title: "Valores Gerais",
             subtitle: "Comparativo",
@@ -544,10 +563,6 @@ export const ResumoFaturamento = () => {
 
     const [dashboardFilial, setIsOpenDashboardFilial] = useState(false);
 
-    console.log(query)
-    console.log(query1)
-    console.log(query2)
-
     function openDashboardFilial() {
         setIsOpenDashboardFilial(true)
     }
@@ -566,6 +581,7 @@ export const ResumoFaturamento = () => {
     const optionsFi = {
         title: "Liquido e Bruto",
         is3D: true,
+        colors: ["#ffaf56", "#b2bb1c"],
     };
 
     const barDataFi = [
@@ -580,9 +596,9 @@ export const ResumoFaturamento = () => {
                 calc: "stringify",
             },
         ],
-        ["Valor Lucro", resultFi2, "#F7C64F", null],
+        ["Valor Lucro", resultFi2, "#f6d001", null],
         ["Valor Custo", resultFi, "#b87333", null],
-        ["Valor Total ", resultFi1, "#39E055", null],
+        ["Valor Total ", resultFi1, "#b2bb1c", null],
         ["Valor  Nf-e", resultFi3, "#8226ED", null],
         ["Valor NFC-e", resultFi4, "#2686ED", null],
         ["Valor Credito", resultFi5, "#ff6ad8", null],
@@ -630,6 +646,8 @@ export const ResumoFaturamento = () => {
         },
         bars: "vertical",
 
+        colors: ["#bc1b2b", "#f6d001"],
+
         axes: {
             y: {
                 0: { side: "right" },
@@ -638,7 +656,7 @@ export const ResumoFaturamento = () => {
     };
 
     //------------------------------------------------------------------Dashboard Vendedor----------------------------------------------------------------------------------------------------------------------------------------------------  
-    
+
     const [dashboardVendedor, setIsOpenDashboardVendedor] = useState(false);
 
     function openDashboardVendedor() {
@@ -716,8 +734,8 @@ export const ResumoFaturamento = () => {
         ["NFC-e", resultVen4, "#2686ED"],
     ];
 
-//---------------------------------------------------------------Dashboard Cliente------------------------------------------------------------------------------------------------------------------------------------------------------------
-    
+    //---------------------------------------------------------------Dashboard Cliente------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     const [dashboardCliente, setIsOpenDashboardCliente] = useState(false);
 
     function openDashboardCliente() {
@@ -813,7 +831,7 @@ export const ResumoFaturamento = () => {
         ["NFC-e", resultCli3, "#2686ED"],
     ];
 
-//------------------------------------------------------------------Dashboard Tipo de Pagamento-----------------------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------Dashboard Tipo de Pagamento-----------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardTipoDePagamento, setIsOpenDashboardTipoDePagamento] = useState(false)
 
@@ -892,7 +910,7 @@ export const ResumoFaturamento = () => {
         ["Dinheiro", resultTpPg, "#ffe670"],
     ];
 
-//------------------------------------------------------------------Dashboard Produtos--------------------------------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------Dashboard Produtos--------------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardProdutos, setIsOpenDashboardProdutos] = useState(false);
     const [dashboardProdutosDetalhado, setIsOpenDashboardProdutosDetalhados] = useState(false);
@@ -956,7 +974,7 @@ export const ResumoFaturamento = () => {
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
-//------------------------------------------------------------------------Dashboard Grupo-----------------------------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------Dashboard Grupo-----------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardGrupo, setIsOpenDashboardGrupo] = useState(false);
     const [dashboardGrupoDetalhado, setIsOpenDashboardGrupoDetalhado] = useState(false);
@@ -982,12 +1000,20 @@ export const ResumoFaturamento = () => {
     const resultGru2 = dadosGrupo.reduce((a, b) => a + b.sub_total, 0);
     const resultGru3 = dadosGrupo.reduce((a, b) => a + b.vlr_desconto_total, 0);
 
-    //const dataGru0 = [
-        //["Valores em R$", "Venda", "Lucro"],
-       //[dadosGrupoDetalhado[0].grupo , dadosGrupoDetalhado[0].vlr_venda_total , dadosGrupoDetalhado[0].vlr_custo_total],
-       //[dadosGrupoDetalhado[1].grupo , dadosGrupoDetalhado[1].vlr_venda_total , dadosGrupoDetalhado[1].vlr_custo_total],
-       //[dadosGrupoDetalhado[2].grupo , dadosGrupoDetalhado[2].vlr_venda_total , dadosGrupoDetalhado[2].vlr_custo_total],
-    //];
+    const dataGru0 = [
+        ["Valores em R$", "Venda", "Lucro"],
+        [dadoNomeGrupo, dadoVenGrupo, dadoLuGrupo],
+        [dadoNomeGrupo1, dadoVenGrupo1, dadoLuGrupo1],
+        [dadoNomeGrupo2, dadoVenGrupo2, dadoLuGrupo2],
+        [dadoNomeGrupo3, dadoVenGrupo3, dadoLuGrupo3],
+        [dadoNomeGrupo4, dadoVenGrupo4, dadoLuGrupo4],
+        [dadoNomeGrupo5, dadoVenGrupo5, dadoLuGrupo5],
+        [dadoNomeGrupo6, dadoVenGrupo6, dadoLuGrupo6],
+        [dadoNomeGrupo7, dadoVenGrupo7, dadoLuGrupo7],
+        [dadoNomeGrupo8, dadoVenGrupo8, dadoLuGrupo8],
+        [dadoNomeGrupo9, dadoVenGrupo9, dadoLuGrupo9],
+
+    ];
 
     const dataGru = [
         ["Element", "Valor", { role: "style" }],
@@ -1021,7 +1047,30 @@ export const ResumoFaturamento = () => {
         legend: { position: "none" },
     };
 
-//------------------------------------------------------------------Dashboard Fornecedor------------------------------------------------------------------------------------------------------------------------------------------------------
+    const optionsGru0 = {
+        chart: {
+            title: "Grupos",
+            subtitle: "Comparativo",
+        },
+        hAxis: {
+            title: "GGG",
+            minValue: 0,
+        },
+        vAxis: {
+            title: "Valores",
+        },
+        bars: "horizontal",
+
+        //colors: [red, gray],
+
+        axes: {
+            y: {
+                0: { side: "right" },
+            },
+        },
+    };
+
+    //------------------------------------------------------------------Dashboard Fornecedor------------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardFornecedor, setIsOpenDashboardFornecedor] = useState(false)
     const [dashboardFornecedorDetalhado, setIsOpenDashboardFornecedorDetalhado] = useState(false)
@@ -1081,7 +1130,7 @@ export const ResumoFaturamento = () => {
     };
 
 
-//------------------------------------------------------------------PICOS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------PICOS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [modalPico, setIsOpenModalPico] = useState(false);
 
@@ -1114,7 +1163,7 @@ export const ResumoFaturamento = () => {
     };
 
 
-//------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
         <C.Container>
@@ -1389,6 +1438,8 @@ export const ResumoFaturamento = () => {
 
                                         <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
+                                            <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
                                             <div >
 
                                                 <h1>Dados Região</h1>
@@ -1648,6 +1699,8 @@ export const ResumoFaturamento = () => {
 
                                 <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
+                                    <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
                                     <div>
 
                                         <h1>Dados Filial</h1>
@@ -1779,6 +1832,8 @@ export const ResumoFaturamento = () => {
                                 </table>
 
                                 <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+
+                                    <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                                     <div>
                                         <h1>Dados Vendedor</h1>
@@ -1912,6 +1967,8 @@ export const ResumoFaturamento = () => {
 
                                 <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
+                                    <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
                                     <div>
                                         <h1>Dados Cliente</h1>
 
@@ -1988,6 +2045,8 @@ export const ResumoFaturamento = () => {
                                     </tr>
                                 </table>
                                 <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+
+                                    <button onClick={closeDashboardTipoDePagamento} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                                     <div>
 
@@ -2148,6 +2207,8 @@ export const ResumoFaturamento = () => {
                                     </table>
                                     <Modal isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
 
+                                        <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
                                         <div>
 
                                             <h1>Dados Produtos <button className='btnDetalhes' onClick={openDashboardProdutosDetalhados} ><img className='grafico' src='images/itens.png' /> Por itens </button> </h1>
@@ -2283,6 +2344,8 @@ export const ResumoFaturamento = () => {
 
                                 <Modal isOpen={dashboardGrupo} onRequestClose={closeDashboardGrupo} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
 
+                                    <button onClick={closeDashboardGrupo} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
                                     <div>
 
                                         <h1>Dados Grupo  <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado} > <img className='grafico' src='images/itens.png' /> Cada Grupo  </button> </h1>
@@ -2311,6 +2374,8 @@ export const ResumoFaturamento = () => {
                                             <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} className="grafico1" />
                                             <Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} className="grafico0" />
                                         </div>
+
+                                        <Chart chartType="Bar" width="95%" height="35vw" data={dataGru0} options={optionsGru0} />
 
                                     </div>
 
@@ -2435,6 +2500,9 @@ export const ResumoFaturamento = () => {
                                     ))}
                                 </table>
                                 <Modal isOpen={dashboardFornecedor} onRequestClose={closeDashboardFornecedor} shouldCloseOnOverlayClick={false} style={customStyles} >
+
+                                    <button onClick={closeDashboardFornecedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
                                     <div>
 
                                         <h1>Dados Fornecedor <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='grafico' src='images/itens.png' /> Cada Item</button> </h1>
