@@ -25,6 +25,9 @@ export const DadosFuncionario = styled.div`
         height: auto;
         width: auto;
     }
+    @media (max-width: 425px){
+        flex-wrap: wrap;
+    }
 `
 
 export const Geral = styled.div`
@@ -81,6 +84,21 @@ export const Geral = styled.div`
             justify-content: center;
         }
     }
+    @media (max-width: 425px){
+        height: 40%;
+        .geral{
+            heigth: 90%;
+            overflow: auto;
+            .codigo{
+                width: 60px;
+            }
+        }
+        .telefone-comissao{
+            display: flex;
+            justify-content: start;
+            flex-wrap: wrap;
+        }
+    }
 `
 
 export const Documentos = styled.div`
@@ -120,6 +138,13 @@ export const Documentos = styled.div`
     div{
         display: flex;
         align-items: center;
+    }
+    @media (max-width: 425px){
+        height: 40%;
+        overflow: auto;
+        .doc{
+            flex-wrap: wrap;
+        }
     }
 `
 
