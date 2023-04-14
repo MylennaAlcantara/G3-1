@@ -117,61 +117,68 @@ export const CadastroFuncionario = () => {
         setarHoraData();
     },[])
 
+    const [cor, setCor] = useState('');
+
     const salvar = async () => {
-        try{
-            const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/save",{
-                method: "POST",
-                headers:{"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    nome: nome,
-                    matricula: matricula,
-                    senha: password,
-                    comissao: comissao,
-                    cpf: cpf,
-                    ctps: ctps,
-                    ctps_serie: serie,
-                    salario: salario,
-                    cep: cep,
-                    telefone: telefone,
-                    celular:  celular,
-                    email: email,
-                    bairro: bairro,
-                    codigo_municipio: dadosCidades.codigo,
-                    complemento_endereco: complemento,
-                    pessoa_contato: contato,
-                    endereco: endereco,
-                    uf: dadosCidades.uf,
-                    municipio: dadosCidades.nome,
-                    numero_endereco: numero,
-                    obs: obs,
-                    data_cadastro: dataCadastro,
-                    data_admissao: dataAdmissao,
-                    rg: rg,
-                    titulo_eleitor: titulo,
-                    ric: ric,
-                    pis: pis,
-                    setorFuncionario: {
-                        id: setor.codigo,
-                        descricao: setor.nome,
-                        operadorDeCaixa: setor.operador
-                    },
-                    id_nivel_acesso: nivel.codigo,
-                    meta: meta,
-                    senhaExpirada: false,
-                    id_filial: dataIdSelectEmitente,
-                    usuarioSistema: usuarioSistema,
-                    motorista: motorista,
-                    dataNascimento: dataNascimento,
-                    excluido: false,
-                    ativo: true
-                })
-            });
-            if(res.status === 201 || res.status === 200){
-                alert('salvo com sucesso');
-                navigate('/funcionarios');
+        if(nome && dataAdmissao && setor.codigo && nivel.codigo && dataIdSelectEmitente){
+            try{
+                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/save",{
+                    method: "POST",
+                    headers:{"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        nome: nome,
+                        matricula: matricula,
+                        senha: password,
+                        comissao: comissao,
+                        cpf: cpf,
+                        ctps: ctps,
+                        ctps_serie: serie,
+                        salario: salario,
+                        cep: cep,
+                        telefone: telefone,
+                        celular:  celular,
+                        email: email,
+                        bairro: bairro,
+                        codigo_municipio: dadosCidades.codigo,
+                        complemento_endereco: complemento,
+                        pessoa_contato: contato,
+                        endereco: endereco,
+                        uf: dadosCidades.uf,
+                        municipio: dadosCidades.nome,
+                        numero_endereco: numero,
+                        obs: obs,
+                        data_cadastro: dataCadastro,
+                        data_admissao: dataAdmissao,
+                        rg: rg,
+                        titulo_eleitor: titulo,
+                        ric: ric,
+                        pis: pis,
+                        setorFuncionario: {
+                            id: setor.codigo,
+                            descricao: setor.nome,
+                            operadorDeCaixa: setor.operador
+                        },
+                        id_nivel_acesso: nivel.codigo,
+                        meta: meta,
+                        senhaExpirada: false,
+                        id_filial: dataIdSelectEmitente,
+                        usuarioSistema: usuarioSistema,
+                        motorista: motorista,
+                        dataNascimento: dataNascimento,
+                        excluido: false,
+                        ativo: true
+                    })
+                });
+                if(res.status === 201 || res.status === 200){
+                    alert('salvo com sucesso');
+                    navigate('/funcionarios');
+                }
+            }catch(err){
+                console.log(err);
             }
-        }catch(err){
-            console.log(err);
+        }else{
+            alert("Preencha os campos acima!");
+            setCor('yellow');
         }
     }
 
@@ -203,7 +210,7 @@ export const CadastroFuncionario = () => {
                     </div>
                     <div style={{justifyContent: "end"}}>
                         <label>Data de Admissão: </label>
-                        <input type="date" value={dataAdmissao} onChange={(e)=> setDataAdmissao(e.target.value)}/>
+                        <input type="date" value={dataAdmissao} onChange={(e)=> setDataAdmissao(e.target.value)} style={{backgroundColor: cor}}/>
                     </div>
                 </div>
             </CF.DadosFuncionario>
@@ -216,7 +223,7 @@ export const CadastroFuncionario = () => {
                     <div className="geral">
                         <div>
                             <label>Nome: </label>
-                            <input value={nome} onChange={(e)=> {setNome(e.target.value)}}/>
+                            <input value={nome} onChange={(e)=> {setNome(e.target.value)}} style={{backgroundColor: cor}}/>
                         </div>
                         <div className="double-input">
                             <label>Endereço: </label>
@@ -265,17 +272,17 @@ export const CadastroFuncionario = () => {
                         </div>
                         <div className="double-input">
                             <label>Setor: </label>
-                            <input className="codigo" value={setor.codigo} onKeyDown={setores}/>
+                            <input className="codigo" value={setor.codigo} onKeyDown={setores} style={{backgroundColor: cor}}/>
                             <input value={setor.nome}/>
                         </div>
                         <div className="double-input">
                             <label>Nível: </label>
-                            <input className="codigo" value={nivel.codigo} onKeyDown={niveis}/>
+                            <input className="codigo" value={nivel.codigo} onKeyDown={niveis} style={{backgroundColor: cor}}/>
                             <input value={nivel.nome}/>
                         </div>
                         <div className="double-input">
                             <label>Filial: </label>
-                            <input className="codigo" value={dataIdSelectEmitente} onKeyDown={filiais}/>
+                            <input className="codigo" value={dataIdSelectEmitente} onKeyDown={filiais} style={{backgroundColor: cor}}/>
                             <input value={dataSelectEmitente}/>
                         </div>
                     </div>
