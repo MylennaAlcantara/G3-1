@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../../contexts/Auth/authContext";
 import * as C from "../../cadastro/cadastro";
+import { Loading } from "../../loading";
 import * as CP from "./consultarProduto";
 
 
@@ -90,17 +91,7 @@ export const CounsultarProduto = () =>{
             </CP.Filtro>
             <CP.Lista>
                 {itens.length === 0 ? (
-                    <div>
-                        <div className="image">
-                            <img src="/favicon.ico"/>
-                        </div>
-                        <div id="pontos">
-                            <label>Carregando</label>
-                            <div className="ponto1"/>
-                            <div className="ponto2"/>
-                            <div className="ponto3"/>
-                        </div>
-                    </div>
+                    <Loading/>
                 ) : (
                     <div className="table-responsive">
                     <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>

@@ -3,6 +3,7 @@ import * as M from "../modal/modal";
 import * as C from "../../cadastro/cadastro";
 import { CadastroSetor } from "../modal_cadastro_setor";
 import { EditarSetor } from "../modal_editar_setor";
+import { Loading } from "../../loading";
 
 export const Setor = ({setSetor, close, cadastroSetor}) => {
     const [setores, setSetores] = useState([]);
@@ -69,29 +70,33 @@ export const Setor = ({setSetor, close, cadastroSetor}) => {
                         <input className="search" placeholder="Buscar.."/>
                     </div>
                 </M.Filtro>
-                <div className="table-responsive">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Descrição</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Array.isArray(setores) && setores.map((setor, index) => {
-                                return(
-                                    <tr key={setor.id} 
-                                        onDoubleClick={selecionado.bind(this, setor)}
-                                        onClick={selecionadoEditar.bind(this, setor, index)}
-                                        style={{background: index === indexSetor ? '#87CEFA' : ""}}>
-                                        <td>{setor.id}</td>
-                                        <td>{setor.descricao}</td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                {setores.length === 0 ? (
+                    <Loading/>
+                ) : (
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {Array.isArray(setores) && setores.map((setor, index) => {
+                                    return(
+                                        <tr key={setor.id} 
+                                            onDoubleClick={selecionado.bind(this, setor)}
+                                            onClick={selecionadoEditar.bind(this, setor, index)}
+                                            style={{background: index === indexSetor ? '#87CEFA' : ""}}>
+                                            <td>{setor.id}</td>
+                                            <td>{setor.descricao}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalNovoSetor(true)}><img src="/images/add.png"/>Novo</button>

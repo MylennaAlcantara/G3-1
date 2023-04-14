@@ -55,6 +55,10 @@ export const ContainerProdutos = styled.div`
     justify-content: space-between;
     background-color: #fff;
     overflow-y: auto;
+    .load{
+        width: 100%;
+        margin-left: 45%;
+    }
     table{
         border-collapse: collapse;
         width: 100%;

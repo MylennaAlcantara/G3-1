@@ -3,6 +3,7 @@ import * as M from "../modal/modal";
 import * as C from "../../cadastro/cadastro";
 import { EditarNivel } from "../modal_editar_nivel";
 import { CadastrarNivel } from "../modal_cadastro_nivel";
+import { Loading } from "../../loading";
 
 export const Nivel = ({setNivel, close, cadastroNivel}) => {
     const [niveis, setNiveis] = useState([]);
@@ -69,29 +70,33 @@ export const Nivel = ({setNivel, close, cadastroNivel}) => {
                         <input className="search" placeholder="Buscar.."/>
                     </div>
                 </M.Filtro>
-                <div className="table-responsive">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Descrição</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Array.isArray(niveis) && niveis.map((nivel, index) => {
-                                return(
-                                    <tr key={nivel.id} 
-                                        onDoubleClick={selecionado.bind(this, nivel)}
-                                        onClick={selecionadoEditar.bind(this, nivel, index)}
-                                        style={{background: index === indexNivel ? '#87CEFA' : ""}}>
-                                        <td>{nivel.id}</td>
-                                        <td>{nivel.descricao}</td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                {niveis.length === 0 ? (
+                    <Loading/>
+                ) : (
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {Array.isArray(niveis) && niveis.map((nivel, index) => {
+                                    return(
+                                        <tr key={nivel.id} 
+                                            onDoubleClick={selecionado.bind(this, nivel)}
+                                            onClick={selecionadoEditar.bind(this, nivel, index)}
+                                            style={{background: index === indexNivel ? '#87CEFA' : ""}}>
+                                            <td>{nivel.id}</td>
+                                            <td>{nivel.descricao}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalCadastrarNivel(true)}><img src="/images/add.png"/>Novo</button>

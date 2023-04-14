@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as M from "../../modal/modal";
 import * as C from "../../../cadastro/cadastro";
+import { Loading } from "../../../loading/index";
 
 export const Fornecedor = ({close}) => {
     const [users, setUsers] = useState([]);
@@ -84,6 +85,9 @@ export const Fornecedor = ({close}) => {
                         <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)}/>
                     </div>
                 </M.Filtro>
+                {users.length === 0 ? (
+                    <Loading/>
+                ) : (
                     <div className="table-responsive">
                         <table id="table" onKeyDown={handleKeyDown} ref={tableRef} tableRef={0}>
                             <thead>
@@ -110,6 +114,7 @@ export const Fornecedor = ({close}) => {
                             </tbody>
                         </table>
                     </div>
+                )}
                 <C.Footer>
                     <div className="buttons">
                         <button><img src="/images/add.png"/>Novo</button>

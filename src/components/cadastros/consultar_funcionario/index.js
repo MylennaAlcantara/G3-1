@@ -4,6 +4,7 @@ import * as CF from "./consultarFuncionario";
 import * as CCL from "../consulta_cliente/consultaCliente";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../../contexts/Auth/authContext";
+import {Loading} from "../../loading";
 
 export const ConsultarFuncionario = () => {
     const navigate = useNavigate();
@@ -188,30 +189,34 @@ export const ConsultarFuncionario = () => {
                 </div>
             </CF.Filtro>
             <CCL.Lista>
-                <div className="table-responsive">
-                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0} style={{margin: "0"}}>
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Nome</th>
-                                <th>Fone</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {resultado.map( (user, index) => {
-                                return(
-                                    <tr key={user.id}
-                                        onClick={selecionado.bind(this, user, index)}
-                                        style={{background: index === selectIndex ? '#87CEFA' : ''}}>
-                                        <td>{user.id}</td>
-                                        <td>{user.nome}</td>
-                                        <td>{user.nome}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                {users.length === 0 ? (
+                    <Loading/>
+                ) : (
+                    <div className="table-responsive">
+                        <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0} style={{margin: "0"}}>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nome</th>
+                                    <th>Fone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {resultado.map( (user, index) => {
+                                    return(
+                                        <tr key={user.id}
+                                            onClick={selecionado.bind(this, user, index)}
+                                            style={{background: index === selectIndex ? '#87CEFA' : ''}}>
+                                            <td>{user.id}</td>
+                                            <td>{user.nome}</td>
+                                            <td>{user.nome}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </CCL.Lista>
             <C.Footer>
                 <div className="buttons">

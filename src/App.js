@@ -37,26 +37,25 @@ function App() {
   return (      
   <AuthProvider>
     <div className="App">
-          {token ? <NavBar/> : null}
           <Routes>
             <Route path = "/" element = {<Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/> 
-            <Route path = "/home" element = {token ? <Home/> : <Login/>}/> 
-            <Route path = "/rotina" element = {token ? <Cadastro matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
-            <Route path = "/consultar" element = {token ?<Consultar setCodigo={setCodigo} codRotina={parseFloat(codRotina)} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} /> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>  
-            <Route path = "/rotina/:codigo" element={token ? <Visualizar codigo={codigo} codRotina={parseFloat(codRotina)} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
-            <Route path = "/editarRotina/:codigo" element={token ? <Editar codigo={codigo} codRotina={parseFloat(codRotina)} dataEmissao={dataEmissao} horaEmissao={horaEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/> : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
-            <Route path = '/cadastrarCliente' element = {token ? <CadastroCliente/> : <Login/>}/>
-            <Route path = '/clientes' element = {token ? <ConsultarCliente setCliente={setCliente}/> : <Login/>}/>
-            <Route path = '/editarCliente/:cliente' element = {token ? <EditarCliente cliente={cliente} codCliente={parseFloat(codCliente)}/> : <Login/>}/>
-            <Route path = '/fornecedores' element = {token ? <ConsultarFornecedor/> : <Login/>}/>
-            <Route path = '/cadastrarFornecedor' element = {token ? <CadastrarFornecedor/> : <Login/>}/>
-            <Route path = '/editarFornecedor/:fornecedor' element = {token ? <EditarFornecedor /> : <Login/>}/>
-            <Route path = '/produtos' element = {token ? <CounsultarProduto/> : <Login/>}/>
-            <Route path = '/cadastrarProduto' element = {token ? <CadastroProduto/> : <Login/>}/>
-            <Route path = '/cadastrarFuncionario' element = {token ? <CadastroFuncionario/> : <Login/>}/>
-            <Route path = '/funcionarios' element = {token ? <ConsultarFuncionario/> : <Login/>}/>
-            <Route path = '/editarFuncionario/:funcionario' element = {token ? <EditarFuncionario/> : <Login/>}/>
-            <Route path = '/resumoDeFaturamento' element = {token ? <ResumoFaturamento/> : <Login/>}/>
+            <Route path = "/home" element = {token ? (<><NavBar/><Home/></>) : <Login/>}/> 
+            <Route path = "/rotina" element = {token ? (<><NavBar/><Cadastro matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/></>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
+            <Route path = "/consultar" element = {token ?(<><NavBar/><Consultar setCodigo={setCodigo} codRotina={parseFloat(codRotina)} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} /></>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>  
+            <Route path = "/rotina/:codigo" element={token ? (<><NavBar/><Visualizar codigo={codigo} codRotina={parseFloat(codRotina)} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/></>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
+            <Route path = "/editarRotina/:codigo" element={token ? (<><NavBar/><Editar codigo={codigo} codRotina={parseFloat(codRotina)} dataEmissao={dataEmissao} horaEmissao={horaEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/></>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
+            <Route path = '/cadastrarCliente' element = {token ? (<><NavBar/><CadastroCliente/></>) : <Login/>}/>
+            <Route path = '/clientes' element = {token ? (<><NavBar/><ConsultarCliente setCliente={setCliente}/></>) : <Login/>}/>
+            <Route path = '/editarCliente/:cliente' element = {token ? (<><NavBar/><EditarCliente cliente={cliente} codCliente={parseFloat(codCliente)}/></>) : <Login/>}/>
+            <Route path = '/fornecedores' element = {token ? (<><NavBar/><ConsultarFornecedor/></>) : <Login/>}/>
+            <Route path = '/cadastrarFornecedor' element = {token ? (<><NavBar/><CadastrarFornecedor/></>) : <Login/>}/>
+            <Route path = '/editarFornecedor/:fornecedor' element = {token ? (<><NavBar/><EditarFornecedor /></>) : <Login/>}/>
+            <Route path = '/produtos' element = {token ? (<><NavBar/><CounsultarProduto/></>) : <Login/>}/>
+            <Route path = '/cadastrarProduto' element = {token ? (<><NavBar/><CadastroProduto/></>) : <Login/>}/>
+            <Route path = '/cadastrarFuncionario' element = {token ? (<><NavBar/><CadastroFuncionario/></>) : <Login/>}/>
+            <Route path = '/funcionarios' element = {token ? (<><NavBar/><ConsultarFuncionario/></>) : <Login/>}/>
+            <Route path = '/editarFuncionario/:funcionario' element = {token ? (<><NavBar/><EditarFuncionario/></>) : <Login/>}/>
+            <Route path = '/resumoDeFaturamento' element = {token ? (<><NavBar/><ResumoFaturamento/></>) : <Login/>}/>
           </Routes>
       
     </div>

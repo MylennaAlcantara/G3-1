@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import * as M from "../modal/modal";
 import * as C from "../../cadastro/cadastro";
 import { CadastroRamo } from "../modal_cadastro_ramo/index";
+import { Loading } from "../../loading";
 
 export const RamoAtividade = ({close, setDadosRamo}) => {
     const [ramos, setRamos] = useState([]);
@@ -94,30 +95,34 @@ export const RamoAtividade = ({close, setDadosRamo}) => {
                         <input className="search" id="search" placeholder="Buscar" onChange={(e)=> setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>
                 </M.Filtro>
-                <div className="table-responsive">
-                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Descrição</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {resultado.map((ramo, index)=> {
-                                return(
-                                    <tr key={ramo.id} 
-                                        onDoubleClick={selected.bind(this, ramo)}
-                                        onClick={selecionado.bind(this, index)}
-                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
-                                        <td>{ramo.id}</td>
-                                        <td>{ramo.descricao}</td>
-                                    </tr>
-                                )
-                            })}
-                            
-                        </tbody>
-                    </table>
-                </div>
+                {ramos.length === 0 ? (
+                    <Loading/>
+                ) : (
+                    <div className="table-responsive">
+                        <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {resultado.map((ramo, index)=> {
+                                    return(
+                                        <tr key={ramo.id} 
+                                            onDoubleClick={selected.bind(this, ramo)}
+                                            onClick={selecionado.bind(this, index)}
+                                            style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                            <td>{ramo.id}</td>
+                                            <td>{ramo.descricao}</td>
+                                        </tr>
+                                    )
+                                })}
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                )}
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>

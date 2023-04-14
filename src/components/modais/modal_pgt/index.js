@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useRef} from "react";
+import { Loading } from "../../loading/index.js";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
@@ -82,6 +83,9 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
                     <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                 </div>                
             </Filtro>
+            {pgto.length === 0 ? (
+                <Loading/>
+            ) : (
                 <div className="table-responsive">
                     <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0}>
                         <thead>
@@ -110,6 +114,7 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
                         </tbody>
                     </table>
                 </div>
+            )}
             </Container>
         </Modal>
     );

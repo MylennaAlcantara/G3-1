@@ -4,7 +4,7 @@ import * as C from "../../cadastro/cadastro";
 import * as M from "../../modais/modal/modal" 
 import * as CCL from "../../cadastros/consulta_cliente/consultaCliente";
 import { AuthContext } from "../../../contexts/Auth/authContext";
-
+import {Loading} from "../../loading";
 export const ConsultarFornecedor = () => {
     const navigate = useNavigate();
     const {user, empresa} = useContext(AuthContext);
@@ -106,32 +106,36 @@ export const ConsultarFornecedor = () => {
                 </div>
             </M.Filtro>
             <CCL.Lista>
-                <div className="table-responsive">
-                    <table id="table" onKeyDown={handleKeyDown} ref={tableRef} tableRef={0}>
-                        <thead>
-                            <tr>
-                                <th>Ativo</th>
-                                <th>Código</th>
-                                <th>Razão Social</th>
-                                <th>Nome Fantasia</th>
-                                <th>Documento</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {resultado.slice(0, 50).map( (user, index) => {
-                                return(
-                                    <tr key={user.id} onClick={selecionado.bind(this, user, index)} style={{background: index === selectIndex ? '#87CEFA' : ''}}>
-                                        <td>SIM</td>
-                                        <td>{user.id}</td>
-                                        <td>{user.razao_social}</td>
-                                        <td>{user.nome_fantasia}</td>
-                                        <td>{user.numero_documento}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                {users.length === 0 ? (
+                    <Loading/>
+                ) : (
+                    <div className="table-responsive">
+                        <table id="table" onKeyDown={handleKeyDown} ref={tableRef} tableRef={0}>
+                            <thead>
+                                <tr>
+                                    <th>Ativo</th>
+                                    <th>Código</th>
+                                    <th>Razão Social</th>
+                                    <th>Nome Fantasia</th>
+                                    <th>Documento</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {resultado.slice(0, 50).map( (user, index) => {
+                                    return(
+                                        <tr key={user.id} onClick={selecionado.bind(this, user, index)} style={{background: index === selectIndex ? '#87CEFA' : ''}}>
+                                            <td>SIM</td>
+                                            <td>{user.id}</td>
+                                            <td>{user.razao_social}</td>
+                                            <td>{user.nome_fantasia}</td>
+                                            <td>{user.numero_documento}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </CCL.Lista>
             <C.Footer>
                 <div className="buttons">

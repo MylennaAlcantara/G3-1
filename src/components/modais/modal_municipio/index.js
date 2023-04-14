@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as M from "../modal/modal";
+import { Loading } from "../../loading/index";
 
 export const ListaMunicipio = ({close, setDadosCidades}) => {
     const [municipios, setMunicipios] = useState([]);
@@ -37,29 +38,33 @@ export const ListaMunicipio = ({close, setDadosCidades}) => {
                         <input className="search" id="search" placeholder="Buscar" value={busca} onChange={(e)=> setBusca(e.target.value)}/>
                     </div>
                 </M.Filtro>
-                <div className="table-responsive">
-                    <table id="table">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Nome</th>
-                                <th>UF</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {resultado.map((municipio) => {
-                                return(
-                                    <tr key={municipio.id} onDoubleClick={selecionado.bind(this, municipio)}>
-                                        <td>{municipio.id}</td>
-                                        <td>{municipio.nome}</td>
-                                        <td>{municipio.microrregiao.mesorregiao.UF.sigla}</td>
-                                    </tr>
-                                )
-                            })}
-                            
-                        </tbody>
-                    </table>
-                </div>
+                {municipios.length === 0 ? (
+                    <Loading/>
+                ) : (
+                    <div className="table-responsive">
+                        <table id="table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nome</th>
+                                    <th>UF</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {resultado.map((municipio) => {
+                                    return(
+                                        <tr key={municipio.id} onDoubleClick={selecionado.bind(this, municipio)}>
+                                            <td>{municipio.id}</td>
+                                            <td>{municipio.nome}</td>
+                                            <td>{municipio.microrregiao.mesorregiao.UF.sigla}</td>
+                                        </tr>
+                                    )
+                                })}
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </M.Container>
         </M.Modal>
     )

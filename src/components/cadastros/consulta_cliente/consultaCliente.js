@@ -2,9 +2,15 @@ import styled from "styled-components";
 
 export const Lista = styled.div`
     height: 70%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     .table-responsive{
         overflow-x: auto;
         height: 100%;
+        width: 100%;
     }
     table{
         border-collapse: collapse;

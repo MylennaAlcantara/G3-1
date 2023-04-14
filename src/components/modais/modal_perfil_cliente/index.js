@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import * as M from "../modal/modal";
 import * as C from "../../cadastro/cadastro";
 import { CadastroPerfil } from "../modal_cadastro_perfil/index";
+import { Loading } from "../../loading/index";
 
 export const PerfilCliente = ({close, setDadosPerfil}) => {
     const [perfil, setPerfil] = useState([]);
@@ -96,29 +97,33 @@ export const PerfilCliente = ({close, setDadosPerfil}) => {
                         <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>
                 </M.Filtro>
-                <div className="table-responsive">
-                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Descrição</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {resultado.map((perfil, index)=> {
-                                return(
-                                    <tr key={perfil.id} 
-                                        onDoubleClick={selected.bind(this, perfil)}
-                                        onClick={selecionado.bind(this, index)}
-                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
-                                        <td>{perfil.id}</td>
-                                        <td>{perfil.descricao}</td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                {perfil.length === 0 ? (
+                    <Loading/>
+                ) : (
+                    <div className="table-responsive">
+                        <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {resultado.map((perfil, index)=> {
+                                    return(
+                                        <tr key={perfil.id} 
+                                            onDoubleClick={selected.bind(this, perfil)}
+                                            onClick={selecionado.bind(this, index)}
+                                            style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                            <td>{perfil.id}</td>
+                                            <td>{perfil.descricao}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=>setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>

@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext.js";
 import * as C from "./consultar.js";
 import { rotinaPDF } from "../Relatorios/rotinaPDF.js";
-
+import {Loading} from "../loading";
 
 export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
     const {autenticar, user, empresa, filiais} = useContext(AuthContext);
-
+console.log(rotinas)
     useEffect(()=>{
         async function fetchData(){
             const response = await fetch('http://8b38091fc43d.sn.mynetname.net:2004/preVenda/ofMonth'); // api POST e PUT -> http://10.0.1.10:8091/preVenda  minha Api fake ->  http://localhost:5000/rotinas
@@ -226,42 +226,46 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
                     <div className="line"/>
             </C.Filtro>
             <C.Rotinas>
-                <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Data Venda</th>
-                            <th>Empresa</th>
-                            <th>Cliente</th>
-                            <th>Situação</th>
-                            <th>Valor</th>
-                            <th>TOP</th>
-                        </tr>
-                    </thead>
-                    <tbody >
-                        { 
-                        resultado.sort(comparar).map((item, index)=>{
-                            return(
-                                <tr 
-                                    key={item.id}
-                                    onClick={selecionado.bind(this, index, item)}
-                                    onDoubleClick={abrirRotina}
-                                    className={item.situacao === 'E' ? 'white' : item.situacao ==='B' ? 'red' : 'yellow'}
-                                    style={{background: index === selectIndex ? '#87CEFA' : ''}} >
-                                        <td>{item.id}</td>
-                                        <td>{item.dataEmissao}</td>
-                                        <td>{item.id_empresa}</td>
-                                        <td>{item.nome_cliente}</td>
-                                        <td>{item.situacao}</td>
-                                        <td>{parseFloat(item.total).toFixed(2).replace('.',',')}</td>
-                                        <td>{item.id_top}</td>
-                                </tr> 
-                            )
-                        })
-                        }
-                        
-                    </tbody>
-                </table>
+                {rotinas.length === 0 ? (
+                    <Loading/>
+                ) : (
+                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Data Venda</th>
+                                <th>Empresa</th>
+                                <th>Cliente</th>
+                                <th>Situação</th>
+                                <th>Valor</th>
+                                <th>TOP</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            { 
+                            resultado.sort(comparar).map((item, index)=>{
+                                return(
+                                    <tr 
+                                        key={item.id}
+                                        onClick={selecionado.bind(this, index, item)}
+                                        onDoubleClick={abrirRotina}
+                                        className={item.situacao === 'E' ? 'white' : item.situacao ==='B' ? 'red' : 'yellow'}
+                                        style={{background: index === selectIndex ? '#87CEFA' : ''}} >
+                                            <td>{item.id}</td>
+                                            <td>{item.dataEmissao}</td>
+                                            <td>{item.id_empresa}</td>
+                                            <td>{item.nome_cliente}</td>
+                                            <td>{item.situacao}</td>
+                                            <td>{parseFloat(item.total).toFixed(2).replace('.',',')}</td>
+                                            <td>{item.id_top}</td>
+                                    </tr> 
+                                )
+                            })
+                            }
+                            
+                        </tbody>
+                    </table>
+                )}
             </C.Rotinas>
             <C.Footer>
                 <div>

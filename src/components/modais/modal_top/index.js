@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useRef} from "react";
+import { Loading } from "../../loading/index.js";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
@@ -121,6 +122,9 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                         <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                
             </Filtro>
+            {top.length === 0 ? (
+                <Loading/>
+            ) : (
                 <div className="table-responsive">
                     <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0} >
                         <thead>
@@ -149,6 +153,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                         </tbody>
                     </table>
                 </div>
+            )}
             </Container>
         </Modal>
     );

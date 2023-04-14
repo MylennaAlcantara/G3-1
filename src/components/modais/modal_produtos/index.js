@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Header, Modal} from "./../modal/modal.js";
 import * as C from "../modal_produtos/produtos";
+import { Loading } from "../../loading/index";
 
 export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, setPromocao, dataIdSelectEmitente, dataIdSelectPgt, dataSelectTop, rotinas, tipoPgtoAlterado, emitenteAlterado, liberaEstoque, tipoMovimentacao}) => {
 
@@ -270,41 +271,47 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, setPro
                     <label>Buscar: </label>
                     <input className="search" id="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                 </C.Filtro>
+                {itens.length === 0 ? (
+                    <div className="load">
+                        <Loading/>
+                    </div>
+                ) : (
                 <C.ListItens>
-                <table className="table"  ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0}>
-                    <thead>
-                        <tr>
-                            <th>Cód. Interno</th>
-                            <th>Cód. referência</th>
-                            <th>Código Barras</th>
-                            <th>Descrição</th>
-                            <th>Qtd. Estoque</th>
-                            <th>Promoção</th>                        
-                        </tr>
-                    </thead>
-                        <tbody>
-                            { 
-                            resultado.slice(0, 8).map( (item, index) => {
-                                return(
-                                    <tr 
-                                        id="produto" 
-                                        key={item.id} 
-                                        onClick={EstoqueTrib.bind(this, item, index)} 
-                                        onDoubleClick={SelectedItem.bind(this, item)}
-                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
-                                            <td>{item.id}</td>
-                                            <td>{item.referencia}</td>
-                                            <td>{item.gtin}</td>
-                                            <td>{item.descricaoPdv}</td>
-                                            <td>{parseFloat(item.qtd_estoque).toFixed(3).replace('.',',')}</td>
-                                            <td></td>                                    
-                                    </tr>
-                                );
-                            }) 
-                            }                                    
-                        </tbody>
-                </table>
+                    <table className="table"  ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0}>
+                        <thead>
+                            <tr>
+                                <th>Cód. Interno</th>
+                                <th>Cód. referência</th>
+                                <th>Código Barras</th>
+                                <th>Descrição</th>
+                                <th>Qtd. Estoque</th>
+                                <th>Promoção</th>                        
+                            </tr>
+                        </thead>
+                            <tbody>
+                                { 
+                                resultado.slice(0, 8).map( (item, index) => {
+                                    return(
+                                        <tr 
+                                            id="produto" 
+                                            key={item.id} 
+                                            onClick={EstoqueTrib.bind(this, item, index)} 
+                                            onDoubleClick={SelectedItem.bind(this, item)}
+                                            style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                                <td>{item.id}</td>
+                                                <td>{item.referencia}</td>
+                                                <td>{item.gtin}</td>
+                                                <td>{item.descricaoPdv}</td>
+                                                <td>{parseFloat(item.qtd_estoque).toFixed(3).replace('.',',')}</td>
+                                                <td></td>                                    
+                                        </tr>
+                                    );
+                                }) 
+                                }                                    
+                            </tbody>
+                    </table>
                 </C.ListItens>
+                )}
                 <C.Valores>
                     <C.Preço>
                         <div>

@@ -45,9 +45,13 @@ export const Container = styled.div`
     width: 60%;
     height: 60%;
     background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     .table-responsive{
         overflow-x: auto;
         height: 75%;
+        width: 100%;
     }
     .content{
         display: flex;

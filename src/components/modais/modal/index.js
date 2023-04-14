@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as C from '../modal/modal';
 import "../../cadastro/index.js";
+import { Loading } from "../../loading/index";
 
 
 export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPartner, setDataIdSelectPartner, setParceiroAlterado }) => {
@@ -126,48 +127,52 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
                         <input className="search" id="search" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                    
                 </C.Filtro>
-                <div className="table-responsive">
-                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Data Cadastro</th>
-                                <th>Razão Social</th>
-                                <th>Nome Fantasia</th>
-                                <th>Documento</th>
-                                <th>Endereço</th>
-                                <th>CEP</th>
-                                <th>Município</th>
-                                <th>Telefone</th>
-                                <th>Celular</th>
-                                <th>Vendedor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {resultado.slice(0, 50).map( (user, index) => {
-                                return(
-                                    <tr 
-                                        key={user.id} 
-                                        onClick={selecionado.bind(this, user, index)}
-                                        onDoubleClick={Selected.bind(this, user)}
-                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
-                                            <td>{user.id}</td>
-                                            <td>{user.data_cadastro}</td>
-                                            <td>{user.nome}</td>
-                                            <td>{user.nome_fantasia}</td>
-                                            <td>{user.cpf_cnpj}</td>
-                                            <td>{user.endereco}</td>
-                                            <td>{user.cep}</td>
-                                            <td>{user.municipio}</td>
-                                            <td>{user.telefone}</td>
-                                            <td>{user.celular}</td>
-                                            <td></td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
+                {users.length === 0 ? (
+                    <Loading/>
+                ) : (
+                    <div className="table-responsive">
+                        <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Data Cadastro</th>
+                                    <th>Razão Social</th>
+                                    <th>Nome Fantasia</th>
+                                    <th>Documento</th>
+                                    <th>Endereço</th>
+                                    <th>CEP</th>
+                                    <th>Município</th>
+                                    <th>Telefone</th>
+                                    <th>Celular</th>
+                                    <th>Vendedor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {resultado.slice(0, 50).map( (user, index) => {
+                                    return(
+                                        <tr 
+                                            key={user.id} 
+                                            onClick={selecionado.bind(this, user, index)}
+                                            onDoubleClick={Selected.bind(this, user)}
+                                            style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                                <td>{user.id}</td>
+                                                <td>{user.data_cadastro}</td>
+                                                <td>{user.nome}</td>
+                                                <td>{user.nome_fantasia}</td>
+                                                <td>{user.cpf_cnpj}</td>
+                                                <td>{user.endereco}</td>
+                                                <td>{user.cep}</td>
+                                                <td>{user.municipio}</td>
+                                                <td>{user.telefone}</td>
+                                                <td>{user.celular}</td>
+                                                <td></td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </C.Container>
         </C.Modal>
     );

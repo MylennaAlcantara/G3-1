@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Loading } from "../../loading";
 import * as M from "../modal/modal";
 
 export const ListaPais = ({close, setDadosPaises}) => {
@@ -272,27 +273,31 @@ export const ListaPais = ({close, setDadosPaises}) => {
                         <input className="search" id="search" placeholder="Buscar" value={busca} onChange={(e)=> setBusca(e.target.value)}/>
                     </div>
                 </M.Filtro>
-                <div className="table-responsive">
-                    <table id="table">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Nome</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {resultado.map((pais) => {
-                                return(
-                                    <tr key={pais.codigo} onDoubleClick={selecionado.bind(this, pais)}>
-                                        <td>{pais.codigo}</td>
-                                        <td>{pais.nome}</td>
-                                    </tr>
-                                )
-                            })}
-                            
-                        </tbody>
-                    </table>
-                </div>
+                {paises.length === 0 ? (
+                    <Loading/>
+                ) : (
+                    <div className="table-responsive">
+                        <table id="table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nome</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {resultado.map((pais) => {
+                                    return(
+                                        <tr key={pais.codigo} onDoubleClick={selecionado.bind(this, pais)}>
+                                            <td>{pais.codigo}</td>
+                                            <td>{pais.nome}</td>
+                                        </tr>
+                                    )
+                                })}
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                )}
             </M.Container>
         </M.Modal>
     )
