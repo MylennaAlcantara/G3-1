@@ -12,7 +12,7 @@ export const ConsultarFuncionario = () => {
     const [empresas, setEmpresas] = useState([]);
     const [setores, setSetores] = useState([]);
     const [busca, setBusca] = useState('');
-    const {user, empresa} = useContext(AuthContext);
+    const {user, empresa, nivel} = useContext(AuthContext);
 
     useEffect(() => {
         async function fetchData (){
@@ -135,17 +135,25 @@ export const ConsultarFuncionario = () => {
     }
 
     const abrirEditar = async() => {
-        const responseFuncionario = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/${codigoFuncionario}`);
-        const cliente = await responseFuncionario.json();
-        if(codigoFuncionario === undefined){
-            console.log('nenhum cliente selecionado')
+        if(nivel.cadastro_funcionario_editar){
+            const responseFuncionario = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/${codigoFuncionario}`);
+            const cliente = await responseFuncionario.json();
+            if(codigoFuncionario === undefined){
+                console.log('nenhum cliente selecionado')
+            }else{
+                navigate(`/editarFuncionario/${codigoFuncionario}`);
+            }
         }else{
-            navigate(`/editarFuncionario/${codigoFuncionario}`);
+            alert("Nivel de acesso negado!");
         }
     }
     
     const novo = () => {
-        navigate('/cadastrarFuncionario');
+        if(nivel.cadastro_funcionario_incluir){
+            navigate('/cadastrarFuncionario');
+        }else{
+            alert("Nivel de acesso negado!");
+        }
     }
 
     return(

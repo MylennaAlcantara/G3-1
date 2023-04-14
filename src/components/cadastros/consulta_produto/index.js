@@ -9,7 +9,7 @@ import * as CP from "./consultarProduto";
 export const CounsultarProduto = () =>{
     const [itens, setItens] = useState([]);
     const navigate = useNavigate();
-    const {user, empresa} = useContext(AuthContext);
+    const {user, empresa, nivel} = useContext(AuthContext);
     const [busca, setBusca] = useState('');
 
     useEffect(() => {
@@ -61,7 +61,11 @@ export const CounsultarProduto = () =>{
     }
 
     const novo = () => {
-        navigate("/cadastrarProduto");
+        if(nivel.cadastro_produto_incluir){
+            navigate("/cadastrarProduto");
+        }else{
+            alert("Nivel de acesso negado!");
+        }
     }
     return(
         <C.Container>

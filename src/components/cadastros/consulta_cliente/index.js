@@ -11,7 +11,7 @@ export const ConsultarCliente = ({setCliente}) => {
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('nome');
     const navigate = useNavigate();
-    const {user, empresa} = useContext(AuthContext);
+    const {user, empresa, nivel} = useContext(AuthContext);
 
     useEffect(() => {
         async function fetchData (){
@@ -72,16 +72,24 @@ export const ConsultarCliente = ({setCliente}) => {
         setSelectIndex(index);
     }
     const abrirEditar = async() => {
-        const responseCliente = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/clientes/${codigoCliente}`); //http://10.0.1.10:8091/preVenda/id
-        const cliente = await responseCliente.json();
-        if(codigoCliente === undefined){
-            console.log('nenhum cliente selecionado')
+        if(nivel.cadastro_cliente_editar){
+            const responseCliente = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/clientes/${codigoCliente}`); //http://10.0.1.10:8091/preVenda/id
+            const cliente = await responseCliente.json();
+            if(codigoCliente === undefined){
+                console.log('nenhum cliente selecionado')
+            }else{
+            navigate(`/editarCliente/${codigoCliente}`);
+            }
         }else{
-        navigate(`/editarCliente/${codigoCliente}`);
+            alert('Nivel de acesso negado!');
         }
     }
     const novo = () => {
-        navigate('/cadastrarCliente')
+        if(nivel.cadastro_cliente_incluir){
+            navigate('/cadastrarCliente');
+        }else{
+            alert('Nivel de acesso negado!');
+        }
     }
 
     return(         

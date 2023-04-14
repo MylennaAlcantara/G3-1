@@ -26,6 +26,7 @@ export const AuthProvider = ({children}) => {
 
     const [empresa, setEmpresa] = useState([]);
     const [filiais, setFiliais] = useState([]);
+    const [nivel, setNivel] = useState([]);
 
     useEffect(() => {
         async function fetchData (){
@@ -45,6 +46,7 @@ export const AuthProvider = ({children}) => {
                         localStorage.setItem('token', 123456);
                         localStorage.setItem('id', user.id);
                         localStorage.setItem('filial', company);
+                        localStorage.setItem('nivel', user.nivelAcesso.id);
                         autenticar();
                     }else{
                     alert("Matricula e senha incorreta!");
@@ -56,15 +58,19 @@ export const AuthProvider = ({children}) => {
     const autenticar = async () => {
         const id = localStorage.getItem('id');
         const filial = localStorage.getItem('filial');
+        const nivel = localStorage.getItem('nivel')
         if(id, filial){
             const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/all`);
             const data = await response.json();
             const resposta = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
             const dados = await resposta.json();
+            const responseNivel = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/nivel/${nivel}`);
+            const dadosNivel = await responseNivel.json();
             const logado = data.filter(user => user.id === parseFloat(id));
             const empresa = dados.filter(filiais => filiais.nome_fantasia === filial);
             setUser(logado);
-            setEmpresa(empresa)
+            setEmpresa(empresa);
+            setNivel(dadosNivel);
         }else{
             localStorage.clear();
             console.log("sem usuario logado!")
@@ -72,7 +78,7 @@ export const AuthProvider = ({children}) => {
     }
 
     return (
-        <AuthContext.Provider value={{ usuario,company, matricula, password, senha, user, empresa, filiais, setCompany, setMatricula, setPassword, handleLogin, autenticar}}>
+        <AuthContext.Provider value={{ usuario,company, matricula, password, senha, user, empresa, filiais, nivel, setCompany, setMatricula, setPassword, handleLogin, autenticar}}>
             {children}
         </AuthContext.Provider>
     );

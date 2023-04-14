@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CadastrarFamilia } from "../modais/modais_tela_produtos/modal_cadastro_familia";
 import { Ipi } from "../modais/modais_tela_produtos/modal_ipi";
@@ -9,10 +9,13 @@ import { OpFuncionarios } from "../opcoes_funcionario";
 import { OpProdutos } from "../opcoes_produto";
 import { GrupoIcms } from "../modais/modais_tela_produtos/modal_grupo_icms";
 import * as C from "./navBar";
+import { AuthContext } from "../../contexts/Auth/authContext";
 
 export const NavBar = () => {
     const navigate = useNavigate();
     const [aberto, setAberto] = useState(true);
+    const {nivel} = useContext(AuthContext);
+
     const [relatorio, setRelatorio] = useState(false);
     const [cadastros, setCadastros] = useState(false);
     const [funcionario, setFuncionario] = useState(false);
@@ -66,25 +69,35 @@ export const NavBar = () => {
         <C.Container>
             {aberto ? (
                 <C.Barra>
-                    <div onClick={() =>setCadastros(!cadastros)}><img src="/images/cadastro.png"/>Cadastros</div>
-                    {cadastros ? (
+                    {nivel.cadastro_acessivel ? (
+                        <div onClick={() =>setCadastros(!cadastros)}><img src="/images/cadastro.png"/>Cadastros</div>
+                    ) : null}
+                    {cadastros && nivel.cadastro_acessivel ? (
                         <div className="gaveta">
-                            <div className="gaveta" onClick={()=> {navigate('/clientes'); fecharOp()}}>Cadastro de Cliente</div>
-                            <div style={{backgroundColor: funcionario ? '#064a8b' : '#00a5dd', borderRadius: funcionario ? '10px 10px 0 0' : '', borderBottom: '1px solid #064a8b', margin: "0"}}>
-                                <div className="gaveta" onClick={()=> {setOpfuncionario(!opFuncionario); setOpProdutos(false);}} style={{backgroundColor: funcionario ? '#064a8b' : '', border: "none"}}>
-                                    Funcionários
+                            {nivel.cadastro_cliente_acessivel ? <div className="gaveta" onClick={()=> {navigate('/clientes'); fecharOp()}}>Cadastro de Cliente</div> : null}                            
+                            {nivel.cadastro_funcionario ? (
+                                <div style={{backgroundColor: funcionario ? '#064a8b' : '#00a5dd', borderRadius: funcionario ? '10px 10px 0 0' : '', borderBottom: '1px solid #064a8b', margin: "0"}}>
+                                    <>
+                                    <div className="gaveta" onClick={()=> {setOpfuncionario(!opFuncionario); setOpProdutos(false);}} style={{backgroundColor: funcionario ? '#064a8b' : '', border: "none"}}>
+                                        Funcionários
+                                    </div>
+                                    <img src="/images/seta.png" className="seta" onClick={()=> setFuncionario(!funcionario)}/>
+                                    </>
                                 </div>
-                                <img src="/images/seta.png" className="seta" onClick={()=> setFuncionario(!funcionario)}/>
-                            </div>
+                            ) : null}
                             {funcionario === false ? (
                                 <div className="gaveta">
-                                    <div className="gaveta" onClick={()=> {navigate('/fornecedores'); fecharOp()}}>Cadastro de Fornecedor</div>
-                                    <div style={{backgroundColor: produtos ? '#064a8b' : '#00a5dd', borderRadius: produtos ? '10px 10px 0 0' : '', borderBottom: '1px solid #064a8b', margin: "0"}}>
-                                            <div className="gaveta" onClick={()=> {setOpProdutos(!opProdutos); setOpfuncionario(false)}} style={{backgroundColor: produtos ? '#064a8b' : '', border: "none"}}>
-                                                Produtos
-                                            </div>
-                                        <img src="/images/seta.png" className="seta" onClick={()=> setProdutos(!produtos)}/>
-                                    </div>
+                                    {nivel.cadastro_fornecedor ? (
+                                        <div className="gaveta" onClick={()=> {navigate('/fornecedores'); fecharOp()}}>Cadastro de Fornecedor</div>
+                                    ) : null}
+                                    {nivel.cadastro_produto_acesssivel ? (
+                                        <div style={{backgroundColor: produtos ? '#064a8b' : '#00a5dd', borderRadius: produtos ? '10px 10px 0 0' : '', borderBottom: '1px solid #064a8b', margin: "0"}}>
+                                                <div className="gaveta" onClick={()=> {setOpProdutos(!opProdutos); setOpfuncionario(false)}} style={{backgroundColor: produtos ? '#064a8b' : '', border: "none"}}>
+                                                    Produtos
+                                                </div>
+                                            <img src="/images/seta.png" className="seta" onClick={()=> setProdutos(!produtos)}/>
+                                        </div>
+                                    ) : null}
                                     {produtos ? (
                                         <div className="gaveta">
                                             <div className="gaveta" onClick={()=> {navigate('/produtos'); fecharOp()}}>Cadastro</div>
@@ -105,7 +118,7 @@ export const NavBar = () => {
                             )}
                         </div>
                     ) : null}
-                    <div onClick={()=> {navigate('/consultar'); fecharOp()}}><img src="/images/ponto-de-venda.png"/>Rotina</div>
+                    {nivel.cadastro_dav_acessivel ? <div onClick={()=> {navigate('/consultar'); fecharOp()}}><img src="/images/ponto-de-venda.png"/>Rotina</div> : null}
                     <div onClick={() =>{setRelatorio(!relatorio)}}><img src="/images/relatorio.png"/>Relatorios</div>
                     {relatorio ? (<div className="gaveta" onClick={()=> {navigate('/resumoDeFaturamento'); fecharOp()}} >Resumo de Faturamento</div>) : null}
                     <button onClick={sair}>Sair</button>

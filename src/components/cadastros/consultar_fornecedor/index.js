@@ -7,7 +7,7 @@ import { AuthContext } from "../../../contexts/Auth/authContext";
 import {Loading} from "../../loading";
 export const ConsultarFornecedor = () => {
     const navigate = useNavigate();
-    const {user, empresa} = useContext(AuthContext);
+    const {user, empresa, nivel} = useContext(AuthContext);
     const [users, setUsers] = useState([])
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('social');
@@ -67,16 +67,24 @@ export const ConsultarFornecedor = () => {
     };
 
     const novo = () => {
-        navigate("/cadastrarFornecedor");
+        if(nivel.cadastro_fornecedor_incluir){
+            navigate("/cadastrarFornecedor");
+        }else{
+            alert("Nivel de acesso negado!");
+        }
     }
     const [codigoFornecedor, setCodigoFornecedor] = useState();
     const abrirEditar = async() => {
-        const responseFornecedor = await fetch(`http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/${codigoFornecedor}`);
-        const fornecedor = await responseFornecedor.json();
-        if(codigoFornecedor === undefined || codigoFornecedor === null){
-            console.log('nenhum fornecedor selecionado')
+        if(nivel.cadastro_fornecedor_editar){
+            const responseFornecedor = await fetch(`http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/${codigoFornecedor}`);
+            const fornecedor = await responseFornecedor.json();
+            if(codigoFornecedor === undefined || codigoFornecedor === null){
+                console.log('nenhum fornecedor selecionado')
+            }else{
+            navigate(`/editarFornecedor/${codigoFornecedor}`);
+            }
         }else{
-        navigate(`/editarFornecedor/${codigoFornecedor}`);
+            alert("Nivel de acesso negado!");
         }
     }
 
