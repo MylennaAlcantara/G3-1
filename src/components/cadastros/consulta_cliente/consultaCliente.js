@@ -44,4 +44,7 @@ export const Lista = styled.div`
     #table tr:hover td{
         background-color: #87CEFA;
     }
+    @media(max-width: 425px){
+        height: 70%;
+    }
 `

@@ -20,6 +20,9 @@ export const DadosCliente = styled.div`
         box-shadow: 0 3px 5px gray;
         margin: 5px;
     }
+    @media(max-width: 425px){
+        flex-wrap: wrap;;
+    }
 `
 export const Documentos = styled.div`
     width: 100%;
@@ -56,6 +59,16 @@ export const Documentos = styled.div`
     }
     img:hover{
         cursor: pointer;
+    }
+    @media(max-width: 425px){
+        width: 100%;
+        display: flex;
+        .informacao{
+            height: 90%;
+            overflow: auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
     }
 `
 export const Informacao = styled.div`
@@ -112,6 +125,38 @@ export const Informacao = styled.div`
         align-items: center;
         select{
             margin-right: 5px;
+        }
+    }
+    @media(max-width: 425px){
+        overflow: auto;
+        width: 100%;
+        display: flex;
+        .informacao{
+            display: flex;
+            flex-direction: column;
+            align-items: end;
+        }
+        .input-unico{
+            width: 60%;
+        }
+        input{
+            width: 30%;
+        }
+        .complemento{
+            width: 30%;
+        }
+        .municipio{
+            width: 20%;
+        }
+        .div-input{
+            width: 100%;
+            diplay: flex;
+            flex-wrap: wrap;
+        }
+        .div-telefone{
+            width: 100%;
+            diplay: flex;
+            flex-wrap: wrap;
         }
     }
 `

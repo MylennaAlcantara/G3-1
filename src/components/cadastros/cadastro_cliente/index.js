@@ -476,7 +476,7 @@ export const CadastroCliente = () => {
                                     })}
                                 </select>
                             </div>
-                            <div>
+                            <div className="div-telefone">
                                 <label>Telefone: </label>
                                 <input className="codigo" value={telefone} onChange={(e)=> setTelefone(e.target.value)}/>
                                 <label>Celular: </label>

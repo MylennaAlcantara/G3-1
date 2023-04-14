@@ -175,7 +175,11 @@ export const Filtro = styled.div`
             cursor: pointer;
         }
         }
-        
+    }
+    @media(max-width: 425px){
+        top: 0;
+        display: flex;
+        flex-direction: column;
     }
 `
 export const Footer = styled.div`

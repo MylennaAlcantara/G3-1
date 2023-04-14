@@ -33,7 +33,7 @@ export const Container = styled.div`
         display: block;
         align-items: end;
         justify-content: space-between;
-        overflow-y:auto;
+        overflow: auto;
     }
 `;
 
@@ -454,7 +454,7 @@ export const Footer = styled.div`
         }
    }
     @media (max-width: 425px){
-        height: 30vh;
+        height: auto;
         form{
             margin: 0 25px;
         }
