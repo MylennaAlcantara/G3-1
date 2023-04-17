@@ -65,11 +65,11 @@ export const Barra = styled.div `
         background-color: #00a5dd;
         margin: 0;
         height: auto;
-        border-bottom: 1px solid #064a8b;
         border-radius: 0;
         display: block;
     }
     div:hover{
+        border-bottom: 1px solid #064a8b;
         cursor: pointer;
     }
     

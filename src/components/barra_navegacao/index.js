@@ -73,10 +73,10 @@ export const NavBar = () => {
                         <div onClick={() =>setCadastros(!cadastros)}><img src="/images/cadastro.png"/>Cadastros</div>
                     ) : null}
                     {cadastros && nivel.cadastro_acessivel ? (
-                        <div className="gaveta">
+                        <>
                             {nivel.cadastro_cliente_acessivel ? <div className="gaveta" onClick={()=> {navigate('/clientes'); fecharOp()}}>Cadastro de Cliente</div> : null}                            
                             {nivel.cadastro_funcionario || nivel.tabela_auxiliar_setor_funcionario || nivel.tabela_auxiliar_tipo_funcionario ? (
-                                <div style={{backgroundColor: funcionario ? '#064a8b' : '#00a5dd', borderRadius: funcionario ? '10px 10px 0 0' : '', borderBottom: '1px solid #064a8b', margin: "0"}}>
+                                <div style={{backgroundColor: funcionario ? '#064a8b' : '#00a5dd', borderRadius: funcionario ? '10px 10px 0 0' : '0', margin: "0"}}>
                                     <>
                                     <div className="gaveta" onClick={()=> {setOpfuncionario(!opFuncionario); setOpProdutos(false);}} style={{backgroundColor: funcionario ? '#064a8b' : '', border: "none"}}>
                                         Funcionários
@@ -86,12 +86,12 @@ export const NavBar = () => {
                                 </div>
                             ) : null}
                             {funcionario === false ? (
-                                <div className="gaveta">
+                                <>
                                     {nivel.cadastro_fornecedor ? (
                                         <div className="gaveta" onClick={()=> {navigate('/fornecedores'); fecharOp()}}>Cadastro de Fornecedor</div>
                                     ) : null}
                                     {nivel.cadastro_produto_acesssivel ? (
-                                        <div style={{backgroundColor: produtos ? '#064a8b' : '#00a5dd', borderRadius: produtos ? '10px 10px 0 0' : '', borderBottom: '1px solid #064a8b', margin: "0"}}>
+                                        <div style={{backgroundColor: produtos ? '#064a8b' : '#00a5dd', borderRadius: produtos ? '10px 10px 0 0' : '0', margin: "0"}}>
                                                 <div className="gaveta" onClick={()=> {setOpProdutos(!opProdutos); setOpfuncionario(false)}} style={{backgroundColor: produtos ? '#064a8b' : '', border: "none"}}>
                                                     Produtos
                                                 </div>
@@ -99,16 +99,16 @@ export const NavBar = () => {
                                         </div>
                                     ) : null}
                                     {produtos ? (
-                                        <div className="gaveta">
+                                        <>
                                             <div className="gaveta" onClick={()=> {navigate('/produtos'); fecharOp()}}>Cadastro</div>
                                             <div className="gaveta" onClick={()=> {setIsModalFamilia(true); navegarProduto()}}>Cadastrar Familia</div>
                                             <div className="gaveta" >Cadastrar Grupo</div>
                                             <div className="gaveta" onClick={()=> {setIsModalRegraIcms(true); navegarProduto()}}>Cadastrar Grupos ICMS/Regras de ICMS</div>
                                             <div className="gaveta" onClick={()=> {setIsModalGrupoIpi(true); navegarProduto()}}>Cadastrar Grupos IPI</div>
                                             <div className="gaveta" onClick={()=> {setIsModalGrupoPis(true); navegarProduto()}}>Cadastrar Grupo PIS/COFINS</div>
-                                        </div>
+                                        </>
                                     ) : null}
-                                </div>
+                                </>
                             ) : (
                                 <div className="gaveta">
                                     {nivel.cadastro_funcionario ? <div className="gaveta" onClick={()=> navigate('/funcionarios')}>Cadastro</div> : null}                                    
@@ -116,7 +116,7 @@ export const NavBar = () => {
                                     {nivel.tabela_auxiliar_tipo_funcionario ? <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true)}}>Cadastro de Nivel</div> : null}
                                 </div>
                             )}
-                        </div>
+                        </>
                     ) : null}
                     {nivel.cadastro_dav_acessivel ? <div onClick={()=> {navigate('/consultar'); fecharOp()}}><img src="/images/ponto-de-venda.png"/>Rotina</div> : null}
                     <div onClick={() =>{setRelatorio(!relatorio)}}><img src="/images/relatorio.png"/>Relatorios</div>
