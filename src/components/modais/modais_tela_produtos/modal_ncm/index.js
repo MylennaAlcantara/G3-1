@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as M from "../../modal/modal";
+import ncm from "../../../../ncm/Tabela_NCM_20230411.json";
 
 export const Ncm = ({close}) => {
     const [busca, setBusca] = useState("");
@@ -25,9 +26,6 @@ export const Ncm = ({close}) => {
                     <div>
                         <label>Buscar: </label>
                         <select style={{height: "24px"}}>
-                            {estados.map((estado)=>{
-                                return <option value={estado.sigla}>{estado.sigla}</option>
-                            })}
                         </select>
                     </div>
                     <div className="div-search">
@@ -50,6 +48,15 @@ export const Ncm = ({close}) => {
                             </tr>
                         </thead>
                         <tbody>
+                            {ncm.Nomenclaturas.map((ncm, index)=>{
+                                return(
+                                    <tr key={index}>
+                                        <td>{ncm.index}</td>
+                                        <td>{ncm.Descricao}</td>
+                                        <td>{ncm.Codigo}</td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
