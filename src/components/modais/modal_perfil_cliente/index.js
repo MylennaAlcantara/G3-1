@@ -37,7 +37,7 @@ export const PerfilCliente = ({close, setDadosPerfil}) => {
         if(filtro === 'descricao'){
             return perfil.descricao.toLowerCase().includes(busca);
         }else if(filtro === 'id'){
-            return perfil.id === Number(busca);
+            return String(perfil.id).toLowerCase().includes(busca);
         }
     })
 

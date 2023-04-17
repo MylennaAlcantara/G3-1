@@ -39,9 +39,9 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
         if(filtro === 'social'){
             return user.razao_social.toLowerCase().includes(busca);
         }else if(filtro === 'codigo'){
-            return user.id === Number(busca);
+            return String(user.id).toLowerCase().includes(busca);
         }else if(filtro === 'documento'){
-            return user.cnpj === Number(busca);
+            return String(user.cnpj).toLowerCase().includes(busca);
         }else if(filtro === 'fantasia'){
             return user.nome_fantasia.toLowerCase().includes(busca);
         }

@@ -311,6 +311,15 @@ export const CadastroCliente = () => {
     const cancelar = () => {
         navigate('/clientes');
     }
+    const comparar = (a, b) => {
+        if(a.sigla < b.sigla ){
+            return -1;
+        }else if(a.sigla > b.sigla){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 
     return (
         <C.Container>
@@ -471,7 +480,7 @@ export const CadastroCliente = () => {
                                 <label>UF: </label>
                                 <select className="codigo" id="option">
                                     <option>UF</option>
-                                    {estados.map((estado)=> {
+                                    {estados.sort(comparar).map((estado)=> {
                                         return <option value={estado.sigla}>{estado.sigla}</option>
                                     })}
                                 </select>

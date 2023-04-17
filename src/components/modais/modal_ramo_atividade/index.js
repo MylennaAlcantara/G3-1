@@ -36,7 +36,7 @@ export const RamoAtividade = ({close, setDadosRamo}) => {
         if(filtro === 'descricao'){
             return ramo.descricao.toLowerCase().includes(busca);
         }else if(filtro === 'id'){
-            return ramo.id === Number(busca);
+            return String(ramo.id).toLowerCase().includes(busca);
         }
     })
 
