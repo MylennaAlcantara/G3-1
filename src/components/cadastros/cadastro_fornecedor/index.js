@@ -209,7 +209,7 @@ export const CadastrarFornecedor = () => {
             <CC.Navegacao>
                 <div onClick={dadosGerais} style={{backgroundColor: aba === "dados-gerais" ? "white" : "", borderBottom: aba === "dados-gerais" ? "0" : ""}}>Dados Gerais</div>
                 <div onClick={outrosDados} style={{backgroundColor: aba === "outros-dados" ? "white" : "", borderBottom: aba === "outros-dados" ? "0" : ""}}>Outros Dados</div>
-                <div onClick={controleCheques} style={{backgroundColor: aba === "controle-Cheques" ? "white" : "", borderBottom: aba === "controle-Cheques" ? "0" : ""}}>Histórico</div>
+                <div onClick={historico} style={{backgroundColor: aba === "historico" ? "white" : "", borderBottom: aba === "historico" ? "0" : ""}}>Histórico</div>
                 <div onClick={controleCheques} style={{backgroundColor: aba === "controle-Cheques" ? "white" : "", borderBottom: aba === "controle-Cheques" ? "0" : ""}}>Controle de Cheques</div>
             </CC.Navegacao>
             {aba === "dados-gerais" ? 
@@ -286,9 +286,9 @@ export const CadastrarFornecedor = () => {
                                 <div className="div-input">
                                     <label>Municipio: </label>
                                     {endereco.ibge ? (
-                                        <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} style={{backgroundColor: corObrigatorios}} readOnly/>
+                                        <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onDoubleClick={()=> setIsModalMunicipio(true)} onKeyDown={keyMunicipio} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções' readOnly/>
                                     ) : (
-                                        <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} style={{backgroundColor: corObrigatorios}} readOnly/>
+                                        <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onDoubleClick={()=> setIsModalMunicipio(true)} onKeyDown={keyMunicipio} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções' readOnly/>
                                     )}
                                     <img src="/images/add.png" onClick={pesquisarMuni}/>
                                     {endereco.localidade ? (
@@ -306,7 +306,7 @@ export const CadastrarFornecedor = () => {
                                 </div>
                                 <div>
                                     <label>País:</label>
-                                    <input className="codigo" value={dadosPaises.codigo} onKeyDown={keyPaises}/>
+                                    <input className="codigo" value={dadosPaises.codigo} onKeyDown={keyPaises} onDoubleClick={()=> setIsModalPaises(true)} title='Aperte F2 para listar as opções'/>
                                     <img src="/images/LUPA.png" onClick={pesquisarPais}/>
                                     <label style={{color: "red"}}>{dadosPaises.nome}</label>
                                 </div>
@@ -318,7 +318,7 @@ export const CadastrarFornecedor = () => {
                                 </div>
                                 <div className="div-input">
                                     <label>Comprador: </label>
-                                    <input className="codigo" value={dataIdSelectSaler} onKeyDown={keyComprador} style={{backgroundColor: corObrigatorios}}/>
+                                    <input className="codigo" value={dataIdSelectSaler} onKeyDown={keyComprador} onDoubleClick={()=> setIsModalFuncionario(true)} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções'/>
                                     <input value={dataSelectSaler} readOnly/>
                                 </div>
                                 <div>

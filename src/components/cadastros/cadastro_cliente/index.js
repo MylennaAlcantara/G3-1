@@ -330,7 +330,7 @@ export const CadastroCliente = () => {
             <CC.Navegacao>
                 <div onClick={dadosGerais} style={{backgroundColor: aba === "dados-gerais" ? "white" : "", borderBottom: aba === "dados-gerais" ? "0" : ""}}>Dados Gerais</div>
                 <div onClick={dadosAdicionais} style={{backgroundColor: aba === "dados-adicionais" ? "white" : "", borderBottom: aba === "dados-adicionais" ? "0" : ""}}>Dados Adicionais</div>
-                <div onClick={foto} style={{backgroundColor: aba === "foto" ? "white" : "", borderBottom: aba === "foto" ? "0" : ""}}>Fotos</div>
+                {/*<div onClick={foto} style={{backgroundColor: aba === "foto" ? "white" : "", borderBottom: aba === "foto" ? "0" : ""}}>Fotos</div>*/}
                 <div onClick={historico} style={{backgroundColor: aba === "historico" ? "white" : "", borderBottom: aba === "historico" ? "0" : ""}}>Historico</div>
             </CC.Navegacao>
             {aba === 'dados-gerais' ? (
@@ -467,9 +467,9 @@ export const CadastroCliente = () => {
                             <div className="div-input">
                                 <label>Municipio: </label>
                                 {endereco.ibge ? (
-                                    <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
+                                    <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onDoubleClick={pesquisarMuni} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
                                 ) : (
-                                    <input className="codigo" id="codigoMunicipio" value={dadosCidades.codigo} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
+                                    <input className="codigo" id="codigoMunicipio" value={dadosCidades.codigo} onDoubleClick={pesquisarMuni} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
                                 )}
                                 <img src="/images/add.png" onClick={pesquisarMuni}/>
                                 {endereco.localidade ? (
@@ -499,12 +499,12 @@ export const CadastroCliente = () => {
                             </div>
                             <div className="div-input">
                                 <label>Perfil Tributá.: </label>
-                                <input className="codigo" value={dadosPerfil.id} onKeyDown={keyPerfil}/>
+                                <input className="codigo" value={dadosPerfil.id} onDoubleClick={()=> setIsModalPerfil(true)} onKeyDown={keyPerfil} title='Aperte F2 para listar as opções'/>
                                 <input value={dadosPerfil.descricao} readOnly/>
                             </div>
                             <div className="div-input">
                                 <label>Ramo de Ativ.: </label>
-                                <input className="codigo" value={dadosRamo.id} onKeyDown={keyRamo}/>
+                                <input className="codigo" value={dadosRamo.id} onDoubleClick={()=> setIsModalRamo(true)} onKeyDown={keyRamo} title='Aperte F2 para listar as opções'/>
                                 <input value={dadosRamo.descricao} readOnly/>
                             </div>
                             <div>
@@ -513,7 +513,7 @@ export const CadastroCliente = () => {
                             </div>
                             <div>
                                 <label>Filial: </label>
-                                <input className="codigo" value={dataIdSelectEmitente} onKeyDown={keyEmpresa}/>
+                                <input className="codigo" value={dataIdSelectEmitente} onDoubleClick={()=> setIsModalEmpresa(true)} onKeyDown={keyEmpresa} title='Aperte F2 para listar as opções'/>
                                 <input value={dataSelectEmitente} readOnly/>
                             </div>
                         </fieldset>
@@ -582,12 +582,12 @@ export const CadastroCliente = () => {
                     </textarea>
                 </div>
                 </CC.DadosAdicionais>
-            ) : aba === 'foto' ? (
+            ) : {/*aba === 'foto' ? (
                 <CC.Foto>
                     <div></div>
                     <input/>
                 </CC.Foto>
-            ) : (
+            ) :*/} (
                 <CC.Historico>
                     <CC.NavegacaoLimites>
                         <div >Contas Vencidas/NF-es</div>
@@ -767,7 +767,7 @@ export const CadastroCliente = () => {
             {isModalPerfil ? <PerfilCliente close={()=> setIsModalPerfil(false)} setDadosPerfil={setDadosPerfil} /> : null}
             {isModalRamo ? <RamoAtividade close={()=> setIsModalRamo(false)} setDadosRamo={setDadosRamo}/> : null}
             {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)} setDadosCidades={setDadosCidades}/> : null}
-            {isModalEmpresa ? <Emitente setIsModalEmpresa = {setIsModalEmpresa} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/> : null}
+            {isModalEmpresa ? <Emitente onClose={()=> setIsModalEmpresa(false)} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/> : null}
         </C.Container>
     )
 }

@@ -346,7 +346,7 @@ export const EditarFornecedor = () => {
                                 </div>
                                 <div>
                                     <label>País:</label>
-                                    <input className="codigo" value={dadosPaises.codigo} onKeyDown={keyPaises}/>
+                                    <input className="codigo" value={dadosPaises.codigo} onDoubleClick={()=> setIsModalPaises(true)} onKeyDown={keyPaises} title='Aperte F2 para listar as opções'/>
                                     <img src="/images/LUPA.png" onClick={pesquisarPais}/>
                                     <label style={{color: "red"}}>{dadosPaises.nome}</label>
                                 </div>
@@ -358,7 +358,7 @@ export const EditarFornecedor = () => {
                                 </div>
                                 <div className="div-input">
                                     <label>Comprador: </label>
-                                    <input className="codigo" value={dataIdSelectSaler} onKeyDown={keyComprador} style={{backgroundColor: corObrigatorios}}/>
+                                    <input className="codigo" value={dataIdSelectSaler} onKeyDown={keyComprador} onDoubleClick={()=> setIsModalFuncionario(true)} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções'/>
                                     <input value={dataSelectSaler} readOnly/>
                                 </div>
                                 <div>
