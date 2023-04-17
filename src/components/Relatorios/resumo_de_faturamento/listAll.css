@@ -526,6 +526,12 @@ table tr:nth-child(odd){
     font-size: 13px;
 }
 
+.filtro-tops-content{
+    position: relative;
+    bottom: 44.5vw;
+    left: 8.5vw;
+}
+
 .filtros{
     width: 50%;
     left: 3%;
@@ -799,6 +805,10 @@ table tr:nth-child(odd){
         top: 15.2%;
         right: 20%;
     }
+    .filtro-tops-content{
+        bottom: 38.5vw;
+        left: 7.8vw;
+    }
 }
 @media (max-width:1600px){
     .ModalDados{
@@ -822,6 +832,10 @@ table tr:nth-child(odd){
     }
     .filtros{
         top: 10%;
+    }
+    .filtro-tops-content{
+        bottom: 43.4vw;
+        left: 9vw;
     }
 }
 @media (max-width:1440px){
@@ -860,6 +874,10 @@ table tr:nth-child(odd){
         left: 850px;
         top: 264px;
     }
+    .filtro-tops-content{
+        bottom: 48.1vw;
+        left: 9.7vw;
+    }
 }
 @media (max-width: 1366px){
     .search-input{
@@ -890,6 +908,10 @@ table tr:nth-child(odd){
         top: 33.3%;
         left: 58.5%;
     }
+    .filtro-tops-content{
+        bottom: 50.8vw;
+        left: 10.9vw;
+    }
 }
 @media (max-width:1024px){
     .filtro1{
@@ -911,5 +933,9 @@ table tr:nth-child(odd){
     .relatorio-content{
         top: 38.2%;
         left: 64%;
+    }
+    .filtro-tops-content{
+        bottom: 67.6vw;
+        left: 13.5vw;
     }
 }

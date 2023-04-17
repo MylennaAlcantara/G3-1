@@ -422,10 +422,18 @@ export const ResumoFaturamento = () => {
                 setNomeGrupo7(data[7].grupo); setVenGrupo7(data[7].vlr_venda_total); setLuGrupo7(data[7].vlr_lucro_total)
                 setNomeGrupo8(data[8].grupo); setVenGrupo8(data[8].vlr_venda_total); setLuGrupo8(data[8].vlr_lucro_total)
                 setNomeGrupo9(data[9].grupo); setVenGrupo9(data[9].vlr_venda_total); setLuGrupo9(data[9].vlr_custo_total)
-
             })
         }
     }
+
+    const [dadoNomeForn, setNomeForn] = useState(); const [dadoNomeForn1, setNomeForn1] = useState(); const [dadoNomeForn2, setNomeForn2] = useState(); const [dadoNomeForn3, setNomeForn3] = useState(); const [dadoNomeForn4, setNomeForn4] = useState(); const [dadoNomeForn5, setNomeForn5] = useState();
+    const [dadoNomeForn6, setNomeForn6] = useState(); const [dadoNomeForn7, setNomeForn7] = useState(); const [dadoNomeForn8, setNomeForn8] = useState(); const [dadoNomeForn9, setNomeForn9] = useState();
+
+    const [dadoVenForn, setVenForn] = useState(); const [dadoVenForn1, setVenForn1] = useState(); const [dadoVenForn2, setVenForn2] = useState(); const [dadoVenForn3, setVenForn3] = useState(); const [dadoVenForn4, setVenForn4] = useState(); const [dadoVenForn5, setVenForn5] = useState();
+    const [dadoVenForn6, setVenForn6] = useState(); const [dadoVenForn7, setVenForn7] = useState(); const [dadoVenForn8, setVenForn8] = useState(); const [dadoVenForn9, setVenForn9] = useState();
+
+    const [dadoLuForn, setLuForn] = useState(); const [dadoLuForn1, setLuForn1] = useState(); const [dadoLuForn2, setLuForn2] = useState(); const [dadoLuForn3, setLuForn3] = useState(); const [dadoLuForn4, setLuForn4] = useState(); const [dadoLuForn5, setLuForn5] = useState ();
+    const [dadoLuForn6, setLuForn6] = useState(); const [dadoLuForn7, setLuForn7] = useState(); const [dadoLuForn8, setLuForn8] = useState(); const [dadoLuForn9, setLuForn9] = useState();
 
     async function setDataFornecedor() {
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFornecedor", {
@@ -436,6 +444,17 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosFornecedor(data);
+
+                setNomeForn(data[0].fornecedor); setVenForn(data[0].vlr_venda_total); setLuForn(data[0].vlr_lucro_total)
+                setNomeForn1(data[1].fornecedor); setVenForn1(data[1].vlr_venda_total); setLuForn1(data[1].vlr_lucro_total)
+                setNomeForn2(data[2].fornecedor); setVenForn2(data[2].vlr_venda_total); setLuForn2(data[2].vlr_lucro_total)
+                setNomeForn3(data[3].fornecedor); setVenForn3(data[3].vlr_venda_total); setLuForn3(data[3].vlr_lucro_total)
+                setNomeForn4(data[4].fornecedor); setVenForn4(data[4].vlr_venda_total); setLuForn4(data[4].vlr_lucro_total)
+                setNomeForn5(data[5].fornecedor); setVenForn5(data[5].vlr_venda_total); setLuForn5(data[5].vlr_lucro_total)
+                setNomeForn6(data[6].fornecedor); setVenForn6(data[6].vlr_venda_total); setLuForn6(data[6].vlr_lucro_total)
+                setNomeForn7(data[7].fornecedor); setVenForn7(data[7].vlr_venda_total); setLuForn7(data[7].vlr_lucro_total)
+                setNomeForn8(data[8].fornecedor); setVenForn8(data[8].vlr_venda_total); setLuForn8(data[8].vlr_lucro_total)
+                setNomeForn9(data[9].fornecedor); setVenForn9(data[9].vlr_venda_total); setLuForn9(data[9].vlr_lucro_total)
             })
         }
     }
@@ -1149,6 +1168,43 @@ export const ResumoFaturamento = () => {
         ["Element", "Valor", { role: "style" }],
         ["Venda", resultFor, "#bc1b2b"],
         ["Lucro", resultFor1, "#57ffe8"],
+    ]
+
+    const optionsFor0 = {
+        chart: {
+            title: "Primeiros 10 Fornecedores",
+            subtitle: "Comparativo",
+        },
+        hAxis: {
+            title: "GGG",
+            minValue: 0,
+        },
+        vAxis: {
+            title: "Valores",
+        },
+        bars: "horizontal",
+
+        colors: ["#bc1b2b", "#57ffe8"],
+
+        axes: {
+            y: {
+                0: { side: "right" },
+            },
+        },
+    };
+
+    const dataFor0 = [
+        ["Valores em R$", "Venda", "Lucro"],
+        [dadoNomeForn, dadoVenForn, dadoLuForn],
+        [dadoNomeForn1, dadoVenForn1, dadoLuForn1],
+        [dadoNomeForn2, dadoVenForn2, dadoLuForn2],
+        [dadoNomeForn3, dadoVenForn3, dadoLuForn3],
+        [dadoNomeForn4, dadoVenForn4, dadoLuForn4],
+        [dadoNomeForn5, dadoVenForn5, dadoLuForn5],
+        [dadoNomeForn6, dadoVenForn6, dadoLuForn6],
+        [dadoNomeForn7, dadoVenForn7, dadoLuForn7],
+        [dadoNomeForn8, dadoVenForn8, dadoLuForn8],
+        [dadoNomeForn9, dadoVenForn9, dadoLuForn9],
     ]
 
     const barDataFor = [
@@ -2599,6 +2655,8 @@ export const ResumoFaturamento = () => {
                                             <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} className="grafico1" />
                                             <Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} className="grafico0" />
                                         </div>
+
+                                        <Chart chartType="Bar" width="95%" height="35vw" data={dataFor0} options={optionsFor0} />
 
                                     </div>
                                 </Modal>
