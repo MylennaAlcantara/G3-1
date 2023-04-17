@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as M from "../../modal/modal";
-import ncm from "../../../../ncm/Tabela_NCM_20230411.json";
+import ncm from "../../../../ncm/Tabela_NCM.json";
 
 export const Ncm = ({close}) => {
     const [busca, setBusca] = useState("");
@@ -15,6 +15,35 @@ export const Ncm = ({close}) => {
         fetchData();
     },[])
 
+    const [filtroEscolhido, setFiltroEscolhido] = useState('todos'); 
+    const selectFiltro = document.getElementById('filtro');
+
+    const resultado2 = ncm.filter((ncm)=>{
+        if(filtroEscolhido === "AL"){
+           return ncm.uf === "AL";
+        }else if(filtroEscolhido === "PA"){
+            return ncm.uf === "PA"; 
+        }else if(filtroEscolhido === "PB"){
+            return ncm.uf === "PB"; 
+        }else if(filtroEscolhido === "PE"){
+            return ncm.uf === "PE"; 
+        }else if(filtroEscolhido === "RN"){
+            return ncm.uf === "RN"; 
+        }else{
+            return ncm;
+        }
+    })
+    
+    const resultado = resultado2.filter((ncm)=> {
+        if(filtroEscolhido === "todos"){
+            return ncm;
+        }else if(busca === ""){
+            return resultado2;
+        }else{
+            return ncm.codigo === Number(busca);
+        }
+    })
+
     return(
         <M.Modal>
             <M.Container>
@@ -25,11 +54,17 @@ export const Ncm = ({close}) => {
                 <M.Filtro>
                     <div>
                         <label>Buscar: </label>
-                        <select style={{height: "24px"}}>
+                        <select id="filtro" onChange={()=> setFiltroEscolhido(selectFiltro.value)} style={{height: "24px"}}>
+                            <option value="todos">Todos</option>
+                            <option value="AL">AL</option>
+                            <option value="PA">PA</option>
+                            <option value="PB">PB</option>
+                            <option value="PE">PE</option>
+                            <option value="RN">RN</option>
                         </select>
                     </div>
                     <div className="div-search">
-                    <input className="search" placeholder="Buscar..."/>
+                        <input className="search" placeholder="Buscar..." value={busca} onChange={(e)=> setBusca(e.target.value)}/>
                     </div>
                 </M.Filtro>
                 <div className="table-responsive">
@@ -48,12 +83,18 @@ export const Ncm = ({close}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {ncm.Nomenclaturas.map((ncm, index)=>{
+                            {resultado.map((ncm, index)=>{
                                 return(
-                                    <tr key={index}>
-                                        <td>{ncm.index}</td>
-                                        <td>{ncm.Descricao}</td>
-                                        <td>{ncm.Codigo}</td>
+                                    <tr key={index+1}>
+                                        <td>{index+1}</td>
+                                        <td>{ncm.uf}</td>
+                                        <td>{ncm.codigo}</td>
+                                        <td>{ncm.ex}</td>
+                                        <td>{ncm.descricao}</td>
+                                        <td>{ncm.nacionalfederal}</td>
+                                        <td>{ncm.importadosfederal}</td>
+                                        <td>{ncm.estadual}</td>
+                                        <td>{ncm.municipal}</td>
                                     </tr>
                                 )
                             })}
