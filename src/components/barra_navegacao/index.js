@@ -11,6 +11,8 @@ import { GrupoIcms } from "../modais/modais_tela_produtos/modal_grupo_icms";
 import * as C from "./navBar";
 import { AuthContext } from "../../contexts/Auth/authContext";
 import { OpAuxiliar } from "../opcoes_tabela_auxiliar";
+import { PerfilCliente } from "../modais/modal_perfil_cliente";
+import { RamoAtividade } from "../modais/modal_ramo_atividade";
 
 export const NavBar = () => {
     const navigate = useNavigate();
@@ -35,6 +37,10 @@ export const NavBar = () => {
     const [isModalRegraIcms, setIsModalRegraIcms] = useState(false);
 
     const [opAuxiliar, setOpAuxiliar] = useState(false);
+    const [ramo, setRamo] = useState(false);
+    const [perfil, setPerfil] = useState(false);
+    const [cadastroRamo, setCadastroRamo] = useState(false);
+    const [cadastroPerfil, setCadastroPerfil] = useState(false);
 
     function abrirBarra (){
         setAberto(!aberto);
@@ -103,12 +109,21 @@ export const NavBar = () => {
                                         </div>
                                     ) : null}
                                     {produtos === false ? (
-                                        <div style={{backgroundColor: tabelaAuxiliar ? '#064a8b' : '#00a5dd', borderRadius: tabelaAuxiliar ? '10px 10px 0 0' : '0', margin: "0"}}>
-                                            <div className="gaveta" onClick={()=> {setOpAuxiliar(!opAuxiliar); setOpProdutos(false); setOpfuncionario(false)}} style={{backgroundColor: tabelaAuxiliar ? '#064a8b' : '', border: "none"}}>
-                                                Tabelas Auxiliares
+                                        <>
+                                            <div style={{backgroundColor: tabelaAuxiliar ? '#064a8b' : '#00a5dd', borderRadius: tabelaAuxiliar ? '10px 10px 0 0' : '0', margin: "0"}}>
+                                                <div className="gaveta" onClick={()=> {setOpAuxiliar(!opAuxiliar); setOpProdutos(false); setOpfuncionario(false)}} style={{backgroundColor: tabelaAuxiliar ? '#064a8b' : '', border: "none"}}>
+                                                    Tabelas Auxiliares
+                                                </div>
+                                                <img src="/images/seta.png" className="seta" onClick={()=> setTabelaAuxiliar(!tabelaAuxiliar)}/>
                                             </div>
-                                            <img src="/images/seta.png" className="seta" onClick={()=> setTabelaAuxiliar(!tabelaAuxiliar)}/>
-                                        </div>
+                                            {tabelaAuxiliar ? (
+                                                <>
+                                                    <div className="gaveta" onClick={()=> navigate('/top')}>T.O.P</div>
+                                                    <div className="gaveta" onClick={()=> {setPerfil(true); setCadastroPerfil(true)}}>Perfil de Regra</div>
+                                                    <div className="gaveta" onClick={()=> {setRamo(true); setCadastroRamo(true)}}>Ramo de Atividade</div>
+                                                </>
+                                            ) : null}
+                                        </>
                                     ) : (
                                         <>
                                             <div className="gaveta" onClick={()=> {navigate('/produtos'); fecharOp()}}>Cadastro</div>
@@ -119,9 +134,6 @@ export const NavBar = () => {
                                             <div className="gaveta" onClick={()=> {setIsModalGrupoPis(true); navegarProduto()}}>Cadastrar Grupo PIS/COFINS</div>
                                         </>
                                     )}
-                                    {tabelaAuxiliar ? (
-                                        <div className="gaveta" onClick={()=> navigate('/top')}>T.O.P</div>
-                                    ) : null}
                                 </>
                             ) : (
                                 <div className="gaveta">
@@ -148,6 +160,8 @@ export const NavBar = () => {
             {isModalGrupoPis ? <PisCofins close={()=> setIsModalGrupoPis(false)}/> : null}
             {isModalRegraIcms ? <GrupoIcms close={()=> setIsModalRegraIcms(false)}/> : null}
             {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar}/> : null}
+            {perfil ? <PerfilCliente close={()=> setPerfil(false)} cadastroPerfil={cadastroPerfil}/> : null}
+            {ramo ? <RamoAtividade close={()=> setRamo(false)} cadastroRamo={cadastroRamo}/> : null}
         </C.Container>
     )
 }

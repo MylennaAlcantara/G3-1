@@ -4,7 +4,7 @@ import * as C from "../../cadastro/cadastro";
 import { CadastroRamo } from "../modal_cadastro_ramo/index";
 import { Loading } from "../../loading";
 
-export const RamoAtividade = ({close, setDadosRamo}) => {
+export const RamoAtividade = ({close, setDadosRamo, cadastroRamo}) => {
     const [ramos, setRamos] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -126,6 +126,9 @@ export const RamoAtividade = ({close, setDadosRamo}) => {
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>
+                        {cadastroRamo ? (
+                            <button><img src="/images/abrir.png"/>Abrir</button>
+                        ): null}
                     </div>
                 </C.Footer>
                 {modalCadastro ? <CadastroRamo close={()=> setModalCadastro(false)}/> : null}

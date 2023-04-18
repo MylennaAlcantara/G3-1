@@ -3,6 +3,7 @@ import { Loading } from "../../../loading/index";
 import * as C from "../../../cadastro/cadastro";
 import * as CO from "../../../Consultar/consultar";
 import * as CCL from "../../consulta_cliente/consultaCliente";
+import * as CP from "../../consulta_produto/consultarProduto";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../../contexts/Auth/authContext";
 
@@ -88,7 +89,7 @@ export const ConsultaTop = ({}) => {
                 </div>
                 <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>               
             </CO.Filtro>
-            <CCL.Lista>
+            <CP.Lista>
                 {top.length === 0 ? (
                     <Loading/>
                 ) : (
@@ -121,7 +122,7 @@ export const ConsultaTop = ({}) => {
                         </table>
                     </div>
                 )}
-            </CCL.Lista>
+            </CP.Lista>
             <C.Footer>
                 <div className="buttons">
                     <button onClick={()=> navigate('/cadastrarTop')}><img src="/images/add.png"/>Novo</button>

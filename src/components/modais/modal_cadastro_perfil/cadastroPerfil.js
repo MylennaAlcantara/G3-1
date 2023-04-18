@@ -4,6 +4,7 @@ export const Content = styled.div`
     height: 50%;
     display: flex;
     align-items: end;
+    width: 100%;
     .codigo{
         height: 30%;
         width: 20%;

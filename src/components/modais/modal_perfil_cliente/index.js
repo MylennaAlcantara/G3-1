@@ -4,7 +4,7 @@ import * as C from "../../cadastro/cadastro";
 import { CadastroPerfil } from "../modal_cadastro_perfil/index";
 import { Loading } from "../../loading/index";
 
-export const PerfilCliente = ({close, setDadosPerfil}) => {
+export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil}) => {
     const [perfil, setPerfil] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -127,6 +127,9 @@ export const PerfilCliente = ({close, setDadosPerfil}) => {
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=>setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>
+                        {cadastroPerfil ? (
+                            <button><img src="/images/abrir.png"/>Abrir</button>
+                        ): null}
                     </div>
                 </C.Footer>
                 {modalCadastro ? <CadastroPerfil close = {()=> setModalCadastro(false)}/> : null}
