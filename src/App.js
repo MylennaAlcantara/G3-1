@@ -22,6 +22,8 @@ import { ConsultarFuncionario } from './components/cadastros/consultar_funcionar
 import { EditarFuncionario } from './components/cadastros/editar_funcionario';
 import { Home } from './components/home';
 import { AuthContext } from './contexts/Auth/authContext';
+import { ConsultaTop } from './components/cadastros/tabela_auxiliar/consulta_top';
+import { CadastrarTop } from './components/cadastros/tabela_auxiliar/cadastro_top';
 
 function App() {    
   const {nivel} = useContext(AuthContext);
@@ -94,6 +96,10 @@ function App() {
               <Route path = '/cadastrarFuncionario' element = {token ? (<><NavBar/><CadastroFuncionario/></>) : <Login/>}/>
             ) : <Route path = '/cadastrarFuncionario' element = {token ? (<><NavBar/><ConsultarFuncionario/></>) : <Login/>}/>}
             
+            {/* Rotas de Top */}
+            <Route path = '/top' element = {token ? (<><NavBar/><ConsultaTop/></>) : <Login/>}/>
+            <Route path = '/cadastrarTop' element = {token ? (<><NavBar/><CadastrarTop/></>) : <Login/>}/>
+
             <Route path = '/resumoDeFaturamento' element = {token ? (<><NavBar/><ResumoFaturamento/></>) : <Login/>}/>
           </Routes>
     </div>

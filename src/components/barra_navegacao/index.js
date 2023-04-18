@@ -10,6 +10,7 @@ import { OpProdutos } from "../opcoes_produto";
 import { GrupoIcms } from "../modais/modais_tela_produtos/modal_grupo_icms";
 import * as C from "./navBar";
 import { AuthContext } from "../../contexts/Auth/authContext";
+import { OpAuxiliar } from "../opcoes_tabela_auxiliar";
 
 export const NavBar = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ export const NavBar = () => {
     const [relatorio, setRelatorio] = useState(false);
     const [cadastros, setCadastros] = useState(false);
     const [funcionario, setFuncionario] = useState(false);
+    const [tabelaAuxiliar, setTabelaAuxiliar] = useState(false);
     const [opFuncionario, setOpfuncionario] = useState(false);
     const [isModalSetor, setIsModalSetor] = useState(false);
     const [cadastroSetor, setCadastroSetor] = useState(false)
@@ -31,6 +33,8 @@ export const NavBar = () => {
     const [isModalGrupoIpi, setIsModalGrupoIpi] = useState(false);
     const [isModalGrupoPis, setIsModalGrupoPis] = useState(false);
     const [isModalRegraIcms, setIsModalRegraIcms] = useState(false);
+
+    const [opAuxiliar, setOpAuxiliar] = useState(false);
 
     function abrirBarra (){
         setAberto(!aberto);
@@ -78,7 +82,7 @@ export const NavBar = () => {
                             {nivel.cadastro_funcionario || nivel.tabela_auxiliar_setor_funcionario || nivel.tabela_auxiliar_tipo_funcionario ? (
                                 <div style={{backgroundColor: funcionario ? '#064a8b' : '#00a5dd', borderRadius: funcionario ? '10px 10px 0 0' : '0', margin: "0"}}>
                                     <>
-                                    <div className="gaveta" onClick={()=> {setOpfuncionario(!opFuncionario); setOpProdutos(false);}} style={{backgroundColor: funcionario ? '#064a8b' : '', border: "none"}}>
+                                    <div className="gaveta" onClick={()=> {setOpfuncionario(!opFuncionario); setOpProdutos(false); setOpAuxiliar(false);}} style={{backgroundColor: funcionario ? '#064a8b' : '', border: "none"}}>
                                         Funcionários
                                     </div>
                                     <img src="/images/seta.png" className="seta" onClick={()=> setFuncionario(!funcionario)}/>
@@ -92,13 +96,20 @@ export const NavBar = () => {
                                     ) : null}
                                     {nivel.cadastro_produto_acesssivel ? (
                                         <div style={{backgroundColor: produtos ? '#064a8b' : '#00a5dd', borderRadius: produtos ? '10px 10px 0 0' : '0', margin: "0"}}>
-                                                <div className="gaveta" onClick={()=> {setOpProdutos(!opProdutos); setOpfuncionario(false)}} style={{backgroundColor: produtos ? '#064a8b' : '', border: "none"}}>
+                                                <div className="gaveta" onClick={()=> {setOpProdutos(!opProdutos); setOpfuncionario(false); setOpAuxiliar(false);}} style={{backgroundColor: produtos ? '#064a8b' : '', border: "none"}}>
                                                     Produtos
                                                 </div>
                                             <img src="/images/seta.png" className="seta" onClick={()=> setProdutos(!produtos)}/>
                                         </div>
                                     ) : null}
-                                    {produtos ? (
+                                    {produtos === false ? (
+                                        <div style={{backgroundColor: tabelaAuxiliar ? '#064a8b' : '#00a5dd', borderRadius: tabelaAuxiliar ? '10px 10px 0 0' : '0', margin: "0"}}>
+                                            <div className="gaveta" onClick={()=> {setOpAuxiliar(!opAuxiliar); setOpProdutos(false); setOpfuncionario(false)}} style={{backgroundColor: tabelaAuxiliar ? '#064a8b' : '', border: "none"}}>
+                                                Tabelas Auxiliares
+                                            </div>
+                                            <img src="/images/seta.png" className="seta" onClick={()=> setTabelaAuxiliar(!tabelaAuxiliar)}/>
+                                        </div>
+                                    ) : (
                                         <>
                                             <div className="gaveta" onClick={()=> {navigate('/produtos'); fecharOp()}}>Cadastro</div>
                                             <div className="gaveta" onClick={()=> {setIsModalFamilia(true); navegarProduto()}}>Cadastrar Familia</div>
@@ -107,6 +118,9 @@ export const NavBar = () => {
                                             <div className="gaveta" onClick={()=> {setIsModalGrupoIpi(true); navegarProduto()}}>Cadastrar Grupos IPI</div>
                                             <div className="gaveta" onClick={()=> {setIsModalGrupoPis(true); navegarProduto()}}>Cadastrar Grupo PIS/COFINS</div>
                                         </>
+                                    )}
+                                    {tabelaAuxiliar ? (
+                                        <div className="gaveta" onClick={()=> navigate('/top')}>T.O.P</div>
                                     ) : null}
                                 </>
                             ) : (
@@ -133,6 +147,7 @@ export const NavBar = () => {
             {isModalGrupoIpi ? <Ipi close={()=> setIsModalGrupoIpi(false)}/> : null}
             {isModalGrupoPis ? <PisCofins close={()=> setIsModalGrupoPis(false)}/> : null}
             {isModalRegraIcms ? <GrupoIcms close={()=> setIsModalRegraIcms(false)}/> : null}
+            {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar}/> : null}
         </C.Container>
     )
 }
