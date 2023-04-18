@@ -42,6 +42,7 @@ function App() {
           <Routes>
             <Route path = "/" element = {<Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/> 
             <Route path = "/home" element = {token ? (<><NavBar/><Home/></>) : <Login/>}/> 
+            <Route path = '/resumoDeFaturamento' element = {token ? (<><NavBar/><ResumoFaturamento/></>) : <Login/>}/>
             
             {/* Rotas de Rotina */}
             {nivel.cadastro_dav_acessivel ? (
@@ -94,7 +95,7 @@ function App() {
               <Route path = '/cadastrarFuncionario' element = {token ? (<><NavBar/><CadastroFuncionario/></>) : <Login/>}/>
             ) : <Route path = '/cadastrarFuncionario' element = {token ? (<><NavBar/><ConsultarFuncionario/></>) : <Login/>}/>}
             
-            <Route path = '/resumoDeFaturamento' element = {token ? (<><NavBar/><ResumoFaturamento/></>) : <Login/>}/>
+            
           </Routes>
     </div>
     </AuthProvider>

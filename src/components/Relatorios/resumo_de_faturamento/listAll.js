@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './listAll.css'
 import Modal from 'react-modal'
+import { Emitente } from '../../modais/modal_emitente';
 import Chart from 'react-google-charts';
 import * as C from '../../cadastro/cadastro'
+import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
+import { Link } from 'react-router-dom';
 
 Modal.setAppElement("#root")
+
 
 export const ResumoFaturamento = () => {
 
     const [filterFilial, setIsOpenFilterFilial] = useState(true);
     const [filterTops, setIsOpenFilterTops] = useState(false);
+    const [modalTop, setIsOpenModalTop] = useState(false);
     const [modalIsOpen, setIsOpen] = useState(false);
     const [regiaoIsOpen, setIsOpenRegiao] = useState(true);
     const [filialIsOpen, setIsOpenFilial] = useState(false);
@@ -27,6 +32,13 @@ export const ResumoFaturamento = () => {
     }
     function closeFilterFilial() {
         setIsOpenFilterFilial(false);
+    }
+
+    function openModalTop() {
+        setIsOpenModalTop(true)
+    }
+    function closeModalTop() {
+        setIsOpenModalTop(false)
     }
 
     function openFilterTops() {
@@ -295,6 +307,15 @@ export const ResumoFaturamento = () => {
         }
     }
 
+    const [dadoNomeCli, setNomeCli] = useState(); const [dadoNomeCli1, setNomeCli1] = useState(); const [dadoNomeCli2, setNomeCli2] = useState(); const [dadoNomeCli3, setNomeCLi3] = useState(); const [dadoNomeCli4, setNomeCli4] = useState(); const [dadoNomeCli5, setNomeCli5] = useState();
+    const [dadoNomeCli6, setNomeCli6] = useState(); const [dadoNomeCli7, setNomeCli7] = useState(); const [dadoNomeCli8, setNomeCli8] = useState(); const [dadoNomeCli9, setNomeCli9] = useState();
+
+    const [dadoVenCli, setVenCli] = useState(); const [dadoVenCli1, setVenCli1] = useState(); const [dadoVenCli2, setVenCli2] = useState(); const [dadoVenCli3, setVenCli3] = useState(); const [dadoVenCli4, setVenCli4] = useState(); const [dadoVenCli5, setVenCli5] = useState();
+    const [dadoVenCli6, setVenCli6] = useState(); const [dadoVenCli7, setVenCli7] = useState(); const [dadoVenCli8, setVenCli8] = useState(); const [dadoVenCli9, setVenCli9] = useState();
+
+    const [dadoLiqCli, setLiqCli] = useState(); const [dadoLiqCli1, setLiqCli1] = useState(); const [dadoLiqCli2, setLiqCli2] = useState(); const [dadoLiqCli3, setLiqCli3] = useState(); const [dadoLiqCli4, setLiqCli4] = useState(); const [dadoLiqCli5, setLiqCli5] = useState();
+    const [dadoLiqCli6, setLiqCli6] = useState(); const [dadoLiqCli7, setLiqCli7] = useState(); const [dadoLiqCli8, setLiqCli8] = useState(); const [dadoLiqCli9, setLiqCli9] = useState();
+
     async function setDataCliente() {
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorCliente", {
             method: "POST",
@@ -303,7 +324,19 @@ export const ResumoFaturamento = () => {
         });
         if (res.status === 200) {
             res.json().then(data => {
+
                 setDadosCliente(data);
+
+                setNomeCli(data[0].cliente); setVenCli(data[0].vlLucroVenda); setLiqCli(data[0].vlLucroLiquido)
+                setNomeCli1(data[1].cliente); setVenCli1(data[1].vlLucroVenda); setLiqCli1(data[1].vlLucroLiquido)
+                setNomeCli2(data[2].cliente); setVenCli2(data[2].vlLucroVenda); setLiqCli2(data[2].vlLucroLiquido)
+                setNomeCLi3(data[3].cliente); setVenCli3(data[3].vlLucroVenda); setLiqCli3(data[3].vlLucroLiquido)
+                setNomeCli4(data[4].cliente); setVenCli4(data[4].vlLucroVenda); setLiqCli4(data[4].vlLucroLiquido)
+                setNomeCli5(data[5].cliente); setVenCli5(data[5].vlLucroVenda); setLiqCli5(data[5].vlLucroLiquido)
+                setNomeCli6(data[6].cliente); setVenCli6(data[6].vlLucroVenda); setLiqCli6(data[6].vlLucroLiquido)
+                setNomeCli7(data[7].cliente); setVenCli7(data[7].vlLucroVenda); setLiqCli7(data[7].vlLucroLiquido)
+                setNomeCli8(data[8].cliente); setVenCli8(data[8].vlLucroVenda); setLiqCli8(data[8].vlLucroLiquido)
+                setNomeCli9(data[9].cliente); setVenCli9(data[9].vlLucroVenda); setLiqCli9(data[9].vlLucroLiquido)
             });
 
         }
@@ -359,14 +392,14 @@ export const ResumoFaturamento = () => {
     }
 
     const [dadoNomeProd, setNomeProd] = useState(); const [dadoNomeProd1, setNomeProd1] = useState(); const [dadoNomeProd2, setNomeProd2] = useState(); const [dadoNomeProd3, setNomeProd3] = useState(); const [dadoNomeProd4, setNomeProd4] = useState(); const [dadoNomeProd5, setNomeProd5] = useState();
-    const [dadoNomeProd6, setNomeProd6] = useState(); const [dadoNomeProd7, setNomeProd7] = useState(); const [dadoNomeProd8, setNomeProd8] = useState(); const [dadoNomeProd9, setNomeProd9] = useState(); 
-    
+    const [dadoNomeProd6, setNomeProd6] = useState(); const [dadoNomeProd7, setNomeProd7] = useState(); const [dadoNomeProd8, setNomeProd8] = useState(); const [dadoNomeProd9, setNomeProd9] = useState();
+
     const [dadoVenProd, setVenProd] = useState(); const [dadoVenProd1, setVenProd1] = useState(); const [dadoVenProd2, setVenProd2] = useState(); const [dadoVenProd3, setVenProd3] = useState(); const [dadoVenProd4, setVenProd4] = useState(); const [dadoVenProd5, setVenProd5] = useState();
     const [dadoVenProd6, setVenProd6] = useState(); const [dadoVenProd7, setVenProd7] = useState(); const [dadoVenProd8, setVenProd8] = useState(); const [dadoVenProd9, setVenProd9] = useState();
-    
+
     const [dadoLuProd, setLuProd] = useState(); const [dadoLuProd1, setLuProd1] = useState(); const [dadoLuProd2, setLuProd2] = useState(); const [dadoLuProd3, setLuProd3] = useState(); const [dadoLuProd4, setLuProd4] = useState(); const [dadoLuProd5, setLuProd5] = useState();
-    const [dadoLuProd6, setLuProd6] = useState(); const [dadoLuProd7, setLuProd7] = useState(); const [dadoLuProd8, setLuProd8] = useState(); const [dadoLuProd9, setLuProd9] = useState(); 
-    
+    const [dadoLuProd6, setLuProd6] = useState(); const [dadoLuProd7, setLuProd7] = useState(); const [dadoLuProd8, setLuProd8] = useState(); const [dadoLuProd9, setLuProd9] = useState();
+
     async function setDataProduto() {
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorProduto", {
             method: "POST",
@@ -390,8 +423,6 @@ export const ResumoFaturamento = () => {
             })
         }
     }
-
-    console.log(dadoNomeProd5, dadoVenProd5, dadoLuProd5)
 
     const [dadoNomeGrupo, setNomeGrupo] = useState(); const [dadoNomeGrupo1, setNomeGrupo1] = useState(); const [dadoNomeGrupo2, setNomeGrupo2] = useState(); const [dadoNomeGrupo3, setNomeGrupo3] = useState(); const [dadoNomeGrupo4, setNomeGrupo4] = useState(); const [dadoNomeGrupo5, setNomeGrupo5] = useState();
     const [dadoNomeGrupo6, setNomeGrupo6] = useState(); const [dadoNomeGrupo7, setNomeGrupo7] = useState(); const [dadoNomeGrupo8, setNomeGrupo8] = useState(); const [dadoNomeGrupo9, setNomeGrupo9] = useState();
@@ -432,7 +463,7 @@ export const ResumoFaturamento = () => {
     const [dadoVenForn, setVenForn] = useState(); const [dadoVenForn1, setVenForn1] = useState(); const [dadoVenForn2, setVenForn2] = useState(); const [dadoVenForn3, setVenForn3] = useState(); const [dadoVenForn4, setVenForn4] = useState(); const [dadoVenForn5, setVenForn5] = useState();
     const [dadoVenForn6, setVenForn6] = useState(); const [dadoVenForn7, setVenForn7] = useState(); const [dadoVenForn8, setVenForn8] = useState(); const [dadoVenForn9, setVenForn9] = useState();
 
-    const [dadoLuForn, setLuForn] = useState(); const [dadoLuForn1, setLuForn1] = useState(); const [dadoLuForn2, setLuForn2] = useState(); const [dadoLuForn3, setLuForn3] = useState(); const [dadoLuForn4, setLuForn4] = useState(); const [dadoLuForn5, setLuForn5] = useState ();
+    const [dadoLuForn, setLuForn] = useState(); const [dadoLuForn1, setLuForn1] = useState(); const [dadoLuForn2, setLuForn2] = useState(); const [dadoLuForn3, setLuForn3] = useState(); const [dadoLuForn4, setLuForn4] = useState(); const [dadoLuForn5, setLuForn5] = useState();
     const [dadoLuForn6, setLuForn6] = useState(); const [dadoLuForn7, setLuForn7] = useState(); const [dadoLuForn8, setLuForn8] = useState(); const [dadoLuForn9, setLuForn9] = useState();
 
     async function setDataFornecedor() {
@@ -489,7 +520,18 @@ export const ResumoFaturamento = () => {
         setDataFin(e.currentTarget.value)
     }
 
-    //------------------------------------------------------------------Dashboards (Dashboard Região)----------------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------ Dashboard Geral ----------------------------------------------------------------------------------------------------------------------------------------
+
+    const [dashboardGeral, setIsOpenDashboardGeral] = useState(false);
+
+    function openDashboardGeral(){
+        setIsOpenDashboardGeral(true);
+    }
+    function closeDashboardGeral(){
+        setIsOpenDashboardGeral(false);
+    }
+
+    //------------------------------------------------------------------Dashboards Região----------------------------------------------------------------------------------------------------------------------------------------
     const [dashboardRegiao, setIsOpenDashboardRegiao] = useState(false);
 
     function openDashboardRegiao() {
@@ -791,11 +833,17 @@ export const ResumoFaturamento = () => {
     };
 
     const dataCli0 = [
-        ["Valores em R$", "", ""],
-        ["NF-e / NFC-e  ", resultCli2, resultCli3],
-        ["Custo / Lucro", resultCli4, resultCli1],
-        ["Desconto / Venda", resultCli5, resultCli],
-        ["Liquido/ Bruto", resultCli6, resultCli],
+        ["Valores em R$", "Liquido", "Venda"],
+        [dadoNomeCli, dadoLiqCli, dadoVenCli],
+        [dadoNomeCli1, dadoLiqCli1, dadoVenCli1],
+        [dadoNomeCli2, dadoLiqCli2, dadoVenCli2],
+        [dadoNomeCli3, dadoLiqCli3, dadoVenCli3],
+        [dadoNomeCli4, dadoLiqCli4, dadoVenCli4],
+        [dadoNomeCli5, dadoLiqCli5, dadoVenCli5],
+        [dadoNomeCli6, dadoLiqCli6, dadoVenCli6],
+        [dadoNomeCli7, dadoLiqCli7, dadoVenCli7],
+        [dadoNomeCli8, dadoLiqCli8, dadoVenCli8],
+        [dadoNomeCli9, dadoLiqCli9, dadoVenCli9],
     ];
 
     const optionsCli0 = {
@@ -984,7 +1032,7 @@ export const ResumoFaturamento = () => {
         [dadoNomeProd6, dadoVenProd6, dadoLuProd6],
         [dadoNomeProd7, dadoVenProd7, dadoLuProd7],
         [dadoNomeProd8, dadoVenProd8, dadoLuProd8],
-        [dadoNomeProd9, dadoVenProd9, dadoLuProd9],        
+        [dadoNomeProd9, dadoVenProd9, dadoLuProd9],
     ]
 
     const optionsProd0 = {
@@ -1041,7 +1089,7 @@ export const ResumoFaturamento = () => {
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
-//------------------------------------------------------------------------Dashboard Grupo-----------------------------------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------Dashboard Grupo-----------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardGrupo, setIsOpenDashboardGrupo] = useState(false);
     const [dashboardGrupoDetalhado, setIsOpenDashboardGrupoDetalhado] = useState(false);
@@ -1275,6 +1323,8 @@ export const ResumoFaturamento = () => {
 
                 <div className='test1'>
 
+                    <span className='header' >Resumo de Faturamento</span>
+
                     <span className='frontSpan' >Atenção: Ao selecionar NF-e, é importante destacar as T.OP.´s que serão tomadas em consideração na consulta, consultando sem nenhuma T.OP.(consulta geral), poderá vir ENTRADAS </span>
 
                     <div className='btns'>
@@ -1282,7 +1332,7 @@ export const ResumoFaturamento = () => {
                         <button className='topsBtn' onClick={abrirFiltroTops} >Tops</button>
                     </div>
 
-                    <Modal isOpen={filterFilial} onRequestClose={closeFilterFilial} contentLabel="Filtro-Filial" overlayClassName="filtroFilialOverlay" className="filtro-filial-content">
+                    <Modal isOpen={filterFilial} onRequestClose={closeFilterFilial} contentLabel="Filtro-Filial" overlayClassName="filtroFilialOverlay" shouldCloseOnEsc={false} className="filtro-filial-content">
                         <form className='filtro1'>
                             <div className='filter01' >
                                 <select className='custom-select' >
@@ -1299,52 +1349,20 @@ export const ResumoFaturamento = () => {
 
                                 </div>
 
-                                <Modal isOpen={modalIsOpen} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} onRequestClose={closeModal} contentLabel="testando" overlayClassName="modal-overlay" className="modal-content"  >
+                                <Modal isOpen={modalIsOpen} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} onRequestClose={closeModal} contentLabel="testando" overlayClassName="modal-overlay" className="modal-content1" >
 
-                                    <div className='parla' >
-
-                                        <div className='checkboxes' >
-                                            <input type="checkbox" className='cb' /> <p className='cbText' >Código</p>
-                                            <input type="checkbox" className='cb' /> <p className='cbText'>R. Social</p>
-                                        </div>
-
-                                        <div className='checkboxes1' >
-                                            <input type="checkbox" className='cb' /> <p className='cbText'>N. Fantasia</p>
-                                            <input type="checkbox" className='cb' /> <p className='cbText'>N. Documento</p>
-                                        </div>
-
-                                    </div>
-
-                                    <input type="search" name="search-form" id="search-form" className="search-input-modal" placeholder="Buscar por Filial" onChange={(e) => setQuery1(e.target.value)} />
-                                    <button className='modalBtn' onClick={closeModal}>Fechar</button>
-
-                                    <ul className="card-grid">
-                                        {(products).map((item) => (
-                                            <li>
-                                                <article className="card" key={item.id}>
-                                                    <div className="card-content">
-                                                        <h2 className="card-name">{item.title}</h2>
-                                                        <ol className="card-list">
-
-                                                            <li>Teste:{" "}<span>{item.price}</span></li>
-                                                        </ol>
-                                                    </div>
-                                                </article>
-                                            </li>
-                                        ))}
-                                    </ul>
-
+                                    <Emitente className="modal-content" onClose={closeModal} />
 
                                 </Modal>
 
-                                <div>
+                                <div className='obs'>
                                     <thead>
-                                        <tr className='obs'>
+                                        <tr>
                                             <th >Código</th>
 
                                             <th >Fantasia</th>
 
-                                            <th className='ep3' >Razão Social</th>
+                                            <p className='ep3' >Razão Social</p>
 
                                             <th >Documento</th>
 
@@ -1361,7 +1379,9 @@ export const ResumoFaturamento = () => {
                         onRequestClose={closeFilterTops}
                         contentLabel="Filtro-Tops"
                         overlayClassName="FitlroTopsOverlay"
+                        shouldCloseOnEsc={false}
                         className="filtro-tops-content">
+                        
 
                         <form className='filtro1' >
                             <div className='filter01' >
@@ -1370,27 +1390,29 @@ export const ResumoFaturamento = () => {
                                         type="search"
                                         name="search-form"
                                         id="search-form"
-                                        className="search-input"
+                                        className="search-input-top"
                                         placeholder="Buscar..."
                                         onChange={(e) => setQuery2(e.target.value)}
-                                    /><img src="/images/LUPA.png" />
+                                    /><img className='lupa2' onClick={openModalTop} src="/images/LUPA.png" />
+
+                                    <Modal isOpen={modalTop} onRequestClose={closeModalTop} contentLabel='Filtro-Tops' overlayClassName="FitlroTopsOverlay" shouldCloseOnEsc={false} className="ok" >
+
+                                        <Top onClose={closeModalTop} />
+
+                                    </Modal>
 
                                 </label>
 
-                                <div className='icon2'>
-
-                                </div>
-
                                 <div>
-                                    <thead>
+                                    <thead className='obs2'>
                                         <tr>
                                             <th>
-                                                teste1
+                                                Código
                                             </th>
 
-                                            <th>
-                                                teste2
-                                            </th>
+                                            <p className='field'>
+                                                Descrição
+                                            </p>
                                         </tr>
                                     </thead>
                                 </div>
@@ -1401,6 +1423,7 @@ export const ResumoFaturamento = () => {
                                     contentLabel="testando"
                                     overlayClassName="modal-overlay"
                                     className="modal-content2"
+                                    shouldCloseOnEsc={false}
 
                                 >
 
@@ -1474,7 +1497,7 @@ export const ResumoFaturamento = () => {
 
                         <div className="filtros" >
                             <button className='regiaoBtn' onClick={abrirRegiao} >Região</button>
-                            <Modal isOpen={regiaoIsOpen} onRequestClose={closeRegiao} contentLabel="testando1" shouldCloseOnOverlayClick={false} overlayClassName="modal-overlay" className="ModalDados" >
+                            <Modal isOpen={regiaoIsOpen} onRequestClose={closeRegiao} contentLabel="testando1" shouldCloseOnOverlayClick={false} shouldCloseOnEsc={false} overlayClassName="modal-overlay" className="ModalDados" >
                                 {dadosRegiao.length === 0 ? (
                                     <div className='c' >
                                         <Loading />
@@ -1541,7 +1564,7 @@ export const ResumoFaturamento = () => {
                                                     );
                                                 })}
 
-                                                <Modal isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles}>
+                                                <Modal shouldCloseOnEsc={false} isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles}>
 
                                                     <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
@@ -2128,7 +2151,7 @@ export const ResumoFaturamento = () => {
                                         </div>
 
                                     </div>
-                                    <Chart chartType="Bar" width="400px" height="250px" data={dataCli0} options={optionsCli0} className="grafico3" />
+                                    <Chart chartType="Bar" width="95%" height="500px" data={dataCli0} options={optionsCli0} />
                                 </Modal>
 
                             </Modal>
@@ -2136,7 +2159,7 @@ export const ResumoFaturamento = () => {
                             <button className='tipoDePagamentoBtn' onClick={abrirTipoPg} > Tipo de Pagamento </button>
                             <Modal isOpen={tipoPgIsOpen} onRequestClose={closeTipoPg} contentLabel="Tipo de Pagamento" shouldCloseOnOverlayClick={false} overlayClassName="TipoPg-overlay" className="ModalDados">
                                 {dadosTipoPagamento.length === 0 ? (
-                                    <div>
+                                    <div className='c' >
                                         <Loading />
                                     </div>
                                 ) : (
@@ -2685,6 +2708,20 @@ export const ResumoFaturamento = () => {
                     </div>
                 </div>
             </div>
+            <C.Footer  >
+                <div className='footer'>
+                    <button onClick={openDashboardGeral} className='botão0'> <img src='/images/grafico.png' className='grafico' /> Graficos Gerais</button>
+                    <Link to="/home" className='botão'> <img src='/images/voltar.png' className='grafico' /> Voltar</Link>
+                </div>
+
+                <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false}  >
+                    <div>
+                        Criado
+                    </div>
+                </Modal>
+
+
+            </C.Footer>
         </C.Container>
 
     );

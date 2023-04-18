@@ -1,9 +1,9 @@
-.test{
+.test {
     background-color: #F0F0F0;
     margin-left: 50%;
     margin-top: 10px;
     max-width: 600px;
-    height: 198px;
+    height: 180px;
     display: flex;
     border-style: outset;
     border-width: 2px;
@@ -11,12 +11,21 @@
     border-top-right-radius: 10px;
 }
 
-.close{
+.header {
+    display: flex;
+    justify-content: start;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.close {
     width: 28px;
     height: 28px;
 }
 
-.closeBtn{
+.closeBtn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,18 +35,20 @@
     height: 33px;
 }
 
-.filtro-filial-content{
+.filtro-filial-content {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 98px;
     left: 140px;
 }
 
-.dashboard-label{
+.dashboard-label {
     border-color: transparent;
     position: relative;
 }
 
-.dashboardTeste{
+.dashboardTeste {
     border-style: solid;
     border-width: 1px;
     height: 50px;
@@ -45,7 +56,7 @@
     flex-direction: row;
 }
 
-.ModalDados{
+.ModalDados {
     position: absolute;
     margin: 0px;
     padding: 0px;
@@ -59,10 +70,10 @@
     height: 37%;
     border-style: solid;
     border-width: 1px;
-  }
+}
 
 
-.dashboard{
+.dashboard {
     justify-content: space-between;
     align-items: center;
     display: flex;
@@ -71,7 +82,7 @@
     margin-left: 30px;
 }
 
-.dashboard01{
+.dashboard01 {
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -79,12 +90,12 @@
     margin-left: 30px;
 }
 
-.dashboardTexts{
+.dashboardTexts {
     display: flex;
     flex-direction: row;
 }
 
-.dashboardTpPg{
+.dashboardTpPg {
     display: flex;
     margin-top: 81px;
     margin-left: 30px;
@@ -92,16 +103,16 @@
     height: 400px;
 }
 
-.dashboard0{
+.dashboard0 {
     display: flex;
     flex-direction: column;
 }
 
-label{
+label {
     margin-left: 2px;
 }
 
-.dashboardBtn{
+.dashboardBtn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -113,7 +124,7 @@ label{
     font-size: 15px;
 }
 
-.btnDetalhes{
+.btnDetalhes {
     background-color: white;
     display: flex;
     justify-content: center;
@@ -124,11 +135,11 @@ label{
     border-width: 1px;
 }
 
-.btnDetalhes:hover{
+.btnDetalhes:hover {
     background-color: #a6f4ff;
 }
 
-.dashboardLine{
+.dashboardLine {
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -137,7 +148,7 @@ label{
     border-width: 1px;
 }
 
-.grafico1{
+.grafico1 {
     position: relative;
     bottom: 30%;
     right: 10%;
@@ -146,7 +157,7 @@ label{
     border-width: 1px;
 }
 
-.grafico0{
+.grafico0 {
     margin-left: 10px;
     position: relative;
     bottom: 30%;
@@ -156,17 +167,17 @@ label{
     border-width: 1px;
 }
 
-.grafico2{
-   position: relative;
-   border-style: solid;
-   border-width: 1px;
-   border-radius: 8px;
-   bottom: 15%; 
-   right: 15vw;
-   
+.grafico2 {
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+    bottom: 15%;
+    right: 15vw;
+
 }
 
-.a{
+.a {
     height: 250px;
     border-style: solid;
     border-radius: 10px;
@@ -177,19 +188,19 @@ label{
     margin-top: 50px;
 }
 
-.b{
+.b {
     display: flex;
     flex-direction: row;
 }
 
-.c{
+.c {
     margin-top: 4vw;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.dashboardDetalhado{
+.dashboardDetalhado {
     overflow-x: scroll;
     position: absolute;
     top: 50%;
@@ -202,7 +213,7 @@ label{
     background-color: white;
 }
 
-.graficoA{
+.graficoA {
     margin-top: 5px;
     margin-left: 10px;
     position: relative;
@@ -211,7 +222,7 @@ label{
     border-radius: 8px;
 }
 
-.graficoB{
+.graficoB {
     border-radius: 8px;
     left: 20px;
     top: 5px;
@@ -220,7 +231,7 @@ label{
     border-width: 1px;
 }
 
-.grafico3{
+.grafico3 {
     position: relative;
     border-style: solid;
     border-width: 1px;
@@ -228,19 +239,19 @@ label{
     bottom: 15%;
 }
 
-.dashboardOk{
+.dashboardOk {
     display: flex;
     flex-direction: row;
 }
 
-.tlou{
+.tlou {
     margin-top: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.bandeira{
+.bandeira {
     border-width: 1px;
     border-style: solid;
     margin-left: 10px;
@@ -249,20 +260,20 @@ label{
     margin-right: 5px;
 }
 
-.regiaoImg{
+.regiaoImg {
     margin-left: 60px;
     height: 150px;
     width: 180px;
 }
 
-.spanName{
+.spanName {
     right: 6vw;
     top: 5vw;
     position: relative;
     margin-right: 5px;
 }
 
-.bestRegion{
+.bestRegion {
     background-color: white;
     position: relative;
     border-style: solid;
@@ -275,30 +286,30 @@ label{
     margin-right: 20px;
 }
 
-.btns{
+.btns {
     position: relative;
     top: 30%;
     right: 45.5%;
 }
 
-.test1{
+.test1 {
     display: grid;
     flex-direction: row;
 }
 
-.filtro1{
+.filtro1 {
     top: 3.7vw;
     left: 1.7vw;
     background-color: #F0F0F0;
     width: 600px;
-    height: 198px;
+    height: 180px;
     position: absolute;
     border-style: outset;
     border-width: 2px;
     box-shadow: -1px -1px 1px #ABADB3;
 }
 
-h1{
+h1 {
     display: flex;
     height: 45px;
     font-size: 22px;
@@ -306,7 +317,7 @@ h1{
     align-items: center;
 }
 
-h2{
+h2 {
     border-style: solid;
     border-width: 1px;
     margin-top: 3px;
@@ -314,7 +325,7 @@ h2{
     font-size: 18px;
 }
 
-.prices{
+.prices {
     background-color: white;
     font-size: 12px;
     display: flex;
@@ -327,20 +338,20 @@ h2{
     border-radius: 6px;
 }
 
-.lupa{
+.lupa {
     cursor: pointer;
     margin-top: 2px;
     height: 30px;
     width: 30px;
 }
 
-.grafico{
+.grafico {
     height: 28px;
     width: 28px;
     margin-right: 5px;
 }
 
-.regiaoBtn{
+.regiaoBtn {
     font-size: 15px;
     border-top-left-radius: 10px;
     width: 12%;
@@ -356,7 +367,7 @@ h2{
     cursor: pointer;
 }
 
-.filialBtn{
+.filialBtn {
     font-size: 15px;
     width: 10%;
     height: 30px;
@@ -371,7 +382,7 @@ h2{
     cursor: pointer;
 }
 
-.vendedorBtn{
+.vendedorBtn {
     cursor: pointer;
     border-style: double;
     border-color: gray;
@@ -384,7 +395,7 @@ h2{
     font-size: 15px;
 }
 
-.clienteBtn{
+.clienteBtn {
     width: 9%;
     height: 30px;
     cursor: pointer;
@@ -394,10 +405,10 @@ h2{
     border-left: transparent;
     border-top: transparent;
     border-bottom: none;
-    font-size: 15px;    
+    font-size: 15px;
 }
 
-.tipoDePagamentoBtn{
+.tipoDePagamentoBtn {
     width: 23%;
     height: 30px;
     border-width: 1px;
@@ -410,7 +421,7 @@ h2{
     font-size: 15px;
 }
 
-.produtoBtn{    
+.produtoBtn {
     font-size: 15px;
     width: 10%;
     height: 30px;
@@ -424,7 +435,7 @@ h2{
 
 }
 
-.grupoBtn{
+.grupoBtn {
     width: 9%;
     height: 30px;
     font-size: 15px;
@@ -437,7 +448,7 @@ h2{
     border-bottom: none;
 }
 
-.fornecedor{
+.fornecedor {
     position: relative;
     overflow-x: scroll;
     height: 300px;
@@ -451,7 +462,7 @@ h2{
     flex-direction: column;
 }
 
-.fornecedorBtn{
+.fornecedorBtn {
     border-top-right-radius: 12px;
     width: 15%;
     height: 30px;
@@ -461,14 +472,13 @@ h2{
     border: none;
 }
 
-.modal-content{
+.modal-content {
     border-style: solid;
     width: 500px;
     height: 150px;
-
 }
 
-.dataIni{
+.dataIni {
     width: 120px;
     border-radius: 3px;
     border-width: 2px;
@@ -481,11 +491,11 @@ h2{
     margin-left: 8px;
 }
 
-.check{
+.check {
     margin-left: 8px;
 }
 
-.dataFin{
+.dataFin {
     width: 120px;
     border-radius: 5px;
     border-width: 2px;
@@ -498,18 +508,19 @@ h2{
     margin-left: 8px;
 }
 
-table tr:nth-child(even){
+table tr:nth-child(even) {
     background-color: #ffffe6;
 }
-table tr:nth-child(odd){
-    background-color: #f0f0f0;   
+
+table tr:nth-child(odd) {
+    background-color: #f0f0f0;
 }
 
-.table tr:hover td{
+.table tr:hover td {
     background-color: #87CEFA;
 }
 
-.pesquisar{
+.pesquisar {
     margin-top: 144px;
     margin-left: 20px;
     width: 117px;
@@ -517,7 +528,7 @@ table tr:nth-child(odd){
     position: absolute;
 }
 
-.checkboxs{
+.checkboxs {
     justify-content: space-between;
     margin-left: 5px;
     display: flex;
@@ -526,13 +537,21 @@ table tr:nth-child(odd){
     font-size: 13px;
 }
 
-.filtro-tops-content{
+.filtro-tops-content {
     position: relative;
     bottom: 44.5vw;
     left: 8.5vw;
 }
 
-.filtros{
+.lupa2 {
+    top: 3px;
+    right: 5px;
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+
+.filtros {
     width: 50%;
     left: 3%;
     position: relative;
@@ -543,7 +562,7 @@ table tr:nth-child(odd){
     border-width: 2px;
 }
 
-.search-input{
+.search-input {
     border-right: none;
     margin-left: 3px;
     margin-top: 2px;
@@ -551,17 +570,24 @@ table tr:nth-child(odd){
     width: 400px;
 }
 
-.filter01{
+.search-input-top {
+    position: relative;
+    top: -8.3px;
+    height: 30px;
+    width: 400px;
+}
+
+.filter01 {
     display: flex;
     flex-direction: row;
 }
 
-.icon2{
+.icon2 {
     display: flex;
     flex-direction: row-reverse;
 }
 
-.icon{
+.icon {
     cursor: pointer;
     margin-top: 2px;
     background-color: lightblue;
@@ -576,15 +602,15 @@ table tr:nth-child(odd){
     width: 30px;
 }
 
-.select{
+.select {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
     margin-top: 10px;
-    
+
 }
 
-.relatorio-content{
+.relatorio-content {
     height: 50px;
     width: 120px;
     position: absolute;
@@ -592,12 +618,12 @@ table tr:nth-child(odd){
     top: 307px;
 }
 
-.relatorioBtn{
+.relatorioBtn {
     width: 117px;
     height: 33px;
 }
 
-.topFilialBtn{
+.topFilialBtn {
     border-top-left-radius: 10px;
     height: 25px;
     border-width: 1px;
@@ -608,7 +634,7 @@ table tr:nth-child(odd){
     width: 50px;
 }
 
-.topsBtn{
+.topsBtn {
     height: 25px;
     border-width: 1px;
     border-style: outset;
@@ -621,91 +647,177 @@ table tr:nth-child(odd){
     width: 45px;
 }
 
-.obs{
+.obs {
     position: relative;
     top: 35px;
-    right: 517px;
+    left: -555px;
     display: flex;
 }
 
-.ep3{
+.obs2 {
+    position: relative;
+    top: 38px;
+    right: 435px;
+}
+
+.ep3 {
+    color: #373435;
+    font-size: 15px;
+    font-weight: bold;
+    border-color: gray;
+    background-color: white;
+    align-items: center;
+    border-style: solid;
+    border-width: 1px;
+    margin-left: 1px;
+    width: 200px;
+}
+
+.field {
+    color: #373435;
+    font-size: 15px;
+    font-weight: bold;
+    border-color: gray;
+    background-color: white;
+    align-items: center;
     border-style: solid;
     border-width: 1px;
     margin-left: 1px;
     width: 100px;
 }
 
-.clear{
+.footer {
+    top: 47%;
+    height: 40px;
+    position: relative;
+    display: flex;
+    right: 0.1%;
+    width: 100.01%;
+    flex-direction: row;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    background-color: #f0f0f0;
+    border-top: transparent;
+    justify-content: center;
+}
+
+.botão {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    border-width: 1px;
+    border-style: solid;
+    text-decoration: none;
+    height: 33px;
+    width: 117px;
+    background-color: lightgray;
+    border-color: #ABADB3;
+}
+
+.botão0 {
+    margin-right: 8px;
+    border-width: 1px;
+    border-style: solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    background-color: lightgray;
+    border-color: #ABADB3;
+    width: 170px;
+}
+
+.botão:hover {
+    background-color: #87CEFA;
+}
+
+.botão0:hover {
+    cursor: pointer;
+    background-color: #87CEFA;
+}
+
+.clear {
     margin-top: 2.5px;
     margin-left: 1px;
     height: 30px;
 }
 
-.frontSpan{
+.frontSpan {
+    margin-top: 2px;
+    font-size: 15px;
     display: flex;
     justify-content: center;
 }
 
-.filter-all{
+.filter-all {
     width: 100px;
     border-style: solid;
     border-width: 1px;
 }
 
-table{
+table {
     border-collapse: collapse;
     width: 100%;
     border: 1px solid grey;
 }
-th{    
+
+th {
     font-size: 15px;
     font-weight: bold;
-    color: #373435;    
+    color: #373435;
     background-color: #ffffff;
     border: 1px solid grey;
 }
-td{
+
+td {
     border: 1px solid grey;
 }
-table tr:nth-child(even){
+
+table tr:nth-child(even) {
     background-color: #ffffe6;
 }
-table tr:nth-child(odd){
-    background-color: #f0f0f0;   
+
+table tr:nth-child(odd) {
+    background-color: #f0f0f0;
 }
-.table tr td{
+
+.table tr td {
     cursor: pointer;
 }
-.table tr:hover td{
+
+.table tr:hover td {
     background-color: #87CEFA;
 }
 
-.filter-name{
+.filter-name {
     width: 355px;
     border-style: solid;
     border-width: 1px;
 }
 
-.filter-name-cliente{
+.filter-name-cliente {
     width: 300px;
     border-style: solid;
     border-width: 1px;
     font-size: 13px;
 }
 
-.search{
+.search {
     width: 100%;
     height: 25px;
 }
 
-.cifrões{
+.cifrões {
     margin-left: 3px;
     height: 30px;
     width: 30px;
     margin-right: 5px;
 }
 
-.modal-content{
+.modal-content {
     display: flex;
     position: absolute;
     border-radius: 12px;
@@ -713,10 +825,10 @@ table tr:nth-child(odd){
     height: 600px;
     left: 400px;
     background-color: white;
-    bottom: 100px;    
+    bottom: 100px;
 }
 
-.modalBtn{
+.modalBtn {
     cursor: pointer;
     border-radius: 12px;
     border-color: gray;
@@ -727,38 +839,38 @@ table tr:nth-child(odd){
     font-size: 13px;
 }
 
-.checkboxes{
+.checkboxes {
     padding-left: 6px;
     display: flex;
     flex-direction: row;
     justify-content: none;
 }
 
-.checkboxes1{
+.checkboxes1 {
     position: relative;
     bottom: 14px;
     display: flex;
     padding-left: 6px;
 }
 
-.cb{
+.cb {
     text-decoration: none;
     height: 30px;
     border-style: solid;
     border-radius: 8px;
 }
 
-.cbText{
+.cbText {
     font-size: 11px;
     margin-left: 3px;
 }
 
-.botãoEmodal{
+.botãoEmodal {
     display: flex;
     flex-direction: row;
 }
 
-.search-input-modal{
+.search-input-modal {
     margin-top: 5px;
     height: 30px;
     width: 400px;
@@ -766,175 +878,229 @@ table tr:nth-child(odd){
     border-radius: 12px;
 }
 
-.cancel-icon{
+.cancel-icon {
     width: 15px;
     height: 14px;
     color: red;
 }
 
-.labels{
+.labels {
     width: 1400px;
 }
 
-.labels0{
+.labels0 {
     width: 1400px;
     display: flex;
     flex-direction: row;
 }
 
-@media (max-width:1920px){
-    .filtros{
+@media (max-width:1920px) {
+    .filtros {
         top: 10%;
     }
-    .ModalDados{
+
+    .ModalDados {
         top: 69%;
     }
-    .filtro1{
+
+    .filtro1 {
         top: 2.2vw;
         left: 4.3vw;
     }
-    .btns{
+
+    .btns {
         top: 50%;
         right: 44.1%;
     }
-    .relatorio-content{
+
+    .relatorio-content {
         top: 33.5%;
         left: 65%;
     }
-    .pesquisar{
+
+    .pesquisar {
         top: 15.2%;
         right: 20%;
     }
-    .filtro-tops-content{
+
+    .filtro-tops-content {
         bottom: 38.5vw;
         left: 7.8vw;
     }
-}
-@media (max-width:1600px){
-    .ModalDados{
-        top: 70%;
+
+    .footer {
+        top: 65%;
     }
-    .filtro1{
+}
+
+@media (max-width:1600px) {
+    .ModalDados {
+        top: 68.1%;
+    }
+
+    .filtro1 {
         top: 3.8vw;
         left: 2vw;
     }
-    .btns{
+
+    .btns {
         right: 45.1%;
         top: 35%;
     }
-    .pesquisar{
+
+    .pesquisar {
         top: 18%;
         right: 15%;
     }
-    .relatorio-content{
+
+    .relatorio-content {
         top: 36.2%;
         left: 69%;
     }
-    .filtros{
+
+    .filtros {
         top: 10%;
     }
-    .filtro-tops-content{
-        bottom: 43.4vw;
-        left: 9vw;
+
+    .filtro-tops-content {
+        bottom: 44.4vw;
+        left: 8.5vw;
     }
 }
-@media (max-width:1440px){
-    .ModalDados{
+
+@media (max-width:1440px) {
+    .ModalDados {
         width: 58%;
         height: 38%;
     }
-    .test{
+
+    .test {
         width: 45%;
         margin-left: 53%;
     }
-    .search-input{
+
+    .search-input {
         width: 280px;
     }
-    .filtro1{
+
+    .filtro1 {
         left: 11vw;
         top: 1.3vw;
         width: 430px;
     }
-    .pesquisar{
+
+    .pesquisar {
         top: 15%;
         right: 23%;
     }
-    .obs{
-        right: 425px;
+
+    .obs {
+        margin-left: 120px;
     }
-    .btns{
+
+    .ep3 {
+        width: 100px;
+    }
+
+    .btns {
         right: 43.5%;
     }
-    .filtros{
+
+    .filtros {
         left: 1.5%;
         top: 10%;
         width: 70%;
     }
-    .relatorio-content{
+
+    .relatorio-content {
         left: 850px;
         top: 264px;
     }
-    .filtro-tops-content{
+
+    .filtro-tops-content {
         bottom: 48.1vw;
         left: 9.7vw;
     }
+
+    .footer {
+        top: 0%;
+    }
 }
-@media (max-width: 1366px){
-    .search-input{
+
+@media (max-width: 1366px) {
+    .search-input {
         width: 270px;
     }
-    .filtro1{
+
+    .filtro1 {
         top: 1.4vw;
         left: 9.5vw;
         width: 420px;
     }
-    .obs{
+
+    .obs {
         right: 415px;
     }
-    .btns{
+
+    .btns {
         right: 43.7%;
     }
-    .filtros{
+
+    .filtros {
         width: 95%;
         top: 5%;
     }
-    .ModalDados{
+
+    .ModalDados {
         height: 44%;
     }
-    .test{
+
+    .test {
         width: 46%;
     }
-    .relatorio-content{
+
+    .relatorio-content {
         top: 33.3%;
         left: 58.5%;
     }
-    .filtro-tops-content{
+
+    .filtro-tops-content {
         bottom: 50.8vw;
         left: 10.9vw;
     }
+
+    .footer {
+        top: 20%;
+    }
 }
-@media (max-width:1024px){
-    .filtro1{
+
+@media (max-width:1024px) {
+    .filtro1 {
         top: 5.7vw;
         left: -3vw;
     }
-    .ModalDados{
+
+    .ModalDados {
         width: 75%;
         height: 280px;
     }
-    .filtros{
+
+    .filtros {
         top: 12%;
         left: 3%;
     }
-    .pesquisar{
+
+    .pesquisar {
         top: 20%;
         right: 12%;
     }
-    .relatorio-content{
+
+    .relatorio-content {
         top: 38.2%;
         left: 64%;
     }
-    .filtro-tops-content{
+
+    .filtro-tops-content {
         bottom: 67.6vw;
         left: 13.5vw;
     }
