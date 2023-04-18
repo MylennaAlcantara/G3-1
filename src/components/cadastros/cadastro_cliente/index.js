@@ -150,6 +150,26 @@ export const CadastroCliente = () => {
             setCor('#F0F0F0');
         }
     }
+
+    async function pesquisarCnpj (){
+        const response = await fetch(`https://publica.cnpj.ws/cnpj/${cnpj}`)
+        const data = await response.json();
+        data.estabelecimento.inscricoes_estaduais.map((dado)=> setEstadual(dado.inscricao_estadual))        
+        setNome(data.razao_social);
+        setFantasia(data.estabelecimento.nome_fantasia);
+        setBairro(data.estabelecimento.bairro);
+        setTelefone(data.estabelecimento.telefone1);
+        setCep(data.estabelecimento.cep);
+        setComplemento(data.estabelecimento.complemento);
+        setLogradouro(data.estabelecimento.logradouro);
+        setNumero(data.estabelecimento.numero);
+        setEmail(data.estabelecimento.email);
+        setDadosCidades({
+            codigo: data.estabelecimento.cidade.ibge_id,
+            nome: data.estabelecimento.cidade.nome
+        });
+    }
+    console.log(logradouro)
     
     //Pegar hora do computador
     const [dataCadastro, setDataCadastro] = useState('');
@@ -374,7 +394,7 @@ export const CadastroCliente = () => {
                                     ) : (
                                         <input className="input-documentos" style={{backgroundColor: cor}} readOnly/>
                                     )}
-                                    <img src="/images/LUPA.png"/>
+                                    <img src="/images/LUPA.png" onClick={pesquisarCnpj}/>
                                 </div>
                                 <div>
                                     <label>Inscr. Municipal: </label>
@@ -449,7 +469,7 @@ export const CadastroCliente = () => {
                             </div>
                             <div className="div-input">
                                 <label>Logradouro: </label>
-                                {endereco != [] ? (
+                                {endereco.length != 0 ? (
                                     <input value={endereco.logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                 ) : (
                                     <input value={logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
@@ -458,7 +478,7 @@ export const CadastroCliente = () => {
                             </div>
                             <div>
                                 <label>Bairro: </label>
-                                {endereco != [] ? (
+                                {endereco.length != 0 ? (
                                     <input className="input-unico" id="bairro" value={endereco.bairro} onChange={(e)=> setBairro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                 ) : (
                                     <input className="input-unico" id="bairro" value={bairro} onChange={(e)=> setBairro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
@@ -582,12 +602,7 @@ export const CadastroCliente = () => {
                     </textarea>
                 </div>
                 </CC.DadosAdicionais>
-            ) : {/*aba === 'foto' ? (
-                <CC.Foto>
-                    <div></div>
-                    <input/>
-                </CC.Foto>
-            ) :*/} (
+            ) :(
                 <CC.Historico>
                     <CC.NavegacaoLimites>
                         <div >Contas Vencidas/NF-es</div>
@@ -757,7 +772,11 @@ export const CadastroCliente = () => {
                         </div>
                     )}
                 </CC.Historico>
-            )}
+            )} {/*aba === 'foto' ? (
+                <CC.Foto>
+                    <div></div>
+                    <input/>
+                </CC.Foto>*/} 
             <C.Footer>
                 <div className="buttons">
                     <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
