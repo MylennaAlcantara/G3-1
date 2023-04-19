@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from '../modal/modal';
 import { Loading } from "../../loading/index";
 
-export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado}) => {
+export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente}) => {
 
     const [users, setUsers] = useState([]);
     const [selectEmitente, setSelectEmitente] = useState();
@@ -25,6 +25,11 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
         setSelectIdEmitente(user.id);
         setDataSelectEmitente(user.razao_social);
         setDataIdSelectEmitente(user.id);
+        setDataSelectDadosEmitente({
+            fantasia: user.nome_fantasia,
+            doc: user.cnpj,
+            municipio: user.municipio
+        })
         onClose();
         focoCampoSeguinte();
         setEmitenteAlterado(true);

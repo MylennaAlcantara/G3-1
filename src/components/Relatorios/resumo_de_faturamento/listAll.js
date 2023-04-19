@@ -7,9 +7,9 @@ import * as C from '../../cadastro/cadastro'
 import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
 import { Link } from 'react-router-dom';
+import { getAllByLabelText } from '@testing-library/react';
 
 Modal.setAppElement("#root")
-
 
 export const ResumoFaturamento = () => {
 
@@ -270,28 +270,37 @@ export const ResumoFaturamento = () => {
         setCheckTOP(e.currentTarget.checked);
     }
 
-    const opcTodos = document.getElementById('todo')
+    const opcTodos = document.getElementsByClassName("custom-select01")
 
     const valorTodos = (opcTodos)
 
-    console.log(valorTodos)
+    console.log(filter)
 
     const objs =
     {
         "incluirNfe": checkNFE,
         "incluirNfce": checkNFCE,
-        "statusVenda": "%",
+        "statusVenda": filter,
         "dataInicial": dataIni,
         "dataFinal": dataFin,
         "idFilial": "1",
         "idTop": null
     }
 
-    console.log(dados)
-    console.log(dadosCliente)
-    console.log(dadosRegiao)
-    console.log(dadosVendedor)
-    console.log(dadosTipoPagamento)
+    const [dataSelectEmitente, setDataSelectEmitente] = useState();
+    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState();
+    const [dataSelectDataEmitente, setDataSelectDadosEmitente] = useState({
+        fantasia: "",
+        doc: "",
+        municipio: "",
+    });
+
+    const [dataSelectTop,setDataSelectTop] = useState({
+        id_top: "",
+        descricao: "" ,
+    })
+
+    console.log(dataSelectTop);
 
     async function setDataFilial() {
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFilial", {
@@ -1349,9 +1358,11 @@ export const ResumoFaturamento = () => {
 
                                 </div>
 
+                                <div></div>
+
                                 <Modal isOpen={modalIsOpen} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} onRequestClose={closeModal} contentLabel="testando" overlayClassName="modal-overlay" className="modal-content1" >
 
-                                    <Emitente className="modal-content" onClose={closeModal} />
+                                    <Emitente className="modal-content" onClose={closeModal} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} setDataSelectDadosEmitente={setDataSelectDadosEmitente} />
 
                                 </Modal>
 
@@ -1368,6 +1379,19 @@ export const ResumoFaturamento = () => {
 
                                             <th >Município</th>
                                         </tr>
+
+                                        <tr>
+                                            <td className='top-text' > {dataIdSelectEmitente} </td>
+
+                                            <td className='top-text'>{dataSelectDataEmitente.fantasia}</td>
+
+                                            <td className='top-text' > {dataSelectEmitente} </td>
+
+                                            <td className='top-text' >{dataSelectDataEmitente.doc}</td>
+
+                                            <td className='top-text' >{dataSelectDataEmitente.municipio}</td>
+                                        </tr>
+
                                     </thead>
                                 </div>
                             </div>
@@ -1385,7 +1409,8 @@ export const ResumoFaturamento = () => {
 
                         <form className='filtro1' >
                             <div className='filter01' >
-                                <label htmlFor="search-form">
+                                
+                                <label htmlFor="search-form" className='botãoEmodal'>
                                     <input
                                         type="search"
                                         name="search-form"
@@ -1393,11 +1418,13 @@ export const ResumoFaturamento = () => {
                                         className="search-input-top"
                                         placeholder="Buscar..."
                                         onChange={(e) => setQuery2(e.target.value)}
-                                    /><img className='lupa2' onClick={openModalTop} src="/images/LUPA.png" />
+                                    />
+                                    
+                                    <img className='lupa2' onClick={openModalTop} src="/images/LUPA.png" />
 
                                     <Modal isOpen={modalTop} onRequestClose={closeModalTop} contentLabel='Filtro-Tops' overlayClassName="FitlroTopsOverlay" shouldCloseOnEsc={false} className="ok" >
 
-                                        <Top onClose={closeModalTop} />
+                                        <Top onClose={closeModalTop} setDataSelectTop={setDataSelectTop} />
 
                                     </Modal>
 
@@ -1410,9 +1437,16 @@ export const ResumoFaturamento = () => {
                                                 Código
                                             </th>
 
-                                            <p className='field'>
+                                            <p className='ep3'>
                                                 Descrição
                                             </p>
+                                        </tr>
+
+
+                                        <tr>
+                                          <td className='top-text' >{dataSelectTop.id_top}</td>
+
+                                          <td className='top-text' >{dataSelectTop.descricao}</td>  
                                         </tr>
                                     </thead>
                                 </div>
@@ -1472,8 +1506,8 @@ export const ResumoFaturamento = () => {
                                     aria-label="Filter By Category"
                                 >
                                     <option id='todo' value="%">TODOS</option>
-                                    <option value="">VENDA</option>
-                                    <option value="">ORÇAMENTO</option>
+                                    <option value="v">VENDA</option>
+                                    <option value="o">ORÇAMENTO</option>
                                 </select>
                             </div>
 
@@ -2710,11 +2744,11 @@ export const ResumoFaturamento = () => {
             </div>
             <C.Footer  >
                 <div className='buttons'>
-                    <button onClick={openDashboardGeral} className='botão0'> <img src='/images/grafico.png' className='grafico' /> Graficos Gerais</button>
+                    <button onClick={openDashboardGeral} className='botão0'> <img src='/images/grafico.png' className='grafico' /> Graf. Gerais</button>
                     <Link to="/home" className='botão'> <img src='/images/voltar.png' /> Voltar</Link>
                 </div>
 
-                <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} style={customStyles} >
+                <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} className="dashboard-geral" >
                     
                     <button onClick={closeDashboardGeral} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>                       
 

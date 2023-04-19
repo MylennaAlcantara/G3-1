@@ -25,6 +25,11 @@
     height: 28px;
 }
 
+.top-text{
+    font-size: 11px;
+    background-color: white;
+}
+
 .closeBtn {
     display: flex;
     justify-content: center;
@@ -110,7 +115,8 @@
 }
 
 label {
-    margin-left: 2px;
+    margin-top: 3px;
+    margin-left: 1px;
 }
 
 .dashboardBtn {
@@ -687,6 +693,23 @@ table tr:nth-child(odd) {
     width: 100px;
 }
 
+.dashboard-geral{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 85%;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    background-image: url(/public/images/FundoWeb.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .botão {
     display: flex;
     justify-content: center;
@@ -1013,30 +1036,34 @@ table tr:nth-child(odd) {
 
 @media (max-width: 1366px) {
     .search-input {
-        width: 270px;
+        width: 170px;
     }
 
     .filtro1 {
-        top: 1.4vw;
-        left: 9.5vw;
-        width: 420px;
+        top: 3.4vw;
+        left: 8.5vw;
+        width: 330px;
     }
 
     .obs {
-        right: 415px;
+        left: -445px;
     }
 
     .btns {
-        right: 43.7%;
+        right: 41.7%;
+    }
+
+    .ep3{
+        width: 55px;
     }
 
     .filtros {
         width: 95%;
-        top: 5%;
+        top: 1%;
     }
 
     .ModalDados {
-        height: 44%;
+        height: 36%;
     }
 
     .test {
