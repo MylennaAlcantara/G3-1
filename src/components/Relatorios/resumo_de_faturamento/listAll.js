@@ -2709,17 +2709,29 @@ export const ResumoFaturamento = () => {
                 </div>
             </div>
             <C.Footer  >
-                <div className='footer'>
+                <div className='buttons'>
                     <button onClick={openDashboardGeral} className='botão0'> <img src='/images/grafico.png' className='grafico' /> Graficos Gerais</button>
-                    <Link to="/home" className='botão'> <img src='/images/voltar.png' className='grafico' /> Voltar</Link>
+                    <Link to="/home" className='botão'> <img src='/images/voltar.png' /> Voltar</Link>
                 </div>
 
-                <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false}  >
-                    <div>
-                        Criado
-                    </div>
-                </Modal>
+                <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} style={customStyles} >
+                    
+                    <button onClick={closeDashboardGeral} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>                       
 
+                    <h1>Dashboard Geral</h1>
+
+                    <div className='dashboardTexts'>
+
+                        <h2 className='prices' > <p className='Gtext' > R$ {resultFi1} (Venda Total) </p> </h2>
+
+                        <h2 className='prices' >Teste</h2>
+
+                        <h2 className='prices' >Teste</h2>
+
+                        <h2 className='prices' >Teste</h2>
+                    </div>                
+
+                </Modal>
 
             </C.Footer>
         </C.Container>
