@@ -499,7 +499,12 @@ export const ResumoFaturamento = () => {
         }
     }
 
+    const [showElement, setShowElement] = useState(false)
+
+    const show = () => setShowElement(true)
+
     const handleSetData = () => {
+        show()
         setDataCliente();
         setDataFilial();
         setDataRegiao();
@@ -1532,7 +1537,8 @@ export const ResumoFaturamento = () => {
                         <div className="filtros" >
                             <button className='regiaoBtn' onClick={abrirRegiao} >Região</button>
                             <Modal isOpen={regiaoIsOpen} onRequestClose={closeRegiao} contentLabel="testando1" shouldCloseOnOverlayClick={false} shouldCloseOnEsc={false} overlayClassName="modal-overlay" className="ModalDados" >
-                                {dadosRegiao.length === 0 ? (
+
+                                {dadosRegiao.length === 0 && showElement === true ? (
                                     <div className='c' >
                                         <Loading />
                                     </div>
@@ -1777,7 +1783,7 @@ export const ResumoFaturamento = () => {
 
                             <button className='filialBtn' onClick={abrirFilial} >Filial</button>
                             <Modal isOpen={filialIsOpen} onRequestClose={closeFilial} contentLabel="Filial" shouldCloseOnOverlayClick={false} overlayClassName="filial-overlay" className="ModalDados">
-                                {dados.length === 0 ? (
+                                {dados.length === 0 && showElement === true ?  (
                                     <div className='c'>
                                         <Loading />
                                     </div>
@@ -1917,7 +1923,7 @@ export const ResumoFaturamento = () => {
 
                             <button className='vendedorBtn' onClick={abrirVendedor} > Vendedor </button>
                             <Modal isOpen={vendedorIsOpen} onRequestClose={closeVendedor} contentLabel="Vendedor" shouldCloseOnOverlayClick={false} overlayClassName="vendedor-overlay" className="ModalDados">
-                                {dadosVendedor.length === 0 ? (
+                                {dadosVendedor.length === 0 && showElement === true ? (
                                     <div className='c' >
                                         <Loading />
                                     </div>
@@ -2058,7 +2064,7 @@ export const ResumoFaturamento = () => {
 
                             <button className='clienteBtn' onClick={abrirCliente} > Cliente </button>
                             <Modal isOpen={clienteIsOpen} onRequestClose={closeCliente} contentLabel="Cliente" shouldCloseOnOverlayClick={false} overlayClassName="Cliente-overlay" className="ModalDados">
-                                {dadosCliente.length === 0 ? (
+                                {dadosCliente.length === 0 && showElement === true ? (
                                     <div className='c'>
                                         <Loading />
                                     </div>
@@ -2192,7 +2198,7 @@ export const ResumoFaturamento = () => {
 
                             <button className='tipoDePagamentoBtn' onClick={abrirTipoPg} > Tipo de Pagamento </button>
                             <Modal isOpen={tipoPgIsOpen} onRequestClose={closeTipoPg} contentLabel="Tipo de Pagamento" shouldCloseOnOverlayClick={false} overlayClassName="TipoPg-overlay" className="ModalDados">
-                                {dadosTipoPagamento.length === 0 ? (
+                                {dadosTipoPagamento.length === 0 && showElement === true ? (
                                     <div className='c' >
                                         <Loading />
                                     </div>
@@ -2307,7 +2313,7 @@ export const ResumoFaturamento = () => {
 
                             <button className='produtoBtn' onClick={abrirProduto} > Produto </button>
                             <Modal isOpen={produtoIsOpen} onRequestClose={closeProduto} contentLabel="Produto" shouldCloseOnOverlayClick={false} overlayClassName="Produto-overlay" className="ModalDados">
-                                {dadosProduto.length === 0 ? (
+                                {dadosProduto.length === 0 && showElement === true ? (
                                     <div className='c' >
                                         <Loading />
                                     </div>
@@ -2445,7 +2451,7 @@ export const ResumoFaturamento = () => {
 
                             <button className='grupoBtn' onClick={abrirGrupo} > Grupo </button>
                             <Modal isOpen={grupoIsOpen} onRequestClose={closeGrupo} shouldCloseOnOverlayClick={true} overlayClassName="Grupo-overlay" contentLabel="Grupo" className="ModalDados">
-                                {dadosGrupo.length === 0 ? (
+                                {dadosGrupo.length === 0 && showElement === true ? (
                                     <div className='c' >
                                         <Loading />
                                     </div>
@@ -2611,7 +2617,7 @@ export const ResumoFaturamento = () => {
 
                             <button className='fornecedorBtn' onClick={abrirFornecedor} >Fornecedor</button>
                             <Modal isOpen={fornecdorIsOpen} onRequestClose={closeFornecedor} contentLabel="Fornecedor" shouldCloseOnOverlayClick={true} overlayClassName="Fornecedor-overlay" className="ModalDados">
-                                {dadosFornecedor.length === 0 ? (
+                                {dadosFornecedor.length === 0 && showElement === true ? (
                                     <div className='c' >
                                         <Loading />
                                     </div>
@@ -2748,7 +2754,7 @@ export const ResumoFaturamento = () => {
                     <Link to="/home" className='botão'> <img src='/images/voltar.png' /> Voltar</Link>
                 </div>
 
-                <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} className="dashboard-geral" >
+                <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} style={customStyles}>
                     
                     <button onClick={closeDashboardGeral} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>                       
 
@@ -2756,13 +2762,15 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts'>
 
-                        <h2 className='prices' > <p className='Gtext' > R$ {resultFi1} (Venda Total) </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Venda Total:  R$ {resultFi1} </p> </h2>
 
-                        <h2 className='prices' >Teste</h2>
+                        <h2 className='prices' > <p className='Gtext' > Lucro Venda Total:  R$ {resultFi2} </p> </h2>
 
-                        <h2 className='prices' >Teste</h2>
+                        <h2 className='prices' > <p className='Gtext' > Liquido Total:  R$ {resultFi6} </p> </h2>
 
-                        <h2 className='prices' >Teste</h2>
+                        <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {resultFi3} </p> </h2>
+
+                        <h2 className='prices' > <p className='Gtext' > NFC-e Total:  R$ {resultFi4} </p> </h2>
                     </div>                
 
                 </Modal>
