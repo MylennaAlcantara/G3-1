@@ -53,6 +53,7 @@ export const NavBar = () => {
     function fecharOp (){
         setOpProdutos(false);
         setOpfuncionario(false);
+        setOpAuxiliar(false);
     }
 
     function navegarProduto (){
@@ -61,15 +62,24 @@ export const NavBar = () => {
             setIsModalRegraIcms(false);
             setIsModalGrupoIpi(false);
             setIsModalGrupoPis(false);
+            setIsModalGrupo(false);
         }else if(isModalRegraIcms === true){
             setIsModalGrupoIpi(false);
             setIsModalGrupoPis(false);
             setIsModalFamilia(false);
+            setIsModalGrupo(false);
         }else if(isModalGrupoIpi === true){
             setIsModalRegraIcms(false);
             setIsModalGrupoPis(false);
             setIsModalFamilia(false);
+            setIsModalGrupo(false);
         }else if(isModalGrupoPis === true){
+            setIsModalFamilia(false);
+            setIsModalRegraIcms(false);
+            setIsModalGrupoIpi(false);
+            setIsModalGrupo(false);
+        }else if(isModalGrupo === true){
+            setIsModalGrupoPis(false);
             setIsModalFamilia(false);
             setIsModalRegraIcms(false);
             setIsModalGrupoIpi(false);
@@ -123,7 +133,7 @@ export const NavBar = () => {
                                             </div>
                                             {tabelaAuxiliar ? (
                                                 <>
-                                                    <div className="gaveta" onClick={()=> navigate('/top')}>T.O.P</div>
+                                                    <div className="gaveta" onClick={()=> {navigate('/top'); fecharOp()}}>T.O.P</div>
                                                     <div className="gaveta" onClick={()=> {setPerfil(true); setCadastroPerfil(true)}}>Perfil de Regra</div>
                                                     <div className="gaveta" onClick={()=> {setRamo(true); setCadastroRamo(true)}}>Ramo de Atividade</div>
                                                     <div className="gaveta" onClick={()=> {setTipoPgto(true); setCadastroPgto(true)}}>Tipo de Pagamento</div>
