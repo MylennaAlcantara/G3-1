@@ -730,7 +730,7 @@ table tr:nth-child(odd) {
 }
 
 .clear {
-    margin-top: 2.5px;
+    margin-top: 4.3px;
     margin-left: 1px;
     height: 30px;
 }
@@ -1149,10 +1149,12 @@ table tr:nth-child(odd) {
     }
 }
 
+
+
 @media (min-height: 900px){
     .filtro1{
-        top: 3.7vw;
-        left: 5vw;
+        top: 4.02vw;
+        left: 4.7vw;
     }
 
     .ModalDados{
@@ -1166,8 +1168,8 @@ table tr:nth-child(odd) {
     }
 
     .filtro-tops-content{
-        top: -41.6vw;
-        left: 7.31vw;
+        top: -43.32vw;
+        left: 7.5vw;
     }
 }
 

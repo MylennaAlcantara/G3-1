@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './listAll.css'
 import Modal from 'react-modal'
 import { Emitente } from '../../modais/modal_emitente';
@@ -7,11 +7,14 @@ import * as C from '../../cadastro/cadastro'
 import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
 import { Link } from 'react-router-dom';
-import { getAllByLabelText } from '@testing-library/react';
+import {AuthContext} from "../../../contexts/Auth/authContext"
+
 
 Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
+
+    const {user, empresa} = useContext(AuthContext);
 
     const [filterFilial, setIsOpenFilterFilial] = useState(true);
     const [filterTops, setIsOpenFilterTops] = useState(false);
@@ -1332,7 +1335,11 @@ export const ResumoFaturamento = () => {
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
+        
         <C.Container>
+
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+
             <div className="wrapper">
 
                 <div className='test1'>
@@ -1615,23 +1622,23 @@ export const ResumoFaturamento = () => {
                                                         <div className='dashboardTexts'>
 
                                                             <h2 className='prices'>
-                                                                <img className='cifrões' src='/images/cifrãoAmarelo.png' />  Valor de Lucro: R$ {result2}
+                                                                <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {result2}
                                                             </h2>
 
                                                             <h2 className='prices'>
-                                                                <img className='cifrões' src='/images/cifrãoVermelho.png' /> Valor de Custo: R$ {result}
+                                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {result}
                                                             </h2>
 
                                                             <h2 className='prices'>
-                                                                <img className='cifrões' src='/images/cifrãoVerde.jpg' /> Valor Total: R$ {result1}
+                                                                <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {result1}
                                                             </h2>
 
                                                             <h2 className='prices'>
-                                                                <img className='cifrões' src='/images/cifrãoRoxo.png' /> NF-e: R$ {result3}
+                                                                <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {result3}
                                                             </h2>
 
                                                             <h2 className='prices'>
-                                                                <img className='cifrões' src='/images/cifrãoAzul.png' /> NFC-e: R$ {result4}
+                                                                <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {result4}
                                                             </h2>
 
                                                         </div>
@@ -1880,31 +1887,31 @@ export const ResumoFaturamento = () => {
 
                                         <div className='dashboardTexts' >
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAmarelo.png' />  Valor de Lucro: R$ {resultFi2}
+                                                <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {resultFi2}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoVermelho.png' /> Valor de Custo: R$ {resultFi}
+                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {resultFi}
                                             </h2>
 
                                             <h2 className='prices'>
-                                                <img className='cifrões' src='/images/cifrãoVerde.jpg' /> Valor Total: R$ {resultFi1}
+                                                <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {resultFi1}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoRoxo.png' /> NF-e: R$ {resultFi3}
+                                                <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultFi3}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAzul.png' /> NFC-e: R$ {resultFi4}
+                                                <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultFi4}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoRosa.png' /> Valor Credito: R$ {resultFi5}
+                                                <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {resultFi5}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoLaranja.png' /> Valor Liquido: R$ {resultFi6}
+                                                <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {resultFi6}
                                             </h2>
                                         </div>
 
@@ -2015,39 +2022,39 @@ export const ResumoFaturamento = () => {
 
                                         <div className='dashboardTexts' >
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAmarelo.png' /> Lucro: R$ {(resultVen2).toFixed(3)}
+                                                <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: R$ {(resultVen2).toFixed(3)}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoVermelho.png' /> Custo: R$ {(resultVen).toFixed(2)}
+                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {(resultVen).toFixed(2)}
                                             </h2>
 
                                             <h2 className='prices'>
-                                                <img className='cifrões' src='/images/cifrãoVerde.jpg' /> Total: R$ {resultVen1}
+                                                <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultVen1}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoRoxo.png' /> NF-e: R$ {resultVen3}
+                                                <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultVen3}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAzul.png' /> NFC-e: R$ {resultVen4}
+                                                <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultVen4}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoRosa.png' /> Credito: R$ {resultVen5}
+                                                <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: R$ {resultVen5}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoLaranja.png' /> Cancelamento: R$ {resultVen6}
+                                                <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: R$ {resultVen6}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAzulClaro.png' /> Comissão: R$ {resultVen7}
+                                                <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: R$ {resultVen7}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoCinza.png' /> Desconto: R$ {resultVen8}
+                                                <img className='cifrões' src='/images/cifraoCinza.png' /> Desconto: R$ {resultVen8}
                                             </h2>
                                         </div>
 
@@ -2151,35 +2158,35 @@ export const ResumoFaturamento = () => {
 
                                         <div className='dashboardTexts' >
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAmarelo.png' /> Lucro Venda: R$ {resultCli1.toFixed(2)}
+                                                <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: R$ {resultCli1.toFixed(2)}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoVermelho.png' /> Custo: R$ {resultCli4}
+                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {resultCli4}
                                             </h2>
 
                                             <h2 className='prices'>
-                                                <img className='cifrões' src='/images/cifrãoVerde.jpg' /> Venda Total: R$ {resultCli.toFixed(2)}
+                                                <img className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: R$ {resultCli.toFixed(2)}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoRoxo.png' /> NF-e: R$ {resultCli2.toFixed(2)}
+                                                <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultCli2.toFixed(2)}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAzul.png' /> NFC-e: R$ {resultCli3}
+                                                <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultCli3}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoRosa.png' /> Credito: {resultCli7}
+                                                <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: {resultCli7}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoLaranja.png' /> Lucro Liqudido: R$ {resultCli6.toFixed(2)}
+                                                <img className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: R$ {resultCli6.toFixed(2)}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAzulClaro.png' /> Desconto {resultCli5}
+                                                <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {resultCli5}
                                             </h2>
 
                                         </div>
@@ -2256,19 +2263,19 @@ export const ResumoFaturamento = () => {
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoRosa.png' /> Credito Loja: R$ {resultTpPg6}
+                                                <img className='cifrões' src='/images/cifraoRosa.png' /> Credito Loja: R$ {resultTpPg6}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoLaranja.png' /> Cancelamento Total: R$ {resultTpPg7}
+                                                <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento Total: R$ {resultTpPg7}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoVermelho.png' /> Desconto Total: R$ {resultTpPg8}
+                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Desconto Total: R$ {resultTpPg8}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoVerde.jpg' /> Total: R$ {resultTpPg1}
+                                                <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultTpPg1}
                                             </h2>
 
                                         </div>
@@ -2397,19 +2404,19 @@ export const ResumoFaturamento = () => {
                                                     <div className='dashboardTexts'>
 
                                                         <h2 className='prices'>
-                                                            <img className='cifrões' src='/images/cifrãoAmarelo.png' /> Valor venda: {resultProd.toFixed(3)}
+                                                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {resultProd.toFixed(3)}
                                                         </h2>
 
                                                         <h2 className='prices'>
-                                                            <img className='cifrões' src='/images/cifrãoAzul.png' /> Lucro: {resultProd1.toFixed(3)}
+                                                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {resultProd1.toFixed(3)}
                                                         </h2>
 
                                                         <h2 className='prices'>
-                                                            <img className='cifrões' src='/images/cifrãoRosa.png' /> Sub Total: {resultProd3.toFixed(3)}
+                                                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {resultProd3.toFixed(3)}
                                                         </h2>
 
                                                         <h2 className='prices'>
-                                                            <img className='cifrões' src='/images/cifrãoCinza.png' /> Custo: {resultProd4.toFixed(3)}
+                                                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {resultProd4.toFixed(3)}
                                                         </h2>
 
                                                     </div>
@@ -2538,19 +2545,19 @@ export const ResumoFaturamento = () => {
                                         <div className='dashboardTexts' >
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoVermelho.png' /> Valor Venda: {resultGru}
+                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultGru}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoLaranja.png' /> Valor Lucro: {resultGru1}
+                                                <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {resultGru1}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAmarelo.png' /> Sub Total: {resultGru2.toFixed(2)}
+                                                <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {resultGru2.toFixed(2)}
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAzul.png' /> Desconto Total: {resultGru3}
+                                                <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {resultGru3}
                                             </h2>
 
                                         </div>
@@ -2697,19 +2704,19 @@ export const ResumoFaturamento = () => {
 
                                         <div className='dashboardTexts' >
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoVermelho.png' /> Valor Venda:
+                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda:
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAzulClaro.png' /> Valor Lucro:
+                                                <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro:
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoRoxo.png' /> Valor Custo:
+                                                <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo:
                                             </h2>
 
                                             <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifrãoAzul.png' /> Valor Desconto:
+                                                <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto:
                                             </h2>
 
                                         </div>
@@ -2766,7 +2773,7 @@ export const ResumoFaturamento = () => {
 
                         <h2 className='prices' > <p className='Gtext' > Lucro Venda Total:  R$ {resultFi2} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > Liquido Total:  R$ {resultFi6} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Liquido Total: R$ {resultFi6} </p> </h2>
 
                         <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {resultFi3} </p> </h2>
 
