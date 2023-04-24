@@ -1,14 +1,19 @@
 .test {
     background-color: #F0F0F0;
-    margin-left: 50%;
-    margin-top: 10px;
-    max-width: 600px;
+    width: 45%;
     height: 180px;
     display: flex;
     border-style: outset;
-    border-width: 2px;
-    box-shadow: -1px -1px 1px #ABADB3;
-    border-top-right-radius: 10px;
+    margin-right: 12px;
+}
+
+.filtros-top{
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .header {
@@ -18,6 +23,8 @@
     background-color: #f0f0f0;
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
+    margin: 0px;
+    padding: 0px;
 }
 
 .close {
@@ -28,6 +35,11 @@
 .top-text{
     font-size: 11px;
     background-color: white;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: row;
 }
 
 .closeBtn {
@@ -294,9 +306,8 @@ label {
 }
 
 .btns {
-    position: relative;
-    top: 30%;
-    right: 45.5%;
+    display: flex;
+    margin-left: 10px;
 }
 
 .test1 {
@@ -305,15 +316,15 @@ label {
 }
 
 .filtro1 {
-    top: 3.7vw;
-    left: 1.7vw;
-    background-color: #F0F0F0;
-    width: 600px;
-    height: 180px;
-    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 190px;
+    background-color: #f0f0f0;
     border-style: outset;
-    border-width: 2px;
-    box-shadow: -1px -1px 1px #ABADB3;
+    margin-left: 10px;
+    margin-right: 15px;
+    margin-bottom: 20px;
 }
 
 h1 {
@@ -347,7 +358,6 @@ h2 {
 
 .lupa {
     cursor: pointer;
-    margin-top: 2px;
     height: 30px;
     width: 30px;
 }
@@ -528,11 +538,9 @@ table tr:nth-child(odd) {
 }
 
 .pesquisar {
-    margin-top: 144px;
-    margin-left: 20px;
+    margin-top: 95px;
     width: 117px;
     height: 33px;
-    position: absolute;
 }
 
 .checkboxs {
@@ -559,10 +567,10 @@ table tr:nth-child(odd) {
 }
 
 .filtros {
+    margin-left: 15px;
+    display: flex;
+    justify-content: center;
     width: 50%;
-    left: 3%;
-    position: relative;
-    margin-top: 10px;
     border-style: solid;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -574,7 +582,7 @@ table tr:nth-child(odd) {
     margin-left: 3px;
     margin-top: 2px;
     height: 30px;
-    width: 400px;
+    width: 18vw;
 }
 
 .search-input-top {
@@ -655,9 +663,6 @@ table tr:nth-child(odd) {
 }
 
 .obs {
-    position: relative;
-    top: 35px;
-    left: -555px;
     display: flex;
 }
 
@@ -730,16 +735,11 @@ table tr:nth-child(odd) {
 }
 
 .clear {
-    margin-top: 4.3px;
-    margin-left: 1px;
     height: 30px;
 }
 
 .frontSpan {
-    margin-top: 2px;
     font-size: 15px;
-    display: flex;
-    justify-content: center;
 }
 
 .filter-all {
@@ -807,6 +807,11 @@ table tr:nth-child(odd) {
     margin-right: 5px;
 }
 
+span{
+    margin: 0px;
+    padding: 0px;
+}
+
 .modal-content {
     display: flex;
     position: absolute;
@@ -861,7 +866,7 @@ table tr:nth-child(odd) {
 
 .botãoEmodal {
     display: flex;
-    flex-direction: row;
+    margin-top: 2px;
 }
 
 .search-input-modal {
@@ -959,82 +964,8 @@ table tr:nth-child(odd) {
 }
 
 @media (max-width:1440px) {
-    .ModalDados {
-        width: 58%;
-        height: 38%;
-    }
-
-    .test {
-        width: 45%;
-        margin-left: 53%;
-    }
-
-    .search-input {
-        width: 280px;
-    }
-
-    .filtro1 {
-        left: 11vw;
-        top: 2.7vw;
-        width: 430px;
-    }
-
-    .pesquisar {
-        top: 15%;
-        right: 23%;
-    }
-
-    .obs {
-        margin-left: 130px;
-    }
-
-    .ep3 {
-        width: 100px;
-    }
-
-    .btns {
-        right: 43.5%;
-    }
-
-    .filtros {
-        left: 1.5%;
-        top: 0.1%;
-        width: 70%;
-    }
-
-    .relatorio-content {
-        left: 850px;
-        top: 264px;
-    }
-
-    .filtro-tops-content {
-        bottom: 48.1vw;
-        left: 9.7vw;
-    }
-
-    .footer {
-        top: 0%;
-    }
-    .search-input{
-        width: 270px;
-    }
-
-    .pesquisar{
-        top: 16%;
-        right: 22%;
-    }
-
-    .search-input-top{
-        width: 390px;
-    }
-
-    .obs2{
-        left: -425px;
-    }
-
-    .lupa2{
-        top: -1px;
-        cursor: pointer;
+    .filtro1{
+        width: 400px;
     }
 }
 
