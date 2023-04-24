@@ -24,7 +24,7 @@ export const OpAuxiliar = ({close, setOpAuxiliar}) => {
                 <C.Header>
                     <h3>Tabelas Auxiliares</h3>
                 </C.Header>
-               <CO.Opcoes>
+                <CO.Opcoes>
                     <div onClick={()=> {navigate('/top'); setOpAuxiliar(false)}}>T.O.P</div>
                     <div onClick={()=> {setModalperfil(true); setCadastroPerfil(true)}}>Perfil de Regra</div>
                     <div onClick={()=> {setModalRamo(true); setCadastroRamo(true)}}>Ramo de Atividade</div>

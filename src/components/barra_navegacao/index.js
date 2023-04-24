@@ -14,6 +14,7 @@ import { OpAuxiliar } from "../opcoes_tabela_auxiliar";
 import { PerfilCliente } from "../modais/modal_perfil_cliente";
 import { RamoAtividade } from "../modais/modal_ramo_atividade";
 import { Pgt } from "../modais/modal_pgt";
+import { Grupo } from "../modais/modais_tela_produtos/modal_icms";
 
 export const NavBar = () => {
     const navigate = useNavigate();
@@ -36,6 +37,7 @@ export const NavBar = () => {
     const [isModalGrupoIpi, setIsModalGrupoIpi] = useState(false);
     const [isModalGrupoPis, setIsModalGrupoPis] = useState(false);
     const [isModalRegraIcms, setIsModalRegraIcms] = useState(false);
+    const [isModalGrupo, setIsModalGrupo] = useState(false);
 
     const [opAuxiliar, setOpAuxiliar] = useState(false);
     const [ramo, setRamo] = useState(false);
@@ -132,7 +134,7 @@ export const NavBar = () => {
                                         <>
                                             <div className="gaveta" onClick={()=> {navigate('/produtos'); fecharOp()}}>Cadastro</div>
                                             <div className="gaveta" onClick={()=> {setIsModalFamilia(true); navegarProduto()}}>Cadastrar Familia</div>
-                                            <div className="gaveta" >Cadastrar Grupo</div>
+                                            <div className="gaveta" onClick={()=> {setIsModalGrupo(true); navegarProduto()}}>Cadastrar Grupo</div>
                                             <div className="gaveta" onClick={()=> {setIsModalRegraIcms(true); navegarProduto()}}>Cadastrar Grupos ICMS/Regras de ICMS</div>
                                             <div className="gaveta" onClick={()=> {setIsModalGrupoIpi(true); navegarProduto()}}>Cadastrar Grupos IPI</div>
                                             <div className="gaveta" onClick={()=> {setIsModalGrupoPis(true); navegarProduto()}}>Cadastrar Grupo PIS/COFINS</div>
@@ -164,6 +166,7 @@ export const NavBar = () => {
             {isModalGrupoIpi ? <Ipi close={()=> setIsModalGrupoIpi(false)}/> : null}
             {isModalGrupoPis ? <PisCofins close={()=> setIsModalGrupoPis(false)}/> : null}
             {isModalRegraIcms ? <GrupoIcms close={()=> setIsModalRegraIcms(false)}/> : null}
+            {isModalGrupo ? <Grupo close={()=> setIsModalGrupo(false)}/> : null}
             
             {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar}/> : null}
             {perfil ? <PerfilCliente close={()=> setPerfil(false)} cadastroPerfil={cadastroPerfil}/> : null}
