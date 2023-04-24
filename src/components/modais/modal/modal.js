@@ -134,6 +134,7 @@ export const Header = styled.div`
 export const Filtro = styled.div`
     width: 100%;
     display: flex;
+    align-items: center;
     margin: 5px 0;
     position: sticky;
     top: 10%;
