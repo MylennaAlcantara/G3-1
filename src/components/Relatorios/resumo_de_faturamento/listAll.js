@@ -2770,7 +2770,7 @@ export const ResumoFaturamento = () => {
 
                         <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {resultFi3} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > NFC-e Total:  R$ {resultFi4} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > NFC-e Total: R$ {resultFi4} </p> </h2>
                     </div>                
 
                 </Modal>
