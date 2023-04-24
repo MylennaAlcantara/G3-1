@@ -11,15 +11,6 @@
     border-top-right-radius: 10px;
 }
 
-.header {
-    display: flex;
-    justify-content: start;
-    font-weight: bold;
-    background-color: #f0f0f0;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-}
-
 .close {
     width: 28px;
     height: 28px;
@@ -707,25 +698,7 @@ table tr:nth-child(odd) {
     border-color: #ABADB3;
 }
 
-.botão0 {
-    margin-right: 8px;
-    border-width: 1px;
-    border-style: solid;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 35px;
-    background-color: lightgray;
-    border-color: #ABADB3;
-    width: 170px;
-}
-
 .botão:hover {
-    background-color: #87CEFA;
-}
-
-.botão0:hover {
-    cursor: pointer;
     background-color: #87CEFA;
 }
 

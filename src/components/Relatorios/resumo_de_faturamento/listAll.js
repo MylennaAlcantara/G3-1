@@ -6,7 +6,7 @@ import Chart from 'react-google-charts';
 import * as C from '../../cadastro/cadastro'
 import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {AuthContext} from "../../../contexts/Auth/authContext"
 
 
@@ -15,6 +15,7 @@ Modal.setAppElement("#root")
 export const ResumoFaturamento = () => {
 
     const {user, empresa} = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const [filterFilial, setIsOpenFilterFilial] = useState(true);
     const [filterTops, setIsOpenFilterTops] = useState(false);
@@ -1344,7 +1345,9 @@ export const ResumoFaturamento = () => {
 
                 <div className='test1'>
 
-                    <span className='header' >Resumo de Faturamento</span>
+                    <C.Header>
+                        <h3>Resumo de Faturamento</h3>
+                    </C.Header>
 
                     <span className='frontSpan' >Atenção: Ao selecionar NF-e, é importante destacar as T.OP.´s que serão tomadas em consideração na consulta, consultando sem nenhuma T.OP.(consulta geral), poderá vir ENTRADAS </span>
 
@@ -2757,8 +2760,8 @@ export const ResumoFaturamento = () => {
             </div>
             <C.Footer  >
                 <div className='buttons'>
-                    <button onClick={openDashboardGeral} className='botão0'> <img src='/images/grafico.png' className='grafico' /> Graf. Gerais</button>
-                    <Link to="/home" className='botão'> <img src='/images/voltar.png' /> Voltar</Link>
+                    <button onClick={openDashboardGeral}> <img src='/images/grafico.png'/> Graf. Gerais</button>
+                    <button onClick={()=> navigate('/home')}> <img src='/images/voltar.png' /> Voltar</button> 
                 </div>
 
                 <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} style={customStyles}>
