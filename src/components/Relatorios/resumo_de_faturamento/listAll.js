@@ -2766,7 +2766,7 @@ export const ResumoFaturamento = () => {
 
                         <h2 className='prices' > <p className='Gtext' > Lucro Venda Total:  R$ {resultFi2} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > Liquido Total:  R$ {resultFi6} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Liquido Total: R$ {resultFi6} </p> </h2>
 
                         <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {resultFi3} </p> </h2>
 
