@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from '../modal/modal';
 import { Loading } from "../../loading/index";
 
-export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado}) => {
+export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente}) => {
 
     const [users, setUsers] = useState([]);
     const [selectEmitente, setSelectEmitente] = useState();
@@ -25,6 +25,11 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
         setSelectIdEmitente(user.id);
         setDataSelectEmitente(user.razao_social);
         setDataIdSelectEmitente(user.id);
+        setDataSelectDadosEmitente({
+            fantasia: user.nome_fantasia,
+            doc: user.cnpj,
+            municipio: user.municipio
+        })
         onClose();
         focoCampoSeguinte();
         setEmitenteAlterado(true);
@@ -39,9 +44,9 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
         if(filtro === 'social'){
             return user.razao_social.toLowerCase().includes(busca);
         }else if(filtro === 'codigo'){
-            return String(user.id).toLowerCase().includes(busca);
+            return user.id === Number(busca);
         }else if(filtro === 'documento'){
-            return String(user.cnpj).toLowerCase().includes(busca);
+            return user.cnpj === Number(busca);
         }else if(filtro === 'fantasia'){
             return user.nome_fantasia.toLowerCase().includes(busca);
         }
@@ -125,7 +130,7 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
                             <tbody>
                                 {resultado.slice(0, 20).map( (user, index) => {
                                     return(
-                                        <tr 
+                                        <tr
                                             key={user.id} 
                                             onClick={selecionado.bind(this, user, index)}
                                             onDoubleClick={SelectedEmitente.bind(this, user)}
@@ -145,4 +150,3 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
             </Container>
         </Modal>
     );
-};

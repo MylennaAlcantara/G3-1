@@ -25,6 +25,11 @@
     height: 28px;
 }
 
+.top-text{
+    font-size: 11px;
+    background-color: white;
+}
+
 .closeBtn {
     display: flex;
     justify-content: center;
@@ -110,7 +115,8 @@
 }
 
 label {
-    margin-left: 2px;
+    margin-top: 3px;
+    margin-left: 1px;
 }
 
 .dashboardBtn {
@@ -850,7 +856,7 @@ table tr:nth-child(odd) {
 }
 
 .Gtext{
-    font-size: 20px;
+    font-size: 13px;
 }
 
 .botãoEmodal {
@@ -969,7 +975,7 @@ table tr:nth-child(odd) {
 
     .filtro1 {
         left: 11vw;
-        top: 1.3vw;
+        top: 2.7vw;
         width: 430px;
     }
 
@@ -979,7 +985,7 @@ table tr:nth-child(odd) {
     }
 
     .obs {
-        margin-left: 120px;
+        margin-left: 130px;
     }
 
     .ep3 {
@@ -992,7 +998,7 @@ table tr:nth-child(odd) {
 
     .filtros {
         left: 1.5%;
-        top: 10%;
+        top: 0.1%;
         width: 70%;
     }
 
@@ -1009,34 +1015,59 @@ table tr:nth-child(odd) {
     .footer {
         top: 0%;
     }
+    .search-input{
+        width: 270px;
+    }
+
+    .pesquisar{
+        top: 16%;
+        right: 22%;
+    }
+
+    .search-input-top{
+        width: 390px;
+    }
+
+    .obs2{
+        left: -425px;
+    }
+
+    .lupa2{
+        top: -1px;
+        cursor: pointer;
+    }
 }
 
 @media (max-width: 1366px) {
     .search-input {
-        width: 270px;
+        width: 230px;
     }
 
     .filtro1 {
-        top: 1.4vw;
-        left: 9.5vw;
-        width: 420px;
+        top: 2.8vw;
+        left: 11.3vw;
+        width: 400px;
     }
 
     .obs {
-        right: 415px;
+        left: -514px;
     }
 
     .btns {
-        right: 43.7%;
+        right: 41.7%;
+    }
+
+    .ep3{
+        width: 55px;
     }
 
     .filtros {
         width: 95%;
-        top: 5%;
+        top: 1%;
     }
 
     .ModalDados {
-        height: 44%;
+        height: 36%;
     }
 
     .test {
@@ -1055,6 +1086,34 @@ table tr:nth-child(odd) {
 
     .footer {
         top: 20%;
+    }
+
+    .checkboxs{
+        top: 14.5%;
+    }
+}
+
+@media (max-width: 1300px){
+    .filtro1{
+        top: 3vw;
+        left: 10.7vw;
+        width: 385px;
+    }
+}
+
+@media (max-width: 1270px){
+    .filtro1{
+        top: 3.5vw;
+        left: 8.5vw;
+        width: 335px;
+    }
+
+    .search-input{
+        width: 174px;
+    }
+
+    .obs{
+        left: -470px;
     }
 }
 
@@ -1087,5 +1146,139 @@ table tr:nth-child(odd) {
     .filtro-tops-content {
         bottom: 67.6vw;
         left: 13.5vw;
+    }
+}
+
+@media (min-height: 900px){
+    .filtro1{
+        top: 3.7vw;
+        left: 5vw;
+    }
+
+    .ModalDados{
+        top: 63%;
+        height: 37%;
+    }
+
+    .relatorio-content{
+        left: 67vw;
+        top: 14.6vw;
+    }
+
+    .filtro-tops-content{
+        top: -41.6vw;
+        left: 7.31vw;
+    }
+}
+
+@media (max-width: 800px){
+    .frontSpan{
+        visibility: hidden;
+        font-size: 0px;
+    }
+
+    .filtro1{
+        top: 4.83vw;
+        left: -6.7vw;
+    }
+
+    td{
+        height: 30px;
+    }
+    
+    .dataIni{
+        height: 40px;
+    }
+
+    .dataFin{
+        height: 40px;
+    }
+
+    .select{
+        position: relative;
+        top: 25%;
+        right: 67%;
+        height: 30px;
+    }
+
+    .checkboxs{
+        top: 17%;
+    }
+
+    .pesquisar{
+        top: 17%;
+    }
+
+    .relatorio-content{
+        top: 35.2%;
+        left: 55%;
+    }
+}
+
+@media (max-width: 420px){
+    .btns{
+        left: -30vw;
+    }
+    .filtro1{
+        width: 340px;
+        left: -25vw;
+        top: 1vw;
+    }
+    th{
+        font-size: 11px;
+    }
+    .ep3{
+        font-size: 11px;
+    }
+    .search-input{
+        width: 150px;
+    }
+    .obs{
+        left: -435px;
+    }
+    .test{
+        width: 350px;
+        flex-direction: row;
+        position: relative;
+        top: 200px;
+        right: 50%;
+        
+    }
+    .filtros{
+        width: 92%;
+        top: 50vw;
+    }
+    .ModalDados{
+        top: 72.56%;
+        height: 25%;
+    }
+    .buttons{
+        position: relative;
+        top: 75vw;
+    }
+    .wrapper{
+        height: 112vw;
+    }
+    .pesquisar{
+        right: 4%;
+        top: -3%;
+    }
+    .select{
+        width: 80px;
+        left: -1%;
+        top: 0%;
+    }
+    .checkboxs{
+        top: -12%;
+    }
+    .dataIni{
+        height: 60px;
+    }
+    .dataFin{
+        height: 60px;
+    }
+    .relatorio-content{
+        top: 107.6vw;
+        left: 10vw;
     }
 }
