@@ -314,17 +314,17 @@ export const EditarFuncionario = () => {
                         </div>
                         <div className="double-input">
                             <label>Setor: </label>
-                            <input className="codigo" value={setor.codigo} onKeyDown={setores}/>
+                            <input className="codigo" value={setor.codigo} onDoubleClick={()=> setIsModalSetor(true)} onKeyDown={setores} title='Aperte F2 para listar as opções'/>
                             <input value={setor.nome}/>
                         </div>
                         <div className="double-input">
                             <label>Nível: </label>
-                            <input className="codigo" value={nivel.codigo} onKeyDown={niveis}/>
+                            <input className="codigo" value={nivel.codigo} onDoubleClick={()=> setIsModalNivel(true)} onKeyDown={niveis} title='Aperte F2 para listar as opções'/>
                             <input value={nivel.nome}/>
                         </div>
                         <div className="double-input">
                             <label>Filial: </label>
-                            <input className="codigo" value={dataIdSelectEmitente} onKeyDown={filiais}/>
+                            <input className="codigo" value={dataIdSelectEmitente} onDoubleClick={()=> setIsModalFilial(true)} onKeyDown={filiais} title='Aperte F2 para listar as opções'/>
                             <input value={dataSelectEmitente}/>
                         </div>
                     </div>

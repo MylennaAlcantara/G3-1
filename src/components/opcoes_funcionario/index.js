@@ -17,7 +17,7 @@ export const OpFuncionarios = ({setOpfuncionario, close}) => {
 
     return(
         <M.Modal>
-            <C.Container>
+            <C.Container style={{width: "40%"}}>
                 <C.Header>
                     <h3>Opções Funcionários</h3>
                 </C.Header>

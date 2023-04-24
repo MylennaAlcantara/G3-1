@@ -31,9 +31,9 @@ export const ConsultarFornecedor = () => {
         if(filtro === 'fantasia'){
             return user.nome_fantasia.toLowerCase().includes(busca);
         }else if(filtro === 'codigo'){
-            return user.id === Number(busca);
+            return String(user.id).toLowerCase().includes(busca);
         }else if(filtro === 'documento'){
-            return user.numero_documento === Number(busca);
+            return String(user.numero_documento).toLowerCase().includes(busca);
         }else{
             return user.razao_social.toLowerCase().includes(busca);
         }

@@ -130,7 +130,7 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
                             <tbody>
                                 {resultado.slice(0, 20).map( (user, index) => {
                                     return(
-                                        <tr 
+                                        <tr
                                             key={user.id} 
                                             onClick={selecionado.bind(this, user, index)}
                                             onDoubleClick={SelectedEmitente.bind(this, user)}
@@ -150,4 +150,3 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
             </Container>
         </Modal>
     );
-};

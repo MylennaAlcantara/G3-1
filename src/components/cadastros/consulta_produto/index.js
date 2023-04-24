@@ -28,7 +28,7 @@ export const CounsultarProduto = () =>{
         if(selectColuna.value === "1"){
             return item.descricaoPdv.toLowerCase().includes(busca);
         }else if(selectColuna.value === "2"){
-            return item.id === Number(busca);
+            return String(item.id).toLowerCase().includes(busca);
         }else if(selectColuna.value === "3"){
             return item.gtin.toLowerCase().includes(busca);
         }else if(selectColuna.value === "4"){

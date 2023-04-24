@@ -49,7 +49,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
 
     const resultado = Array.isArray(top) && top.filter((top) => {
         if(filtro === 'codigo'){
-            return top.id === Number(busca);
+            return String(top.id).toLowerCase().includes(busca);
         }else if(filtro === 'descricao'){
             return top.descricao.toLowerCase().includes(busca);
         }

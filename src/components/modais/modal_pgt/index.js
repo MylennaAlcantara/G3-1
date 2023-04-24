@@ -1,14 +1,16 @@
 import React, {useEffect, useState, useRef} from "react";
 import { Loading } from "../../loading/index.js";
-import {Container, Filtro, Header, Modal} from './../modal/modal.js';
+import { CadastroPgto } from "../modal_cadastro_pgto/index.js";
+import * as M from './../modal/modal.js';
 
 
-export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt, setTipoPgtoAlterado}) => {
+export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt, setTipoPgtoAlterado, cadastroPgto}) => {
 
     const [pgto, setPgto] = useState([]);
     const [selectPgt, setSelectPgt] = useState();
     const [selectIdPgt, setSelectIdPgt] = useState();
     const [busca, setBusca] = useState('');
+    const [cadastrar, setCadastrar] = useState(false);
 
     useEffect(() => {
         async function fetchData (){
@@ -71,18 +73,18 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
     };
 
     return(
-        <Modal>
-            <Container>
-            <Header>
+        <M.Modal>
+            <M.Container>
+            <M.Header>
                 <label>Tipo Pagamento</label>
                 <button className="close" onClick={onClose}>X</button>
-            </Header>
-            <Filtro>                        
+            </M.Header>
+            <M.Filtro>                        
+                <label>Buscar: </label>                    
                 <div className="div-search">
-                    <label>Buscar: </label>                    
                     <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                 </div>                
-            </Filtro>
+            </M.Filtro>
             {pgto.length === 0 ? (
                 <Loading/>
             ) : (
@@ -115,7 +117,17 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
                     </table>
                 </div>
             )}
-            </Container>
-        </Modal>
+            {cadastroPgto ? (
+                <M.Footer>
+                    <div className="buttons">
+                        <button onClick={()=> setCadastrar(true)}><img src="/images/add.png"/>Novo</button>
+                        <button><img src="/images/abrir.png"/>Abrir</button>
+                        <button onClick={onClose}><img src="/images/voltar.png"/>Fechar</button>
+                    </div>
+                </M.Footer>
+            ) : null}
+            </M.Container>
+            {cadastrar ? <CadastroPgto close={()=> setCadastrar(false)}/> : null}
+        </M.Modal>
     );
 };
