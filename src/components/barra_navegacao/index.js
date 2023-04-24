@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CadastrarFamilia } from "../modais/modais_tela_produtos/modal_cadastro_familia";
+import { Familia } from "../modais/modais_tela_produtos/modal_familia/index";
 import { Ipi } from "../modais/modais_tela_produtos/modal_ipi";
 import { PisCofins } from "../modais/modais_tela_produtos/modal_pis_cofins";
 import { Nivel } from "../modais/modal_nivel";
@@ -162,7 +162,7 @@ export const NavBar = () => {
             {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} /> : null}
             
             {opProdutos ? <OpProdutos close={()=> setOpProdutos(false)} setOpProdutos={setOpProdutos}/> : null}
-            {isModalFamilia ? <CadastrarFamilia close={()=> setIsModalFamilia(false)}/> : null}
+            {isModalFamilia ? <Familia close={()=> setIsModalFamilia(false)}/> : null}
             {isModalGrupoIpi ? <Ipi close={()=> setIsModalGrupoIpi(false)}/> : null}
             {isModalGrupoPis ? <PisCofins close={()=> setIsModalGrupoPis(false)}/> : null}
             {isModalRegraIcms ? <GrupoIcms close={()=> setIsModalRegraIcms(false)}/> : null}
