@@ -139,7 +139,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, setPro
 
     const resultado = Array.isArray(itens) && itens.filter((item) => {
         if(filtroEscolhido === 'C'){
-            return item.id === Number(busca);
+            return String(item.id).toLowerCase().includes(busca);
         }else if(filtroEscolhido === 'D')
             return item.descricaoPdv.toLowerCase().includes(busca);
     });

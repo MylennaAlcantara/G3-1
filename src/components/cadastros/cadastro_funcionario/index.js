@@ -272,17 +272,17 @@ export const CadastroFuncionario = () => {
                         </div>
                         <div className="double-input">
                             <label>Setor: </label>
-                            <input className="codigo" value={setor.codigo} onKeyDown={setores} style={{backgroundColor: cor}}/>
+                            <input className="codigo" value={setor.codigo} onDoubleClick={()=> setIsModalSetor(true)} onKeyDown={setores} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
                             <input value={setor.nome}/>
                         </div>
                         <div className="double-input">
                             <label>Nível: </label>
-                            <input className="codigo" value={nivel.codigo} onKeyDown={niveis} style={{backgroundColor: cor}}/>
+                            <input className="codigo" value={nivel.codigo} onKeyDown={niveis} onDoubleClick={()=> setIsModalNivel(true)} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
                             <input value={nivel.nome}/>
                         </div>
                         <div className="double-input">
                             <label>Filial: </label>
-                            <input className="codigo" value={dataIdSelectEmitente} onKeyDown={filiais} style={{backgroundColor: cor}}/>
+                            <input className="codigo" value={dataIdSelectEmitente} onDoubleClick={()=> setIsModalFilial(true)} onKeyDown={filiais} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
                             <input value={dataSelectEmitente}/>
                         </div>
                     </div>

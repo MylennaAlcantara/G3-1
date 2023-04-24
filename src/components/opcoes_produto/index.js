@@ -17,7 +17,7 @@ export const OpProdutos = ({setOpProdutos, close}) => {
 
     return(
         <M.Modal>
-            <C.Container>
+            <C.Container style={{width: "40%"}}>
                 <C.Header>
                     <h3>Opções Produtos</h3>
                 </C.Header>

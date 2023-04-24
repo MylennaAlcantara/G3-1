@@ -97,7 +97,7 @@ export const ConsultarFuncionario = () => {
 
     const resultado = Array.isArray(resultado2) && resultado2.filter((user) => {
         if(filtroEscolhido === 'codigo' ){
-            return user.id === parseFloat(busca);
+            return String(user.id).toLowerCase().includes(busca);
         }else if(filtroEscolhido === 'nome'){
             return user.nome.toLowerCase().includes(busca);
         }else if(filtroEscolhido === 'municipio'){

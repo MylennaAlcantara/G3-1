@@ -40,17 +40,17 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
 
     const resultado = Array.isArray(users) && users.filter((user) => {
         if(filtro === 'codigo'){
-            return user.id === Number(busca);
+            return String(user.id).toLowerCase().includes(busca);
         }else if(filtro === 'municipio'){
             return user.municipio.toLowerCase().includes(busca);
         }else if(filtro === 'cpf'){
-            return user.cpf_cnpj === Number(busca);
+            return String(user.cpf_cnpj).toLowerCase().includes(busca);
         }else if(filtro === 'nome'){
             return user.nome.toLowerCase().includes(busca);
         }else if(filtro === 'nome_fantasia'){
-            return user.species.toLowerCase().includes(busca);
+            return user.nome_fantasia.toLowerCase().includes(busca);
         }else if(filtro === 'rg'){
-            return user.rg === Number(busca);
+            return String(user.rg).toLowerCase().includes(busca);
         }
     });
     

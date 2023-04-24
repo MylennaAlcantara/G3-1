@@ -150,6 +150,26 @@ export const CadastroCliente = () => {
             setCor('#F0F0F0');
         }
     }
+
+    async function pesquisarCnpj (){
+        const response = await fetch(`https://publica.cnpj.ws/cnpj/${cnpj}`)
+        const data = await response.json();
+        data.estabelecimento.inscricoes_estaduais.map((dado)=> setEstadual(dado.inscricao_estadual))        
+        setNome(data.razao_social);
+        setFantasia(data.estabelecimento.nome_fantasia);
+        setBairro(data.estabelecimento.bairro);
+        setTelefone(data.estabelecimento.telefone1);
+        setCep(data.estabelecimento.cep);
+        setComplemento(data.estabelecimento.complemento);
+        setLogradouro(data.estabelecimento.logradouro);
+        setNumero(data.estabelecimento.numero);
+        setEmail(data.estabelecimento.email);
+        setDadosCidades({
+            codigo: data.estabelecimento.cidade.ibge_id,
+            nome: data.estabelecimento.cidade.nome
+        });
+    }
+    console.log(logradouro)
     
     //Pegar hora do computador
     const [dataCadastro, setDataCadastro] = useState('');
@@ -311,6 +331,15 @@ export const CadastroCliente = () => {
     const cancelar = () => {
         navigate('/clientes');
     }
+    const comparar = (a, b) => {
+        if(a.sigla < b.sigla ){
+            return -1;
+        }else if(a.sigla > b.sigla){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 
     return (
         <C.Container>
@@ -321,7 +350,7 @@ export const CadastroCliente = () => {
             <CC.Navegacao>
                 <div onClick={dadosGerais} style={{backgroundColor: aba === "dados-gerais" ? "white" : "", borderBottom: aba === "dados-gerais" ? "0" : ""}}>Dados Gerais</div>
                 <div onClick={dadosAdicionais} style={{backgroundColor: aba === "dados-adicionais" ? "white" : "", borderBottom: aba === "dados-adicionais" ? "0" : ""}}>Dados Adicionais</div>
-                <div onClick={foto} style={{backgroundColor: aba === "foto" ? "white" : "", borderBottom: aba === "foto" ? "0" : ""}}>Fotos</div>
+                {/*<div onClick={foto} style={{backgroundColor: aba === "foto" ? "white" : "", borderBottom: aba === "foto" ? "0" : ""}}>Fotos</div>*/}
                 <div onClick={historico} style={{backgroundColor: aba === "historico" ? "white" : "", borderBottom: aba === "historico" ? "0" : ""}}>Historico</div>
             </CC.Navegacao>
             {aba === 'dados-gerais' ? (
@@ -365,7 +394,7 @@ export const CadastroCliente = () => {
                                     ) : (
                                         <input className="input-documentos" style={{backgroundColor: cor}} readOnly/>
                                     )}
-                                    <img src="/images/LUPA.png"/>
+                                    <img src="/images/LUPA.png" onClick={pesquisarCnpj}/>
                                 </div>
                                 <div>
                                     <label>Inscr. Municipal: </label>
@@ -440,7 +469,7 @@ export const CadastroCliente = () => {
                             </div>
                             <div className="div-input">
                                 <label>Logradouro: </label>
-                                {endereco != [] ? (
+                                {endereco.length != 0 ? (
                                     <input value={endereco.logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                 ) : (
                                     <input value={logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
@@ -449,7 +478,7 @@ export const CadastroCliente = () => {
                             </div>
                             <div>
                                 <label>Bairro: </label>
-                                {endereco != [] ? (
+                                {endereco.length != 0 ? (
                                     <input className="input-unico" id="bairro" value={endereco.bairro} onChange={(e)=> setBairro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                 ) : (
                                     <input className="input-unico" id="bairro" value={bairro} onChange={(e)=> setBairro(e.target.value)} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
@@ -458,9 +487,9 @@ export const CadastroCliente = () => {
                             <div className="div-input">
                                 <label>Municipio: </label>
                                 {endereco.ibge ? (
-                                    <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
+                                    <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onDoubleClick={pesquisarMuni} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
                                 ) : (
-                                    <input className="codigo" id="codigoMunicipio" value={dadosCidades.codigo} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
+                                    <input className="codigo" id="codigoMunicipio" value={dadosCidades.codigo} onDoubleClick={pesquisarMuni} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
                                 )}
                                 <img src="/images/add.png" onClick={pesquisarMuni}/>
                                 {endereco.localidade ? (
@@ -471,7 +500,7 @@ export const CadastroCliente = () => {
                                 <label>UF: </label>
                                 <select className="codigo" id="option">
                                     <option>UF</option>
-                                    {estados.map((estado)=> {
+                                    {estados.sort(comparar).map((estado)=> {
                                         return <option value={estado.sigla}>{estado.sigla}</option>
                                     })}
                                 </select>
@@ -490,12 +519,12 @@ export const CadastroCliente = () => {
                             </div>
                             <div className="div-input">
                                 <label>Perfil Tributá.: </label>
-                                <input className="codigo" value={dadosPerfil.id} onKeyDown={keyPerfil}/>
+                                <input className="codigo" value={dadosPerfil.id} onDoubleClick={()=> setIsModalPerfil(true)} onKeyDown={keyPerfil} title='Aperte F2 para listar as opções'/>
                                 <input value={dadosPerfil.descricao} readOnly/>
                             </div>
                             <div className="div-input">
                                 <label>Ramo de Ativ.: </label>
-                                <input className="codigo" value={dadosRamo.id} onKeyDown={keyRamo}/>
+                                <input className="codigo" value={dadosRamo.id} onDoubleClick={()=> setIsModalRamo(true)} onKeyDown={keyRamo} title='Aperte F2 para listar as opções'/>
                                 <input value={dadosRamo.descricao} readOnly/>
                             </div>
                             <div>
@@ -504,7 +533,7 @@ export const CadastroCliente = () => {
                             </div>
                             <div>
                                 <label>Filial: </label>
-                                <input className="codigo" value={dataIdSelectEmitente} onKeyDown={keyEmpresa}/>
+                                <input className="codigo" value={dataIdSelectEmitente} onDoubleClick={()=> setIsModalEmpresa(true)} onKeyDown={keyEmpresa} title='Aperte F2 para listar as opções'/>
                                 <input value={dataSelectEmitente} readOnly/>
                             </div>
                         </fieldset>
@@ -573,12 +602,7 @@ export const CadastroCliente = () => {
                     </textarea>
                 </div>
                 </CC.DadosAdicionais>
-            ) : aba === 'foto' ? (
-                <CC.Foto>
-                    <div></div>
-                    <input/>
-                </CC.Foto>
-            ) : (
+            ) :(
                 <CC.Historico>
                     <CC.NavegacaoLimites>
                         <div >Contas Vencidas/NF-es</div>
@@ -748,7 +772,11 @@ export const CadastroCliente = () => {
                         </div>
                     )}
                 </CC.Historico>
-            )}
+            )} {/*aba === 'foto' ? (
+                <CC.Foto>
+                    <div></div>
+                    <input/>
+                </CC.Foto>*/} 
             <C.Footer>
                 <div className="buttons">
                     <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
@@ -758,7 +786,7 @@ export const CadastroCliente = () => {
             {isModalPerfil ? <PerfilCliente close={()=> setIsModalPerfil(false)} setDadosPerfil={setDadosPerfil} /> : null}
             {isModalRamo ? <RamoAtividade close={()=> setIsModalRamo(false)} setDadosRamo={setDadosRamo}/> : null}
             {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)} setDadosCidades={setDadosCidades}/> : null}
-            {isModalEmpresa ? <Emitente setIsModalEmpresa = {setIsModalEmpresa} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/> : null}
+            {isModalEmpresa ? <Emitente onClose={()=> setIsModalEmpresa(false)} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/> : null}
         </C.Container>
     )
 }

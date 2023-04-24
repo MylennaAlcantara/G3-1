@@ -353,7 +353,7 @@ export const CadastroProduto = () => {
                             </div>
                             <fieldset>
                                 <legend>Fornecedor</legend>
-                                <input className="codigo" onKeyDown={modalFornecedor}/><input/>
+                                <input className="codigo" onKeyDown={modalFornecedor} onDoubleClick={()=> setIsModalFornecedor(true)} title='Aperte F2 para listar as opções'/><input/>
                             </fieldset>
                             <fieldset className="fieldset">
                                 <legend>Grupo</legend>
@@ -394,17 +394,17 @@ export const CadastroProduto = () => {
                                 <div>
                                     <div>
                                         <label style={{color: "red"}}>Grupo de Regra para IPI: </label>
-                                        <input className="codigo" onKeyDown={modalIPI}/>
+                                        <input className="codigo" onKeyDown={modalIPI} onDoubleClick={()=> setIsModalIpi(true)} title='Aperte F2 para listar as opções'/>
                                         <input/>
                                     </div>
                                     <div>
                                         <label style={{color: "blue"}}>Grupo de Regra para PIS: </label>
-                                        <input className="codigo" onKeyDown={modalPis}/>
+                                        <input className="codigo" onKeyDown={modalPis} onDoubleClick={()=> setIsModalPis(true)} title='Aperte F2 para listar as opções'/>
                                         <input/>
                                     </div>
                                     <div>
                                         <label style={{color: "blue"}}>Grupo de Regra para COFINS: </label>
-                                        <input className="codigo" onKeyDown={modalCofins}/>
+                                        <input className="codigo" onKeyDown={modalCofins} onDoubleClick={()=> setIsModalCofins(true)} title='Aperte F2 para listar as opções'/>
                                         <input/>
                                     </div>
                                     <div>

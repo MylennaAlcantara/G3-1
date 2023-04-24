@@ -74,7 +74,6 @@ export const Geral = styled.div`
     width: 100%;
     .geral{
         height: 100%;
-        background-color: #F0F0F0;
         border-radius: 5px;
         margin:  5px 0 5px 0;
     }
@@ -86,12 +85,18 @@ export const Geral = styled.div`
         display: block;
         overflow: auto;
         height: 80%;
+        background-color: white;
     }
     .unid-fornecedor{
         display: block;
         height: 100%;
         .fieldset{
             height: 50%;
+            border-radius: 10px;
+        }
+        fieldset{
+            border-radius: 10px;
+            background-color: #F0F0F0;
         }
         div{
             display: flex;
