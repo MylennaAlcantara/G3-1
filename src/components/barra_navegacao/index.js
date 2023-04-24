@@ -85,6 +85,26 @@ export const NavBar = () => {
             setIsModalGrupoIpi(false);
         }
     }
+    function navegarTabelaAuxi(){
+        if(perfil){
+            setRamo(false);
+            setTipoPgto(false);
+        }else if(ramo){
+            setPerfil(false);
+            setTipoPgto(false);
+        }else if(tipoPgto){
+            setPerfil(false);
+            setRamo(false);
+        }
+    }
+    function navegarFuncionario(){
+        if(isModalSetor){
+            setIsModalNivel(false);
+        }else if(isModalNivel){
+            setIsModalSetor(false);
+        }
+    }
+
     const sair = () => {
         localStorage.clear();
         document.location.reload(true);
@@ -134,9 +154,9 @@ export const NavBar = () => {
                                             {tabelaAuxiliar ? (
                                                 <>
                                                     <div className="gaveta" onClick={()=> {navigate('/top'); fecharOp()}}>T.O.P</div>
-                                                    <div className="gaveta" onClick={()=> {setPerfil(true); setCadastroPerfil(true)}}>Perfil de Regra</div>
-                                                    <div className="gaveta" onClick={()=> {setRamo(true); setCadastroRamo(true)}}>Ramo de Atividade</div>
-                                                    <div className="gaveta" onClick={()=> {setTipoPgto(true); setCadastroPgto(true)}}>Tipo de Pagamento</div>
+                                                    <div className="gaveta" onClick={()=> {setPerfil(true); setCadastroPerfil(true); navegarTabelaAuxi()}}>Perfil de Regra</div>
+                                                    <div className="gaveta" onClick={()=> {setRamo(true); setCadastroRamo(true); navegarTabelaAuxi()}}>Ramo de Atividade</div>
+                                                    <div className="gaveta" onClick={()=> {setTipoPgto(true); setCadastroPgto(true); navegarTabelaAuxi()}}>Tipo de Pagamento</div>
                                                 </>
                                             ) : null}
                                         </>
@@ -153,9 +173,9 @@ export const NavBar = () => {
                                 </>
                             ) : (
                                 <div className="gaveta">
-                                    {nivel.cadastro_funcionario ? <div className="gaveta" onClick={()=> navigate('/funcionarios')}>Cadastro</div> : null}                                    
-                                    {nivel.tabela_auxiliar_setor_funcionario ? <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true)}}>Cadastro de Setor</div> : null}
-                                    {nivel.tabela_auxiliar_tipo_funcionario ? <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true)}}>Cadastro de Nivel</div> : null}
+                                    {nivel.cadastro_funcionario ? <div className="gaveta" onClick={()=> {navigate('/funcionarios'); fecharOp()}}>Cadastro</div> : null}                                    
+                                    {nivel.tabela_auxiliar_setor_funcionario ? <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true); navegarFuncionario()}}>Cadastro de Setor</div> : null}
+                                    {nivel.tabela_auxiliar_tipo_funcionario ? <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true); navegarFuncionario()}}>Cadastro de Nivel</div> : null}
                                 </div>
                             )}
                         </>
