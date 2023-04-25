@@ -16,17 +16,6 @@
     justify-content: center;
 }
 
-.header {
-    display: flex;
-    justify-content: start;
-    font-weight: bold;
-    background-color: #f0f0f0;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    margin: 0px;
-    padding: 0px;
-}
-
 .close {
     width: 28px;
     height: 28px;
@@ -73,23 +62,41 @@
     flex-direction: row;
 }
 
+.CE{
+    border-width: 1px;
+    background-color: #e6e6e6;
+    border-top-left-radius: 8px;
+    width: 117px;
+}
+
+.CE:hover{
+    cursor: pointer;
+    background-color: #a6f4ff;
+}
+
+.CD{
+    border-width: 1px;
+    background-color: #e6e6e6;
+    border-top-right-radius: 8px;
+}
+
+.CD:hover{
+    cursor: pointer;
+    background-color: #a6f4ff;
+}
+
 .ModalDados {
-    position: absolute;
+    position: static;
     margin: 0px;
     padding: 0px;
     overflow-x: scroll;
     overflow-y: scroll;
-    top: 60%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    transform: translate(-50%, -50%);
-    width: 75%;
-    height: 30%;
+    width: 95%;
+    height: 30vh;
     border-style: solid;
     border-width: 1px;
+    margin-left: 15px;
 }
-
 
 .dashboard {
     justify-content: space-between;
@@ -307,7 +314,7 @@ label {
 
 .btns {
     display: flex;
-    margin-left: 10px;
+    background-color: white;
 }
 
 .test1 {
@@ -564,17 +571,6 @@ table tr:nth-child(odd) {
     position: relative;
     width: 30px;
     height: 30px;
-}
-
-.filtros {
-    margin-left: 15px;
-    display: flex;
-    justify-content: center;
-    width: 50%;
-    border-style: solid;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-width: 2px;
 }
 
 .search-input {
@@ -1049,34 +1045,19 @@ span{
 }
 
 @media (max-width:1024px) {
-    .filtro1 {
-        top: 5.7vw;
-        left: -3vw;
-    }
 
     .ModalDados {
-        width: 75%;
-        height: 280px;
+        width: 95%;
+        height: 20vh;
     }
 
     .filtros {
-        top: 12%;
         left: 3%;
-    }
-
-    .pesquisar {
-        top: 20%;
-        right: 12%;
     }
 
     .relatorio-content {
         top: 38.2%;
         left: 64%;
-    }
-
-    .filtro-tops-content {
-        bottom: 67.6vw;
-        left: 13.5vw;
     }
 }
 
