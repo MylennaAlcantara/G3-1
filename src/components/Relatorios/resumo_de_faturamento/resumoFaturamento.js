@@ -121,6 +121,7 @@ border-style: solid;
 border-top-left-radius: 10px;
 border-top-right-radius: 10px;
 border-width: 2px;
+border-bottom: transparent;
 `
 
 export const DataGeral = styled.div`
@@ -135,3 +136,15 @@ border-style: solid;
 border-width: 1px;
 margin-left: 15px;
 `
+
+export const Dashboard = styled.div`
+margin-top: 10px;
+display: flex;
+justify-content: space-between;
+.grafico {
+    margin-right: 10px;
+    border-style: solid;
+    border-radius: 8px;
+    border-width: 1px;
+}
+` 

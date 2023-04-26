@@ -26,7 +26,7 @@ export const ResumoFaturamento = () => {
 
     const [aba, setOpenAba] = useState("regiao");
 
-//--------------------------------------------------------------Filtros Parte de Cima-------------------------------------------------------------------------
+    //--------------------------------------------------------------Filtros Parte de Cima-------------------------------------------------------------------------
 
     const [query, setQuery] = useState("");
     const [query1, setQuery1] = useState("");
@@ -385,9 +385,9 @@ export const ResumoFaturamento = () => {
     ];
 
     const barOptions = {
-        title: "Tabela Valores Totais.",
+        title: "Valores Totais Região .",
         //backgroundColor: '#d3d3d3',
-        width: 400,
+        width: 300,
         height: 200,
         bar: { groupWidth: "95%", },
         legend: { position: "none" },
@@ -483,8 +483,8 @@ export const ResumoFaturamento = () => {
     ];
 
     const barOptionsFi = {
-        title: "Tabela Valores Totais.",
-        width: 450,
+        title: "Valores Totais Filial.",
+        width: 350,
         height: 200,
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
@@ -598,9 +598,9 @@ export const ResumoFaturamento = () => {
     ];
 
     const barOptionsVen = {
-        title: "Tabela Valores Totais.",
-        width: 400,
-        height: 250,
+        title: "Valores Totais Vendedor.",
+        width: 350,
+        height: 200,
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
@@ -694,9 +694,9 @@ export const ResumoFaturamento = () => {
     ];
 
     const barOptionsCli = {
-        title: "Tabela Valores Totais.",
-        width: 400,
-        height: 250,
+        title: "Valores Totais Cliente.",
+        width: 300,
+        height: 200,
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
@@ -888,7 +888,7 @@ export const ResumoFaturamento = () => {
     ];
 
     const barOptionsPro = {
-        title: "Tabela Valores Totais.",
+        title: "Valores Totais Tipo de Pagamento .",
         width: 300,
         height: 200,
         bar: { groupWidth: "95%" },
@@ -960,7 +960,7 @@ export const ResumoFaturamento = () => {
     ];
 
     const barOptionsGru = {
-        title: "Tabela Valores Totais.",
+        title: "Valores Totais Grupos.",
         width: 300,
         height: 200,
         bar: { groupWidth: "95%" },
@@ -1079,13 +1079,12 @@ export const ResumoFaturamento = () => {
     ];
 
     const barOptionsFor = {
-        title: "Tabela Valores Totais.",
+        title: "Valores Totais Fornecedor .",
         width: 300,
         height: 200,
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
-
 
     //------------------------------------------------------------------PICOS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1897,130 +1896,133 @@ export const ResumoFaturamento = () => {
 
                     </div>
 
-                    <div className='dashboard'>
-                        <Chart chartType="ColumnChart" width="300px" height="220px" data={dataRegiao} options={options} className="grafico1" />
-                        <Chart chartType="Bar" width="300px" height="220px" data={dataRe0} options={optionsRe0} className="grafico1" />
-                        <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="220px" className="grafico1" />
-                    </div>
+                    <RF.Dashboard>
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataRegiao} options={options} className="grafico" />
+                        <Chart chartType="Bar" width="300px" height="200px" data={dataRe0} options={optionsRe0} className="grafico" />
+                        <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px" className="grafico" />
+                    </RF.Dashboard>
 
-                    <div className='dashboardOk'>
+                    <RF.Dashboard>
+
                         <label className='bestRegion'>{dadosRegiao.map((banRe) => {
 
                             if (banRe.regiao === 'PERNAMBUCO') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/PE.png' />
-                                        <p>Pernambuco</p> <img className='regiaoImg' src='/images/nordeste.png' /> <span className='spanName'>Nordeste</span>
+                                        <p>Pernambuco</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'PARAIBA') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/PB.png' />
                                         <p>Região Nordeste</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'ACRE') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/AC.png' />
                                         <p>Região Norte</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'AMAZONAS') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/AM.png' />
                                         <p>Região Norte</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'ALAGOAS') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/AL.png' />
                                         <p>Região Nordeste</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'PIAUÍ') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/PI.png' />
                                         <p>Região Nordeste</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'AMAPÁ') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/AP.png' />
                                         <p>Região Norte</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'SÃO PAULO') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/SP.png' />
                                         <p>Região Suldeste</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'RIO DE JANEIRO') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/RJ.png' />
                                         <p>Região Suldeste</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'MINAS GERAIS') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/MG.png' />
                                         <p>Região Suldeste</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'ESPÍRITO SANTO') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/ES.png' />
                                         <p>Região Suldeste</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'BAHIA') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/BA.png' />
                                         <p>Região Nordeste</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'CEARA') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/CE.png' />
                                         <p>Região Nordeste</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'MATO GROSSO') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/MT.png' />
                                         <p>Região Centro Oeste</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'TOCANTINS') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/TO.png' />
                                         <p>Região Norte</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'PARANÁ') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/PB.png' />
                                         <p>Região Sul</p>
                                     </div>
                                 );
                             } else if (banRe.regiao === '') {
                                 return (
-                                    <div className='tlou'>
+                                    <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/PB.png' />
                                         <p>Região Nordeste</p>
                                     </div>
@@ -2028,8 +2030,9 @@ export const ResumoFaturamento = () => {
                             }
 
                         })}</label>
-                        <Chart chartType="BarChart" data={barData} options={barOptions} className="grafico3" />
-                    </div>
+
+                        <Chart chartType="BarChart" data={barData} options={barOptions} className='grafico' />
+                    </RF.Dashboard>
 
                 </div>
             </Modal>
@@ -2072,14 +2075,17 @@ export const ResumoFaturamento = () => {
                         </h2>
                     </div>
 
-                    <div className='dashboard' >
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFilial} className="grafico1" />
-                        <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} className="grafico1" />
-                        <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="300px" height="200px" className="grafico1" />
-                    </div>
-                    <Chart chartType="Bar" width="350px" height="250px" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" className="grafico3" />
-                </div>
+                    <RF.Dashboard className='dashboard' >
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFilial} className="grafico" />
+                        <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} className="grafico" />
+                        <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="300px" height="200px" className="grafico" />
+                    </RF.Dashboard>
 
+                    <RF.Dashboard>
+                        <Chart chartType="Bar" width="300px" height="200px" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" className="grafico" />
+                    </RF.Dashboard>
+
+                </div>
 
             </Modal>
 
@@ -2128,13 +2134,18 @@ export const ResumoFaturamento = () => {
                         </h2>
                     </div>
 
-                    <div className='dashboard' >
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor} className="grafico1" />
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} className="grafico1" />
-                        <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="300px" height="200px" className="grafico1" />
-                    </div>
+                    <RF.Dashboard>
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor} className="grafico" />
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} className="grafico" />
+                        <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="300px" height="200px" className="grafico" />
+                    </RF.Dashboard>
+
                 </div>
-                <Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} className="grafico3" />
+
+                <RF.Dashboard>
+                    <Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} className="grafico" />
+                </RF.Dashboard>
+
             </Modal>
 
             <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
@@ -2178,14 +2189,18 @@ export const ResumoFaturamento = () => {
 
                     </div>
 
-                    <div className='dashboard' >
-                        <Chart chartType="ColumnChart" width="300px" height="250px" data={dataCliente} className="grafico1" />
-                        <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico1" />
-                        <Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"300px"} height={"200px"} className="grafico1" />
-                    </div>
+                    <RF.Dashboard >
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataCliente} className="grafico" />
+                        <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico" />
+                        <Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"300px"} height={"200px"} className="grafico" />
+                    </RF.Dashboard>
 
                 </div>
-                <Chart chartType="Bar" width="95%" height="500px" data={dataCli0} options={optionsCli0} />
+
+                <RF.Dashboard>
+                    <Chart chartType="Bar" width="100%" height="500px" data={dataCli0} options={optionsCli0} className='grafico' />
+                </RF.Dashboard>
+
             </Modal>
 
             <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
@@ -2257,17 +2272,18 @@ export const ResumoFaturamento = () => {
                         </h2>
                     </div>
 
-                    <div className='dashboard' >
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataTpPg} className="grafico1" />
-                        <Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} className="grafico1" />
-                        <Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="300px" height="200px" className="grafico1" />
-                    </div>
+                    <RF.Dashboard>
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataTpPg} className="grafico" />
+                        <Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} className="grafico" />
+                        <Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="300px" height="200px" className="grafico" />
+                    </RF.Dashboard>
 
                 </div>
-                <div className='dashboard' >
-                    <Chart chartType="Bar" width="500px" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico3" />
-                    <Chart chartType="ColumnChart" width="350px" height="250px" data={dataTpPgVale} className="grafico2" />
-                </div>
+
+                <RF.Dashboard>
+                    <Chart chartType="Bar" width="500px" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico" />
+                    <Chart chartType="ColumnChart" width="350px" height="250px" data={dataTpPgVale} className="grafico" />
+                </RF.Dashboard>
 
             </Modal>
 
@@ -2299,13 +2315,15 @@ export const ResumoFaturamento = () => {
 
                     </div>
 
-                    <div className='dashboard'>
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataProd} className="grafico1" />
-                        <Chart chartType="PieChart" data={dataProd} options={optionsProd} width="300px" height="200px" className="grafico1" />
-                        <Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} className="grafico1" />
-                    </div>
+                    <RF.Dashboard>
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataProd} className="grafico" />
+                        <Chart chartType="PieChart" data={dataProd} options={optionsProd} width="300px" height="200px" className="grafico" />
+                        <Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} className="grafico" />
+                    </RF.Dashboard>
 
-                    <Chart chartType="Bar" width="95%" height="35vw" data={dataProd0} options={optionsProd0} />
+                    <RF.Dashboard>
+                        <Chart chartType="Bar" width="100%" height="35vw" data={dataProd0} options={optionsProd0} className='grafico' />
+                    </RF.Dashboard>
 
                 </div>
 
@@ -2358,12 +2376,15 @@ export const ResumoFaturamento = () => {
 
                     </div>
 
-                    <div className='dashboard01' >
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} className="grafico1" />
-                        <Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} className="grafico0" />
-                    </div>
+                    <RF.Dashboard>
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} className="grafico" />
+                        <Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} className="grafico" />
+                    </RF.Dashboard>
 
-                    <Chart chartType="Bar" width="95%" height="35vw" data={dataGru0} options={optionsGru0} />
+                    <RF.Dashboard>
+                        <Chart chartType="Bar" width="100%" height="35vw" data={dataGru0} options={optionsGru0} />
+                    </RF.Dashboard>
+
 
                 </div>
 
@@ -2426,29 +2447,31 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda:
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultFor}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro:
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {resultFor1}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo:
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {resultFor2}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto:
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {resultFor3}
                         </h2>
 
                     </div>
 
-                    <div className='dashboard01' >
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} className="grafico1" />
-                        <Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} className="grafico0" />
-                    </div>
+                    <RF.Dashboard>
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} className="grafico" />
+                        <Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} className="grafico" />
+                    </RF.Dashboard>
 
-                    <Chart chartType="Bar" width="95%" height="35vw" data={dataFor0} options={optionsFor0} />
+                    <RF.Dashboard>
+                        <Chart chartType="Bar" width="100%" height="35vw" data={dataFor0} options={optionsFor0} />
+                    </RF.Dashboard>
 
                 </div>
 
@@ -2497,6 +2520,18 @@ export const ResumoFaturamento = () => {
 
                         <h2 className='prices' > <p className='Gtext' > NFC-e Total: R$ {resultFi4} </p> </h2>
                     </div>
+
+                    <RF.Dashboard>
+                        <Chart chartType="BarChart" data={barData} options={barOptions} className='grafico' />
+                        <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} className="grafico" />
+                        <Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} className="grafico" />
+                    </RF.Dashboard>
+
+                    <RF.Dashboard>
+                        <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px" className="grafico" />
+                        <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico" />
+                        
+                    </RF.Dashboard>
 
                 </Modal>
 

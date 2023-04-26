@@ -18,6 +18,7 @@
     background-color: #e6e6e6;
     border-top-left-radius: 8px;
     width: 117px;
+    border-bottom: transparent;
 }
 
 .CE:hover{
@@ -29,6 +30,7 @@
     border-width: 1px;
     background-color: #e6e6e6;
     border-top-right-radius: 8px;
+    border-bottom: transparent;
 }
 
 .CD:hover{
@@ -103,15 +105,6 @@ label {
     border-width: 1px;
 }
 
-.grafico1 {
-    position: relative;
-    bottom: 30%;
-    right: 10%;
-    border-style: solid;
-    border-radius: 8px;
-    border-width: 1px;
-}
-
 .grafico0 {
     margin-left: 10px;
     position: relative;
@@ -120,16 +113,6 @@ label {
     border-style: solid;
     border-radius: 8px;
     border-width: 1px;
-}
-
-.grafico2 {
-    position: relative;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 8px;
-    bottom: 15%;
-    right: 15vw;
-
 }
 
 .a {
@@ -149,7 +132,7 @@ label {
 }
 
 .c {
-    margin-top: 4vw;
+    margin-top: 2vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -186,21 +169,13 @@ label {
     border-width: 1px;
 }
 
-.grafico3 {
-    position: relative;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 8px;
-    bottom: 15%;
-}
-
 .dashboardOk {
+    margin-top: 10px;
     display: flex;
     flex-direction: row;
 }
 
-.tlou {
-    margin-top: 10px;
+.grafico-regiao {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -212,32 +187,27 @@ label {
     margin-left: 10px;
     height: 40px;
     width: 60px;
-    margin-right: 5px;
 }
 
 .regiaoImg {
-    margin-left: 60px;
-    height: 150px;
-    width: 180px;
+    height: 140px;
+    width: 140px;
 }
 
 .spanName {
-    right: 6vw;
-    top: 5vw;
-    position: relative;
     margin-right: 5px;
 }
 
 .bestRegion {
+    justify-content: center;
+    align-items: center;
+    display: flex;
     background-color: white;
-    position: relative;
     border-style: solid;
     border-radius: 7px;
     border-width: 1px;
-    width: 400px;
-    left: -0.5vw;
-    height: 12vw;
-    bottom: 2vw;
+    width: 26vw;
+    height: 200px;
     margin-right: 20px;
 }
 
