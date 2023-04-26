@@ -6,15 +6,58 @@ import Chart from 'react-google-charts';
 import * as C from '../../cadastro/cadastro'
 import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
+
 import { Link } from 'react-router-dom';
 import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as RF from "../resumo_de_faturamento/resumoFaturamento"
+
+import { Link, useNavigate } from 'react-router-dom';
+import {AuthContext} from "../../../contexts/Auth/authContext"
+
 
 Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
 
     const { user, empresa } = useContext(AuthContext);
+
+    const {user, empresa} = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const [filterFilial, setIsOpenFilterFilial] = useState(true);
+    const [filterTops, setIsOpenFilterTops] = useState(false);
+    const [modalTop, setIsOpenModalTop] = useState(false);
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const [regiaoIsOpen, setIsOpenRegiao] = useState(true);
+    const [filialIsOpen, setIsOpenFilial] = useState(false);
+    const [vendedorIsOpen, setIsOpenVendedor] = useState(false);
+    const [clienteIsOpen, setIsOpenCliente] = useState(false);
+    const [tipoPgIsOpen, setIsOpenTipoPg] = useState(false);
+    const [produtoIsOpen, setIsOpenProduto] = useState(false);
+    const [grupoIsOpen, setIsOpenGrupo] = useState(false);
+    const [fornecdorIsOpen, setIsOpenFornecedor] = useState(false);
+    const [relatorioIsOpen, setIsOpenRelatorio] = useState(false);
+
+    function openFilterFilial() {
+        setIsOpenFilterFilial(true);
+    }
+    function closeFilterFilial() {
+        setIsOpenFilterFilial(false);
+    }
+
+    function openModalTop() {
+        setIsOpenModalTop(true)
+    }
+    function closeModalTop() {
+        setIsOpenModalTop(false)
+    }
+
+    function openFilterTops() {
+        setIsOpenFilterTops(true);
+    }
+    function closeFilterTops() {
+        setIsOpenFilterTops(false);
+    }
 
     const [showElement, setShowElement] = useState(false)
 
@@ -1125,7 +1168,13 @@ export const ResumoFaturamento = () => {
 
             <C.Header> <h3>Resumo de Faturamento</h3> </C.Header>
 
+
             <span>Atenção: Ao selecionar NF-e, é importante destacar as T.OP.´s que serão tomadas em consideração na consulta, consultando sem nenhuma T.OP.(consulta geral), poderá vir ENTRADAS </span>
+
+                    <C.Header>
+                        <h3>Resumo de Faturamento</h3>
+                    </C.Header>
+
 
             <RF.Filtros>
                 <RF.FilialTop>
@@ -2475,8 +2524,8 @@ export const ResumoFaturamento = () => {
             <C.Footer >
 
                 <div className='buttons'>
-                    <button onClick={openDashboardGeral} className='botão0'> <img src='/images/grafico.png' className='grafico' /> Graf. Gerais</button>
-                    <Link to="/home" className='botão'> <img src='/images/voltar.png' /> Voltar</Link>
+                    <button onClick={openDashboardGeral}> <img src='/images/grafico.png'/> Graf. Gerais</button>
+                    <button onClick={()=> navigate('/home')}> <img src='/images/voltar.png' /> Voltar</button> 
                 </div>
 
                 <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} style={customStyles}>

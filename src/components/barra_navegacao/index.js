@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CadastrarFamilia } from "../modais/modais_tela_produtos/modal_cadastro_familia";
+import { Familia } from "../modais/modais_tela_produtos/modal_familia/index";
 import { Ipi } from "../modais/modais_tela_produtos/modal_ipi";
 import { PisCofins } from "../modais/modais_tela_produtos/modal_pis_cofins";
 import { Nivel } from "../modais/modal_nivel";
@@ -53,6 +53,7 @@ export const NavBar = () => {
     function fecharOp (){
         setOpProdutos(false);
         setOpfuncionario(false);
+        setOpAuxiliar(false);
     }
 
     function navegarProduto (){
@@ -61,20 +62,49 @@ export const NavBar = () => {
             setIsModalRegraIcms(false);
             setIsModalGrupoIpi(false);
             setIsModalGrupoPis(false);
+            setIsModalGrupo(false);
         }else if(isModalRegraIcms === true){
             setIsModalGrupoIpi(false);
             setIsModalGrupoPis(false);
             setIsModalFamilia(false);
+            setIsModalGrupo(false);
         }else if(isModalGrupoIpi === true){
             setIsModalRegraIcms(false);
             setIsModalGrupoPis(false);
             setIsModalFamilia(false);
+            setIsModalGrupo(false);
         }else if(isModalGrupoPis === true){
+            setIsModalFamilia(false);
+            setIsModalRegraIcms(false);
+            setIsModalGrupoIpi(false);
+            setIsModalGrupo(false);
+        }else if(isModalGrupo === true){
+            setIsModalGrupoPis(false);
             setIsModalFamilia(false);
             setIsModalRegraIcms(false);
             setIsModalGrupoIpi(false);
         }
     }
+    function navegarTabelaAuxi(){
+        if(perfil){
+            setRamo(false);
+            setTipoPgto(false);
+        }else if(ramo){
+            setPerfil(false);
+            setTipoPgto(false);
+        }else if(tipoPgto){
+            setPerfil(false);
+            setRamo(false);
+        }
+    }
+    function navegarFuncionario(){
+        if(isModalSetor){
+            setIsModalNivel(false);
+        }else if(isModalNivel){
+            setIsModalSetor(false);
+        }
+    }
+
     const sair = () => {
         localStorage.clear();
         document.location.reload(true);
@@ -123,10 +153,10 @@ export const NavBar = () => {
                                             </div>
                                             {tabelaAuxiliar ? (
                                                 <>
-                                                    <div className="gaveta" onClick={()=> navigate('/top')}>T.O.P</div>
-                                                    <div className="gaveta" onClick={()=> {setPerfil(true); setCadastroPerfil(true)}}>Perfil de Regra</div>
-                                                    <div className="gaveta" onClick={()=> {setRamo(true); setCadastroRamo(true)}}>Ramo de Atividade</div>
-                                                    <div className="gaveta" onClick={()=> {setTipoPgto(true); setCadastroPgto(true)}}>Tipo de Pagamento</div>
+                                                    <div className="gaveta" onClick={()=> {navigate('/top'); fecharOp()}}>T.O.P</div>
+                                                    <div className="gaveta" onClick={()=> {setPerfil(true); setCadastroPerfil(true); navegarTabelaAuxi()}}>Perfil de Regra</div>
+                                                    <div className="gaveta" onClick={()=> {setRamo(true); setCadastroRamo(true); navegarTabelaAuxi()}}>Ramo de Atividade</div>
+                                                    <div className="gaveta" onClick={()=> {setTipoPgto(true); setCadastroPgto(true); navegarTabelaAuxi()}}>Tipo de Pagamento</div>
                                                 </>
                                             ) : null}
                                         </>
@@ -143,15 +173,15 @@ export const NavBar = () => {
                                 </>
                             ) : (
                                 <div className="gaveta">
-                                    {nivel.cadastro_funcionario ? <div className="gaveta" onClick={()=> navigate('/funcionarios')}>Cadastro</div> : null}                                    
-                                    {nivel.tabela_auxiliar_setor_funcionario ? <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true)}}>Cadastro de Setor</div> : null}
-                                    {nivel.tabela_auxiliar_tipo_funcionario ? <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true)}}>Cadastro de Nivel</div> : null}
+                                    {nivel.cadastro_funcionario ? <div className="gaveta" onClick={()=> {navigate('/funcionarios'); fecharOp()}}>Cadastro</div> : null}                                    
+                                    {nivel.tabela_auxiliar_setor_funcionario ? <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true); navegarFuncionario()}}>Cadastro de Setor</div> : null}
+                                    {nivel.tabela_auxiliar_tipo_funcionario ? <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true); navegarFuncionario()}}>Cadastro de Nivel</div> : null}
                                 </div>
                             )}
                         </>
                     ) : null}
                     {nivel.cadastro_dav_acessivel ? <div onClick={()=> {navigate('/consultar'); fecharOp()}}><img src="/images/ponto-de-venda.png"/>Rotina</div> : null}
-                    <div onClick={() =>{setRelatorio(!relatorio)}}><img src="/images/relatorio.png"/>Relatorios</div>
+                    <div onClick={() =>{setRelatorio(!relatorio)}}><img src="/images/relatorio.png"/>Relatórios</div>
                     {relatorio ? (<div className="gaveta" onClick={()=> {navigate('/resumoDeFaturamento'); fecharOp()}} >Resumo de Faturamento</div>) : null}
                     <button onClick={sair}>Sair</button>
                 </C.Barra>
@@ -162,7 +192,7 @@ export const NavBar = () => {
             {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} /> : null}
             
             {opProdutos ? <OpProdutos close={()=> setOpProdutos(false)} setOpProdutos={setOpProdutos}/> : null}
-            {isModalFamilia ? <CadastrarFamilia close={()=> setIsModalFamilia(false)}/> : null}
+            {isModalFamilia ? <Familia close={()=> setIsModalFamilia(false)}/> : null}
             {isModalGrupoIpi ? <Ipi close={()=> setIsModalGrupoIpi(false)}/> : null}
             {isModalGrupoPis ? <PisCofins close={()=> setIsModalGrupoPis(false)}/> : null}
             {isModalRegraIcms ? <GrupoIcms close={()=> setIsModalRegraIcms(false)}/> : null}

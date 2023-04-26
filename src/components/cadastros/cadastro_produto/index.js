@@ -10,6 +10,7 @@ import { Ipi } from "../../modais/modais_tela_produtos/modal_ipi";
 import { PisCofins } from "../../modais/modais_tela_produtos/modal_pis_cofins";
 import { Ncm } from "../../modais/modais_tela_produtos/modal_ncm";
 import { Cest } from "../../modais/modais_tela_produtos/modal_cest";
+import { Grupo } from "../../modais/modais_tela_produtos/modal_icms";
 
 export const CadastroProduto = () => {
     const navigate = useNavigate();
@@ -108,6 +109,12 @@ export const CadastroProduto = () => {
         if(e.keyCode === 113){
             setIsModalCofins(true);
         }
+    }    
+    function modalGrupo (e){
+        e.preventDefault();
+        if(e.keyCode === 113){
+            setIsModalGrupo(true);
+        }
     }
 
     function modalFamilia () {
@@ -117,27 +124,6 @@ export const CadastroProduto = () => {
     const [empresas, setEmpresas] = useState([]);
     const [aba, setAba] = useState('geral');
 
-    function geral (){
-        setAba('geral');
-    }
-    function tributacao (){
-        setAba('tributacao');
-    }
-    function infoCusto (){
-        setAba('info-custo');
-    }
-    function estoque (){
-        setAba('estoque');
-    }
-    function movimentacao (){
-        setAba('movimentacao');
-    }
-    function fornecedores (){
-        setAba('fornecedores');
-    }
-    function promocao (){
-        setAba('promocao');
-    }
     async function validade (){
         setAba('validade');
         const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
@@ -262,13 +248,13 @@ export const CadastroProduto = () => {
                 </div>
             </CP.InfoItem>
             <CC.Navegacao>
-                <div onClick={geral} style={{backgroundColor: aba === "geral" ? "white" : "", borderBottom: aba === "geral" ? "0" : ""}}>Geral</div>
-                <div onClick={tributacao} style={{backgroundColor: aba === "tributacao" ? "white" : "", borderBottom: aba === "tributacao" ? "0" : ""}}>Tributações para Emissão</div>
-                <div onClick={infoCusto} style={{backgroundColor: aba === "info-custo" ? "white" : "", borderBottom: aba === "info-custo" ? "0" : ""}}>Informações de Custo</div>
-                <div onClick={estoque} style={{backgroundColor: aba === "estoque" ? "white" : "", borderBottom: aba === "estoque" ? "0" : ""}}>Estoque</div>
-                <div onClick={movimentacao} style={{backgroundColor: aba === "movimentacao" ? "white" : "", borderBottom: aba === "movimentacao" ? "0" : ""}}>Movimentação</div>
-                <div onClick={fornecedores} style={{backgroundColor: aba === "fornecedores" ? "white" : "", borderBottom: aba === "fornecedores" ? "0" : ""}}>Fornecedores / +</div>
-                <div onClick={promocao} style={{backgroundColor: aba === "promocao" ? "white" : "", borderBottom: aba === "promocao" ? "0" : ""}}>Promoção</div>
+                <div onClick={()=> setAba('geral')} style={{backgroundColor: aba === "geral" ? "white" : "", borderBottom: aba === "geral" ? "0" : ""}}>Geral</div>
+                <div onClick={()=> setAba('tributacao')} style={{backgroundColor: aba === "tributacao" ? "white" : "", borderBottom: aba === "tributacao" ? "0" : ""}}>Tributações para Emissão</div>
+                <div onClick={()=> setAba('info-custo')} style={{backgroundColor: aba === "info-custo" ? "white" : "", borderBottom: aba === "info-custo" ? "0" : ""}}>Informações de Custo</div>
+                <div onClick={()=> setAba('estoque')} style={{backgroundColor: aba === "estoque" ? "white" : "", borderBottom: aba === "estoque" ? "0" : ""}}>Estoque</div>
+                <div onClick={()=> setAba('movimentacao')} style={{backgroundColor: aba === "movimentacao" ? "white" : "", borderBottom: aba === "movimentacao" ? "0" : ""}}>Movimentação</div>
+                <div onClick={()=> setAba('fornecedores')} style={{backgroundColor: aba === "fornecedores" ? "white" : "", borderBottom: aba === "fornecedores" ? "0" : ""}}>Fornecedores / +</div>
+                <div onClick={()=> setAba('promocao')} style={{backgroundColor: aba === "promocao" ? "white" : "", borderBottom: aba === "promocao" ? "0" : ""}}>Promoção</div>
                 <div onClick={validade} style={{backgroundColor: aba === "validade" ? "white" : "", borderBottom: aba === "validade" ? "0" : ""}}>Validade Est.</div>
             </CC.Navegacao>
             {aba === "geral"? (
@@ -358,7 +344,7 @@ export const CadastroProduto = () => {
                             <fieldset className="fieldset">
                                 <legend>Grupo</legend>
                                 <div>
-                                    <input className="codigo"/><input/>
+                                    <input className="codigo" onKeyDown={modalGrupo} onDoubleClick={()=> setIsModalGrupo(true)} title='Aperte F2 para listar as opções'/><input/>
                                 </div>
                                 <textarea readOnly/>
                             </fieldset>
@@ -635,17 +621,17 @@ export const CadastroProduto = () => {
                                     <label>à</label>
                                     <input type="date"/>
                                 </div>
-                                <button><img src="/images/add.png"/>Gerar Movimentação</button>
+                                <button className="gerar-mov"><img src="/images/add.png"/>Gerar Mov.</button>
                             </div>
                             <label> * Tipo Mov.: (E: Entrada / S: Saída / R-E: Remessa-Entrada / R-S: Remessa-Saída)</label>
                         </div>
                         <div className="ultima">
                             <div>
-                                <label>Ultima Venda:</label>
+                                <label>Última Venda:</label>
                                 <input/>
                             </div>
                             <div>
-                                <label>Ultima Compra:</label>
+                                <label>Última Compra:</label>
                                 <input/>
                             </div>
                         </div>
@@ -777,6 +763,7 @@ export const CadastroProduto = () => {
             {isModalPis ? <PisCofins close={()=> setIsModalPis(false)}/> : null}
             {isModalNcm ? <Ncm close={()=> setIsModalNcm(false)}/> : null}
             {isModalCest ? <Cest close={()=> setIsModalCest(false)}/> : null}
+            {isModalGrupo ? <Grupo close={()=> setIsModalGrupo(false)}/> : null}
         </C.Container>
     )
 }

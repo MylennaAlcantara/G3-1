@@ -149,6 +149,7 @@ export const Info = styled.div`
         width: 100%;
         height: 24px;
         border: none;
+        margin: 0;
         background-color: #D9D9D9;
         box-shadow: 0 3px 5px gray;
     }
@@ -231,10 +232,10 @@ export const Info = styled.div`
     }
     @media (max-width: 1920px){
         .option{
-            width: 85%;
+            width: 80%;
         }
         .div-partner{
-            width: 85%;
+            width: 80%;
         }
         .codigo{
             justify-content: start;

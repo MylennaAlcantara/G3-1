@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import * as C from "../cadastro/cadastro";
 import { Familia } from "../modais/modais_tela_produtos/modal_familia";
 import { GrupoIcms } from "../modais/modais_tela_produtos/modal_grupo_icms";
+import { Grupo } from "../modais/modais_tela_produtos/modal_icms";
 import { Ipi } from "../modais/modais_tela_produtos/modal_ipi";
 import { PisCofins } from "../modais/modais_tela_produtos/modal_pis_cofins";
 import * as M from "../modais/modal/modal";
@@ -14,6 +15,7 @@ export const OpProdutos = ({setOpProdutos, close}) => {
     const [isModalRegra, setIsModalRegra] = useState(false);
     const [isModalPisCofins, setIsModalPisCofins] = useState(false);
     const [isModalIpi, setIsModalIpi] = useState(false);
+    const [isModalGrupo, setIsModalGrupo] = useState(false);
 
     return(
         <M.Modal>
@@ -25,7 +27,7 @@ export const OpProdutos = ({setOpProdutos, close}) => {
                 <div className="div-botoes">
                     <div onClick={()=> {navigate('/produtos'); setOpProdutos(false)}}>Cadastrar</div>
                     <div onClick={()=> setIsModalFamilia(true)}>Cadastrar Familia</div>
-                    <div >Cadastrar Grupo</div>
+                    <div onClick={()=> setIsModalGrupo(true)}>Cadastrar Grupo</div>
                     <div onClick={()=> setIsModalRegra(true)}>Cadastrar Grupos ICMS/Regras de ICMS</div>
                     <div onClick={()=> setIsModalIpi(true)}>Cadastrar Grupos IPI</div>
                     <div onClick={()=> setIsModalPisCofins(true)}>Cadastrar Grupo PIS/COFINS</div>
@@ -40,6 +42,7 @@ export const OpProdutos = ({setOpProdutos, close}) => {
                 {isModalRegra ? <GrupoIcms close={()=> setIsModalRegra(false)}/> : null}
                 {isModalPisCofins ? <PisCofins close={()=> setIsModalPisCofins(false)}/> : null}
                 {isModalIpi ? <Ipi close={()=> setIsModalIpi(false)}/> : null}
+                {isModalGrupo ? <Grupo close={()=> setIsModalGrupo(false)} /> : null}
             </C.Container>
         </M.Modal>
     )
