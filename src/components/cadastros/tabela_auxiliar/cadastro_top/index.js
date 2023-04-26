@@ -26,7 +26,7 @@ export const CadastrarTop = () => {
             <CC.Navegacao>
                 <div onClick={()=> setAba('geral')} style={{backgroundColor: aba === 'geral' ? 'white' : '', borderBottom: aba === 'geral' ? 'none' : ''}}>Geral</div>
                 <div>Notas fiscais</div>
-                <div>Enmissão de NFe</div>
+                <div>Emissão de NFe</div>
                 <div onClick={()=> setAba('pgto')} style={{backgroundColor: aba === 'pgto' ? 'white' : '', borderBottom: aba === 'pgto' ? 'none' : ''}}>Tipos de Pagamento</div>
             </CC.Navegacao>
             {aba === 'geral' ? (
@@ -119,7 +119,7 @@ export const CadastrarTop = () => {
                             </div>
                             <div>
                                 <input type="checkbox"/>
-                                <label>escolher vendedor</label>
+                                <label>Escolher vendedor</label>
                             </div>
                             <div>
                                 <input type="checkbox"/>
@@ -127,11 +127,11 @@ export const CadastrarTop = () => {
                             </div>
                             <div>
                                 <input type="checkbox"/>
-                                <label>Atyalizar produto com dados da N.E.</label>
+                                <label>Atualizar produto com dados da N.E.</label>
                             </div>
                             <div>
                                 <input type="checkbox"/>
-                                <label>Libera emitente como Parceiro</label>
+                                <label>Libera emitente como parceiro</label>
                             </div>
                         </div>
                     </fieldset>
@@ -139,7 +139,7 @@ export const CadastrarTop = () => {
                         <legend>Faturamento</legend>
                             <div>
                                 <input type="checkbox"/>
-                                <label>CUPONM FISCAL / NFCE</label>
+                                <label>CUPOM FISCAL / NFCe</label>
                             </div>
                             <div>
                                 <input type="checkbox"/>

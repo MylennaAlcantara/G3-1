@@ -1,3 +1,17 @@
+
+.test {
+    background-color: #F0F0F0;
+    margin-left: 50%;
+    margin-top: 10px;
+    max-width: 600px;
+    height: 180px;
+    display: flex;
+    border-style: outset;
+    border-width: 2px;
+    box-shadow: -1px -1px 1px #ABADB3;
+    border-top-right-radius: 10px;
+}
+
 .close {
     width: 28px;
     height: 28px;
@@ -607,25 +621,7 @@ table tr:nth-child(odd) {
     border-color: #ABADB3;
 }
 
-.botão0 {
-    margin-right: 8px;
-    border-width: 1px;
-    border-style: solid;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 35px;
-    background-color: lightgray;
-    border-color: #ABADB3;
-    width: 170px;
-}
-
 .botão:hover {
-    background-color: #87CEFA;
-}
-
-.botão0:hover {
-    cursor: pointer;
     background-color: #87CEFA;
 }
 

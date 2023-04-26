@@ -78,8 +78,8 @@ export const Barra = styled.div `
         bottom: 15px;
         color: white;
         font-weight: bold;
-        width: 100px;
-        height: 30px;
+        width: 117px;
+        height: 33px;
         background-color: red;
         border: 1px solid red;
         border-radius: 5px;

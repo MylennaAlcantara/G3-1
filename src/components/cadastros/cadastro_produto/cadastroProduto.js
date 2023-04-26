@@ -4,7 +4,7 @@ export const InfoItem = styled.div`
     width: 100%;
     display: flex;
     background-color: #F0F0F0;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-bottom: 5px;
     .div-info{
         width: 100%;
@@ -76,6 +76,7 @@ export const Geral = styled.div`
         height: 100%;
         border-radius: 5px;
         margin:  5px 0 5px 0;
+        overflow: auto;
     }
     div{
         display: flex;
@@ -97,6 +98,7 @@ export const Geral = styled.div`
         fieldset{
             border-radius: 10px;
             background-color: #F0F0F0;
+            overflow: auto;
         }
         div{
             display: flex;
@@ -175,6 +177,9 @@ export const Tributacao = styled.div`
             height: 24px;
             width: 100px;
         }
+        fieldset{
+            border-radius: 10px;
+        }
     }
     .ippt{
         width: 100%;
@@ -182,7 +187,7 @@ export const Tributacao = styled.div`
         display: flex;
         flex-direction: column;
         align-items: center;
-        border-radius: 5px;
+        border-radius: 10px;
         .opcao{
             display: flex;
             flex-direction: column;
@@ -285,6 +290,12 @@ export const Movimentação = styled.div`
         margin: 5px;        
         box-shadow: 0 3px 5px gray;
     }
+    .gerar-mov{
+        width: 117px;
+        display: flex;
+        align-items: center;
+        height: 33px;
+    }
     #data{
         display: flex;
         width: 100%;
@@ -356,6 +367,7 @@ export const Fornecedores = styled.div`
         fieldset{
             height: 30%;
             background-color: #F0F0F0;
+            border-radius: 10px;
         }
         .foto{
             width: 50%;
