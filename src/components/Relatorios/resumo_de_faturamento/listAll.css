@@ -1,3 +1,4 @@
+
 .test {
     background-color: #F0F0F0;
     margin-left: 50%;
@@ -16,11 +17,6 @@
     height: 28px;
 }
 
-.top-text{
-    font-size: 11px;
-    background-color: white;
-}
-
 .closeBtn {
     display: flex;
     justify-content: center;
@@ -31,52 +27,27 @@
     height: 33px;
 }
 
-.filtro-filial-content {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 98px;
-    left: 140px;
-}
-
-.dashboard-label {
-    border-color: transparent;
-    position: relative;
-}
-
-.dashboardTeste {
-    border-style: solid;
+.CE{
     border-width: 1px;
-    height: 50px;
-    display: flex;
-    flex-direction: row;
+    background-color: #e6e6e6;
+    border-top-left-radius: 8px;
+    width: 117px;
 }
 
-.ModalDados {
-    position: absolute;
-    margin: 0px;
-    padding: 0px;
-    overflow-x: scroll;
-    overflow-y: scroll;
-    top: 60%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    transform: translate(-50%, -50%);
-    width: 75%;
-    height: 30%;
-    border-style: solid;
+.CE:hover{
+    cursor: pointer;
+    background-color: #a6f4ff;
+}
+
+.CD{
     border-width: 1px;
+    background-color: #e6e6e6;
+    border-top-right-radius: 8px;
 }
 
-
-.dashboard {
-    justify-content: space-between;
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    margin-top: 81px;
-    margin-left: 30px;
+.CD:hover{
+    cursor: pointer;
+    background-color: #a6f4ff;
 }
 
 .dashboard01 {
@@ -285,9 +256,8 @@ label {
 }
 
 .btns {
-    position: relative;
-    top: 30%;
-    right: 45.5%;
+    display: flex;
+    background-color: white;
 }
 
 .test1 {
@@ -296,15 +266,15 @@ label {
 }
 
 .filtro1 {
-    top: 3.7vw;
-    left: 1.7vw;
-    background-color: #F0F0F0;
-    width: 600px;
-    height: 180px;
-    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 190px;
+    background-color: #f0f0f0;
     border-style: outset;
-    border-width: 2px;
-    box-shadow: -1px -1px 1px #ABADB3;
+    margin-left: 10px;
+    margin-right: 15px;
+    margin-bottom: 20px;
 }
 
 h1 {
@@ -338,7 +308,6 @@ h2 {
 
 .lupa {
     cursor: pointer;
-    margin-top: 2px;
     height: 30px;
     width: 30px;
 }
@@ -519,11 +488,9 @@ table tr:nth-child(odd) {
 }
 
 .pesquisar {
-    margin-top: 144px;
-    margin-left: 20px;
+    margin-top: 95px;
     width: 117px;
     height: 33px;
-    position: absolute;
 }
 
 .checkboxs {
@@ -549,23 +516,12 @@ table tr:nth-child(odd) {
     height: 30px;
 }
 
-.filtros {
-    width: 50%;
-    left: 3%;
-    position: relative;
-    margin-top: 10px;
-    border-style: solid;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-width: 2px;
-}
-
 .search-input {
     border-right: none;
     margin-left: 3px;
     margin-top: 2px;
     height: 30px;
-    width: 400px;
+    width: 18vw;
 }
 
 .search-input-top {
@@ -646,9 +602,6 @@ table tr:nth-child(odd) {
 }
 
 .obs {
-    position: relative;
-    top: 35px;
-    left: -555px;
     display: flex;
 }
 
@@ -703,16 +656,11 @@ table tr:nth-child(odd) {
 }
 
 .clear {
-    margin-top: 4.3px;
-    margin-left: 1px;
     height: 30px;
 }
 
 .frontSpan {
-    margin-top: 2px;
     font-size: 15px;
-    display: flex;
-    justify-content: center;
 }
 
 .filter-all {
@@ -757,8 +705,6 @@ table tr:nth-child(odd) {
 
 .filter-name {
     width: 355px;
-    border-style: solid;
-    border-width: 1px;
 }
 
 .filter-name-cliente {
@@ -778,6 +724,11 @@ table tr:nth-child(odd) {
     height: 30px;
     width: 30px;
     margin-right: 5px;
+}
+
+span{
+    margin: 0px;
+    padding: 0px;
 }
 
 .modal-content {
@@ -834,7 +785,7 @@ table tr:nth-child(odd) {
 
 .botãoEmodal {
     display: flex;
-    flex-direction: row;
+    margin-top: 2px;
 }
 
 .search-input-modal {
@@ -932,82 +883,8 @@ table tr:nth-child(odd) {
 }
 
 @media (max-width:1440px) {
-    .ModalDados {
-        width: 58%;
-        height: 38%;
-    }
-
-    .test {
-        width: 45%;
-        margin-left: 53%;
-    }
-
-    .search-input {
-        width: 280px;
-    }
-
-    .filtro1 {
-        left: 11vw;
-        top: 2.7vw;
-        width: 430px;
-    }
-
-    .pesquisar {
-        top: 15%;
-        right: 23%;
-    }
-
-    .obs {
-        margin-left: 130px;
-    }
-
-    .ep3 {
-        width: 100px;
-    }
-
-    .btns {
-        right: 43.5%;
-    }
-
-    .filtros {
-        left: 1.5%;
-        top: 0.1%;
-        width: 70%;
-    }
-
-    .relatorio-content {
-        left: 850px;
-        top: 264px;
-    }
-
-    .filtro-tops-content {
-        bottom: 48.1vw;
-        left: 9.7vw;
-    }
-
-    .footer {
-        top: 0%;
-    }
-    .search-input{
-        width: 270px;
-    }
-
-    .pesquisar{
-        top: 16%;
-        right: 22%;
-    }
-
-    .search-input-top{
-        width: 390px;
-    }
-
-    .obs2{
-        left: -425px;
-    }
-
-    .lupa2{
-        top: -1px;
-        cursor: pointer;
+    .filtro1{
+        width: 400px;
     }
 }
 
@@ -1091,34 +968,19 @@ table tr:nth-child(odd) {
 }
 
 @media (max-width:1024px) {
-    .filtro1 {
-        top: 5.7vw;
-        left: -3vw;
-    }
 
     .ModalDados {
-        width: 75%;
-        height: 280px;
+        width: 95%;
+        height: 20vh;
     }
 
     .filtros {
-        top: 12%;
         left: 3%;
-    }
-
-    .pesquisar {
-        top: 20%;
-        right: 12%;
     }
 
     .relatorio-content {
         top: 38.2%;
         left: 64%;
-    }
-
-    .filtro-tops-content {
-        bottom: 67.6vw;
-        left: 13.5vw;
     }
 }
 

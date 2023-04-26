@@ -6,6 +6,11 @@ import Chart from 'react-google-charts';
 import * as C from '../../cadastro/cadastro'
 import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
+
+import { Link } from 'react-router-dom';
+import { AuthContext } from "../../../contexts/Auth/authContext"
+import * as RF from "../resumo_de_faturamento/resumoFaturamento"
+
 import { Link, useNavigate } from 'react-router-dom';
 import {AuthContext} from "../../../contexts/Auth/authContext"
 
@@ -13,6 +18,8 @@ import {AuthContext} from "../../../contexts/Auth/authContext"
 Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
+
+    const { user, empresa } = useContext(AuthContext);
 
     const {user, empresa} = useContext(AuthContext);
     const navigate = useNavigate();
@@ -52,174 +59,17 @@ export const ResumoFaturamento = () => {
         setIsOpenFilterTops(false);
     }
 
-    function openRelatorio() {
-        setIsOpenRelatorio(true);
-    }
-    function closeRelatorio() {
-        setIsOpenRelatorio(false);
-    }
+    const [showElement, setShowElement] = useState(false)
 
-    function openModal() {
-        setIsOpen(true);
-    }
-    function closeModal() {
-        setIsOpen(false);
-    }
+    const show = () => setShowElement(true)
 
-    function openRegiao() {
-        setIsOpenRegiao(true);
-    }
-    function closeRegiao() {
-        setIsOpenRegiao(false);
-    }
+    const [filial, setFilial] = useState(true);
+    const [isModalFilial, setIsModalFilial] = useState(false);
+    const [isModalTop, setIsModalTop] = useState(false);
 
-    function openFilial() {
-        setIsOpenFilial(true);
-    }
-    function closeFilial() {
-        setIsOpenFilial(false);
-    }
+    const [aba, setOpenAba] = useState("regiao");
 
-    function openVendedor() {
-        setIsOpenVendedor(true);
-    }
-    function closeVendedor() {
-        setIsOpenVendedor(false);
-    }
-
-    function openCliente() {
-        setIsOpenCliente(true);
-    }
-    function closeCliente() {
-        setIsOpenCliente(false);
-    }
-
-    function openTipoPg() {
-        setIsOpenTipoPg(true);
-    }
-    function closeTipoPg() {
-        setIsOpenTipoPg(false);
-    }
-
-    function openProduto() {
-        setIsOpenProduto(true);
-    }
-    function closeProduto() {
-        setIsOpenProduto(false);
-    }
-
-    function openGrupo() {
-        setIsOpenGrupo(true);
-    }
-    function closeGrupo() {
-        setIsOpenGrupo(false);
-    }
-
-    function openFornecedor() {
-        setIsOpenFornecedor(true);
-    }
-    function closeFornecedor() {
-        setIsOpenFornecedor(false);
-    }
-
-    function abrirFiltroFilial() {
-        openFilterFilial()
-        closeFilterTops()
-    }
-    function abrirFiltroTops() {
-        openFilterTops()
-        closeFilterFilial()
-    }
-    function abrirRegiao() {
-        closeRelatorio()
-        closeFornecedor()
-        closeGrupo()
-        closeTipoPg()
-        closeCliente()
-        closeVendedor()
-        closeFilial()
-        closeProduto()
-        openRegiao()
-    }
-    function abrirFilial() {
-        closeRelatorio()
-        closeGrupo()
-        closeFornecedor()
-        closeTipoPg()
-        closeCliente()
-        closeProduto()
-        closeVendedor()
-        closeRegiao()
-        openFilial()
-    }
-    function abrirVendedor() {
-        closeCliente()
-        closeGrupo()
-        closeFornecedor()
-        closeFilial()
-        closeRegiao()
-        closeTipoPg()
-        closeProduto()
-        openRelatorio()
-        openVendedor()
-    }
-    function abrirCliente() {
-        closeRelatorio()
-        closeTipoPg()
-        closeFilial()
-        closeRegiao()
-        closeVendedor()
-        closeProduto()
-        closeFornecedor()
-        closeGrupo()
-        openCliente()
-    }
-    function abrirTipoPg() {
-        closeFilial()
-        closeRegiao()
-        closeVendedor()
-        closeCliente()
-        closeFornecedor()
-        closeProduto()
-        closeGrupo()
-        openRelatorio()
-        openTipoPg()
-    }
-    function abrirProduto() {
-        closeFilial()
-        closeCliente()
-        closeRegiao()
-        closeFornecedor()
-        closeTipoPg()
-        closeVendedor()
-        closeGrupo()
-        openRelatorio()
-        openProduto()
-    }
-    function abrirGrupo() {
-        closeCliente()
-        closeFilial()
-        closeProduto()
-        closeFornecedor()
-        closeRegiao()
-        closeTipoPg()
-        closeVendedor()
-        openRelatorio()
-        openGrupo()
-    }
-    function abrirFornecedor() {
-        closeCliente()
-        closeFilial()
-        closeGrupo()
-        closeProduto()
-        closeRegiao()
-        closeTipoPg()
-        closeVendedor()
-        openRelatorio()
-        openFornecedor()
-    }
-
-    //--------------------------------------------------------------Separando Filtros-------------------------------------------------------------------------
+//--------------------------------------------------------------Filtros Parte de Cima-------------------------------------------------------------------------
 
     const [query, setQuery] = useState("");
     const [query1, setQuery1] = useState("");
@@ -234,7 +84,6 @@ export const ResumoFaturamento = () => {
     const [filter, setFilter] = useState("");
     const [dataIni, setDataIni] = useState("");
     const [dataFin, setDataFin] = useState("");
-    const [products, setProducts] = useState([]);
 
     const [dados, setDados] = useState([]);
     const [dadosRegiao, setDadosRegiao] = useState([]);
@@ -274,10 +123,6 @@ export const ResumoFaturamento = () => {
         setCheckTOP(e.currentTarget.checked);
     }
 
-    const opcTodos = document.getElementsByClassName("custom-select01")
-
-    const valorTodos = (opcTodos)
-
     console.log(filter)
 
     const objs =
@@ -299,9 +144,9 @@ export const ResumoFaturamento = () => {
         municipio: "",
     });
 
-    const [dataSelectTop,setDataSelectTop] = useState({
+    const [dataSelectTop, setDataSelectTop] = useState({
         id_top: "",
-        descricao: "" ,
+        descricao: "",
     })
 
     console.log(dataSelectTop);
@@ -503,10 +348,6 @@ export const ResumoFaturamento = () => {
         }
     }
 
-    const [showElement, setShowElement] = useState(false)
-
-    const show = () => setShowElement(true)
-
     const handleSetData = () => {
         show()
         setDataCliente();
@@ -518,17 +359,6 @@ export const ResumoFaturamento = () => {
         setDataGrupo();
         setDataFornecedor();
     }
-
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch("https://fakestoreapi.com/products?limit=5");
-            const data = await response.json();
-            setProducts(data);
-        }
-        fetchData();
-    }, []);
-
-    const [teste, setTeste] = useState([]);
 
     function onChangeDataIni(e) {
         setDataIni(e.currentTarget.value)
@@ -542,10 +372,10 @@ export const ResumoFaturamento = () => {
 
     const [dashboardGeral, setIsOpenDashboardGeral] = useState(false);
 
-    function openDashboardGeral(){
+    function openDashboardGeral() {
         setIsOpenDashboardGeral(true);
     }
-    function closeDashboardGeral(){
+    function closeDashboardGeral() {
         setIsOpenDashboardGeral(false);
     }
 
@@ -1312,11 +1142,6 @@ export const ResumoFaturamento = () => {
         setIsOpenModalPico(false);
     }
 
-    function closeFilterFilial() {
-        setIsOpenFilterFilial(false);
-    }
-
-
     const dataPico = [
         ["Mês", "Ano Anterior", "Ano Atual"],
         ["Janeiro", 1000, 2000],
@@ -1336,1437 +1161,1376 @@ export const ResumoFaturamento = () => {
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
-        
+
         <C.Container>
 
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.cnpj)}</C.NaviBar>
 
-            <div className="wrapper">
+            <C.Header> <h3>Resumo de Faturamento</h3> </C.Header>
 
-                <div className='test1'>
+
+            <span>Atenção: Ao selecionar NF-e, é importante destacar as T.OP.´s que serão tomadas em consideração na consulta, consultando sem nenhuma T.OP.(consulta geral), poderá vir ENTRADAS </span>
 
                     <C.Header>
                         <h3>Resumo de Faturamento</h3>
                     </C.Header>
 
-                    <span className='frontSpan' >Atenção: Ao selecionar NF-e, é importante destacar as T.OP.´s que serão tomadas em consideração na consulta, consultando sem nenhuma T.OP.(consulta geral), poderá vir ENTRADAS </span>
+
+            <RF.Filtros>
+                <RF.FilialTop>
 
                     <div className='btns'>
-                        <button className='topFilialBtn' onClick={abrirFiltroFilial} >Filial</button>
-                        <button className='topsBtn' onClick={abrirFiltroTops} >Tops</button>
+                        <button className='topFilialBtn' onClick={() => setFilial(true)} >Filial</button>
+                        <button className='topsBtn' onClick={() => setFilial(false)} >Tops</button>
                     </div>
 
-                    <Modal isOpen={filterFilial} onRequestClose={closeFilterFilial} contentLabel="Filtro-Filial" overlayClassName="filtroFilialOverlay" shouldCloseOnEsc={false} className="filtro-filial-content">
-                        <form className='filtro1'>
-                            <div className='filter01' >
-                                <select className='custom-select' >
+                    {filial ? (
+                        <div className='filial-top'>
+                            <div>
+                                <select>
                                     <option>Filial</option>
                                     <option>Região</option>
                                 </select>
-
-                                <label htmlFor="search-form" className='botãoEmodal' >
-                                    <input type="search" name="search-form" id="search-form" className="search-input" placeholder="Buscar..." onChange={(e) => setQuery(e.target.value)} /><img className='lupa' src="/images/LUPA.png" onClick={openModal} />
-                                </label>
-
-                                <div className='icon2'>
-                                    <button className="clear"> Limpar </button>
-
-                                </div>
-
-                                <div></div>
-
-                                <Modal isOpen={modalIsOpen} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} onRequestClose={closeModal} contentLabel="testando" overlayClassName="modal-overlay" className="modal-content1" >
-
-                                    <Emitente className="modal-content" onClose={closeModal} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} setDataSelectDadosEmitente={setDataSelectDadosEmitente} />
-
-                                </Modal>
-
-                                <div className='obs'>
+                                <input placeholder='Buscar...' />
+                                <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
+                                <button>Limpar</button>
+                            </div>
+                            <div className='table-responsive'>
+                                <table id='table'>
                                     <thead>
                                         <tr>
                                             <th >Código</th>
-
                                             <th >Fantasia</th>
-
-                                            <p className='ep3' >Razão Social</p>
-
+                                            <th>Razão Social</th>
                                             <th >Documento</th>
-
                                             <th >Município</th>
                                         </tr>
-
-                                        <tr>
-                                            <td className='top-text' > {dataIdSelectEmitente} </td>
-
-                                            <td className='top-text'>{dataSelectDataEmitente.fantasia}</td>
-
-                                            <td className='top-text' > {dataSelectEmitente} </td>
-
-                                            <td className='top-text' >{dataSelectDataEmitente.doc}</td>
-
-                                            <td className='top-text' >{dataSelectDataEmitente.municipio}</td>
-                                        </tr>
-
                                     </thead>
-                                </div>
-                            </div>
-                        </form>
-                    </Modal>
-
-                    <Modal
-                        isOpen={filterTops}
-                        onRequestClose={closeFilterTops}
-                        contentLabel="Filtro-Tops"
-                        overlayClassName="FitlroTopsOverlay"
-                        shouldCloseOnEsc={false}
-                        className="filtro-tops-content">
-                        
-
-                        <form className='filtro1' >
-                            <div className='filter01' >
-                                
-                                <label htmlFor="search-form" className='botãoEmodal'>
-                                    <input
-                                        type="search"
-                                        name="search-form"
-                                        id="search-form"
-                                        className="search-input-top"
-                                        placeholder="Buscar..."
-                                        onChange={(e) => setQuery2(e.target.value)}
-                                    />
-                                    
-                                    <img className='lupa2' onClick={openModalTop} src="/images/LUPA.png" />
-
-                                    <Modal isOpen={modalTop} onRequestClose={closeModalTop} contentLabel='Filtro-Tops' overlayClassName="FitlroTopsOverlay" shouldCloseOnEsc={false} className="ok" >
-
-                                        <Top onClose={closeModalTop} setDataSelectTop={setDataSelectTop} />
-
-                                    </Modal>
-
-                                </label>
-
-                                <div>
-                                    <thead className='obs2'>
+                                    <tbody>
                                         <tr>
-                                            <th>
-                                                Código
-                                            </th>
-
-                                            <p className='ep3'>
-                                                Descrição
-                                            </p>
+                                            <td> {dataIdSelectEmitente} </td>
+                                            <td>{dataSelectDataEmitente.fantasia}</td>
+                                            <td> {dataSelectEmitente} </td>
+                                            <td>{dataSelectDataEmitente.doc}</td>
+                                            <td>{dataSelectDataEmitente.municipio}</td>
                                         </tr>
-
-
-                                        <tr>
-                                          <td className='top-text' >{dataSelectTop.id_top}</td>
-
-                                          <td className='top-text' >{dataSelectTop.descricao}</td>  
-                                        </tr>
-                                    </thead>
-                                </div>
-
-                                <Modal
-                                    isOpen={modalIsOpen}
-                                    onRequestClose={closeModal}
-                                    contentLabel="testando"
-                                    overlayClassName="modal-overlay"
-                                    className="modal-content2"
-                                    shouldCloseOnEsc={false}
-
-                                >
-
-                                    <input type="search" name="search-form" id="search-form" className="search-input" placeholder="Buscar por Filial" onChange={(e) => setQuery3(e.target.value)} />
-
-                                    <ul className="card-grid">
-                                        {dados.filter(dat => dat.filial.toLowerCase().includes(query3)).map((dat) => (
-                                            <li key={dat.idFilial} >
-                                                {dat.filial}
-                                            </li>
-                                        ))}
-                                    </ul>
-
-
-                                    <button onClick={closeModal}>Fechar</button>
-
-                                </Modal>
-
+                                    </tbody>
+                                </table>
                             </div>
-                        </form>
-
-                    </Modal>
-
-                    <Modal isOpen={relatorioIsOpen} onRequestClose={closeRelatorio} contentLabel="Relatorio" overlayClassName="relatorioOverlay" className="relatorio-content">
-                        <button className='relatorioBtn' onClick={() => window.print()} >Relatório</button>  </Modal>
-
-                    <div>
-
-                        <div className='test' >
-
-                            <div className="dataIni" >
-                                <p className='dataLabel' >Data Inicial</p>
-                                <input type="date" onChange={onChangeDataIni} />
-                            </div>
-
-                            <div className="dataFin" >
-                                <p>Data Final</p>
-                                <input type="date" onChange={onChangeDataFin} />
-                            </div>
-
-                            <div className="select">
-                                <span className="sr-only">Status NFC-e</span>
-                                <select
-                                    onChange={(e) => setFilter(e.target.value)}
-                                    className="custom-select01"
-                                    aria-label="Filter By Category"
-                                >
-                                    <option id='todo' value="%">TODOS</option>
-                                    <option value="v">VENDA</option>
-                                    <option value="o">ORÇAMENTO</option>
-                                </select>
-                            </div>
-
+                        </div>
+                    ) : (
+                        <div className='filial-top'>
                             <div>
-                                <button className="pesquisar" onClick={handleSetData} >Pesquisar</button>
+                                <input placeholder='Buscar...' />
+                                <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
                             </div>
-
-                            <div className="checkboxs" >
-                                <input className='check' type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
-
-                                <input className='check' type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
-
-                                <input className='check' type="checkbox" value="false" id='NFCE' checked={checkNFCE} onChange={handleChecked01} /><label>NFC-e</label>
-
+                            <div className='table-responsive'>
+                                <table id='table'>
+                                    <thead>
+                                        <tr>
+                                            <th >Código</th>
+                                            <th >Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{dataSelectTop.id_top}</td>
+                                            <td>{dataSelectTop.descricao}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-
+                        </div>
+                    )}
+                </RF.FilialTop>
+                <RF.Data>
+                    <div>
+                        <div className="data" >
+                            <label>Data Inicial</label>
+                            <input type="date" onChange={onChangeDataIni} />
+                        </div>
+                        <div className="data" >
+                            <label>Data Final</label>
+                            <input type="date" onChange={onChangeDataFin} />
+                        </div>
+                        <div className="select">
+                            <label>Status NFC-e</label>
+                            <select onChange={(e) => setFilter(e.target.value)}>
+                                <option id='todo' value="%">TODOS</option>
+                                <option value="v">VENDA</option>
+                                <option value="o">ORÇAMENTO</option>
+                            </select>
                         </div>
                     </div>
+                    <div>
+                        <input type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
+                        <input type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
+                        <input type="checkbox" value="false" id='NFCE' checked={checkNFCE} onChange={handleChecked01} /><label>NFC-e</label>
+                    </div>
+                    <div className='botao-pesquisar'>
+                        <button onClick={handleSetData} >Pesquisar</button>
+                    </div>
+                </RF.Data>
+            </RF.Filtros>
 
-                    <div className="search-wrapper">
+            <div>
 
-                        <div className="filtros" >
-                            <button className='regiaoBtn' onClick={abrirRegiao} >Região</button>
-                            <Modal isOpen={regiaoIsOpen} onRequestClose={closeRegiao} contentLabel="testando1" shouldCloseOnOverlayClick={false} shouldCloseOnEsc={false} overlayClassName="modal-overlay" className="ModalDados" >
+                <RF.Navigacao>
+                    <button className='CE' onClick={() => setOpenAba("regiao")} >Região</button>
+                    <button className='relatorioBtn' onClick={() => setOpenAba("filial")}  >Filial</button>
+                    <button className='relatorioBtn' onClick={() => setOpenAba("vendedor")} > Vendedor </button>
+                    <button className='relatorioBtn' onClick={() => setOpenAba("cliente")} > Cliente </button>
+                    <button className='relatorioBtn' onClick={() => setOpenAba("tpPg")} > Tipo de Pagamento </button>
+                    <button className='relatorioBtn' onClick={() => setOpenAba("produto")} > Produto </button>
+                    <button className='relatorioBtn' onClick={() => setOpenAba("grupo")} > Grupo </button>
+                    <button className='CD' onClick={() => setOpenAba("fornecedor")} >Fornecedor</button>
+                </RF.Navigacao>
 
-                                {dadosRegiao.length === 0 && showElement === true ? (
-                                    <div className='c' >
-                                        <Loading />
-                                    </div>
-                                ) : (
-                                    <><div className='dashboardLine'>
-                                        <label>Dashboards</label> <label className='esc'>( Use 'Esc' para fechar )</label>
-                                        <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Graficos </p></button>
-                                    </div><div className='table-resp'>
-                                            <table className='table'>
-                                                <tr>
-                                                    <th>Id.Região</th>
+                {aba === "regiao" ? (
+                    <RF.DataGeral>
+                        {dadosRegiao.length === 0 && showElement === true ? (
+                            <div className='c' >
+                                <Loading />
+                            </div>
+                        ) : (
+                            <>
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label className='esc'>( Use 'Esc' para fechar )</label>
+                                    <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+                                </div>
 
-                                                    <th>Região</th>
+                                <div className='table-resp'>
 
-                                                    <th>Id. Filial</th>
+                                    <table className='table' >
+                                        <tr>
+                                            <th>Id.Região</th>
 
-                                                    <th>Qtd. Vendas</th>
+                                            <th>Região</th>
 
-                                                    <th>Vlr.Médio Venda</th>
+                                            <th>Id. Filial</th>
 
-                                                    <th>Vlr. Total NF-e</th>
+                                            <th>Qtd. Vendas</th>
 
-                                                    <th>Vlr. Total NFC-e</th>
+                                            <th>Vlr.Médio Venda</th>
 
-                                                    <th>Vlr. Venda Total</th>
+                                            <th>Vlr. Total NF-e</th>
 
-                                                    <th>Vlr. Custo Total</th>
+                                            <th>Vlr. Total NFC-e</th>
 
-                                                    <th>Vlr. Lucro Venda</th>
+                                            <th>Vlr. Venda Total</th>
 
-                                                    <th>Margem</th>
+                                            <th>Vlr. Custo Total</th>
 
-                                                    <th>Markup</th>
-                                                </tr>
-                                                {dadosRegiao.map((f1) => {
-                                                    return (
-                                                        <tr key={f1.idFilial}>
+                                            <th>Vlr. Lucro Venda</th>
 
-                                                            <td>{f1.idRegiao}</td>
+                                            <th>Margem</th>
 
-                                                            <td className='filter-name'>{f1.regiao}</td>
+                                            <th>Markup</th>
 
-                                                            <td>{f1.idFilial}</td>
-
-                                                            <td>{f1.qtdVendas}</td>
-
-                                                            <td>{f1.vlMedioVendas}</td>
-
-                                                            <td>{f1.vlTotalNfe}</td>
-
-                                                            <td>{f1.vlTotalNfce}</td>
-
-                                                            <td>{f1.vlVendaTotal}</td>
-
-                                                            <td>{f1.vlCustoTotal}</td>
-
-                                                            <td>{f1.vlLucroVenda}</td>
-
-                                                            <td>{f1.margem}</td>
-
-                                                            <td>{f1.markup}</td>
-                                                        </tr>
-                                                    );
-                                                })}
-
-                                                <Modal shouldCloseOnEsc={false} isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles}>
-
-                                                    <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                                                    <div>
-
-                                                        <h1>Dados Região</h1>
-
-                                                        <div className='dashboardTexts'>
-
-                                                            <h2 className='prices'>
-                                                                <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {result2}
-                                                            </h2>
-
-                                                            <h2 className='prices'>
-                                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {result}
-                                                            </h2>
-
-                                                            <h2 className='prices'>
-                                                                <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {result1}
-                                                            </h2>
-
-                                                            <h2 className='prices'>
-                                                                <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {result3}
-                                                            </h2>
-
-                                                            <h2 className='prices'>
-                                                                <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {result4}
-                                                            </h2>
-
-                                                        </div>
-
-                                                        <div className='dashboard'>
-                                                            <Chart chartType="ColumnChart" width="300px" height="220px" data={dataRegiao} options={options} className="grafico1" />
-                                                            <Chart chartType="Bar" width="300px" height="220px" data={dataRe0} options={optionsRe0} className="grafico1" />
-                                                            <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="220px" className="grafico1" />
-                                                        </div>
-
-                                                        <div className='dashboardOk'>
-                                                            <label className='bestRegion'>{dadosRegiao.map((banRe) => {
-
-                                                                if (banRe.regiao === 'PERNAMBUCO') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/PE.png' />
-                                                                            <p>Pernambuco</p> <img className='regiaoImg' src='/images/nordeste.png' /> <span className='spanName'>Nordeste</span>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'PARAIBA') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                                                            <p>Região Nordeste</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'ACRE') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/AC.png' />
-                                                                            <p>Região Norte</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'AMAZONAS') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/AM.png' />
-                                                                            <p>Região Norte</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'ALAGOAS') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/AL.png' />
-                                                                            <p>Região Nordeste</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'PIAUÍ') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/PI.png' />
-                                                                            <p>Região Nordeste</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'AMAPÁ') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/AP.png' />
-                                                                            <p>Região Norte</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'SÃO PAULO') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/SP.png' />
-                                                                            <p>Região Suldeste</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'RIO DE JANEIRO') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/RJ.png' />
-                                                                            <p>Região Suldeste</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'MINAS GERAIS') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/MG.png' />
-                                                                            <p>Região Suldeste</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'ESPÍRITO SANTO') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/ES.png' />
-                                                                            <p>Região Suldeste</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'BAHIA') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/BA.png' />
-                                                                            <p>Região Nordeste</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'CEARA') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/CE.png' />
-                                                                            <p>Região Nordeste</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'MATO GROSSO') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/MT.png' />
-                                                                            <p>Região Centro Oeste</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'TOCANTINS') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/TO.png' />
-                                                                            <p>Região Norte</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === 'PARANÁ') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                                                            <p>Região Sul</p>
-                                                                        </div>
-                                                                    );
-                                                                } else if (banRe.regiao === '') {
-                                                                    return (
-                                                                        <div className='tlou'>
-                                                                            <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                                                            <p>Região Nordeste</p>
-                                                                        </div>
-                                                                    );
-                                                                }
-
-                                                            })}</label>
-                                                            <Chart chartType="BarChart" data={barData} options={barOptions} className="grafico3" />
-                                                        </div>
-
-                                                    </div>
-
-
-                                                </Modal>
-
-                                            </table>
-                                        </div></>
-                                )}
-
-                            </Modal>
-
-                            <button className='filialBtn' onClick={abrirFilial} >Filial</button>
-                            <Modal isOpen={filialIsOpen} onRequestClose={closeFilial} contentLabel="Filial" shouldCloseOnOverlayClick={false} overlayClassName="filial-overlay" className="ModalDados">
-                                {dados.length === 0 && showElement === true ?  (
-                                    <div className='c'>
-                                        <Loading />
-                                    </div>
-
-                                ) : (
-                                    <><div className='dashboardLine'>
-                                        <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                        <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
-                                    </div><div className='table-resp'>
-                                            <table className='table'>
-                                                <tr>
-                                                    <th>Id.Filial</th>
-
-                                                    <th>Filial</th>
-
-                                                    <th>Qtd. Vendas</th>
-
-                                                    <th>Qtd. Itens</th>
-
-                                                    <th>Méd. Itens/Cup.</th>
-
-                                                    <th>Vlr. Médio Venda</th>
-
-                                                    <th>Vlr. Total NF-e</th>
-
-                                                    <th>Vlr. Total NFC-e</th>
-
-                                                    <th>Vlr. Venda Total</th>
-
-                                                    <th>Vlr. Total Credito</th>
-
-                                                    <th> Vlr. Total Líquido</th>
-
-                                                    <th>Vlr. Custo Total</th>
-
-                                                    <th>Vlr. Lucro Venda</th>
-
-                                                    <th>Vlr. Lucro Líquido</th>
-
-                                                    <th>% Margem</th>
-
-                                                    <th>Percentual</th>
-
-                                                </tr>
-
-                                                {dados.map((f2) => {
-                                                    return (
-                                                        <tr>
-                                                            <td> {f2.idFilial} </td>
-
-                                                            <td className='filter-name'>{f2.filial}</td>
-
-                                                            <td>{f2.qtdVendas}</td>
-
-                                                            <td>{f2.qtdItens}</td>
-
-                                                            <td>{f2.qtdItensCupom}</td>
-
-                                                            <td>{f2.vlMedioVendas.toFixed(2)}</td>
-
-                                                            <td>{f2.vlTotalNfe}</td>
-
-                                                            <td>{f2.vlTotalNfce}</td>
-
-                                                            <td>{f2.vlVendaTotal}</td>
-
-                                                            <td>{f2.vlTotalCredito}</td>
-
-                                                            <td>{f2.vlTotalLiquido}</td>
-
-                                                            <td>{f2.vlCustoTotal}</td>
-
-                                                            <td>{f2.vlLucroVenda}</td>
-
-                                                            <td>{f2.vlLucroLiquido}</td>
-
-                                                            <td>{f2.margem}</td>
-
-                                                            <td>{(f2.percentual).toFixed(2)}</td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </table>
-                                        </div></>
-                                )}
-
-                                <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
-
-                                    <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                                    <div>
-
-                                        <h1>Dados Filial</h1>
-
-                                        <div className='dashboardTexts' >
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {resultFi2}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {resultFi}
-                                            </h2>
-
-                                            <h2 className='prices'>
-                                                <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {resultFi1}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultFi3}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultFi4}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {resultFi5}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {resultFi6}
-                                            </h2>
-                                        </div>
-
-                                        <div className='dashboard' >
-                                            <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFilial} className="grafico1" />
-                                            <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} className="grafico1" />
-                                            <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="300px" height="200px" className="grafico1" />
-                                        </div>
-                                        <Chart chartType="Bar" width="350px" height="250px" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" className="grafico3" />
-                                    </div>
-
-
-                                </Modal>
-
-                            </Modal>
-
-                            <button className='vendedorBtn' onClick={abrirVendedor} > Vendedor </button>
-                            <Modal isOpen={vendedorIsOpen} onRequestClose={closeVendedor} contentLabel="Vendedor" shouldCloseOnOverlayClick={false} overlayClassName="vendedor-overlay" className="ModalDados">
-                                {dadosVendedor.length === 0 && showElement === true ? (
-                                    <div className='c' >
-                                        <Loading />
-                                    </div>
-                                ) : (
-                                    <><input type="search" name="search-vend" id="search-vend" className="search" placeholder="Buscar por Vendedor" onChange={(e) => setQuery4(e.target.value)} /><div className='dashboardLine'>
-                                        <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                        <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
-                                    </div><table className='table-resp'>
-                                            <tr className='table'>
-                                                <th>Id. Filial</th>
-
-                                                <th>Id. Vendedor</th>
-
-                                                <th>Vendedor</th>
-
-                                                <th>Qtd. Vendas</th>
-
-                                                <th>Vlr. Total NF-e</th>
-
-                                                <th>Vlr. Total NFC-e</th>
-
-                                                <th> Vlr. Venda Total</th>
-
-                                                <th>Vlr. Total Cancelamento</th>
-
-                                                <th>Vlr. Total Desconto</th>
-
-                                                <th>Vlr. Total Credito</th>
-
-                                                <th>Vlr. Total Comissão</th>
-
-                                                <th>Vlr. Custo Total</th>
-
-                                                <th>Vlr. Lucro Venda</th>
-
-                                                <th>Vlr. Lucro Líquido</th>
-
-                                                <th>Per. Lucro Líquido</th>
-
-                                                <th>Percentual</th>
-                                            </tr>
-
-                                            {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query4)).map((dat) => (
-
-                                                <tr className='labels'>
-                                                    <td>{dat.idFilial}</td>
-
-                                                    <td>{dat.idVendedor}</td>
-
-                                                    <td className='filter-name'>{dat.vendedor}</td>
-
-                                                    <td>{dat.qtdVendas}</td>
-
-                                                    <td>{dat.vlTotalNfe}</td>
-
-                                                    <td>{dat.vlTotalNfce}</td>
-
-                                                    <td>{dat.vlVendaTotal}</td>
-
-                                                    <td>{dat.vlTotalCancelamento}</td>
-
-                                                    <td>{dat.vlTotalDesconto}</td>
-
-                                                    <td>{dat.vlTotalCredito}</td>
-
-                                                    <td>{dat.vlTotalComissao}</td>
-
-                                                    <td>{(dat.vlCustoTotal).toFixed(2)}</td>
-
-                                                    <td>{(dat.vlLucroVenda).toFixed(2)}</td>
-
-                                                    <td>{(dat.vlLucroLiquido).toFixed(2)}</td>
-
-                                                    <td className='filter-all'>% {(dat.plucroLiquido).toFixed(2)}</td>
-
-                                                    <td>{(dat.percentual).toFixed(2)}</td>
-                                                </tr>
-
-                                            ))}
-                                        </table></>
-                                )}
-
-                                <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
-
-                                    <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                                    <div>
-                                        <h1>Dados Vendedor</h1>
-
-                                        <div className='dashboardTexts' >
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: R$ {(resultVen2).toFixed(3)}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {(resultVen).toFixed(2)}
-                                            </h2>
-
-                                            <h2 className='prices'>
-                                                <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultVen1}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultVen3}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultVen4}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: R$ {resultVen5}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: R$ {resultVen6}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: R$ {resultVen7}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoCinza.png' /> Desconto: R$ {resultVen8}
-                                            </h2>
-                                        </div>
-
-                                        <div className='dashboard' >
-                                            <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor} className="grafico1" />
-                                            <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} className="grafico1" />
-                                            <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="300px" height="200px" className="grafico1" />
-                                        </div>
-                                    </div>
-                                    <Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} className="grafico3" />
-                                </Modal>
-
-                            </Modal>
-
-                            <button className='clienteBtn' onClick={abrirCliente} > Cliente </button>
-                            <Modal isOpen={clienteIsOpen} onRequestClose={closeCliente} contentLabel="Cliente" shouldCloseOnOverlayClick={false} overlayClassName="Cliente-overlay" className="ModalDados">
-                                {dadosCliente.length === 0 && showElement === true ? (
-                                    <div className='c'>
-                                        <Loading />
-                                    </div>
-                                ) : (
-                                    <><input type="search" name="search-cli" id="search-cli" className="search" placeholder="Buscar por Cliente" onChange={(e) => setQuery5(e.target.value)} /><div className='dashboard-label'>
-
-                                        <div className='dashboardLine'>
-                                            <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                            <button className='dashboardBtn' onClick={openDashboardCliente}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
-                                        </div>
-
-                                    </div><table className='table-resp'>
-                                            <tr className='labels'>
-                                                <th> Id. Filial </th>
-
-                                                <th> Id. Cliente </th>
-
-                                                <th> Cliente </th>
-
-                                                <th> Qtd. Vendas </th>
-
-                                                <th> Vlr. Total NF-e </th>
-
-                                                <th> Vlr. Total NFC-e </th>
-
-                                                <th> Vlr. Venda Total </th>
-
-                                                <th> Vlr. Total Desconto </th>
-
-                                                <th> Vlr. Total Credito </th>
-
-                                                <th> Vlr. Custo Total </th>
-
-                                                <th> Vlr. Lucro Venda </th>
-
-                                                <th> Vlr. Lucro Líquido </th>
-
-                                                <th> Per. Lucro Líquido </th>
-
-                                                <th> Percentual </th>
-                                            </tr>
-
-                                            {dadosCliente.filter(dat => dat.cliente.toLowerCase().includes(query5)).map((dat1) => (
-                                                <tr className='labels'>
-
-                                                    <td>{dat1.idFilial}</td>
-
-                                                    <td>{dat1.idCliente}</td>
-
-                                                    <td className='filter-name'>{dat1.cliente}</td>
-
-                                                    <td>{dat1.qtdVendas}</td>
-
-                                                    <td>{dat1.vlTotalNfe}</td>
-
-                                                    <td>{dat1.vlTotalNfce}</td>
-
-                                                    <td>{dat1.vlVendaTotal}</td>
-
-                                                    <td>{dat1.vlTotalDesconto}</td>
-
-                                                    <td>{dat1.vlTotalCredito}</td>
-
-                                                    <td>{dat1.vlCustoTotal}</td>
-
-                                                    <td>{dat1.vlLucroVenda}</td>
-
-                                                    <td>{dat1.vlLucroLiquido}</td>
-
-                                                    <td>{dat1.plucroLiquido} %</td>
-
-                                                    <td>{(dat1.percentual).toFixed(3)}</td>
-
-                                                </tr>
-                                            ))}
-                                        </table></>
-                                )}
-
-                                <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
-                                    <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                                    <div>
-                                        <h1>Dados Cliente</h1>
-
-                                        <div className='dashboardTexts' >
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: R$ {resultCli1.toFixed(2)}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {resultCli4}
-                                            </h2>
-
-                                            <h2 className='prices'>
-                                                <img className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: R$ {resultCli.toFixed(2)}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultCli2.toFixed(2)}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultCli3}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: {resultCli7}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: R$ {resultCli6.toFixed(2)}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {resultCli5}
-                                            </h2>
-
-                                        </div>
-
-                                        <div className='dashboard' >
-                                            <Chart chartType="ColumnChart" width="300px" height="250px" data={dataCliente} className="grafico1" />
-                                            <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico1" />
-                                            <Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"300px"} height={"200px"} className="grafico1" />
-                                        </div>
-
-                                    </div>
-                                    <Chart chartType="Bar" width="95%" height="500px" data={dataCli0} options={optionsCli0} />
-                                </Modal>
-
-                            </Modal>
-
-                            <button className='tipoDePagamentoBtn' onClick={abrirTipoPg} > Tipo de Pagamento </button>
-                            <Modal isOpen={tipoPgIsOpen} onRequestClose={closeTipoPg} contentLabel="Tipo de Pagamento" shouldCloseOnOverlayClick={false} overlayClassName="TipoPg-overlay" className="ModalDados">
-                                {dadosTipoPagamento.length === 0 && showElement === true ? (
-                                    <div className='c' >
-                                        <Loading />
-                                    </div>
-                                ) : (
-                                    <><div className='dashboardLine'>
-                                        <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                        <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
-                                    </div><table>
-                                            <tr className='labels'>
-                                                {keys.map((nomes) => {
-                                                    return (
-                                                        <th className='filter-all'>{(nomes).replace('_', ' ').toUpperCase()}</th>
-                                                    );
-                                                })}
-                                            </tr>
-
-                                            <tr className='labels'>
-                                                {dadosTipoPagamento.map((f5) => {
-                                                    return (
-                                                        <td className='filter-all'> {f5} </td>
-                                                    );
-                                                })}
-                                            </tr>
-                                        </table></>
-                                )}
-
-                                <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
-
-                                    <button onClick={closeDashboardTipoDePagamento} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                                    <div>
-
-                                        <h1>Dados Tipo Pagamento</h1>
-
-                                        <div className='dashboardTexts' >
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/dinheiro.png' /> Dinheiro : R$ {resultTpPg}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/credito.png' /> Cartão Credito: R$ {resultTpPg2}
-                                            </h2>
-
-                                            <h2 className='prices'>
-                                                <img className='cifrões' src='/images/debito.png' /> Cartão Debito: R$ {resultTpPg3}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cheque.png' /> Cheque : R$ {resultTpPg4}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/boleto.png' /> Boleto Bancario: R$ {resultTpPg5}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoRosa.png' /> Credito Loja: R$ {resultTpPg6}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento Total: R$ {resultTpPg7}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Desconto Total: R$ {resultTpPg8}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultTpPg1}
-                                            </h2>
-
-                                        </div>
-
-                                        <h1>Vales(Caso possua)</h1>
-
-                                        <div className='dashboardTexts'>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/valeAlimentação.png' /> Alimentação: R$ {resultTpPg9}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/valePresente.png' /> Presente: R$ {resultTpPg11}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/valeRefeição.png' /> Refeição: R$ {resultTpPg12}
-                                            </h2>
-                                        </div>
-
-                                        <div className='dashboard' >
-                                            <Chart chartType="ColumnChart" width="300px" height="200px" data={dataTpPg} className="grafico1" />
-                                            <Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} className="grafico1" />
-                                            <Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="300px" height="200px" className="grafico1" />
-                                        </div>
-
-                                    </div>
-                                    <div className='dashboard' >
-                                        <Chart chartType="Bar" width="500px" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico3" />
-                                        <Chart chartType="ColumnChart" width="350px" height="250px" data={dataTpPgVale} className="grafico2" />
-                                    </div>
-
-                                </Modal>
-
-
-                            </Modal>
-
-                            <button className='produtoBtn' onClick={abrirProduto} > Produto </button>
-                            <Modal isOpen={produtoIsOpen} onRequestClose={closeProduto} contentLabel="Produto" shouldCloseOnOverlayClick={false} overlayClassName="Produto-overlay" className="ModalDados">
-                                {dadosProduto.length === 0 && showElement === true ? (
-                                    <div className='c' >
-                                        <Loading />
-                                    </div>
-                                ) : (
-                                    <><input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)} /><div className='dashboardLine'>
-                                        <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                        <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
-                                    </div><Modal isOpen={modalPico} onRequestClose={closeModalPico} contentLabel="Picos"> <Chart chartType="AreaChart" width="100%" height="400px" data={dataPico} options={optionsPico} /> </Modal><div className='table-resp'>
-                                            <table className='table'>
-                                                <tr>
-                                                    <th>Ranking</th>
-
-                                                    <th>Id.Produto</th>
-
-                                                    <th>Produto</th>
-
-                                                    <th>Qtd. Total</th>
-
-                                                    <th>Sub Total</th>
-
-                                                    <th>% Desconto</th>
-
-                                                    <th>Vlr. Desconto Total </th>
-
-                                                    <th>Vlr. Venda Total</th>
-
-                                                    <th>Vlr. Custo Total</th>
-
-                                                    <th>Vlr. Lucro Total</th>
-
-                                                    <th>% Markup</th>
-
-                                                    <th>% Margem</th>
-
-                                                    <th>Percentual</th>
-                                                </tr>
-
-                                                {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(query6)).map((dat2) => {
-
-                                                    return (
-
-                                                        <tr>
-                                                            <td> {dat2.ranking} </td>
-
-                                                            <td> {dat2.id_produto} </td>
-
-                                                            <td onDoubleClick={openModalPico}> {dat2.produto} </td>
-
-                                                            <td className='filter-all'> {dat2.qtd_total} </td>
-
-                                                            <td> {dat2.sub_total} </td>
-
-                                                            <td> {(dat2.p_desconto).toFixed(3)} </td>
-
-                                                            <td> {dat2.vlr_desconto_total} </td>
-
-                                                            <td> {dat2.vlr_venda_total} </td>
-
-                                                            <td> {dat2.vlr_custo_total} </td>
-
-                                                            <td> {dat2.vlr_lucro_total} </td>
-
-                                                            <td> {dat2.p_markup} </td>
-
-                                                            <td> {dat2.p_margem} </td>
-
-                                                            <td> {(dat2.percentual).toFixed(2)} </td>
-                                                        </tr>
-                                                    );
-                                                })}
-
-                                            </table>
-                                            <Modal isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles}>
-
-                                                <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                                                <div>
-
-                                                    <h1>Dados Produtos <button className='btnDetalhes' onClick={openDashboardProdutosDetalhados}><img className='grafico' src='images/itens.png' /> Por itens </button> </h1>
-
-                                                    <div className='dashboardTexts'>
-
-                                                        <h2 className='prices'>
-                                                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {resultProd.toFixed(3)}
-                                                        </h2>
-
-                                                        <h2 className='prices'>
-                                                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {resultProd1.toFixed(3)}
-                                                        </h2>
-
-                                                        <h2 className='prices'>
-                                                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {resultProd3.toFixed(3)}
-                                                        </h2>
-
-                                                        <h2 className='prices'>
-                                                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {resultProd4.toFixed(3)}
-                                                        </h2>
-
-                                                    </div>
-
-                                                    <div className='dashboard'>
-                                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataProd} className="grafico1" />
-                                                        <Chart chartType="PieChart" data={dataProd} options={optionsProd} width="300px" height="200px" className="grafico1" />
-                                                        <Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} className="grafico1" />
-                                                    </div>
-
-                                                    <Chart chartType="Bar" width="95%" height="35vw" data={dataProd0} options={optionsProd0} />
-
-                                                </div>
-
-                                                <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado'>
-                                                    {dadosProdutoReduzidos.map((prod) => {
-
-                                                        const dashboard = [
-                                                            ["Element", "Valor", { role: "style" }],
-                                                            ["Venda:", prod.vlr_venda_total, "#f6d001"],
-                                                            ["Lucro", prod.vlr_lucro_total, "#1b7abc"],
-                                                        ];
-
-                                                        return (
-                                                            <div className='a'>
-                                                                <h2>{prod.produto}</h2>
-                                                                <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
-                                                            </div>
-                                                        );
-
-                                                    })}
-                                                </Modal>
-
-                                            </Modal>
-
-                                        </div></>
-                                )}
-                            </Modal>
-
-                            <button className='grupoBtn' onClick={abrirGrupo} > Grupo </button>
-                            <Modal isOpen={grupoIsOpen} onRequestClose={closeGrupo} shouldCloseOnOverlayClick={true} overlayClassName="Grupo-overlay" contentLabel="Grupo" className="ModalDados">
-                                {dadosGrupo.length === 0 && showElement === true ? (
-                                    <div className='c' >
-                                        <Loading />
-                                    </div>
-                                ) : (
-                                    <><input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Grupo" onChange={(e) => setQuery7(e.target.value)} /><div className='dashboardLine'>
-                                        <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                        <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
-                                    </div><table>
-                                            <tr className='labels'>
-                                                <th className='filter-all'>Ranking</th>
-
-                                                <th className='filter-all'>Id. Grupo</th>
-
-                                                <th className='filter-name'>Grupo</th>
-
-                                                <th className='filter-all'>Qtd. Total</th>
-
-                                                <th className='filter-all'>Sub Total</th>
-
-                                                <th className='filter-all'>% Desconto</th>
-
-                                                <th className='filter-all'>Vlr. Desconto Total</th>
-
-                                                <th className='filter-all'>Vlr. Venda Total</th>
-
-                                                <th className='filter-all'>Vlr. Custo Total</th>
-
-                                                <th className='filter-all'>Vlr. Lucro Total</th>
-
-                                                <th className='filter-all'>% Markup</th>
-
-                                                <th className='filter-all'>% Margem</th>
-
-                                                <th className='filter-all'>Percentual</th>
-                                            </tr>
-
-                                            {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(query7)).map((dat3) => {
-
-                                                return (
-
-                                                    <tr className='labels'>
-
-                                                        <td>{dat3.ranking}</td>
-
-                                                        <td>{dat3.id_grupo}</td>
-
-                                                        <td> {dat3.grupo} </td>
-
-                                                        <td> {dat3.qtd_total} </td>
-
-                                                        <td> {dat3.sub_total} </td>
-
-                                                        <td> {dat3.p_desconto} </td>
-
-                                                        <td> {dat3.vlr_desconto_total} </td>
-
-                                                        <td> {dat3.vlr_venda_total} </td>
-
-                                                        <td> {dat3.vlr_custo_total} </td>
-
-                                                        <td> {dat3.vlr_lucro_total} </td>
-
-                                                        <td> {dat3.p_markup} </td>
-
-                                                        <td> {dat3.p_margem} </td>
-
-                                                        <td> {(dat3.percentual).toFixed(3)} </td>
-                                                    </tr>
-
-                                                );
-
-                                            })}
-                                        </table></>
-                                )}
-
-                                <Modal isOpen={dashboardGrupo} onRequestClose={closeDashboardGrupo} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
-
-                                    <button onClick={closeDashboardGrupo} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                                    <div>
-
-                                        <h1>Dados Grupo  <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado} > <img className='grafico' src='images/itens.png' /> Cada Grupo  </button> </h1>
-
-                                        <div className='dashboardTexts' >
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultGru}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {resultGru1}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {resultGru2.toFixed(2)}
-                                            </h2>
-
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {resultGru3}
-                                            </h2>
-
-                                        </div>
-
-                                        <div className='dashboard01' >
-                                            <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} className="grafico1" />
-                                            <Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} className="grafico0" />
-                                        </div>
-
-                                        <Chart chartType="Bar" width="95%" height="35vw" data={dataGru0} options={optionsGru0} />
-
-                                    </div>
-
-                                    <Modal isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
-                                        {dadosGrupoDetalhado.map((detalhado) => {
-
-                                            const grupoDetalhado = [
-                                                ["Element", "Valor", { role: "style" }],
-                                                ["Venda:", detalhado.vlr_venda_total, "#bc1b2b"],
-                                                ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
-                                            ];
-
-                                            const grupoDetalhadoBar = [
-                                                [
-                                                    "Element",
-                                                    "Valor",
-                                                    { role: "style" },
-                                                    {
-                                                        sourceColumn: 0,
-                                                        role: "annotation",
-                                                        type: "string",
-                                                        calc: "stringify",
-                                                    },
-                                                ],
-                                                ["Venda", detalhado.vlr_venda_total, "#bc1b2b", null],
-                                                ["Lucro", detalhado.vlr_lucro_total, "ffaf56", null],
-                                                ["Sub Total", detalhado.sub_total, "#f6d001", null],
-                                                ["Desconto Total", detalhado.vlr_desconto_total, "#1b7abc", null],
-                                            ];
-
-                                            const barGruOptions = {
-                                                title: "Tabela Valores Totais.",
-                                                width: 300,
-                                                height: 200,
-                                                bar: { groupWidth: "95%" },
-                                                legend: { position: "none" },
-                                            };
-
+                                        </tr>
+                                        {dadosRegiao.map((f1) => {
                                             return (
-                                                <div className='a' >
-                                                    <h2>{detalhado.grupo}</h2>
-                                                    <div className='b'>
-                                                        <Chart chartType="ColumnChart" width="300px" height="200px" data={grupoDetalhado} className="graficoA" />
-                                                        <Chart chartType="BarChart" data={grupoDetalhadoBar} options={barGruOptions} className="graficoB" />
-                                                    </div>
-                                                </div>
-                                            )
-                                        })}
-                                    </Modal>
+                                                <tr key={f1.idFilial}>
 
-                                </Modal>
+                                                    <td>{f1.idRegiao}</td>
 
-                            </Modal>
+                                                    <td className='filter-name'>{f1.regiao}</td>
 
-                            <button className='fornecedorBtn' onClick={abrirFornecedor} >Fornecedor</button>
-                            <Modal isOpen={fornecdorIsOpen} onRequestClose={closeFornecedor} contentLabel="Fornecedor" shouldCloseOnOverlayClick={true} overlayClassName="Fornecedor-overlay" className="ModalDados">
-                                {dadosFornecedor.length === 0 && showElement === true ? (
-                                    <div className='c' >
-                                        <Loading />
-                                    </div>
-                                ) : (
-                                    <><input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)} /><div className='dashboardLine'>
-                                        <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                        <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
-                                    </div><table>
-                                            <tr className='labels'>
-                                                <th className='filter-all'>Ranking</th>
+                                                    <td>{f1.idFilial}</td>
 
-                                                <th className='filter-all'>Id. Fornecedor</th>
+                                                    <td>{f1.qtdVendas}</td>
 
-                                                <th className='filter-name'>Fornecedor</th>
+                                                    <td>{f1.vlMedioVendas}</td>
 
-                                                <th className='filter-all'>Qtd. Total</th>
+                                                    <td>{f1.vlTotalNfe}</td>
 
-                                                <th className='filter-all'>Sub Total</th>
+                                                    <td>{f1.vlTotalNfce}</td>
 
-                                                <th className='filter-all'>% Desconto</th>
+                                                    <td>{f1.vlVendaTotal}</td>
 
-                                                <th className='filter-all'>Vlr. Desconto Total</th>
+                                                    <td>{f1.vlCustoTotal}</td>
 
-                                                <th className='filter-all'>Vlr. Venda Total</th>
+                                                    <td>{f1.vlLucroVenda}</td>
 
-                                                <th className='filter-all'>Vlr. Custo Total</th>
+                                                    <td>{f1.margem}</td>
 
-                                                <th className='filter-all'>Vlr. Lucro Total</th>
-
-                                                <th className='filter-all'>% Markup</th>
-
-                                                <th className='filter-all'>% Margem</th>
-
-                                                <th className='filter-all'>Percentual</th>
-                                            </tr>
-
-                                            {dadosFornecedor.filter(dat => dat.fornecedor.toLowerCase().includes(query8)).map((dat) => (
-
-                                                <tr className='labels'>
-                                                    <td className='filter-all'> {dat.ranking} </td>
-
-                                                    <td className='filter-all'> {dat.id_fornecedor} </td>
-
-                                                    <td className='filter-name'> {dat.fornecedor} </td>
-
-                                                    <td className='filter-all'> {dat.qtd_total} </td>
-
-                                                    <td className='filter-all'> {dat.sub_total} </td>
-
-                                                    <td className='filter-all'> {(dat.p_desconto).toFixed(3)} </td>
-
-                                                    <td className='filter-all'> {dat.vlr_desconto_total} </td>
-
-                                                    <td className='filter-all'> {dat.vlr_venda_total} </td>
-
-                                                    <td className='filter-all'> {dat.vlr_custo_total} </td>
-
-                                                    <td className='filter-all'> {dat.vlr_lucro_total} </td>
-
-                                                    <td className='filter-all'> {dat.p_markup} </td>
-
-                                                    <td className='filter-all'> {dat.p_margem} </td>
-
-                                                    <td className='filter-all'> {(dat.percentual).toFixed(2)} </td>
+                                                    <td>{f1.markup}</td>
                                                 </tr>
-                                            ))}
-                                        </table></>
-                                )}
+                                            );
+                                        })}
+                                    </table>
 
-                                <Modal isOpen={dashboardFornecedor} onRequestClose={closeDashboardFornecedor} shouldCloseOnOverlayClick={false} style={customStyles} >
+                                </div>
+                            </>
 
-                                    <button onClick={closeDashboardFornecedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                        )}
+                    </RF.DataGeral>
+                ) : aba === "filial" ? (
+                    <RF.DataGeral>
+                        {dados.length === 0 && showElement === true ? (
+                            <div className='c' >
+                                <Loading />
+                            </div>
+                        ) : (
+                            <>
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                    <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
+                                </div>
 
-                                    <div>
+                                <div className='table-resp' >
+                                    <table className='table' >
+                                        <tr>
+                                            <th>Id.Filial</th>
 
-                                        <h1>Dados Fornecedor <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='grafico' src='images/itens.png' /> Cada Item</button> </h1>
+                                            <th>Filial</th>
 
-                                        <div className='dashboardTexts' >
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda:
-                                            </h2>
+                                            <th>Qtd. Vendas</th>
 
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro:
-                                            </h2>
+                                            <th>Qtd. Itens</th>
 
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo:
-                                            </h2>
+                                            <th>Méd. Itens/Cup.</th>
 
-                                            <h2 className='prices' >
-                                                <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto:
-                                            </h2>
+                                            <th>Vlr. Médio Venda</th>
 
-                                        </div>
+                                            <th>Vlr. Total NF-e</th>
 
-                                        <div className='dashboard01' >
-                                            <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} className="grafico1" />
-                                            <Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} className="grafico0" />
-                                        </div>
+                                            <th>Vlr. Total NFC-e</th>
 
-                                        <Chart chartType="Bar" width="95%" height="35vw" data={dataFor0} options={optionsFor0} />
+                                            <th>Vlr. Venda Total</th>
 
-                                    </div>
-                                </Modal>
+                                            <th>Vlr. Total Credito</th>
 
-                                <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardDetalhado' >
-                                    {dadosFornecedorDetalhado.map((forn) => {
+                                            <th> Vlr. Total Líquido</th>
 
-                                        const dashboard = [
-                                            ["Element", "Valor", { role: "style" }],
-                                            ["Venda", forn.vlr_venda_total, "#bc1b2b"],
-                                            ["Lucro", forn.vlr_lucro_total, "#57ffe8"],
-                                        ]
+                                            <th>Vlr. Custo Total</th>
+
+                                            <th>Vlr. Lucro Venda</th>
+
+                                            <th>Vlr. Lucro Líquido</th>
+
+                                            <th>% Margem</th>
+
+                                            <th>Percentual</th>
+
+                                        </tr>
+
+                                        {dados.map((f2) => {
+                                            return (
+                                                <tr>
+                                                    <td> {f2.idFilial} </td>
+
+                                                    <td className='filter-name'>{f2.filial}</td>
+
+                                                    <td>{f2.qtdVendas}</td>
+
+                                                    <td>{f2.qtdItens}</td>
+
+                                                    <td>{f2.qtdItensCupom}</td>
+
+                                                    <td>{f2.vlMedioVendas.toFixed(2)}</td>
+
+                                                    <td>{f2.vlTotalNfe}</td>
+
+                                                    <td>{f2.vlTotalNfce}</td>
+
+                                                    <td>{f2.vlVendaTotal}</td>
+
+                                                    <td>{f2.vlTotalCredito}</td>
+
+                                                    <td>{f2.vlTotalLiquido}</td>
+
+                                                    <td>{f2.vlCustoTotal}</td>
+
+                                                    <td>{f2.vlLucroVenda}</td>
+
+                                                    <td>{f2.vlLucroLiquido}</td>
+
+                                                    <td>{f2.margem}</td>
+
+                                                    <td>{(f2.percentual).toFixed(2)}</td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </table>
+
+                                </div>
+
+                            </>
+                        )}
+                    </RF.DataGeral>
+                ) : aba === "vendedor" ? (
+                    <RF.DataGeral>
+                        {dadosVendedor.length === 0 && showElement === true ? (
+                            <div className='c' >
+                                <Loading />
+                            </div>
+                        ) : (
+                            <>
+                                <input type="search" name="search-vend" id="search-vend" className="search" placeholder="Buscar por Vendedor" onChange={(e) => setQuery4(e.target.value)} /><div className='dashboardLine'>
+                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                    <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
+                                </div>
+
+                                <table className='table-resp'>
+                                    <tr className='table'>
+                                        <th>Id. Filial</th>
+
+                                        <th>Id. Vendedor</th>
+
+                                        <th>Vendedor</th>
+
+                                        <th>Qtd. Vendas</th>
+
+                                        <th>Vlr. Total NF-e</th>
+
+                                        <th>Vlr. Total NFC-e</th>
+
+                                        <th> Vlr. Venda Total</th>
+
+                                        <th>Vlr. Total Cancelamento</th>
+
+                                        <th>Vlr. Total Desconto</th>
+
+                                        <th>Vlr. Total Credito</th>
+
+                                        <th>Vlr. Total Comissão</th>
+
+                                        <th>Vlr. Custo Total</th>
+
+                                        <th>Vlr. Lucro Venda</th>
+
+                                        <th>Vlr. Lucro Líquido</th>
+
+                                        <th>Per. Lucro Líquido</th>
+
+                                        <th>Percentual</th>
+                                    </tr>
+
+                                    {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query4)).map((dat) => (
+
+                                        <tr className='labels'>
+                                            <td>{dat.idFilial}</td>
+
+                                            <td>{dat.idVendedor}</td>
+
+                                            <td className='filter-name'>{dat.vendedor}</td>
+
+                                            <td>{dat.qtdVendas}</td>
+
+                                            <td>{dat.vlTotalNfe}</td>
+
+                                            <td>{dat.vlTotalNfce}</td>
+
+                                            <td>{dat.vlVendaTotal}</td>
+
+                                            <td>{dat.vlTotalCancelamento}</td>
+
+                                            <td>{dat.vlTotalDesconto}</td>
+
+                                            <td>{dat.vlTotalCredito}</td>
+
+                                            <td>{dat.vlTotalComissao}</td>
+
+                                            <td>{(dat.vlCustoTotal).toFixed(2)}</td>
+
+                                            <td>{(dat.vlLucroVenda).toFixed(2)}</td>
+
+                                            <td>{(dat.vlLucroLiquido).toFixed(2)}</td>
+
+                                            <td className='filter-all'>% {(dat.plucroLiquido).toFixed(2)}</td>
+
+                                            <td>{(dat.percentual).toFixed(2)}</td>
+                                        </tr>
+
+                                    ))}
+                                </table>
+
+                            </>
+
+                        )}
+                    </RF.DataGeral>
+                ) : aba === "cliente" ? (
+                    <RF.DataGeral>
+                        {dadosCliente.length === 0 && showElement === true ? (
+                            <div className='c' >
+                                <Loading />
+                            </div>
+                        ) : (
+                            <>
+                                <input type="search" name="search-cli" id="search-cli" className="search" placeholder="Buscar por Cliente" onChange={(e) => setQuery5(e.target.value)} />
+
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                    <button className='dashboardBtn' onClick={openDashboardCliente}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
+                                </div>
+
+                                <table className='table-resp'>
+                                    <tr className='labels'>
+                                        <th> Id. Filial </th>
+
+                                        <th> Id. Cliente </th>
+
+                                        <th> Cliente </th>
+
+                                        <th> Qtd. Vendas </th>
+
+                                        <th> Vlr. Total NF-e </th>
+
+                                        <th> Vlr. Total NFC-e </th>
+
+                                        <th> Vlr. Venda Total </th>
+
+                                        <th> Vlr. Total Desconto </th>
+
+                                        <th> Vlr. Total Credito </th>
+
+                                        <th> Vlr. Custo Total </th>
+
+                                        <th> Vlr. Lucro Venda </th>
+
+                                        <th> Vlr. Lucro Líquido </th>
+
+                                        <th> Per. Lucro Líquido </th>
+
+                                        <th> Percentual </th>
+                                    </tr>
+
+                                    {dadosCliente.filter(dat => dat.cliente.toLowerCase().includes(query5)).map((dat1) => (
+                                        <tr className='labels'>
+
+                                            <td>{dat1.idFilial}</td>
+
+                                            <td>{dat1.idCliente}</td>
+
+                                            <td className='filter-name'>{dat1.cliente}</td>
+
+                                            <td>{dat1.qtdVendas}</td>
+
+                                            <td>{dat1.vlTotalNfe}</td>
+
+                                            <td>{dat1.vlTotalNfce}</td>
+
+                                            <td>{dat1.vlVendaTotal}</td>
+
+                                            <td>{dat1.vlTotalDesconto}</td>
+
+                                            <td>{dat1.vlTotalCredito}</td>
+
+                                            <td>{dat1.vlCustoTotal}</td>
+
+                                            <td>{dat1.vlLucroVenda}</td>
+
+                                            <td>{dat1.vlLucroLiquido}</td>
+
+                                            <td>{dat1.plucroLiquido} %</td>
+
+                                            <td>{(dat1.percentual).toFixed(3)}</td>
+
+                                        </tr>
+                                    ))}
+                                </table>
+                            </>
+                        )}
+                    </RF.DataGeral>
+                ) : aba === "tpPg" ? (
+                    <RF.DataGeral>
+                        {dadosTipoPagamento.length === 0 && showElement === true ? (
+                            <div className='c' >
+                                <Loading />
+                            </div>
+                        ) : (
+                            <>
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                    <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+                                </div><table>
+                                    <tr className='labels'>
+                                        {keys.map((nomes) => {
+                                            return (
+                                                <th className='filter-all'>{(nomes).replace('_', ' ').toUpperCase()}</th>
+                                            );
+                                        })}
+                                    </tr>
+
+                                    <tr className='labels'>
+                                        {dadosTipoPagamento.map((f5) => {
+                                            return (
+                                                <td className='filter-all'> {f5} </td>
+                                            );
+                                        })}
+                                    </tr>
+                                </table>
+                            </>
+                        )}
+                    </RF.DataGeral>
+                ) : aba === "produto" ? (
+                    <RF.DataGeral>
+                        {dadosProduto.length === 0 && showElement === true ? (
+                            <div className='c' >
+                                <Loading />
+                            </div>
+                        ) : (
+                            <>
+                                <input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)} />
+
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                    <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+                                </div>
+
+                                <table className='table'>
+                                    <tr>
+                                        <th>Ranking</th>
+
+                                        <th>Id.Produto</th>
+
+                                        <th>Produto</th>
+
+                                        <th>Qtd. Total</th>
+
+                                        <th>Sub Total</th>
+
+                                        <th>% Desconto</th>
+
+                                        <th>Vlr. Desconto Total </th>
+
+                                        <th>Vlr. Venda Total</th>
+
+                                        <th>Vlr. Custo Total</th>
+
+                                        <th>Vlr. Lucro Total</th>
+
+                                        <th>% Markup</th>
+
+                                        <th>% Margem</th>
+
+                                        <th>Percentual</th>
+                                    </tr>
+
+                                    {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(query6)).map((dat2) => {
 
                                         return (
-                                            <div className='a' >
-                                                <h2>{forn.fornecedor}</h2>
-                                                <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
-                                            </div>
-                                        )
+
+                                            <tr>
+                                                <td> {dat2.ranking} </td>
+
+                                                <td> {dat2.id_produto} </td>
+
+                                                <td onDoubleClick={openModalPico}> {dat2.produto} </td>
+
+                                                <td className='filter-all'> {dat2.qtd_total} </td>
+
+                                                <td> {dat2.sub_total} </td>
+
+                                                <td> {(dat2.p_desconto).toFixed(3)} </td>
+
+                                                <td> {dat2.vlr_desconto_total} </td>
+
+                                                <td> {dat2.vlr_venda_total} </td>
+
+                                                <td> {dat2.vlr_custo_total} </td>
+
+                                                <td> {dat2.vlr_lucro_total} </td>
+
+                                                <td> {dat2.p_markup} </td>
+
+                                                <td> {dat2.p_margem} </td>
+
+                                                <td> {(dat2.percentual).toFixed(2)} </td>
+                                            </tr>
+                                        );
+                                    })}
+
+                                </table>
+                            </>
+                        )}
+                    </RF.DataGeral>
+                ) : aba === "grupo" ? (
+                    <RF.DataGeral>
+                        {dadosGrupo.length === 0 && showElement === true ? (
+                            <div className='c' >
+                                <Loading />
+                            </div>
+                        ) : (
+                            <>
+                                <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Grupo" onChange={(e) => setQuery7(e.target.value)} />
+
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                    <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+                                </div>
+
+                                <table>
+                                    <tr className='labels'>
+                                        <th className='filter-all'>Ranking</th>
+
+                                        <th className='filter-all'>Id. Grupo</th>
+
+                                        <th className='filter-name'>Grupo</th>
+
+                                        <th className='filter-all'>Qtd. Total</th>
+
+                                        <th className='filter-all'>Sub Total</th>
+
+                                        <th className='filter-all'>% Desconto</th>
+
+                                        <th className='filter-all'>Vlr. Desconto Total</th>
+
+                                        <th className='filter-all'>Vlr. Venda Total</th>
+
+                                        <th className='filter-all'>Vlr. Custo Total</th>
+
+                                        <th className='filter-all'>Vlr. Lucro Total</th>
+
+                                        <th className='filter-all'>% Markup</th>
+
+                                        <th className='filter-all'>% Margem</th>
+
+                                        <th className='filter-all'>Percentual</th>
+                                    </tr>
+
+                                    {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(query7)).map((dat3) => {
+
+                                        return (
+
+                                            <tr className='labels'>
+
+                                                <td>{dat3.ranking}</td>
+
+                                                <td>{dat3.id_grupo}</td>
+
+                                                <td> {dat3.grupo} </td>
+
+                                                <td> {dat3.qtd_total} </td>
+
+                                                <td> {dat3.sub_total} </td>
+
+                                                <td> {dat3.p_desconto} </td>
+
+                                                <td> {dat3.vlr_desconto_total} </td>
+
+                                                <td> {dat3.vlr_venda_total} </td>
+
+                                                <td> {dat3.vlr_custo_total} </td>
+
+                                                <td> {dat3.vlr_lucro_total} </td>
+
+                                                <td> {dat3.p_markup} </td>
+
+                                                <td> {dat3.p_margem} </td>
+
+                                                <td> {(dat3.percentual).toFixed(3)} </td>
+                                            </tr>
+
+                                        );
 
                                     })}
-                                </Modal>
+                                </table>
 
-                            </Modal>
-                        </div>
+                            </>
+                        )}
+                    </RF.DataGeral>
+                ) : aba === "fornecedor" ? (
+                    <RF.DataGeral>
+                        {dadosFornecedor.length === 0 && showElement === true ? (
+                            <div className='c' >
+                                <Loading />
+                            </div>
+                        ) : (
+                            <>
+                                <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)} />
+
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                    <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+                                </div>
+
+                                <table>
+                                    <tr className='labels'>
+                                        <th className='filter-all'>Ranking</th>
+
+                                        <th className='filter-all'>Id. Fornecedor</th>
+
+                                        <th className='filter-name'>Fornecedor</th>
+
+                                        <th className='filter-all'>Qtd. Total</th>
+
+                                        <th className='filter-all'>Sub Total</th>
+
+                                        <th className='filter-all'>% Desconto</th>
+
+                                        <th className='filter-all'>Vlr. Desconto Total</th>
+
+                                        <th className='filter-all'>Vlr. Venda Total</th>
+
+                                        <th className='filter-all'>Vlr. Custo Total</th>
+
+                                        <th className='filter-all'>Vlr. Lucro Total</th>
+
+                                        <th className='filter-all'>% Markup</th>
+
+                                        <th className='filter-all'>% Margem</th>
+
+                                        <th className='filter-all'>Percentual</th>
+                                    </tr>
+
+                                    {dadosFornecedor.filter(dat => dat.fornecedor.toLowerCase().includes(query8)).map((dat) => (
+
+                                        <tr className='labels'>
+                                            <td className='filter-all'> {dat.ranking} </td>
+
+                                            <td className='filter-all'> {dat.id_fornecedor} </td>
+
+                                            <td className='filter-name'> {dat.fornecedor} </td>
+
+                                            <td className='filter-all'> {dat.qtd_total} </td>
+
+                                            <td className='filter-all'> {dat.sub_total} </td>
+
+                                            <td className='filter-all'> {(dat.p_desconto).toFixed(3)} </td>
+
+                                            <td className='filter-all'> {dat.vlr_desconto_total} </td>
+
+                                            <td className='filter-all'> {dat.vlr_venda_total} </td>
+
+                                            <td className='filter-all'> {dat.vlr_custo_total} </td>
+
+                                            <td className='filter-all'> {dat.vlr_lucro_total} </td>
+
+                                            <td className='filter-all'> {dat.p_markup} </td>
+
+                                            <td className='filter-all'> {dat.p_margem} </td>
+
+                                            <td className='filter-all'> {(dat.percentual).toFixed(2)} </td>
+                                        </tr>
+                                    ))}
+                                </table>
+
+                            </>
+
+                        )}
+                    </RF.DataGeral>
+                ) : null}
+            </div>
+
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles}>
+
+                <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <div>
+
+                    <h1>Dados Região</h1>
+
+                    <div className='dashboardTexts'>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {result2}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {result}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {result1}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {result3}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {result4}
+                        </h2>
+
+                    </div>
+
+                    <div className='dashboard'>
+                        <Chart chartType="ColumnChart" width="300px" height="220px" data={dataRegiao} options={options} className="grafico1" />
+                        <Chart chartType="Bar" width="300px" height="220px" data={dataRe0} options={optionsRe0} className="grafico1" />
+                        <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="220px" className="grafico1" />
+                    </div>
+
+                    <div className='dashboardOk'>
+                        <label className='bestRegion'>{dadosRegiao.map((banRe) => {
+
+                            if (banRe.regiao === 'PERNAMBUCO') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/PE.png' />
+                                        <p>Pernambuco</p> <img className='regiaoImg' src='/images/nordeste.png' /> <span className='spanName'>Nordeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'PARAIBA') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/PB.png' />
+                                        <p>Região Nordeste</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'ACRE') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/AC.png' />
+                                        <p>Região Norte</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'AMAZONAS') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/AM.png' />
+                                        <p>Região Norte</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'ALAGOAS') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/AL.png' />
+                                        <p>Região Nordeste</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'PIAUÍ') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/PI.png' />
+                                        <p>Região Nordeste</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'AMAPÁ') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/AP.png' />
+                                        <p>Região Norte</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'SÃO PAULO') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/SP.png' />
+                                        <p>Região Suldeste</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'RIO DE JANEIRO') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/RJ.png' />
+                                        <p>Região Suldeste</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'MINAS GERAIS') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/MG.png' />
+                                        <p>Região Suldeste</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'ESPÍRITO SANTO') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/ES.png' />
+                                        <p>Região Suldeste</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'BAHIA') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/BA.png' />
+                                        <p>Região Nordeste</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'CEARA') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/CE.png' />
+                                        <p>Região Nordeste</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'MATO GROSSO') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/MT.png' />
+                                        <p>Região Centro Oeste</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'TOCANTINS') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/TO.png' />
+                                        <p>Região Norte</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'PARANÁ') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/PB.png' />
+                                        <p>Região Sul</p>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === '') {
+                                return (
+                                    <div className='tlou'>
+                                        <img className='bandeira' src='/images/bandeiras/PB.png' />
+                                        <p>Região Nordeste</p>
+                                    </div>
+                                );
+                            }
+
+                        })}</label>
+                        <Chart chartType="BarChart" data={barData} options={barOptions} className="grafico3" />
+                    </div>
+
+                </div>
+            </Modal>
+
+            <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+
+                <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <div>
+
+                    <h1>Dados Filial</h1>
+
+                    <div className='dashboardTexts' >
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {resultFi2}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {resultFi}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {resultFi1}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultFi3}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultFi4}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {resultFi5}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {resultFi6}
+                        </h2>
+                    </div>
+
+                    <div className='dashboard' >
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFilial} className="grafico1" />
+                        <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} className="grafico1" />
+                        <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="300px" height="200px" className="grafico1" />
+                    </div>
+                    <Chart chartType="Bar" width="350px" height="250px" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" className="grafico3" />
+                </div>
+
+
+            </Modal>
+
+            <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+
+                <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <div>
+                    <h1>Dados Vendedor</h1>
+
+                    <div className='dashboardTexts' >
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: R$ {(resultVen2).toFixed(3)}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {(resultVen).toFixed(2)}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultVen1}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultVen3}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultVen4}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: R$ {resultVen5}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: R$ {resultVen6}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: R$ {resultVen7}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoCinza.png' /> Desconto: R$ {resultVen8}
+                        </h2>
+                    </div>
+
+                    <div className='dashboard' >
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor} className="grafico1" />
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} className="grafico1" />
+                        <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="300px" height="200px" className="grafico1" />
                     </div>
                 </div>
-            </div>
-            <C.Footer  >
+                <Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} className="grafico3" />
+            </Modal>
+
+            <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+                <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <div>
+                    <h1>Dados Cliente</h1>
+
+                    <div className='dashboardTexts' >
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: R$ {resultCli1.toFixed(2)}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {resultCli4}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: R$ {resultCli.toFixed(2)}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultCli2.toFixed(2)}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultCli3}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: {resultCli7}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: R$ {resultCli6.toFixed(2)}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {resultCli5}
+                        </h2>
+
+                    </div>
+
+                    <div className='dashboard' >
+                        <Chart chartType="ColumnChart" width="300px" height="250px" data={dataCliente} className="grafico1" />
+                        <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico1" />
+                        <Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"300px"} height={"200px"} className="grafico1" />
+                    </div>
+
+                </div>
+                <Chart chartType="Bar" width="95%" height="500px" data={dataCli0} options={optionsCli0} />
+            </Modal>
+
+            <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+
+                <button onClick={closeDashboardTipoDePagamento} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <div>
+
+                    <h1>Dados Tipo Pagamento</h1>
+
+                    <div className='dashboardTexts' >
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/dinheiro.png' /> Dinheiro : R$ {resultTpPg}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/credito.png' /> Cartão Credito: R$ {resultTpPg2}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/debito.png' /> Cartão Debito: R$ {resultTpPg3}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cheque.png' /> Cheque : R$ {resultTpPg4}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/boleto.png' /> Boleto Bancario: R$ {resultTpPg5}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito Loja: R$ {resultTpPg6}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento Total: R$ {resultTpPg7}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Desconto Total: R$ {resultTpPg8}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultTpPg1}
+                        </h2>
+
+                    </div>
+
+                    <h1>Vales(Caso possua)</h1>
+
+                    <div className='dashboardTexts'>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/valeAlimentação.png' /> Alimentação: R$ {resultTpPg9}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/valePresente.png' /> Presente: R$ {resultTpPg11}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/valeRefeição.png' /> Refeição: R$ {resultTpPg12}
+                        </h2>
+                    </div>
+
+                    <div className='dashboard' >
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataTpPg} className="grafico1" />
+                        <Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} className="grafico1" />
+                        <Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="300px" height="200px" className="grafico1" />
+                    </div>
+
+                </div>
+                <div className='dashboard' >
+                    <Chart chartType="Bar" width="500px" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico3" />
+                    <Chart chartType="ColumnChart" width="350px" height="250px" data={dataTpPgVale} className="grafico2" />
+                </div>
+
+            </Modal>
+
+            <Modal isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles}>
+
+                <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <div>
+
+                    <h1>Dados Produtos <button className='btnDetalhes' onClick={openDashboardProdutosDetalhados}><img className='grafico' src='images/itens.png' /> Por itens </button> </h1>
+
+                    <div className='dashboardTexts'>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {resultProd.toFixed(3)}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {resultProd1.toFixed(3)}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {resultProd3.toFixed(3)}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {resultProd4.toFixed(3)}
+                        </h2>
+
+                    </div>
+
+                    <div className='dashboard'>
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataProd} className="grafico1" />
+                        <Chart chartType="PieChart" data={dataProd} options={optionsProd} width="300px" height="200px" className="grafico1" />
+                        <Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} className="grafico1" />
+                    </div>
+
+                    <Chart chartType="Bar" width="95%" height="35vw" data={dataProd0} options={optionsProd0} />
+
+                </div>
+
+                <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado'>
+                    {dadosProdutoReduzidos.map((prod) => {
+
+                        const dashboard = [
+                            ["Element", "Valor", { role: "style" }],
+                            ["Venda:", prod.vlr_venda_total, "#f6d001"],
+                            ["Lucro", prod.vlr_lucro_total, "#1b7abc"],
+                        ];
+
+                        return (
+                            <div className='a'>
+                                <h2>{prod.produto}</h2>
+                                <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
+                            </div>
+                        );
+
+                    })}
+                </Modal>
+
+            </Modal>
+
+            <Modal isOpen={dashboardGrupo} onRequestClose={closeDashboardGrupo} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
+
+                <button onClick={closeDashboardGrupo} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <div>
+
+                    <h1>Dados Grupo  <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado} > <img className='grafico' src='images/itens.png' /> Cada Grupo  </button> </h1>
+
+                    <div className='dashboardTexts' >
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultGru}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {resultGru1}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {resultGru2.toFixed(2)}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {resultGru3}
+                        </h2>
+
+                    </div>
+
+                    <div className='dashboard01' >
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} className="grafico1" />
+                        <Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} className="grafico0" />
+                    </div>
+
+                    <Chart chartType="Bar" width="95%" height="35vw" data={dataGru0} options={optionsGru0} />
+
+                </div>
+
+                <Modal isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                    {dadosGrupoDetalhado.map((detalhado) => {
+
+                        const grupoDetalhado = [
+                            ["Element", "Valor", { role: "style" }],
+                            ["Venda:", detalhado.vlr_venda_total, "#bc1b2b"],
+                            ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
+                        ];
+
+                        const grupoDetalhadoBar = [
+                            [
+                                "Element",
+                                "Valor",
+                                { role: "style" },
+                                {
+                                    sourceColumn: 0,
+                                    role: "annotation",
+                                    type: "string",
+                                    calc: "stringify",
+                                },
+                            ],
+                            ["Venda", detalhado.vlr_venda_total, "#bc1b2b", null],
+                            ["Lucro", detalhado.vlr_lucro_total, "ffaf56", null],
+                            ["Sub Total", detalhado.sub_total, "#f6d001", null],
+                            ["Desconto Total", detalhado.vlr_desconto_total, "#1b7abc", null],
+                        ];
+
+                        const barGruOptions = {
+                            title: "Tabela Valores Totais.",
+                            width: 300,
+                            height: 200,
+                            bar: { groupWidth: "95%" },
+                            legend: { position: "none" },
+                        };
+
+                        return (
+                            <div className='a' >
+                                <h2>{detalhado.grupo}</h2>
+                                <div className='b'>
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={grupoDetalhado} className="graficoA" />
+                                    <Chart chartType="BarChart" data={grupoDetalhadoBar} options={barGruOptions} className="graficoB" />
+                                </div>
+                            </div>
+                        )
+                    })}
+                </Modal>
+
+            </Modal>
+
+            <Modal isOpen={dashboardFornecedor} onRequestClose={closeDashboardFornecedor} shouldCloseOnOverlayClick={false} style={customStyles} >
+
+                <button onClick={closeDashboardFornecedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <div>
+
+                    <h1>Dados Fornecedor <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='grafico' src='images/itens.png' /> Cada Item</button> </h1>
+
+                    <div className='dashboardTexts' >
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda:
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro:
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo:
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto:
+                        </h2>
+
+                    </div>
+
+                    <div className='dashboard01' >
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} className="grafico1" />
+                        <Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} className="grafico0" />
+                    </div>
+
+                    <Chart chartType="Bar" width="95%" height="35vw" data={dataFor0} options={optionsFor0} />
+
+                </div>
+
+                <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardDetalhado' >
+                    {dadosFornecedorDetalhado.map((forn) => {
+
+                        const dashboard = [
+                            ["Element", "Valor", { role: "style" }],
+                            ["Venda", forn.vlr_venda_total, "#bc1b2b"],
+                            ["Lucro", forn.vlr_lucro_total, "#57ffe8"],
+                        ]
+
+                        return (
+                            <div className='a' >
+                                <h2>{forn.fornecedor}</h2>
+                                <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
+                            </div>
+                        )
+
+                    })}
+                </Modal>
+            </Modal>
+
+            <C.Footer >
+
                 <div className='buttons'>
                     <button onClick={openDashboardGeral}> <img src='/images/grafico.png'/> Graf. Gerais</button>
                     <button onClick={()=> navigate('/home')}> <img src='/images/voltar.png' /> Voltar</button> 
                 </div>
 
                 <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} style={customStyles}>
-                    
-                    <button onClick={closeDashboardGeral} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>                       
+
+                    <button onClick={closeDashboardGeral} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                     <h1>Dashboard Geral</h1>
 
@@ -2781,11 +2545,14 @@ export const ResumoFaturamento = () => {
                         <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {resultFi3} </p> </h2>
 
                         <h2 className='prices' > <p className='Gtext' > NFC-e Total: R$ {resultFi4} </p> </h2>
-                    </div>                
+                    </div>
 
                 </Modal>
 
             </C.Footer>
+
+            {isModalTop ? <Top onClose={() => setIsModalTop(false)} setDataSelectTop={setDataSelectTop} /> : null}
+            {isModalFilial ? <Emitente onClose={() => setIsModalFilial(false)} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} setDataSelectDadosEmitente={setDataSelectDadosEmitente} /> : null}
         </C.Container>
 
     );
