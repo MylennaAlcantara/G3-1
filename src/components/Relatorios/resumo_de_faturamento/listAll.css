@@ -1,34 +1,6 @@
-.test {
-    background-color: #F0F0F0;
-    width: 45%;
-    height: 180px;
-    display: flex;
-    border-style: outset;
-    margin-right: 12px;
-}
-
-.filtros-top{
-    padding: 0px;
-    margin: 0px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
 .close {
     width: 28px;
     height: 28px;
-}
-
-.top-text{
-    font-size: 11px;
-    background-color: white;
-}
-
-.wrapper{
-    display: flex;
-    flex-direction: row;
 }
 
 .closeBtn {
@@ -39,27 +11,6 @@
     position: relative;
     width: 117px;
     height: 33px;
-}
-
-.filtro-filial-content {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 98px;
-    left: 140px;
-}
-
-.dashboard-label {
-    border-color: transparent;
-    position: relative;
-}
-
-.dashboardTeste {
-    border-style: solid;
-    border-width: 1px;
-    height: 50px;
-    display: flex;
-    flex-direction: row;
 }
 
 .CE{
@@ -83,28 +34,6 @@
 .CD:hover{
     cursor: pointer;
     background-color: #a6f4ff;
-}
-
-.ModalDados {
-    position: static;
-    margin: 0px;
-    padding: 0px;
-    overflow-x: scroll;
-    overflow-y: scroll;
-    width: 95%;
-    height: 30vh;
-    border-style: solid;
-    border-width: 1px;
-    margin-left: 15px;
-}
-
-.dashboard {
-    justify-content: space-between;
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    margin-top: 81px;
-    margin-left: 30px;
 }
 
 .dashboard01 {
@@ -780,8 +709,6 @@ table tr:nth-child(odd) {
 
 .filter-name {
     width: 355px;
-    border-style: solid;
-    border-width: 1px;
 }
 
 .filter-name-cliente {
