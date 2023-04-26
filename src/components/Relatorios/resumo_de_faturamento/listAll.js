@@ -6,20 +6,15 @@ import Chart from 'react-google-charts';
 import * as C from '../../cadastro/cadastro'
 import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
-
-import { Link } from 'react-router-dom';
 import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as RF from "../resumo_de_faturamento/resumoFaturamento"
 
 import { Link, useNavigate } from 'react-router-dom';
-import {AuthContext} from "../../../contexts/Auth/authContext"
 
 
 Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
-
-    const { user, empresa } = useContext(AuthContext);
 
     const {user, empresa} = useContext(AuthContext);
     const navigate = useNavigate();
@@ -1165,17 +1160,8 @@ export const ResumoFaturamento = () => {
         <C.Container>
 
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.cnpj)}</C.NaviBar>
-
             <C.Header> <h3>Resumo de Faturamento</h3> </C.Header>
-
-
             <span>Atenção: Ao selecionar NF-e, é importante destacar as T.OP.´s que serão tomadas em consideração na consulta, consultando sem nenhuma T.OP.(consulta geral), poderá vir ENTRADAS </span>
-
-                    <C.Header>
-                        <h3>Resumo de Faturamento</h3>
-                    </C.Header>
-
-
             <RF.Filtros>
                 <RF.FilialTop>
 
@@ -1272,9 +1258,7 @@ export const ResumoFaturamento = () => {
                     </div>
                 </RF.Data>
             </RF.Filtros>
-
             <div>
-
                 <RF.Navigacao>
                     <button className='CE' onClick={() => setOpenAba("regiao")} >Região</button>
                     <button className='relatorioBtn' onClick={() => setOpenAba("filial")}  >Filial</button>
