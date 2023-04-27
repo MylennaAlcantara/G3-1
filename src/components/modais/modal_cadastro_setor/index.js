@@ -50,6 +50,7 @@ export const CadastroSetor = ({close}) => {
                 <M.Footer>
                     <div className="buttons">
                         <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
+                        <button onClick={close}><img src="/images/voltar.png"/>Cancelar</button>
                     </div>
                 </M.Footer>
             </M.Container>
