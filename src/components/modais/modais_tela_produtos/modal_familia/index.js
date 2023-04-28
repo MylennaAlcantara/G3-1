@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as M from "../../modal/modal";
 import * as C from "../../../cadastro/cadastro"
 import { CadastrarFamilia } from "../modal_cadastro_familia";
 
 export const Familia = ({close}) => {
     const [cadastrarFamilia, setCadastrarFamilia] = useState(false);
+    const [familias, setFamilias] = useState([]);
+
+    useEffect(()=> {
+        async function fetchData(){
+            const response = await fetch('http://10.0.1.107:8080/familia/all');
+            const data = await response.json();
+            setFamilias(data); 
+        }
+        fetchData();
+    },[])
 
     return(
         <M.SubModal>
@@ -33,18 +43,16 @@ export const Familia = ({close}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
+                            {Array.isArray(familias) && familias.map((familia)=> {
+                                return(
+                                    <tr key={familia.id}>
+                                        <td>{familia.id}</td>
+                                        <td>{familia.descricao}</td>
+                                        <td>{familia.data_cadastro}</td>
+                                        <td>{familia.ativo === true ? "Sim" : "Não"}</td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>

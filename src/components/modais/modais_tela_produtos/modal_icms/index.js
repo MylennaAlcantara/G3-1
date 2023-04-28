@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as M from "../../modal/modal";
 import {Lista} from "./grupo";
-import grupos from "../../../../grupos/grupos.json";
+//import grupos from "../../../../grupos/grupos.json";
 
 export const Grupo = ({close}) => {
     const [filho, setFilho] = useState(
@@ -20,14 +20,24 @@ export const Grupo = ({close}) => {
         CODIGO: ""
     }
     );
-    const pai = grupos.filter((grupo) => grupo.DESCRICAO === grupo.NOME_PAI);
+    /*const pai = grupos.filter((grupo) => grupo.DESCRICAO === grupo.NOME_PAI);*/
+    const [pai, setPai] = useState([]);
+
+    useEffect(()=> {
+        async function fetchData (){
+            const response = await fetch('http://10.0.1.107:8080/grupo/all');
+            const data = await response.json();
+            setPai(data);
+        }
+        fetchData();
+    },[])
 
     function abrirFilho (grupo){
-        const filho = grupos.filter((g)=> {
-            if(g.ID_PAI === 0 || g.ID_PAI === null){
+        const filho = pai.filter((g)=> {
+            if(g.id_pai === 0 || g.id_pai === null){
                 return null
             }else{
-                return grupo.ID === g.ID_PAI
+                return grupo.id === g.id_pai
             }
         })
         setFilho(filho);
@@ -59,12 +69,12 @@ export const Grupo = ({close}) => {
                     {pai.map((grupo)=> {
                         return(
                             <>
-                                <div className="grupo" key={grupo.CODIGO} onDoubleClick={abrirFilho.bind(this, grupo)}>
-                                <img src="/images/pastaFechada.png"/>{grupo.CODIGO} - {grupo.DESCRICAO}
+                                <div className="grupo" key={grupo.codigo} onDoubleClick={abrirFilho.bind(this, grupo)}>
+                                <img src="/images/pastaFechada.png"/>{grupo.codigo} - {grupo.descricao}
                                 </div>
                                 {Array.isArray(filho) && filho.map((filho)=> {
-                                    if(grupo.ID === filho.ID_PAI){
-                                        return <div className="filho">{filho.CODIGO} - {filho.DESCRICAO}</div>
+                                    if(grupo.id === filho.id_pai){
+                                        return <div className="filho">{filho.codigo} - {filho.descricao}</div>
                                     }
                                 })}
                             </>
