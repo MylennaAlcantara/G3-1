@@ -7,13 +7,10 @@ import * as C from '../../cadastro/cadastro'
 import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
 
-import { Link } from 'react-router-dom';
 import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as RF from "../resumo_de_faturamento/resumoFaturamento"
 
-import { Link, useNavigate } from 'react-router-dom';
-import {AuthContext} from "../../../contexts/Auth/authContext"
-
+import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement("#root")
 
@@ -21,43 +18,7 @@ export const ResumoFaturamento = () => {
 
     const { user, empresa } = useContext(AuthContext);
 
-    const {user, empresa} = useContext(AuthContext);
     const navigate = useNavigate();
-
-    const [filterFilial, setIsOpenFilterFilial] = useState(true);
-    const [filterTops, setIsOpenFilterTops] = useState(false);
-    const [modalTop, setIsOpenModalTop] = useState(false);
-    const [modalIsOpen, setIsOpen] = useState(false);
-    const [regiaoIsOpen, setIsOpenRegiao] = useState(true);
-    const [filialIsOpen, setIsOpenFilial] = useState(false);
-    const [vendedorIsOpen, setIsOpenVendedor] = useState(false);
-    const [clienteIsOpen, setIsOpenCliente] = useState(false);
-    const [tipoPgIsOpen, setIsOpenTipoPg] = useState(false);
-    const [produtoIsOpen, setIsOpenProduto] = useState(false);
-    const [grupoIsOpen, setIsOpenGrupo] = useState(false);
-    const [fornecdorIsOpen, setIsOpenFornecedor] = useState(false);
-    const [relatorioIsOpen, setIsOpenRelatorio] = useState(false);
-
-    function openFilterFilial() {
-        setIsOpenFilterFilial(true);
-    }
-    function closeFilterFilial() {
-        setIsOpenFilterFilial(false);
-    }
-
-    function openModalTop() {
-        setIsOpenModalTop(true)
-    }
-    function closeModalTop() {
-        setIsOpenModalTop(false)
-    }
-
-    function openFilterTops() {
-        setIsOpenFilterTops(true);
-    }
-    function closeFilterTops() {
-        setIsOpenFilterTops(false);
-    }
 
     const [showElement, setShowElement] = useState(false)
 
@@ -161,7 +122,6 @@ export const ResumoFaturamento = () => {
             res.json().then(data => {
                 setDados(data);
             });
-
         }
     }
 
@@ -196,7 +156,6 @@ export const ResumoFaturamento = () => {
                 setNomeCli8(data[8].cliente); setVenCli8(data[8].vlLucroVenda); setLiqCli8(data[8].vlLucroLiquido)
                 setNomeCli9(data[9].cliente); setVenCli9(data[9].vlLucroVenda); setLiqCli9(data[9].vlLucroLiquido)
             });
-
         }
     }
 
@@ -210,7 +169,6 @@ export const ResumoFaturamento = () => {
             res.json().then(data => {
                 setDadosRegiao(data);
             });
-
         }
     }
 
@@ -229,7 +187,6 @@ export const ResumoFaturamento = () => {
                 setDaDosKeys(Object.keys(data[0]));
                 setDadosLeitura(data);
             });
-
         }
     }
 
@@ -349,7 +306,7 @@ export const ResumoFaturamento = () => {
     }
 
     const handleSetData = () => {
-        show()
+        show();
         setDataCliente();
         setDataFilial();
         setDataRegiao();
@@ -603,7 +560,6 @@ export const ResumoFaturamento = () => {
         ["Desconto", resultVen8, "#727272"],
     ];
 
-
     const datVendedor0 = [
         ["Element", "Valor Total", { role: "style" }],
         ["Lucro", resultVen2, "#f6d001"],
@@ -664,6 +620,17 @@ export const ResumoFaturamento = () => {
     function closeDashboardCliente() {
         setIsOpenDashboardCliente(false)
     }
+
+    const [dashboardDezCliente, setIsOpenDashboardDezCliente] = useState(false);
+
+    function openDashboardDezCliente() {
+        setIsOpenDashboardDezCliente(true)
+    }
+    function closeDashboardDezCliente() {
+        setIsOpenDashboardDezCliente(false)
+    }
+
+    const dadosClienteReduzido = dadosCliente.slice(0, 10)
 
     const resultCli = dadosCliente.reduce((a, b) => a + b.vlVendaTotal, 0)
     const resultCli1 = dadosCliente.reduce((a, b) => a + b.vlLucroVenda, 0)
@@ -756,6 +723,8 @@ export const ResumoFaturamento = () => {
         ["NF-e", resultCli2, "#8226ED"],
         ["NFC-e", resultCli3, "#2686ED"],
     ];
+
+    console.log(dadosClienteReduzido)
 
     //------------------------------------------------------------------Dashboard Tipo de Pagamento-----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1167,81 +1136,75 @@ export const ResumoFaturamento = () => {
 
             <C.Header> <h3>Resumo de Faturamento</h3> </C.Header>
 
-
             <span>Atenção: Ao selecionar NF-e, é importante destacar as T.OP.´s que serão tomadas em consideração na consulta, consultando sem nenhuma T.OP.(consulta geral), poderá vir ENTRADAS </span>
 
-                    <C.Header>
-                        <h3>Resumo de Faturamento</h3>
-                    </C.Header>
-
-
             <RF.Filtros>
-                <RF.FilialTop>
-
+                <div className='FTFilterTop' >
                     <div className='btns'>
                         <button className='topFilialBtn' onClick={() => setFilial(true)} >Filial</button>
                         <button className='topsBtn' onClick={() => setFilial(false)} >Tops</button>
                     </div>
-
-                    {filial ? (
-                        <div className='filial-top'>
-                            <div>
-                                <select>
-                                    <option>Filial</option>
-                                    <option>Região</option>
-                                </select>
-                                <input placeholder='Buscar...' />
-                                <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
-                                <button>Limpar</button>
+                    <RF.FilialTop>
+                        {filial ? (
+                            <div className='filial-top'>
+                                <div>
+                                    <select>
+                                        <option>Filial</option>
+                                        <option>Região</option>
+                                    </select>
+                                    <input placeholder='Buscar...' />
+                                    <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
+                                    <button>Limpar</button>
+                                </div>
+                                <div className='table-responsive'>
+                                    <table id='table'>
+                                        <thead>
+                                            <tr>
+                                                <th >Código</th>
+                                                <th >Fantasia</th>
+                                                <th>Razão Social</th>
+                                                <th >Documento</th>
+                                                <th >Município</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{dataIdSelectEmitente}</td>
+                                                <td>{dataSelectDataEmitente.fantasia}</td>
+                                                <td>{dataSelectEmitente}</td>
+                                                <td>{dataSelectDataEmitente.doc}</td>
+                                                <td>{dataSelectDataEmitente.municipio}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div className='table-responsive'>
-                                <table id='table'>
-                                    <thead>
-                                        <tr>
-                                            <th >Código</th>
-                                            <th >Fantasia</th>
-                                            <th>Razão Social</th>
-                                            <th >Documento</th>
-                                            <th >Município</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td> {dataIdSelectEmitente} </td>
-                                            <td>{dataSelectDataEmitente.fantasia}</td>
-                                            <td> {dataSelectEmitente} </td>
-                                            <td>{dataSelectDataEmitente.doc}</td>
-                                            <td>{dataSelectDataEmitente.municipio}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        ) : (
+                            <div className='filial-top'>
+                                <div>
+                                    <input placeholder='Buscar...' />
+                                    <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
+                                </div>
+                                <div className='table-responsive'>
+                                    <table id='table'>
+                                        <thead>
+                                            <tr>
+                                                <th >Código</th>
+                                                <th >Descrição</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{dataSelectTop.id_top}</td>
+                                                <td>{dataSelectTop.descricao}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                    ) : (
-                        <div className='filial-top'>
-                            <div>
-                                <input placeholder='Buscar...' />
-                                <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
-                            </div>
-                            <div className='table-responsive'>
-                                <table id='table'>
-                                    <thead>
-                                        <tr>
-                                            <th >Código</th>
-                                            <th >Descrição</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{dataSelectTop.id_top}</td>
-                                            <td>{dataSelectTop.descricao}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    )}
-                </RF.FilialTop>
+                        )}
+                    </RF.FilialTop>
+                </div>
                 <RF.Data>
                     <div>
                         <div className="data" >
@@ -1261,7 +1224,7 @@ export const ResumoFaturamento = () => {
                             </select>
                         </div>
                     </div>
-                    <div>
+                    <div className='checks' >
                         <input type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
                         <input type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
                         <input type="checkbox" value="false" id='NFCE' checked={checkNFCE} onChange={handleChecked01} /><label>NFC-e</label>
@@ -1276,12 +1239,12 @@ export const ResumoFaturamento = () => {
 
                 <RF.Navigacao>
                     <button className='CE' onClick={() => setOpenAba("regiao")} >Região</button>
-                    <button className='relatorioBtn' onClick={() => setOpenAba("filial")}  >Filial</button>
-                    <button className='relatorioBtn' onClick={() => setOpenAba("vendedor")} > Vendedor </button>
-                    <button className='relatorioBtn' onClick={() => setOpenAba("cliente")} > Cliente </button>
-                    <button className='relatorioBtn' onClick={() => setOpenAba("tpPg")} > Tipo de Pagamento </button>
-                    <button className='relatorioBtn' onClick={() => setOpenAba("produto")} > Produto </button>
-                    <button className='relatorioBtn' onClick={() => setOpenAba("grupo")} > Grupo </button>
+                    <button className='botão-filtros' onClick={() => setOpenAba("filial")}  >Filial</button>
+                    <button className='botão-filtros' onClick={() => setOpenAba("vendedor")} > Vendedor </button>
+                    <button className='botão-filtros' onClick={() => setOpenAba("cliente")} > Cliente </button>
+                    <button className='botão-filtros' onClick={() => setOpenAba("tpPg")} > Tipo de Pagamento </button>
+                    <button className='botão-filtros' onClick={() => setOpenAba("produto")} > Produto </button>
+                    <button className='botão-filtros' onClick={() => setOpenAba("grupo")} > Grupo </button>
                     <button className='CD' onClick={() => setOpenAba("fornecedor")} >Fornecedor</button>
                 </RF.Navigacao>
 
@@ -1466,9 +1429,12 @@ export const ResumoFaturamento = () => {
                             </div>
                         ) : (
                             <>
-                                <input type="search" name="search-vend" id="search-vend" className="search" placeholder="Buscar por Vendedor" onChange={(e) => setQuery4(e.target.value)} /><div className='dashboardLine'>
+                                <input type="search" name="search-vend" id="search-vend" className="search" placeholder="Buscar por Vendedor" onChange={(e) => setQuery4(e.target.value)} />
+
+                                <div className='dashboardLine'>
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
                                     <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
+                                    <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                                 </div>
 
                                 <table className='table-resp'>
@@ -1643,7 +1609,10 @@ export const ResumoFaturamento = () => {
                                 <div className='dashboardLine'>
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
                                     <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
-                                </div><table>
+                                    <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                </div>
+
+                                <table>
                                     <tr className='labels'>
                                         {keys.map((nomes) => {
                                             return (
@@ -1676,6 +1645,7 @@ export const ResumoFaturamento = () => {
                                 <div className='dashboardLine'>
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
                                     <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+                                    <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                                 </div>
 
                                 <table className='table'>
@@ -1758,6 +1728,7 @@ export const ResumoFaturamento = () => {
                                 <div className='dashboardLine'>
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
                                     <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+                                    <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                                 </div>
 
                                 <table>
@@ -1843,6 +1814,7 @@ export const ResumoFaturamento = () => {
                                 <div className='dashboardLine'>
                                     <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
                                     <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+                                    <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                                 </div>
 
                                 <table>
@@ -2201,7 +2173,7 @@ export const ResumoFaturamento = () => {
                 <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
-                    <h1>Dados Cliente</h1>
+                    <h1>Dados Cliente <button className='btnDetalhes' onClick={openDashboardDezCliente}><img className='grafico' src='images/itens.png' /> Por itens </button> </h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
@@ -2243,6 +2215,25 @@ export const ResumoFaturamento = () => {
                         <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico" />
                         <Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"300px"} height={"200px"} className="grafico" />
                     </RF.Dashboard>
+
+                    <Modal isOpen={dashboardDezCliente} onRequestClose={closeDashboardDezCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                        {dadosClienteReduzido.map((dados) => {
+
+                            const dashboard = [
+                                ["Element", "Lucro", { role: "style" }],
+                                ["Liquido", dados.vlLucroLiquido, "#ffaf56"],
+                                ["Bruto", dados.vlLucroVenda, "#f6d001"],
+                            ];
+
+                            return (
+                                <RF.DashboardMenor>
+                                    <h2>{dados.cliente}</h2>
+                                    <Chart chartType="ColumnChart" width="20vw" height="25vh" data={dashboard} className="graficoA" />
+                                </RF.DashboardMenor>
+                            );
+
+                        })}
+                    </Modal>
 
                 </div>
 
@@ -2547,8 +2538,8 @@ export const ResumoFaturamento = () => {
             <C.Footer >
 
                 <div className='buttons'>
-                    <button onClick={openDashboardGeral}> <img src='/images/grafico.png'/> Graf. Gerais</button>
-                    <button onClick={()=> navigate('/home')}> <img src='/images/voltar.png' /> Voltar</button> 
+                    <button onClick={openDashboardGeral}> <img src='/images/grafico.png' /> Graf. Gerais</button>
+                    <button onClick={() => navigate('/home')}> <img src='/images/voltar.png' /> Voltar</button>
                 </div>
 
                 <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} style={customStyles}>
@@ -2561,7 +2552,7 @@ export const ResumoFaturamento = () => {
 
                         <h2 className='prices' > <p className='Gtext' > Venda Total:  R$ {resultFi1} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > Lucro Venda Total:  R$ {resultFi2} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Lucro V.Total:  R$ {resultFi2} </p> </h2>
 
                         <h2 className='prices' > <p className='Gtext' > Liquido Total: R$ {resultFi6} </p> </h2>
 
@@ -2577,9 +2568,15 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px" className="grafico" />
                         <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico" />
-                        
+                        <Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} className="grafico" />
+                        <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px" className="grafico" />
+                    </RF.Dashboard>
+
+                    <RF.Dashboard>
+                        <Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} className="grafico" />
+                        <Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} className="grafico" />
+                        <Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} className="grafico" />
                     </RF.Dashboard>
 
                 </Modal>

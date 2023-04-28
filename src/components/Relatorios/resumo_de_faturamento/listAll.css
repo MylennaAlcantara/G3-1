@@ -12,6 +12,12 @@
     border-top-right-radius: 10px;
 }
 
+.FTFilterTop{
+    display: flex;
+    flex-direction: column;
+    margin-top: -23px;
+}
+
 .close {
     width: 28px;
     height: 28px;
@@ -31,8 +37,10 @@
     border-width: 1px;
     background-color: #e6e6e6;
     border-top-left-radius: 8px;
-    width: 117px;
+    width: 12%;
     border-bottom: transparent;
+    border-style: solid;
+    border-left: transparent;
 }
 
 .CE:hover{
@@ -45,6 +53,9 @@
     background-color: #e6e6e6;
     border-top-right-radius: 8px;
     border-bottom: transparent;
+    border-right: transparent;
+    width: 12%;
+    border-style: solid;
 }
 
 .CD:hover{
@@ -138,6 +149,7 @@ label {
     flex-direction: column;
     margin-left: 50px;
     margin-top: 50px;
+    margin-right: 50px;
 }
 
 .b {
@@ -526,23 +538,7 @@ table tr:nth-child(odd) {
     width: 30px;
 }
 
-.select {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    margin-top: 10px;
-
-}
-
-.relatorio-content {
-    height: 50px;
-    width: 120px;
-    position: absolute;
-    left: 1050px;
-    top: 307px;
-}
-
-.relatorioBtn {
+.botão-filtros {
     width: 117px;
     height: 33px;
 }
@@ -859,6 +855,7 @@ span{
 }
 
 @media (max-width: 1366px) {
+    
     .search-input {
         width: 230px;
     }
@@ -953,9 +950,6 @@ span{
         left: 64%;
     }
 }
-
-
-
 @media (min-height: 900px){
     .filtro1{
         top: 4.02vw;
@@ -999,13 +993,6 @@ span{
 
     .dataFin{
         height: 40px;
-    }
-
-    .select{
-        position: relative;
-        top: 25%;
-        right: 67%;
-        height: 30px;
     }
 
     .checkboxs{
@@ -1069,11 +1056,6 @@ span{
     .pesquisar{
         right: 4%;
         top: -3%;
-    }
-    .select{
-        width: 80px;
-        left: -1%;
-        top: 0%;
     }
     .checkboxs{
         top: -12%;
