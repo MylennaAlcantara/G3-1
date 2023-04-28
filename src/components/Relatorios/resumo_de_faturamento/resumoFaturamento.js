@@ -61,12 +61,14 @@ export const Filtros = styled.div`
     }
 `
 export const FilialTop = styled.div`
-    width: 50%;
+    width: 37vw;
     height: 20vh;
-    border-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
     background-color: #F0F0F0;
     .filial-top{
-        width: 100%;
+        width: 37vw;
         display: flex;
         flex-direction: column;
     }
@@ -78,6 +80,22 @@ export const FilialTop = styled.div`
         display: flex;
         align-items: center;
     }
+    @media (max-width: 1440px) {
+        width: 28vw;
+    .filial-top{
+        width: 28vw;
+    }
+
+    }
+
+    @media (max-width: 1024px) {
+        width: 37vw;
+    .filial-top{
+        width: 37vw;
+    }
+
+    }
+
 `
 export const Data = styled.div`
     width: 50%;
@@ -88,6 +106,16 @@ export const Data = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    .checks{
+        margin-top: 10px;
+    }
+    .select {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 8px;
+    }
     .data{    
         width: 120px;
         border-radius: 5px;
@@ -111,6 +139,12 @@ export const Data = styled.div`
             width: 100px;
         }
     }
+    .pesquisa-result{
+        background-color: #ffffff;
+    }
+    @media (max-width: 800px) {
+        overflow-x: scroll;
+    }
 `
 export const Navigacao = styled.div`
 margin-left: 15px;
@@ -120,9 +154,17 @@ width: 50%;
 border-style: solid;
 border-top-left-radius: 10px;
 border-top-right-radius: 10px;
-border-width: 2px;
-`
+border-width: 0.5px;
+background-color: #ABADB3;
+border-bottom: transparent;
 
+@media (max-width: 1440px) {
+    width: 75%;
+}
+@media (max-width: 800px) {
+    width: 85%;
+}
+`
 export const DataGeral = styled.div`
 position: static;
 margin: 0px;
@@ -134,4 +176,26 @@ height: 30vh;
 border-style: solid;
 border-width: 1px;
 margin-left: 15px;
+`
+export const Dashboard = styled.div`
+margin-top: 10px;
+display: flex;
+justify-content: space-between;
+.grafico {
+    margin-right: 10px;
+    border-style: solid;
+    border-radius: 8px;
+    border-width: 1px;
+}
+`
+export const DashboardMenor = styled.div`
+height: 250px;
+border-style: solid;
+border-radius: 10px;
+border-width: 2px;
+display: flex;
+flex-direction: column;
+margin-left: 50px;
+margin-top: 50px;
+margin-right: 50px;
 `

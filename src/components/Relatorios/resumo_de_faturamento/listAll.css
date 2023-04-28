@@ -12,6 +12,12 @@
     border-top-right-radius: 10px;
 }
 
+.FTFilterTop{
+    display: flex;
+    flex-direction: column;
+    margin-top: -23px;
+}
+
 .close {
     width: 28px;
     height: 28px;
@@ -31,7 +37,10 @@
     border-width: 1px;
     background-color: #e6e6e6;
     border-top-left-radius: 8px;
-    width: 117px;
+    width: 12%;
+    border-bottom: transparent;
+    border-style: solid;
+    border-left: transparent;
 }
 
 .CE:hover{
@@ -43,6 +52,10 @@
     border-width: 1px;
     background-color: #e6e6e6;
     border-top-right-radius: 8px;
+    border-bottom: transparent;
+    border-right: transparent;
+    width: 12%;
+    border-style: solid;
 }
 
 .CD:hover{
@@ -117,15 +130,6 @@ label {
     border-width: 1px;
 }
 
-.grafico1 {
-    position: relative;
-    bottom: 30%;
-    right: 10%;
-    border-style: solid;
-    border-radius: 8px;
-    border-width: 1px;
-}
-
 .grafico0 {
     margin-left: 10px;
     position: relative;
@@ -134,16 +138,6 @@ label {
     border-style: solid;
     border-radius: 8px;
     border-width: 1px;
-}
-
-.grafico2 {
-    position: relative;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 8px;
-    bottom: 15%;
-    right: 15vw;
-
 }
 
 .a {
@@ -155,6 +149,7 @@ label {
     flex-direction: column;
     margin-left: 50px;
     margin-top: 50px;
+    margin-right: 50px;
 }
 
 .b {
@@ -163,7 +158,7 @@ label {
 }
 
 .c {
-    margin-top: 4vw;
+    margin-top: 2vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -200,21 +195,13 @@ label {
     border-width: 1px;
 }
 
-.grafico3 {
-    position: relative;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 8px;
-    bottom: 15%;
-}
-
 .dashboardOk {
+    margin-top: 10px;
     display: flex;
     flex-direction: row;
 }
 
-.tlou {
-    margin-top: 10px;
+.grafico-regiao {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -226,32 +213,27 @@ label {
     margin-left: 10px;
     height: 40px;
     width: 60px;
-    margin-right: 5px;
 }
 
 .regiaoImg {
-    margin-left: 60px;
-    height: 150px;
-    width: 180px;
+    height: 140px;
+    width: 140px;
 }
 
 .spanName {
-    right: 6vw;
-    top: 5vw;
-    position: relative;
     margin-right: 5px;
 }
 
 .bestRegion {
+    justify-content: center;
+    align-items: center;
+    display: flex;
     background-color: white;
-    position: relative;
     border-style: solid;
     border-radius: 7px;
     border-width: 1px;
-    width: 400px;
-    left: -0.5vw;
-    height: 12vw;
-    bottom: 2vw;
+    width: 26vw;
+    height: 200px;
     margin-right: 20px;
 }
 
@@ -556,23 +538,7 @@ table tr:nth-child(odd) {
     width: 30px;
 }
 
-.select {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    margin-top: 10px;
-
-}
-
-.relatorio-content {
-    height: 50px;
-    width: 120px;
-    position: absolute;
-    left: 1050px;
-    top: 307px;
-}
-
-.relatorioBtn {
+.botão-filtros {
     width: 117px;
     height: 33px;
 }
@@ -889,6 +855,7 @@ span{
 }
 
 @media (max-width: 1366px) {
+    
     .search-input {
         width: 230px;
     }
@@ -983,9 +950,6 @@ span{
         left: 64%;
     }
 }
-
-
-
 @media (min-height: 900px){
     .filtro1{
         top: 4.02vw;
@@ -1029,13 +993,6 @@ span{
 
     .dataFin{
         height: 40px;
-    }
-
-    .select{
-        position: relative;
-        top: 25%;
-        right: 67%;
-        height: 30px;
     }
 
     .checkboxs{
@@ -1099,11 +1056,6 @@ span{
     .pesquisar{
         right: 4%;
         top: -3%;
-    }
-    .select{
-        width: 80px;
-        left: -1%;
-        top: 0%;
     }
     .checkboxs{
         top: -12%;
