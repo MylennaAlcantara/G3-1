@@ -101,6 +101,7 @@ export const Setor = ({setSetor, close, cadastroSetor}) => {
                     <div className="buttons">
                         <button onClick={()=> setModalNovoSetor(true)}><img src="/images/add.png"/>Novo</button>
                         {cadastroSetor ? (<button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>) : null}
+                        <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
                 {modalNovoSetor ? <CadastroSetor close={()=> setModalNovoSetor(false)}/> : null}

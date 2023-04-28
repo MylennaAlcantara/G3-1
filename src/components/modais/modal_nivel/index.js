@@ -103,6 +103,7 @@ export const Nivel = ({setNivel, close, cadastroNivel}) => {
                         {cadastroNivel ? (
                             <button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>
                         ) : null}
+                        <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
                 {modalEditarNivel ? <EditarNivel close={()=> setModalEditarNivel(false)} dadosNivel={dadosNivel}/> : null}

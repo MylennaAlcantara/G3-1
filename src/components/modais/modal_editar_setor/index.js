@@ -68,6 +68,7 @@ export const EditarSetor = ({close, dadosSetor}) => {
                     <div className="buttons">
                         <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
                         <button onClick={excluir}><img src="/images/lixeira.png"/>Excluir</button>
+                        <button onClick={close}><img src="/images/voltar.png"/>Cancelar</button>
                     </div>
                 </M.Footer>
             </M.Container>
