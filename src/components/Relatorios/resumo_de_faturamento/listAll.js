@@ -642,7 +642,7 @@ export const ResumoFaturamento = () => {
     const resultCli7 = dadosCliente.reduce((a, b) => a + b.vlTotalCredito, 0)
 
     const optionsCli = {
-        title: "Valores",
+        title: "NF-e / NFC-e",
         is3D: true,
         colors: ["#8226ED", "#2686ED"]
     };
@@ -832,6 +832,7 @@ export const ResumoFaturamento = () => {
     const resultProd3 = dadosProduto.reduce((a, b) => a + b.sub_total, 0)
     const resultProd4 = dadosProduto.reduce((a, b) => a + b.vlr_desconto_total, 0)
 
+
     const dataProd = [
         ["Element", "Valor", { role: "style" }],
         ["Venda:", resultProd, "#f6d001"],
@@ -906,6 +907,9 @@ export const ResumoFaturamento = () => {
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
+
+    console.log(dadosProdutoReduzidos)
+
     //------------------------------------------------------------------------Dashboard Grupo-----------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardGrupo, setIsOpenDashboardGrupo] = useState(false);
@@ -944,10 +948,15 @@ export const ResumoFaturamento = () => {
         [dadoNomeGrupo7, dadoVenGrupo7, dadoLuGrupo7],
         [dadoNomeGrupo8, dadoVenGrupo8, dadoLuGrupo8],
         [dadoNomeGrupo9, dadoVenGrupo9, dadoLuGrupo9],
-
     ];
 
     const dataGru = [
+        ["Element", "Valor", { role: "style" }],
+        ["Sub.Total", resultGru2, "#bc1b2b"],
+        ["Desconto", resultGru3, "#ffaf56"],
+    ];
+
+    const dataGru2 = [
         ["Element", "Valor", { role: "style" }],
         ["Venda:", resultGru, "#bc1b2b"],
         ["Lucro", resultGru1, "#ffaf56"],
@@ -1022,12 +1031,13 @@ export const ResumoFaturamento = () => {
     }
 
     const dadosFornecedorDetalhado = dadosFornecedor.slice(0, 10);
+    console.log(dadosFornecedorDetalhado)
 
     const resultFor = dadosFornecedor.reduce((a, b) => a + b.vlr_venda_total, 0)
     const resultFor1 = dadosFornecedor.reduce((a, b) => a + b.vlr_lucro_total, 0)
     const resultFor2 = dadosFornecedor.reduce((a, b) => a + b.vlr_custo_total, 0)
     const resultFor3 = dadosFornecedor.reduce((a, b) => a + b.vlr_desconto_total, 0)
-
+    const resultFor4 = dadosFornecedor.reduce((a, b) => a + b.sub_total, 0)
 
     const dataFor = [
         ["Element", "Valor", { role: "style" }],
@@ -2220,15 +2230,31 @@ export const ResumoFaturamento = () => {
                         {dadosClienteReduzido.map((dados) => {
 
                             const dashboard = [
-                                ["Element", "Lucro", { role: "style" }],
+                                ["Element", "", { role: "style" }],
                                 ["Liquido", dados.vlLucroLiquido, "#ffaf56"],
                                 ["Bruto", dados.vlLucroVenda, "#f6d001"],
+                            ];
+
+                            const dashboard1 = [
+                                ["Element", "", { role: "style" }],
+                                ["Custo", dados.vlCustoTotal, "#f6d001"],
+                                ["Lucro", dados.vlLucroVenda, "#ffaf56"],
+                            ];
+
+                            const dashboard2 = [
+                                ["Element", "", { role: "style" }],
+                                ["NF-e", dados.vlTotalNfe, ""],
+                                ["NFC-e", dados.vlTotalNfce, ""],
                             ];
 
                             return (
                                 <RF.DashboardMenor>
                                     <h2>{dados.cliente}</h2>
-                                    <Chart chartType="ColumnChart" width="20vw" height="25vh" data={dashboard} className="graficoA" />
+                                    <div className='graficosReduzidos' >
+                                        <Chart chartType="ColumnChart" width="20vw" height="25vh" data={dashboard} className="graficoA" />
+                                        <Chart chartType="ColumnChart" width="20vw" height="25vh" data={dashboard1} className="graficoA" />
+                                        <Chart chartType="PieChart" width="20vw" height="25vh" data={dashboard2} options={optionsCli} className="graficoA" />
+                                    </div>
                                 </RF.DashboardMenor>
                             );
 
@@ -2350,7 +2376,11 @@ export const ResumoFaturamento = () => {
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {resultProd4.toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {resultProd2.toFixed(3)}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Desconto: {resultProd4.toFixed(3)}
                         </h2>
 
                     </div>
@@ -2376,11 +2406,40 @@ export const ResumoFaturamento = () => {
                             ["Lucro", prod.vlr_lucro_total, "#1b7abc"],
                         ];
 
+                        const dashboard1 = [
+                            ["Element", "", { role: "style" }],
+                            ["Custo", prod.vlr_custo_total, "#727272"],
+                            ["Lucro", prod.vlr_lucro_total, "#1b7abc"],
+                        ];
+
+                        const dashboard2 = [
+                            [
+                                "Element",
+                                "Valor",
+                                { role: "style" },
+                                {
+                                    sourceColumn: 0,
+                                    role: "annotation",
+                                    type: "string",
+                                    calc: "stringify",
+                                },
+                            ],
+                            ["Desconto", prod.vlr_desconto_total, "#a9b21a", null],
+                            ["Sub.Total", prod.sub_total, "#ff6ad8", null],
+                            ["Venda", prod.vlr_venda_total, "#f6d001", null],
+                        ];
+
                         return (
-                            <div className='a'>
+                            <RF.DashboardMenor>
+
                                 <h2>{prod.produto}</h2>
-                                <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
-                            </div>
+                                <div className='graficosReduzidos' >
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard1} className="graficoA" />
+                                    <Chart chartType="BarChart" data={dashboard2} options={barOptionsGru} className="graficoA" />
+                                </div>
+
+                            </RF.DashboardMenor>
                         );
 
                     })}
@@ -2419,6 +2478,7 @@ export const ResumoFaturamento = () => {
                     <RF.Dashboard>
                         <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} className="grafico" />
                         <Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} className="grafico" />
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru2} className="grafico" />
                     </RF.Dashboard>
 
                     <RF.Dashboard>
@@ -2434,6 +2494,12 @@ export const ResumoFaturamento = () => {
                         const grupoDetalhado = [
                             ["Element", "Valor", { role: "style" }],
                             ["Venda:", detalhado.vlr_venda_total, "#bc1b2b"],
+                            ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
+                        ];
+
+                        const grupoDetalhado1 = [
+                            ["Element", "Valor", { role: "style" }],
+                            ["Sub.Total", detalhado.sub_total, "#bc1b2b"],
                             ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
                         ];
 
@@ -2464,13 +2530,14 @@ export const ResumoFaturamento = () => {
                         };
 
                         return (
-                            <div className='a' >
+                            <RF.DashboardMenor>
                                 <h2>{detalhado.grupo}</h2>
-                                <div className='b'>
+                                <div className='graficosReduzidos'>
                                     <Chart chartType="ColumnChart" width="300px" height="200px" data={grupoDetalhado} className="graficoA" />
-                                    <Chart chartType="BarChart" data={grupoDetalhadoBar} options={barGruOptions} className="graficoB" />
+                                    <Chart chartType="BarChart" data={grupoDetalhadoBar} options={barGruOptions} className="graficoA" />
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={grupoDetalhado1} className="graficoA" />
                                 </div>
-                            </div>
+                            </RF.DashboardMenor>
                         )
                     })}
                 </Modal>
@@ -2502,6 +2569,10 @@ export const ResumoFaturamento = () => {
                             <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {resultFor3}
                         </h2>
 
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Sub.Total: {resultFor4.toFixed(2)}
+                        </h2>
+
                     </div>
 
                     <RF.Dashboard>
@@ -2524,13 +2595,41 @@ export const ResumoFaturamento = () => {
                             ["Lucro", forn.vlr_lucro_total, "#57ffe8"],
                         ]
 
-                        return (
-                            <div className='a' >
-                                <h2>{forn.fornecedor}</h2>
-                                <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
-                            </div>
-                        )
+                        const dashboard1 = [
+                            ["Element", "Valor", { role: "style" }],
+                            ["Sub.Total", forn.sub_total, "#b2bb1d"],
+                            ["Lucro", forn.vlr_lucro_total, "#57ffe8"],
+                        ]
 
+                        const dashboard2 = [
+                            [
+                                "Element",
+                                "Valor",
+                                { role: "style" },
+                                {
+                                    sourceColumn: 0,
+                                    role: "annotation",
+                                    type: "string",
+                                    calc: "stringify",
+                                },
+                            ],
+                            ["Lucro", forn.vlr_lucro_total, "#57ffe8", null],
+                            ["Sub.Total", forn.sub_total, "#b2bb1d", null],
+                            ["Venda", forn.vlr_venda_total, "#bc1b2b", null],
+                            ["Desconto", forn.vlr_venda_total, "#1b7abc", null],
+                        ];
+
+                        return (
+                            <RF.DashboardMenor>
+                                <h2>{forn.fornecedor}</h2>
+
+                                <div className='graficosReduzidos'>
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard1} className="graficoA" />
+                                    <Chart chartType="BarChart" data={dashboard2} options={barOptionsFor} className="graficoA" />
+                                </div>
+                            </RF.DashboardMenor>
+                        )
                     })}
                 </Modal>
             </Modal>

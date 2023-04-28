@@ -140,30 +140,6 @@ label {
     border-width: 1px;
 }
 
-.a {
-    height: 250px;
-    border-style: solid;
-    border-radius: 10px;
-    border-width: 2px;
-    display: flex;
-    flex-direction: column;
-    margin-left: 50px;
-    margin-top: 50px;
-    margin-right: 50px;
-}
-
-.b {
-    display: flex;
-    flex-direction: row;
-}
-
-.c {
-    margin-top: 2vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .dashboardDetalhado {
     overflow-x: scroll;
     position: absolute;
@@ -175,24 +151,6 @@ label {
     width: 70%;
     height: 75%;
     background-color: white;
-}
-
-.graficoA {
-    margin-top: 5px;
-    margin-left: 10px;
-    position: relative;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 8px;
-}
-
-.graficoB {
-    border-radius: 8px;
-    left: 20px;
-    top: 5px;
-    position: relative;
-    border-style: solid;
-    border-width: 1px;
 }
 
 .dashboardOk {

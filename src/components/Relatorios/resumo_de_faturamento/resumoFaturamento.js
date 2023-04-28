@@ -189,13 +189,21 @@ justify-content: space-between;
 }
 `
 export const DashboardMenor = styled.div`
-height: 250px;
+height: 31vh;
 border-style: solid;
 border-radius: 10px;
 border-width: 2px;
 display: flex;
 flex-direction: column;
-margin-left: 50px;
+margin-left: 40px;
 margin-top: 50px;
-margin-right: 50px;
+margin-right: 40px;
+.graficosReduzidos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.graficoA {
+    margin: 15px;
+}
 `
