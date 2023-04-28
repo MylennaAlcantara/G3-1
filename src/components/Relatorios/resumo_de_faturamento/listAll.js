@@ -2296,7 +2296,7 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts'>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeAlimentação.png' /> Alimentação: R$ {resultTpPg9}
+                            <img className='cifrões' src='/images/valeAlimentacao.png' /> Alimentação: R$ {resultTpPg9}
                         </h2>
 
                         <h2 className='prices' >
@@ -2308,7 +2308,7 @@ export const ResumoFaturamento = () => {
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeRefeição.png' /> Refeição: R$ {resultTpPg12}
+                            <img className='cifrões' src='/images/valeRefeicao.png' /> Refeição: R$ {resultTpPg12}
                         </h2>
                     </div>
 
