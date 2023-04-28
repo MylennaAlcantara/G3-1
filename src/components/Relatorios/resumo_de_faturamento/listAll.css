@@ -13,6 +13,7 @@
 }
 
 .FTFilterTop{
+    width: 50%;
     display: flex;
     flex-direction: column;
     margin-top: -23px;
@@ -33,35 +34,6 @@
     height: 33px;
 }
 
-.CE{
-    border-width: 1px;
-    background-color: #e6e6e6;
-    border-top-left-radius: 8px;
-    width: 12%;
-    border-bottom: transparent;
-    border-style: solid;
-    border-left: transparent;
-}
-
-.CE:hover{
-    cursor: pointer;
-    background-color: #a6f4ff;
-}
-
-.CD{
-    border-width: 1px;
-    background-color: #e6e6e6;
-    border-top-right-radius: 8px;
-    border-bottom: transparent;
-    border-right: transparent;
-    width: 12%;
-    border-style: solid;
-}
-
-.CD:hover{
-    cursor: pointer;
-    background-color: #a6f4ff;
-}
 
 .dashboard01 {
     align-items: center;
@@ -126,8 +98,6 @@ label {
     display: flex;
     flex-direction: row;
     height: 50px;
-    border-style: solid;
-    border-width: 1px;
 }
 
 .grafico0 {
@@ -295,8 +265,8 @@ h2 {
 }
 
 .grafico {
-    height: 28px;
-    width: 28px;
+    height: 20px;
+    width: 20px;
     margin-right: 5px;
 }
 
@@ -538,11 +508,6 @@ table tr:nth-child(odd) {
     width: 30px;
 }
 
-.botão-filtros {
-    width: 117px;
-    height: 33px;
-}
-
 .topFilialBtn {
     border-top-left-radius: 10px;
     height: 25px;
@@ -635,40 +600,6 @@ table tr:nth-child(odd) {
     border-width: 1px;
 }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-    border: 1px solid grey;
-}
-
-th {
-    font-size: 15px;
-    font-weight: bold;
-    color: #373435;
-    background-color: #ffffff;
-    border: 1px solid grey;
-}
-
-td {
-    border: 1px solid grey;
-}
-
-table tr:nth-child(even) {
-    background-color: #ffffe6;
-}
-
-table tr:nth-child(odd) {
-    background-color: #f0f0f0;
-}
-
-.table tr td {
-    cursor: pointer;
-}
-
-.table tr:hover td {
-    background-color: #87CEFA;
-}
-
 .filter-name {
     width: 355px;
 }
@@ -681,7 +612,7 @@ table tr:nth-child(odd) {
 }
 
 .search {
-    width: 100%;
+    width: 95%;
     height: 25px;
 }
 
