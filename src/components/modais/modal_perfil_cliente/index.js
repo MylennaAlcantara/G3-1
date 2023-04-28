@@ -130,6 +130,7 @@ export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil}) => {
                         {cadastroPerfil ? (
                             <button><img src="/images/abrir.png"/>Abrir</button>
                         ): null}
+                        <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
                 {modalCadastro ? <CadastroPerfil close = {()=> setModalCadastro(false)}/> : null}

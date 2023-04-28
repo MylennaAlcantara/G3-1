@@ -5,16 +5,16 @@ import { CadastroPisCofins } from "../modal_cadastro_piscofins";
 import { CadastroIpi } from "../modal_cadastro_ipi";
 
 export const Ipi = ({close}) => {
-    const [perfil, setPerfil] = useState([]);
+    const [grupoIpi, setGrupoIpi] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
 
     
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/perfilRegra/all");
+            const response = await fetch("http://10.0.1.107:8080/grupoIpi/all");
             const data = await response.json();
-            setPerfil(data);
+            setGrupoIpi(data);
         }
         fetchData();
     }, []);
@@ -25,11 +25,11 @@ export const Ipi = ({close}) => {
         setFiltro(event.target.value);
     }
 
-    const resultado = Array.isArray(perfil) && perfil.filter((perfil) => {
+    const resultado = Array.isArray(grupoIpi) && grupoIpi.filter((grupoIpi) => {
         if(filtro === 'descricao'){
-            return perfil.descricao.toLowerCase().includes(busca);
+            return grupoIpi.descricao.toLowerCase().includes(busca);
         }else if(filtro === 'id'){
-            return perfil.id === Number(busca);
+            return grupoIpi.id === Number(busca);
         }
     })
 
@@ -89,13 +89,13 @@ export const Ipi = ({close}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {resultado.map((perfil, index)=> {
+                            {resultado.map((grupoIpi, index)=> {
                                 return(
-                                    <tr key={perfil.id}
+                                    <tr key={grupoIpi.id}
                                         onClick={selecionado.bind(this, index)}
                                         style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
-                                        <td>{perfil.id}</td>
-                                        <td>{perfil.descricao}</td>
+                                        <td>{grupoIpi.id}</td>
+                                        <td>{grupoIpi.descricao}</td>
                                     </tr>
                                 )
                             })}

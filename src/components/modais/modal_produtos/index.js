@@ -34,7 +34,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, setPro
                 setItens(data.content);
             }else{
                 console.log("passou 5");
-                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=2000`);
+                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);
                 const data = await response.json();
                 setItens(data.content);
             }

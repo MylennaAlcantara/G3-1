@@ -172,11 +172,11 @@ export const NavBar = () => {
                                     )}
                                 </>
                             ) : (
-                                <div className="gaveta">
+                                <>
                                     {nivel.cadastro_funcionario ? <div className="gaveta" onClick={()=> {navigate('/funcionarios'); fecharOp()}}>Cadastro</div> : null}                                    
                                     {nivel.tabela_auxiliar_setor_funcionario ? <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true); navegarFuncionario()}}>Cadastro de Setor</div> : null}
                                     {nivel.tabela_auxiliar_tipo_funcionario ? <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true); navegarFuncionario()}}>Cadastro de Nivel</div> : null}
-                                </div>
+                                </>
                             )}
                         </>
                     ) : null}

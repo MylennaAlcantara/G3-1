@@ -129,6 +129,7 @@ export const RamoAtividade = ({close, setDadosRamo, cadastroRamo}) => {
                         {cadastroRamo ? (
                             <button><img src="/images/abrir.png"/>Abrir</button>
                         ): null}
+                        <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
                 {modalCadastro ? <CadastroRamo close={()=> setModalCadastro(false)}/> : null}

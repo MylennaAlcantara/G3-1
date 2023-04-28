@@ -5,14 +5,16 @@ export const Content = styled.div`
     width: 100%;
     display: flex;
     overflow: auto;
+    img:hover{
+        cursor: pointer;
+    }
 `
 export const GrupoRegra = styled.div`
     height: 100%;
-    width: 40%;
     display: flex;
     flex-direction: column;
-    fieldset{
-        height: 100%;
+    .fieldset{
+        height: 50%;
         border-radius: 10px;
     }
     img{
@@ -26,7 +28,7 @@ export const GrupoRegra = styled.div`
         margin: 5px;
     }
     .table-responsive{
-        overflow-x: auto;
+        overflow: auto;
         height: 75%;
         border: 1px solid grey;
     }
@@ -64,10 +66,13 @@ export const GrupoRegra = styled.div`
 `
 export const DadosRegra = styled.div`
     height: 100%;
-    width: 60%;
+    width: 95%;
     input{
         height: 24px;
         margin: 2px;
+    }
+    input[type=checkbox]{
+        height: auto;
     }
     .codigo{
         width: 60px;
@@ -76,6 +81,8 @@ export const DadosRegra = styled.div`
         width: 60%;
     }
     .grupo{
+        margin: auto;
+        width: 95%;
         div{
             display: flex;
             align-items: center;
