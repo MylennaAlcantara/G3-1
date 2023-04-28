@@ -28,8 +28,10 @@ export const Lista = styled.div`
         color: #373435;    
         background-color: #ffffff;
         border: 1px solid grey;
+        white-space: nowrap;
     }
     td{
+        white-space: nowrap;
         border: 1px solid grey;
     }
     table tr:nth-child(even){

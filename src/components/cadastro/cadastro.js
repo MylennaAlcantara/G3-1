@@ -348,14 +348,25 @@ export const Display = styled.div`
         width: 100%;
         border: 1px solid grey;
     }
+    thead{
+        position: sticky;
+        top:0;
+    }
+    .table-responsive{
+        overflow-x: auto;
+        height: 75%;
+        width: 100%;
+    }
     th{    
         font-size: 15px;
         font-weight: bold;
         color: #373435;    
         background-color: #ffffff;
         border: 1px solid grey;
+        white-space: nowrap;
     }
     td{
+        white-space: nowrap;
         border: 1px solid grey;
     }
     table tr:nth-child(even){
@@ -364,10 +375,10 @@ export const Display = styled.div`
     table tr:nth-child(odd){
         background-color: #f0f0f0;   
     }
-    .table tr td{
+    #table tr td{
         cursor: pointer;
     }
-    .table tr:hover td{
+    #table tr:hover td{
         background-color: #87CEFA;
     }
     .ativo{
@@ -395,7 +406,7 @@ export const Display = styled.div`
     @media (max-width: 425px){
         height: 20%;
         width: 100%;
-        .table-resp{
+        .table-response{
             overflow-x: auto;
             overflow-y: auto;
         }
