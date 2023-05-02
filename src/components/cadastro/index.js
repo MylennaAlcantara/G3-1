@@ -15,9 +15,7 @@ import { AuthContext } from "../../contexts/Auth/authContext.js";
 export const Cadastro = () => {
     const navigate = useNavigate();
     const {user, empresa} = useContext(AuthContext);
-    const textoQtd = document.querySelector("#quantidade-input")
-
-
+    
     /*Estado dos Modais */
     const [isModalPartner, setIsModalPartner] = useState(false);
     const [isModalSaler, setIsModalSaler] = useState(false);
@@ -65,7 +63,6 @@ export const Cadastro = () => {
     const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
 
     const [promocao, setPromocao] = useState([]);
-    console.log(promocao)
 
 
     //Atualização da lista de itens
@@ -156,7 +153,7 @@ export const Cadastro = () => {
         setDescontoPorcen(valor);
     }
     function handleQtdEstoqueBlur(e){
-        const valor = parseFloat(numero1).toFixed(3).replace("NaN", " ").replace(".", ",");
+        const valor = parseFloat(numero1).toFixed(3).replace("NaN", " ")//.replace(".", ",");
         setNumero1(valor);
         valorUnidade();
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
@@ -207,7 +204,7 @@ export const Cadastro = () => {
             return total
         }
         else{
-            return parseFloat(parseFloat(valorTotal) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+            return parseFloat(parseFloat(valorTotal) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ").replace(",", ".");
         }
     }
 

@@ -16,7 +16,6 @@ export const Lista = styled.div`
         border-collapse: collapse;
         width: 100%;
         border: 1px solid grey;
-        margin-top: 2%
     }
     thead{
         position: sticky;

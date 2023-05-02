@@ -25,7 +25,7 @@ export const Grupo = ({close}) => {
 
     useEffect(()=> {
         async function fetchData (){
-            const response = await fetch('http://10.0.1.107:8080/grupo/all');
+            const response = await fetch('http://10.0.1.10:8092/grupo/all');
             const data = await response.json();
             setPai(data);
         }
