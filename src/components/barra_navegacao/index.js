@@ -189,18 +189,18 @@ export const NavBar = ({minimizado, setMinimizado}) => {
                 </C.Barra>
             ) : null}
             <button className="menu" onClick={abrirBarra} style={{left: aberto === false ? '0' : null}}><img src="/images/seta.png"/></button>
-            {opFuncionario ? <OpFuncionarios close={()=> setOpfuncionario(false)} setOpfuncionario={setOpfuncionario}/> : null}
+            {opFuncionario ? <OpFuncionarios close={()=> setOpfuncionario(false)} setOpfuncionario={setOpfuncionario} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} cadastroSetor={cadastroSetor} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             
-            {opProdutos ? <OpProdutos close={()=> setOpProdutos(false)} setOpProdutos={setOpProdutos}/> : null}
+            {opProdutos ? <OpProdutos close={()=> setOpProdutos(false)} setOpProdutos={setOpProdutos} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {isModalFamilia ? <Familia close={()=> setIsModalFamilia(false)} minimizado={minimizado} setMinimizado={setMinimizado}/> : null}
             {isModalGrupoIpi ? <Ipi close={()=> setIsModalGrupoIpi(false)} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {isModalGrupoPis ? <PisCofins close={()=> setIsModalGrupoPis(false)} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {isModalRegraIcms ? <GrupoIcms close={()=> setIsModalRegraIcms(false)} minimizado={minimizado} setMinimizado={setMinimizado}/> : null}
             {isModalGrupo ? <Grupo close={()=> setIsModalGrupo(false)} minimizado={minimizado} setMinimizado={setMinimizado}/> : null}
             
-            {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar}/> : null}
+            {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {perfil ? <PerfilCliente close={()=> setPerfil(false)} cadastroPerfil={cadastroPerfil} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {ramo ? <RamoAtividade close={()=> setRamo(false)} cadastroRamo={cadastroRamo} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {tipoPgto ? <Pgt onClose={()=> setTipoPgto(false)} cadastroPgto={cadastroPgto} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
