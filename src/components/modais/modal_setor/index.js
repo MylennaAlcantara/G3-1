@@ -5,7 +5,7 @@ import { CadastroSetor } from "../modal_cadastro_setor";
 import { EditarSetor } from "../modal_editar_setor";
 import { Loading } from "../../loading";
 
-export const Setor = ({setSetor, close, cadastroSetor}) => {
+export const Setor = ({setSetor, close, cadastroSetor, setorMinimizado, setSetorMinimizado}) => {
     const [setores, setSetores] = useState([]);
     const [modalNovoSetor, setModalNovoSetor] = useState(false);
     const [modalEditarSetor, setModalEditarSetor] = useState(false);
@@ -47,13 +47,17 @@ export const Setor = ({setSetor, close, cadastroSetor}) => {
             setModalEditarSetor(true);
         }
     }
+    const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.Modal>
+        <M.Modal style={{zIndex: setorMinimizado === true ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Setor de Funcionário</h3>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setSetorMinimizado(true)}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <M.Filtro>
                     <div>
@@ -104,7 +108,7 @@ export const Setor = ({setSetor, close, cadastroSetor}) => {
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
-                {modalNovoSetor ? <CadastroSetor close={()=> setModalNovoSetor(false)}/> : null}
+                {modalNovoSetor ? <CadastroSetor close={()=> setModalNovoSetor(false)} setorMinimizado={setorMinimizado} setSetorMinimizado = {setSetorMinimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
                 {modalEditarSetor ? <EditarSetor close={()=> setModalEditarSetor(false)} dadosSetor={dadosSetor} /> : null}
             </M.Container>
         </M.Modal>

@@ -38,12 +38,19 @@ function App() {
   const [matriculaFuncionario,setMatriculaFuncionario] = useState('');
   const [senhaFuncionario, setSenhaFuncionario] = useState('');
 
+  const [setorMinimizado, setSetorMinimizado] = useState(false);
+  const [nivelMinimizado, setNivelMinimizado] = useState(false);
+
   return (      
   <AuthProvider>
     <div className="App">
+      <div className='op-minimizadas'>
+        {setorMinimizado ? (<div className='minimizado' onClick={()=> setSetorMinimizado(false)}>Cadastro Setor</div>): null}
+        {nivelMinimizado ? (<div className='minimizado' onClick={()=> setNivelMinimizado(false)}>Cadastro Nivel</div>): null}
+      </div>
           <Routes>
             <Route path = "/" element = {<Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/> 
-            <Route path = "/home" element = {token ? (<><NavBar/><Home/></>) : <Login/>}/> 
+            <Route path = "/home" element = {token ? (<><NavBar setorMinimizado={setorMinimizado} setSetorMinimizado={setSetorMinimizado} nivelMinimizado={nivelMinimizado} setNivelMinimizado={setNivelMinimizado}/><Home/></>) : <Login/>}/> 
             
             {/* Rotas de Rotina */}
             {nivel.cadastro_dav_acessivel ? (
@@ -59,14 +66,14 @@ function App() {
             
             {/* Rotas de Cliente */}
             {nivel.cadastro_cliente_acessivel ? (
-              <Route path = '/clientes' element = {token ? (<><NavBar/><ConsultarCliente setCliente={setCliente}/></>) : <Login/>}/>
-            ) : <Route path = "/clientes" element = {token ? (<><NavBar/><Home/></>) : <Login/>}/>}
+              <Route path = '/clientes' element = {token ? (<><NavBar setorMinimizado={setorMinimizado} setSetorMinimizado={setSetorMinimizado} nivelMinimizado={nivelMinimizado} setNivelMinimizado={setNivelMinimizado}/><ConsultarCliente setCliente={setCliente}/></>) : <Login/>}/>
+            ) : <Route path = "/clientes" element = {token ? (<><NavBar setorMinimizado={setorMinimizado} setSetorMinimizado={setSetorMinimizado} nivelMinimizado={nivelMinimizado} setNivelMinimizado={setNivelMinimizado}/><Home/></>) : <Login/>}/>}
             {nivel.cadastro_cliente_editar ? (
-              <Route path = '/editarCliente/:cliente' element = {token ? (<><NavBar/><EditarCliente cliente={cliente} codCliente={parseFloat(codCliente)}/></>) : <Login/>}/>
-            ) : <Route path = '/editarCliente/:cliente' element = {token ? (<><NavBar/><ConsultarCliente setCliente={setCliente}/></>) : <Login/>}/>}
+              <Route path = '/editarCliente/:cliente' element = {token ? (<><NavBar setorMinimizado={setorMinimizado} setSetorMinimizado={setSetorMinimizado} nivelMinimizado={nivelMinimizado} setNivelMinimizado={setNivelMinimizado}/><EditarCliente cliente={cliente} codCliente={parseFloat(codCliente)}/></>) : <Login/>}/>
+            ) : <Route path = '/editarCliente/:cliente' element = {token ? (<><NavBar setorMinimizado={setorMinimizado} setSetorMinimizado={setSetorMinimizado} nivelMinimizado={nivelMinimizado} setNivelMinimizado={setNivelMinimizado}/><ConsultarCliente setCliente={setCliente}/></>) : <Login/>}/>}
             {nivel.cadastro_cliente_incluir ? (
-              <Route path = '/cadastrarCliente' element = {token ? (<><NavBar/><CadastroCliente/></>) : <Login/>}/>
-            ) : <Route path = '/cadastrarCliente' element = {token ? (<><NavBar/><ConsultarCliente setCliente={setCliente}/></>) : <Login/>}/>}
+              <Route path = '/cadastrarCliente' element = {token ? (<><NavBar setorMinimizado={setorMinimizado} setSetorMinimizado={setSetorMinimizado} nivelMinimizado={nivelMinimizado} setNivelMinimizado={setNivelMinimizado}/><CadastroCliente/></>) : <Login/>}/>
+            ) : <Route path = '/cadastrarCliente' element = {token ? (<><NavBar setorMinimizado={setorMinimizado} setSetorMinimizado={setSetorMinimizado} nivelMinimizado={nivelMinimizado} setNivelMinimizado={setNivelMinimizado}/><ConsultarCliente setCliente={setCliente}/></>) : <Login/>}/>}
             
             {/* Rotas de Fornecedor */}
             {nivel.cadastro_fornecedor ? (

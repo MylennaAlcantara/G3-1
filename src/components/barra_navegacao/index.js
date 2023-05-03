@@ -16,7 +16,7 @@ import { RamoAtividade } from "../modais/modal_ramo_atividade";
 import { Pgt } from "../modais/modal_pgt";
 import { Grupo } from "../modais/modais_tela_produtos/modal_icms";
 
-export const NavBar = () => {
+export const NavBar = ({setorMinimizado, setSetorMinimizado, nivelMinimizado, setNivelMinimizado}) => {
     const navigate = useNavigate();
     const [aberto, setAberto] = useState(true);
     const {nivel} = useContext(AuthContext);
@@ -97,6 +97,7 @@ export const NavBar = () => {
             setRamo(false);
         }
     }
+    /* 
     function navegarFuncionario(){
         if(isModalSetor){
             setIsModalNivel(false);
@@ -104,6 +105,7 @@ export const NavBar = () => {
             setIsModalSetor(false);
         }
     }
+    */
 
     const sair = () => {
         localStorage.clear();
@@ -174,8 +176,8 @@ export const NavBar = () => {
                             ) : (
                                 <>
                                     {nivel.cadastro_funcionario ? <div className="gaveta" onClick={()=> {navigate('/funcionarios'); fecharOp()}}>Cadastro</div> : null}                                    
-                                    {nivel.tabela_auxiliar_setor_funcionario ? <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true); navegarFuncionario()}}>Cadastro de Setor</div> : null}
-                                    {nivel.tabela_auxiliar_tipo_funcionario ? <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true); navegarFuncionario()}}>Cadastro de Nivel</div> : null}
+                                    {nivel.tabela_auxiliar_setor_funcionario ? <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true)}}>Cadastro de Setor</div> : null}
+                                    {nivel.tabela_auxiliar_tipo_funcionario ? <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true)}}>Cadastro de Nivel</div> : null}
                                 </>
                             )}
                         </>
@@ -188,8 +190,8 @@ export const NavBar = () => {
             ) : null}
             <button className="menu" onClick={abrirBarra} style={{left: aberto === false ? '0' : null}}><img src="/images/seta.png"/></button>
             {opFuncionario ? <OpFuncionarios close={()=> setOpfuncionario(false)} setOpfuncionario={setOpfuncionario}/> : null}
-            {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} cadastroSetor={cadastroSetor} /> : null}
-            {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} /> : null}
+            {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} cadastroSetor={cadastroSetor} setorMinimizado={setorMinimizado} setSetorMinimizado={setSetorMinimizado}/> : null}
+            {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel}  nivelMinimizado={nivelMinimizado} setNivelMinimizado={setNivelMinimizado}/> : null}
             
             {opProdutos ? <OpProdutos close={()=> setOpProdutos(false)} setOpProdutos={setOpProdutos}/> : null}
             {isModalFamilia ? <Familia close={()=> setIsModalFamilia(false)}/> : null}

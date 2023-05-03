@@ -121,11 +121,25 @@ export const Header = styled.div`
     label{
         margin-left: 5px;
     }
+    .buttons{
+        display: flex;
+        align-items: start;
+        height: 100%;
+    }
+    .minimizar,
     .close{
         height: 30px;
         width: 30px;
-        
         border: none;
+    }
+    .linha{
+        margin: auto;
+        width: 15px;
+        border-bottom: 1px solid black;
+    }
+    .minimizar:hover{
+        cursor: pointer;
+        border: 1px solid black;
     }
     .close:hover{
         cursor: pointer;

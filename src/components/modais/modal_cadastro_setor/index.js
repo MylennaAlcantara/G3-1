@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as M from "../modal/modal";
 import * as CP from "../modal_cadastro_perfil/cadastroPerfil";
 
-export const CadastroSetor = ({close}) => {
+export const CadastroSetor = ({close, setorMinimizado, setSetorMinimizado, minimizar, setMinimizar}) => {
     const [novoSetor, setNovoSetor] = useState('');
     const [operador, setOperador] = useState(false)
 
@@ -22,15 +22,18 @@ export const CadastroSetor = ({close}) => {
             }  
         }catch(err){
             console.log(err);
-        }        
+        }
     }
     
     return(
-        <M.Modal>
+        <M.Modal style={{zIndex: setorMinimizado === true ? minimizar : "0"}}>
             <M.Container>
                 <M.Header>
                     <label>Cadastro de Setor de Funcionário</label>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setSetorMinimizado(true)}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <CP.Content>
                     <div>

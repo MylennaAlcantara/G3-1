@@ -38,6 +38,23 @@ select{
   width: 100%;
 }
 
+.op-minimizadas{
+  right: 5px;
+  position: fixed;
+}
+
+.minimizado{
+  background-color: white;
+  margin-top: 10px;
+  width: 117px;
+  height: 33px;
+  border-radius: 10px;
+  text-align: center;
+}
+.minimizado:hover{
+  cursor: pointer;
+}
+
 @media screen and (max-width: 425px){
   .App{
     height: 95vh;   
