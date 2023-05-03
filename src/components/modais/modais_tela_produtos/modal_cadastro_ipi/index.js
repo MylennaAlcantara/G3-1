@@ -5,7 +5,7 @@ import * as CPC from "../modal_cadastro_piscofins/cadastroPisCofins";
 import * as CI from "./cadastroIpi";
 import { ExcecaoIpi } from "./excecao";
 
-export const CadastroIpi = ({close}) => {
+export const CadastroIpi = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [excecao, setExcecao] = useState(false);
     const dadosEntrada=[
         {
@@ -70,11 +70,14 @@ export const CadastroIpi = ({close}) => {
     ]
 
     return(
-        <M.SubModal>
+        <M.SubModal style={{zIndex: minimizado.ipi ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Cadastro de Grupo de IPI</h3>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, ipi: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <CPC.DadosGrupo>
                     <div id="codigo">
@@ -149,7 +152,7 @@ export const CadastroIpi = ({close}) => {
                         <button onClick={close}><img src="/images/voltar.png"/>Cancelar</button>
                     </div>
                 </C.Footer>
-                {excecao ? <ExcecaoIpi close={()=> setExcecao(false)}/> : null}
+                {excecao ? <ExcecaoIpi close={()=> setExcecao(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
             </M.Container>
         </M.SubModal>
     )

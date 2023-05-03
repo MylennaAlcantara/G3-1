@@ -3,7 +3,7 @@ import * as M from "../../modal/modal";
 import {Lista} from "./grupo";
 //import grupos from "../../../../grupos/grupos.json";
 
-export const Grupo = ({close}) => {
+export const Grupo = ({close, minimizado, setMinimizado}) => {
     const [filho, setFilho] = useState(
         {
         ID: "",
@@ -43,12 +43,18 @@ export const Grupo = ({close}) => {
         setFilho(filho);
     }
 
+    // Estado que indica quando minimizado para colocar atrás de tudo
+    const [minimizar, setMinimizar] = useState("");
+
     return(
-        <M.Modal>
+        <M.Modal  style={{zIndex: minimizado.grupo ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Grupo / SubGrupo</h3>
-                    <button onClick={close} className="close">X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, grupo: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <M.Filtro>
                     <input type="radio"/>

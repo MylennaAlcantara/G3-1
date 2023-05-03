@@ -50,7 +50,7 @@ export const Header = styled.div`
     border: 1.5px;
     border-radius: 12px 12px 0 0;
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     height: 24px;
     width: 100%;
@@ -58,6 +58,38 @@ export const Header = styled.div`
     button{
         margin: 0 5px;
         position: relative;
+    }
+    .buttons{
+        display: flex;
+        align-items: start;
+        height: 100%;
+        border-radius: 0 10px 0 0;
+        button{
+            margin: 0;
+        }
+    }
+    .minimizar,
+    .close{
+        height: 100%;
+        width: 30px;
+        border: none;
+        border-radius: 0 10px 0 0;
+    }
+    .minimizar{
+        border-radius: 0;
+    }
+    .linha{
+        margin: auto;
+        width: 15px;
+        border-bottom: 1px solid black;
+    }
+    .minimizar:hover{
+        cursor: pointer;
+        border: 1px solid black;
+    }
+    .close:hover{
+        cursor: pointer;
+        background-color: red;
     }
 `;
 export const Info = styled.div`

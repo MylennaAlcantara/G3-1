@@ -5,7 +5,7 @@ import { CadastroSetor } from "../modal_cadastro_setor";
 import { EditarSetor } from "../modal_editar_setor";
 import { Loading } from "../../loading";
 
-export const Setor = ({setSetor, close, cadastroSetor, setorMinimizado, setSetorMinimizado}) => {
+export const Setor = ({setSetor, close, cadastroSetor, minimizado, setMinimizado}) => {
     const [setores, setSetores] = useState([]);
     const [modalNovoSetor, setModalNovoSetor] = useState(false);
     const [modalEditarSetor, setModalEditarSetor] = useState(false);
@@ -50,12 +50,12 @@ export const Setor = ({setSetor, close, cadastroSetor, setorMinimizado, setSetor
     const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.Modal style={{zIndex: setorMinimizado === true ? minimizar : "1"}}>
+        <M.Modal style={{zIndex: minimizado.setor === true ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Setor de Funcionário</h3>
                     <div className="buttons">
-                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setSetorMinimizado(true)}}><div className="linha"/></button>
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, setor: true})}}><div className="linha"/></button>
                         <button className="close" onClick={close}>X</button>
                     </div>
                 </M.Header>
@@ -108,8 +108,8 @@ export const Setor = ({setSetor, close, cadastroSetor, setorMinimizado, setSetor
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
-                {modalNovoSetor ? <CadastroSetor close={()=> setModalNovoSetor(false)} setorMinimizado={setorMinimizado} setSetorMinimizado = {setSetorMinimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
-                {modalEditarSetor ? <EditarSetor close={()=> setModalEditarSetor(false)} dadosSetor={dadosSetor} /> : null}
+                {modalNovoSetor ? <CadastroSetor close={()=> setModalNovoSetor(false)} minimizado={minimizado} setMinimizado = {setMinimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
+                {modalEditarSetor ? <EditarSetor close={()=> setModalEditarSetor(false)} dadosSetor={dadosSetor} minimizado={minimizado} setMinimizado = {setMinimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
             </M.Container>
         </M.Modal>
     )

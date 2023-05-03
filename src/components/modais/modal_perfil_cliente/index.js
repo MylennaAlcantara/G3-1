@@ -4,7 +4,7 @@ import * as C from "../../cadastro/cadastro";
 import { CadastroPerfil } from "../modal_cadastro_perfil/index";
 import { Loading } from "../../loading/index";
 
-export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil}) => {
+export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil, minimizado, setMinimizado}) => {
     const [perfil, setPerfil] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -74,13 +74,18 @@ export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil}) => {
         }
     };
 
+    // Estado que indica quando minimizado para colocar atrás de tudo
+    const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.Modal>
+        <M.Modal style={{zIndex: minimizado.perfil ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <label>Cadastro de Perfil</label>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, perfil: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <M.Filtro>
                     <div>
@@ -133,7 +138,7 @@ export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil}) => {
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
-                {modalCadastro ? <CadastroPerfil close = {()=> setModalCadastro(false)}/> : null}
+                {modalCadastro ? <CadastroPerfil close = {()=> setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
             </M.Container>
         </M.Modal>
     )

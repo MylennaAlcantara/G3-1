@@ -3,13 +3,17 @@ import * as M from "../../modal/modal";
 import * as C from "../../../cadastro/cadastro"
 import * as CF from "./cadastroFamilia";
 
-export const CadastrarFamilia = ({close}) => {
+export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
 
     return(
-        <M.SubModal>
+        <M.SubModal style={{zIndex: minimizado.familia === true ? minimizar : "1"}}>
             <C.Container>
                 <C.Header>
                     <h3>Cadastrar Familia</h3>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, familia: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </C.Header>
                 <CF.DadosFamilia>
                     <div className="dados-familia">

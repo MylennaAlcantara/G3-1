@@ -4,7 +4,7 @@ import { CadastroPgto } from "../modal_cadastro_pgto/index.js";
 import * as M from './../modal/modal.js';
 
 
-export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt, setTipoPgtoAlterado, cadastroPgto}) => {
+export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt, setTipoPgtoAlterado, cadastroPgto, minimizado, setMinimizado}) => {
 
     const [pgto, setPgto] = useState([]);
     const [selectPgt, setSelectPgt] = useState();
@@ -72,12 +72,18 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
         }
     };
 
+    // Estado que indica quando minimizado para colocar atrás de tudo
+    const [minimizar, setMinimizar] = useState("");
+
     return(
-        <M.Modal>
+        <M.Modal style={{zIndex: minimizado.pgto ? minimizar : "1"}}>
             <M.Container>
             <M.Header>
                 <label>Tipo Pagamento</label>
-                <button className="close" onClick={onClose}>X</button>
+                <div className="buttons">
+                    <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, pgto: true})}}><div className="linha"/></button>
+                    <button className="close" onClick={onClose}>X</button>
+                </div>
             </M.Header>
             <M.Filtro>                        
                 <label>Buscar: </label>                    
@@ -127,7 +133,7 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
                 </M.Footer>
             ) : null}
             </M.Container>
-            {cadastrar ? <CadastroPgto close={()=> setCadastrar(false)}/> : null}
+            {cadastrar ? <CadastroPgto close={()=> setCadastrar(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
         </M.Modal>
     );
 };

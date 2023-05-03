@@ -4,7 +4,7 @@ import * as C from "../../cadastro/cadastro";
 import { CadastroRamo } from "../modal_cadastro_ramo/index";
 import { Loading } from "../../loading";
 
-export const RamoAtividade = ({close, setDadosRamo, cadastroRamo}) => {
+export const RamoAtividade = ({close, setDadosRamo, cadastroRamo, minimizado, setMinimizado}) => {
     const [ramos, setRamos] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -73,12 +73,18 @@ export const RamoAtividade = ({close, setDadosRamo, cadastroRamo}) => {
         }
     };
 
+    // Estado que indica quando minimizado para colocar atrás de tudo
+    const [minimizar, setMinimizar] = useState("");
+
     return(
-        <M.Modal>
+        <M.Modal style={{zIndex: minimizado.ramo ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <label>Ramo de Atividade</label>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, ramo: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <M.Filtro>
                     <div>
@@ -132,7 +138,7 @@ export const RamoAtividade = ({close, setDadosRamo, cadastroRamo}) => {
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
-                {modalCadastro ? <CadastroRamo close={()=> setModalCadastro(false)}/> : null}
+                {modalCadastro ? <CadastroRamo close={()=> setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
             </M.Container>
         </M.Modal>
     )

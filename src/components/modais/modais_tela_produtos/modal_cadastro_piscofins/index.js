@@ -4,7 +4,7 @@ import * as C from "../../../cadastro/cadastro";
 import * as CPC from "./cadastroPisCofins";
 import { Excecao } from "./excecao";
 
-export const CadastroPisCofins = ({close}) => {
+export const CadastroPisCofins = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [excecao, setExcecao] = useState(false);
     const dadosEntrada=[
         {
@@ -144,10 +144,14 @@ export const CadastroPisCofins = ({close}) => {
     ]
 
     return (
-        <M.SubModal>
+        <M.SubModal style={{zIndex: minimizado.pis ? minimizar : "1"}}>
             <C.Container>
                 <C.Header>
                     <h3>Cadastro Grupo PIS/COFINS</h3>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, pis: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </C.Header>
                 <CPC.DadosGrupo>
                     <div id="codigo">
@@ -230,7 +234,7 @@ export const CadastroPisCofins = ({close}) => {
                         <button onClick={close}><img src="/images/voltar.png"/>Cancelar</button>
                     </div>
                 </C.Footer>
-                {excecao ? <Excecao close={()=> setExcecao(false)}/> : null}
+                {excecao ? <Excecao close={()=> setExcecao(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
             </C.Container>
         </M.SubModal>
     )

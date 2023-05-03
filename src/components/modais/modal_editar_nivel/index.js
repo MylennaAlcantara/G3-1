@@ -4,15 +4,19 @@ import * as C from "../../cadastro/cadastro";
 import * as CC from "../../cadastros/cadastro_cliente/cadastroCliente";
 import * as EN from "./editarNivel";
 
-export const EditarNivel = ({close}) => {
+export const EditarNivel = ({close, minimizar, setMinimizar, minimizado, setMinimizado}) => {
     const [aba, setAba] = useState('cadastros');
 
 
     return(
-        <M.Modal>
+        <M.Modal style={{zIndex: minimizado.nivel === true ? minimizar : "1"}}>
             <C.Container>
                 <C.Header>
                     <h3>Editar Nível</h3>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, nivel: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </C.Header>
                 <CC.DadosCliente>
                     <div>
