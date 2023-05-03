@@ -1,8 +1,9 @@
 import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from '../modal/modal';
 import { Loading } from "../../loading/index";
+import { ResumoFaturamento } from "../../Relatorios/resumo_de_faturamento/listAll"
 
-export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente}) => {
+export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente, setValor, valor}) => {
 
     const [users, setUsers] = useState([]);
     const [selectEmitente, setSelectEmitente] = useState();
@@ -24,6 +25,7 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
         setSelectEmitente(user.razao_social);
         setSelectIdEmitente(user.id);
         setDataSelectEmitente(user.razao_social);
+        setValor([...valor, user]);
         setDataIdSelectEmitente(user.id);
         setDataSelectDadosEmitente({
             fantasia: user.nome_fantasia,

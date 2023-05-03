@@ -71,6 +71,12 @@
     margin-left: 30px;
 }
 
+.c{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .dashboardTexts {
     display: flex;
     flex-direction: row;
@@ -115,6 +121,11 @@ label {
     height: 33px;
     border-radius: 5px;
     border-width: 1px;
+}
+
+.tbodyInicial{
+    overflow-y: scroll;
+    height: 50px;
 }
 
 .btnDetalhes:hover {

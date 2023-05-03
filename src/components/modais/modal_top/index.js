@@ -3,7 +3,7 @@ import { Loading } from "../../loading/index.js";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, setTopAlterada}) => {
+export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, setTopAlterada, setValorTop, valorTop }) => {
 
     const [top, setTop] = useState([]);
     const [selectTop, setSelectTop] = useState();
@@ -22,6 +22,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
     }, []);
 
     const SelectedTop = (top) => {
+        setValorTop([...valorTop, top])
         setDataSelectTop({
             id_top: top.id,
             id_perfil_movimentacao:top.id_perfil_movimentacao,

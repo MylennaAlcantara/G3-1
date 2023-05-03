@@ -207,3 +207,14 @@ margin-right: 40px;
     margin: 15px;
 }
 `
+export const Dashboard0 = styled.div`
+margin-top: 10px;
+display: flex;
+justify-content: space-around;
+.grafico {
+    margin-right: 10px;
+    border-style: solid;
+    border-radius: 8px;
+    border-width: 1px;
+}
+`

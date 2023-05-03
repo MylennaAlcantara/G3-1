@@ -12,7 +12,6 @@ import * as RF from "../resumo_de_faturamento/resumoFaturamento"
 
 import { useNavigate } from 'react-router-dom';
 
-
 Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
@@ -86,6 +85,18 @@ export const ResumoFaturamento = () => {
 
     console.log(filter)
 
+
+    const [valor, setValor] = useState([])
+    console.log(valor)
+    const [valorTop, setValorTop] = useState([])
+    console.log(valorTop)
+
+    const valorFilial = valor.map((test) => (
+        (test.id)
+    ))
+
+    console.log(valorFilial[0])
+
     const objs =
     {
         "incluirNfe": checkNFE,
@@ -93,7 +104,7 @@ export const ResumoFaturamento = () => {
         "statusVenda": filter,
         "dataInicial": dataIni,
         "dataFinal": dataFin,
-        "idFilial": "1",
+        "idFilial": valorFilial[0],
         "idTop": null
     }
 
@@ -109,8 +120,6 @@ export const ResumoFaturamento = () => {
         id_top: "",
         descricao: "",
     })
-
-    console.log(dataSelectTop);
 
     async function setDataFilial() {
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFilial", {
@@ -1135,7 +1144,6 @@ export const ResumoFaturamento = () => {
         chartArea: { width: "50%", height: "70%" },
     };
 
-
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
@@ -1158,12 +1166,12 @@ export const ResumoFaturamento = () => {
                             <div className='filial-top'>
                                 <div>
                                     <select>
-                                        <option>Filial</option>
-                                        <option>Região</option>
+                                        <option value='op1' >Filial</option>
+                                        <option value='op2' >Região</option>
                                     </select>
-                                    <input placeholder='Buscar...' />
+                                    <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
                                     <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
-                                    <button>Limpar</button>
+                                    <button  >Limpar</button>
                                 </div>
                                 <div className='table-responsive'>
                                     <table id='table'>
@@ -1176,22 +1184,29 @@ export const ResumoFaturamento = () => {
                                                 <th >Município</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{dataIdSelectEmitente}</td>
-                                                <td>{dataSelectDataEmitente.fantasia}</td>
-                                                <td>{dataSelectEmitente}</td>
-                                                <td>{dataSelectDataEmitente.doc}</td>
-                                                <td>{dataSelectDataEmitente.municipio}</td>
-                                            </tr>
-                                        </tbody>
+                                        {valor.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
+
+                                            return (
+                                                <tbody >
+                                                    <tr>
+                                                        <td>{item.id}</td>
+                                                        <td>{item.nome_fantasia}</td>
+                                                        <td>{item.razao_social}</td>
+                                                        <td>{item.cnpj}</td>
+                                                        <td>{item.municipio}</td>
+                                                    </tr>
+                                                </tbody>
+                                            )
+
+                                        })}
+
                                     </table>
                                 </div>
                             </div>
                         ) : (
                             <div className='filial-top'>
                                 <div>
-                                    <input placeholder='Buscar...' />
+                                    <input placeholder='Buscar pela Descrição' onChange={(e) => setQuery1(e.target.value)} />
                                     <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
                                 </div>
                                 <div className='table-responsive'>
@@ -1202,12 +1217,17 @@ export const ResumoFaturamento = () => {
                                                 <th >Descrição</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{dataSelectTop.id_top}</td>
-                                                <td>{dataSelectTop.descricao}</td>
-                                            </tr>
-                                        </tbody>
+                                        {valorTop.filter(dat => dat.descricao.toLowerCase().includes(query1)).map((item) => {
+
+                                            return (
+                                                <tr>
+                                                    <td>{item.id}</td>
+                                                    <td>{item.descricao}</td>
+                                                </tr>
+                                            )
+
+                                        })}
+
                                     </table>
                                 </div>
                             </div>
@@ -1227,9 +1247,9 @@ export const ResumoFaturamento = () => {
                         <div className="select">
                             <label>Status NFC-e</label>
                             <select onChange={(e) => setFilter(e.target.value)}>
-                                <option id='todo' value="%">TODOS</option>
-                                <option value="v">VENDA</option>
-                                <option value="o">ORÇAMENTO</option>
+                                <option value="TODOS" selected >TODOS</option>
+                                <option value="VENDA">VENDA</option>
+                                <option value="ORCAMENTO">ORÇAMENTO</option>
                             </select>
                         </div>
                     </div>
@@ -1243,6 +1263,7 @@ export const ResumoFaturamento = () => {
                     </div>
                 </RF.Data>
             </RF.Filtros>
+
             <div>
                 <RF.Navigacao>
                     <button className='CE' onClick={() => setOpenAba("regiao")} >Região</button>
@@ -1258,6 +1279,7 @@ export const ResumoFaturamento = () => {
                 {aba === "regiao" ? (
                     <RF.DataGeral>
                         {dadosRegiao.length === 0 && showElement === true ? (
+
                             <div className='c' >
                                 <Loading />
                             </div>
@@ -1307,19 +1329,19 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{f1.idFilial}</td>
 
-                                                    <td>{f1.qtdVendas}</td>
+                                                    <td>{(f1.qtdVendas).toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f1.vlMedioVendas}</td>
+                                                    <td>{(f1.vlMedioVendas).toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f1.vlTotalNfe}</td>
+                                                    <td>{(f1.vlTotalNfe).toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f1.vlTotalNfce}</td>
+                                                    <td>{(f1.vlTotalNfce).toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f1.vlVendaTotal}</td>
+                                                    <td>{(f1.vlVendaTotal).toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f1.vlCustoTotal}</td>
+                                                    <td>{(f1.vlCustoTotal).toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f1.vlLucroVenda}</td>
+                                                    <td>{(f1.vlLucroVenda).toFixed(2).replace('.', ',')}</td>
 
                                                     <td>{f1.margem}</td>
 
@@ -1397,23 +1419,23 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{f2.qtdItensCupom}</td>
 
-                                                    <td>{f2.vlMedioVendas.toFixed(2)}</td>
+                                                    <td>{f2.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f2.vlTotalNfe}</td>
+                                                    <td>{f2.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f2.vlTotalNfce}</td>
+                                                    <td>{f2.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f2.vlVendaTotal}</td>
+                                                    <td>{f2.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
 
                                                     <td>{f2.vlTotalCredito}</td>
 
-                                                    <td>{f2.vlTotalLiquido}</td>
+                                                    <td>{f2.vlTotalLiquido.toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f2.vlCustoTotal}</td>
+                                                    <td>{f2.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f2.vlLucroVenda}</td>
+                                                    <td>{f2.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
 
-                                                    <td>{f2.vlLucroLiquido}</td>
+                                                    <td>{f2.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
 
                                                     <td>{f2.margem}</td>
 
@@ -1490,25 +1512,25 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat.qtdVendas}</td>
 
-                                            <td>{dat.vlTotalNfe}</td>
+                                            <td>{dat.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlTotalNfce}</td>
+                                            <td>{dat.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlVendaTotal}</td>
+                                            <td>{dat.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlTotalCancelamento}</td>
+                                            <td>{dat.vlTotalCancelamento.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlTotalDesconto}</td>
+                                            <td>{dat.vlTotalDesconto.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlTotalCredito}</td>
+                                            <td>{dat.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlTotalComissao}</td>
+                                            <td>{dat.vlTotalComissao.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{(dat.vlCustoTotal).toFixed(2)}</td>
+                                            <td>{(dat.vlCustoTotal).toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{(dat.vlLucroVenda).toFixed(2)}</td>
+                                            <td>{(dat.vlLucroVenda).toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{(dat.vlLucroLiquido).toFixed(2)}</td>
+                                            <td>{(dat.vlLucroLiquido).toFixed(2).replace('.', ',')}</td>
 
                                             <td className='filter-all'>% {(dat.plucroLiquido).toFixed(2)}</td>
 
@@ -1579,25 +1601,25 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat1.qtdVendas}</td>
 
-                                            <td>{dat1.vlTotalNfe}</td>
+                                            <td>{dat1.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlTotalNfce}</td>
+                                            <td>{dat1.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlVendaTotal}</td>
+                                            <td>{dat1.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlTotalDesconto}</td>
+                                            <td>{dat1.vlTotalDesconto.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlTotalCredito}</td>
+                                            <td>{dat1.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlCustoTotal}</td>
+                                            <td>{dat1.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlLucroVenda}</td>
+                                            <td>{dat1.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlLucroLiquido}</td>
+                                            <td>{dat1.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
 
                                             <td>{dat1.plucroLiquido} %</td>
 
-                                            <td>{(dat1.percentual).toFixed(3)}</td>
+                                            <td>{(dat1.percentual).toFixed(2).replace('.', ',')}</td>
 
                                         </tr>
                                     ))}
@@ -1630,8 +1652,11 @@ export const ResumoFaturamento = () => {
 
                                     <tr className='labels'>
                                         {dadosTipoPagamento.map((f5) => {
+                                            if (f5 === null) {
+                                                f5 = 0
+                                            }
                                             return (
-                                                <td className='filter-all'> {f5} </td>
+                                                <td className='filter-all'> {f5.toFixed(2).replace('.', ',')} </td>
                                             );
                                         })}
                                     </tr>
@@ -1697,17 +1722,17 @@ export const ResumoFaturamento = () => {
 
                                                 <td className='filter-all'> {dat2.qtd_total} </td>
 
-                                                <td> {dat2.sub_total} </td>
+                                                <td> {dat2.sub_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {(dat2.p_desconto).toFixed(3)} </td>
+                                                <td> {(dat2.p_desconto).toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.vlr_desconto_total} </td>
+                                                <td> {dat2.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.vlr_venda_total} </td>
+                                                <td> {dat2.vlr_venda_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.vlr_custo_total} </td>
+                                                <td> {dat2.vlr_custo_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.vlr_lucro_total} </td>
+                                                <td> {dat2.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
 
                                                 <td> {dat2.p_markup} </td>
 
@@ -1779,19 +1804,19 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat3.grupo} </td>
 
-                                                <td> {dat3.qtd_total} </td>
+                                                <td> {dat3.qtd_total.toFixed(3).replace('.', ',')} </td>
 
-                                                <td> {dat3.sub_total} </td>
+                                                <td> {dat3.sub_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.p_desconto} </td>
+                                                <td> {dat3.p_desconto.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.vlr_desconto_total} </td>
+                                                <td> {dat3.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.vlr_venda_total} </td>
+                                                <td> {dat3.vlr_venda_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.vlr_custo_total} </td>
+                                                <td> {dat3.vlr_custo_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.vlr_lucro_total} </td>
+                                                <td> {dat3.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
 
                                                 <td> {dat3.p_markup} </td>
 
@@ -1864,23 +1889,23 @@ export const ResumoFaturamento = () => {
 
                                             <td className='filter-all'> {dat.qtd_total} </td>
 
-                                            <td className='filter-all'> {dat.sub_total} </td>
+                                            <td className='filter-all'> {dat.sub_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {(dat.p_desconto).toFixed(3)} </td>
+                                            <td className='filter-all'> {(dat.p_desconto).toFixed(3).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {dat.vlr_desconto_total} </td>
+                                            <td className='filter-all'> {dat.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {dat.vlr_venda_total} </td>
+                                            <td className='filter-all'> {dat.vlr_venda_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {dat.vlr_custo_total} </td>
+                                            <td className='filter-all'> {dat.vlr_custo_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {dat.vlr_lucro_total} </td>
+                                            <td className='filter-all'> {dat.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
 
                                             <td className='filter-all'> {dat.p_markup} </td>
 
                                             <td className='filter-all'> {dat.p_margem} </td>
 
-                                            <td className='filter-all'> {(dat.percentual).toFixed(2)} </td>
+                                            <td className='filter-all'> {(dat.percentual).toFixed(2).replace('.', ',')} </td>
                                         </tr>
                                     ))}
                                 </table>
@@ -1930,7 +1955,7 @@ export const ResumoFaturamento = () => {
                         <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px" className="grafico" />
                     </RF.Dashboard>
 
-                    <RF.Dashboard>
+                    <RF.Dashboard0>
 
                         <label className='bestRegion'>{dadosRegiao.map((banRe) => {
 
@@ -1947,7 +1972,9 @@ export const ResumoFaturamento = () => {
                                 return (
                                     <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                        <p>Região Nordeste</p>
+                                        <p>PARAIBA</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'ACRE') {
@@ -1968,14 +1995,18 @@ export const ResumoFaturamento = () => {
                                 return (
                                     <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/AL.png' />
-                                        <p>Região Nordeste</p>
+                                        <p>ALAGOAS</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'PIAUÍ') {
                                 return (
                                     <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/PI.png' />
-                                        <p>Região Nordeste</p>
+                                        <p>PIAUÍ</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'AMAPÁ') {
@@ -2017,14 +2048,18 @@ export const ResumoFaturamento = () => {
                                 return (
                                     <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/BA.png' />
-                                        <p>Região Nordeste</p>
+                                        <p>BAHIA</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'CEARA') {
                                 return (
                                     <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/CE.png' />
-                                        <p>Região Nordeste</p>
+                                        <p>CEARA</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'MATO GROSSO') {
@@ -2053,6 +2088,8 @@ export const ResumoFaturamento = () => {
                                     <div className=''>
                                         <img className='bandeira' src='/images/bandeiras/PB.png' />
                                         <p>Região Nordeste</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             }
@@ -2060,7 +2097,7 @@ export const ResumoFaturamento = () => {
                         })}</label>
 
                         <Chart chartType="BarChart" data={barData} options={barOptions} className='grafico' />
-                    </RF.Dashboard>
+                    </RF.Dashboard0>
 
                 </div>
             </Modal>
@@ -2343,10 +2380,10 @@ export const ResumoFaturamento = () => {
 
                 </div>
 
-                <RF.Dashboard>
+                <RF.Dashboard0>
                     <Chart chartType="Bar" width="500px" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico" />
                     <Chart chartType="ColumnChart" width="350px" height="250px" data={dataTpPgVale} className="grafico" />
-                </RF.Dashboard>
+                </RF.Dashboard0>
 
             </Modal>
 
@@ -2572,10 +2609,10 @@ export const ResumoFaturamento = () => {
 
                     </div>
 
-                    <RF.Dashboard>
+                    <RF.Dashboard0>
                         <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} className="grafico" />
                         <Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} className="grafico" />
-                    </RF.Dashboard>
+                    </RF.Dashboard0>
 
                     <RF.Dashboard>
                         <Chart chartType="Bar" width="100%" height="35vw" data={dataFor0} options={optionsFor0} />
@@ -2679,8 +2716,8 @@ export const ResumoFaturamento = () => {
 
             </C.Footer>
 
-            {isModalTop ? <Top onClose={() => setIsModalTop(false)} setDataSelectTop={setDataSelectTop} /> : null}
-            {isModalFilial ? <Emitente onClose={() => setIsModalFilial(false)} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} setDataSelectDadosEmitente={setDataSelectDadosEmitente} /> : null}
+            {isModalTop ? <Top onClose={() => setIsModalTop(false)} setDataSelectTop={setDataSelectTop} setValorTop={setValorTop} valorTop={valorTop} /> : null}
+            {isModalFilial ? <Emitente onClose={() => setIsModalFilial(false)} setDataSelectEmitente={setDataSelectEmitente} setValor={setValor} setDataIdSelectEmitente={setDataIdSelectEmitente} setDataSelectDadosEmitente={setDataSelectDadosEmitente} valor={valor} /> : null}
         </C.Container>
 
     );
