@@ -67,6 +67,7 @@ export const FilialTop = styled.div`
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     background-color: #F0F0F0;
+    overflow-y: scroll;
     .filial-top{
         width: 37vw;
         display: flex;
@@ -142,7 +143,7 @@ export const Data = styled.div`
     .pesquisa-result{
         background-color: #ffffff;
     }
-    @media (max-width: 800px) {
+    @media (max-width: 1280px) {
         overflow-x: scroll;
     }
 `
@@ -210,7 +211,8 @@ margin-right: 40px;
 export const Dashboard0 = styled.div`
 margin-top: 10px;
 display: flex;
-justify-content: space-around;
+margin: 10px;
+justify-content: center;
 .grafico {
     margin-right: 10px;
     border-style: solid;

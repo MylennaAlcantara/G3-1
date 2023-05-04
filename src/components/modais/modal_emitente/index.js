@@ -140,7 +140,7 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
                                                 <td>{user.id}</td>
                                                 <td>{user.nome_fantasia}</td>
                                                 <td>{user.razao_social}</td>
-                                                <td>{user.cnpj}</td>
+                                                <td>{user.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
                                                 <td>{user.municipio}</td>
                                         </tr>
                                     );

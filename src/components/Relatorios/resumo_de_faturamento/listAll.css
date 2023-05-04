@@ -12,6 +12,26 @@
     border-top-right-radius: 10px;
 }
 
+.closeBtnMenor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 117px;
+    height: 33px;
+    margin-top: 10px;
+    margin-left: 85%;
+}
+
+.graficos10{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.cnpj{
+    width: 9.5vw;
+}
+
 .FTFilterTop{
     display: flex;
     flex-direction: column;
@@ -119,8 +139,10 @@ label {
     align-items: center;
     width: 117px;
     height: 33px;
-    border-radius: 5px;
     border-width: 1px;
+    border-bottom: transparent;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .tbodyInicial{
@@ -264,6 +286,7 @@ h2 {
 }
 
 .grafico {
+    border: none;
     height: 28px;
     width: 28px;
     margin-right: 5px;
@@ -747,81 +770,6 @@ span{
     flex-direction: row;
 }
 
-@media (max-width:1920px) {
-    .filtros {
-        top: 10%;
-    }
-
-    .ModalDados {
-        top: 65%;
-    }
-
-    .filtro1 {
-        top: 3.5vw;
-        left: 4.5vw;
-    }
-
-    .btns {
-        top: 50%;
-        right: 44.1%;
-    }
-
-    .relatorio-content {
-        top: 33.5%;
-        left: 65%;
-    }
-
-    .pesquisar {
-        top: 15.2%;
-        right: 20%;
-    }
-
-    .filtro-tops-content {
-        bottom: 38.5vw;
-        left: 7.8vw;
-    }
-}
-
-@media (max-width:1600px) {
-    .ModalDados {
-        top: 65%;
-    }
-
-    .filtro1 {
-        top: 3.8vw;
-        left: 2vw;
-    }
-
-    .btns {
-        right: 45.1%;
-        top: 35%;
-    }
-
-    .pesquisar {
-        top: 18%;
-        right: 15%;
-    }
-
-    .relatorio-content {
-        top: 36.2%;
-        left: 69%;
-    }
-
-    .filtros {
-        top: 10%;
-    }
-
-    .filtro-tops-content {
-        bottom: 44.4vw;
-        left: 8.5vw;
-    }
-}
-
-@media (max-width:1440px) {
-    .filtro1{
-        width: 400px;
-    }
-}
 
 @media (max-width: 1366px) {
     

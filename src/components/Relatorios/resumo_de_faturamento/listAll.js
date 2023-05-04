@@ -31,7 +31,7 @@ export const ResumoFaturamento = () => {
 
     //--------------------------------------------------------------Filtros Parte de Cima-------------------------------------------------------------------------
 
-    const [query, setQuery] = useState("");
+    const [query, setQuery] = useState(""); //Para barra de pesquisa 
     const [query1, setQuery1] = useState("");
     const [query2, setQuery2] = useState("");
     const [query3, setQuery3] = useState("");
@@ -759,6 +759,11 @@ export const ResumoFaturamento = () => {
     const resultTpPg10 = dadosLeitura.reduce((a, b) => a + b.vale_combustivel, 0)
     const resultTpPg11 = dadosLeitura.reduce((a, b) => a + b.vale_presente, 0)
     const resultTpPg12 = dadosLeitura.reduce((a, b) => a + b.vale_refeicao, 0)
+    const resultTpPg13 = dadosLeitura.reduce((a, b) => a + b.pix, 0)
+
+    if (resultTpPg12 === NaN || resultTpPg12 === null) {
+        resultTpPg12 = 0
+    };
 
     const optionsTpPg = {
         title: "Valores",
@@ -802,6 +807,7 @@ export const ResumoFaturamento = () => {
         ["C.Credito", resultTpPg2, "#9bf967"],
         ["C.Debito", resultTpPg3, "#f98b68"],
         ["Dinheiro", resultTpPg, "#ffe670"],
+        ["Pix", resultTpPg13, "#32b6aa"],
         ["Total", resultTpPg1, "#b2bb1c"],
     ];
 
@@ -1192,7 +1198,7 @@ export const ResumoFaturamento = () => {
                                                         <td>{item.id}</td>
                                                         <td>{item.nome_fantasia}</td>
                                                         <td>{item.razao_social}</td>
-                                                        <td>{item.cnpj}</td>
+                                                        <td className='cnpj' >{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
                                                         <td>{item.municipio}</td>
                                                     </tr>
                                                 </tbody>
@@ -1928,23 +1934,23 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts'>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {result2}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {result2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {result}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {result.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {result1}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {result1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {result3}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {result3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {result4}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {result4.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -1981,19 +1987,23 @@ export const ResumoFaturamento = () => {
                                 return (
                                     <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/AC.png' />
-                                        <p>Região Norte</p>
+                                        <p>ACRE</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'AMAZONAS') {
                                 return (
                                     <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/AM.png' />
-                                        <p>Região Norte</p>
+                                        <p>AMAZONAS</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'ALAGOAS') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/AL.png' />
                                         <p>ALAGOAS</p>
                                         <img className='regiaoImg' src='/images/nordeste.png' />
@@ -2002,7 +2012,7 @@ export const ResumoFaturamento = () => {
                                 );
                             } else if (banRe.regiao === 'PIAUÍ') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/PI.png' />
                                         <p>PIAUÍ</p>
                                         <img className='regiaoImg' src='/images/nordeste.png' />
@@ -2011,42 +2021,52 @@ export const ResumoFaturamento = () => {
                                 );
                             } else if (banRe.regiao === 'AMAPÁ') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/AP.png' />
-                                        <p>Região Norte</p>
+                                        <p>AMAPÁ</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'SÃO PAULO') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/SP.png' />
-                                        <p>Região Suldeste</p>
+                                        <p>SÃO PAULO</p>
+                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
+                                        <span className='spanName'>Sudeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'RIO DE JANEIRO') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/RJ.png' />
-                                        <p>Região Suldeste</p>
+                                        <p>RIO DE JANEIRO</p>
+                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
+                                        <span className='spanName'>Sudeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'MINAS GERAIS') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/MG.png' />
-                                        <p>Região Suldeste</p>
+                                        <p>MINAS GERAIS</p>
+                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
+                                        <span className='spanName'>Sudeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'ESPÍRITO SANTO') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/ES.png' />
-                                        <p>Região Suldeste</p>
+                                        <p>ESPÍRITO SANTO</p>
+                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
+                                        <span className='spanName'>Sudeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'BAHIA') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/BA.png' />
                                         <p>BAHIA</p>
                                         <img className='regiaoImg' src='/images/nordeste.png' />
@@ -2055,7 +2075,7 @@ export const ResumoFaturamento = () => {
                                 );
                             } else if (banRe.regiao === 'CEARA') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/CE.png' />
                                         <p>CEARA</p>
                                         <img className='regiaoImg' src='/images/nordeste.png' />
@@ -2064,32 +2084,163 @@ export const ResumoFaturamento = () => {
                                 );
                             } else if (banRe.regiao === 'MATO GROSSO') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/MT.png' />
-                                        <p>Região Centro Oeste</p>
+                                        <p>MATO GROSSO</p>
+                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
+                                        <span className='spanName'>Centro Oeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'TOCANTINS') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/TO.png' />
-                                        <p>Região Norte</p>
+                                        <p>TOCANTINS</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'PARANÁ') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                        <p>Região Sul</p>
+                                        <p>PARANÁ</p>
+                                        <img className='regiaoImg' src='/images/sul.jpg' />
+                                        <span className='spanName'>Sul</span>
                                     </div>
                                 );
-                            } else if (banRe.regiao === '') {
+                            } else if (banRe.regiao === 'MATO GROSSO DO SUL') {
                                 return (
-                                    <div className=''>
-                                        <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                        <p>Região Nordeste</p>
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/MS.png' />
+                                        <p>MATO GROSSO DO SUL</p>
+                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
+                                        <span className='spanName'>Centro Oeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'DISTRITO FEDERAL') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/DF.png' />
+                                        <p>DISTRITO FEDERAL</p>
+                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
+                                        <span className='spanName'>Centro Oeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'GOIÁS') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/GO.png' />
+                                        <p>GOIÁS</p>
+                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
+                                        <span className='spanName'>Centro Oeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'MARANHÃO') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/MA.png' />
+                                        <p>MARANHÃO</p>
                                         <img className='regiaoImg' src='/images/nordeste.png' />
                                         <span className='spanName'>Nordeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'PARÁ') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/PA.png' />
+                                        <p>PARÁ</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'RIO GRANDE DO NORTE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/RN.png' />
+                                        <p>RIO GRANDE DO NORTE</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'RONDÔNIA') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/RO.png' />
+                                        <p>RONDÔNIA</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'RORAIMA') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/RR.png' />
+                                        <p>RORAIMA</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'RIO GRANDE DO SUL') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/RS.png' />
+                                        <p>RIO GRANDE DO SUL</p>
+                                        <img className='regiaoImg' src='/images/sul.jpg' />
+                                        <span className='spanName'>Sul</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'SANTA CATARINA') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/SC.png' />
+                                        <p>SANTA CATARINA</p>
+                                        <img className='regiaoImg' src='/images/sul.jpg' />
+                                        <span className='spanName'>Sul</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'SERGIPE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/SE.png' />
+                                        <p>SERGIPE</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Nordeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'NORTE' || banRe.regiao === 'REGIÃO NORTE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'NORDESTE' || banRe.regiao === 'REGIÃO NORDESTE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'CENTRO OESTE' || banRe.regiao === 'REGIÃO CENTRO OESTE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
+                                        <span className='spanName'>Centro Oeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'SUDESTE' || banRe.regiao === 'REGIÃO SUDESTE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
+                                        <span className='spanName'>Sudeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'SUL' || banRe.regiao === 'REGIÃO SUL') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='regiaoImg' src='/images/sul.jpg' />
+                                        <span className='spanName'>Sul</span>
                                     </div>
                                 );
                             }
@@ -2112,31 +2263,31 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {resultFi2}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {resultFi2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {resultFi}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {resultFi.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {resultFi1}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {resultFi1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultFi3}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultFi3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultFi4}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultFi4.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {resultFi5}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {resultFi5.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {resultFi6}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {resultFi6.toFixed(2).replace('.', ',')}
                         </h2>
                     </div>
 
@@ -2163,39 +2314,39 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: R$ {(resultVen2).toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: R$ {(resultVen2).toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {(resultVen).toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {(resultVen).toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultVen1}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultVen1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultVen3}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultVen3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultVen4}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultVen4.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: R$ {resultVen5}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: R$ {resultVen5.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: R$ {resultVen6}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: R$ {resultVen6.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: R$ {resultVen7}
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: R$ {resultVen7.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoCinza.png' /> Desconto: R$ {resultVen8}
+                            <img className='cifrões' src='/images/cifraoCinza.png' /> Desconto: R$ {resultVen8.toFixed(2).replace('.', ',')}
                         </h2>
                     </div>
 
@@ -2217,39 +2368,39 @@ export const ResumoFaturamento = () => {
                 <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
-                    <h1>Dados Cliente <button className='btnDetalhes' onClick={openDashboardDezCliente}><img className='grafico' src='images/itens.png' /> Por itens </button> </h1>
+                    <h1>Dados Cliente</h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: R$ {resultCli1.toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: R$ {resultCli1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {resultCli4}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {resultCli4.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: R$ {resultCli.toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: R$ {resultCli.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultCli2.toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultCli2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultCli3}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultCli3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: {resultCli7}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: {resultCli7.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: R$ {resultCli6.toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: R$ {resultCli6.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {resultCli5}
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {resultCli5.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -2261,6 +2412,7 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard>
 
                     <Modal isOpen={dashboardDezCliente} onRequestClose={closeDashboardDezCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                        <button className='closeBtnMenor' onClick={closeDashboardDezCliente} ><img className='close' src='/images/voltar.png' />Voltar</button>
                         {dadosClienteReduzido.map((dados) => {
 
                             const dashboard = [
@@ -2298,7 +2450,12 @@ export const ResumoFaturamento = () => {
                 </div>
 
                 <RF.Dashboard>
-                    <Chart chartType="Bar" width="100%" height="500px" data={dataCli0} options={optionsCli0} className='grafico' />
+
+                    <div className='graficos10' >
+                        <button className='btnDetalhes' onClick={openDashboardDezCliente}> <img className='close' src='images/itens.png' /> Individuais </button>
+                        <Chart chartType="Bar" width="100%" height="500px" data={dataCli0} options={optionsCli0} className='grafico' />
+                    </div>
+
                 </RF.Dashboard>
 
             </Modal>
@@ -2314,39 +2471,43 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts' >
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/dinheiro.png' /> Dinheiro : R$ {resultTpPg}
+                            <img className='cifrões' src='/images/dinheiro.png' /> Dinheiro : R$ {resultTpPg.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/credito.png' /> Cartão Credito: R$ {resultTpPg2}
+                            <img className='cifrões' src='/images/credito.png' /> C.Credito: R$ {resultTpPg2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/debito.png' /> Cartão Debito: R$ {resultTpPg3}
+                            <img className='cifrões' src='/images/debito.png' /> C.Debito: R$ {resultTpPg3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cheque.png' /> Cheque : R$ {resultTpPg4}
+                            <img className='cifrões' src='/images/cheque.png' /> Cheque : R$ {resultTpPg4.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/boleto.png' /> Boleto Bancario: R$ {resultTpPg5}
+                            <img className='cifrões' src='/images/boleto.png' /> Boleto Bancario: R$ {resultTpPg5.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito Loja: R$ {resultTpPg6}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito Loja: R$ {resultTpPg6.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento Total: R$ {resultTpPg7}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento Total: R$ {resultTpPg7.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Desconto Total: R$ {resultTpPg8}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Desconto Total: R$ {resultTpPg8.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultTpPg1}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultTpPg1.toFixed(2).replace('.', ',')}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/pix.png' /> Pix: R$ {resultTpPg13.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -2356,19 +2517,19 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts'>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeAlimentacao.png' /> Alimentação: R$ {resultTpPg9}
+                            <img className='cifrões' src='/images/valeAlimentacao.png' /> Alimentação: R$ {resultTpPg9.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10}
+                            <img className='cifrões' src='/images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valePresente.png' /> Presente: R$ {resultTpPg11}
+                            <img className='cifrões' src='/images/valePresente.png' /> Presente: R$ {resultTpPg11.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeRefeicao.png' /> Refeição: R$ {resultTpPg12}
+                            <img className='cifrões' src='/images/valeRefeicao.png' /> Refeição: R$ {resultTpPg12.toFixed(2).replace('.', ',')}
                         </h2>
                     </div>
 
@@ -2393,28 +2554,28 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Produtos <button className='btnDetalhes' onClick={openDashboardProdutosDetalhados}><img className='grafico' src='images/itens.png' /> Por itens </button> </h1>
+                    <h1>Dados Produtos  </h1>
 
                     <div className='dashboardTexts'>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {resultProd.toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {resultProd.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {resultProd1.toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {resultProd1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {resultProd3.toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {resultProd3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {resultProd2.toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {resultProd2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Desconto: {resultProd4.toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Desconto: {resultProd4.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -2426,12 +2587,18 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <Chart chartType="Bar" width="100%" height="35vw" data={dataProd0} options={optionsProd0} className='grafico' />
+
+                        <div className='graficos10' >
+                            <button className='btnDetalhes' onClick={openDashboardProdutosDetalhados}><img className='close' src='images/itens.png' /> Individuais </button>
+                            <Chart chartType="Bar" width="100%" height="35vw" data={dataProd0} options={optionsProd0} className='grafico' />
+                        </div>
+
                     </RF.Dashboard>
 
                 </div>
 
-                <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado'>
+                <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} shouldCloseOnEsc={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado'>
+                    <button className='closeBtnMenor' onClick={closeDashboardProdutosDetalhados} ><img className='close' src='/images/voltar.png' />Voltar</button>
                     {dadosProdutoReduzidos.map((prod) => {
 
                         const dashboard = [
@@ -2487,24 +2654,24 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Grupo  <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado} > <img className='grafico' src='images/itens.png' /> Cada Grupo  </button> </h1>
+                    <h1>Dados Grupo   </h1>
 
                     <div className='dashboardTexts' >
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultGru}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultGru.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {resultGru1}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {resultGru1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {resultGru2.toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {resultGru2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {resultGru3}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {resultGru3.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -2516,13 +2683,19 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <Chart chartType="Bar" width="100%" height="35vw" data={dataGru0} options={optionsGru0} />
+
+                        <div className='graficos10' >
+                            <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado} > <img className='close' src='images/itens.png' /> Individuais </button>
+                            <Chart chartType="Bar" width="100%" height="35vw" data={dataGru0} options={optionsGru0} className='grafico' />
+                        </div>
+
                     </RF.Dashboard>
 
 
                 </div>
 
                 <Modal isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                    <button className='closeBtnMenor' onClick={closeDashboardGrupoDetalhado} ><img className='close' src='/images/voltar.png' />Voltar</button>
                     {dadosGrupoDetalhado.map((detalhado) => {
 
                         const grupoDetalhado = [
@@ -2584,27 +2757,27 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Fornecedor <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='grafico' src='images/itens.png' /> Cada Item</button> </h1>
+                    <h1>Dados Fornecedor  </h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultFor}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultFor.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {resultFor1}
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {resultFor1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {resultFor2}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {resultFor2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {resultFor3}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {resultFor3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Sub.Total: {resultFor4.toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Sub.Total: {resultFor4.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -2615,12 +2788,20 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard0>
 
                     <RF.Dashboard>
-                        <Chart chartType="Bar" width="100%" height="35vw" data={dataFor0} options={optionsFor0} />
+
+                        <div className='graficos10' >
+                            <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='close' src='images/itens.png' /> Individuais </button>
+                            <Chart chartType="Bar" width="100%" height="35vw" data={dataFor0} options={optionsFor0} className='grafico' />
+                        </div>
+
                     </RF.Dashboard>
 
                 </div>
 
                 <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardDetalhado' >
+
+                    <button className='closeBtnMenor' onClick={closeDashboardFornecedorDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
+
                     {dadosFornecedorDetalhado.map((forn) => {
 
                         const dashboard = [
