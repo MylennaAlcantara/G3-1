@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as M from "../modal/modal";
 import { Loading } from "../../loading/index";
 
-export const ListaMunicipio = ({close, setDadosCidades}) => {
+export const ListaMunicipio = ({close, setDadosCliente,dadosCliente}) => {
     const [municipios, setMunicipios] = useState([]);
     const [busca, setBusca] = useState([]);
 
@@ -16,11 +16,11 @@ export const ListaMunicipio = ({close, setDadosCidades}) => {
     }, []);
 
     function selecionado (municipio){
-        setDadosCidades({
-            codigo: municipio.id,
-            nome: municipio.nome,
-            uf: municipio.microrregiao.mesorregiao.UF.sigla
-        });
+        setDadosCliente({
+            ...dadosCliente,
+            cod_municipio: municipio.id,
+            municipio: municipio.nome
+        })
         close();
     }
     const resultado = Array.isArray(municipios) && municipios.filter((municipio) => municipio.nome.toLowerCase().includes(busca));

@@ -4,7 +4,7 @@ import * as C from "../../cadastro/cadastro";
 import { CadastroPerfil } from "../modal_cadastro_perfil/index";
 import { Loading } from "../../loading/index";
 
-export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil, minimizado, setMinimizado}) => {
+export const PerfilCliente = ({close, cadastroPerfil, dadosCliente, setDadosCliente, minimizado, setMinimizado}) => {
     const [perfil, setPerfil] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -21,10 +21,13 @@ export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil, minimizado
 
 
     function selected (perfil){
-        setDadosPerfil({
-            id: perfil.id,
-            descricao: perfil.descricao
-        });
+        setDadosCliente({
+            ...dadosCliente,
+            perfilRegra:{
+                id: perfil.id,
+                descricao: perfil.descricao
+            }
+        })
         close();
     }
     // Filtro de busca
@@ -65,10 +68,13 @@ export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil, minimizado
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
-                setDadosPerfil({
-                    id: resultado[selectIndex].id,
-                    descricao: resultado[selectIndex].descricao
-                });
+                setDadosCliente({
+                    ...dadosCliente,
+                    perfilRegra:{
+                        id: resultado[selectIndex].id,
+                        descricao: resultado[selectIndex].descricao
+                    }
+                })
                 close();
             }
         }
@@ -78,7 +84,7 @@ export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil, minimizado
     const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.Modal style={{zIndex: minimizado.perfil ? minimizar : "1"}}>
+        <M.Modal style={{zIndex: minimizado && minimizado.perfil ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <label>Cadastro de Perfil</label>

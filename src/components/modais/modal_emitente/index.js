@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from '../modal/modal';
 import { Loading } from "../../loading/index";
 
-export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente}) => {
+export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente, dadosCliente, setDadosCliente}) => {
 
     const [users, setUsers] = useState([]);
     const [selectEmitente, setSelectEmitente] = useState();
@@ -23,12 +23,19 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
     const SelectedEmitente = (user) => {
         setSelectEmitente(user.razao_social);
         setSelectIdEmitente(user.id);
-        setDataSelectEmitente(user.razao_social);
-        setDataIdSelectEmitente(user.id);
-        setDataSelectDadosEmitente({
+        setDataSelectEmitente && setDataSelectEmitente(user.razao_social);
+        setDataIdSelectEmitente && setDataIdSelectEmitente(user.id);
+        setDataSelectDadosEmitente && setDataSelectDadosEmitente({
             fantasia: user.nome_fantasia,
             doc: user.cnpj,
             municipio: user.municipio
+        })
+        setDadosCliente && setDadosCliente({
+            ...dadosCliente,
+            filial: {
+                id: user.id,
+                razaoSocial: user.razao_social
+            }
         })
         onClose();
         focoCampoSeguinte();
@@ -80,6 +87,13 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
                     setSelectIdEmitente(resultado[selectIndex].id);
                     setDataSelectEmitente(resultado[selectIndex].razao_social);
                     setDataIdSelectEmitente(resultado[selectIndex].id);
+                    setDadosCliente({
+                        ...dadosCliente,
+                        filial: {
+                            id: resultado[selectIndex].id,
+                            razaoSocial: resultado[selectIndex].razao_social
+                        }
+                    });
                     onClose();
                     focoCampoSeguinte();
                     setEmitenteAlterado(true);

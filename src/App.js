@@ -26,6 +26,7 @@ import { ConsultaTop } from './components/cadastros/tabela_auxiliar/consulta_top
 import { CadastrarTop } from './components/cadastros/tabela_auxiliar/cadastro_top';
 
 function App() {    
+  const navigate = useNavigate();
   const {nivel} = useContext(AuthContext);
   const token = localStorage.getItem('token');
   const codRotina = localStorage.getItem('rotina');
@@ -39,6 +40,8 @@ function App() {
   const [senhaFuncionario, setSenhaFuncionario] = useState('');
 
   const [minimizado, setMinimizado] = useState({
+    cadastroCliente: false,
+    editarCliete: false,
     setor: false,
     nivel: false,
     familia: false,
@@ -55,6 +58,7 @@ function App() {
   <AuthProvider>
     <div className="App">
       <div className='op-minimizadas'>
+        {minimizado.cadastroCliente && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, cadastroCliente: false}); navigate("/cadastrarCliente")}}>Cadastro Cliente</div>}
         {minimizado.setor && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, setor: false})}>Cadastro Setor</div>}
         {minimizado.nivel && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, nivel: false})}>Cadastro Nivel</div>}
         {minimizado.familia && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, familia: false})}>Cadastro Familia</div>}
@@ -91,7 +95,7 @@ function App() {
               <Route path = '/editarCliente/:cliente' element = {token ? (<EditarCliente cliente={cliente} codCliente={parseFloat(codCliente)}/>) : <Login/>}/>
             ) : <Route path = '/editarCliente/:cliente' element = {token ? (<ConsultarCliente setCliente={setCliente}/>) : <Login/>}/>}
             {nivel.cadastro_cliente_incluir ? (
-              <Route path = '/cadastrarCliente' element = {token ? (<CadastroCliente/>) : <Login/>}/>
+              <Route path = '/cadastrarCliente' element = {token ? (<CadastroCliente  minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
             ) : <Route path = '/cadastrarCliente' element = {token ? (<ConsultarCliente setCliente={setCliente}/>) : <Login/>}/>}
             
             {/* Rotas de Fornecedor */}

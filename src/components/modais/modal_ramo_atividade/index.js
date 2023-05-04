@@ -4,7 +4,7 @@ import * as C from "../../cadastro/cadastro";
 import { CadastroRamo } from "../modal_cadastro_ramo/index";
 import { Loading } from "../../loading";
 
-export const RamoAtividade = ({close, setDadosRamo, cadastroRamo, minimizado, setMinimizado}) => {
+export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastroRamo, minimizado, setMinimizado}) => {
     const [ramos, setRamos] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -19,9 +19,12 @@ export const RamoAtividade = ({close, setDadosRamo, cadastroRamo, minimizado, se
     }, []);
 
     function selected (ramo){
-        setDadosRamo({
-            id: ramo.id,
-            descricao: ramo.descricao
+        setDadosCliente({
+            ...dadosCliente,
+            ramoAtividade:{
+                id: ramo.id,
+                descricao: ramo.descricao
+            }
         })
         close();
     }
@@ -64,9 +67,12 @@ export const RamoAtividade = ({close, setDadosRamo, cadastroRamo, minimizado, se
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
-                setDadosRamo({
-                    id: resultado[selectIndex].id,
-                    descricao: resultado[selectIndex].descricao
+                setDadosCliente({
+                    ...dadosCliente,
+                    ramoAtividade:{
+                        id: resultado[selectIndex].id,
+                        descricao: resultado[selectIndex].descricao
+                    }
                 });
                 close();
             }
@@ -77,7 +83,7 @@ export const RamoAtividade = ({close, setDadosRamo, cadastroRamo, minimizado, se
     const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.Modal style={{zIndex: minimizado.ramo ? minimizar : "1"}}>
+        <M.Modal style={{zIndex: minimizado && minimizado.ramo ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <label>Ramo de Atividade</label>
