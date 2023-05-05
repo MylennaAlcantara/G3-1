@@ -12,6 +12,7 @@ import * as RF from "../resumo_de_faturamento/resumoFaturamento"
 
 import { useNavigate } from 'react-router-dom';
 
+
 Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
@@ -31,7 +32,7 @@ export const ResumoFaturamento = () => {
 
     //--------------------------------------------------------------Filtros Parte de Cima-------------------------------------------------------------------------
 
-    const [query, setQuery] = useState(""); //Para barra de pesquisa 
+    const [query, setQuery] = useState("");
     const [query1, setQuery1] = useState("");
     const [query2, setQuery2] = useState("");
     const [query3, setQuery3] = useState("");
@@ -68,6 +69,9 @@ export const ResumoFaturamento = () => {
             width: '75%',
             height: '80%',
             backgroundColor: '#6EC2FA',
+            overlay: {
+                backgroundColor: 'rgba(0, 0 ,0, 0.8)'
+            },
         },
     };
 
@@ -85,7 +89,6 @@ export const ResumoFaturamento = () => {
 
     console.log(filter)
 
-
     const [valor, setValor] = useState([])
     console.log(valor)
     const [valorTop, setValorTop] = useState([])
@@ -94,8 +97,6 @@ export const ResumoFaturamento = () => {
     const valorFilial = valor.map((test) => (
         (test.id)
     ))
-
-    console.log(valorFilial[0])
 
     const objs =
     {
@@ -120,6 +121,8 @@ export const ResumoFaturamento = () => {
         id_top: "",
         descricao: "",
     })
+
+    console.log(dataSelectTop);
 
     async function setDataFilial() {
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFilial", {
@@ -651,7 +654,7 @@ export const ResumoFaturamento = () => {
     const resultCli7 = dadosCliente.reduce((a, b) => a + b.vlTotalCredito, 0)
 
     const optionsCli = {
-        title: "NF-e / NFC-e",
+        title: "Valores",
         is3D: true,
         colors: ["#8226ED", "#2686ED"]
     };
@@ -761,19 +764,15 @@ export const ResumoFaturamento = () => {
     const resultTpPg12 = dadosLeitura.reduce((a, b) => a + b.vale_refeicao, 0)
     const resultTpPg13 = dadosLeitura.reduce((a, b) => a + b.pix, 0)
 
-    if (resultTpPg12 === NaN || resultTpPg12 === null) {
-        resultTpPg12 = 0
-    };
-
     const optionsTpPg = {
         title: "Valores",
         is3D: true,
-        colors: ["#1f80ed", "#d24159", "#9bf967", "#f98b68", "#ffe670"],
+        colors: ["#a6dce8", "#a6dce8", "#a6dce8", "#f98b68", "#ffe670"],
     };
 
     const dataTpPg0 = [
-        ["Valores em R$", "", ""],
-        [" (Cima)Dinheiro / (Baixo)Total", resultTpPg, resultTpPg1],
+        ["Valores em R$", "Dinheiro/Credito", "Total/Debito"],
+        ["Dinheiro , Total", resultTpPg, resultTpPg1],
         ["Credito , Debito", resultTpPg2, resultTpPg3],
     ];
 
@@ -807,7 +806,7 @@ export const ResumoFaturamento = () => {
         ["C.Credito", resultTpPg2, "#9bf967"],
         ["C.Debito", resultTpPg3, "#f98b68"],
         ["Dinheiro", resultTpPg, "#ffe670"],
-        ["Pix", resultTpPg13, "#32b6aa"],
+        ["Pix", resultTpPg13, "32b6aa"],
         ["Total", resultTpPg1, "#b2bb1c"],
     ];
 
@@ -815,7 +814,7 @@ export const ResumoFaturamento = () => {
         ["Element", "Valor", { role: "style" }],
         ["Boleto", resultTpPg5, "#1f80ed"],
         ["Cheque", resultTpPg4, "#d24159"],
-        ["C.Credito", resultTpPg2, "#9bf967"],
+        ["C.Credito", resultTpPg2, "#a6dce8"],
         ["C.Debito", resultTpPg3, "#f98b68"],
         ["Dinheiro", resultTpPg, "#ffe670"],
     ];
@@ -846,7 +845,6 @@ export const ResumoFaturamento = () => {
     const resultProd2 = dadosProduto.reduce((a, b) => a + b.vlr_custo_total, 0)
     const resultProd3 = dadosProduto.reduce((a, b) => a + b.sub_total, 0)
     const resultProd4 = dadosProduto.reduce((a, b) => a + b.vlr_desconto_total, 0)
-
 
     const dataProd = [
         ["Element", "Valor", { role: "style" }],
@@ -922,9 +920,6 @@ export const ResumoFaturamento = () => {
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
-
-    console.log(dadosProdutoReduzidos)
-
     //------------------------------------------------------------------------Dashboard Grupo-----------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardGrupo, setIsOpenDashboardGrupo] = useState(false);
@@ -963,18 +958,19 @@ export const ResumoFaturamento = () => {
         [dadoNomeGrupo7, dadoVenGrupo7, dadoLuGrupo7],
         [dadoNomeGrupo8, dadoVenGrupo8, dadoLuGrupo8],
         [dadoNomeGrupo9, dadoVenGrupo9, dadoLuGrupo9],
+
     ];
 
     const dataGru = [
         ["Element", "Valor", { role: "style" }],
-        ["Sub.Total", resultGru2, "#bc1b2b"],
-        ["Desconto", resultGru3, "#ffaf56"],
+        ["Venda:", resultGru, "#bc1b2b"],
+        ["Lucro", resultGru1, "#ffaf56"],
     ];
 
     const dataGru2 = [
         ["Element", "Valor", { role: "style" }],
-        ["Venda:", resultGru, "#bc1b2b"],
-        ["Lucro", resultGru1, "#ffaf56"],
+        ["Venda", resultGru, "bc1b2b"],
+        ["Lucro", resultGru1, "ffaf56"],
     ];
 
     const barDataGru = [
@@ -1046,13 +1042,13 @@ export const ResumoFaturamento = () => {
     }
 
     const dadosFornecedorDetalhado = dadosFornecedor.slice(0, 10);
-    console.log(dadosFornecedorDetalhado)
 
     const resultFor = dadosFornecedor.reduce((a, b) => a + b.vlr_venda_total, 0)
     const resultFor1 = dadosFornecedor.reduce((a, b) => a + b.vlr_lucro_total, 0)
     const resultFor2 = dadosFornecedor.reduce((a, b) => a + b.vlr_custo_total, 0)
     const resultFor3 = dadosFornecedor.reduce((a, b) => a + b.vlr_desconto_total, 0)
     const resultFor4 = dadosFornecedor.reduce((a, b) => a + b.sub_total, 0)
+
 
     const dataFor = [
         ["Element", "Valor", { role: "style" }],
@@ -1123,33 +1119,6 @@ export const ResumoFaturamento = () => {
         legend: { position: "none" },
     };
 
-    //------------------------------------------------------------------PICOS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    const [modalPico, setIsOpenModalPico] = useState(false);
-
-    function openModalPico() {
-        setIsOpenModalPico(true);
-    }
-
-    function closeModalPico() {
-        setIsOpenModalPico(false);
-    }
-
-    const dataPico = [
-        ["Mês", "Ano Anterior", "Ano Atual"],
-        ["Janeiro", 1000, 2000],
-        ["Fevereiro", 1170, 460],
-        ["Março", 660, 1120],
-        ["Abril", 1030, 540],
-    ];
-
-    const optionsPico = {
-        title: "Pico de Vendas",
-        hAxis: { title: "Mês", titleTextStyle: { color: "#333" } },
-        vAxis: { minValue: 0 },
-        chartArea: { width: "50%", height: "70%" },
-    };
-
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
@@ -1172,12 +1141,12 @@ export const ResumoFaturamento = () => {
                             <div className='filial-top'>
                                 <div>
                                     <select>
-                                        <option value='op1' >Filial</option>
-                                        <option value='op2' >Região</option>
+                                        <option>Filial</option>
+                                        <option>Região</option>
                                     </select>
                                     <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
                                     <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
-                                    <button  >Limpar</button>
+                                    <button>Limpar</button>
                                 </div>
                                 <div className='table-responsive'>
                                     <table id='table'>
@@ -1198,21 +1167,20 @@ export const ResumoFaturamento = () => {
                                                         <td>{item.id}</td>
                                                         <td>{item.nome_fantasia}</td>
                                                         <td>{item.razao_social}</td>
-                                                        <td className='cnpj' >{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
+                                                        <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
                                                         <td>{item.municipio}</td>
                                                     </tr>
                                                 </tbody>
                                             )
 
                                         })}
-
                                     </table>
                                 </div>
                             </div>
                         ) : (
                             <div className='filial-top'>
                                 <div>
-                                    <input placeholder='Buscar pela Descrição' onChange={(e) => setQuery1(e.target.value)} />
+                                    <input placeholder='Buscar pela Descrição...' onChange={(e) => setQuery1(e.target.value)} />
                                     <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
                                 </div>
                                 <div className='table-responsive'>
@@ -1233,7 +1201,6 @@ export const ResumoFaturamento = () => {
                                             )
 
                                         })}
-
                                     </table>
                                 </div>
                             </div>
@@ -1253,9 +1220,9 @@ export const ResumoFaturamento = () => {
                         <div className="select">
                             <label>Status NFC-e</label>
                             <select onChange={(e) => setFilter(e.target.value)}>
-                                <option value="TODOS" selected >TODOS</option>
-                                <option value="VENDA">VENDA</option>
-                                <option value="ORCAMENTO">ORÇAMENTO</option>
+                                <option id='todo' value="%">TODOS</option>
+                                <option value="v">VENDA</option>
+                                <option value="o">ORÇAMENTO</option>
                             </select>
                         </div>
                     </div>
@@ -1269,9 +1236,8 @@ export const ResumoFaturamento = () => {
                     </div>
                 </RF.Data>
             </RF.Filtros>
-
-            <div>
-                <RF.Navigacao>
+            <RF.Navigacao>
+                <div>
                     <button className='CE' onClick={() => setOpenAba("regiao")} >Região</button>
                     <button className='botão-filtros' onClick={() => setOpenAba("filial")}  >Filial</button>
                     <button className='botão-filtros' onClick={() => setOpenAba("vendedor")} > Vendedor </button>
@@ -1280,221 +1246,125 @@ export const ResumoFaturamento = () => {
                     <button className='botão-filtros' onClick={() => setOpenAba("produto")} > Produto </button>
                     <button className='botão-filtros' onClick={() => setOpenAba("grupo")} > Grupo </button>
                     <button className='CD' onClick={() => setOpenAba("fornecedor")} >Fornecedor</button>
-                </RF.Navigacao>
+                </div>
+            </RF.Navigacao>
 
-                {aba === "regiao" ? (
-                    <RF.DataGeral>
-                        {dadosRegiao.length === 0 && showElement === true ? (
-
-                            <div className='c' >
-                                <Loading />
+            {aba === "regiao" ? (
+                <RF.DataGeral>
+                    {dadosRegiao.length === 0 && showElement === true ? (
+                        <div className='c' >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label> <label className='esc'>( Use 'Esc' para fechar )</label>
+                                <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
                             </div>
-                        ) : (
-                            <>
-                                <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label className='esc'>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
-                                </div>
 
-                                <div className='table-resp'>
+                            <div className='table-responsive'>
 
-                                    <table className='table' >
-                                        <tr>
-                                            <th>Id.Região</th>
+                                <table id='table' >
+                                    <tr>
+                                        <th>Id.Região</th>
 
-                                            <th>Região</th>
+                                        <th>Região</th>
 
-                                            <th>Id. Filial</th>
-
-                                            <th>Qtd. Vendas</th>
-
-                                            <th>Vlr.Médio Venda</th>
-
-                                            <th>Vlr. Total NF-e</th>
-
-                                            <th>Vlr. Total NFC-e</th>
-
-                                            <th>Vlr. Venda Total</th>
-
-                                            <th>Vlr. Custo Total</th>
-
-                                            <th>Vlr. Lucro Venda</th>
-
-                                            <th>Margem</th>
-
-                                            <th>Markup</th>
-
-                                        </tr>
-                                        {dadosRegiao.map((f1) => {
-                                            return (
-                                                <tr key={f1.idFilial}>
-
-                                                    <td>{f1.idRegiao}</td>
-
-                                                    <td className='filter-name'>{f1.regiao}</td>
-
-                                                    <td>{f1.idFilial}</td>
-
-                                                    <td>{(f1.qtdVendas).toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{(f1.vlMedioVendas).toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{(f1.vlTotalNfe).toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{(f1.vlTotalNfce).toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{(f1.vlVendaTotal).toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{(f1.vlCustoTotal).toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{(f1.vlLucroVenda).toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{f1.margem}</td>
-
-                                                    <td>{f1.markup}</td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </table>
-
-                                </div>
-                            </>
-
-                        )}
-                    </RF.DataGeral>
-                ) : aba === "filial" ? (
-                    <RF.DataGeral>
-                        {dados.length === 0 && showElement === true ? (
-                            <div className='c' >
-                                <Loading />
-                            </div>
-                        ) : (
-                            <>
-                                <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
-                                </div>
-
-                                <div className='table-resp' >
-                                    <table className='table' >
-                                        <tr>
-                                            <th>Id.Filial</th>
-
-                                            <th>Filial</th>
-
-                                            <th>Qtd. Vendas</th>
-
-                                            <th>Qtd. Itens</th>
-
-                                            <th>Méd. Itens/Cup.</th>
-
-                                            <th>Vlr. Médio Venda</th>
-
-                                            <th>Vlr. Total NF-e</th>
-
-                                            <th>Vlr. Total NFC-e</th>
-
-                                            <th>Vlr. Venda Total</th>
-
-                                            <th>Vlr. Total Credito</th>
-
-                                            <th> Vlr. Total Líquido</th>
-
-                                            <th>Vlr. Custo Total</th>
-
-                                            <th>Vlr. Lucro Venda</th>
-
-                                            <th>Vlr. Lucro Líquido</th>
-
-                                            <th>% Margem</th>
-
-                                            <th>Percentual</th>
-
-                                        </tr>
-
-                                        {dados.map((f2) => {
-                                            return (
-                                                <tr>
-                                                    <td> {f2.idFilial} </td>
-
-                                                    <td className='filter-name'>{f2.filial}</td>
-
-                                                    <td>{f2.qtdVendas}</td>
-
-                                                    <td>{f2.qtdItens}</td>
-
-                                                    <td>{f2.qtdItensCupom}</td>
-
-                                                    <td>{f2.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{f2.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{f2.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{f2.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{f2.vlTotalCredito}</td>
-
-                                                    <td>{f2.vlTotalLiquido.toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{f2.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{f2.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{f2.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
-
-                                                    <td>{f2.margem}</td>
-
-                                                    <td>{(f2.percentual).toFixed(2)}</td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </table>
-
-                                </div>
-
-                            </>
-                        )}
-                    </RF.DataGeral>
-                ) : aba === "vendedor" ? (
-                    <RF.DataGeral>
-                        {dadosVendedor.length === 0 && showElement === true ? (
-                            <div className='c' >
-                                <Loading />
-                            </div>
-                        ) : (
-                            <>
-                                <input type="search" name="search-vend" id="search-vend" className="search" placeholder="Buscar por Vendedor" onChange={(e) => setQuery4(e.target.value)} />
-
-                                <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
-                                    <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
-                                </div>
-
-                                <table className='table-resp'>
-                                    <tr className='table'>
                                         <th>Id. Filial</th>
 
-                                        <th>Id. Vendedor</th>
-
-                                        <th>Vendedor</th>
-
                                         <th>Qtd. Vendas</th>
+
+                                        <th>Vlr.Médio Venda</th>
 
                                         <th>Vlr. Total NF-e</th>
 
                                         <th>Vlr. Total NFC-e</th>
 
-                                        <th> Vlr. Venda Total</th>
+                                        <th>Vlr. Venda Total</th>
 
-                                        <th>Vlr. Total Cancelamento</th>
+                                        <th>Vlr. Custo Total</th>
 
-                                        <th>Vlr. Total Desconto</th>
+                                        <th>Vlr. Lucro Venda</th>
+
+                                        <th>Margem</th>
+
+                                        <th>Markup</th>
+
+                                    </tr>
+                                    {dadosRegiao.map((f1) => {
+                                        return (
+                                            <tr key={f1.idFilial}>
+
+                                                <td>{f1.idRegiao}</td>
+
+                                                <td>{f1.regiao}</td>
+
+                                                <td>{f1.idFilial}</td>
+
+                                                <td>{f1.qtdVendas.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f1.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f1.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f1.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f1.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f1.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f1.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f1.margem.toFixed(3).replace('.', ',')}</td>
+
+                                                <td>{f1.markup.toFixed(3).replace('.', ',')}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                </table>
+
+                            </div>
+                        </>
+
+                    )}
+                </RF.DataGeral>
+            ) : aba === "filial" ? (
+                <RF.DataGeral>
+                    {dados.length === 0 && showElement === true ? (
+                        <div className='c' >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                            </div>
+
+                            <div className='table-responsive' >
+                                <table id='table' >
+                                    <tr>
+                                        <th>Id.Filial</th>
+
+                                        <th>Filial</th>
+
+                                        <th>Qtd. Vendas</th>
+
+                                        <th>Qtd. Itens</th>
+
+                                        <th>Méd. Itens/Cup.</th>
+
+                                        <th>Vlr. Médio Venda</th>
+
+                                        <th>Vlr. Total NF-e</th>
+
+                                        <th>Vlr. Total NFC-e</th>
+
+                                        <th>Vlr. Venda Total</th>
 
                                         <th>Vlr. Total Credito</th>
 
-                                        <th>Vlr. Total Comissão</th>
+                                        <th> Vlr. Total Líquido</th>
 
                                         <th>Vlr. Custo Total</th>
 
@@ -1502,19 +1372,121 @@ export const ResumoFaturamento = () => {
 
                                         <th>Vlr. Lucro Líquido</th>
 
-                                        <th>Per. Lucro Líquido</th>
+                                        <th>% Margem</th>
 
                                         <th>Percentual</th>
+
                                     </tr>
 
+                                    {dados.map((f2) => {
+
+                                        if (f2.vlTotalCredito === null) {
+                                            f2.vlTotalCredito = 0
+                                        }
+
+                                        return (
+                                            <tr>
+                                                <td> {f2.idFilial} </td>
+
+                                                <td>{f2.filial}</td>
+
+                                                <td>{f2.qtdVendas}</td>
+
+                                                <td>{f2.qtdItens}</td>
+
+                                                <td>{f2.qtdItensCupom}</td>
+
+                                                <td>{f2.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f2.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f2.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f2.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f2.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f2.vlTotalLiquido.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f2.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f2.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f2.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
+
+                                                <td>{f2.margem.toFixed(2).replace('.', ',')} %</td>
+
+                                                <td>{(f2.percentual).toFixed(2)} %</td>
+                                            </tr>
+                                        );
+                                    })}
+                                </table>
+
+                            </div>
+
+                        </>
+                    )}
+                </RF.DataGeral>
+            ) : aba === "vendedor" ? (
+                <RF.DataGeral>
+                    {dadosVendedor.length === 0 && showElement === true ? (
+                        <div className='c' >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <input type="search" name="search-vend" id="search-vend" className="search" placeholder="Buscar por Vendedor" onChange={(e) => setQuery4(e.target.value)} />
+
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                            </div>
+                            <div className='table-responsive'>
+                                <table id='table'>
+                                    <thead>
+                                        <tr>
+                                            <th>Id. Filial</th>
+
+                                            <th>Id. Vendedor</th>
+
+                                            <th>Vendedor</th>
+
+                                            <th>Qtd. Vendas</th>
+
+                                            <th>Vlr. Total NF-e</th>
+
+                                            <th>Vlr. Total NFC-e</th>
+
+                                            <th> Vlr. Venda Total</th>
+
+                                            <th>Vlr. Total Cancelamento</th>
+
+                                            <th>Vlr. Total Desconto</th>
+
+                                            <th>Vlr. Total Credito</th>
+
+                                            <th>Vlr. Total Comissão</th>
+
+                                            <th>Vlr. Custo Total</th>
+
+                                            <th>Vlr. Lucro Venda</th>
+
+                                            <th>Vlr. Lucro Líquido</th>
+
+                                            <th>Per. Lucro Líquido</th>
+
+                                            <th>Percentual</th>
+                                        </tr>
+                                    </thead>
                                     {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query4)).map((dat) => (
 
-                                        <tr className='labels'>
+                                        <tr>
                                             <td>{dat.idFilial}</td>
 
                                             <td>{dat.idVendedor}</td>
 
-                                            <td className='filter-name'>{dat.vendedor}</td>
+                                            <td>{dat.vendedor}</td>
 
                                             <td>{dat.qtdVendas}</td>
 
@@ -1538,72 +1510,74 @@ export const ResumoFaturamento = () => {
 
                                             <td>{(dat.vlLucroLiquido).toFixed(2).replace('.', ',')}</td>
 
-                                            <td className='filter-all'>% {(dat.plucroLiquido).toFixed(2)}</td>
+                                            <td>% {(dat.plucroLiquido).toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{(dat.percentual).toFixed(2)}</td>
+                                            <td>{(dat.percentual).toFixed(2).replace('.', ',')}</td>
                                         </tr>
 
                                     ))}
                                 </table>
-
-                            </>
-
-                        )}
-                    </RF.DataGeral>
-                ) : aba === "cliente" ? (
-                    <RF.DataGeral>
-                        {dadosCliente.length === 0 && showElement === true ? (
-                            <div className='c' >
-                                <Loading />
                             </div>
-                        ) : (
-                            <>
-                                <input type="search" name="search-cli" id="search-cli" className="search" placeholder="Buscar por Cliente" onChange={(e) => setQuery5(e.target.value)} />
+                        </>
 
-                                <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardCliente}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
-                                </div>
+                    )}
+                </RF.DataGeral>
+            ) : aba === "cliente" ? (
+                <RF.DataGeral>
+                    {dadosCliente.length === 0 && showElement === true ? (
+                        <div className='c' >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <input type="search" name="search-cli" id="search-cli" className="search" placeholder="Buscar por Cliente" onChange={(e) => setQuery5(e.target.value)} />
 
-                                <table className='table-resp'>
-                                    <tr className='labels'>
-                                        <th> Id. Filial </th>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <button className='dashboardBtn' onClick={openDashboardCliente}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                            </div>
+                            <div className='table-responsive'>
+                                <table id='table'>
+                                    <thead>
+                                        <tr>
+                                            <th> Id. Filial </th>
 
-                                        <th> Id. Cliente </th>
+                                            <th> Id. Cliente </th>
 
-                                        <th> Cliente </th>
+                                            <th> Cliente </th>
 
-                                        <th> Qtd. Vendas </th>
+                                            <th> Qtd. Vendas </th>
 
-                                        <th> Vlr. Total NF-e </th>
+                                            <th> Vlr. Total NF-e </th>
 
-                                        <th> Vlr. Total NFC-e </th>
+                                            <th> Vlr. Total NFC-e </th>
 
-                                        <th> Vlr. Venda Total </th>
+                                            <th> Vlr. Venda Total </th>
 
-                                        <th> Vlr. Total Desconto </th>
+                                            <th> Vlr. Total Desconto </th>
 
-                                        <th> Vlr. Total Credito </th>
+                                            <th> Vlr. Total Credito </th>
 
-                                        <th> Vlr. Custo Total </th>
+                                            <th> Vlr. Custo Total </th>
 
-                                        <th> Vlr. Lucro Venda </th>
+                                            <th> Vlr. Lucro Venda </th>
 
-                                        <th> Vlr. Lucro Líquido </th>
+                                            <th> Vlr. Lucro Líquido </th>
 
-                                        <th> Per. Lucro Líquido </th>
+                                            <th> Per. Lucro Líquido </th>
 
-                                        <th> Percentual </th>
-                                    </tr>
+                                            <th> Percentual </th>
+                                        </tr>
+                                    </thead>
 
                                     {dadosCliente.filter(dat => dat.cliente.toLowerCase().includes(query5)).map((dat1) => (
-                                        <tr className='labels'>
+                                        <tr>
 
                                             <td>{dat1.idFilial}</td>
 
                                             <td>{dat1.idCliente}</td>
 
-                                            <td className='filter-name'>{dat1.cliente}</td>
+                                            <td>{dat1.cliente}</td>
 
                                             <td>{dat1.qtdVendas}</td>
 
@@ -1623,98 +1597,103 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat1.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.plucroLiquido} %</td>
+                                            <td>{dat1.plucroLiquido.toFixed(2).replace('.', ',')} %</td>
 
-                                            <td>{(dat1.percentual).toFixed(2).replace('.', ',')}</td>
+                                            <td>{(dat1.percentual).toFixed(3).replace('.', ',')}</td>
 
                                         </tr>
                                     ))}
                                 </table>
-                            </>
-                        )}
-                    </RF.DataGeral>
-                ) : aba === "tpPg" ? (
-                    <RF.DataGeral>
-                        {dadosTipoPagamento.length === 0 && showElement === true ? (
-                            <div className='c' >
-                                <Loading />
                             </div>
-                        ) : (
-                            <>
-                                <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
-                                    <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
-                                </div>
-
-                                <table>
-                                    <tr className='labels'>
-                                        {keys.map((nomes) => {
-                                            return (
-                                                <th className='filter-all'>{(nomes).replace('_', ' ').toUpperCase()}</th>
-                                            );
-                                        })}
-                                    </tr>
-
-                                    <tr className='labels'>
+                        </>
+                    )}
+                </RF.DataGeral>
+            ) : aba === "tpPg" ? (
+                <RF.DataGeral>
+                    {dadosTipoPagamento.length === 0 && showElement === true ? (
+                        <div className='c' >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                                <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                            </div>
+                            <div className='table-responsive'>
+                                <table id='table'>
+                                    <thead>
+                                        <tr>
+                                            {keys.map((nomes) => {
+                                                return (
+                                                    <th>{(nomes).replace('_', ' ').toUpperCase()}</th>
+                                                );
+                                            })}
+                                        </tr>
+                                    </thead>
+                                    <tr>
                                         {dadosTipoPagamento.map((f5) => {
                                             if (f5 === null) {
                                                 f5 = 0
                                             }
+
                                             return (
-                                                <td className='filter-all'> {f5.toFixed(2).replace('.', ',')} </td>
+                                                <td> {f5.toFixed(2).replace('.', ',')} </td>
                                             );
                                         })}
                                     </tr>
                                 </table>
-                            </>
-                        )}
-                    </RF.DataGeral>
-                ) : aba === "produto" ? (
-                    <RF.DataGeral>
-                        {dadosProduto.length === 0 && showElement === true ? (
-                            <div className='c' >
-                                <Loading />
                             </div>
-                        ) : (
-                            <>
-                                <input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)} />
+                        </>
+                    )}
+                </RF.DataGeral>
+            ) : aba === "produto" ? (
+                <RF.DataGeral>
+                    {dadosProduto.length === 0 && showElement === true ? (
+                        <div className='c' >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)} />
 
-                                <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
-                                    <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
-                                </div>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                                <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                            </div>
+                            <div className='table-responsive'>
+                                <table id='table'>
+                                    <thead>
+                                        <tr>
+                                            <th>Ranking</th>
 
-                                <table className='table'>
-                                    <tr>
-                                        <th>Ranking</th>
+                                            <th>Id.Produto</th>
 
-                                        <th>Id.Produto</th>
+                                            <th>Produto</th>
 
-                                        <th>Produto</th>
+                                            <th>Qtd. Total</th>
 
-                                        <th>Qtd. Total</th>
+                                            <th>Sub Total</th>
 
-                                        <th>Sub Total</th>
+                                            <th>% Desconto</th>
 
-                                        <th>% Desconto</th>
+                                            <th>Vlr. Desconto Total </th>
 
-                                        <th>Vlr. Desconto Total </th>
+                                            <th>Vlr. Venda Total</th>
 
-                                        <th>Vlr. Venda Total</th>
+                                            <th>Vlr. Custo Total</th>
 
-                                        <th>Vlr. Custo Total</th>
+                                            <th>Vlr. Lucro Total</th>
 
-                                        <th>Vlr. Lucro Total</th>
+                                            <th>% Markup</th>
 
-                                        <th>% Markup</th>
+                                            <th>% Margem</th>
 
-                                        <th>% Margem</th>
-
-                                        <th>Percentual</th>
-                                    </tr>
-
+                                            <th>Percentual</th>
+                                        </tr>
+                                    </thead>
                                     {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(query6)).map((dat2) => {
 
                                         return (
@@ -1724,9 +1703,9 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat2.id_produto} </td>
 
-                                                <td onDoubleClick={openModalPico}> {dat2.produto} </td>
+                                                <td> {dat2.produto} </td>
 
-                                                <td className='filter-all'> {dat2.qtd_total} </td>
+                                                <td> {dat2.qtd_total} </td>
 
                                                 <td> {dat2.sub_total.toFixed(2).replace('.', ',')} </td>
 
@@ -1740,69 +1719,70 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat2.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.p_markup} </td>
+                                                <td> % {dat2.p_markup.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.p_margem} </td>
+                                                <td> % {dat2.p_margem.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {(dat2.percentual).toFixed(2)} </td>
+                                                <td> {(dat2.percentual).toFixed(2).replace('.', ',')} </td>
                                             </tr>
                                         );
                                     })}
-
                                 </table>
-                            </>
-                        )}
-                    </RF.DataGeral>
-                ) : aba === "grupo" ? (
-                    <RF.DataGeral>
-                        {dadosGrupo.length === 0 && showElement === true ? (
-                            <div className='c' >
-                                <Loading />
                             </div>
-                        ) : (
-                            <>
-                                <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Grupo" onChange={(e) => setQuery7(e.target.value)} />
+                        </>
+                    )}
+                </RF.DataGeral>
+            ) : aba === "grupo" ? (
+                <RF.DataGeral>
+                    {dadosGrupo.length === 0 && showElement === true ? (
+                        <div className='c' >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Grupo" onChange={(e) => setQuery7(e.target.value)} />
 
-                                <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
-                                    <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
-                                </div>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                                <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                            </div>
+                            <div className='table-responsive'>
+                                <table id='table'>
+                                    <thead>
+                                        <tr>
+                                            <th>Ranking</th>
 
-                                <table>
-                                    <tr className='labels'>
-                                        <th className='filter-all'>Ranking</th>
+                                            <th>Id. Grupo</th>
 
-                                        <th className='filter-all'>Id. Grupo</th>
+                                            <th>Grupo</th>
 
-                                        <th className='filter-name'>Grupo</th>
+                                            <th>Qtd. Total</th>
 
-                                        <th className='filter-all'>Qtd. Total</th>
+                                            <th>Sub Total</th>
 
-                                        <th className='filter-all'>Sub Total</th>
+                                            <th>% Desconto</th>
 
-                                        <th className='filter-all'>% Desconto</th>
+                                            <th>Vlr. Desconto Total</th>
 
-                                        <th className='filter-all'>Vlr. Desconto Total</th>
+                                            <th>Vlr. Venda Total</th>
 
-                                        <th className='filter-all'>Vlr. Venda Total</th>
+                                            <th>Vlr. Custo Total</th>
 
-                                        <th className='filter-all'>Vlr. Custo Total</th>
+                                            <th>Vlr. Lucro Total</th>
 
-                                        <th className='filter-all'>Vlr. Lucro Total</th>
+                                            <th>% Markup</th>
 
-                                        <th className='filter-all'>% Markup</th>
+                                            <th>% Margem</th>
 
-                                        <th className='filter-all'>% Margem</th>
-
-                                        <th className='filter-all'>Percentual</th>
-                                    </tr>
-
+                                            <th>Percentual</th>
+                                        </tr>
+                                    </thead>
                                     {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(query7)).map((dat3) => {
 
                                         return (
 
-                                            <tr className='labels'>
+                                            <tr>
 
                                                 <td>{dat3.ranking}</td>
 
@@ -1818,15 +1798,15 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat3.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.vlr_venda_total.toFixed(2).replace('.', ',')} </td>
+                                                <td> {dat3.vlr_venda_total.toFixed(2).replace('.', ',')}</td>
 
-                                                <td> {dat3.vlr_custo_total.toFixed(2).replace('.', ',')} </td>
+                                                <td> {dat3.vlr_custo_total.toFixed(2).replace('.', ',')}</td>
 
                                                 <td> {dat3.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.p_markup} </td>
+                                                <td> {dat3.p_markup.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.p_margem} </td>
+                                                <td> {dat3.p_margem.toFixed(2).replace('.', ',')} </td>
 
                                                 <td> {(dat3.percentual).toFixed(3)} </td>
                                             </tr>
@@ -1835,93 +1815,93 @@ export const ResumoFaturamento = () => {
 
                                     })}
                                 </table>
-
-                            </>
-                        )}
-                    </RF.DataGeral>
-                ) : aba === "fornecedor" ? (
-                    <RF.DataGeral>
-                        {dadosFornecedor.length === 0 && showElement === true ? (
-                            <div className='c' >
-                                <Loading />
                             </div>
-                        ) : (
-                            <>
-                                <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)} />
+                        </>
+                    )}
+                </RF.DataGeral>
+            ) : aba === "fornecedor" ? (
+                <RF.DataGeral>
+                    {dadosFornecedor.length === 0 && showElement === true ? (
+                        <div className='c' >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)} />
 
-                                <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                    <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
-                                    <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
-                                </div>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                                <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                            </div>
+                            <div className='table-responsive'>
+                                <table id='table'>
+                                    <thead>
+                                        <tr>
+                                            <th>Ranking</th>
 
-                                <table>
-                                    <tr className='labels'>
-                                        <th className='filter-all'>Ranking</th>
+                                            <th>Id. Fornecedor</th>
 
-                                        <th className='filter-all'>Id. Fornecedor</th>
+                                            <th>Fornecedor</th>
 
-                                        <th className='filter-name'>Fornecedor</th>
+                                            <th>Qtd. Total</th>
 
-                                        <th className='filter-all'>Qtd. Total</th>
+                                            <th>Sub Total</th>
 
-                                        <th className='filter-all'>Sub Total</th>
+                                            <th>% Desconto</th>
 
-                                        <th className='filter-all'>% Desconto</th>
+                                            <th>Vlr. Desconto Total</th>
 
-                                        <th className='filter-all'>Vlr. Desconto Total</th>
+                                            <th>Vlr. Venda Total</th>
 
-                                        <th className='filter-all'>Vlr. Venda Total</th>
+                                            <th>Vlr. Custo Total</th>
 
-                                        <th className='filter-all'>Vlr. Custo Total</th>
+                                            <th>Vlr. Lucro Total</th>
 
-                                        <th className='filter-all'>Vlr. Lucro Total</th>
+                                            <th>% Markup</th>
 
-                                        <th className='filter-all'>% Markup</th>
+                                            <th>% Margem</th>
 
-                                        <th className='filter-all'>% Margem</th>
-
-                                        <th className='filter-all'>Percentual</th>
-                                    </tr>
-
+                                            <th>Percentual</th>
+                                        </tr>
+                                    </thead>
                                     {dadosFornecedor.filter(dat => dat.fornecedor.toLowerCase().includes(query8)).map((dat) => (
 
-                                        <tr className='labels'>
-                                            <td className='filter-all'> {dat.ranking} </td>
+                                        <tr>
+                                            <td> {dat.ranking} </td>
 
-                                            <td className='filter-all'> {dat.id_fornecedor} </td>
+                                            <td> {dat.id_fornecedor} </td>
 
-                                            <td className='filter-name'> {dat.fornecedor} </td>
+                                            <td> {dat.fornecedor} </td>
 
-                                            <td className='filter-all'> {dat.qtd_total} </td>
+                                            <td> {dat.qtd_total} </td>
 
-                                            <td className='filter-all'> {dat.sub_total.toFixed(2).replace('.', ',')} </td>
+                                            <td> {dat.sub_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {(dat.p_desconto).toFixed(3).replace('.', ',')} </td>
+                                            <td> {(dat.p_desconto).toFixed(3).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {dat.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
+                                            <td> {dat.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {dat.vlr_venda_total.toFixed(2).replace('.', ',')} </td>
+                                            <td> {dat.vlr_venda_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {dat.vlr_custo_total.toFixed(2).replace('.', ',')} </td>
+                                            <td> {dat.vlr_custo_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {dat.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
+                                            <td> {dat.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {dat.p_markup} </td>
+                                            <td> {dat.p_markup.toFixed(2).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {dat.p_margem} </td>
+                                            <td> {dat.p_margem.toFixed(2).replace('.', ',')} </td>
 
-                                            <td className='filter-all'> {(dat.percentual).toFixed(2).replace('.', ',')} </td>
+                                            <td> {(dat.percentual).toFixed(2).replace('.', ',')} </td>
                                         </tr>
                                     ))}
                                 </table>
+                            </div>
+                        </>
 
-                            </>
-
-                        )}
-                    </RF.DataGeral>
-                ) : null}
-            </div>
+                    )}
+                </RF.DataGeral>
+            ) : null}
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles}>
 
@@ -2253,7 +2233,7 @@ export const ResumoFaturamento = () => {
                 </div>
             </Modal>
 
-            <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
                 <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
@@ -2305,7 +2285,7 @@ export const ResumoFaturamento = () => {
 
             </Modal>
 
-            <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
                 <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
@@ -2364,7 +2344,7 @@ export const ResumoFaturamento = () => {
 
             </Modal>
 
-            <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
                 <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
@@ -2416,7 +2396,7 @@ export const ResumoFaturamento = () => {
                         {dadosClienteReduzido.map((dados) => {
 
                             const dashboard = [
-                                ["Element", "", { role: "style" }],
+                                ["Element", "Lucro", { role: "style" }],
                                 ["Liquido", dados.vlLucroLiquido, "#ffaf56"],
                                 ["Bruto", dados.vlLucroVenda, "#f6d001"],
                             ];
@@ -2436,11 +2416,12 @@ export const ResumoFaturamento = () => {
                             return (
                                 <RF.DashboardMenor>
                                     <h2>{dados.cliente}</h2>
-                                    <div className='graficosReduzidos' >
+                                    <div className='graficosReduzidos'>
                                         <Chart chartType="ColumnChart" width="20vw" height="25vh" data={dashboard} className="graficoA" />
                                         <Chart chartType="ColumnChart" width="20vw" height="25vh" data={dashboard1} className="graficoA" />
                                         <Chart chartType="PieChart" width="20vw" height="25vh" data={dashboard2} options={optionsCli} className="graficoA" />
                                     </div>
+
                                 </RF.DashboardMenor>
                             );
 
@@ -2460,7 +2441,7 @@ export const ResumoFaturamento = () => {
 
             </Modal>
 
-            <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
                 <button onClick={closeDashboardTipoDePagamento} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
@@ -2475,11 +2456,11 @@ export const ResumoFaturamento = () => {
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/credito.png' /> C.Credito: R$ {resultTpPg2.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/credito.png' /> Cartão Credito: R$ {resultTpPg2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/debito.png' /> C.Debito: R$ {resultTpPg3.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/debito.png' /> Cartão Debito: R$ {resultTpPg3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
@@ -2503,11 +2484,11 @@ export const ResumoFaturamento = () => {
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultTpPg1.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/pix.png' /> Pix: R$ {resultTpPg13.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/pix.png' /> Pix: R$ {resultTpPg13.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultTpPg1.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -2517,19 +2498,19 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts'>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeAlimentacao.png' /> Alimentação: R$ {resultTpPg9.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/valeAlimentacao.png' /> Alimentação: R$ {resultTpPg9}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valePresente.png' /> Presente: R$ {resultTpPg11.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/valePresente.png' /> Presente: R$ {resultTpPg11}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeRefeicao.png' /> Refeição: R$ {resultTpPg12.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/valeRefeicao.png' /> Refeição: R$ {resultTpPg12}
                         </h2>
                     </div>
 
@@ -2541,20 +2522,20 @@ export const ResumoFaturamento = () => {
 
                 </div>
 
-                <RF.Dashboard0>
-                    <Chart chartType="Bar" width="500px" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico" />
+                <RF.Dashboard>
+                    <Chart chartType="Bar" width="75%" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico" />
                     <Chart chartType="ColumnChart" width="350px" height="250px" data={dataTpPgVale} className="grafico" />
-                </RF.Dashboard0>
+                </RF.Dashboard>
 
             </Modal>
 
-            <Modal isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles}>
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles}>
 
                 <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
 
-                    <h1>Dados Produtos  </h1>
+                    <h1>Dados Produtos</h1>
 
                     <div className='dashboardTexts'>
 
@@ -2597,7 +2578,7 @@ export const ResumoFaturamento = () => {
 
                 </div>
 
-                <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} shouldCloseOnEsc={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado'>
+                <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado'>
                     <button className='closeBtnMenor' onClick={closeDashboardProdutosDetalhados} ><img className='close' src='/images/voltar.png' />Voltar</button>
                     {dadosProdutoReduzidos.map((prod) => {
 
@@ -2648,13 +2629,13 @@ export const ResumoFaturamento = () => {
 
             </Modal>
 
-            <Modal isOpen={dashboardGrupo} onRequestClose={closeDashboardGrupo} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupo} onRequestClose={closeDashboardGrupo} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
 
                 <button onClick={closeDashboardGrupo} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
 
-                    <h1>Dados Grupo   </h1>
+                    <h1>Dados Grupo </h1>
 
                     <div className='dashboardTexts' >
 
@@ -2685,17 +2666,16 @@ export const ResumoFaturamento = () => {
                     <RF.Dashboard>
 
                         <div className='graficos10' >
-                            <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado} > <img className='close' src='images/itens.png' /> Individuais </button>
-                            <Chart chartType="Bar" width="100%" height="35vw" data={dataGru0} options={optionsGru0} className='grafico' />
+                            <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado}><img className='close' src='images/itens.png' /> Individuais </button>
+                            <Chart chartType="Bar" width="100%" height="35vw" data={dataGru0} options={optionsGru0} />
                         </div>
 
                     </RF.Dashboard>
 
-
                 </div>
 
-                <Modal isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
-                    <button className='closeBtnMenor' onClick={closeDashboardGrupoDetalhado} ><img className='close' src='/images/voltar.png' />Voltar</button>
+                <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                    <button className='closeBtnMenor' onClick={closeDashboardGrupoDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
                     {dadosGrupoDetalhado.map((detalhado) => {
 
                         const grupoDetalhado = [
@@ -2757,7 +2737,7 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Fornecedor  </h1>
+                    <h1>Dados Fornecedor</h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
@@ -2790,8 +2770,8 @@ export const ResumoFaturamento = () => {
                     <RF.Dashboard>
 
                         <div className='graficos10' >
-                            <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='close' src='images/itens.png' /> Individuais </button>
-                            <Chart chartType="Bar" width="100%" height="35vw" data={dataFor0} options={optionsFor0} className='grafico' />
+                            <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='close' src='/images/itens.png' /> Individuais </button>
+                            <Chart chartType="Bar" width="100%" height="35vw" data={dataFor0} options={optionsFor0} />
                         </div>
 
                     </RF.Dashboard>
@@ -2799,9 +2779,6 @@ export const ResumoFaturamento = () => {
                 </div>
 
                 <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardDetalhado' >
-
-                    <button className='closeBtnMenor' onClick={closeDashboardFornecedorDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
-
                     {dadosFornecedorDetalhado.map((forn) => {
 
                         const dashboard = [
@@ -2845,6 +2822,7 @@ export const ResumoFaturamento = () => {
                                 </div>
                             </RF.DashboardMenor>
                         )
+
                     })}
                 </Modal>
             </Modal>
@@ -2898,7 +2876,7 @@ export const ResumoFaturamento = () => {
             </C.Footer>
 
             {isModalTop ? <Top onClose={() => setIsModalTop(false)} setDataSelectTop={setDataSelectTop} setValorTop={setValorTop} valorTop={valorTop} /> : null}
-            {isModalFilial ? <Emitente onClose={() => setIsModalFilial(false)} setDataSelectEmitente={setDataSelectEmitente} setValor={setValor} setDataIdSelectEmitente={setDataIdSelectEmitente} setDataSelectDadosEmitente={setDataSelectDadosEmitente} valor={valor} /> : null}
+            {isModalFilial ? <Emitente onClose={() => setIsModalFilial(false)} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} setDataSelectDadosEmitente={setDataSelectDadosEmitente} setValor={setValor} valor={valor} /> : null}
         </C.Container>
 
     );

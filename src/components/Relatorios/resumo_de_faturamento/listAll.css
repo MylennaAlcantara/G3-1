@@ -1,4 +1,3 @@
-
 .test {
     background-color: #F0F0F0;
     margin-left: 50%;
@@ -12,30 +11,17 @@
     border-top-right-radius: 10px;
 }
 
-.closeBtnMenor{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 117px;
-    height: 33px;
-    margin-top: 10px;
-    margin-left: 85%;
-}
-
-.graficos10{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.cnpj{
-    width: 9.5vw;
-}
-
-.FTFilterTop{
+.FTFilterTop {
+    width: 50%;
     display: flex;
     flex-direction: column;
     margin-top: -23px;
+}
+
+.graficos10 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .close {
@@ -53,35 +39,6 @@
     height: 33px;
 }
 
-.CE{
-    border-width: 1px;
-    background-color: #e6e6e6;
-    border-top-left-radius: 8px;
-    width: 12%;
-    border-bottom: transparent;
-    border-style: solid;
-    border-left: transparent;
-}
-
-.CE:hover{
-    cursor: pointer;
-    background-color: #a6f4ff;
-}
-
-.CD{
-    border-width: 1px;
-    background-color: #e6e6e6;
-    border-top-right-radius: 8px;
-    border-bottom: transparent;
-    border-right: transparent;
-    width: 12%;
-    border-style: solid;
-}
-
-.CD:hover{
-    cursor: pointer;
-    background-color: #a6f4ff;
-}
 
 .dashboard01 {
     align-items: center;
@@ -89,12 +46,6 @@
     flex-direction: row;
     margin-top: 81px;
     margin-left: 30px;
-}
-
-.c{
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .dashboardTexts {
@@ -132,6 +83,16 @@ label {
     font-size: 15px;
 }
 
+.closeBtnMenor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 117px;
+    height: 33px;
+    margin-top: 10px;
+    margin-left: 85%;
+}
+
 .btnDetalhes {
     background-color: white;
     display: flex;
@@ -145,11 +106,6 @@ label {
     border-top-right-radius: 10px;
 }
 
-.tbodyInicial{
-    overflow-y: scroll;
-    height: 50px;
-}
-
 .btnDetalhes:hover {
     background-color: #a6f4ff;
 }
@@ -159,8 +115,6 @@ label {
     display: flex;
     flex-direction: row;
     height: 50px;
-    border-style: solid;
-    border-width: 1px;
 }
 
 .grafico0 {
@@ -171,6 +125,13 @@ label {
     border-style: solid;
     border-radius: 8px;
     border-width: 1px;
+}
+
+.c {
+    margin-top: 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .dashboardDetalhado {
@@ -184,6 +145,24 @@ label {
     width: 70%;
     height: 75%;
     background-color: white;
+}
+
+.graficoA {
+    margin-top: 5px;
+    margin-left: 10px;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
+}
+
+.graficoB {
+    border-radius: 8px;
+    left: 20px;
+    top: 5px;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
 }
 
 .dashboardOk {
@@ -230,7 +209,6 @@ label {
 
 .btns {
     display: flex;
-    background-color: white;
 }
 
 .test1 {
@@ -286,9 +264,8 @@ h2 {
 }
 
 .grafico {
-    border: none;
-    height: 28px;
-    width: 28px;
+    height: 20px;
+    width: 20px;
     margin-right: 5px;
 }
 
@@ -530,11 +507,6 @@ table tr:nth-child(odd) {
     width: 30px;
 }
 
-.botão-filtros {
-    width: 117px;
-    height: 33px;
-}
-
 .topFilialBtn {
     border-top-left-radius: 10px;
     height: 25px;
@@ -627,40 +599,6 @@ table tr:nth-child(odd) {
     border-width: 1px;
 }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-    border: 1px solid grey;
-}
-
-th {
-    font-size: 15px;
-    font-weight: bold;
-    color: #373435;
-    background-color: #ffffff;
-    border: 1px solid grey;
-}
-
-td {
-    border: 1px solid grey;
-}
-
-table tr:nth-child(even) {
-    background-color: #ffffe6;
-}
-
-table tr:nth-child(odd) {
-    background-color: #f0f0f0;
-}
-
-.table tr td {
-    cursor: pointer;
-}
-
-.table tr:hover td {
-    background-color: #87CEFA;
-}
-
 .filter-name {
     width: 355px;
 }
@@ -673,7 +611,7 @@ table tr:nth-child(odd) {
 }
 
 .search {
-    width: 100%;
+    width: 95%;
     height: 25px;
 }
 
@@ -684,7 +622,7 @@ table tr:nth-child(odd) {
     margin-right: 5px;
 }
 
-span{
+span {
     margin: 0px;
     padding: 0px;
 }
@@ -737,7 +675,7 @@ span{
     margin-left: 3px;
 }
 
-.Gtext{
+.Gtext {
     font-size: 13px;
 }
 
@@ -770,83 +708,18 @@ span{
     flex-direction: row;
 }
 
-
-@media (max-width: 1366px) {
-    
-    .search-input {
-        width: 230px;
-    }
-
+@media (max-width: 1270px) {
     .filtro1 {
-        top: 2.8vw;
-        left: 11.3vw;
-        width: 400px;
-    }
-
-    .obs {
-        left: -514px;
-    }
-
-    .btns {
-        right: 41.7%;
-    }
-
-    .ep3{
-        width: 55px;
-    }
-
-    .filtros {
-        width: 95%;
-        top: 1%;
-    }
-
-    .ModalDados {
-        height: 36%;
-    }
-
-    .test {
-        width: 46%;
-    }
-
-    .relatorio-content {
-        top: 33.3%;
-        left: 58.5%;
-    }
-
-    .filtro-tops-content {
-        bottom: 50.8vw;
-        left: 10.9vw;
-    }
-
-    .footer {
-        top: 20%;
-    }
-
-    .checkboxs{
-        top: 14.5%;
-    }
-}
-
-@media (max-width: 1300px){
-    .filtro1{
-        top: 3vw;
-        left: 10.7vw;
-        width: 385px;
-    }
-}
-
-@media (max-width: 1270px){
-    .filtro1{
         top: 3.5vw;
         left: 8.5vw;
         width: 335px;
     }
 
-    .search-input{
+    .search-input {
         width: 174px;
     }
 
-    .obs{
+    .obs {
         left: -470px;
     }
 }
@@ -867,123 +740,117 @@ span{
         left: 64%;
     }
 }
-@media (min-height: 900px){
-    .filtro1{
-        top: 4.02vw;
-        left: 4.7vw;
-    }
 
-    .ModalDados{
-        top: 63%;
-        height: 37%;
-    }
-
-    .relatorio-content{
-        left: 67vw;
-        top: 14.6vw;
-    }
-
-    .filtro-tops-content{
-        top: -43.32vw;
-        left: 7.5vw;
-    }
-}
-
-@media (max-width: 800px){
-    .frontSpan{
+@media (max-width: 800px) {
+    .frontSpan {
         visibility: hidden;
         font-size: 0px;
     }
 
-    .filtro1{
+    .filtro1 {
         top: 4.83vw;
         left: -6.7vw;
     }
 
-    td{
+    td {
         height: 30px;
     }
-    
-    .dataIni{
+
+    .dataIni {
         height: 40px;
     }
 
-    .dataFin{
+    .dataFin {
         height: 40px;
     }
 
-    .checkboxs{
+    .checkboxs {
         top: 17%;
     }
 
-    .pesquisar{
+    .pesquisar {
         top: 17%;
     }
 
-    .relatorio-content{
+    .relatorio-content {
         top: 35.2%;
         left: 55%;
     }
 }
 
-@media (max-width: 420px){
-    .btns{
+@media (max-width: 420px) {
+    .btns {
         left: -30vw;
     }
-    .filtro1{
+
+    .filtro1 {
         width: 340px;
         left: -25vw;
         top: 1vw;
     }
-    th{
+
+    th {
         font-size: 11px;
     }
-    .ep3{
+
+    .ep3 {
         font-size: 11px;
     }
-    .search-input{
+
+    .search-input {
         width: 150px;
     }
-    .obs{
+
+    .obs {
         left: -435px;
     }
-    .test{
+
+    .test {
         width: 350px;
         flex-direction: row;
         position: relative;
         top: 200px;
         right: 50%;
-        
+
     }
-    .filtros{
+
+    .filtros {
         width: 92%;
         top: 50vw;
     }
-    .ModalDados{
+
+    .ModalDados {
         top: 72.56%;
         height: 25%;
     }
-    .buttons{
+
+    .buttons {
         position: relative;
         top: 75vw;
     }
-    .wrapper{
+
+    .wrapper {
         height: 112vw;
     }
-    .pesquisar{
+
+    .pesquisar {
         right: 4%;
         top: -3%;
     }
-    .checkboxs{
+
+    .checkboxs {
         top: -12%;
     }
-    .dataIni{
+
+    .dataIni {
         height: 60px;
     }
-    .dataFin{
+
+    .dataFin {
         height: 60px;
     }
-    .relatorio-content{
+
+    .relatorio-content {
         top: 107.6vw;
         left: 10vw;
     }

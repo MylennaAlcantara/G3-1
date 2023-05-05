@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const Filtros = styled.div`
     width: 95%;
+    height: 25%;
     margin: auto;
     display: flex;
-    justify-content: space-between;
     img{
         height: 20px;
         width: 20px;
@@ -13,25 +13,40 @@ export const Filtros = styled.div`
     button{
         height: 24px;
     }
+
+`
+export const FilialTop = styled.div`
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    background-color: #F0F0F0;
+    .filial-top{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    input{
+        width: 100%;
+    }
+    div{
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
     img:hover,
     button:hover{
         cursor: pointer;
     }
     .table-responsive{
-        overflow-x: auto;
-        height: 75%;
+        overflow: auto;
         width: 100%;
-    }
-    .content{
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
     table{
         border-collapse: collapse;
         width: 100%;
         border: 1px solid grey;
-        margin-top: 2%
     }
     thead{
         position: sticky;
@@ -46,12 +61,13 @@ export const Filtros = styled.div`
     }
     td{
         border: 1px solid grey;
+        white-space: nowrap;
     }
     table tr:nth-child(even){
-        background-color: #ffffe6;
+        background-color: #f0f0f0;   
     }
     table tr:nth-child(odd){
-        background-color: #f0f0f0;   
+        background-color: #ffffe6;
     }
     #table tr td{
         cursor: pointer;
@@ -59,54 +75,18 @@ export const Filtros = styled.div`
     #table tr:hover td{
         background-color: #87CEFA;
     }
-`
-export const FilialTop = styled.div`
-    width: 37vw;
-    height: 20vh;
-    border-bottom-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    background-color: #F0F0F0;
-    overflow-y: scroll;
-    .filial-top{
-        width: 37vw;
-        display: flex;
-        flex-direction: column;
-    }
-    input{
-        width: 100%;
-    }
-    div{
-        width: 100%;
-        display: flex;
-        align-items: center;
-    }
-    @media (max-width: 1440px) {
-        width: 28vw;
-    .filial-top{
-        width: 28vw;
-    }
-
-    }
-
-    @media (max-width: 1024px) {
-        width: 37vw;
-    .filial-top{
-        width: 37vw;
-    }
-
-    }
 
 `
 export const Data = styled.div`
     width: 50%;
     margin-left: 10px;
-    height: 20vh;
+    height: 100%;
     border-radius: 10px;
     background-color: #F0F0F0;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    overflow-y: auto;
     .checks{
         margin-top: 10px;
     }
@@ -143,40 +123,93 @@ export const Data = styled.div`
     .pesquisa-result{
         background-color: #ffffff;
     }
-    @media (max-width: 1280px) {
-        overflow-x: scroll;
+    @media (max-width: 800px) {
+        overflow-x: auto;
     }
 `
 export const Navigacao = styled.div`
-margin-left: 15px;
-display: flex;
-justify-content: center;
-width: 50%;
-border-style: solid;
-border-top-left-radius: 10px;
-border-top-right-radius: 10px;
-border-width: 0.5px;
-background-color: #ABADB3;
-border-bottom: transparent;
-
-@media (max-width: 1440px) {
-    width: 75%;
-}
-@media (max-width: 800px) {
-    width: 85%;
-}
+    margin: auto;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: start;
+    width: 95%;
+    border: none;
+    background-color: white;
+    button:hover{
+        cursor: pointer;
+        background-color: #87CEFA;
+    }
+    div{
+        display: flex;
+        width: 60%;
+    }
+    .botão-filtros {
+        margin-bottom: 0;
+        border: 1px solid grey;
+        width: 117px;
+        height: 33px;
+        border-bottom: none;
+    }
+    .CE{
+        border: 1px solid grey;
+        border-radius: 10px 0 0 0;
+        width: 117px;
+        height: 33px;
+        border-bottom: none;
+    }
+    .CD{
+        border: 1px solid grey;
+        border-radius: 0 10px 0 0 ;
+        width: 117px;
+        height: 33px;
+        border-bottom: none;
+    }
 `
 export const DataGeral = styled.div`
-position: static;
-margin: 0px;
-padding: 0px;
-overflow-x: scroll;
-overflow-y: scroll;
-width: 95%;
-height: 30vh;
-border-style: solid;
-border-width: 1px;
-margin-left: 15px;
+    width: 95%;
+    height: 45%;
+    border-style: solid;
+    border-width: 1px;
+    margin-left: auto;
+    margin-right: auto;
+    .table-responsive{
+        overflow: auto;
+        height: 70%;
+        width: 100%;
+    }
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    thead{
+        position: sticky;
+        top:0;
+    }
+    th{    
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;    
+        background-color: #ffffff;
+        border: 1px solid grey;
+        white-space: nowrap;
+    }
+    td{
+        border: 1px solid grey;
+        white-space: nowrap;
+    }
+    table tr:nth-child(even){
+        background-color: #ffffe6;
+    }
+    table tr:nth-child(odd){
+        background-color: #f0f0f0;   
+    }
+    #table tr td{
+        cursor: pointer;
+    }
+    #table tr:hover td{
+        background-color: #87CEFA;
+    }
 `
 export const Dashboard = styled.div`
 margin-top: 10px;
@@ -190,31 +223,27 @@ justify-content: space-between;
 }
 `
 export const DashboardMenor = styled.div`
-height: 31vh;
+height: 250px;
 border-style: solid;
 border-radius: 10px;
 border-width: 2px;
 display: flex;
 flex-direction: column;
-margin-left: 40px;
+margin-left: 50px;
 margin-top: 50px;
-margin-right: 40px;
+margin-right: 50px;
 .graficosReduzidos{
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-.graficoA {
-    margin: 15px;
-}
 `
 export const Dashboard0 = styled.div`
-margin-top: 10px;
 display: flex;
 margin: 10px;
 justify-content: center;
 .grafico {
-    margin-right: 10px;
+    margin: 10px;
     border-style: solid;
     border-radius: 8px;
     border-width: 1px;
