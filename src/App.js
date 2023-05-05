@@ -41,7 +41,9 @@ function App() {
 
   const [minimizado, setMinimizado] = useState({
     cadastroCliente: false,
-    editarCliete: false,
+    editarCliente: false,
+    cadastroFuncionario: false,
+    editarFuncionario: false,
     setor: false,
     nivel: false,
     familia: false,
@@ -59,6 +61,9 @@ function App() {
     <div className="App">
       <div className='op-minimizadas'>
         {minimizado.cadastroCliente && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, cadastroCliente: false}); navigate("/cadastrarCliente")}}>Cadastro Cliente</div>}
+        {minimizado.editarCliente && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, editarCliente: false}); navigate("/editarCliente/:cliente")}}>Editar Cliente</div>}
+        {minimizado.cadastroFuncionario && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, cadastroFuncionario: false}); navigate("/cadastrarFuncionario")}}>Cadastro Funcionário</div>}
+        {minimizado.editarFuncionario && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, editarFuncionario: false}); navigate("/editarFuncionario/:funcionario")}}>Editar Funcionário</div>}
         {minimizado.setor && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, setor: false})}>Cadastro Setor</div>}
         {minimizado.nivel && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, nivel: false})}>Cadastro Nivel</div>}
         {minimizado.familia && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, familia: false})}>Cadastro Familia</div>}
@@ -92,7 +97,7 @@ function App() {
               <Route path = '/clientes' element = {token ? (<ConsultarCliente setCliente={setCliente}/>) : <Login/>}/>
             ) : <Route path = "/clientes" element = {token ? (<Home/>) : <Login/>}/>}
             {nivel.cadastro_cliente_editar ? (
-              <Route path = '/editarCliente/:cliente' element = {token ? (<EditarCliente cliente={cliente} codCliente={parseFloat(codCliente)}/>) : <Login/>}/>
+              <Route path = '/editarCliente/:cliente' element = {token ? (<EditarCliente cliente={cliente} codCliente={parseFloat(codCliente)} minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
             ) : <Route path = '/editarCliente/:cliente' element = {token ? (<ConsultarCliente setCliente={setCliente}/>) : <Login/>}/>}
             {nivel.cadastro_cliente_incluir ? (
               <Route path = '/cadastrarCliente' element = {token ? (<CadastroCliente  minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
@@ -103,10 +108,10 @@ function App() {
               <Route path = '/fornecedores' element = {token ? (<ConsultarFornecedor/>) : <Login/>}/>
             ) : <Route path = "/fornecedores" element = {token ? (<Home/>) : <Login/>}/>}
             {nivel.cadastro_fornecedor_incluir ? (
-              <Route path = '/cadastrarFornecedor' element = {token ? (<CadastrarFornecedor/>) : <Login/>}/>
+              <Route path = '/cadastrarFornecedor' element = {token ? (<CadastrarFornecedor minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
             ) : <Route path = '/cadastrarFornecedor' element = {token ? (<ConsultarFornecedor/>) : <Login/>}/>}
             {nivel.cadastro_fornecedor_editar ? (
-              <Route path = '/editarFornecedor/:fornecedor' element = {token ? (<EditarFornecedor />) : <Login/>}/>
+              <Route path = '/editarFornecedor/:fornecedor' element = {token ? (<EditarFornecedor minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
             ) : <Route path = '/editarFornecedor/:fornecedor' element = {token ? (<ConsultarFornecedor/>) : <Login/>}/>}
             
             {/* Rotas de Produto */}
@@ -120,10 +125,10 @@ function App() {
               <Route path = '/funcionarios' element = {token ? (<ConsultarFuncionario/>) : <Login/>}/>
               ) : <Route path = "/funcionarios" element = {token ? (<Home/>) : <Login/>}/>}
             {nivel.cadastro_funcionario_editar ? (
-              <Route path = '/editarFuncionario/:funcionario' element = {token ? (<EditarFuncionario/>) : <Login/>}/>
+              <Route path = '/editarFuncionario/:funcionario' element = {token ? (<EditarFuncionario minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
             ) : <Route path = '/editarFuncionario/:funcionario' element = {token ? (<ConsultarFuncionario/>) : <Login/>}/>}
             {nivel.cadastro_funcionario_incluir ? (
-              <Route path = '/cadastrarFuncionario' element = {token ? (<CadastroFuncionario/>) : <Login/>}/>
+              <Route path = '/cadastrarFuncionario' element = {token ? (<CadastroFuncionario minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
             ) : <Route path = '/cadastrarFuncionario' element = {token ? (<ConsultarFuncionario/>) : <Login/>}/>}
             
             {/* Rotas de Top */}

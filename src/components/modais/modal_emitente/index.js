@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from '../modal/modal';
 import { Loading } from "../../loading/index";
 
-export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente, dadosCliente, setDadosCliente}) => {
+export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente, dadosCliente, setDadosCliente, setDadosFuncionario, dadosFuncionario}) => {
 
     const [users, setUsers] = useState([]);
     const [selectEmitente, setSelectEmitente] = useState();
@@ -32,6 +32,13 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
         })
         setDadosCliente && setDadosCliente({
             ...dadosCliente,
+            filial: {
+                id: user.id,
+                razaoSocial: user.razao_social
+            }
+        });
+        setDadosFuncionario && setDadosFuncionario({
+            ...dadosFuncionario,
             filial: {
                 id: user.id,
                 razaoSocial: user.razao_social

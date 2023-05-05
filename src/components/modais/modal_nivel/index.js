@@ -5,7 +5,7 @@ import { EditarNivel } from "../modal_editar_nivel";
 import { CadastrarNivel } from "../modal_cadastro_nivel";
 import { Loading } from "../../loading";
 
-export const Nivel = ({setNivel, close, cadastroNivel, minimizado, setMinimizado}) => {
+export const Nivel = ({setNivel, close, cadastroNivel, minimizado, setMinimizado, setDadosFuncionario, dadosFuncionario}) => {
     const [niveis, setNiveis] = useState([]);
     const [modalEditarNivel, setModalEditarNivel] = useState(false);
     const [modalCadastrarNivel, setModalCadastrarNivel] = useState(false);
@@ -20,9 +20,16 @@ export const Nivel = ({setNivel, close, cadastroNivel, minimizado, setMinimizado
     },[])
     
     const selecionado = (nivel) => {
-        setNivel({
+        setNivel && setNivel({
             codigo: nivel.id,
             nome: nivel.descricao
+        });
+        setDadosFuncionario && setDadosFuncionario({
+            ...dadosFuncionario,
+            nivelAcesso: {
+                id: nivel.id,
+                descricao: nivel.descricao
+            }
         });
         close();
     }
@@ -51,7 +58,7 @@ export const Nivel = ({setNivel, close, cadastroNivel, minimizado, setMinimizado
     const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.Modal style={{zIndex: minimizado.nivel === true ? minimizar : "1"}}>
+        <M.Modal style={{zIndex: minimizado && minimizado.nivel === true ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Nível de Acesso</h3>

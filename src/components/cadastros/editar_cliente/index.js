@@ -8,7 +8,7 @@ import { PerfilCliente } from "../../modais/modal_perfil_cliente/index";
 import { RamoAtividade } from "../../modais/modal_ramo_atividade/index";
 import * as CC from "../cadastro_cliente/cadastroCliente";
 
-export const EditarCliente = ({codCliente}) => {
+export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
     const navigate = useNavigate();
     const {user, empresa} = useContext(AuthContext);
     const idFuncionario = Array.isArray(user) && user.map((user) => user.id)
@@ -221,40 +221,18 @@ export const EditarCliente = ({codCliente}) => {
     }
 
     const salvar = async () => {
-        if(dadosCliente.cod_municipio && dadosCliente.nome && dadosCliente.cep && dadosCliente.endereco && dadosCliente.bairro && dadosCliente.filial){
-            try{
-                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
-                    method: "PUT",
-                    headers:{"Content-Type": "application/json"},
-                    body: JSON.stringify(dadosCliente)
-                });
-                if(res.status === 200){
-                    alert('salvo com sucesso');
-                    navigate('/clientes');
-                }
-            }catch(err){
-                console.log(err);
+        try{
+            const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
+                method: "PUT",
+                headers:{"Content-Type": "application/json"},
+                body: JSON.stringify(dadosCliente)
+            });
+            if(res.status === 200){
+                alert('Editado com sucesso!');
+                navigate('/clientes');
             }
-        }else if(dadosCliente.nome && dadosCliente.cod_municipio && isChecked){
-            try{
-                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
-                    method: "POST",
-                    headers:{"Content-Type": "application/json"},
-                    body: JSON.stringify(dadosCliente)
-                });
-                if(res.status === 200){
-                    alert('salvo com sucesso');
-                    navigate('/clientes');
-                }
-            }catch(err){
-                console.log(err);
-            }
-        }else if(isChecked){
-            setCorSimplificado('yellow');
-            alert('Preencha os campos a cima!');
-        }else{
-            setCorObrigatorios('yellow');
-            alert('Preencha os campos a cima!');
+        }catch(err){
+            console.log(err);
         }
     }
     
@@ -309,6 +287,7 @@ export const EditarCliente = ({codCliente}) => {
     }
 
     function minimizar (){
+        setMinimizado({...minimizado, editarCliente: true})
         navigate("/home");
         localStorage.setItem("dadosCliente", JSON.stringify(dadosCliente));
     }

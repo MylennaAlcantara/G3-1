@@ -5,7 +5,7 @@ import { CadastroSetor } from "../modal_cadastro_setor";
 import { EditarSetor } from "../modal_editar_setor";
 import { Loading } from "../../loading";
 
-export const Setor = ({setSetor, close, cadastroSetor, minimizado, setMinimizado}) => {
+export const Setor = ({setSetor, close, cadastroSetor, minimizado, setMinimizado, setDadosFuncionario, dadosFuncionario}) => {
     const [setores, setSetores] = useState([]);
     const [modalNovoSetor, setModalNovoSetor] = useState(false);
     const [modalEditarSetor, setModalEditarSetor] = useState(false);
@@ -20,11 +20,19 @@ export const Setor = ({setSetor, close, cadastroSetor, minimizado, setMinimizado
     },[])
     
     const selecionado = (setor) => {
-        setSetor({
+        setSetor && setSetor({
             codigo: setor.id,
             nome: setor.descricao,
             operador: setor.operadorDeCaixa
         });
+        setDadosFuncionario && setDadosFuncionario({
+            ...dadosFuncionario,
+            setorFuncionario: {
+                id: setor.id,
+                descricao: setor.descricao,
+                operadorDeCaixa: setor.operadorDeCaixa
+            }
+        })
         close();
     }
     const [setorSelecionado, setSetorSelecionado] = useState();
@@ -50,7 +58,7 @@ export const Setor = ({setSetor, close, cadastroSetor, minimizado, setMinimizado
     const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.Modal style={{zIndex: minimizado.setor === true ? minimizar : "1"}}>
+        <M.Modal style={{zIndex: minimizado && minimizado.setor === true ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Setor de Funcionário</h3>

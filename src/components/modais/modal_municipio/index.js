@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as M from "../modal/modal";
 import { Loading } from "../../loading/index";
 
-export const ListaMunicipio = ({close, setDadosCliente,dadosCliente}) => {
+export const ListaMunicipio = ({close, setDadosCliente, dadosCliente, setDadosFuncionario, dadosFuncionario}) => {
     const [municipios, setMunicipios] = useState([]);
     const [busca, setBusca] = useState([]);
 
@@ -16,10 +16,16 @@ export const ListaMunicipio = ({close, setDadosCliente,dadosCliente}) => {
     }, []);
 
     function selecionado (municipio){
-        setDadosCliente({
+        setDadosCliente && setDadosCliente({
             ...dadosCliente,
             cod_municipio: municipio.id,
             municipio: municipio.nome
+        })
+        setDadosFuncionario && setDadosFuncionario({
+            ...dadosFuncionario,
+            codigo_municipio: municipio.id,
+            municipio: municipio.nome,
+            uf: municipio.microrregiao.mesorregiao.UF.sigla
         })
         close();
     }
