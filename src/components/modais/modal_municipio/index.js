@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as M from "../modal/modal";
 import { Loading } from "../../loading/index";
 
-export const ListaMunicipio = ({close, setDadosCliente, dadosCliente, setDadosFuncionario, dadosFuncionario}) => {
+export const ListaMunicipio = ({close, setDadosCliente, dadosCliente, setDadosFuncionario, dadosFuncionario, setDadosFornecedor, dadosFornecedor}) => {
     const [municipios, setMunicipios] = useState([]);
     const [busca, setBusca] = useState([]);
 
@@ -26,6 +26,11 @@ export const ListaMunicipio = ({close, setDadosCliente, dadosCliente, setDadosFu
             codigo_municipio: municipio.id,
             municipio: municipio.nome,
             uf: municipio.microrregiao.mesorregiao.UF.sigla
+        });
+        setDadosFornecedor && setDadosFornecedor({
+            ...dadosFornecedor,
+            codigo_municipio: municipio.id,
+            municipio: municipio.nome,
         })
         close();
     }

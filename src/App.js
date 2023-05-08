@@ -44,6 +44,7 @@ function App() {
     editarCliente: false,
     cadastroFuncionario: false,
     editarFuncionario: false,
+    cadastroFornecedor: false,
     setor: false,
     nivel: false,
     familia: false,
@@ -64,6 +65,7 @@ function App() {
         {minimizado.editarCliente && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, editarCliente: false}); navigate("/editarCliente/:cliente")}}>Editar Cliente</div>}
         {minimizado.cadastroFuncionario && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, cadastroFuncionario: false}); navigate("/cadastrarFuncionario")}}>Cadastro Funcionário</div>}
         {minimizado.editarFuncionario && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, editarFuncionario: false}); navigate("/editarFuncionario/:funcionario")}}>Editar Funcionário</div>}
+        {minimizado.cadastroFornecedor && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, cadastroFornecedor: false}); navigate("/cadastrarFornecedor")}}>Cadastro Fornecedor</div>}
         {minimizado.setor && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, setor: false})}>Cadastro Setor</div>}
         {minimizado.nivel && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, nivel: false})}>Cadastro Nivel</div>}
         {minimizado.familia && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, familia: false})}>Cadastro Familia</div>}
