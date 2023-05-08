@@ -216,6 +216,12 @@ margin-top: 10px;
 display: flex;
 justify-content: space-between;
 .grafico {
+    align-items: center;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    width: 310px;
+    height: 210px;
     margin-right: 10px;
     border-style: solid;
     border-radius: 8px;
@@ -223,16 +229,16 @@ justify-content: space-between;
 }
 `
 export const DashboardMenor = styled.div`
-height: 250px;
+height: 45%;
 border-style: solid;
 border-radius: 10px;
 border-width: 2px;
 display: flex;
+background-color: #ffffff;
 flex-direction: column;
-margin-left: 50px;
-margin-top: 50px;
-margin-right: 50px;
+margin: 50px;
 .graficosReduzidos{
+    width: 95%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -241,8 +247,15 @@ margin-right: 50px;
 export const Dashboard0 = styled.div`
 display: flex;
 margin: 10px;
+align-items: center;
 justify-content: center;
 .grafico {
+    background-color: #ffffff;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 310px;
+    height: 210px;
     margin: 10px;
     border-style: solid;
     border-radius: 8px;

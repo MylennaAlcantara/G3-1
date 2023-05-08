@@ -32,32 +32,32 @@ export const ResumoFaturamento = () => {
 
     //--------------------------------------------------------------Filtros Parte de Cima-------------------------------------------------------------------------
 
-    const [query, setQuery] = useState("");
-    const [query1, setQuery1] = useState("");
+    const [query, setQuery] = useState(""); //Busca de Filial (Topo Esquerda)
+    const [query1, setQuery1] = useState(""); //Busca de TOP
     const [query2, setQuery2] = useState("");
     const [query3, setQuery3] = useState("");
-    const [query4, setQuery4] = useState("");
-    const [query5, setQuery5] = useState("");
-    const [query6, setQuery6] = useState("");
-    const [query7, setQuery7] = useState("");
-    const [query8, setQuery8] = useState("");
+    const [query4, setQuery4] = useState(""); //Busca Vendedor
+    const [query5, setQuery5] = useState(""); //Busca Cliente
+    const [query6, setQuery6] = useState(""); //Busca Produto
+    const [query7, setQuery7] = useState(""); //Busca Grupo
+    const [query8, setQuery8] = useState(""); //Busca Fornecedor 
 
-    const [filter, setFilter] = useState("");
-    const [dataIni, setDataIni] = useState("");
-    const [dataFin, setDataFin] = useState("");
+    const [filter, setFilter] = useState(""); //Pega Valor da opção selecionada ("VENDA", "TODOS", "ORÇAMENTO")
+    const [dataIni, setDataIni] = useState(""); //Pega Data inicial 
+    const [dataFin, setDataFin] = useState(""); //Pega Data Final
 
-    const [dados, setDados] = useState([]);
-    const [dadosRegiao, setDadosRegiao] = useState([]);
-    const [dadosCliente, setDadosCliente] = useState([]);
-    const [dadosTipoPagamento, setDadosTipoPagamento] = useState([]);
-    const [dadosVendedor, setDadosVendedor] = useState([]);
-    const [dadosProduto, setDadosProduto] = useState([]);
-    const [dadosGrupo, setDadosGrupo] = useState([]);
-    const [dadosFornecedor, setDadosFornecedor] = useState([]);
+    const [dados, setDados] = useState([]); //Pega Dados de Filial
+    const [dadosRegiao, setDadosRegiao] = useState([]); //Pega dados de Região
+    const [dadosCliente, setDadosCliente] = useState([]); //Pega dados de Cliente 
+    const [dadosTipoPagamento, setDadosTipoPagamento] = useState([]); //Pega dados de Tipo de Pagamento
+    const [dadosVendedor, setDadosVendedor] = useState([]); //Pega dados de Vendedor 
+    const [dadosProduto, setDadosProduto] = useState([]); //Pega dados de Produtos
+    const [dadosGrupo, setDadosGrupo] = useState([]); //Pega dados de Grupo
+    const [dadosFornecedor, setDadosFornecedor] = useState([]); //Pega dados de Fornecedor 
 
-    const [checkNFE, setCheckNFE] = useState(false);
-    const [checkNFCE, setCheckNFCE] = useState(false);
-    const [checkTOP, setCheckTOP] = useState(true);
+    const [checkNFE, setCheckNFE] = useState(true); //Ve se o checkbox(NF-e) esta marcado (Por padrão ja vem marcado)
+    const [checkNFCE, setCheckNFCE] = useState(true); //Ve se o checkbox(NFC-e) esta marcado (Por padrão ja vem marcado)
+    const [checkTOP, setCheckTOP] = useState(true); //Ve se o Checkbox(Incluir T.OP. Salvas) esta marcado (Por padrão ja vem marcado)
 
     const customStyles = {
         content: {
@@ -87,14 +87,15 @@ export const ResumoFaturamento = () => {
         setCheckTOP(e.currentTarget.checked);
     }
 
-    console.log(filter)
-
     const [valor, setValor] = useState([])
-    console.log(valor)
+
     const [valorTop, setValorTop] = useState([])
-    console.log(valorTop)
 
     const valorFilial = valor.map((test) => (
+        (test.id)
+    ))
+
+    const valorIdTop = valorTop.map((test) => (
         (test.id)
     ))
 
@@ -105,8 +106,8 @@ export const ResumoFaturamento = () => {
         "statusVenda": filter,
         "dataInicial": dataIni,
         "dataFinal": dataFin,
-        "idFilial": valorFilial[0],
-        "idTop": null
+        "idFilial": valorFilial.toString(),
+        "idTop": valorIdTop.toString()
     }
 
     const [dataSelectEmitente, setDataSelectEmitente] = useState();
@@ -758,6 +759,7 @@ export const ResumoFaturamento = () => {
     const resultTpPg6 = dadosLeitura.reduce((a, b) => a + b.credito_loja, 0)
     const resultTpPg7 = dadosLeitura.reduce((a, b) => a + b.cancelamento_total, 0)
     const resultTpPg8 = dadosLeitura.reduce((a, b) => a + b.desconto_total, 0)
+    
     const resultTpPg9 = dadosLeitura.reduce((a, b) => a + b.vale_alimentacao, 0)
     const resultTpPg10 = dadosLeitura.reduce((a, b) => a + b.vale_combustivel, 0)
     const resultTpPg11 = dadosLeitura.reduce((a, b) => a + b.vale_presente, 0)
@@ -993,8 +995,8 @@ export const ResumoFaturamento = () => {
 
     const barOptionsGru = {
         title: "Valores Totais Grupos.",
-        width: 300,
-        height: 200,
+        width: "100%",
+        height: '23vh',
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
@@ -1220,9 +1222,9 @@ export const ResumoFaturamento = () => {
                         <div className="select">
                             <label>Status NFC-e</label>
                             <select onChange={(e) => setFilter(e.target.value)}>
-                                <option id='todo' value="%">TODOS</option>
-                                <option value="v">VENDA</option>
-                                <option value="o">ORÇAMENTO</option>
+                                <option id='todo' value="TODOS">TODOS</option>
+                                <option value="VENDA">VENDA</option>
+                                <option value="ORCAMENTO">ORÇAMENTO</option>
                             </select>
                         </div>
                     </div>
@@ -1238,14 +1240,14 @@ export const ResumoFaturamento = () => {
             </RF.Filtros>
             <RF.Navigacao>
                 <div>
-                    <button className='CE' onClick={() => setOpenAba("regiao")} >Região</button>
-                    <button className='botão-filtros' onClick={() => setOpenAba("filial")}  >Filial</button>
-                    <button className='botão-filtros' onClick={() => setOpenAba("vendedor")} > Vendedor </button>
-                    <button className='botão-filtros' onClick={() => setOpenAba("cliente")} > Cliente </button>
-                    <button className='botão-filtros' onClick={() => setOpenAba("tpPg")} > Tipo de Pagamento </button>
-                    <button className='botão-filtros' onClick={() => setOpenAba("produto")} > Produto </button>
-                    <button className='botão-filtros' onClick={() => setOpenAba("grupo")} > Grupo </button>
-                    <button className='CD' onClick={() => setOpenAba("fornecedor")} >Fornecedor</button>
+                    <button className='CE' style={{backgroundColor: aba === "regiao" ? "#8CB9DF" : "", borderBottom: aba === 'regiao' ? "none" : ""}} onClick={() => setOpenAba("regiao")} >Região</button>
+                    <button className='botão-filtros' style={{backgroundColor: aba === "filial" ? "#8CB9DF" : "", borderBottom: aba === 'filial' ? "none" : ""}} onClick={() => setOpenAba("filial")}  >Filial</button>
+                    <button className='botão-filtros' style={{backgroundColor: aba === "vendedor" ? "#8CB9DF" : "", borderBottom: aba === 'vendedor' ? "none" : ""}} onClick={() => setOpenAba("vendedor")} > Vendedor </button>
+                    <button className='botão-filtros' style={{backgroundColor: aba === "cliente" ? "#8CB9DF" : "", borderBottom: aba === 'cliente' ? "none" : ""}}onClick={() => setOpenAba("cliente")} > Cliente </button>
+                    <button className='botão-filtros' style={{backgroundColor: aba === "tpPg" ? "#8CB9DF" : "", borderBottom: aba === 'tpPg' ? "none" : ""}}onClick={() => setOpenAba("tpPg")} > Tipo de Pagamento </button>
+                    <button className='botão-filtros' style={{backgroundColor: aba === "produto" ? "#8CB9DF" : "", borderBottom: aba === 'produto' ? "none" : ""}}onClick={() => setOpenAba("produto")} > Produto </button>
+                    <button className='botão-filtros' style={{backgroundColor: aba === "grupo" ? "#8CB9DF" : "", borderBottom: aba === 'grupo' ? "none" : ""}}onClick={() => setOpenAba("grupo")} > Grupo </button>
+                    <button className='CD' style={{backgroundColor: aba === "fornecedor" ? "#8CB9DF" : "", borderBottom: aba === 'fornecedor' ? "none" : ""}} onClick={() => setOpenAba("fornecedor")} >Fornecedor</button>
                 </div>
             </RF.Navigacao>
 
@@ -1936,9 +1938,9 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataRegiao} options={options} className="grafico" />
-                        <Chart chartType="Bar" width="300px" height="200px" data={dataRe0} options={optionsRe0} className="grafico" />
-                        <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px" className="grafico" />
+                        <div className='grafico'> <Chart chartType="ColumnChart" width="300px" height="200px" data={dataRegiao} options={options} /></div>
+                        <div className='grafico'><Chart chartType="Bar" width="300px" height="200px" data={dataRe0} options={optionsRe0} /></div>
+                        <div className='grafico'> <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px" /></div>
                     </RF.Dashboard>
 
                     <RF.Dashboard0>
@@ -2227,7 +2229,8 @@ export const ResumoFaturamento = () => {
 
                         })}</label>
 
-                        <Chart chartType="BarChart" data={barData} options={barOptions} className='grafico' />
+                        <div className='grafico'> <Chart chartType="BarChart" data={barData} options={barOptions} /> </div>
+
                     </RF.Dashboard0>
 
                 </div>
@@ -2272,13 +2275,13 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard className='dashboard' >
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFilial} className="grafico" />
-                        <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} className="grafico" />
-                        <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="300px" height="200px" className="grafico" />
+                        <div className='grafico' > <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFilial} /> </div>
+                        <div className='graficoLongo' > <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} /> </div>
+                        <div className='grafico' > <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="300px" height="200px" /> </div>
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <Chart chartType="Bar" width="300px" height="200px" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" className="grafico" />
+                        <div className='grafico'> <Chart chartType="Bar" width="300px" height="200px" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" /> </div>
                     </RF.Dashboard>
 
                 </div>
@@ -2331,15 +2334,16 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor} className="grafico" />
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} className="grafico" />
-                        <Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="300px" height="200px" className="grafico" />
+                        <div className='grafico' > <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor} /> </div>
+                        <div className="grafico"><Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0}  /></div>
+                        <div className="grafico"><Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="300px" height="200px" /></div>    
                     </RF.Dashboard>
 
                 </div>
 
                 <RF.Dashboard>
-                    <Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} className="grafico" />
+                    <div className="graficoLongo"><Chart chartType="BarChart" data={barDataVen} options={barOptionsVen}  /></div>
+                    
                 </RF.Dashboard>
 
             </Modal>
@@ -2386,9 +2390,9 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard >
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataCliente} className="grafico" />
-                        <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico" />
-                        <Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"300px"} height={"200px"} className="grafico" />
+                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataCliente} /></div>
+                        <div className="grafico"><Chart chartType="BarChart" data={barDataCli} options={barOptionsCli}  /></div>
+                        <div className="grafico"><Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"300px"} height={"200px"}  /></div>    
                     </RF.Dashboard>
 
                     <Modal isOpen={dashboardDezCliente} onRequestClose={closeDashboardDezCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
@@ -2417,9 +2421,9 @@ export const ResumoFaturamento = () => {
                                 <RF.DashboardMenor>
                                     <h2>{dados.cliente}</h2>
                                     <div className='graficosReduzidos'>
-                                        <Chart chartType="ColumnChart" width="20vw" height="25vh" data={dashboard} className="graficoA" />
-                                        <Chart chartType="ColumnChart" width="20vw" height="25vh" data={dashboard1} className="graficoA" />
-                                        <Chart chartType="PieChart" width="20vw" height="25vh" data={dashboard2} options={optionsCli} className="graficoA" />
+                                        <div className="graficoA"><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard}  /></div>
+                                        <div className="graficoA"><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard1}  /></div>
+                                        <div className="graficoA" ><Chart chartType="PieChart" width="100%" height="23vh" data={dashboard2} options={optionsCli} /></div>
                                     </div>
 
                                 </RF.DashboardMenor>
@@ -2498,33 +2502,33 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts'>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeAlimentacao.png' /> Alimentação: R$ {resultTpPg9}
+                            <img className='cifrões' src='/images/valeAlimentacao.png' /> Alimentação: R$ {resultTpPg9.toString().replace('NaN', '0,00')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10}
+                            <img className='cifrões' src='/images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10.toString().replace('NaN', '0,00')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valePresente.png' /> Presente: R$ {resultTpPg11}
+                            <img className='cifrões' src='/images/valePresente.png' /> Presente: R$ {resultTpPg11.toString().replace('NaN', '0,00')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeRefeicao.png' /> Refeição: R$ {resultTpPg12}
+                            <img className='cifrões' src='/images/valeRefeicao.png' /> Refeição: R$ {resultTpPg12.toString().replace('NaN', '0,00')}
                         </h2>
                     </div>
 
                     <RF.Dashboard>
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataTpPg} className="grafico" />
-                        <Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} className="grafico" />
-                        <Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="300px" height="200px" className="grafico" />
+                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataTpPg} /> </div>
+                        <div className="graficoLongo" ><Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} /> </div>
+                        <div className="grafico" ><Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="300px" height="200px" /> </div>
                     </RF.Dashboard>
 
                 </div>
 
                 <RF.Dashboard>
-                    <Chart chartType="Bar" width="75%" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico" />
-                    <Chart chartType="ColumnChart" width="350px" height="250px" data={dataTpPgVale} className="grafico" />
+                    <div className='graficoLongoB' ><Chart chartType="Bar" width="90%" height="230px" data={dataTpPg0} options={optionsCli0} /></div>
+                    <div className='graficoLongoA' > <Chart chartType="ColumnChart" width="350px" height="230px" data={dataTpPgVale} /></div>
                 </RF.Dashboard>
 
             </Modal>
@@ -2562,9 +2566,9 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataProd} className="grafico" />
-                        <Chart chartType="PieChart" data={dataProd} options={optionsProd} width="300px" height="200px" className="grafico" />
-                        <Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} className="grafico" />
+                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataProd} /></div>
+                        <div className="grafico" ><Chart chartType="PieChart" data={dataProd} options={optionsProd} width="300px" height="200px"/></div>
+                        <div className="grafico" ><Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} /></div>
                     </RF.Dashboard>
 
                     <RF.Dashboard>
@@ -2616,9 +2620,9 @@ export const ResumoFaturamento = () => {
 
                                 <h2>{prod.produto}</h2>
                                 <div className='graficosReduzidos' >
-                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
-                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard1} className="graficoA" />
-                                    <Chart chartType="BarChart" data={dashboard2} options={barOptionsGru} className="graficoA" />
+                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard} /></div>
+                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard1} /></div>
+                                    <div className="graficoA" ><Chart chartType="BarChart" data={dashboard2} options={barOptionsGru} /></div>
                                 </div>
 
                             </RF.DashboardMenor>
@@ -2658,9 +2662,9 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} className="grafico" />
-                        <Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} className="grafico" />
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru2} className="grafico" />
+                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} /></div>
+                        <div className="grafico" ><Chart chartType="BarChart" data={barDataGru} options={barOptionsGru}/></div>
+                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru2} /></div>
                     </RF.Dashboard>
 
                     <RF.Dashboard>
@@ -2731,7 +2735,7 @@ export const ResumoFaturamento = () => {
 
             </Modal>
 
-            <Modal isOpen={dashboardFornecedor} onRequestClose={closeDashboardFornecedor} shouldCloseOnOverlayClick={false} style={customStyles} >
+            <Modal isOpen={dashboardFornecedor} onRequestClose={closeDashboardFornecedor} shouldCloseOnOverlayClick={false} style={customStyles} overlayClassName="null"  >
 
                 <button onClick={closeDashboardFornecedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
@@ -2763,8 +2767,8 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard0>
-                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} className="grafico" />
-                        <Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} className="grafico" />
+                        <div className="grafico"><Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor}  /> </div>
+                        <div className="grafico"><Chart chartType="BarChart" data={barDataFor} options={barOptionsFor}  /> </div>
                     </RF.Dashboard0>
 
                     <RF.Dashboard>
@@ -2778,7 +2782,8 @@ export const ResumoFaturamento = () => {
 
                 </div>
 
-                <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardDetalhado' >
+                <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardDetalhado'  overlayClassName="dashboard-overlay"  >
+                <button className='closeBtnMenor' onClick={closeDashboardFornecedorDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
                     {dadosFornecedorDetalhado.map((forn) => {
 
                         const dashboard = [

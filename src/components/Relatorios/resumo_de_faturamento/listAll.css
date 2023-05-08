@@ -144,12 +144,16 @@ label {
     transform: translate(-50%, -50%);
     width: 70%;
     height: 75%;
-    background-color: white;
+    background-color: #1e81b0;
 }
 
 .graficoA {
-    margin-top: 5px;
-    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32%;
+    height: 95%;
+    margin: 10px;
     position: relative;
     border-style: solid;
     border-width: 1px;
@@ -195,6 +199,7 @@ label {
 }
 
 .bestRegion {
+    margin-top: -1px;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -203,8 +208,47 @@ label {
     border-radius: 7px;
     border-width: 1px;
     width: 26vw;
-    height: 200px;
+    height: 210px;
     margin-right: 20px;
+}
+
+.graficoLongo{
+    align-items: center;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+    height: 210px;
+    margin-right: 10px;
+    border-style: solid;
+    border-radius: 8px;
+    border-width: 1px;
+}
+
+.graficoLongoB{
+    align-items: center;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    width: 65%;
+    height: 250px;
+    margin-right: 10px;
+    border-style: solid;
+    border-radius: 8px;
+    border-width: 1px;
+}
+
+.graficoLongoA{
+    align-items: center;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    width: 360px;
+    height: 250px;
+    margin-right: 10px;
+    border-style: solid;
+    border-radius: 8px;
+    border-width: 1px;
 }
 
 .btns {
