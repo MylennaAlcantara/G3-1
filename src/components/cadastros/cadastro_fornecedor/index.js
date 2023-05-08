@@ -215,8 +215,7 @@ export const CadastrarFornecedor = ({minimizado, setMinimizado}) => {
                             <div className="cnpj-cpf">
                                 <div>
                                     <label>Tipo</label>
-                                    <select id="optionTipoDoc" onChange={(e)=> setDadosFornecedor({...dadosFornecedor, tipo_documento: e.target.value})}>
-                                        <option value={dadosFornecedor.tipo_documento}>{dadosFornecedor.tipo_documento}</option>
+                                    <select id="optionTipoDoc" value={dadosFornecedor.tipo_documento} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, tipo_documento: e.target.value})}>
                                         <option value="CNPJ">CNPJ</option>
                                         <option value="CPF">CPF</option>
                                     </select>
@@ -230,7 +229,7 @@ export const CadastrarFornecedor = ({minimizado, setMinimizado}) => {
                                     <label>IE.: </label>
                                     <input className="input-documentos" value={dadosFornecedor.ie} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, ie: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
                                 </div>
-                                <select id="optionRegi" onChange={(e)=> setDadosFornecedor({...dadosFornecedor, idRegimeTributario: e.target.value})}>
+                                <select id="optionRegi" value={dadosFornecedor.idRegimeTributario} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, idRegimeTributario: e.target.value})}>
                                     <option value="0">0 - Escolha um regime...</option>
                                     <option value="1">1 - SIMPLES NACIONAL</option>
                                     <option value="2">2 - SIMPLES NACIONAL EXCESSO</option>
@@ -277,8 +276,7 @@ export const CadastrarFornecedor = ({minimizado, setMinimizado}) => {
                                     <img src="/images/add.png" onClick={pesquisarMuni}/>
                                     <input className="municipio" id="municipio" value={dadosFornecedor.municipio} style={{backgroundColor: corObrigatorios}} readOnly/>
                                     <label>UF: </label>
-                                    <select className="codigo" id="option" onChange={(e)=> setDadosFornecedor({...dadosFornecedor, uf: e.target.value})}>
-                                        <option value={dadosFornecedor.value}>{dadosFornecedor.uf}</option>
+                                    <select className="codigo" id="option" value={dadosFornecedor.uf} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, uf: e.target.value})}>
                                         {estados. sort(comparar).map((estado)=> {
                                             return <option value={estado.sigla}>{estado.sigla}</option>
                                         })}

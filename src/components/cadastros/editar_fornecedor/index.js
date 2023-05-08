@@ -8,24 +8,11 @@ import { Saler } from "../../modais/modal_vendedor";
 import * as CC from "../cadastro_cliente/cadastroCliente";
 import * as CF from "../cadastro_fornecedor/cadastroFornecedor";
 
-export const EditarFornecedor = () => {
+export const EditarFornecedor = ({minimizado, setMinimizado}) => {
     const navigate = useNavigate();
     const {user, empresa} = useContext(AuthContext);
     const idFuncionario = Array.isArray(user) && user.map((user) => user.id)
-    const [endereco, setEndereco] = useState([]);
     const [estados, setEstados] = useState([]);
-    const [dadosCidades, setDadosCidades] = useState({
-        codigo: "",
-        nome: ""
-    });
-    const [dadosPaises, setDadosPaises] = useState([]);
-    const [dataIdSelectSaler,setDataIdSelectSaler] = useState([]);
-    const [dataSelectSaler,setDataSelectSaler] = useState([]);
-    const [dataCadastro, setDataCadastro] = useState();
-    const [idFornecedor, setIdFornecedor] = useState();
-    const selectTipoDoc = document.getElementById('optionTipoDoc');
-    const selectRegi = document.getElementById('optionRegi');
-    const selectUf = document.getElementById('option');
 
     const codigoFornecedor = localStorage.getItem('idFornecedor')
     useEffect(() => {
@@ -37,67 +24,87 @@ export const EditarFornecedor = () => {
         async function fetchDataFornecedor (){
             const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/${codigoFornecedor}`);
             const data = await response.json();
-            setIdFornecedor(data.id);
-            setCep(data.cep);
-            setNome(data.razao_social);
-            setFantasia(data.nome_fantasia);
-            setContato(data.contato);
-            setComplemento(data.complemento);
-            setLogradouro(data.endereco);
-            setNumero(data.numero);
-            setBairro(data.bairro);
-            setTelefone(data.telefone);
-            setEmail(data.email);
-            setUf(data.uf)
-            setFax(data.fax);
-            setCnpj(data.numero_documento);
-            setIe(data.ie);
-            setDataIdSelectSaler(data.id_comprador);
-            setDataSelectSaler(data.nome_comprador);
-            setDataCadastro(data.data_cadastro);
-            setTipoDocumento(data.tipo_documento);
-            setTipoRegime(data.idRegimeTributario)
-            setDadosCidades({
-                codigo: data.codigo_municipio,
-                nome: data.municipio
-            });
-            setDadosPaises({
-                codigo: data.codigo_pais,
-                nome: data.pais
-            });
-            selectTipoDoc.value = tipoDocumento;
-            selectRegi.value = tipoRegime;
-            selectUf.value = uf
+            setDadosFornecedor({
+                id: data.id,
+                razao_social: data.razao_social,
+                contato: data.contato,
+                endereco: data.endereco,
+                numero: data.numero,
+                complemento: data.complemento,
+                municipio: data.municipio,
+                codigo_municipio: data.codigo_municipio,
+                codigo_pais: data.codigo_pais,
+                pais: data.pais,
+                bairro: data.bairro,
+                uf: data.uf,
+                cep: data.cep,
+                tipo_documento: data.tipo_documento,
+                ie: data.ie,
+                telefone: data.telefone,
+                fax: data.fax,
+                email: data.email,
+                data_cadastro: data.data_cadastro,
+                ativo: data.ativo,
+                numero_documento: data.numero_documento,
+                nome_fantasia: data.nome_fantasia,
+                excluido: data.excluido,
+                id_usuario_insercao: data.id_usuario_insercao,
+                idRegimeTributario: data.idRegimeTributario,
+                id_comprador: data.id_comprador,
+                nome_comprador: data.nome_comprador,
+                senha_cotacao: data.senha_cotacao,
+                ativo: data.ativo
+            })
         }
         fetchData();
         fetchDataFornecedor();
     }, []);
 
-    //dados da parte de informações
-    const [cep, setCep] = useState('');
-    const [nome, setNome] = useState('');
-    const [fantasia, setFantasia] = useState('');
-    const [contato, setContato] = useState('');
-    const [complemento, setComplemento] = useState('');
-    const [logradouro, setLogradouro] = useState('');
-    const [numero, setNumero] = useState('');
-    const [bairro, setBairro] = useState('');
-    const [uf, setUf] = useState();
-    const [telefone, setTelefone] = useState('');
-    const [email, setEmail] = useState('');
-    const [fax, setFax] = useState('');
-    const [tipoDocumento, setTipoDocumento] = useState();
-    const [tipoRegime, setTipoRegime] = useState();
-
-    const[cnpj, setCnpj] = useState('');
-    const[ie, setIe] = useState('');
+    const [dadosFornecedor, setDadosFornecedor] = useState((JSON.parse(localStorage.getItem("dadosFornecedor"))) || {
+        id: "",
+        razao_social: "",
+        contato: "",
+        endereco: "",
+        numero: "",
+        complemento: "",
+        municipio: "",
+        codigo_municipio: "",
+        codigo_pais: "",
+        pais: "",
+        bairro: "",
+        uf: "",
+        cep: "",
+        tipo_documento: "",
+        ie: "",
+        telefone: "",
+        fax: "",
+        email: "",
+        data_cadastro: "",
+        data_edicao: "",
+        ativo: "",
+        numero_documento: "",
+        nome_fantasia: "",
+        excluido: "",
+        id_usuario_insercao: parseInt(idFuncionario),
+        idRegimeTributario: "",
+        id_comprador: "",
+        nome_comprador: "",
+        senha_cotacao: "",
+        ativo: true
+    })
 
     const [corObrigatorios, setCorObrigatorios] = useState('');
 
     async function pesquisarCep () {
-        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const response = await fetch(`https://viacep.com.br/ws/${dadosFornecedor.cep}/json/`);
         const data = await response.json();
-        setEndereco(data);
+        setDadosFornecedor({...dadosFornecedor, 
+            endereco: data.logradouro,
+            bairro: data.bairro,
+            municipio: data.localidade,
+            uf: data.uf,
+            codigo_municipio: data.ibge
+        });
     }    
     function pesquisarMuni(){
         setIsModalMunicipio(true);
@@ -150,8 +157,6 @@ export const EditarFornecedor = () => {
     }
 
     //Pegar hora do computador
-    const [dataEdicao, setDataEdicao] = useState('');
-
     const data = new Date();
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth()+ 1).padStart(2, '0') ;
@@ -160,55 +165,23 @@ export const EditarFornecedor = () => {
 
     useEffect(()=>{
         async function setarHoraData(){
-            setDataEdicao(String(dataAtual));
+            setDadosFornecedor({...dadosFornecedor, data_edicao: String(dataAtual)});
         } 
         setarHoraData();
     },[])
     
     const salvar = async () => {
-        const enderecoRua = document.getElementById('endereco').value;
-        const bairro = document.getElementById('bairro').value;
-        const municipio = document.getElementById('municipio').value;
-        const codMunicipio = document.getElementById('codigoMunicipio').value;
-        if(cnpj && nome && cep && enderecoRua && bairro && numero && codMunicipio && municipio && dataIdSelectSaler){
+        if(dadosFornecedor.numero_documento && dadosFornecedor.razao_social && dadosFornecedor.cep && dadosFornecedor.endereco && dadosFornecedor.bairro && dadosFornecedor.numero && dadosFornecedor.codigo_municipio && dadosFornecedor.municipio && dadosFornecedor.id_comprador){
             try{
                 const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/edit", {
                     method: "PUT",
                     headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({
-                        id: idFornecedor,
-                        razao_social: nome,
-                        contato: contato,
-                        endereco: enderecoRua,
-                        numero: numero,
-                        complemento: complemento,
-                        municipio: municipio,
-                        codigo_municipio: codMunicipio,
-                        codigo_pais: dadosPaises.codigo,
-                        pais: dadosPaises.nome,
-                        bairro: bairro,
-                        uf: uf,
-                        cep: cep,
-                        tipo_documento: tipoDocumento,
-                        ie: ie,
-                        telefone: telefone,
-                        fax: fax,
-                        email: email,
-                        data_cadastro: dataCadastro,
-                        data_edicao: dataEdicao,
-                        ativo:true,
-                        numero_documento: parseFloat(cnpj),
-                        nome_fantasia: fantasia,
-                        excluido:false,
-                        id_usuario_insercao: parseFloat(idFuncionario),
-                        idRegimeTributario: tipoRegime,
-                        id_comprador: dataIdSelectSaler,
-                        nome_comprador: dataSelectSaler,
-                        senha_cotacao:null
-                    })
+                    body: JSON.stringify(dadosFornecedor)
                 });
                 if(res.status === 200 || res.status === 201){
                     navigate('/fornecedores');
+                    localStorage.removeItem('idFornecedor');
+                    localStorage.removeItem('dadosFornecedor');
                     alert("Alterado com sucesso!");
                 }
             }catch (err){
@@ -219,37 +192,58 @@ export const EditarFornecedor = () => {
             alert("Preencha os campos acima!")
         }
     }
+
+    function minimizar (){
+        setDadosFornecedor({...dadosFornecedor, id_usuario_insercao: parseInt([0].idFuncionario)})
+        setMinimizado({...minimizado, editarFornecedor: true})
+        navigate("/home");
+        localStorage.setItem("dadosFornecedor", JSON.stringify(dadosFornecedor));
+    }
     const voltar = () => {
+        localStorage.removeItem('dadosFornecedor');
         localStorage.removeItem('idFornecedor');
         navigate('/fornecedores');
+    }
+    const comparar = (a, b) => {
+        if(a.sigla < b.sigla ){
+            return -1;
+        }else if(a.sigla > b.sigla){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)} </C.NaviBar>
             <C.Header>
-                <h3>Cadastrar Fornecedor</h3>
+                <h3>Editar Fornecedor</h3>
+                <div className="buttons">
+                    <button className="minimizar" onClick={minimizar}><div className="linha"/></button>
+                    <button className="close" onClick={voltar}>X</button>
+                </div>
             </C.Header>
             <CC.DadosCliente>
                     <div>
                         <label>Fornecedor: </label>
-                        <input value={idFornecedor} readOnly/>
+                        <input readOnly/>
                     </div>
                     <div className="checkbox">
                         <div>
-                            <input className="checkbox" type='checkbox'/>
+                            <input className="checkbox" type='checkbox' checked={dadosFornecedor.ativo ? true : false} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, ativo: !dadosFornecedor.ativo})}/>
                             <label>Ativo</label>
                     </div>
                     <div>
                         <label>Data: </label>
-                        <input value={dataCadastro} readOnly/>
+                        <input readOnly/>
                     </div>
                     </div>
             </CC.DadosCliente>
             <CC.Navegacao>
                 <div onClick={dadosGerais} style={{backgroundColor: aba === "dados-gerais" ? "white" : "", borderBottom: aba === "dados-gerais" ? "0" : ""}}>Dados Gerais</div>
                 <div onClick={outrosDados} style={{backgroundColor: aba === "outros-dados" ? "white" : "", borderBottom: aba === "outros-dados" ? "0" : ""}}>Outros Dados</div>
-                <div onClick={controleCheques} style={{backgroundColor: aba === "controle-Cheques" ? "white" : "", borderBottom: aba === "controle-Cheques" ? "0" : ""}}>Histórico</div>
+                <div onClick={historico} style={{backgroundColor: aba === "historico" ? "white" : "", borderBottom: aba === "historico" ? "0" : ""}}>Histórico</div>
                 <div onClick={controleCheques} style={{backgroundColor: aba === "controle-Cheques" ? "white" : "", borderBottom: aba === "controle-Cheques" ? "0" : ""}}>Controle de Cheques</div>
             </CC.Navegacao>
             {aba === "dados-gerais" ? 
@@ -260,21 +254,21 @@ export const EditarFornecedor = () => {
                             <div className="cnpj-cpf">
                                 <div>
                                     <label>Tipo</label>
-                                    <select value={tipoDocumento} onChange={(e)=> setTipoDocumento(e.target.value)} id="optionTipoDoc">
+                                    <select id="optionTipoDoc" value={dadosFornecedor.tipo_documento} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, tipo_documento: e.target.value})}>
                                         <option value="CNPJ">CNPJ</option>
                                         <option value="CPF">CPF</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>Nº: </label>
-                                    <input className="input-documentos" value={cnpj} onChange={(e)=> setCnpj(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
+                                    <input className="input-documentos" value={dadosFornecedor.numero_documento} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, numero_documento: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
                                     <img src="/images/LUPA.png"/>
                                 </div>
                                 <div>
                                     <label>IE.: </label>
-                                    <input className="input-documentos" value={ie} onChange={(e)=> setIe(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
+                                    <input className="input-documentos" value={dadosFornecedor.ie} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, ie: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
                                 </div>
-                                <select value={tipoRegime} onChange={(e)=> setTipoRegime(e.target.value)} id="optionRegi">
+                                <select id="optionRegi" value={dadosFornecedor.idRegimeTributario} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, idRegimeTributario: e.target.value})}>
                                     <option value="0">0 - Escolha um regime...</option>
                                     <option value="1">1 - SIMPLES NACIONAL</option>
                                     <option value="2">2 - SIMPLES NACIONAL EXCESSO</option>
@@ -289,77 +283,60 @@ export const EditarFornecedor = () => {
                                 <legend>Informações</legend>
                                 <div>
                                     <label>Razão Social: </label>
-                                    <input className="input-unico" value={nome} onChange={(e)=> setNome(e.target.value)} style={{backgroundColor: corObrigatorios}} />
+                                    <input className="input-unico" value={dadosFornecedor.razao_social} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, razao_social: e.target.value})} style={{backgroundColor: corObrigatorios}} />
                                 </div>
                                 <div>
                                     <label>Nome Fantasia: </label>
-                                    <input className="input-unico" value={fantasia} onChange={(e)=> setFantasia(e.target.value)}/>
+                                    <input className="input-unico" value={dadosFornecedor.nome_fantasia} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, nome_fantasia: e.target.value})}/>
                                 </div>
                                 <div>
                                     <label>Contato: </label>
-                                    <input className="input-unico" value={contato} onChange={(e)=> setContato(e.target.value)}/>
+                                    <input className="input-unico" value={dadosFornecedor.contato} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, contato: e.target.value})}/>
                                 </div>
                                 <div className="div-input">
                                     <label>CEP: </label>
-                                    <input className="codigo" value={cep} onChange={(e) => setCep(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
+                                    <input className="codigo" value={dadosFornecedor.cep} onChange={(e) => setDadosFornecedor({...dadosFornecedor, cep: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
                                     <img src="/images/LUPA.png" onClick={pesquisarCep}/>
                                 </div>
                                 <div className="div-input">
                                     <label>Endereço/Nº: </label>
-                                    {endereco.logradouro ? (
-                                        <input value={endereco.logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
-                                        ) : (
-                                        <input value={logradouro} id="endereco" onChange={(e)=> setLogradouro(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
-                                    )}
-                                    <input className="codigo" value={numero} onChange={(e)=> setNumero(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
+                                    <input value={dadosFornecedor.endereco} id="endereco" onChange={(e)=> setDadosFornecedor({...dadosFornecedor, endereco: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
+                                    <input className="codigo" value={dadosFornecedor.numero} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, numero: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
                                 </div>
                                 <div className="div-input">
                                     <label>Bairro: </label>
-                                    {endereco.bairro ? (
-                                        <input className="bairro" id="bairro" value={endereco.bairro} onChange={(e)=> setBairro(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
-                                    ) : (
-                                        <input className="bairro" id="bairro" value={bairro} onChange={(e)=> setBairro(e.target.value)} style={{backgroundColor: corObrigatorios}}/>
-                                    )}
+                                    <input className="bairro" id="bairro" value={dadosFornecedor.bairro} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, bairro: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
                                     <label>Complemento: </label>
-                                    <input className="complemento" value={complemento} onChange={(e)=> setComplemento(e.target.value)}/>
+                                    <input className="complemento" value={dadosFornecedor.complemento} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, complemento: e.target.value})}/>
                                 </div>
                                 <div className="div-input">
                                     <label>Municipio: </label>
-                                    {endereco.ibge ? (
-                                        <input className="codigo" id="codigoMunicipio" value={endereco.ibge} onKeyDown={keyMunicipio} style={{backgroundColor: corObrigatorios}} readOnly/>
-                                    ) : (
-                                        <input className="codigo" id="codigoMunicipio" value={dadosCidades.codigo} onKeyDown={keyMunicipio} style={{backgroundColor: corObrigatorios}} readOnly/>
-                                    )}
+                                    <input className="codigo" id="codigoMunicipio" value={dadosFornecedor.codigo_municipio} onDoubleClick={()=> setIsModalMunicipio(true)} onKeyDown={keyMunicipio} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções' readOnly/>
                                     <img src="/images/add.png" onClick={pesquisarMuni}/>
-                                    {endereco.localidade ? (
-                                        <input className="municipio" id="municipio" value={endereco.localidade} style={{backgroundColor: corObrigatorios}} readOnly/>
-                                    ) : (
-                                        <input className="municipio" id="municipio" value={dadosCidades.nome} style={{backgroundColor: corObrigatorios}} readOnly/>
-                                    )}
+                                    <input className="municipio" id="municipio" value={dadosFornecedor.municipio} style={{backgroundColor: corObrigatorios}} readOnly/>
                                     <label>UF: </label>
-                                    <select className="codigo" id="option" value={uf} onChange={(e)=> setUf(e.target.value)}>
-                                        <option>{uf}</option>
-                                        {estados.map((estado)=> {
+                                    <select className="codigo" id="option" value={dadosFornecedor.uf} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, uf: e.target.value})}>
+                                        {estados.sort(comparar).map((estado)=> {
                                             return <option value={estado.sigla}>{estado.sigla}</option>
                                         })}
                                     </select>
                                 </div>
                                 <div>
                                     <label>País:</label>
-                                    <input className="codigo" value={dadosPaises.codigo} onDoubleClick={()=> setIsModalPaises(true)} onKeyDown={keyPaises} title='Aperte F2 para listar as opções'/>
+                                    <input className="codigo" value={dadosFornecedor.codigo_pais} onKeyDown={keyPaises} onDoubleClick={()=> setIsModalPaises(true)} title='Aperte F2 para listar as opções'/>
                                     <img src="/images/LUPA.png" onClick={pesquisarPais}/>
-                                    <label style={{color: "red"}}>{dadosPaises.nome}</label>
+                                    <label style={{color: "red"}}>{dadosFornecedor.pais}</label>
                                 </div>
                                 <div>
                                     <label>Telefone: </label>
-                                    <input className="codigo" value={telefone} onChange={(e)=> setTelefone(e.target.value)}/>
+                                    <input className="codigo" value={dadosFornecedor.telefone} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, telefone: e.target.value})}/>
                                     <label>Senha Cotação</label>
-                                    <input className="codigo" type="password"/>
+                                    <input className="codigo" type="password" value={dadosFornecedor.senha_cotacao} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, senha_cotacao: e.target.value})}/>
                                 </div>
                                 <div className="div-input">
                                     <label>Comprador: </label>
-                                    <input className="codigo" value={dataIdSelectSaler} onKeyDown={keyComprador} onDoubleClick={()=> setIsModalFuncionario(true)} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções'/>
-                                    <input value={dataSelectSaler} readOnly/>
+                                    <input className="codigo" value={dadosFornecedor.id_comprador} onKeyDown={keyComprador} onDoubleClick={()=> setIsModalFuncionario(true)} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções'/>
+                                    <input value={dadosFornecedor.nome_comprador} readOnly/>
                                 </div>
                                 <div>
                                     <label>Última Alter.: </label>
@@ -372,11 +349,11 @@ export const EditarFornecedor = () => {
                 <CF.OutrosDados>
                     <div>
                         <label>fax: </label>
-                        <input value={fax} onChange={(e)=> setFax(e.target.value)}/>
+                        <input value={dadosFornecedor.fax} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, fax: e.target.value})}/>
                     </div>
                     <div>
                         <label>e-mail: </label>
-                        <input value={email} onChange={(e)=> setEmail(e.target.value)}/>
+                        <input value={dadosFornecedor.email} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, email: e.target.value})}/>
                     </div>
                 </CF.OutrosDados>
             ) : (
@@ -447,9 +424,9 @@ export const EditarFornecedor = () => {
                     <button onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
-            {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)} setDadosCidades={setDadosCidades}/> : null}
-            {isModalPaises ? <ListaPais close={()=> setIsModalPaises(false)} setDadosPaises={setDadosPaises}/> : null}
-            {isModalFuncionario ? <Saler close={()=> setIsModalFuncionario(false)} setIsModalFuncionario={setIsModalFuncionario} setDataIdSelectSaler={setDataIdSelectSaler} setDataSelectSaler={setDataSelectSaler}/> : null}
+            {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)}setDadosFornecedor={setDadosFornecedor} dadosFornecedor={dadosFornecedor}/> : null}
+            {isModalPaises ? <ListaPais close={()=> setIsModalPaises(false)} setDadosFornecedor={setDadosFornecedor} dadosFornecedor={dadosFornecedor}/> : null}
+            {isModalFuncionario ? <Saler close={()=> setIsModalFuncionario(false)} setIsModalFuncionario={setIsModalFuncionario} setDadosFornecedor={setDadosFornecedor} dadosFornecedor={dadosFornecedor}/> : null}
         </C.Container>
     )
 }
