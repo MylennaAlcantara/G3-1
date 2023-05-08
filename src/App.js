@@ -22,8 +22,6 @@ import { ConsultarFuncionario } from './components/cadastros/consultar_funcionar
 import { EditarFuncionario } from './components/cadastros/editar_funcionario';
 import { Home } from './components/home';
 import { AuthContext } from './contexts/Auth/authContext';
-import { ConsultaTop } from './components/cadastros/tabela_auxiliar/consulta_top';
-import { CadastrarTop } from './components/cadastros/tabela_auxiliar/cadastro_top';
 
 function App() {    
   const navigate = useNavigate();
@@ -55,7 +53,8 @@ function App() {
     pis: false,
     perfil: false,
     ramo: false,
-    pgto: false
+    pgto: false,
+    top: false
   })
 
   return (      
@@ -78,6 +77,7 @@ function App() {
         {minimizado.perfil && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, perfil: false})}>Cadastro Perfil de Regra</div>}
         {minimizado.ramo && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, ramo: false})}>Cadastro Ramo de Atividade</div>}
         {minimizado.pgto && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, pgto: false})}>Cadastro Tipo de Pagamento</div>}
+        {minimizado.top && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, top: false})}>Cadastro TOP</div>}
       </div>
       <NavBar minimizado={minimizado} setMinimizado={setMinimizado}/>
           <Routes>
@@ -134,10 +134,6 @@ function App() {
             {nivel.cadastro_funcionario_incluir ? (
               <Route path = '/cadastrarFuncionario' element = {token ? (<CadastroFuncionario minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
             ) : <Route path = '/cadastrarFuncionario' element = {token ? (<ConsultarFuncionario/>) : <Login/>}/>}
-            
-            {/* Rotas de Top */}
-            <Route path = '/top' element = {token ? (<ConsultaTop/>) : <Login/>}/>
-            <Route path = '/cadastrarTop' element = {token ? (<CadastrarTop/>) : <Login/>}/>
 
             <Route path = '/resumoDeFaturamento' element = {token ? (<ResumoFaturamento/>) : <Login/>}/>
           </Routes>

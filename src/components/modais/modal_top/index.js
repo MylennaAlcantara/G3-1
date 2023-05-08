@@ -1,15 +1,15 @@
 import React, {useEffect, useState, useRef} from "react";
+import { CadastrarTop } from "../../cadastros/tabela_auxiliar/cadastro_top/index.js";
 import { Loading } from "../../loading/index.js";
-import {Container, Filtro, Header, Modal} from './../modal/modal.js';
+import {Container, Filtro, Header, Modal, Footer} from './../modal/modal.js';
 
 
-export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, setTopAlterada, setValorTop, valorTop }) => {
+export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, setTopAlterada, setValorTop, valorTop,  cadastroTop, setMinimizado, minimizado }) => {
 
     const [top, setTop] = useState([]);
-    const [selectTop, setSelectTop] = useState();
-    const [selectIdTop, setSelectIdTop] = useState();
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('codigo');
+    const [modalCadastro, setModalCadastro] = useState(false);
 
     useEffect(() => {
         async function fetchData (){
@@ -22,8 +22,8 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
     }, []);
 
     const SelectedTop = (top) => {
-        setValorTop([...valorTop, top])
-        setDataSelectTop({
+        setValorTop && setValorTop([...valorTop, top])
+        setDataSelectTop && setDataSelectTop({
             id_top: top.id,
             id_perfil_movimentacao:top.id_perfil_movimentacao,
             libera_itens_estoque_indisponivel: top.libera_itens_estoque_indisponivel,
@@ -101,12 +101,17 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
         }
     };
 
+    const [minimizar, setMinimizar] = useState("");
+
     return(
-        <Modal>
+        <Modal style={{zIndex: minimizado && minimizado.top === true ? minimizar : "1"}}>
             <Container>
             <Header>
                 <label> Top</label>
-                <button className="close" onClick={onClose}>X</button>
+                <div className="buttons">
+                    <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, top: true})}}><div className="linha"/></button>
+                    <button className="close" onClick={onClose}>X</button>
+                </div>
             </Header>
             <Filtro>
             <div className="div-checkbox">
@@ -133,7 +138,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                                 <th>Código</th>
                                 <th>Descrição</th>
                                 <th>Mov. Est. reservado</th>
-                                <th>MOv. Est. Real</th>
+                                <th>Mov. Est. Real</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -155,6 +160,16 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                     </table>
                 </div>
             )}
+            {cadastroTop ? (
+                <Footer>
+                    <div className="buttons">
+                        <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/>Novo</button>
+                        <button><img src="/images/abrir.png"/>Abrir</button>
+                        <button onClick={onClose}><img src="/images/voltar.png"/>Fechar</button>
+                    </div>
+                </Footer>
+            ) : null}
+            {modalCadastro ? <CadastrarTop close={()=> setModalCadastro(false)} setMinimizado={setMinimizado} minimizado={minimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
             </Container>
         </Modal>
     );
