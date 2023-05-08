@@ -1,8 +1,11 @@
 import React, {useEffect, useState, useRef} from "react";
 import {Container, Filtro, Header, Modal} from '../modal/modal';
 import { Loading } from "../../loading/index";
+import { ResumoFaturamento } from "../../Relatorios/resumo_de_faturamento/listAll"
 
-export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente, dadosCliente, setDadosCliente, setDadosFuncionario, dadosFuncionario}) => {
+
+export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente, dadosCliente, setDadosCliente, setDadosFuncionario, dadosFuncionario, setValor, valor}) => {
+
 
     const [users, setUsers] = useState([]);
     const [selectEmitente, setSelectEmitente] = useState();
@@ -23,6 +26,7 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
     const SelectedEmitente = (user) => {
         setSelectEmitente(user.razao_social);
         setSelectIdEmitente(user.id);
+        setValor && setValor([...valor, user]);
         setDataSelectEmitente && setDataSelectEmitente(user.razao_social);
         setDataIdSelectEmitente && setDataIdSelectEmitente(user.id);
         setDataSelectDadosEmitente && setDataSelectDadosEmitente({
@@ -159,7 +163,7 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
                                                 <td>{user.id}</td>
                                                 <td>{user.nome_fantasia}</td>
                                                 <td>{user.razao_social}</td>
-                                                <td>{user.cnpj}</td>
+                                                <td>{user.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
                                                 <td>{user.municipio}</td>
                                         </tr>
                                     );

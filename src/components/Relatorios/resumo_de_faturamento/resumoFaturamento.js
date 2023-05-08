@@ -86,6 +86,7 @@ export const Data = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    overflow-y: auto;
     .checks{
         margin-top: 10px;
     }
@@ -231,4 +232,20 @@ flex-direction: column;
 margin-left: 50px;
 margin-top: 50px;
 margin-right: 50px;
+.graficosReduzidos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+`
+export const Dashboard0 = styled.div`
+display: flex;
+margin: 10px;
+justify-content: center;
+.grafico {
+    margin: 10px;
+    border-style: solid;
+    border-radius: 8px;
+    border-width: 1px;
+}
 `

@@ -1,4 +1,3 @@
-
 .test {
     background-color: #F0F0F0;
     margin-left: 50%;
@@ -12,11 +11,17 @@
     border-top-right-radius: 10px;
 }
 
-.FTFilterTop{
+.FTFilterTop {
     width: 50%;
     display: flex;
     flex-direction: column;
     margin-top: -23px;
+}
+
+.graficos10 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .close {
@@ -78,6 +83,16 @@ label {
     font-size: 15px;
 }
 
+.closeBtnMenor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 117px;
+    height: 33px;
+    margin-top: 10px;
+    margin-left: 85%;
+}
+
 .btnDetalhes {
     background-color: white;
     display: flex;
@@ -85,8 +100,10 @@ label {
     align-items: center;
     width: 117px;
     height: 33px;
-    border-radius: 5px;
     border-width: 1px;
+    border-bottom: transparent;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .btnDetalhes:hover {
@@ -108,23 +125,6 @@ label {
     border-style: solid;
     border-radius: 8px;
     border-width: 1px;
-}
-
-.a {
-    height: 250px;
-    border-style: solid;
-    border-radius: 10px;
-    border-width: 2px;
-    display: flex;
-    flex-direction: column;
-    margin-left: 50px;
-    margin-top: 50px;
-    margin-right: 50px;
-}
-
-.b {
-    display: flex;
-    flex-direction: row;
 }
 
 .c {
@@ -622,7 +622,7 @@ table tr:nth-child(odd) {
     margin-right: 5px;
 }
 
-span{
+span {
     margin: 0px;
     padding: 0px;
 }
@@ -675,7 +675,7 @@ span{
     margin-left: 3px;
 }
 
-.Gtext{
+.Gtext {
     font-size: 13px;
 }
 
@@ -708,158 +708,18 @@ span{
     flex-direction: row;
 }
 
-@media (max-width:1920px) {
-    .filtros {
-        top: 10%;
-    }
-
-    .ModalDados {
-        top: 65%;
-    }
-
+@media (max-width: 1270px) {
     .filtro1 {
-        top: 3.5vw;
-        left: 4.5vw;
-    }
-
-    .btns {
-        top: 50%;
-        right: 44.1%;
-    }
-
-    .relatorio-content {
-        top: 33.5%;
-        left: 65%;
-    }
-
-    .pesquisar {
-        top: 15.2%;
-        right: 20%;
-    }
-
-    .filtro-tops-content {
-        bottom: 38.5vw;
-        left: 7.8vw;
-    }
-}
-
-@media (max-width:1600px) {
-    .ModalDados {
-        top: 65%;
-    }
-
-    .filtro1 {
-        top: 3.8vw;
-        left: 2vw;
-    }
-
-    .btns {
-        right: 45.1%;
-        top: 35%;
-    }
-
-    .pesquisar {
-        top: 18%;
-        right: 15%;
-    }
-
-    .relatorio-content {
-        top: 36.2%;
-        left: 69%;
-    }
-
-    .filtros {
-        top: 10%;
-    }
-
-    .filtro-tops-content {
-        bottom: 44.4vw;
-        left: 8.5vw;
-    }
-}
-
-@media (max-width:1440px) {
-    .filtro1{
-        width: 400px;
-    }
-}
-
-@media (max-width: 1366px) {
-    
-    .search-input {
-        width: 230px;
-    }
-
-    .filtro1 {
-        top: 2.8vw;
-        left: 11.3vw;
-        width: 400px;
-    }
-
-    .obs {
-        left: -514px;
-    }
-
-    .btns {
-        right: 41.7%;
-    }
-
-    .ep3{
-        width: 55px;
-    }
-
-    .filtros {
-        width: 95%;
-        top: 1%;
-    }
-
-    .ModalDados {
-        height: 36%;
-    }
-
-    .test {
-        width: 46%;
-    }
-
-    .relatorio-content {
-        top: 33.3%;
-        left: 58.5%;
-    }
-
-    .filtro-tops-content {
-        bottom: 50.8vw;
-        left: 10.9vw;
-    }
-
-    .footer {
-        top: 20%;
-    }
-
-    .checkboxs{
-        top: 14.5%;
-    }
-}
-
-@media (max-width: 1300px){
-    .filtro1{
-        top: 3vw;
-        left: 10.7vw;
-        width: 385px;
-    }
-}
-
-@media (max-width: 1270px){
-    .filtro1{
         top: 3.5vw;
         left: 8.5vw;
         width: 335px;
     }
 
-    .search-input{
+    .search-input {
         width: 174px;
     }
 
-    .obs{
+    .obs {
         left: -470px;
     }
 }
@@ -880,123 +740,117 @@ span{
         left: 64%;
     }
 }
-@media (min-height: 900px){
-    .filtro1{
-        top: 4.02vw;
-        left: 4.7vw;
-    }
 
-    .ModalDados{
-        top: 63%;
-        height: 37%;
-    }
-
-    .relatorio-content{
-        left: 67vw;
-        top: 14.6vw;
-    }
-
-    .filtro-tops-content{
-        top: -43.32vw;
-        left: 7.5vw;
-    }
-}
-
-@media (max-width: 800px){
-    .frontSpan{
+@media (max-width: 800px) {
+    .frontSpan {
         visibility: hidden;
         font-size: 0px;
     }
 
-    .filtro1{
+    .filtro1 {
         top: 4.83vw;
         left: -6.7vw;
     }
 
-    td{
+    td {
         height: 30px;
     }
-    
-    .dataIni{
+
+    .dataIni {
         height: 40px;
     }
 
-    .dataFin{
+    .dataFin {
         height: 40px;
     }
 
-    .checkboxs{
+    .checkboxs {
         top: 17%;
     }
 
-    .pesquisar{
+    .pesquisar {
         top: 17%;
     }
 
-    .relatorio-content{
+    .relatorio-content {
         top: 35.2%;
         left: 55%;
     }
 }
 
-@media (max-width: 420px){
-    .btns{
+@media (max-width: 420px) {
+    .btns {
         left: -30vw;
     }
-    .filtro1{
+
+    .filtro1 {
         width: 340px;
         left: -25vw;
         top: 1vw;
     }
-    th{
+
+    th {
         font-size: 11px;
     }
-    .ep3{
+
+    .ep3 {
         font-size: 11px;
     }
-    .search-input{
+
+    .search-input {
         width: 150px;
     }
-    .obs{
+
+    .obs {
         left: -435px;
     }
-    .test{
+
+    .test {
         width: 350px;
         flex-direction: row;
         position: relative;
         top: 200px;
         right: 50%;
-        
+
     }
-    .filtros{
+
+    .filtros {
         width: 92%;
         top: 50vw;
     }
-    .ModalDados{
+
+    .ModalDados {
         top: 72.56%;
         height: 25%;
     }
-    .buttons{
+
+    .buttons {
         position: relative;
         top: 75vw;
     }
-    .wrapper{
+
+    .wrapper {
         height: 112vw;
     }
-    .pesquisar{
+
+    .pesquisar {
         right: 4%;
         top: -3%;
     }
-    .checkboxs{
+
+    .checkboxs {
         top: -12%;
     }
-    .dataIni{
+
+    .dataIni {
         height: 60px;
     }
-    .dataFin{
+
+    .dataFin {
         height: 60px;
     }
-    .relatorio-content{
+
+    .relatorio-content {
         top: 107.6vw;
         left: 10vw;
     }

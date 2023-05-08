@@ -69,6 +69,9 @@ export const ResumoFaturamento = () => {
             width: '75%',
             height: '80%',
             backgroundColor: '#6EC2FA',
+            overlay: {
+                backgroundColor: 'rgba(0, 0 ,0, 0.8)'
+            },
         },
     };
 
@@ -86,6 +89,15 @@ export const ResumoFaturamento = () => {
 
     console.log(filter)
 
+    const [valor, setValor] = useState([])
+    console.log(valor)
+    const [valorTop, setValorTop] = useState([])
+    console.log(valorTop)
+
+    const valorFilial = valor.map((test) => (
+        (test.id)
+    ))
+
     const objs =
     {
         "incluirNfe": checkNFE,
@@ -93,7 +105,7 @@ export const ResumoFaturamento = () => {
         "statusVenda": filter,
         "dataInicial": dataIni,
         "dataFinal": dataFin,
-        "idFilial": "1",
+        "idFilial": valorFilial[0],
         "idTop": null
     }
 
@@ -750,16 +762,17 @@ export const ResumoFaturamento = () => {
     const resultTpPg10 = dadosLeitura.reduce((a, b) => a + b.vale_combustivel, 0)
     const resultTpPg11 = dadosLeitura.reduce((a, b) => a + b.vale_presente, 0)
     const resultTpPg12 = dadosLeitura.reduce((a, b) => a + b.vale_refeicao, 0)
+    const resultTpPg13 = dadosLeitura.reduce((a, b) => a + b.pix, 0)
 
     const optionsTpPg = {
         title: "Valores",
         is3D: true,
-        colors: ["#1f80ed", "#d24159", "#9bf967", "#f98b68", "#ffe670"],
+        colors: ["#a6dce8", "#a6dce8", "#a6dce8", "#f98b68", "#ffe670"],
     };
 
     const dataTpPg0 = [
-        ["Valores em R$", "", ""],
-        [" (Cima)Dinheiro / (Baixo)Total", resultTpPg, resultTpPg1],
+        ["Valores em R$", "Dinheiro/Credito", "Total/Debito"],
+        ["Dinheiro , Total", resultTpPg, resultTpPg1],
         ["Credito , Debito", resultTpPg2, resultTpPg3],
     ];
 
@@ -793,6 +806,7 @@ export const ResumoFaturamento = () => {
         ["C.Credito", resultTpPg2, "#9bf967"],
         ["C.Debito", resultTpPg3, "#f98b68"],
         ["Dinheiro", resultTpPg, "#ffe670"],
+        ["Pix", resultTpPg13, "32b6aa"],
         ["Total", resultTpPg1, "#b2bb1c"],
     ];
 
@@ -800,7 +814,7 @@ export const ResumoFaturamento = () => {
         ["Element", "Valor", { role: "style" }],
         ["Boleto", resultTpPg5, "#1f80ed"],
         ["Cheque", resultTpPg4, "#d24159"],
-        ["C.Credito", resultTpPg2, "#9bf967"],
+        ["C.Credito", resultTpPg2, "#a6dce8"],
         ["C.Debito", resultTpPg3, "#f98b68"],
         ["Dinheiro", resultTpPg, "#ffe670"],
     ];
@@ -953,6 +967,12 @@ export const ResumoFaturamento = () => {
         ["Lucro", resultGru1, "#ffaf56"],
     ];
 
+    const dataGru2 = [
+        ["Element", "Valor", { role: "style" }],
+        ["Venda", resultGru, "bc1b2b"],
+        ["Lucro", resultGru1, "ffaf56"],
+    ];
+
     const barDataGru = [
         [
             "Element",
@@ -1027,6 +1047,7 @@ export const ResumoFaturamento = () => {
     const resultFor1 = dadosFornecedor.reduce((a, b) => a + b.vlr_lucro_total, 0)
     const resultFor2 = dadosFornecedor.reduce((a, b) => a + b.vlr_custo_total, 0)
     const resultFor3 = dadosFornecedor.reduce((a, b) => a + b.vlr_desconto_total, 0)
+    const resultFor4 = dadosFornecedor.reduce((a, b) => a + b.sub_total, 0)
 
 
     const dataFor = [
@@ -1098,34 +1119,6 @@ export const ResumoFaturamento = () => {
         legend: { position: "none" },
     };
 
-    //------------------------------------------------------------------PICOS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    const [modalPico, setIsOpenModalPico] = useState(false);
-
-    function openModalPico() {
-        setIsOpenModalPico(true);
-    }
-
-    function closeModalPico() {
-        setIsOpenModalPico(false);
-    }
-
-    const dataPico = [
-        ["Mês", "Ano Anterior", "Ano Atual"],
-        ["Janeiro", 1000, 2000],
-        ["Fevereiro", 1170, 460],
-        ["Março", 660, 1120],
-        ["Abril", 1030, 540],
-    ];
-
-    const optionsPico = {
-        title: "Pico de Vendas",
-        hAxis: { title: "Mês", titleTextStyle: { color: "#333" } },
-        vAxis: { minValue: 0 },
-        chartArea: { width: "50%", height: "70%" },
-    };
-
-
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
@@ -1151,7 +1144,7 @@ export const ResumoFaturamento = () => {
                                         <option>Filial</option>
                                         <option>Região</option>
                                     </select>
-                                    <input placeholder='Buscar...' />
+                                    <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
                                     <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
                                     <button>Limpar</button>
                                 </div>
@@ -1166,22 +1159,28 @@ export const ResumoFaturamento = () => {
                                                 <th >Município</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{dataIdSelectEmitente}</td>
-                                                <td>{dataSelectDataEmitente.fantasia}</td>
-                                                <td>{dataSelectEmitente}</td>
-                                                <td>{dataSelectDataEmitente.doc}</td>
-                                                <td>{dataSelectDataEmitente.municipio}</td>
-                                            </tr>
-                                        </tbody>
+                                        {valor.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
+
+                                            return (
+                                                <tbody >
+                                                    <tr>
+                                                        <td>{item.id}</td>
+                                                        <td>{item.nome_fantasia}</td>
+                                                        <td>{item.razao_social}</td>
+                                                        <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
+                                                        <td>{item.municipio}</td>
+                                                    </tr>
+                                                </tbody>
+                                            )
+
+                                        })}
                                     </table>
                                 </div>
                             </div>
                         ) : (
                             <div className='filial-top'>
                                 <div>
-                                    <input placeholder='Buscar...' />
+                                    <input placeholder='Buscar pela Descrição...' onChange={(e) => setQuery1(e.target.value)} />
                                     <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
                                 </div>
                                 <div className='table-responsive'>
@@ -1192,12 +1191,16 @@ export const ResumoFaturamento = () => {
                                                 <th >Descrição</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{dataSelectTop.id_top}</td>
-                                                <td>{dataSelectTop.descricao}</td>
-                                            </tr>
-                                        </tbody>
+                                        {valorTop.filter(dat => dat.descricao.toLowerCase().includes(query1)).map((item) => {
+
+                                            return (
+                                                <tr>
+                                                    <td>{item.id}</td>
+                                                    <td>{item.descricao}</td>
+                                                </tr>
+                                            )
+
+                                        })}
                                     </table>
                                 </div>
                             </div>
@@ -1256,7 +1259,9 @@ export const ResumoFaturamento = () => {
                         <>
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label className='esc'>( Use 'Esc' para fechar )</label>
-                                <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+
+                                <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
                             </div>
 
                             <div className='table-responsive'>
@@ -1298,23 +1303,23 @@ export const ResumoFaturamento = () => {
 
                                                 <td>{f1.idFilial}</td>
 
-                                                <td>{f1.qtdVendas}</td>
+                                                <td>{f1.qtdVendas.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.vlMedioVendas}</td>
+                                                <td>{f1.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.vlTotalNfe}</td>
+                                                <td>{f1.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.vlTotalNfce}</td>
+                                                <td>{f1.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.vlVendaTotal}</td>
+                                                <td>{f1.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.vlCustoTotal}</td>
+                                                <td>{f1.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.vlLucroVenda}</td>
+                                                <td>{f1.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.margem}</td>
+                                                <td>{f1.margem.toFixed(3).replace('.', ',')}</td>
 
-                                                <td>{f1.markup}</td>
+                                                <td>{f1.markup.toFixed(3).replace('.', ',')}</td>
                                             </tr>
                                         );
                                     })}
@@ -1335,7 +1340,8 @@ export const ResumoFaturamento = () => {
                         <>
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
+
+                                <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
                             </div>
 
                             <div className='table-responsive' >
@@ -1344,6 +1350,7 @@ export const ResumoFaturamento = () => {
                                         <th>Id.Filial</th>
 
                                         <th>Filial</th>
+
 
                                         <th>Qtd. Vendas</th>
 
@@ -1376,6 +1383,12 @@ export const ResumoFaturamento = () => {
                                     </tr>
 
                                     {dados.map((f2) => {
+
+
+                                        if (f2.vlTotalCredito === null) {
+                                            f2.vlTotalCredito = 0
+                                        }
+
                                         return (
                                             <tr>
                                                 <td> {f2.idFilial} </td>
@@ -1388,34 +1401,33 @@ export const ResumoFaturamento = () => {
 
                                                 <td>{f2.qtdItensCupom}</td>
 
-                                                <td>{f2.vlMedioVendas.toFixed(2)}</td>
+                                                <td>{f2.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f2.vlTotalNfe}</td>
+                                                <td>{f2.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f2.vlTotalNfce}</td>
+                                                <td>{f2.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f2.vlVendaTotal}</td>
+                                                <td>{f2.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f2.vlTotalCredito}</td>
+                                                <td>{f2.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f2.vlTotalLiquido}</td>
+                                                <td>{f2.vlTotalLiquido.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f2.vlCustoTotal}</td>
+                                                <td>{f2.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f2.vlLucroVenda}</td>
+                                                <td>{f2.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f2.vlLucroLiquido}</td>
+                                                <td>{f2.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f2.margem}</td>
+                                                <td>{f2.margem.toFixed(2).replace('.', ',')} %</td>
 
-                                                <td>{(f2.percentual).toFixed(2)}</td>
+                                                <td>{(f2.percentual).toFixed(2)} %</td>
                                             </tr>
                                         );
                                     })}
                                 </table>
 
                             </div>
-
                         </>
                     )}
                 </RF.DataGeral>
@@ -1431,7 +1443,9 @@ export const ResumoFaturamento = () => {
 
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
+
+                                <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+
                                 <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
@@ -1482,29 +1496,31 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat.qtdVendas}</td>
 
-                                            <td>{dat.vlTotalNfe}</td>
+                                            <td>{dat.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlTotalNfce}</td>
+                                            <td>{dat.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlVendaTotal}</td>
+                                            <td>{dat.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlTotalCancelamento}</td>
+                                            <td>{dat.vlTotalCancelamento.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlTotalDesconto}</td>
+                                            <td>{dat.vlTotalDesconto.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlTotalCredito}</td>
+                                            <td>{dat.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat.vlTotalComissao}</td>
+                                            <td>{dat.vlTotalComissao.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{(dat.vlCustoTotal).toFixed(2)}</td>
+                                            <td>{(dat.vlCustoTotal).toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{(dat.vlLucroVenda).toFixed(2)}</td>
+                                            <td>{(dat.vlLucroVenda).toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{(dat.vlLucroLiquido).toFixed(2)}</td>
+                                            <td>{(dat.vlLucroLiquido).toFixed(2).replace('.', ',')}</td>
 
-                                            <td>% {(dat.plucroLiquido).toFixed(2)}</td>
 
-                                            <td>{(dat.percentual).toFixed(2)}</td>
+                                            <td>% {(dat.plucroLiquido).toFixed(2).replace('.', ',')}</td>
+
+
+                                            <td>{(dat.percentual).toFixed(2).replace('.', ',')}</td>
                                         </tr>
 
                                     ))}
@@ -1526,7 +1542,9 @@ export const ResumoFaturamento = () => {
 
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                <button className='dashboardBtn' onClick={openDashboardCliente}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p> </button>
+
+                                <button className='dashboardBtn' onClick={openDashboardCliente}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
@@ -1573,25 +1591,25 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat1.qtdVendas}</td>
 
-                                            <td>{dat1.vlTotalNfe}</td>
+                                            <td>{dat1.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlTotalNfce}</td>
+                                            <td>{dat1.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlVendaTotal}</td>
+                                            <td>{dat1.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlTotalDesconto}</td>
+                                            <td>{dat1.vlTotalDesconto.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlTotalCredito}</td>
+                                            <td>{dat1.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlCustoTotal}</td>
+                                            <td>{dat1.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlLucroVenda}</td>
+                                            <td>{dat1.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.vlLucroLiquido}</td>
+                                            <td>{dat1.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
 
-                                            <td>{dat1.plucroLiquido} %</td>
+                                            <td>{dat1.plucroLiquido.toFixed(2).replace('.', ',')} %</td>
 
-                                            <td>{(dat1.percentual).toFixed(3)}</td>
+                                            <td>{(dat1.percentual).toFixed(3).replace('.', ',')}</td>
 
                                         </tr>
                                     ))}
@@ -1610,7 +1628,9 @@ export const ResumoFaturamento = () => {
                         <>
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+
+                                <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
                                 <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
@@ -1626,8 +1646,14 @@ export const ResumoFaturamento = () => {
                                     </thead>
                                     <tr>
                                         {dadosTipoPagamento.map((f5) => {
+                                            if (f5 === null) {
+                                                f5 = 0
+                                            }
+
                                             return (
-                                                <td> {f5} </td>
+
+                                                <td> {f5.toFixed(2).replace('.', ',')} </td>
+
                                             );
                                         })}
                                     </tr>
@@ -1648,7 +1674,9 @@ export const ResumoFaturamento = () => {
 
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+
+                                <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
                                 <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
@@ -1691,27 +1719,27 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat2.id_produto} </td>
 
-                                                <td onDoubleClick={openModalPico}> {dat2.produto} </td>
+                                                <td> {dat2.produto} </td>
 
                                                 <td> {dat2.qtd_total} </td>
 
-                                                <td> {dat2.sub_total} </td>
+                                                <td> {dat2.sub_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {(dat2.p_desconto).toFixed(3)} </td>
+                                                <td> {(dat2.p_desconto).toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.vlr_desconto_total} </td>
+                                                <td> {dat2.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.vlr_venda_total} </td>
+                                                <td> {dat2.vlr_venda_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.vlr_custo_total} </td>
+                                                <td> {dat2.vlr_custo_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.vlr_lucro_total} </td>
+                                                <td> {dat2.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.p_markup} </td>
+                                                <td> % {dat2.p_markup.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat2.p_margem} </td>
+                                                <td> % {dat2.p_margem.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {(dat2.percentual).toFixed(2)} </td>
+                                                <td> {(dat2.percentual).toFixed(2).replace('.', ',')} </td>
                                             </tr>
                                         );
                                     })}
@@ -1732,7 +1760,9 @@ export const ResumoFaturamento = () => {
 
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+
+                                <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
                                 <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
@@ -1778,23 +1808,23 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat3.grupo} </td>
 
-                                                <td> {dat3.qtd_total} </td>
+                                                <td> {dat3.qtd_total.toFixed(3).replace('.', ',')} </td>
 
-                                                <td> {dat3.sub_total} </td>
+                                                <td> {dat3.sub_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.p_desconto} </td>
+                                                <td> {dat3.p_desconto.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.vlr_desconto_total} </td>
+                                                <td> {dat3.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.vlr_venda_total} </td>
+                                                <td> {dat3.vlr_venda_total.toFixed(2).replace('.', ',')}</td>
 
-                                                <td> {dat3.vlr_custo_total} </td>
+                                                <td> {dat3.vlr_custo_total.toFixed(2).replace('.', ',')}</td>
 
-                                                <td> {dat3.vlr_lucro_total} </td>
+                                                <td> {dat3.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.p_markup} </td>
+                                                <td> {dat3.p_markup.toFixed(2).replace('.', ',')} </td>
 
-                                                <td> {dat3.p_margem} </td>
+                                                <td> {dat3.p_margem.toFixed(2).replace('.', ',')} </td>
 
                                                 <td> {(dat3.percentual).toFixed(3)} </td>
                                             </tr>
@@ -1819,7 +1849,9 @@ export const ResumoFaturamento = () => {
 
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-                                <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Graficos</p></button>
+
+                                <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
                                 <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
@@ -1864,23 +1896,25 @@ export const ResumoFaturamento = () => {
 
                                             <td> {dat.qtd_total} </td>
 
-                                            <td> {dat.sub_total} </td>
 
-                                            <td> {(dat.p_desconto).toFixed(3)} </td>
+                                            <td> {dat.sub_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td> {dat.vlr_desconto_total} </td>
+                                            <td> {(dat.p_desconto).toFixed(3).replace('.', ',')} </td>
 
-                                            <td> {dat.vlr_venda_total} </td>
+                                            <td> {dat.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td> {dat.vlr_custo_total} </td>
+                                            <td> {dat.vlr_venda_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td> {dat.vlr_lucro_total} </td>
+                                            <td> {dat.vlr_custo_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td> {dat.p_markup} </td>
+                                            <td> {dat.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
 
-                                            <td> {dat.p_margem} </td>
+                                            <td> {dat.p_markup.toFixed(2).replace('.', ',')} </td>
 
-                                            <td> {(dat.percentual).toFixed(2)} </td>
+                                            <td> {dat.p_margem.toFixed(2).replace('.', ',')} </td>
+
+                                            <td> {(dat.percentual).toFixed(2).replace('.', ',')} </td>
+
                                         </tr>
                                     ))}
                                 </table>
@@ -1902,23 +1936,23 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts'>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {result2}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {result2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {result}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {result.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {result1}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {result1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {result3}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {result3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {result4}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {result4.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -1929,7 +1963,7 @@ export const ResumoFaturamento = () => {
                         <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px" className="grafico" />
                     </RF.Dashboard>
 
-                    <RF.Dashboard>
+                    <RF.Dashboard0>
 
                         <label className='bestRegion'>{dadosRegiao.map((banRe) => {
 
@@ -1946,112 +1980,269 @@ export const ResumoFaturamento = () => {
                                 return (
                                     <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                        <p>Região Nordeste</p>
+                                        <p>PARAIBA</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'ACRE') {
                                 return (
                                     <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/AC.png' />
-                                        <p>Região Norte</p>
+                                        <p>ACRE</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'AMAZONAS') {
                                 return (
                                     <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/AM.png' />
-                                        <p>Região Norte</p>
+                                        <p>AMAZONAS</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'ALAGOAS') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/AL.png' />
-                                        <p>Região Nordeste</p>
+                                        <p>ALAGOAS</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'PIAUÍ') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/PI.png' />
-                                        <p>Região Nordeste</p>
+                                        <p>PIAUÍ</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'AMAPÁ') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/AP.png' />
-                                        <p>Região Norte</p>
+                                        <p>AMAPÁ</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'SÃO PAULO') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/SP.png' />
-                                        <p>Região Suldeste</p>
+                                        <p>SÃO PAULO</p>
+                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
+                                        <span className='spanName'>Sudeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'RIO DE JANEIRO') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/RJ.png' />
-                                        <p>Região Suldeste</p>
+                                        <p>RIO DE JANEIRO</p>
+                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
+                                        <span className='spanName'>Sudeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'MINAS GERAIS') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/MG.png' />
-                                        <p>Região Suldeste</p>
+                                        <p>MINAS GERAIS</p>
+                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
+                                        <span className='spanName'>Sudeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'ESPÍRITO SANTO') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/ES.png' />
-                                        <p>Região Suldeste</p>
+                                        <p>ESPÍRITO SANTO</p>
+                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
+                                        <span className='spanName'>Sudeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'BAHIA') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/BA.png' />
-                                        <p>Região Nordeste</p>
+                                        <p>BAHIA</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'CEARA') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/CE.png' />
-                                        <p>Região Nordeste</p>
+                                        <p>CEARA</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'MATO GROSSO') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/MT.png' />
-                                        <p>Região Centro Oeste</p>
+                                        <p>MATO GROSSO</p>
+                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
+                                        <span className='spanName'>Centro Oeste</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'TOCANTINS') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/TO.png' />
-                                        <p>Região Norte</p>
+                                        <p>TOCANTINS</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
                                     </div>
                                 );
                             } else if (banRe.regiao === 'PARANÁ') {
                                 return (
-                                    <div className=''>
+                                    <div className='grafico-regiao'>
                                         <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                        <p>Região Sul</p>
+                                        <p>PARANÁ</p>
+                                        <img className='regiaoImg' src='/images/sul.jpg' />
+                                        <span className='spanName'>Sul</span>
                                     </div>
                                 );
-                            } else if (banRe.regiao === '') {
+                            } else if (banRe.regiao === 'MATO GROSSO DO SUL') {
                                 return (
-                                    <div className=''>
-                                        <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                        <p>Região Nordeste</p>
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/MS.png' />
+                                        <p>MATO GROSSO DO SUL</p>
+                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
+                                        <span className='spanName'>Centro Oeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'DISTRITO FEDERAL') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/DF.png' />
+                                        <p>DISTRITO FEDERAL</p>
+                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
+                                        <span className='spanName'>Centro Oeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'GOIÁS') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/GO.png' />
+                                        <p>GOIÁS</p>
+                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
+                                        <span className='spanName'>Centro Oeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'MARANHÃO') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/MA.png' />
+                                        <p>MARANHÃO</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'PARÁ') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/PA.png' />
+                                        <p>PARÁ</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'RIO GRANDE DO NORTE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/RN.png' />
+                                        <p>RIO GRANDE DO NORTE</p>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'RONDÔNIA') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/RO.png' />
+                                        <p>RONDÔNIA</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'RORAIMA') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/RR.png' />
+                                        <p>RORAIMA</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'RIO GRANDE DO SUL') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/RS.png' />
+                                        <p>RIO GRANDE DO SUL</p>
+                                        <img className='regiaoImg' src='/images/sul.jpg' />
+                                        <span className='spanName'>Sul</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'SANTA CATARINA') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/SC.png' />
+                                        <p>SANTA CATARINA</p>
+                                        <img className='regiaoImg' src='/images/sul.jpg' />
+                                        <span className='spanName'>Sul</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'SERGIPE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='bandeira' src='/images/bandeiras/SE.png' />
+                                        <p>SERGIPE</p>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Nordeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'NORTE' || banRe.regiao === 'REGIÃO NORTE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='regiaoImg' src='/images/norte.jpg' />
+                                        <span className='spanName'>Norte</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'NORDESTE' || banRe.regiao === 'REGIÃO NORDESTE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='regiaoImg' src='/images/nordeste.png' />
+                                        <span className='spanName'>Nordeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'CENTRO OESTE' || banRe.regiao === 'REGIÃO CENTRO OESTE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
+                                        <span className='spanName'>Centro Oeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'SUDESTE' || banRe.regiao === 'REGIÃO SUDESTE') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
+                                        <span className='spanName'>Sudeste</span>
+                                    </div>
+                                );
+                            } else if (banRe.regiao === 'SUL' || banRe.regiao === 'REGIÃO SUL') {
+                                return (
+                                    <div className='grafico-regiao'>
+                                        <img className='regiaoImg' src='/images/sul.jpg' />
+                                        <span className='spanName'>Sul</span>
                                     </div>
                                 );
                             }
@@ -2059,12 +2250,12 @@ export const ResumoFaturamento = () => {
                         })}</label>
 
                         <Chart chartType="BarChart" data={barData} options={barOptions} className='grafico' />
-                    </RF.Dashboard>
+                    </RF.Dashboard0>
 
                 </div>
             </Modal>
 
-            <Modal isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
                 <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
@@ -2074,31 +2265,31 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {resultFi2}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {resultFi2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {resultFi}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {resultFi.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {resultFi1}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {resultFi1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultFi3}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultFi3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultFi4}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultFi4.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {resultFi5}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {resultFi5.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {resultFi6}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {resultFi6.toFixed(2).replace('.', ',')}
                         </h2>
                     </div>
 
@@ -2116,7 +2307,7 @@ export const ResumoFaturamento = () => {
 
             </Modal>
 
-            <Modal isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
                 <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
@@ -2125,39 +2316,39 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: R$ {(resultVen2).toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: R$ {(resultVen2).toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {(resultVen).toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {(resultVen).toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultVen1}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultVen1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultVen3}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultVen3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultVen4}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultVen4.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: R$ {resultVen5}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: R$ {resultVen5.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: R$ {resultVen6}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: R$ {resultVen6.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: R$ {resultVen7}
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: R$ {resultVen7.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoCinza.png' /> Desconto: R$ {resultVen8}
+                            <img className='cifrões' src='/images/cifraoCinza.png' /> Desconto: R$ {resultVen8.toFixed(2).replace('.', ',')}
                         </h2>
                     </div>
 
@@ -2175,43 +2366,43 @@ export const ResumoFaturamento = () => {
 
             </Modal>
 
-            <Modal isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
                 <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
-                    <h1>Dados Cliente <button className='btnDetalhes' onClick={openDashboardDezCliente}><img className='grafico' src='images/itens.png' /> Por itens </button> </h1>
+                    <h1>Dados Cliente</h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: R$ {resultCli1.toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: R$ {resultCli1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {resultCli4}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {resultCli4.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: R$ {resultCli.toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: R$ {resultCli.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultCli2.toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {resultCli2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultCli3}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {resultCli3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: {resultCli7}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: {resultCli7.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: R$ {resultCli6.toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: R$ {resultCli6.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {resultCli5}
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {resultCli5.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -2223,6 +2414,7 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard>
 
                     <Modal isOpen={dashboardDezCliente} onRequestClose={closeDashboardDezCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                        <button className='closeBtnMenor' onClick={closeDashboardDezCliente} ><img className='close' src='/images/voltar.png' />Voltar</button>
                         {dadosClienteReduzido.map((dados) => {
 
                             const dashboard = [
@@ -2231,10 +2423,27 @@ export const ResumoFaturamento = () => {
                                 ["Bruto", dados.vlLucroVenda, "#f6d001"],
                             ];
 
+                            const dashboard1 = [
+                                ["Element", "", { role: "style" }],
+                                ["Custo", dados.vlCustoTotal, "#f6d001"],
+                                ["Lucro", dados.vlLucroVenda, "#ffaf56"],
+                            ];
+
+                            const dashboard2 = [
+                                ["Element", "", { role: "style" }],
+                                ["NF-e", dados.vlTotalNfe, ""],
+                                ["NFC-e", dados.vlTotalNfce, ""],
+                            ];
+
                             return (
                                 <RF.DashboardMenor>
                                     <h2>{dados.cliente}</h2>
-                                    <Chart chartType="ColumnChart" width="20vw" height="25vh" data={dashboard} className="graficoA" />
+                                    <div className='graficosReduzidos'>
+                                        <Chart chartType="ColumnChart" width="20vw" height="25vh" data={dashboard} className="graficoA" />
+                                        <Chart chartType="ColumnChart" width="20vw" height="25vh" data={dashboard1} className="graficoA" />
+                                        <Chart chartType="PieChart" width="20vw" height="25vh" data={dashboard2} options={optionsCli} className="graficoA" />
+                                    </div>
+
                                 </RF.DashboardMenor>
                             );
 
@@ -2244,12 +2453,17 @@ export const ResumoFaturamento = () => {
                 </div>
 
                 <RF.Dashboard>
-                    <Chart chartType="Bar" width="100%" height="500px" data={dataCli0} options={optionsCli0} className='grafico' />
+
+                    <div className='graficos10' >
+                        <button className='btnDetalhes' onClick={openDashboardDezCliente}> <img className='close' src='images/itens.png' /> Individuais </button>
+                        <Chart chartType="Bar" width="100%" height="500px" data={dataCli0} options={optionsCli0} className='grafico' />
+                    </div>
+
                 </RF.Dashboard>
 
             </Modal>
 
-            <Modal isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
                 <button onClick={closeDashboardTipoDePagamento} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
@@ -2260,39 +2474,43 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts' >
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/dinheiro.png' /> Dinheiro : R$ {resultTpPg}
+                            <img className='cifrões' src='/images/dinheiro.png' /> Dinheiro : R$ {resultTpPg.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/credito.png' /> Cartão Credito: R$ {resultTpPg2}
+                            <img className='cifrões' src='/images/credito.png' /> Cartão Credito: R$ {resultTpPg2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/debito.png' /> Cartão Debito: R$ {resultTpPg3}
+                            <img className='cifrões' src='/images/debito.png' /> Cartão Debito: R$ {resultTpPg3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cheque.png' /> Cheque : R$ {resultTpPg4}
+                            <img className='cifrões' src='/images/cheque.png' /> Cheque : R$ {resultTpPg4.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/boleto.png' /> Boleto Bancario: R$ {resultTpPg5}
+                            <img className='cifrões' src='/images/boleto.png' /> Boleto Bancario: R$ {resultTpPg5.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito Loja: R$ {resultTpPg6}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito Loja: R$ {resultTpPg6.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento Total: R$ {resultTpPg7}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento Total: R$ {resultTpPg7.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Desconto Total: R$ {resultTpPg8}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Desconto Total: R$ {resultTpPg8.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultTpPg1}
+                            <img className='cifrões' src='/images/pix.png' /> Pix: R$ {resultTpPg13.toFixed(2).replace('.', ',')}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {resultTpPg1.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -2327,36 +2545,40 @@ export const ResumoFaturamento = () => {
                 </div>
 
                 <RF.Dashboard>
-                    <Chart chartType="Bar" width="500px" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico" />
+                    <Chart chartType="Bar" width="75%" height="250px" data={dataTpPg0} options={optionsCli0} className="grafico" />
                     <Chart chartType="ColumnChart" width="350px" height="250px" data={dataTpPgVale} className="grafico" />
                 </RF.Dashboard>
 
             </Modal>
 
-            <Modal isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles}>
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles}>
 
                 <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
 
-                    <h1>Dados Produtos <button className='btnDetalhes' onClick={openDashboardProdutosDetalhados}><img className='grafico' src='images/itens.png' /> Por itens </button> </h1>
+                    <h1>Dados Produtos</h1>
 
                     <div className='dashboardTexts'>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {resultProd.toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {resultProd.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {resultProd1.toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {resultProd1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {resultProd3.toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {resultProd3.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {resultProd4.toFixed(3)}
+                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {resultProd2.toFixed(2).replace('.', ',')}
+                        </h2>
+
+                        <h2 className='prices'>
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Desconto: {resultProd4.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -2368,12 +2590,18 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <Chart chartType="Bar" width="100%" height="35vw" data={dataProd0} options={optionsProd0} className='grafico' />
+
+                        <div className='graficos10' >
+                            <button className='btnDetalhes' onClick={openDashboardProdutosDetalhados}><img className='close' src='images/itens.png' /> Individuais </button>
+                            <Chart chartType="Bar" width="100%" height="35vw" data={dataProd0} options={optionsProd0} className='grafico' />
+                        </div>
+
                     </RF.Dashboard>
 
                 </div>
 
                 <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado'>
+                    <button className='closeBtnMenor' onClick={closeDashboardProdutosDetalhados} ><img className='close' src='/images/voltar.png' />Voltar</button>
                     {dadosProdutoReduzidos.map((prod) => {
 
                         const dashboard = [
@@ -2382,11 +2610,40 @@ export const ResumoFaturamento = () => {
                             ["Lucro", prod.vlr_lucro_total, "#1b7abc"],
                         ];
 
+                        const dashboard1 = [
+                            ["Element", "", { role: "style" }],
+                            ["Custo", prod.vlr_custo_total, "#727272"],
+                            ["Lucro", prod.vlr_lucro_total, "#1b7abc"],
+                        ];
+
+                        const dashboard2 = [
+                            [
+                                "Element",
+                                "Valor",
+                                { role: "style" },
+                                {
+                                    sourceColumn: 0,
+                                    role: "annotation",
+                                    type: "string",
+                                    calc: "stringify",
+                                },
+                            ],
+                            ["Desconto", prod.vlr_desconto_total, "#a9b21a", null],
+                            ["Sub.Total", prod.sub_total, "#ff6ad8", null],
+                            ["Venda", prod.vlr_venda_total, "#f6d001", null],
+                        ];
+
                         return (
-                            <div className='a'>
+                            <RF.DashboardMenor>
+
                                 <h2>{prod.produto}</h2>
-                                <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
-                            </div>
+                                <div className='graficosReduzidos' >
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard1} className="graficoA" />
+                                    <Chart chartType="BarChart" data={dashboard2} options={barOptionsGru} className="graficoA" />
+                                </div>
+
+                            </RF.DashboardMenor>
                         );
 
                     })}
@@ -2394,30 +2651,30 @@ export const ResumoFaturamento = () => {
 
             </Modal>
 
-            <Modal isOpen={dashboardGrupo} onRequestClose={closeDashboardGrupo} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
+            <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupo} onRequestClose={closeDashboardGrupo} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
 
                 <button onClick={closeDashboardGrupo} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
 
-                    <h1>Dados Grupo  <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado} > <img className='grafico' src='images/itens.png' /> Cada Grupo  </button> </h1>
+                    <h1>Dados Grupo </h1>
 
                     <div className='dashboardTexts' >
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultGru}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultGru.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {resultGru1}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {resultGru1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {resultGru2.toFixed(2)}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {resultGru2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {resultGru3}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {resultGru3.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
@@ -2425,21 +2682,33 @@ export const ResumoFaturamento = () => {
                     <RF.Dashboard>
                         <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} className="grafico" />
                         <Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} className="grafico" />
+                        <Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru2} className="grafico" />
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <Chart chartType="Bar" width="100%" height="35vw" data={dataGru0} options={optionsGru0} />
-                    </RF.Dashboard>
 
+                        <div className='graficos10' >
+                            <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado}><img className='close' src='images/itens.png' /> Individuais </button>
+                            <Chart chartType="Bar" width="100%" height="35vw" data={dataGru0} options={optionsGru0} />
+                        </div>
+
+                    </RF.Dashboard>
 
                 </div>
 
-                <Modal isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                    <button className='closeBtnMenor' onClick={closeDashboardGrupoDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
                     {dadosGrupoDetalhado.map((detalhado) => {
 
                         const grupoDetalhado = [
                             ["Element", "Valor", { role: "style" }],
                             ["Venda:", detalhado.vlr_venda_total, "#bc1b2b"],
+                            ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
+                        ];
+
+                        const grupoDetalhado1 = [
+                            ["Element", "Valor", { role: "style" }],
+                            ["Sub.Total", detalhado.sub_total, "#bc1b2b"],
                             ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
                         ];
 
@@ -2470,13 +2739,14 @@ export const ResumoFaturamento = () => {
                         };
 
                         return (
-                            <div className='a' >
+                            <RF.DashboardMenor>
                                 <h2>{detalhado.grupo}</h2>
-                                <div className='b'>
+                                <div className='graficosReduzidos'>
                                     <Chart chartType="ColumnChart" width="300px" height="200px" data={grupoDetalhado} className="graficoA" />
-                                    <Chart chartType="BarChart" data={grupoDetalhadoBar} options={barGruOptions} className="graficoB" />
+                                    <Chart chartType="BarChart" data={grupoDetalhadoBar} options={barGruOptions} className="graficoA" />
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={grupoDetalhado1} className="graficoA" />
                                 </div>
-                            </div>
+                            </RF.DashboardMenor>
                         )
                     })}
                 </Modal>
@@ -2489,34 +2759,43 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Fornecedor <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='grafico' src='images/itens.png' /> Cada Item</button> </h1>
+                    <h1>Dados Fornecedor</h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultFor}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultFor.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {resultFor1}
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {resultFor1.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {resultFor2}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {resultFor2.toFixed(2).replace('.', ',')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {resultFor3}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {resultFor3.toFixed(2).replace('.', ',')}
+                        </h2>
+
+                        <h2 className='prices' >
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Sub.Total: {resultFor4.toFixed(2).replace('.', ',')}
                         </h2>
 
                     </div>
 
-                    <RF.Dashboard>
+                    <RF.Dashboard0>
                         <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} className="grafico" />
                         <Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} className="grafico" />
-                    </RF.Dashboard>
+                    </RF.Dashboard0>
 
                     <RF.Dashboard>
-                        <Chart chartType="Bar" width="100%" height="35vw" data={dataFor0} options={optionsFor0} />
+
+                        <div className='graficos10' >
+                            <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='close' src='/images/itens.png' /> Individuais </button>
+                            <Chart chartType="Bar" width="100%" height="35vw" data={dataFor0} options={optionsFor0} />
+                        </div>
+
                     </RF.Dashboard>
 
                 </div>
@@ -2530,11 +2809,40 @@ export const ResumoFaturamento = () => {
                             ["Lucro", forn.vlr_lucro_total, "#57ffe8"],
                         ]
 
+                        const dashboard1 = [
+                            ["Element", "Valor", { role: "style" }],
+                            ["Sub.Total", forn.sub_total, "#b2bb1d"],
+                            ["Lucro", forn.vlr_lucro_total, "#57ffe8"],
+                        ]
+
+                        const dashboard2 = [
+                            [
+                                "Element",
+                                "Valor",
+                                { role: "style" },
+                                {
+                                    sourceColumn: 0,
+                                    role: "annotation",
+                                    type: "string",
+                                    calc: "stringify",
+                                },
+                            ],
+                            ["Lucro", forn.vlr_lucro_total, "#57ffe8", null],
+                            ["Sub.Total", forn.sub_total, "#b2bb1d", null],
+                            ["Venda", forn.vlr_venda_total, "#bc1b2b", null],
+                            ["Desconto", forn.vlr_venda_total, "#1b7abc", null],
+                        ];
+
                         return (
-                            <div className='a' >
+                            <RF.DashboardMenor>
                                 <h2>{forn.fornecedor}</h2>
-                                <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
-                            </div>
+
+                                <div className='graficosReduzidos'>
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard} className="graficoA" />
+                                    <Chart chartType="ColumnChart" width="300px" height="200px" data={dashboard1} className="graficoA" />
+                                    <Chart chartType="BarChart" data={dashboard2} options={barOptionsFor} className="graficoA" />
+                                </div>
+                            </RF.DashboardMenor>
                         )
 
                     })}
@@ -2589,8 +2897,8 @@ export const ResumoFaturamento = () => {
 
             </C.Footer>
 
-            {isModalTop ? <Top onClose={() => setIsModalTop(false)} setDataSelectTop={setDataSelectTop} /> : null}
-            {isModalFilial ? <Emitente onClose={() => setIsModalFilial(false)} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} setDataSelectDadosEmitente={setDataSelectDadosEmitente} /> : null}
+            {isModalTop ? <Top onClose={() => setIsModalTop(false)} setDataSelectTop={setDataSelectTop} setValorTop={setValorTop} valorTop={valorTop} /> : null}
+            {isModalFilial ? <Emitente onClose={() => setIsModalFilial(false)} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} setDataSelectDadosEmitente={setDataSelectDadosEmitente} setValor={setValor} valor={valor} /> : null}
         </C.Container>
 
     );
