@@ -1259,7 +1259,9 @@ export const ResumoFaturamento = () => {
                         <>
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label className='esc'>( Use 'Esc' para fechar )</label>
+
                                 <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
                             </div>
 
                             <div className='table-responsive'>
@@ -1338,6 +1340,7 @@ export const ResumoFaturamento = () => {
                         <>
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+
                                 <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
                             </div>
 
@@ -1347,6 +1350,7 @@ export const ResumoFaturamento = () => {
                                         <th>Id.Filial</th>
 
                                         <th>Filial</th>
+
 
                                         <th>Qtd. Vendas</th>
 
@@ -1379,6 +1383,7 @@ export const ResumoFaturamento = () => {
                                     </tr>
 
                                     {dados.map((f2) => {
+
 
                                         if (f2.vlTotalCredito === null) {
                                             f2.vlTotalCredito = 0
@@ -1423,7 +1428,6 @@ export const ResumoFaturamento = () => {
                                 </table>
 
                             </div>
-
                         </>
                     )}
                 </RF.DataGeral>
@@ -1439,7 +1443,9 @@ export const ResumoFaturamento = () => {
 
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+
                                 <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+
                                 <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
@@ -1510,7 +1516,9 @@ export const ResumoFaturamento = () => {
 
                                             <td>{(dat.vlLucroLiquido).toFixed(2).replace('.', ',')}</td>
 
+
                                             <td>% {(dat.plucroLiquido).toFixed(2).replace('.', ',')}</td>
+
 
                                             <td>{(dat.percentual).toFixed(2).replace('.', ',')}</td>
                                         </tr>
@@ -1534,7 +1542,9 @@ export const ResumoFaturamento = () => {
 
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+
                                 <button className='dashboardBtn' onClick={openDashboardCliente}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
@@ -1618,7 +1628,9 @@ export const ResumoFaturamento = () => {
                         <>
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+
                                 <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
                                 <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
@@ -1639,7 +1651,9 @@ export const ResumoFaturamento = () => {
                                             }
 
                                             return (
+
                                                 <td> {f5.toFixed(2).replace('.', ',')} </td>
+
                                             );
                                         })}
                                     </tr>
@@ -1660,7 +1674,9 @@ export const ResumoFaturamento = () => {
 
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+
                                 <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
                                 <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
@@ -1744,7 +1760,9 @@ export const ResumoFaturamento = () => {
 
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+
                                 <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
                                 <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
@@ -1831,7 +1849,9 @@ export const ResumoFaturamento = () => {
 
                             <div className='dashboardLine'>
                                 <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+
                                 <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
                                 <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
@@ -1876,6 +1896,7 @@ export const ResumoFaturamento = () => {
 
                                             <td> {dat.qtd_total} </td>
 
+
                                             <td> {dat.sub_total.toFixed(2).replace('.', ',')} </td>
 
                                             <td> {(dat.p_desconto).toFixed(3).replace('.', ',')} </td>
@@ -1893,6 +1914,7 @@ export const ResumoFaturamento = () => {
                                             <td> {dat.p_margem.toFixed(2).replace('.', ',')} </td>
 
                                             <td> {(dat.percentual).toFixed(2).replace('.', ',')} </td>
+
                                         </tr>
                                     ))}
                                 </table>

@@ -7,7 +7,7 @@ import { Setor } from "../modais/modal_setor";
 import { Nivel } from "../modais/modal_nivel";
 import { AuthContext } from "../../contexts/Auth/authContext";
 
-export const OpFuncionarios = ({setOpfuncionario, close}) => {
+export const OpFuncionarios = ({setOpfuncionario, close, setMinimizado, minimizado}) => {
     const navigate = useNavigate();
     const {nivel} = useContext(AuthContext);
     const [isModalSetor, setIsModalSetor] = useState(false);
@@ -31,8 +31,8 @@ export const OpFuncionarios = ({setOpfuncionario, close}) => {
                         <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </C.Footer>
-            {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} cadastroSetor={cadastroSetor} /> : null}
-            {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} /> : null}
+            {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} cadastroSetor={cadastroSetor} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
+            {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} setMinimizado={setMinimizado} minimizado={minimizado} /> : null}
             </C.Container>
         </M.Modal>
     )

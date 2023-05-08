@@ -3,7 +3,7 @@ import * as M from "../../modal/modal";
 import * as C from "../../../cadastro/cadastro"
 import { CadastrarFamilia } from "../modal_cadastro_familia";
 
-export const Familia = ({close}) => {
+export const Familia = ({close, minimizado, setMinimizado}) => {
     const [cadastrarFamilia, setCadastrarFamilia] = useState(false);
     const [familias, setFamilias] = useState([]);
 
@@ -16,11 +16,18 @@ export const Familia = ({close}) => {
         fetchData();
     },[])
 
+    // Estado que indica quando minimizado para colocar atrás de tudo
+    const [minimizar, setMinimizar] = useState("");
+
     return(
-        <M.SubModal>
+        <M.SubModal style={{zIndex: minimizado.familia === true ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
-                    <h3>Familia</h3><button className="close" onClick={close}>X</button>
+                    <h3>Familia</h3>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, familia: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <M.Filtro>
                     <select>
@@ -62,7 +69,7 @@ export const Familia = ({close}) => {
                         <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </C.Footer>
-                {cadastrarFamilia ? <CadastrarFamilia close={()=> setCadastrarFamilia(false)}/> : null}
+                {cadastrarFamilia ? <CadastrarFamilia close={()=> setCadastrarFamilia(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
             </M.Container>
         </M.SubModal>
     )

@@ -4,7 +4,7 @@ import * as C from "../../cadastro/cadastro";
 import { CadastroPerfil } from "../modal_cadastro_perfil/index";
 import { Loading } from "../../loading/index";
 
-export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil}) => {
+export const PerfilCliente = ({close, cadastroPerfil, dadosCliente, setDadosCliente, minimizado, setMinimizado}) => {
     const [perfil, setPerfil] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -21,10 +21,13 @@ export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil}) => {
 
 
     function selected (perfil){
-        setDadosPerfil({
-            id: perfil.id,
-            descricao: perfil.descricao
-        });
+        setDadosCliente({
+            ...dadosCliente,
+            perfilRegra:{
+                id: perfil.id,
+                descricao: perfil.descricao
+            }
+        })
         close();
     }
     // Filtro de busca
@@ -65,22 +68,30 @@ export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil}) => {
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
-                setDadosPerfil({
-                    id: resultado[selectIndex].id,
-                    descricao: resultado[selectIndex].descricao
-                });
+                setDadosCliente({
+                    ...dadosCliente,
+                    perfilRegra:{
+                        id: resultado[selectIndex].id,
+                        descricao: resultado[selectIndex].descricao
+                    }
+                })
                 close();
             }
         }
     };
 
+    // Estado que indica quando minimizado para colocar atrás de tudo
+    const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.Modal>
+        <M.Modal style={{zIndex: minimizado && minimizado.perfil ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <label>Cadastro de Perfil</label>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, perfil: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <M.Filtro>
                     <div>
@@ -133,7 +144,7 @@ export const PerfilCliente = ({close, setDadosPerfil, cadastroPerfil}) => {
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
-                {modalCadastro ? <CadastroPerfil close = {()=> setModalCadastro(false)}/> : null}
+                {modalCadastro ? <CadastroPerfil close = {()=> setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
             </M.Container>
         </M.Modal>
     )

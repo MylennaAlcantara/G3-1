@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Loading } from "../../loading";
 import * as M from "../modal/modal";
 
-export const ListaPais = ({close, setDadosPaises}) => {
+export const ListaPais = ({close, setDadosPaises, setDadosFornecedor, dadosFornecedor}) => {
     const paises = [
             {codigo: "0132", nome: "AFEGANISTAO"},	
             {codigo: "7560", nome: "AFRICA DO SUL"},
@@ -252,10 +252,15 @@ export const ListaPais = ({close, setDadosPaises}) => {
 
 
     function selecionado (pais){
-        setDadosPaises({
+        setDadosPaises && setDadosPaises({
             codigo: pais.codigo,
             nome:  pais.nome
-        })
+        });
+        setDadosFornecedor && setDadosFornecedor({
+            ...dadosFornecedor,
+            codigo_pais: pais.codigo,
+            pais: pais.nome,
+        });
         close();
     }
     const resultado = Array.isArray(paises) && paises.filter((pais) => pais.nome.toLowerCase().includes(busca));

@@ -4,7 +4,7 @@ import * as C from "../../../cadastro/cadastro";
 import * as GI from "./grupoIcms";
 import { AuthContext } from "../../../../contexts/Auth/authContext";
 
-export const GrupoIcms = ({close}) => {
+export const GrupoIcms = ({close, minimizado, setMinimizado}) => {
     const {filiais} = useContext(AuthContext);
     const [estados, setEstados] = useState([]);
     const [grupoIcms, setGrupoIcms] = useState([]);
@@ -131,12 +131,18 @@ export const GrupoIcms = ({close}) => {
         }
     })
 
+    // Estado que indica quando minimizado para colocar atrás de tudo
+    const [minimizar, setMinimizar] = useState("");
+
     return(
-        <M.SubModal>
+        <M.SubModal style={{zIndex: minimizado.regra ? minimizar : "1"}}>
             <C.Container style={{width: "70%"}}>
                 <GI.Header>
                     <h3>Grupos de ICMS</h3>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, regra: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </GI.Header>
                 <GI.Content>
                     <GI.GrupoRegra>

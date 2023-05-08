@@ -5,7 +5,7 @@ import { EditarNivel } from "../modal_editar_nivel";
 import { CadastrarNivel } from "../modal_cadastro_nivel";
 import { Loading } from "../../loading";
 
-export const Nivel = ({setNivel, close, cadastroNivel}) => {
+export const Nivel = ({setNivel, close, cadastroNivel, minimizado, setMinimizado, setDadosFuncionario, dadosFuncionario}) => {
     const [niveis, setNiveis] = useState([]);
     const [modalEditarNivel, setModalEditarNivel] = useState(false);
     const [modalCadastrarNivel, setModalCadastrarNivel] = useState(false);
@@ -20,9 +20,16 @@ export const Nivel = ({setNivel, close, cadastroNivel}) => {
     },[])
     
     const selecionado = (nivel) => {
-        setNivel({
+        setNivel && setNivel({
             codigo: nivel.id,
             nome: nivel.descricao
+        });
+        setDadosFuncionario && setDadosFuncionario({
+            ...dadosFuncionario,
+            nivelAcesso: {
+                id: nivel.id,
+                descricao: nivel.descricao
+            }
         });
         close();
     }
@@ -47,13 +54,18 @@ export const Nivel = ({setNivel, close, cadastroNivel}) => {
             setModalEditarNivel(true);
         }
     }
+    // Estado que indica quando minimizado para colocar atrás de tudo
+    const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.Modal>
+        <M.Modal style={{zIndex: minimizado && minimizado.nivel === true ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Nível de Acesso</h3>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, nivel: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <M.Filtro>
                     <div>
@@ -106,8 +118,8 @@ export const Nivel = ({setNivel, close, cadastroNivel}) => {
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
-                {modalEditarNivel ? <EditarNivel close={()=> setModalEditarNivel(false)} dadosNivel={dadosNivel}/> : null}
-                {modalCadastrarNivel ? <CadastrarNivel close={()=> setModalCadastrarNivel(false)} /> : null}
+                {modalEditarNivel ? <EditarNivel close={()=> setModalEditarNivel(false)} dadosNivel={dadosNivel} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
+                {modalCadastrarNivel ? <CadastrarNivel close={()=> setModalCadastrarNivel(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar} /> : null}
             </M.Container>
         </M.Modal>
     )

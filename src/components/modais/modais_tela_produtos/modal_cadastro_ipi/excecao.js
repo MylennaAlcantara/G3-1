@@ -3,7 +3,7 @@ import * as M from "../../modal/modal";
 import * as CPC from "../modal_cadastro_piscofins/cadastroPisCofins";
 import * as C from "../../../cadastro/cadastro";
 
-export const ExcecaoIpi = ({close}) => {
+export const ExcecaoIpi = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [filiais, setFiliais] = useState([]);
     const [estados, setEstados] = useState([]);
     const [perfis, setPerfis] = useState([]);
@@ -93,11 +93,14 @@ export const ExcecaoIpi = ({close}) => {
     },[])
 
     return(
-        <M.SubModal>
+        <M.SubModal style={{zIndex: minimizado.ipi ? minimizar : "1"}}>
         <M.Container>
             <M.Header>
                 <h3>Exceção a Regra de IPI</h3>
-                <button className="close" onClick={close}>X</button>
+                <div className="buttons">
+                    <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, ipi: true})}}><div className="linha"/></button>
+                    <button className="close" onClick={close}>X</button>
+                </div>
             </M.Header>
             <CPC.ExcecaoRegra>
                 <fieldset>

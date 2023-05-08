@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as M from "../modal/modal";
 import * as CP from "../modal_cadastro_perfil/cadastroPerfil";
 
-export const CadastroRamo = ({close}) => {
+export const CadastroRamo = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [novoRamo, setNovoRamo] = useState('');
 
     async function salvar (){
@@ -25,10 +25,13 @@ export const CadastroRamo = ({close}) => {
     
     return(
         <M.Modal>
-            <M.Container>
+            <M.Container style={{zIndex: minimizado.ramo ? minimizar : "1"}}>
                 <M.Header>
                     <label>Ramo de Atividade</label>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, ramo: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <CP.Content>
                     <div>

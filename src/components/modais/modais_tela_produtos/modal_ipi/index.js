@@ -4,7 +4,7 @@ import * as C from "../../../cadastro/cadastro";
 import { CadastroPisCofins } from "../modal_cadastro_piscofins";
 import { CadastroIpi } from "../modal_cadastro_ipi";
 
-export const Ipi = ({close}) => {
+export const Ipi = ({close, minimizado, setMinimizado}) => {
     const [grupoIpi, setGrupoIpi] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -57,13 +57,18 @@ export const Ipi = ({close}) => {
         }
     };
 
+    // Estado que indica quando minimizado para colocar atrás de tudo
+    const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.SubModal>
+        <M.SubModal style={{zIndex: minimizado.ipi ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Grupos de IPI</h3>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, ipi: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <M.Filtro>
                     <div>
@@ -108,7 +113,7 @@ export const Ipi = ({close}) => {
                         <button onClick={close}><img src="/images/voltar.png"/> Fechar</button>
                     </div>
                 </C.Footer>
-                {modalCadastro ? <CadastroIpi close={()=> setModalCadastro(false)}/> : null}
+                {modalCadastro ? <CadastroIpi close={()=> setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
             </M.Container>
         </M.SubModal>
     )

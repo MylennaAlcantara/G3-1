@@ -4,14 +4,18 @@ import * as C from "../../cadastro/cadastro";
 import * as CCL from "../../cadastros/cadastro_cliente/cadastroCliente"
 import * as CP from "./cadastroPgto";
 
-export const CadastroPgto = ({close}) => {
+export const CadastroPgto = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [aba, setAba] = useState('geral');
 
     return(
-        <M.SubModal>
+        <M.SubModal style={{zIndex: minimizado.pgto ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Cadastrar Tipo de Pagamento</h3>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, pgto: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <CCL.Navegacao>
                     <div onClick={()=> setAba('geral')} style={{backgroundColor: aba === 'geral' ? 'white' : '', borderBottom: aba === 'geral' ? 'none' : ''}}>Dados Gerais</div>

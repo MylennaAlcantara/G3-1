@@ -3,7 +3,7 @@ import { Loading } from "../../loading/index.js";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Saler = ({onClose = () =>{setIsModalFuncionario(false)},setIsModalFuncionario, focoCampoSeguinte, setDataSelectSaler, setDataIdSelectSaler, setVendedorAlterado}) => {
+export const Saler = ({onClose = () =>{setIsModalFuncionario(false)},setIsModalFuncionario, focoCampoSeguinte, setDataSelectSaler, setDataIdSelectSaler, setVendedorAlterado, setDadosFornecedor, dadosFornecedor}) => {
 
     const [users, setUsers] = useState([]);
     const [selectSaler, setSelectSaler] = useState();
@@ -23,8 +23,13 @@ export const Saler = ({onClose = () =>{setIsModalFuncionario(false)},setIsModalF
     const SelectedSaler = (user) => {
         setSelectSaler(user.nome);
         setSelectIdSaler(user.id);
-        setDataSelectSaler(user.nome);
-        setDataIdSelectSaler(user.id);
+        setDataSelectSaler && setDataSelectSaler(user.nome);
+        setDataIdSelectSaler && setDataIdSelectSaler(user.id);
+        setDadosFornecedor && setDadosFornecedor({
+            ...dadosFornecedor,
+            id_comprador: user.id,
+            nome_comprador: user.nome,
+        });
         onClose();
         focoCampoSeguinte();
         setVendedorAlterado(true);

@@ -16,7 +16,7 @@ import { RamoAtividade } from "../modais/modal_ramo_atividade";
 import { Pgt } from "../modais/modal_pgt";
 import { Grupo } from "../modais/modais_tela_produtos/modal_icms";
 
-export const NavBar = () => {
+export const NavBar = ({minimizado, setMinimizado}) => {
     const navigate = useNavigate();
     const [aberto, setAberto] = useState(true);
     const {nivel} = useContext(AuthContext);
@@ -55,7 +55,7 @@ export const NavBar = () => {
         setOpfuncionario(false);
         setOpAuxiliar(false);
     }
-
+/*
     function navegarProduto (){
         fecharOp();
         if(isModalFamilia === true){
@@ -97,6 +97,7 @@ export const NavBar = () => {
             setRamo(false);
         }
     }
+     
     function navegarFuncionario(){
         if(isModalSetor){
             setIsModalNivel(false);
@@ -104,6 +105,7 @@ export const NavBar = () => {
             setIsModalSetor(false);
         }
     }
+    */
 
     const sair = () => {
         localStorage.clear();
@@ -154,28 +156,28 @@ export const NavBar = () => {
                                             {tabelaAuxiliar ? (
                                                 <>
                                                     <div className="gaveta" onClick={()=> {navigate('/top'); fecharOp()}}>T.O.P</div>
-                                                    <div className="gaveta" onClick={()=> {setPerfil(true); setCadastroPerfil(true); navegarTabelaAuxi()}}>Perfil de Regra</div>
-                                                    <div className="gaveta" onClick={()=> {setRamo(true); setCadastroRamo(true); navegarTabelaAuxi()}}>Ramo de Atividade</div>
-                                                    <div className="gaveta" onClick={()=> {setTipoPgto(true); setCadastroPgto(true); navegarTabelaAuxi()}}>Tipo de Pagamento</div>
+                                                    <div className="gaveta" onClick={()=> {setPerfil(true); setCadastroPerfil(true)}}>Perfil de Regra</div>
+                                                    <div className="gaveta" onClick={()=> {setRamo(true); setCadastroRamo(true)}}>Ramo de Atividade</div>
+                                                    <div className="gaveta" onClick={()=> {setTipoPgto(true); setCadastroPgto(true)}}>Tipo de Pagamento</div>
                                                 </>
                                             ) : null}
                                         </>
                                     ) : (
                                         <>
                                             <div className="gaveta" onClick={()=> {navigate('/produtos'); fecharOp()}}>Cadastro</div>
-                                            <div className="gaveta" onClick={()=> {setIsModalFamilia(true); navegarProduto()}}>Cadastrar Familia</div>
-                                            <div className="gaveta" onClick={()=> {setIsModalGrupo(true); navegarProduto()}}>Cadastrar Grupo</div>
-                                            <div className="gaveta" onClick={()=> {setIsModalRegraIcms(true); navegarProduto()}}>Cadastrar Grupos ICMS/Regras de ICMS</div>
-                                            <div className="gaveta" onClick={()=> {setIsModalGrupoIpi(true); navegarProduto()}}>Cadastrar Grupos IPI</div>
-                                            <div className="gaveta" onClick={()=> {setIsModalGrupoPis(true); navegarProduto()}}>Cadastrar Grupo PIS/COFINS</div>
+                                            <div className="gaveta" onClick={()=> {setIsModalFamilia(true);}}>Cadastrar Familia</div>
+                                            <div className="gaveta" onClick={()=> {setIsModalGrupo(true);}}>Cadastrar Grupo</div>
+                                            <div className="gaveta" onClick={()=> {setIsModalRegraIcms(true);}}>Cadastrar Grupos ICMS/Regras de ICMS</div>
+                                            <div className="gaveta" onClick={()=> {setIsModalGrupoIpi(true);}}>Cadastrar Grupos IPI</div>
+                                            <div className="gaveta" onClick={()=> {setIsModalGrupoPis(true);}}>Cadastrar Grupo PIS/COFINS</div>
                                         </>
                                     )}
                                 </>
                             ) : (
                                 <>
                                     {nivel.cadastro_funcionario ? <div className="gaveta" onClick={()=> {navigate('/funcionarios'); fecharOp()}}>Cadastro</div> : null}                                    
-                                    {nivel.tabela_auxiliar_setor_funcionario ? <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true); navegarFuncionario()}}>Cadastro de Setor</div> : null}
-                                    {nivel.tabela_auxiliar_tipo_funcionario ? <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true); navegarFuncionario()}}>Cadastro de Nivel</div> : null}
+                                    {nivel.tabela_auxiliar_setor_funcionario ? <div className="gaveta" onClick={()=> {setIsModalSetor(true); setCadastroSetor(true)}}>Cadastro de Setor</div> : null}
+                                    {nivel.tabela_auxiliar_tipo_funcionario ? <div className="gaveta" onClick={()=> {setIsModalNivel(true); setCadastroNivel(true)}}>Cadastro de Nivel</div> : null}
                                 </>
                             )}
                         </>
@@ -187,21 +189,21 @@ export const NavBar = () => {
                 </C.Barra>
             ) : null}
             <button className="menu" onClick={abrirBarra} style={{left: aberto === false ? '0' : null}}><img src="/images/seta.png"/></button>
-            {opFuncionario ? <OpFuncionarios close={()=> setOpfuncionario(false)} setOpfuncionario={setOpfuncionario}/> : null}
-            {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} cadastroSetor={cadastroSetor} /> : null}
-            {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} /> : null}
+            {opFuncionario ? <OpFuncionarios close={()=> setOpfuncionario(false)} setOpfuncionario={setOpfuncionario} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
+            {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} cadastroSetor={cadastroSetor} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
+            {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} cadastroNivel={cadastroNivel} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             
-            {opProdutos ? <OpProdutos close={()=> setOpProdutos(false)} setOpProdutos={setOpProdutos}/> : null}
-            {isModalFamilia ? <Familia close={()=> setIsModalFamilia(false)}/> : null}
-            {isModalGrupoIpi ? <Ipi close={()=> setIsModalGrupoIpi(false)}/> : null}
-            {isModalGrupoPis ? <PisCofins close={()=> setIsModalGrupoPis(false)}/> : null}
-            {isModalRegraIcms ? <GrupoIcms close={()=> setIsModalRegraIcms(false)}/> : null}
-            {isModalGrupo ? <Grupo close={()=> setIsModalGrupo(false)}/> : null}
+            {opProdutos ? <OpProdutos close={()=> setOpProdutos(false)} setOpProdutos={setOpProdutos} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
+            {isModalFamilia ? <Familia close={()=> setIsModalFamilia(false)} minimizado={minimizado} setMinimizado={setMinimizado}/> : null}
+            {isModalGrupoIpi ? <Ipi close={()=> setIsModalGrupoIpi(false)} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
+            {isModalGrupoPis ? <PisCofins close={()=> setIsModalGrupoPis(false)} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
+            {isModalRegraIcms ? <GrupoIcms close={()=> setIsModalRegraIcms(false)} minimizado={minimizado} setMinimizado={setMinimizado}/> : null}
+            {isModalGrupo ? <Grupo close={()=> setIsModalGrupo(false)} minimizado={minimizado} setMinimizado={setMinimizado}/> : null}
             
-            {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar}/> : null}
-            {perfil ? <PerfilCliente close={()=> setPerfil(false)} cadastroPerfil={cadastroPerfil}/> : null}
-            {ramo ? <RamoAtividade close={()=> setRamo(false)} cadastroRamo={cadastroRamo}/> : null}
-            {tipoPgto ? <Pgt onClose={()=> setTipoPgto(false)} cadastroPgto={cadastroPgto}/> : null}
+            {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
+            {perfil ? <PerfilCliente close={()=> setPerfil(false)} cadastroPerfil={cadastroPerfil} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
+            {ramo ? <RamoAtividade close={()=> setRamo(false)} cadastroRamo={cadastroRamo} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
+            {tipoPgto ? <Pgt onClose={()=> setTipoPgto(false)} cadastroPgto={cadastroPgto} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
         </C.Container>
     )
 }
