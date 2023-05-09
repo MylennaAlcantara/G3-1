@@ -10,7 +10,6 @@ export const Container = styled.div`
     width: 60vw;
     border: 1px solid black;
     border-radius: 12px;
-    position: relative;
     @media (max-width: 1920px){
         height: 80vh;
         width: 80vw;   

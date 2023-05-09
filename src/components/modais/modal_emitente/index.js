@@ -4,7 +4,7 @@ import { Loading } from "../../loading/index";
 import { ResumoFaturamento } from "../../Relatorios/resumo_de_faturamento/listAll"
 
 
-export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente, dadosCliente, setDadosCliente, setDadosFuncionario, dadosFuncionario, setValor, valor}) => {
+export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente, dadosCliente, setDadosCliente, setDadosFuncionario, dadosFuncionario, setValor, valor, dadosRotina, setDadosRotina }) => {
 
 
     const [users, setUsers] = useState([]);
@@ -46,6 +46,13 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
             filial: {
                 id: user.id,
                 razaoSocial: user.razao_social
+            }
+        })
+        setDadosRotina && setDadosRotina({
+            ...dadosRotina,
+            emitente: {
+                id: user.id,
+                descricao: user.razao_social
             }
         })
         onClose();
@@ -105,6 +112,20 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
                             razaoSocial: resultado[selectIndex].razao_social
                         }
                     });
+                    setDadosFuncionario && setDadosFuncionario({
+                        ...dadosFuncionario,
+                        filial: {
+                            id: resultado[selectIndex].id,
+                            razaoSocial: resultado[selectIndex].razao_social
+                        }
+                    })
+                    setDadosRotina && setDadosRotina({
+                        ...dadosRotina,
+                        emitente: {
+                            id: resultado[selectIndex].id,
+                            descricao: resultado[selectIndex].razao_social
+                        }
+                    })
                     onClose();
                     focoCampoSeguinte();
                     setEmitenteAlterado(true);

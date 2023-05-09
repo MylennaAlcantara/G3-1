@@ -4,7 +4,7 @@ import "../../cadastro/index.js";
 import { Loading } from "../../loading/index";
 
 
-export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPartner, setDataIdSelectPartner, setParceiroAlterado }) => {
+export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPartner, setDataIdSelectPartner, setParceiroAlterado, dadosRotina, setDadosRotina }) => {
 
     const [users, setUsers] = useState([]);
     const [selectPartner, setSelectPartner] = useState();
@@ -28,6 +28,13 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
         setSelectIdPartner(user.id)
         setDataSelectPartner(user.nome);
         setDataIdSelectPartner(user.id);
+        setDadosRotina && setDadosRotina({
+            ...dadosRotina,
+            parceiro: {
+                id: user.id,
+                descricao: user.nome
+            }
+        })
         onClose();
         focoCampoSeguinte();
         setParceiroAlterado(true);
@@ -82,6 +89,13 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
                 setSelectIdPartner(resultado[selectIndex].id)
                 setDataSelectPartner(resultado[selectIndex].nome);
                 setDataIdSelectPartner(resultado[selectIndex].id);
+                setDadosRotina && setDadosRotina({
+                    ...dadosRotina,
+                    parceiro: {
+                        id: resultado[selectIndex].id,
+                        descricao: resultado[selectIndex].nome
+                    }
+                })
                 onClose();
                 focoCampoSeguinte();
                 setParceiroAlterado(true);

@@ -3,7 +3,7 @@ import { Loading } from "../../loading/index.js";
 import {Container, Filtro, Header, Modal} from './../modal/modal.js';
 
 
-export const Saler = ({onClose = () =>{setIsModalFuncionario(false)},setIsModalFuncionario, focoCampoSeguinte, setDataSelectSaler, setDataIdSelectSaler, setVendedorAlterado, setDadosFornecedor, dadosFornecedor}) => {
+export const Saler = ({onClose = () =>{setIsModalFuncionario(false)},setIsModalFuncionario, focoCampoSeguinte, setDataSelectSaler, setDataIdSelectSaler, setVendedorAlterado, setDadosFornecedor, dadosFornecedor, dadosRotina, setDadosRotina}) => {
 
     const [users, setUsers] = useState([]);
     const [selectSaler, setSelectSaler] = useState();
@@ -30,6 +30,13 @@ export const Saler = ({onClose = () =>{setIsModalFuncionario(false)},setIsModalF
             id_comprador: user.id,
             nome_comprador: user.nome,
         });
+        setDadosRotina && setDadosRotina({
+            ...dadosRotina,
+            vendedor: {
+                id: user.id,
+                descricao: user.nome
+            }
+        })
         onClose();
         focoCampoSeguinte();
         setVendedorAlterado(true);
@@ -68,6 +75,18 @@ export const Saler = ({onClose = () =>{setIsModalFuncionario(false)},setIsModalF
                 setSelectIdSaler(resultado[selectIndex].id);
                 setDataSelectSaler(resultado[selectIndex].nome);
                 setDataIdSelectSaler(resultado[selectIndex].id);
+                setDadosFornecedor && setDadosFornecedor({
+                    ...dadosFornecedor,
+                    id_comprador: resultado[selectIndex].id,
+                    nome_comprador: resultado[selectIndex].nome,
+                });
+                setDadosRotina && setDadosRotina({
+                    ...dadosRotina,
+                    vendedor: {
+                        id: resultado[selectIndex].id,
+                        descricao: resultado[selectIndex].nome
+                    }
+                })
                 onClose();
                 focoCampoSeguinte();
                 setVendedorAlterado(true);

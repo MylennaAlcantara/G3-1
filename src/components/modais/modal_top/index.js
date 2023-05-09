@@ -4,7 +4,7 @@ import { Loading } from "../../loading/index.js";
 import {Container, Filtro, Header, Modal, Footer} from './../modal/modal.js';
 
 
-export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, setTopAlterada, setValorTop, valorTop,  cadastroTop, setMinimizado, minimizado }) => {
+export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, setTopAlterada, setValorTop, valorTop,  cadastroTop, setMinimizado, minimizado, dadosRotina, setDadosRotina }) => {
 
     const [top, setTop] = useState([]);
     const [busca, setBusca] = useState('');
@@ -37,6 +37,23 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
             editar_preco_rotina: top.editar_preco_rotina,
             tipo_edicao_preco_rotina: top.tipo_edicao_preco_rotina
         });
+        setDadosRotina && setDadosRotina({
+            ...dadosRotina,
+            top:{
+                id_top: top.id,
+                id_perfil_movimentacao:top.id_perfil_movimentacao,
+                libera_itens_estoque_indisponivel: top.libera_itens_estoque_indisponivel,
+                descricao: top.descricao,
+                tipo_movimentacao: top.tipo_movimentacao,
+                rotina_movimenta_estoque_reservado: top.rotina_movimenta_estoque_reservado,
+                gera_financeiro: top.gera_financeiro,
+                rotina_movimenta_estoque_real: top.rotina_movimenta_estoque_real,
+                rotina_movimenta_estoque_deposito_interno: top.rotina_movimenta_estoque_deposito_interno,
+                libera_editar_nome_do_consumidor_final: top.libera_editar_nome_do_consumidor_final,
+                editar_preco_rotina: top.editar_preco_rotina,
+                tipo_edicao_preco_rotina: top.tipo_edicao_preco_rotina
+            }
+        })
         onClose();
         focoCampoSeguinte();
         setTopAlterada(true);
@@ -94,6 +111,23 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                     editar_preco_rotina: resultado[selectIndex].editar_preco_rotina,
                     tipo_edicao_preco_rotina: resultado[selectIndex].tipo_edicao_preco_rotina
                 });
+                setDadosRotina && setDadosRotina({
+                    ...dadosRotina,
+                    top:{
+                        id_top: resultado[selectIndex].id,
+                        id_perfil_movimentacao:resultado[selectIndex].id_perfil_movimentacao,
+                        libera_itens_estoque_indisponivel: resultado[selectIndex].libera_itens_estoque_indisponivel,
+                        descricao: resultado[selectIndex].descricao,
+                        tipo_movimentacao: resultado[selectIndex].tipo_movimentacao,
+                        rotina_movimenta_estoque_reservado: resultado[selectIndex].rotina_movimenta_estoque_reservado,
+                        gera_financeiro: resultado[selectIndex].gera_financeiro,
+                        rotina_movimenta_estoque_real: resultado[selectIndex].rotina_movimenta_estoque_real,
+                        rotina_movimenta_estoque_deposito_interno: resultado[selectIndex].rotina_movimenta_estoque_deposito_interno,
+                        libera_editar_nome_do_consumidor_final: resultado[selectIndex].libera_editar_nome_do_consumidor_final,
+                        editar_preco_rotina: resultado[selectIndex].editar_preco_rotina,
+                        tipo_edicao_preco_rotina: resultado[selectIndex].tipo_edicao_preco_rotina
+                    }
+                })
                 onClose();
                 focoCampoSeguinte();
                 setTopAlterada(true);

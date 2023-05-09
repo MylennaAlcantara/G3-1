@@ -10,7 +10,7 @@ import { Modal} from "../modais/modal/index.js";
 import { AuthContext } from "../../contexts/Auth/authContext";
 import { rotinaPDF } from "../Relatorios/rotinaPDF";
 
-export const Editar = ({ horaEmissao, dataEmissao, codRotina}) => {
+export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMinimizado}) => {
     const navigate = useNavigate();
     const {autenticar, user, empresa, company} = useContext(AuthContext);
 
@@ -64,10 +64,43 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina}) => {
         autenticar();
     }, []);
 
+    const [dadosRotina, setDadosRotina] = useState(JSON.parse(localStorage.getItem("dadosRotina")) || {
+        emitente: {
+            id:"",
+            descricao: ""
+        },
+        vendedor: {
+            id: "",
+            descricao: ""
+        },
+        parceiro: {
+            id: "",
+            descricao: ""
+        },
+        pgto: {
+            id: "",
+            descricao: ""
+        },
+        top: {
+            id_top: '',
+            id_perfil_movimentacao: '',
+            libera_itens_estoque_indisponivel:  '',
+            descricao:  '',
+            tipo_movimentacao:  '',
+            rotina_movimenta_estoque_reservado:  '',
+            gera_financeiro: '',
+            rotina_movimenta_estoque_real: '',
+            rotina_movimenta_estoque_deposito_interno: '',
+            libera_editar_nome_do_consumidor_final: '',
+            editar_preco_rotina: '',
+            tipo_edicao_preco_rotina: ''
+        },
+    });
+
     /*Etado do elemento selecionado no modal */
-    const [dataSelectPartner, setDataSelectPartner] = useState('');
-    const [dataSelectEmitente, setDataSelectEmitente] = useState('');
-    const [dataSelectTop, setDataSelectTop] = useState({
+    const [dataSelectPartner, setDataSelectPartner] = useState(dadosRotina.parceiro.descricao || '');
+    const [dataSelectEmitente, setDataSelectEmitente] = useState(dadosRotina.emitente.descricao || '');
+    const [dataSelectTop, setDataSelectTop] = useState(dadosRotina.top || {
         id_top: '',
         id_perfil_movimentacao: '',
         libera_itens_estoque_indisponivel:  '',
@@ -81,8 +114,8 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina}) => {
         editar_preco_rotina: '',
         tipo_edicao_preco_rotina: ''
     });
-    const [dataSelectSaler, setDataSelectSaler] = useState('');
-    const [dataSelectPgt, setDataSelectPgt] = useState('');
+    const [dataSelectSaler, setDataSelectSaler] = useState(dadosRotina.vendedor.descricao || '');
+    const [dataSelectPgt, setDataSelectPgt] = useState(dadosRotina.pgto.descricao || '');
     const [dataSelectItem, setDataSelectItem] = useState({
         id_produto: '',
         gtin: '',
@@ -98,14 +131,14 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina}) => {
     });
     
     /*Estado do id dos elementos selecionados no modal */
-    const [dataIdSelectPartner, setDataIdSelectPartner] = useState('');
-    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState('');
-    const [dataIdSelectSaler, setDataIdSelectSaler] = useState('');
-    const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
+    const [dataIdSelectPartner, setDataIdSelectPartner] = useState(dadosRotina.parceiro.id || '');
+    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState(dadosRotina.emitente.id || '');
+    const [dataIdSelectSaler, setDataIdSelectSaler] = useState(dadosRotina.vendedor.id || '');
+    const [dataIdSelectPgt, setDataIdSelectPgt] = useState(dadosRotina.pgto.id || '');
 
 
     //Atualização da lista de itens
-    const [listItens, setListItens] = useState([]);
+    const [listItens, setListItens] = useState(JSON.parse(localStorage.getItem("lista")) || []);
     console.log(listItens);
 
     const tamanho = listItens.length;
@@ -512,6 +545,12 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina}) => {
         
     }
 
+    function minimizar (){
+        setMinimizado({...minimizado, editarRotina: true})
+        navigate("/home");
+        localStorage.setItem("dadosRotina", JSON.stringify(dadosRotina));
+        localStorage.setItem("lista", JSON.stringify(listItens));
+    }
     const Voltar = () => {
         navigate('/consultar');
         localStorage.removeItem('rotina');
@@ -604,6 +643,10 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina}) => {
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
             <C.Header>
                 <h3>Aberta para edição</h3>
+                <div className="buttons">
+                    <button className="minimizar" onClick={minimizar}><div className="linha"/></button>
+                    <button className="close" onClick={Voltar}>X</button>
+                </div>
             </C.Header>
             <C.Info>
                 <div className="div-info">
@@ -910,19 +953,19 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina}) => {
                 </div>
             </C.Footer>
             {isModalPartner ? (
-                <Modal onClose = {() => setIsModalPartner(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner} setParceiroAlterado={setParceiroAlterado} />
+                <Modal onClose = {() => setIsModalPartner(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner} setParceiroAlterado={setParceiroAlterado} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
             {isModalEmitente ? (
-                <Emitente onClose = {() => setIsModalEmitente(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} setEmitenteAlterado={setEmitenteAlterado}/>
+                <Emitente onClose = {() => setIsModalEmitente(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} setEmitenteAlterado={setEmitenteAlterado} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
             {isModalTop ? (
-                <Top onClose = {() => setIsModalTop(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectTop={setDataSelectTop} setTopAlterada={setTopAlterada}/>
+                <Top onClose = {() => setIsModalTop(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectTop={setDataSelectTop} setTopAlterada={setTopAlterada} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
             {isModalSaler ? (
-                <Saler onClose = {() => setIsModalSaler(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectSaler={setDataSelectSaler} setDataIdSelectSaler={setDataIdSelectSaler} setVendedorAlterado={setVendedorAlterado}/>
+                <Saler onClose = {() => setIsModalSaler(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectSaler={setDataSelectSaler} setDataIdSelectSaler={setDataIdSelectSaler} setVendedorAlterado={setVendedorAlterado} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
             {isModalPgt ? (
-                <Pgt onClose = {() => setIsModalPgt(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt} setTipoPgtoAlterado={setTipoPgtoAlterado}/>
+                <Pgt onClose = {() => setIsModalPgt(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt} setTipoPgtoAlterado={setTipoPgtoAlterado} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
             {isModalProdutos ? (
                 <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop} rotinas={rotinas} tipoPgtoAlterado={tipoPgtoAlterado} emitenteAlterado={emitenteAlterado} liberaEstoque={liberaEstoque} tipoMovimentacao={tipoMovimentacao}/>

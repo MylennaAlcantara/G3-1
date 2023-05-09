@@ -4,7 +4,7 @@ import { CadastroPgto } from "../modal_cadastro_pgto/index.js";
 import * as M from './../modal/modal.js';
 
 
-export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt, setTipoPgtoAlterado, cadastroPgto, minimizado, setMinimizado}) => {
+export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt, setTipoPgtoAlterado, cadastroPgto, minimizado, setMinimizado, dadosRotina, setDadosRotina}) => {
 
     const [pgto, setPgto] = useState([]);
     const [selectPgt, setSelectPgt] = useState();
@@ -27,6 +27,13 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
         setSelectIdPgt(pgto.id);
         setDataSelectPgt(pgto.descricao);
         setDataIdSelectPgt(pgto.id);
+        setDadosRotina && setDadosRotina({
+            ...dadosRotina,
+            pgto: {
+                id: pgto.id,
+                descricao: pgto.descricao
+            }
+        })
         onClose();
         focoCampoSeguinte();
         setTipoPgtoAlterado(true);
@@ -65,6 +72,13 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
                 setSelectIdPgt(resultado[selectIndex].id);
                 setDataSelectPgt(resultado[selectIndex].descricao);
                 setDataIdSelectPgt(resultado[selectIndex].id);
+                setDadosRotina && setDadosRotina({
+                    ...dadosRotina,
+                    pgto: {
+                        id: resultado[selectIndex].id,
+                        descricao: resultado[selectIndex].descricao
+                    }
+                })
                 onClose();
                 focoCampoSeguinte();
                 setTipoPgtoAlterado(true);
@@ -76,7 +90,7 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
     const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.Modal style={{zIndex: minimizado.pgto ? minimizar : "1"}}>
+        <M.Modal style={{zIndex: minimizado && minimizado.pgto ? minimizar : "1"}}>
             <M.Container>
             <M.Header>
                 <label>Tipo Pagamento</label>

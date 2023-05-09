@@ -44,6 +44,8 @@ function App() {
     editarFuncionario: false,
     cadastroFornecedor: false,
     editarFornecedor: false,
+    cadastroRotina: false,
+    editarRotina: false,
     setor: false,
     nivel: false,
     familia: false,
@@ -67,6 +69,8 @@ function App() {
         {minimizado.editarFuncionario && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, editarFuncionario: false}); navigate("/editarFuncionario/:funcionario")}}>Editar Funcionário</div>}
         {minimizado.cadastroFornecedor && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, cadastroFornecedor: false}); navigate("/cadastrarFornecedor")}}>Cadastro Fornecedor</div>}
         {minimizado.editarFornecedor && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, editarFornecedor: false}); navigate("/editarFornecedor/:fornecedor")}}>Editar Fornecedor</div>}
+        {minimizado.cadastroRotina && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, cadastroRotina: false}); navigate("/rotina")}}>Cadastro Rotina</div>}
+        {minimizado.editarRotina && <div className='minimizado' onClick={()=> {setMinimizado({...minimizado, editarRotina: false}); navigate("/editarRotina/:codigo")}}>Editar Rotina</div>}
         {minimizado.setor && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, setor: false})}>Cadastro Setor</div>}
         {minimizado.nivel && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, nivel: false})}>Cadastro Nivel</div>}
         {minimizado.familia && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, familia: false})}>Cadastro Familia</div>}
@@ -79,63 +83,63 @@ function App() {
         {minimizado.pgto && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, pgto: false})}>Cadastro Tipo de Pagamento</div>}
         {minimizado.top && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, top: false})}>Cadastro TOP</div>}
       </div>
-      <NavBar minimizado={minimizado} setMinimizado={setMinimizado}/>
+      
           <Routes>
             <Route path = "/" element = {<Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/> 
-            <Route path = "/home" element = {token ? (<Home/>) : <Login/>}/> 
+            <Route path = "/home" element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><Home/></>) : <Login/>}/> 
             
             {/* Rotas de Rotina */}
             {nivel.cadastro_dav_acessivel ? (
-              <Route path = "/consultar" element = {token ?(<Consultar setCodigo={setCodigo} codRotina={parseFloat(codRotina)} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} />) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
+              <Route path = "/consultar" element = {token ?(<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><Consultar setCodigo={setCodigo} codRotina={parseFloat(codRotina)} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} /></>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
             ) : <Route path = "/consultar" element = {token ? (<Home/>) : <Login/>}/>}
             {nivel.cadastro_dav_incluir ? (
-              <Route path = "/rotina" element = {token ? (<Cadastro matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
-            ) : <Route path = "/rotina" element = {token ?(<Consultar setCodigo={setCodigo} codRotina={parseFloat(codRotina)} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} />) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>}
+              <Route path = "/rotina" element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><Cadastro matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} minimizado={minimizado} setMinimizado={setMinimizado}/></>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
+            ) : <Route path = "/rotina" element = {token ?(<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><Consultar setCodigo={setCodigo} codRotina={parseFloat(codRotina)} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} /></>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>}
             {nivel.cadastro_dav_editar ? (
-              <Route path = "/editarRotina/:codigo" element={token ? (<Editar codigo={codigo} codRotina={parseFloat(codRotina)} dataEmissao={dataEmissao} horaEmissao={horaEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
-            ) : <Route path = "/editarRotina/:codigo" element = {token ?(<Consultar setCodigo={setCodigo} codRotina={parseFloat(codRotina)} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} />) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>}
-            <Route path = "/rotina/:codigo" element={token ? (<Visualizar codigo={codigo} codRotina={parseFloat(codRotina)} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
+              <Route path = "/editarRotina/:codigo" element={token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><Editar codigo={codigo} codRotina={parseFloat(codRotina)} dataEmissao={dataEmissao} horaEmissao={horaEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} minimizado={minimizado} setMinimizado={setMinimizado}/></>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
+            ) : <Route path = "/editarRotina/:codigo" element = {token ?(<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><Consultar setCodigo={setCodigo} codRotina={parseFloat(codRotina)} setDataEmissao={setDataEmissao} setHoraEmissao={setHoraEmissao} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario} /></>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>}
+            <Route path = "/rotina/:codigo" element={token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><Visualizar codigo={codigo} codRotina={parseFloat(codRotina)} matriculaFuncionario={matriculaFuncionario} senhaFuncionario={senhaFuncionario}/></>) : <Login setSenhaFuncionario={setSenhaFuncionario} setMatriculaFuncionario={setMatriculaFuncionario} />}/>
             
             {/* Rotas de Cliente */}
             {nivel.cadastro_cliente_acessivel ? (
-              <Route path = '/clientes' element = {token ? (<ConsultarCliente setCliente={setCliente}/>) : <Login/>}/>
-            ) : <Route path = "/clientes" element = {token ? (<Home/>) : <Login/>}/>}
+              <Route path = '/clientes' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><ConsultarCliente setCliente={setCliente}/></>) : <Login/>}/>
+            ) : <Route path = "/clientes" element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><Home/></>) : <Login/>}/>}
             {nivel.cadastro_cliente_editar ? (
-              <Route path = '/editarCliente/:cliente' element = {token ? (<EditarCliente cliente={cliente} codCliente={parseFloat(codCliente)} minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
-            ) : <Route path = '/editarCliente/:cliente' element = {token ? (<ConsultarCliente setCliente={setCliente}/>) : <Login/>}/>}
+              <Route path = '/editarCliente/:cliente' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><EditarCliente cliente={cliente} codCliente={parseFloat(codCliente)} minimizado={minimizado} setMinimizado={setMinimizado}/></>) : <Login/>}/>
+            ) : <Route path = '/editarCliente/:cliente' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><ConsultarCliente setCliente={setCliente}/></>) : <Login/>}/>}
             {nivel.cadastro_cliente_incluir ? (
-              <Route path = '/cadastrarCliente' element = {token ? (<CadastroCliente  minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
-            ) : <Route path = '/cadastrarCliente' element = {token ? (<ConsultarCliente setCliente={setCliente}/>) : <Login/>}/>}
+              <Route path = '/cadastrarCliente' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><CadastroCliente  minimizado={minimizado} setMinimizado={setMinimizado}/></>) : <Login/>}/>
+            ) : <Route path = '/cadastrarCliente' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><ConsultarCliente setCliente={setCliente}/></>) : <Login/>}/>}
             
             {/* Rotas de Fornecedor */}
             {nivel.cadastro_fornecedor ? (
-              <Route path = '/fornecedores' element = {token ? (<ConsultarFornecedor/>) : <Login/>}/>
-            ) : <Route path = "/fornecedores" element = {token ? (<Home/>) : <Login/>}/>}
+              <Route path = '/fornecedores' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><ConsultarFornecedor/></>) : <Login/>}/>
+            ) : <Route path = "/fornecedores" element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><Home/></>) : <Login/>}/>}
             {nivel.cadastro_fornecedor_incluir ? (
-              <Route path = '/cadastrarFornecedor' element = {token ? (<CadastrarFornecedor minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
-            ) : <Route path = '/cadastrarFornecedor' element = {token ? (<ConsultarFornecedor/>) : <Login/>}/>}
+              <Route path = '/cadastrarFornecedor' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><CadastrarFornecedor minimizado={minimizado} setMinimizado={setMinimizado}/></>) : <Login/>}/>
+            ) : <Route path = '/cadastrarFornecedor' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><ConsultarFornecedor/></>) : <Login/>}/>}
             {nivel.cadastro_fornecedor_editar ? (
-              <Route path = '/editarFornecedor/:fornecedor' element = {token ? (<EditarFornecedor minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
-            ) : <Route path = '/editarFornecedor/:fornecedor' element = {token ? (<ConsultarFornecedor/>) : <Login/>}/>}
+              <Route path = '/editarFornecedor/:fornecedor' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><EditarFornecedor minimizado={minimizado} setMinimizado={setMinimizado}/></>) : <Login/>}/>
+            ) : <Route path = '/editarFornecedor/:fornecedor' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><ConsultarFornecedor/></>) : <Login/>}/>}
             
             {/* Rotas de Produto */}
             {nivel.cadastro_produto_acesssivel ? (
-              <Route path = '/produtos' element = {token ? (<CounsultarProduto/>) : <Login/>}/>
-            ) : <Route path = "/produtos" element = {token ? (<Home/>) : <Login/>}/>}
-            <Route path = '/cadastrarProduto' element = {token ? (<CadastroProduto/>) : <Login/>}/>
+              <Route path = '/produtos' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><CounsultarProduto/></>) : <Login/>}/>
+            ) : <Route path = "/produtos" element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><Home/></>) : <Login/>}/>}
+            <Route path = '/cadastrarProduto' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><CadastroProduto/></>) : <Login/>}/>
             
             {/* Rotas de Funcionario */}
             {nivel.cadastro_funcionario ? (
-              <Route path = '/funcionarios' element = {token ? (<ConsultarFuncionario/>) : <Login/>}/>
-              ) : <Route path = "/funcionarios" element = {token ? (<Home/>) : <Login/>}/>}
+              <Route path = '/funcionarios' element = {token ? (<><NavBar/><ConsultarFuncionario/></>) : <Login/>}/>
+              ) : <Route path = "/funcionarios" element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><Home/></>) : <Login/>}/>}
             {nivel.cadastro_funcionario_editar ? (
-              <Route path = '/editarFuncionario/:funcionario' element = {token ? (<EditarFuncionario minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
-            ) : <Route path = '/editarFuncionario/:funcionario' element = {token ? (<ConsultarFuncionario/>) : <Login/>}/>}
+              <Route path = '/editarFuncionario/:funcionario' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><EditarFuncionario minimizado={minimizado} setMinimizado={setMinimizado}/></>) : <Login/>}/>
+            ) : <Route path = '/editarFuncionario/:funcionario' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><ConsultarFuncionario/></>) : <Login/>}/>}
             {nivel.cadastro_funcionario_incluir ? (
-              <Route path = '/cadastrarFuncionario' element = {token ? (<CadastroFuncionario minimizado={minimizado} setMinimizado={setMinimizado}/>) : <Login/>}/>
-            ) : <Route path = '/cadastrarFuncionario' element = {token ? (<ConsultarFuncionario/>) : <Login/>}/>}
+              <Route path = '/cadastrarFuncionario' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><CadastroFuncionario minimizado={minimizado} setMinimizado={setMinimizado}/></>) : <Login/>}/>
+            ) : <Route path = '/cadastrarFuncionario' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><ConsultarFuncionario/></>) : <Login/>}/>}
 
-            <Route path = '/resumoDeFaturamento' element = {token ? (<ResumoFaturamento/>) : <Login/>}/>
+            <Route path = '/resumoDeFaturamento' element = {token ? (<><NavBar minimizado={minimizado} setMinimizado={setMinimizado}/><ResumoFaturamento/></>) : <Login/>}/>
           </Routes>
     </div>
     </AuthProvider>
