@@ -233,6 +233,7 @@ height: 45%;
 border-style: solid;
 border-radius: 10px;
 border-width: 2px;
+overflow-x: auto;
 display: flex;
 background-color: #ffffff;
 flex-direction: column;
