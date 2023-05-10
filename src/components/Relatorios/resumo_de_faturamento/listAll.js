@@ -6,6 +6,8 @@ import Chart from 'react-google-charts';
 import * as C from '../../cadastro/cadastro'
 import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
+import { resumoFaturamentoVendedorPDF} from './PDFS/resumoFaturamentoPDF'
+import { resumoFaturamentoTpPgPDF } from './PDFS/resumoFaturamentoTpPgPDF';
 
 import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as RF from "../resumo_de_faturamento/resumoFaturamento"
@@ -16,6 +18,14 @@ import { useNavigate } from 'react-router-dom';
 Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
+
+    const imprimir = () => {
+        resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosVendedor)
+    }
+
+    const imprimir0 = () => {
+        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura)
+    }
 
     const { user, empresa } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -123,7 +133,7 @@ export const ResumoFaturamento = () => {
         descricao: "",
     })
 
-    console.log(dataSelectTop);
+    //console.log(dataSelectTop);
 
     async function setDataFilial() { //Envia o JSON para a api e pega os dados de Filial
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFilial", {
@@ -204,7 +214,7 @@ export const ResumoFaturamento = () => {
         }
     }
 
-    console.log(dadosLeitura)
+    //console.log(dadosLeitura)
 
     async function setDataVendedor() { //Envia o JSON para a api e pega os dados de Vendedor
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorVendedor", {
@@ -340,6 +350,8 @@ export const ResumoFaturamento = () => {
     function onChangeDataFin(e) { //Pega os Valores da Data Final
         setDataFin(e.currentTarget.value)
     }
+
+    console.log(dadosVendedor)
 
     //------------------------------------------------------------------ Dashboard Geral ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -740,7 +752,7 @@ export const ResumoFaturamento = () => {
         [dadoNomeCli9, dadoLiqCli9, dadoVenCli9],
     ];
 
-    console.log(dadosClienteReduzido)
+    //console.log(dadosClienteReduzido)
 
     //------------------------------------------------------------------Dashboard Tipo de Pagamento-----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1451,7 +1463,7 @@ export const ResumoFaturamento = () => {
 
                                 <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
-                                <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimir} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
@@ -1636,7 +1648,7 @@ export const ResumoFaturamento = () => {
 
                                 <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
-                                <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimir0} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>

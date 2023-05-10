@@ -1,3 +1,8 @@
+.tablePDF{
+    border-style: solid;
+    border-width: 1px;
+}
+
 .test {
     background-color: #F0F0F0;
     margin-left: 50%;
