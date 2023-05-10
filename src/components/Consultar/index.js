@@ -21,6 +21,9 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
         document.getElementById('search').focus();
     },[])
 
+    //Filtro busca por: Top / id vendedor / codigo / cliente / data
+    const [busca, setBusca] = useState('');
+    const [filtroSelecionado, setFiltroSelecionado] = useState('cliente');
 
     //Filtro da situação das rotinas
     const select = document.getElementById('opções');
@@ -57,10 +60,6 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
             return rotina.situacao != 'E';
         }
     });
-
-    //Filtro busca por: Top / id vendedor / codigo / cliente / data
-    const [busca, setBusca] = useState('');
-    const [filtroSelecionado, setFiltroSelecionado] = useState('cliente');
 
     function handleFiltroChange(event) {
         setFiltroSelecionado(event.target.value);

@@ -3,7 +3,7 @@ import * as M from "../../modal/modal";
 import * as C from "../../../cadastro/cadastro";
 import { CadastroPisCofins } from "../modal_cadastro_piscofins";
 
-export const PisCofins = ({close}) => {
+export const PisCofins = ({close, minimizado, setMinimizado}) => {
     const [perfil, setPerfil] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -56,13 +56,18 @@ export const PisCofins = ({close}) => {
         }
     };
 
+    // Estado que indica quando minimizado para colocar atrás de tudo
+    const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.SubModal>
+        <M.SubModal style={{zIndex: minimizado.pis ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <label>Grupos de PIS/COFINS</label>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, pis: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <M.Filtro>
                     <div>
@@ -107,7 +112,7 @@ export const PisCofins = ({close}) => {
                         <button onClick={close}><img src="/images/voltar.png"/> Fechar</button>
                     </div>
                 </C.Footer>
-                {modalCadastro ? <CadastroPisCofins close={()=> setModalCadastro(false)}/> : null}
+                {modalCadastro ? <CadastroPisCofins close={()=> setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
             </M.Container>
         </M.SubModal>
     )

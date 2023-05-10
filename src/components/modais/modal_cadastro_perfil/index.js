@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as M from "../modal/modal";
 import * as CP from "../modal_cadastro_perfil/cadastroPerfil";
 
-export const CadastroPerfil = ({close}) => {
+export const CadastroPerfil = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [novoPerfil, setNovoPerfil] = useState('');
 
     async function salvar (){
@@ -23,11 +23,14 @@ export const CadastroPerfil = ({close}) => {
         }        
     }
     return(
-        <M.Modal>
+        <M.Modal style={{zIndex: minimizado.perfil ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <label>Cadastro de Perfil</label>
-                    <button className="close" onClick={close}>X</button>
+                    <div className="buttons">
+                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, perfil: true})}}><div className="linha"/></button>
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </M.Header>
                 <CP.Content>
                     <div>

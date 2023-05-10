@@ -175,11 +175,33 @@ export const Header = styled.div`
     height: 24px;
     width: 100%;
     background-color: #f0f0f0;    
+    .buttons{
+        display: flex;
+        align-items: start;
+        height: 100%;
+        border-radius: 0 10px 0 0;
+        button{
+            margin: 0;
+        }
+    }
+    .minimizar,
     .close{
-        height: 24px;
+        height: 100%;
         width: 30px;
         border: none;
-        border-radius: 0 12px 0 0;
+        border-radius: 0 10px 0 0;
+    }
+    .minimizar{
+        border-radius: 0;
+    }
+    .linha{
+        margin: auto;
+        width: 15px;
+        border-bottom: 1px solid black;
+    }
+    .minimizar:hover{
+        cursor: pointer;
+        border: 1px solid black;
     }
     .close:hover{
         cursor: pointer;

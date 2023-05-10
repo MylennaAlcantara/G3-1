@@ -104,7 +104,7 @@ export const Rotinas = styled.div`
     margin: 5px 0;
     background-color: #f0f0f0;
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     border: 1px solid black;
     height: 80%;
@@ -113,7 +113,6 @@ export const Rotinas = styled.div`
     #table{
         border-collapse: collapse;
         width: 100%;
-        height: 100%;
         border: 1px solid grey;
     }
     thead{
@@ -126,8 +125,10 @@ export const Rotinas = styled.div`
         color: #373435;    
         background-color: #ffffff;
         border: 1px solid grey;
+        white-space: nowrap;
     }
     td{
+        white-space: nowrap;
         border: 1px solid grey;
     }
     tr{

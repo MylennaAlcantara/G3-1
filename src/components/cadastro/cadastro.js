@@ -50,7 +50,7 @@ export const Header = styled.div`
     border: 1.5px;
     border-radius: 12px 12px 0 0;
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     height: 24px;
     width: 100%;
@@ -58,6 +58,38 @@ export const Header = styled.div`
     button{
         margin: 0 5px;
         position: relative;
+    }
+    .buttons{
+        display: flex;
+        align-items: start;
+        height: 100%;
+        border-radius: 0 10px 0 0;
+        button{
+            margin: 0;
+        }
+    }
+    .minimizar,
+    .close{
+        height: 100%;
+        width: 30px;
+        border: none;
+        border-radius: 0 10px 0 0;
+    }
+    .minimizar{
+        border-radius: 0;
+    }
+    .linha{
+        margin: auto;
+        width: 15px;
+        border-bottom: 1px solid black;
+    }
+    .minimizar:hover{
+        cursor: pointer;
+        border: 1px solid black;
+    }
+    .close:hover{
+        cursor: pointer;
+        background-color: red;
     }
 `;
 export const Info = styled.div`
@@ -348,14 +380,25 @@ export const Display = styled.div`
         width: 100%;
         border: 1px solid grey;
     }
+    thead{
+        position: sticky;
+        top:0;
+    }
+    .table-responsive{
+        overflow-x: auto;
+        height: 75%;
+        width: 100%;
+    }
     th{    
         font-size: 15px;
         font-weight: bold;
         color: #373435;    
         background-color: #ffffff;
         border: 1px solid grey;
+        white-space: nowrap;
     }
     td{
+        white-space: nowrap;
         border: 1px solid grey;
     }
     table tr:nth-child(even){
@@ -364,10 +407,10 @@ export const Display = styled.div`
     table tr:nth-child(odd){
         background-color: #f0f0f0;   
     }
-    .table tr td{
+    #table tr td{
         cursor: pointer;
     }
-    .table tr:hover td{
+    #table tr:hover td{
         background-color: #87CEFA;
     }
     .ativo{
@@ -395,7 +438,7 @@ export const Display = styled.div`
     @media (max-width: 425px){
         height: 20%;
         width: 100%;
-        .table-resp{
+        .table-response{
             overflow-x: auto;
             overflow-y: auto;
         }
