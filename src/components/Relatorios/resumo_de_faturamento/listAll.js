@@ -6,7 +6,7 @@ import Chart from 'react-google-charts';
 import * as C from '../../cadastro/cadastro'
 import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
-import { resumoFaturamentoVendedorPDF} from './PDFS/resumoFaturamentoPDF'
+import { resumoFaturamentoVendedorPDF } from './PDFS/resumoFaturamentoPDF'
 import { resumoFaturamentoTpPgPDF } from './PDFS/resumoFaturamentoTpPgPDF';
 import { resumoFaturamentoProdutoPDF } from './PDFS/resumoFaturamentoProdutoPDF';
 import { resumoFaturamentoGrupoPDF } from './PDFS/resumoFaturamentoGrupoPDF';
@@ -45,6 +45,7 @@ export const ResumoFaturamento = () => {
     const { user, empresa } = useContext(AuthContext);
     const navigate = useNavigate();
 
+    const [showElementRegiao, setShowElementRegiao] = useState(false)
     const [showElement, setShowElement] = useState(false)
 
     const show = () => setShowElement(true)
@@ -123,8 +124,6 @@ export const ResumoFaturamento = () => {
     const valorIdTop = valorTop.map((test) => ( //Pega o numero do código(TOPS) para a API
         (test.id)
     ))
-
-    console.log(valor)
 
     const objs = //JSON que é enviada para as APIS 
     {
@@ -209,9 +208,16 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosRegiao(data);
+                setShowElementRegiao(true)
             });
+        } else if (res.status === 500) {
+            setShowElementRegiao(false)
+            alert('Não foi possivel carregar aba Região')
         }
     }
+
+
+    console.log(valorFilial)
 
     const [keys, setDaDosKeys] = useState([]) //Usado para escrever o nome dos labels 
     const [dadosLeitura, setDadosLeitura] = useState([]) //Dados em Geral (Tipo de Pagamento)
@@ -367,8 +373,6 @@ export const ResumoFaturamento = () => {
     function onChangeDataFin(e) { //Pega os Valores da Data Final
         setDataFin(e.currentTarget.value)
     }
-
-    console.log(dadosVendedor)
 
     //------------------------------------------------------------------ Dashboard Geral ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -880,8 +884,6 @@ export const ResumoFaturamento = () => {
     const resultProd3 = dadosProduto.reduce((a, b) => a + b.sub_total, 0) //Dados Totais somados de Sub Total
     const resultProd4 = dadosProduto.reduce((a, b) => a + b.vlr_desconto_total, 0) //Dados Totais somados de Desconto Total
 
-    console.log(dadosProduto)
-
     const optionsProd = { //Configuração do Segundo Gráfico de Produto
         title: "Valores",
         is3D: true,
@@ -1182,7 +1184,7 @@ export const ResumoFaturamento = () => {
                                     </select>
                                     <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
                                     <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
-                                    <button onClick={() => setValor([]) } >Limpar</button>
+                                    <button onClick={() => setValor([])} >Limpar</button>
                                 </div>
                                 <div className='table-responsive'>
                                     <table id='table'>
@@ -1218,7 +1220,7 @@ export const ResumoFaturamento = () => {
                                 <div>
                                     <input placeholder='Buscar pela Descrição...' onChange={(e) => setQuery1(e.target.value)} />
                                     <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
-                                    <button onClick={() => setValorTop([]) } >Limpar</button>
+                                    <button onClick={() => setValorTop([])} >Limpar</button>
                                 </div>
                                 <div className='table-responsive'>
                                     <table id='table'>
@@ -1288,7 +1290,7 @@ export const ResumoFaturamento = () => {
 
             {aba === "regiao" ? (
                 <RF.DataGeral>
-                    {dadosRegiao.length === 0 && showElement === true ? (
+                    {dadosRegiao.length === 0 && showElementRegiao === true ? (
                         <div className='c' >
                             <Loading />
                         </div>
@@ -2904,7 +2906,7 @@ export const ResumoFaturamento = () => {
                     <button onClick={() => navigate('/home')}> <img src='/images/voltar.png' /> Voltar</button>
                 </div>
 
-                <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} style={customStyles}>
+                <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} style={customStyles} overlayClassName="none" >
 
                     <button onClick={closeDashboardGeral} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
@@ -2924,21 +2926,21 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <Chart chartType="BarChart" data={barData} options={barOptions} className='grafico' />
-                        <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} className="grafico" />
-                        <Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} className="grafico" />
+                        <div className="grafico" ><Chart chartType="BarChart" data={barData} options={barOptions} /></div>
+                        <div className="graficoLongo" ><Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} /></div>
+                        <div className="graficoLongo" ><Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} /></div>
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} className="grafico" />
-                        <Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} className="grafico" />
-                        <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px" className="grafico" />
+                        <div className="grafico" ><Chart chartType="BarChart" data={barDataCli} options={barOptionsCli}/></div>
+                        <div className="graficoLongo" ><Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg}/></div>
+                        <div className="grafico" ><Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px"/></div>
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} className="grafico" />
-                        <Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} className="grafico" />
-                        <Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} className="grafico" />
+                        <div className="grafico" ><Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} /></div>
+                        <div className="grafico" ><Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} /></div>
+                        <div className="grafico" ><Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} /></div>
                     </RF.Dashboard>
 
                 </Modal>

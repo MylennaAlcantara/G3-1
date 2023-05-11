@@ -29,6 +29,26 @@ export function resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, d
         }
     }
 
+    const Filial = () => {
+        if(valorFilial.length === 0){
+            return (
+                "TODAS"
+            )
+        }else{
+            return valorFilial
+        }
+    }
+
+    const Top = () => {
+        if(valorIdTop.length === 0){
+            return (
+                "TODAS"
+            )
+        }else{
+            return valorIdTop
+        }
+    }
+
     const vendedor = dadosVendedor.map((data) => {
         return[
             {text: data.idFilial, fontSize: 8 },
@@ -73,10 +93,10 @@ export function resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, d
                 widths: ['*', 150],
                 body: [
                     [
-                        { text: 'Filial: ' + (valorFilial.toString()), bold: true, fontSize: 8 },
+                        { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
                     ],
                     [
-                        { text: 'T.OP: ' + (valorIdTop.toString()), bold: true, fontSize: 8 },
+                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
                     ],
                     [
                         { text: 'Período: ' + (dataIni) + ' Á ' + (dataFin), bold: true, fontSize: 8 },

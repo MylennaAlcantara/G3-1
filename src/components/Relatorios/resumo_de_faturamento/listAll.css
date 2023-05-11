@@ -3,6 +3,10 @@
     border-width: 1px;
 }
 
+button:hover{
+    cursor: pointer;
+}
+
 .test {
     background-color: #F0F0F0;
     margin-left: 50%;
