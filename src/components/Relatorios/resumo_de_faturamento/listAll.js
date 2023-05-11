@@ -124,6 +124,8 @@ export const ResumoFaturamento = () => {
         (test.id)
     ))
 
+    console.log(valor)
+
     const objs = //JSON que é enviada para as APIS 
     {
         "incluirNfe": checkNFE,
@@ -1180,7 +1182,7 @@ export const ResumoFaturamento = () => {
                                     </select>
                                     <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
                                     <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
-                                    <button>Limpar</button>
+                                    <button onClick={() => setValor([]) } >Limpar</button>
                                 </div>
                                 <div className='table-responsive'>
                                     <table id='table'>
@@ -1216,6 +1218,7 @@ export const ResumoFaturamento = () => {
                                 <div>
                                     <input placeholder='Buscar pela Descrição...' onChange={(e) => setQuery1(e.target.value)} />
                                     <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
+                                    <button onClick={() => setValorTop([]) } >Limpar</button>
                                 </div>
                                 <div className='table-responsive'>
                                     <table id='table'>
