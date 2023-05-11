@@ -260,6 +260,32 @@ export const EditarTop = ({close, minimizado, setMinimizado, minimizar, setMinim
                 if(res.status === 200){
                     alert("Editado com sucesso!");
                     close();
+                    localStorage.removeItem("idTop");
+                }
+            }catch(err){
+                console.log(err);
+            }
+        }else{
+            alert("Preencha os campos a cima!");
+            setCampoObrigatorio("yellow");
+        }
+    }
+
+    const excluir = async () => {
+        if(dadosTop.descricao && dadosTop.perfilMovimentacao.id){
+            try{
+                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/top/edit",{
+                    method: "PUT",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        ...dadosTop,
+                        excluido: true
+                    }),
+                })
+                if(res.status === 200){
+                    alert("Excluido com sucesso!");
+                    close();
+                    localStorage.removeItem("idTop");
                 }
             }catch(err){
                 console.log(err);
@@ -277,7 +303,7 @@ export const EditarTop = ({close, minimizado, setMinimizado, minimizar, setMinim
                     <h3>Editar TOP</h3>
                     <div className="buttons">
                         <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, top: true})}}><div className="linha"/></button>
-                        <button className="close" onClick={close}>X</button>
+                        <button className="close" onClick={()=> {close(); localStorage.removeItem("idTop")}}>X</button>
                     </div>
                 </C.Header>
                 <CC.DadosCliente>
@@ -544,7 +570,8 @@ export const EditarTop = ({close, minimizado, setMinimizado, minimizar, setMinim
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
-                        <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
+                        <button onClick={()=> {excluir(); setDadosTop({...dadosTop, excluido: true})}}><img src="/images/lixeira.png"/>Excluir</button>
+                        <button onClick={()=> {close(); localStorage.removeItem("idTop")}}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
                 {isModalPerfil ? <PerfilMovimentacao close={()=> setIsModalPerfil(false)} dadosTop={dadosTop} setDadosTop={setDadosTop}/> : null}

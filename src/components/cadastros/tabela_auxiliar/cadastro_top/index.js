@@ -176,7 +176,7 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(dadosTop),
                 })
-                if(res.status === 201){
+                if(res.status === 201 || res.status === 200){
                     alert("Salvo com sucesso!");
                     close();
                 }
