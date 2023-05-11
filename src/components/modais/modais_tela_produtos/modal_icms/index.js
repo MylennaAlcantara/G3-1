@@ -47,7 +47,7 @@ export const Grupo = ({close, minimizado, setMinimizado}) => {
     const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.Modal  style={{zIndex: minimizado.grupo ? minimizar : "1"}}>
+        <M.Modal  style={{zIndex: minimizado && minimizado.grupo ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Grupo / SubGrupo</h3>

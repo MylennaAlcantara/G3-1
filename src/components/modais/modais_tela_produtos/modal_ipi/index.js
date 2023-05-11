@@ -61,7 +61,7 @@ export const Ipi = ({close, minimizado, setMinimizado}) => {
     const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.SubModal style={{zIndex: minimizado.ipi ? minimizar : "1"}}>
+        <M.SubModal style={{zIndex: minimizado && minimizado.ipi ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Grupos de IPI</h3>

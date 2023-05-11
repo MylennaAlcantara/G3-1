@@ -7,14 +7,19 @@ import * as CT from "./cadastroTop";
 import * as CC from "../../cadastro_cliente/cadastroCliente"
 import { Pgt } from "../../../modais/modal_pgt";
 import { PerfilMovimentacao } from "../../../modais/modal_perfil_mov";
+import { Grupo } from "../../../modais/modais_tela_produtos/modal_icms";
+import { Ipi } from "../../../modais/modais_tela_produtos/modal_ipi";
+import { PisCofins } from "../../../modais/modais_tela_produtos/modal_pis_cofins";
+import { MensagemNfe } from "../../../modais/modal_mensagem_nfe";
 
 export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [aba, setAba] = useState('geral');
     const [campoObrigatorio, setCampoObrigatorio] = useState("")
     const [isModalPgto, setIsModalPgto] = useState(false);
     const [isModalPerfil, setIsModalPerfil] = useState(false);
-
-    const [dataSelectPgt, setDataSelectPgt] = useState();
+    const [isModalIpi, setIsModalIpi] = useState(false);
+    const [isModalPis, setIsModalPis] = useState(false);
+    const [isModalMensagem, setIsModalMensagem] = useState(false);
 
     const tabelaBc = [
         {
@@ -166,7 +171,30 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
         excluido: false
     });
 
-    console.log(dadosTop)
+    const keyPerfil = (e) => {
+        e.preventDefault();
+        if(e.keyCode === 113){
+            setIsModalPerfil(true);
+        }
+    }
+    const keyPgto = (e) => {
+        e.preventDefault();
+        if(e.keyCode === 113){
+            setIsModalPgto(true);
+        }
+    }
+    const keyIPI = (e) => {
+        e.preventDefault();
+        if(e.keyCode === 113){
+            setIsModalIpi(true);
+        }
+    }
+    const keyPIS = (e) => {
+        e.preventDefault();
+        if(e.keyCode === 113){
+            setIsModalPis(true);
+        }
+    }
 
     const salvar = async () => {
         if(dadosTop.descricao && dadosTop.perfilMovimentacao.id){
@@ -215,7 +243,7 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
                     <CT.DadosGerais>
                         <div>
                             <label>Perfil da Rotina: </label>
-                            <input className="codigo" value={dadosTop.perfilMovimentacao.id} onDoubleClick={()=> setIsModalPerfil(true)} style={{backgroundColor: campoObrigatorio}}/>
+                            <input className="codigo" value={dadosTop.perfilMovimentacao.id} onKeyDown={keyPerfil} onDoubleClick={()=> setIsModalPerfil(true)} style={{backgroundColor: campoObrigatorio}}/>
                             <input value={dadosTop.perfilMovimentacao.descricao} style={{backgroundColor: campoObrigatorio}}/>
                         </div>
                         <div>
@@ -269,7 +297,7 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
                         </div>
                         <div>
                             <label>Tipo Pag.: </label>
-                            <input className="codigo" value={dadosTop.tipoPagamento.id} onDoubleClick={()=> setIsModalPgto(true)}/>
+                            <input className="codigo" value={dadosTop.tipoPagamento.id} onKeyDown={keyPgto} onDoubleClick={()=> setIsModalPgto(true)}/>
                             <input value={dadosTop.tipoPagamento.descricao}/>
                         </div>
                         <div>
@@ -356,21 +384,15 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
                                 <input value={dadosTop.nat_operacao} onChange={(e)=> setDadosTop({...dadosTop, nat_operacao: e.target.value})}/>
                             </div>
                             <div>
-                                <label>Grupo ICMS de Top:</label>
-                                <input type="checkbox" checked={dadosTop.calcula_icms ? true : false} onChange={()=> setDadosTop({...dadosTop, calcula_icms: !dadosTop.calcula_icms})}/>
-                                <input className="codigo"/>
-                                <input/>
-                            </div>
-                            <div>
                                 <label>Grupo IPI de Top:</label>
                                 <input type="checkbox" checked={dadosTop.calcula_ipi ? true : false} onChange={()=> setDadosTop({...dadosTop, calcula_ipi: !dadosTop.calcula_ipi})}/>
-                                <input className="codigo"/>
+                                <input className="codigo" onKeyDown={keyIPI} onDoubleClick={()=> setIsModalIpi(true)}/>
                                 <input/>
                             </div>
                             <div>
                                 <label>Grupo PIS de Top:</label>
                                 <input type="checkbox" checked={dadosTop.calcula_pis ? true : false} onChange={()=> setDadosTop({...dadosTop, calcula_pis: !dadosTop.calcula_pis})}/>
-                                <input className="codigo"/>
+                                <input className="codigo" onKeyDown={keyPIS} onDoubleClick={()=> setIsModalPis(true)}/>
                                 <input/>
                             </div>
                             <div>
@@ -406,7 +428,7 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
                             <div>
                                 <input type="checkbox" checked={dadosTop.incluir_obs_nfe ? true : false} onChange={()=> setDadosTop({...dadosTop, incluir_obs_nfe: !dadosTop.incluir_obs_nfe})}/>
                                 <label>Obs. adicionais NFe:</label>
-                                {dadosTop.incluir_obs_nfe && <button><img src="/images/add.png"/>Add</button>}                                
+                                {dadosTop.incluir_obs_nfe && <button onClick={()=> setIsModalMensagem(true)}><img src="/images/add.png"/>Add</button>}                                
                             </div>
                         </div>
                         <div className="table-responsive">
@@ -468,6 +490,9 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
                 </C.Footer>
                 {isModalPerfil ? <PerfilMovimentacao close={()=> setIsModalPerfil(false)} dadosTop={dadosTop} setDadosTop={setDadosTop}/> : null}
                 {isModalPgto ? <Pgt onClose={()=> setIsModalPgto(false)} dadosTop={dadosTop} setDadosTop={setDadosTop}/> : null}
+                {isModalIpi ? <Ipi close={()=> setIsModalIpi(false)}/> : null}
+                {isModalPis ? <PisCofins close={()=> setIsModalPis(false)}/> : null }
+                {isModalMensagem ? <MensagemNfe close={()=> setIsModalMensagem(false)}/> : null }
             </C.Container>
         </M.SubModal>
     )
