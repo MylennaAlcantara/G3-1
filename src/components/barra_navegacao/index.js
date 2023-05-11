@@ -16,6 +16,7 @@ import { RamoAtividade } from "../modais/modal_ramo_atividade";
 import { Pgt } from "../modais/modal_pgt";
 import { Grupo } from "../modais/modais_tela_produtos/modal_icms";
 import { Top } from "../modais/modal_top";
+import { PerfilMovimentacao } from "../modais/modal_perfil_mov";
 
 export const NavBar = ({minimizado, setMinimizado}) => {
     const navigate = useNavigate();
@@ -45,6 +46,7 @@ export const NavBar = ({minimizado, setMinimizado}) => {
     const [ramo, setRamo] = useState(false);
     const [perfil, setPerfil] = useState(false);
     const [tipoPgto, setTipoPgto] = useState(false);
+    const [perfilMov, setPerfilMov] = useState(false);
     const [cadastroTop, setCadastroTop] = useState(false);
     const [cadastroRamo, setCadastroRamo] = useState(false);
     const [cadastroPerfil, setCadastroPerfil] = useState(false);
@@ -159,6 +161,7 @@ export const NavBar = ({minimizado, setMinimizado}) => {
                                             {tabelaAuxiliar ? (
                                                 <>
                                                     <div className="gaveta" onClick={()=> {setTop(true); setCadastroTop(true)}}>T.O.P</div>
+                                                    <div className="gaveta" onClick={()=> {setPerfilMov(true)}}>Perfil de Movimentação</div>
                                                     <div className="gaveta" onClick={()=> {setPerfil(true); setCadastroPerfil(true)}}>Perfil de Regra</div>
                                                     <div className="gaveta" onClick={()=> {setRamo(true); setCadastroRamo(true)}}>Ramo de Atividade</div>
                                                     <div className="gaveta" onClick={()=> {setTipoPgto(true); setCadastroPgto(true)}}>Tipo de Pagamento</div>
@@ -206,6 +209,7 @@ export const NavBar = ({minimizado, setMinimizado}) => {
             {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {top ? <Top onClose={()=> setTop(false)} cadastroTop={cadastroTop} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {perfil ? <PerfilCliente close={()=> setPerfil(false)} cadastroPerfil={cadastroPerfil} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
+            {perfilMov ? <PerfilMovimentacao close={()=> setPerfilMov(false)} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {ramo ? <RamoAtividade close={()=> setRamo(false)} cadastroRamo={cadastroRamo} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
             {tipoPgto ? <Pgt onClose={()=> setTipoPgto(false)} cadastroPgto={cadastroPgto} setMinimizado={setMinimizado} minimizado={minimizado}/> : null}
         </C.Container>

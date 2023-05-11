@@ -4,7 +4,7 @@ import { CadastroPgto } from "../modal_cadastro_pgto/index.js";
 import * as M from './../modal/modal.js';
 
 
-export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt, setTipoPgtoAlterado, cadastroPgto, minimizado, setMinimizado, dadosRotina, setDadosRotina}) => {
+export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt, setTipoPgtoAlterado, cadastroPgto, minimizado, setMinimizado, dadosRotina, setDadosRotina, dadosTop, setDadosTop}) => {
 
     const [pgto, setPgto] = useState([]);
     const [selectPgt, setSelectPgt] = useState();
@@ -25,13 +25,45 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
     const SelectedPgt = (pgto) => {
         setSelectPgt(pgto.descricao);
         setSelectIdPgt(pgto.id);
-        setDataSelectPgt(pgto.descricao);
-        setDataIdSelectPgt(pgto.id);
+        setDataSelectPgt && setDataSelectPgt(pgto.descricao);
+        setDataIdSelectPgt && setDataIdSelectPgt(pgto.id);
         setDadosRotina && setDadosRotina({
             ...dadosRotina,
             pgto: {
                 id: pgto.id,
                 descricao: pgto.descricao
+            }
+        });
+        setDadosTop && setDadosTop({
+            ...dadosTop,
+            tipoPagamento: {
+                id: pgto.id,
+                descricao: pgto.descricao,
+                gera_comissao: pgto.gera_comissao,
+                vinculado: pgto.vinculado,
+                concede_desconto: pgto.concede_desconto,
+                valor_min_para_desconto: pgto.valor_min_para_desconto,
+                valor_max_do_desconto: pgto.valor_max_do_desconto,
+                pode_dividir: pgto.pode_dividir,
+                qtd_max_parcelas: pgto.qtd_max_parcelas,
+                taxa_parcelamento: pgto.taxa_parcelamento,
+                taxa: pgto.taxa,
+                markup_default: pgto.markup_default,
+                valor_minimo: pgto.valor_minimo,
+                preco_especial: pgto.preco_especial,
+                tipo_pagamento_nfe: pgto.tipo_pagamento_nfe,
+                id_top_financeiro: pgto.id_top_financeiro,
+                desconto_porc: pgto.desconto_porc,
+                id_tipo_pagamento_vinculado: pgto.id_tipo_pagamento_vinculado,
+                desconto_variavel: pgto.desconto_variavel,
+                comissao:pgto.comissao,
+                gera_financeiro_rotina: pgto.gera_financeiro_rotina,
+                gera_financeiro_nfe: pgto.gera_financeiro_nfe,
+                valor_parcela_total_rotina: pgto.valor_parcela_total_rotina,
+                excluido: pgto.excluido,
+                utiliza_config_default: pgto.utiliza_config_default,
+                pre_desc_acres_nfe: pgto.pre_desc_acres_nfe,
+                ativo: pgto.ativo
             }
         })
         onClose();
@@ -77,6 +109,38 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
                     pgto: {
                         id: resultado[selectIndex].id,
                         descricao: resultado[selectIndex].descricao
+                    }
+                });
+                setDadosTop && setDadosTop({
+                    ...dadosTop,
+                    tipoPagamento: {
+                        id: resultado[selectIndex].id,
+                        descricao: resultado[selectIndex].descricao,
+                        gera_comissao: resultado[selectIndex].gera_comissao,
+                        vinculado: resultado[selectIndex].vinculado,
+                        concede_desconto: resultado[selectIndex].concede_desconto,
+                        valor_min_para_desconto: resultado[selectIndex].valor_min_para_desconto,
+                        valor_max_do_desconto: resultado[selectIndex].valor_max_do_desconto,
+                        pode_dividir: resultado[selectIndex].pode_dividir,
+                        qtd_max_parcelas: resultado[selectIndex].qtd_max_parcelas,
+                        taxa_parcelamento: resultado[selectIndex].taxa_parcelamento,
+                        taxa: resultado[selectIndex].taxa,
+                        markup_default: resultado[selectIndex].markup_default,
+                        valor_minimo: resultado[selectIndex].valor_minimo,
+                        preco_especial: resultado[selectIndex].preco_especial,
+                        tipo_pagamento_nfe: resultado[selectIndex].tipo_pagamento_nfe,
+                        id_top_financeiro: resultado[selectIndex].id_top_financeiro,
+                        desconto_porc: resultado[selectIndex].desconto_porc,
+                        id_tipo_pagamento_vinculado: resultado[selectIndex].id_tipo_pagamento_vinculado,
+                        desconto_variavel: resultado[selectIndex].desconto_variavel,
+                        comissao:resultado[selectIndex].comissao,
+                        gera_financeiro_rotina: resultado[selectIndex].gera_financeiro_rotina,
+                        gera_financeiro_nfe: resultado[selectIndex].gera_financeiro_nfe,
+                        valor_parcela_total_rotina: resultado[selectIndex].valor_parcela_total_rotina,
+                        excluido: resultado[selectIndex].excluido,
+                        utiliza_config_default: resultado[selectIndex].utiliza_config_default,
+                        pre_desc_acres_nfe: resultado[selectIndex].pre_desc_acres_nfe,
+                        ativo: resultado[selectIndex].ativo
                     }
                 })
                 onClose();

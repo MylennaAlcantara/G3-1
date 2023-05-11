@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useRef} from "react";
 import { CadastrarTop } from "../../cadastros/tabela_auxiliar/cadastro_top/index.js";
+import { EditarTop } from "../../cadastros/tabela_auxiliar/editar_top/index.js";
 import { Loading } from "../../loading/index.js";
 import {Container, Filtro, Header, Modal, Footer} from './../modal/modal.js';
 
@@ -10,6 +11,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('codigo');
     const [modalCadastro, setModalCadastro] = useState(false);
+    const [modalEditar, setModalEditar] = useState(false);
 
     useEffect(() => {
         async function fetchData (){
@@ -79,6 +81,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
 
     const selecionado = (top, index) => {
         setSelectIndex(index);
+        localStorage.setItem("idTop", top.id);
     }
 
     const handleKeyDown = (e) => {
@@ -135,6 +138,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
         }
     };
 
+
     const [minimizar, setMinimizar] = useState("");
 
     return(
@@ -176,7 +180,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                             </tr>
                         </thead>
                         <tbody>
-                            {resultado.slice(0, 10).map( (top, index) => {
+                            {resultado.map( (top, index) => {
                                 return(
                                     <tr 
                                     key={top.id} 
@@ -198,12 +202,13 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                 <Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/>Novo</button>
-                        <button><img src="/images/abrir.png"/>Abrir</button>
+                        <button onClick={()=> setModalEditar(true)}><img src="/images/abrir.png"/>Abrir</button>
                         <button onClick={onClose}><img src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </Footer>
             ) : null}
             {modalCadastro ? <CadastrarTop close={()=> setModalCadastro(false)} setMinimizado={setMinimizado} minimizado={minimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
+            {modalEditar ? <EditarTop close={()=> setModalEditar(false)} setMinimizado={setMinimizado} minimizado={minimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
             </Container>
         </Modal>
     );

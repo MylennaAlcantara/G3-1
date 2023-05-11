@@ -54,6 +54,7 @@ function App() {
     ipi: false,
     pis: false,
     perfil: false,
+    perfilMov: false,
     ramo: false,
     pgto: false,
     top: false
@@ -79,6 +80,7 @@ function App() {
         {minimizado.ipi && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, ipi: false})}>Cadastro Grupo IPI</div>}
         {minimizado.pis && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, pis: false})}>Cadastro Grupo PIS/COFINS</div>}
         {minimizado.perfil && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, perfil: false})}>Cadastro Perfil de Regra</div>}
+        {minimizado.perfilMov && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, perfilMov: false})}>Cadastro Perfil de Movimentação</div>}
         {minimizado.ramo && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, ramo: false})}>Cadastro Ramo de Atividade</div>}
         {minimizado.pgto && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, pgto: false})}>Cadastro Tipo de Pagamento</div>}
         {minimizado.top && <div className='minimizado' onClick={()=> setMinimizado({...minimizado, top: false})}>Cadastro TOP</div>}

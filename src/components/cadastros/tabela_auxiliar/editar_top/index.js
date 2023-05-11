@@ -1,20 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../../contexts/Auth/authContext";
 import * as M from "../../../modais/modal/modal";
 import * as C from "../../../cadastro/cadastro";
-import * as CT from "./cadastroTop";
+import * as CT from "../cadastro_top/cadastroTop";
 import * as CC from "../../cadastro_cliente/cadastroCliente"
 import { Pgt } from "../../../modais/modal_pgt";
 import { PerfilMovimentacao } from "../../../modais/modal_perfil_mov";
 
-export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
+export const EditarTop = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [aba, setAba] = useState('geral');
     const [campoObrigatorio, setCampoObrigatorio] = useState("")
     const [isModalPgto, setIsModalPgto] = useState(false);
     const [isModalPerfil, setIsModalPerfil] = useState(false);
-
-    const [dataSelectPgt, setDataSelectPgt] = useState();
+    const top = localStorage.getItem("idTop");
 
     const tabelaBc = [
         {
@@ -91,7 +90,91 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
         }
     ]
 
+    useEffect(()=> {
+        async function fetchData (){
+            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2004/top/${top}`);
+            const data = await response.json();
+            setDadosTop({
+                id: data.id,
+                perfilMovimentacao: {
+                    id: data.perfilMovimentacao.id,
+                    descricao: data.perfilMovimentacao.descricao,
+                    usado_norm_entre_filiais: data.perfilMovimentacao.usado_norm_entre_filiais
+                },
+                libera_itens_estoque_indisponivel: data.libera_itens_estoque_indisponivel,
+                descricao: data.descricao,
+                tipo_movimentacao: data.tipo_movimentacao,
+                rotina_movimenta_estoque_reservado: data.rotina_movimenta_estoque_reservado,
+                gera_financeiro: data.gera_financeiro,
+                rotina_movimenta_estoque_real: data.rotina_movimenta_estoque_real,
+                rotina_movimenta_estoque_deposito_interno: data.rotina_movimenta_estoque_deposito_interno,
+                libera_editar_nome_do_consumidor_final: data.libera_editar_nome_do_consumidor_final,
+                editar_preco_rotina: data.editar_preco_rotina,
+                tipo_edicao_preco_rotina: data.tipo_edicao_preco_rotina,
+                nat_operacao: data.nat_operacao,
+                calcula_ipi: data.calcula_ipi,
+                calcula_icms: data.calcula_icms,
+                calcula_pis: data.calcula_pis,
+                calcula_cofins: data.calcula_cofins,
+                emite_nota_fiscal: data.emite_nota_fiscal,
+                emite_cupom_fiscal: data.emite_cupom_fiscal,
+                id_grupo_ipi: data.id_grupo_ipi,
+                id_grupo_pis: data.id_grupo_pis,
+                id_grupo_cofins: data.id_grupo_cofins,
+                index_preco_vinculado: data.index_preco_vinculado,
+                incluir_obs_carga_tributaria_nfe: data.incluir_obs_carga_tributaria_nfe,
+                incluir_obs_cred_sn_nfe: data.incluir_obs_cred_sn_nfe,
+                incluir_obs_nfe: data.incluir_obs_nfe,
+                serie_nfe: data.serie_nfe,
+                calcula_mva: null,
+                calcula_iva: null,
+                gera_protocolo: data.gera_protocolo,
+                tipo_protocolo: data.tipo_protocolo,
+                finalidade_nfe: data.finalidade_nfe,
+                escolher_vendedor_rotina: data.escolher_vendedor_rotina,
+                vendedor_cadastro_parceiro_rotina: data.vendedor_cadastro_parceiro_rotina,
+                atualiza_tabela_preco: data.atualiza_tabela_preco,
+                atualiza_fornecedor_produtos: data.atualiza_fornecedor_produtos,
+                libera_emitente_como_parceiro: data.libera_emitente_como_parceiro,
+                tipoPagamento: {
+                    id: data.tipoPagamento.id,
+                    descricao: data.tipoPagamento.descricao,
+                    gera_comissao: data.tipoPagamento.gera_comissao,
+                    vinculado: data.tipoPagamento.vinculado,
+                    concede_desconto: data.tipoPagamento.concede_desconto,
+                    valor_min_para_desconto:data.tipoPagamento.valor_min_para_desconto,
+                    valor_max_do_desconto:data.tipoPagamento.valor_max_do_desconto,
+                    pode_dividir: data.tipoPagamento.pode_dividir,
+                    qtd_max_parcelas: data.tipoPagamento.qtd_max_parcelas,
+                    taxa_parcelamento: data.tipoPagamento.taxa_parcelamento,
+                    taxa:data.tipoPagamento.taxa,
+                    markup_default:data.tipoPagamento.markup_default,
+                    valor_minimo:data.tipoPagamento.valor_minimo,
+                    preco_especial: data.tipoPagamento.preco_especial,
+                    tipo_pagamento_nfe: data.tipoPagamento.tipo_pagamento_nfe,
+                    id_top_financeiro: data.tipoPagamento.id_top_financeiro,
+                    desconto_porc: data.tipoPagamento.desconto_porc,
+                    id_tipo_pagamento_vinculado: data.tipoPagamento.id_tipo_pagamento_vinculado,
+                    desconto_variavel: data.tipoPagamento.desconto_variavel,
+                    comissao:data.tipoPagamento.comissao,
+                    gera_financeiro_rotina: data.tipoPagamento.gera_financeiro_rotina,
+                    gera_financeiro_nfe: data.tipoPagamento.gera_financeiro_nfe,
+                    valor_parcela_total_rotina: data.tipoPagamento.valor_parcela_total_rotina,
+                    excluido: data.tipoPagamento.excluido,
+                    utiliza_config_default: data.tipoPagamento.utiliza_config_default,
+                    pre_desc_acres_nfe: data.tipoPagamento.pre_desc_acres_nfe,
+                    ativo: data.tipoPagamento.ativo
+                },
+                tipo_operacao_fiscal: data.tipo_operacao_fiscal,
+                nat_bc_cred: data.nat_bc_cred,
+                excluido: false
+            })
+        }
+        fetchData();
+    }, [])
+
     const [dadosTop, setDadosTop] = useState({
+        id:  "",
         perfilMovimentacao: {
             id: "",
             descricao: "",
@@ -166,18 +249,16 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
         excluido: false
     });
 
-    console.log(dadosTop)
-
     const salvar = async () => {
         if(dadosTop.descricao && dadosTop.perfilMovimentacao.id){
             try{
-                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/top/save",{
-                    method: "POST",
+                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/top/edit",{
+                    method: "PUT",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(dadosTop),
                 })
-                if(res.status === 201){
-                    alert("Salvo com sucesso!");
+                if(res.status === 200){
+                    alert("Editado com sucesso!");
                     close();
                 }
             }catch(err){
@@ -193,7 +274,7 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
         <M.SubModal style={{zIndex: minimizado && minimizado.top === true ? minimizar : "1"}}>
             <C.Container>
                 <C.Header>
-                    <h3>Cadastrar TOP</h3>
+                    <h3>Editar TOP</h3>
                     <div className="buttons">
                         <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, top: true})}}><div className="linha"/></button>
                         <button className="close" onClick={close}>X</button>
