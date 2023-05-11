@@ -1,7 +1,7 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura) {
+export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
     const nfe = () => {
@@ -29,30 +29,25 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         }
     }
 
-    //const vendedor = dadosVendedor.map((data) => {
-        //return[
-            //{text: data.idFilial, fontSize: 8 },
-            //{text: data.idVendedor, fontSize: 8 },
-           // {text: data.vendedor, fontSize: 8 },
-           // {text: data.qtdVendas, fontSize: 8 },
-           // {text: data.vlTotalNfe.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlTotalNfce.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlVendaTotal.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlTotalCancelamento.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlTotalComissao.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlCustoTotal.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlLucroVenda.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlLucroLiquido.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.plucroLiquido.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.percentual.toFixed(2).replace('.', ','), fontSize: 8 },
-        //]
-   // } )
+    const fornecedor = dadosFornecedor.map((data) => {
+        return [
+            { text: data.id_fornecedor, fontSize: 8 },
+            { text: data.fornecedor, fontSize: 8 },
+            { text: data.qtd_total, fontSize: 8 },
+            { text: data.vlr_custo_total.toFixed(2).replace('.', ','), fontSize: 8 },
+            { text: data.vlr_venda_total.toFixed(2).replace('.', ','), fontSize: 8 },
+            { text: data.vlr_lucro_total.toFixed(2).replace('.', ','), fontSize: 8 },
+            { text: data.p_markup.toFixed(2).replace('.', ','), fontSize: 8 },
+            { text: data.p_margem.toFixed(2).replace('.', ','), fontSize: 8 },
+            { text: data.percentual.toFixed(2).replace('.', ','), fontSize: 8 },
+        ]
+    })
 
     const dataAtual = new Date().toLocaleString();
 
     const header = [
         {
-            text: 'Resumo de Faturamento Por Tipo de Pagamento',
+            text: 'Resumo de Faturamento Por Fornecedor',
             style: 'subheader',
             fontSize: 15,
             bold: true,
@@ -90,24 +85,36 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
                     [
                         { text: '', fontSize: 8 },
                     ],
-
+                    [
+                        { text: '', fontSize: 8 },
+                    ],
+    
                 ]
             },
             layout: 'headerLineOnly',
         },
-        {   table: {
-            headerRows: 1,
-            widths: [30,40,50,40,40,40,40,40,40,40,40,40,45,40,40,45],
+        {
+            table: {
+                headerRows: 1,
+                widths: [30, 150, 40, 45, 45, 45, 45, 45, 45],
                 body: [
                     [
-
+                        { text: 'Id. Fornecedor', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Fornecedor', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Qtd. Total', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Vlr. Custo', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Vlr. Venda', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Vlr. Lucro', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Markup(%)', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Margem(%)', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Percentual', fillColor: '#E0E7ED', fontSize: 7 },
                     ],
-                   // ...vendedor
+                    ...fornecedor 
                 ],
             },
 
         },
-        
+
     ]
 
     const footer = (currentPage, pageCount) => {
@@ -124,7 +131,6 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
 
     const docDefinitios = {
         pageSize: 'A4',
-        pageOrientation: 'LANDSCAPE',
         pageMargins: [15, 15, 15, 40],
         content: [header, content],
         footer: footer,

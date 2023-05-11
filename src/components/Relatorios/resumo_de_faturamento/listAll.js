@@ -8,6 +8,9 @@ import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
 import { resumoFaturamentoVendedorPDF} from './PDFS/resumoFaturamentoPDF'
 import { resumoFaturamentoTpPgPDF } from './PDFS/resumoFaturamentoTpPgPDF';
+import { resumoFaturamentoProdutoPDF } from './PDFS/resumoFaturamentoProdutoPDF';
+import { resumoFaturamentoGrupoPDF } from './PDFS/resumoFaturamentoGrupoPDF';
+import { resumoFaturamentoFornecedorPDF } from './PDFS/resumoFaturamentoFornecedorPDF';
 
 import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as RF from "../resumo_de_faturamento/resumoFaturamento"
@@ -19,12 +22,24 @@ Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
 
-    const imprimir = () => {
+    const imprimirVendedor = () => {
         resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosVendedor)
     }
 
-    const imprimir0 = () => {
-        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura)
+    const imprimirTpPg = () => {
+        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, keys)
+    }
+
+    const imprimirProduto = () => {
+        resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosProduto)
+    }
+
+    const imprimirGrupo = () => {
+        resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosGrupo)
+    }
+
+    const imprimirFornecedor = () => {
+        resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor)
     }
 
     const { user, empresa } = useContext(AuthContext);
@@ -863,6 +878,8 @@ export const ResumoFaturamento = () => {
     const resultProd3 = dadosProduto.reduce((a, b) => a + b.sub_total, 0) //Dados Totais somados de Sub Total
     const resultProd4 = dadosProduto.reduce((a, b) => a + b.vlr_desconto_total, 0) //Dados Totais somados de Desconto Total
 
+    console.log(dadosProduto)
+
     const optionsProd = { //Configuração do Segundo Gráfico de Produto
         title: "Valores",
         is3D: true,
@@ -1463,7 +1480,7 @@ export const ResumoFaturamento = () => {
 
                                 <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
-                                <button className='dashboardBtn' onClick={imprimir} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirVendedor} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
@@ -1648,7 +1665,7 @@ export const ResumoFaturamento = () => {
 
                                 <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
-                                <button className='dashboardBtn' onClick={imprimir0} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirTpPg} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
@@ -1694,7 +1711,7 @@ export const ResumoFaturamento = () => {
 
                                 <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
-                                <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirProduto} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
@@ -1780,7 +1797,7 @@ export const ResumoFaturamento = () => {
 
                                 <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
-                                <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirGrupo} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
@@ -1869,7 +1886,7 @@ export const ResumoFaturamento = () => {
 
                                 <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
-                                <button className='dashboardBtn' onClick={window.print} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirFornecedor}> <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
