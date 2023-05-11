@@ -325,11 +325,11 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
                             <fieldset>
                                 <legend>Movimentação na Rotina / lançamento N.E.</legend>
                                 <div>
-                                    <input type="checkbox" checked={dadosTop.rotina_movimenta_estoque_reservado ? true : false} onChange={(e)=> setDadosTop({...dadosTop, rotina_movimenta_estoque_reservado: !dadosTop.rotina_movimenta_estoque_reservado})}/>
+                                    <input type="checkbox" checked={dadosTop.rotina_movimenta_estoque_reservado ? true : false} onChange={(e)=> setDadosTop({...dadosTop, rotina_movimenta_estoque_reservado: !dadosTop.rotina_movimenta_estoque_reservado, rotina_movimenta_estoque_real: dadosTop.rotina_movimenta_estoque_reservado ? false : dadosTop.rotina_movimenta_estoque_reservado})}/>
                                     <label>Reservar estoque</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" checked={dadosTop.rotina_movimenta_estoque_real ? true : false} onChange={(e)=> setDadosTop({...dadosTop, rotina_movimenta_estoque_real: !dadosTop.rotina_movimenta_estoque_real})}/>
+                                    <input type="checkbox" checked={dadosTop.rotina_movimenta_estoque_real ? true : false} onChange={(e)=> setDadosTop({...dadosTop, rotina_movimenta_estoque_real: !dadosTop.rotina_movimenta_estoque_real, rotina_movimenta_estoque_reservado: dadosTop.rotina_movimenta_estoque_real ? false : dadosTop.rotina_movimenta_estoque_real})}/>
                                     <label>Movimentar estoque real</label>
                                 </div>
                                 <div>
@@ -367,11 +367,11 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
                         <fieldset>
                             <legend>Faturamento</legend>
                                 <div>
-                                    <input type="checkbox" checked={dadosTop.emite_cupom_fiscal ? true : false} onChange={()=> setDadosTop({...dadosTop, emite_cupom_fiscal: !dadosTop.emite_cupom_fiscal})}/>
+                                    <input type="checkbox" checked={dadosTop.emite_cupom_fiscal ? true : false} onChange={()=> setDadosTop({...dadosTop, emite_cupom_fiscal: !dadosTop.emite_cupom_fiscal})} disabled={dadosTop.rotina_movimenta_estoque_real ? true : false}/>
                                     <label>CUPOM FISCAL / NFCe</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" checked={dadosTop.emite_nota_fiscal ? true : false} onChange={()=> setDadosTop({...dadosTop, emite_nota_fiscal: !dadosTop.emite_nota_fiscal})}/>
+                                    <input type="checkbox" checked={dadosTop.emite_nota_fiscal ? true : false} onChange={()=> setDadosTop({...dadosTop, emite_nota_fiscal: !dadosTop.emite_nota_fiscal})} disabled={dadosTop.rotina_movimenta_estoque_real ? true : false}/>
                                     <label>NOTA FISCAL (NFe)</label>
                                 </div>
                         </fieldset>

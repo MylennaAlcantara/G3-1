@@ -57,16 +57,12 @@ export const MensagemNfe = ({close, setDadosTop, dadosTop, minimizado, setMinimi
         }
     };
 
-    // Estado que indica quando minimizado para colocar atrás de tudo
-    const [minimizar, setMinimizar] = useState("");
-
     return(
-        <M.Modal>
+        <M.SubModal>
             <M.Container>
                 <M.Header>
                     <label>Mensagem de NFe</label>
                     <div className="buttons">
-                        <button className="minimizar"><div className="linha"/></button>
                         <button className="close" onClick={close}>X</button>
                     </div>
                 </M.Header>
@@ -98,8 +94,8 @@ export const MensagemNfe = ({close, setDadosTop, dadosTop, minimizado, setMinimi
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
-                {modalCadastro ? <CadastroMensagem close={()=> setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
+                {modalCadastro ? <CadastroMensagem close={()=> setModalCadastro(false)} /> : null}
             </M.Container>
-        </M.Modal>
+        </M.SubModal>
     )
 }

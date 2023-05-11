@@ -2,14 +2,13 @@ import React from "react";
 import * as M from "../modal/modal";
 import { Content } from "./cadastroMensagem";
 
-export const CadastroMensagem = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
+export const CadastroMensagem = ({close}) => {
     return(
         <M.SubModal>
             <M.Container>
                 <M.Header>
                     <label>Cadastro Mensagem NFe</label>
                     <div className="buttons">
-                        <button className="minimizar"><div className="linha"/></button>
                         <button className="close" onClick={close}>X</button>
                     </div>
                 </M.Header>
