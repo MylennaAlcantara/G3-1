@@ -72,5 +72,10 @@ select{
     width: auto;
     align-items: start;
   }
+  .op-minimizadas{
+    top: 5%;
+    right: 5%;
+    height: 90%;
+  }
   
 }

@@ -200,6 +200,26 @@ export const Financeiro = styled.div`
             }
         }
     }
+    @media(max-width: 700px){
+        display: flex;
+        flex-direction: column;
+        aling-items: center;
+        fieldset{
+            flex-wrap: wrap;
+            .super{
+                display: flex;
+                justify-content: start;
+                flex-wrap: wrap;
+            }
+        }
+        div{
+            width: 100%;
+            flex-wrap: wrap;
+            display: flex;
+            align-items: center;
+            justify-content: end;
+        }
+    }
 `
 export const Relatorios = styled.div`
     height: 80%;

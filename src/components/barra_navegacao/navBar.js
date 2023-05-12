@@ -26,7 +26,7 @@ export const Container = styled.div`
 `
 
 export const Barra = styled.div `
-    height: 100vh;
+    height: 100%;
     width: 150px;
     background-color: white;
     background-image: url('/images/lateral.jpg');
@@ -64,9 +64,11 @@ export const Barra = styled.div `
     .gaveta{
         background-color: #00a5dd;
         margin: 0;
-        height: auto;
+        height: 30px;
         border-radius: 0;
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     div:hover{
         border-bottom: 1px solid #064a8b;

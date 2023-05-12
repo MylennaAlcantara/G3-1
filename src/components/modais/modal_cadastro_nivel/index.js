@@ -20,10 +20,10 @@ export const CadastrarNivel = ({close, minimizar, setMinimizar, minimizado, setM
                 <CC.DadosCliente>
                     <div>
                         <label>Código: </label>
-                        <input readOnly/>
+                        <input id="codigo"  readOnly/>
                     </div>
                         <label>Descrição: </label>
-                        <input style={{width: "50%"}} readOnly/>
+                        <input id="descricao" readOnly/>
                 </CC.DadosCliente>
                 <CC.Navegacao>
                     <div onClick={()=> setAba('cadastros')} style={{backgroundColor: aba==="cadastros" ? 'white' : '', borderBottom: aba==="cadastros" ?  "none" : ""}}>Cadastros</div>

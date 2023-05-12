@@ -28,8 +28,9 @@ export const Container = styled.div`
         width: 95vw;   
     }
     @media (max-width: 425px){
-        height: 90vh;
-        width: 90%;
+        height: 93%;
+        width: 95%;
+        margin-bottom: 0px;
     }
 `;
 
@@ -106,7 +107,7 @@ export const Rotinas = styled.div`
     background-color: #f0f0f0;
     display: flex;
     align-items: start;
-    justify-content: center;
+    justify-content: start;
     border: 1px solid black;
     height: 80%;
     width: 100%;
