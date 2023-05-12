@@ -226,7 +226,9 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
             </C.Filtro>
             <C.Rotinas>
                 {rotinas.length === 0 ? (
-                    <Loading/>
+                    <div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                        <Loading style={{margin: "auto"}}/>
+                    </div>
                 ) : (
                     <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
                         <thead>
