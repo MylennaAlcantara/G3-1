@@ -144,7 +144,7 @@ export function resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, da
                 widths: ['*'],
                 body: [
                     [
-                        { text: 'Totais', alignment: 'center', fillColor: '#E0E7ED' },
+                        { text: 'Totais', alignment: 'center', fillColor: '#E0E7ED',  bold: true, },
                     ],
                 ],
             },

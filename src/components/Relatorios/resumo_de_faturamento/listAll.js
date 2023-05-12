@@ -497,6 +497,8 @@ export const ResumoFaturamento = () => {
         setIsOpenDashboardFilial(false)
     }
 
+    const [graficosCadaFilial, setGraficosCadaFilial] = useState(false)
+
     const resultFi = dados.reduce((a, b) => a + b.vlCustoTotal, 0) //Dados Totais somados de Custo Total(Filial)
     const resultFi1 = dados.reduce((a, b) => a + b.vlVendaTotal, 0) //Dados Totais somados de Venda Total(Filial)
     const resultFi2 = dados.reduce((a, b) => a + b.vlLucroVenda, 0) //Dados Totais somados de Lucro Venda(Filial)
@@ -1155,6 +1157,14 @@ export const ResumoFaturamento = () => {
         [dadoNomeForn7, dadoVenForn7, dadoLuForn7],
         [dadoNomeForn8, dadoVenForn8, dadoLuForn8],
         [dadoNomeForn9, dadoVenForn9, dadoLuForn9],
+    ];
+
+    //------------------------------------------------------------------Dashboard Geral--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    const dataNfs = [
+        ["Element", "Valor Total", { role: "style" }],
+        ["NF-e", resultFi3, "#F7C64F"],
+        ["NFC-e", resultFi4, "#bc1b2b"],
     ];
 
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2301,7 +2311,7 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Filial</h1>
+                    <h1>Dados Filial<button onClick={() => setGraficosCadaFilial(true)} className='filialBTN' > <img className='close' src='/images/filiais.png' /> Cada Filial</button></h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
@@ -2342,6 +2352,50 @@ export const ResumoFaturamento = () => {
                     <RF.Dashboard>
                         <div className='grafico'> <Chart chartType="Bar" width="300px" height="200px" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" /> </div>
                     </RF.Dashboard>
+
+                    <Modal isOpen={graficosCadaFilial} onRequestClose={() => setGraficosCadaFilial(false)} className='dashboardCadaFilial' overlayClassName='none'>
+                        <h1>Cada Filial</h1>
+                        {dados.map((data) => {
+
+                            const grafico = [
+                                ["Element", "Lucro/Custo", { role: "style" }],
+                                ["Lucro", data.vlLucroVenda, "#f6d001"],
+                                ["Custo", data.vlCustoTotal, "#bc1b2b"],
+                            ];
+
+                            const grafico0 = [
+                                ["Element", "Notas Fiscais", { role: "style" }],
+                                ["NF-e", data.vlTotalNfe, "#bc1b9c"],
+                                ["NFC-e", data.vlTotalNfce, "#1b7abc"],
+                            ];
+
+                            const grafico1 = [
+                                ["Element", "Liquido/Total", {role: "style" }],
+                                ["Liquido", data.vlTotalLiquido, "#ffaf56"],
+                                ["Total", data.vlVendaTotal , "#b2bb1c"]
+                            ]
+
+                            const optionsGra1 = {
+                                title: "NF-e/NFC-e",
+                                is3D: true,
+                                colors: ["#bc1b9c", "#b2bb1c"],
+                            };
+
+                            return (
+                                <div>
+                                    <h1 className='textFilial' >{data.filial}</h1>
+
+                                    <RF.Dashboard0>
+                                        <div className='grafico' > <Chart chartType="ColumnChart" width="300px" height="200px" data={grafico} /> </div>
+                                        <div className='grafico' > <Chart chartType="PieChart" width="300px" height="200px" data={grafico0} options={optionsGra1} /> </div>
+                                        <div className='grafico' > <Chart chartType="ColumnChart" width="300px" height="200px" data={grafico1} /> </div>
+                                    </RF.Dashboard0>
+                                </div>
+
+                            )
+                        })}
+
+                    </Modal>
 
                 </div>
 
@@ -2932,9 +2986,9 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataCli} options={barOptionsCli}/></div>
-                        <div className="graficoLongo" ><Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg}/></div>
-                        <div className="grafico" ><Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px"/></div>
+                        <div className="grafico" ><Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} /></div>
+                        <div className="graficoLongo" ><Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} /></div>
+                        <div className="grafico" ><Chart chartType="PieChart" data={dataNfs} options={options2} width="300px" height="200px" /></div>
                     </RF.Dashboard>
 
                     <RF.Dashboard>

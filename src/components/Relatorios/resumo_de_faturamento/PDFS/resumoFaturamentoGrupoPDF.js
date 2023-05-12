@@ -30,24 +30,32 @@ export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, data
     }
 
     const Filial = () => {
-        if(valorFilial.length === 0){
+        if (valorFilial.length === 0) {
             return (
                 "TODAS"
             )
-        }else{
+        } else {
             return valorFilial
         }
     }
 
     const Top = () => {
-        if(valorIdTop.length === 0){
+        if (valorIdTop.length === 0) {
             return (
                 "TODAS"
             )
-        }else{
+        } else {
             return valorIdTop
         }
     }
+
+    const qtdTotal = dadosGrupo.reduce((a, b) => a + b.qtd_total, 0)
+    const Custo = dadosGrupo.reduce((a, b) => a + b.vlr_custo_total, 0)
+    const Venda = dadosGrupo.reduce((a, b) => a + b.vlr_venda_total, 0)
+    const Lucro = dadosGrupo.reduce((a, b) => a + b.vlr_lucro_total, 0)
+    const Markup = dadosGrupo.reduce((a, b) => a + b.p_markup, 0)
+    const Margem = dadosGrupo.reduce((a, b) => a + b.p_margem, 0)
+    const Percentual = dadosGrupo.reduce((a, b) => a + b.percentual, 0)
 
     const grupo = dadosGrupo.map((data) => {
         return [
@@ -129,8 +137,37 @@ export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, data
                     ...grupo
                 ],
             },
-
         },
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*'],
+                body: [
+
+                    [
+                        { text: 'Total', alignment: 'center', bold: true },
+                    ]
+                ]
+            },
+            layout: 'headerLineOnly',
+        },
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*', '*', '*', '*', '*', '*', '*'],
+                body: [
+                    [
+                        { text: 'Qtd Total: ' + (qtdTotal), fontSize: 8 },
+                        { text: 'Custo: ' + (Custo.toFixed(2).replace('.', ',')), fontSize: 8 },
+                        { text: 'Venda: ' + (Venda.toFixed(2).replace('.', ',')), fontSize: 8 },
+                        { text: 'Lucro: ' + (Lucro.toFixed(2).replace('.', ',')), fontSize: 8 },
+                        { text: 'Markup: ' + (Markup.toFixed(2).replace('.', ',')) + '%', fontSize: 8 },
+                        { text: 'Margem: ' + (Margem.toFixed(2).replace('.', ' ,') + '%'), fontSize: 8 },
+                        { text: 'Percentual: ' + (Percentual.toFixed(2).replace('.', ',')) , fontSize: 8 },
+                    ]
+                ]
+            }
+        }
 
     ]
 
