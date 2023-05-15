@@ -4,7 +4,7 @@ import { CadastroPgto } from "../modal_cadastro_pgto/index.js";
 import * as M from './../modal/modal.js';
 
 
-export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt, setTipoPgtoAlterado, cadastroPgto, minimizado, setMinimizado, dadosRotina, setDadosRotina, dadosTop, setDadosTop}) => {
+export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, setDataIdSelectPgt, setTipoPgtoAlterado, cadastro, minimizado, setMinimizado, dadosRotina, setDadosRotina, dadosTop, setDadosTop}) => {
 
     const [pgto, setPgto] = useState([]);
     const [selectPgt, setSelectPgt] = useState();
@@ -201,7 +201,7 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
                     </table>
                 </div>
             )}
-            {cadastroPgto ? (
+            {cadastro.pgto ? (
                 <M.Footer>
                     <div className="buttons">
                         <button onClick={()=> setCadastrar(true)}><img src="/images/add.png"/>Novo</button>

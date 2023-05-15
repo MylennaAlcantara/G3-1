@@ -15,6 +15,7 @@ export const OpAuxiliar = ({close, setOpAuxiliar, modal, setModal, cadastro, set
                 </C.Header>
                 <CO.Opcoes>
                     <div onClick={()=> {navigate('/top'); setOpAuxiliar(false)}}>T.O.P</div>
+                    <div onClick={()=> {setModal({...modal, perfilMov: true}); setCadastro({...cadastro, perfilMov: true})}}>Perfil de Movimentação</div>
                     <div onClick={()=> {setModal({...modal, perfil: true}); setCadastro({...cadastro, perfil: true})}}>Perfil de Regra</div>
                     <div onClick={()=> {setModal({...modal, ramo: true}); setCadastro({...cadastro, ramo: true})}}>Ramo de Atividade</div>
                     <div onClick={()=> {setModal({...modal, pgto: true}); setCadastro({...cadastro, pgto: true})}}>Tipo de Pagamento</div>

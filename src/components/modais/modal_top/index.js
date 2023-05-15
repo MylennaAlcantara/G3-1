@@ -5,7 +5,7 @@ import { Loading } from "../../loading/index.js";
 import {Container, Filtro, Header, Modal, Footer} from './../modal/modal.js';
 
 
-export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, setTopAlterada, setValorTop, valorTop,  cadastroTop, setMinimizado, minimizado, dadosRotina, setDadosRotina }) => {
+export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, setTopAlterada, setValorTop, valorTop,  cadastro, setMinimizado, minimizado, dadosRotina, setDadosRotina }) => {
 
     const [top, setTop] = useState([]);
     const [busca, setBusca] = useState('');
@@ -198,7 +198,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                     </table>
                 </div>
             )}
-            {cadastroTop ? (
+            {cadastro.top ? (
                 <Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/>Novo</button>

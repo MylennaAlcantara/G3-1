@@ -4,7 +4,7 @@ import * as C from "../../cadastro/cadastro";
 import { CadastroRamo } from "../modal_cadastro_ramo/index";
 import { Loading } from "../../loading";
 
-export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastroRamo, minimizado, setMinimizado}) => {
+export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, minimizado, setMinimizado}) => {
     const [ramos, setRamos] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -138,7 +138,7 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastroRam
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>
-                        {cadastroRamo ? (
+                        {cadastro.ramo ? (
                             <button><img src="/images/abrir.png"/>Abrir</button>
                         ): null}
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>

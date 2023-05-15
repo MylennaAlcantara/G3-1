@@ -146,7 +146,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                                                     <div className="gaveta" onClick={()=> {setModal({...modal, perfilMov: true})}}>Perfil de Movimentação</div>
                                                     <div className="gaveta" onClick={()=> {setModal({...modal, perfil: true}); setCadastro({...cadastros, perfil: true})}}>Perfil de Regra</div>
                                                     <div className="gaveta" onClick={()=> {setModal({...modal, ramo: true}); setCadastro({...cadastros, ramo: true})}}>Ramo de Atividade</div>
-                                                    <div className="gaveta" onClick={()=> {setModal({...modal, pgto: true}); setCadastro({...cadastros, ramo: true})}}>Tipo de Pagamento</div>
+                                                    <div className="gaveta" onClick={()=> {setModal({...modal, pgto: true}); setCadastro({...cadastros, pgto: true})}}>Tipo de Pagamento</div>
                                                 </>
                                             ) : null}
                                         </>
