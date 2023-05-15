@@ -207,17 +207,20 @@ export const ResumoFaturamento = () => {
         });
         if (res.status === 200) {
             res.json().then(data => {
+                if (data.length === 0) {
+                    setShowElement(false)
+                    alert('Consulta Finalizada')
+                }
                 setDadosRegiao(data);
                 setShowElementRegiao(true)
             });
+
         } else if (res.status === 500) {
             setShowElementRegiao(false)
             alert('Não foi possivel carregar aba Região')
+
         }
     }
-
-
-    console.log(valorFilial)
 
     const [keys, setDaDosKeys] = useState([]) //Usado para escrever o nome dos labels 
     const [dadosLeitura, setDadosLeitura] = useState([]) //Dados em Geral (Tipo de Pagamento)
@@ -1380,106 +1383,112 @@ export const ResumoFaturamento = () => {
                     </RF.DataGeral>
                 </>
             ) : aba === "filial" ? (
-                <RF.DataGeral>
-                    {dados.length === 0 && showElement === true ? (
-                        <div className='c' >
-                            <Loading />
-                        </div>
-                    ) : (
-                        <>
-                            <div className='dashboardLine'>
-                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-
-                                <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                <>
+                    <RF.DataGeral>
+                        {dados.length === 0 && showElement === true ? (
+                            <div className='c' >
+                                <Loading />
                             </div>
+                        ) : (
+                            <>
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
 
-                            <div className='table-responsive' >
-                                <table id='table' >
-                                    <tr>
-                                        <th>Id.Filial</th>
+                                    <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                </div>
 
-                                        <th>Filial</th>
+                                <div className='table-responsive' >
+                                    <table id='table' >
+                                        <tr>
+                                            <th>Id.Filial</th>
+
+                                            <th>Filial</th>
+
+                                            <th>Qtd. Vendas</th>
+
+                                            <th>Qtd. Itens</th>
+
+                                            <th>Méd. Itens/Cup.</th>
+
+                                            <th>Vlr. Médio Venda</th>
+
+                                            <th>Vlr. Total NF-e</th>
+
+                                            <th>Vlr. Total NFC-e</th>
+
+                                            <th>Vlr. Venda Total</th>
+
+                                            <th>Vlr. Total Credito</th>
+
+                                            <th> Vlr. Total Líquido</th>
+
+                                            <th>Vlr. Custo Total</th>
+
+                                            <th>Vlr. Lucro Venda</th>
+
+                                            <th>Vlr. Lucro Líquido</th>
+
+                                            <th>% Margem</th>
+
+                                            <th>Percentual</th>
+
+                                        </tr>
+
+                                        {dados.map((f2) => {
 
 
-                                        <th>Qtd. Vendas</th>
+                                            if (f2.vlTotalCredito === null) {
+                                                f2.vlTotalCredito = 0
+                                            }
 
-                                        <th>Qtd. Itens</th>
+                                            return (
+                                                <tr>
+                                                    <td> {f2.idFilial} </td>
 
-                                        <th>Méd. Itens/Cup.</th>
+                                                    <td>{f2.filial}</td>
 
-                                        <th>Vlr. Médio Venda</th>
+                                                    <td>{f2.qtdVendas}</td>
 
-                                        <th>Vlr. Total NF-e</th>
+                                                    <td>{f2.qtdItens}</td>
 
-                                        <th>Vlr. Total NFC-e</th>
+                                                    <td>{f2.qtdItensCupom}</td>
 
-                                        <th>Vlr. Venda Total</th>
+                                                    <td>{f2.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>Vlr. Total Credito</th>
+                                                    <td>{f2.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
 
-                                        <th> Vlr. Total Líquido</th>
+                                                    <td>{f2.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>Vlr. Custo Total</th>
+                                                    <td>{f2.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>Vlr. Lucro Venda</th>
+                                                    <td>{f2.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>Vlr. Lucro Líquido</th>
+                                                    <td>{f2.vlTotalLiquido.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>% Margem</th>
+                                                    <td>{f2.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>Percentual</th>
+                                                    <td>{f2.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
 
-                                    </tr>
+                                                    <td>{f2.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
 
-                                    {dados.map((f2) => {
+                                                    <td>{f2.margem.toFixed(2).replace('.', ',')} %</td>
 
+                                                    <td>{(f2.percentual).toFixed(2)} %</td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </table>
 
-                                        if (f2.vlTotalCredito === null) {
-                                            f2.vlTotalCredito = 0
-                                        }
+                                </div>
+                            </>
+                        )}
+                    </RF.DataGeral>
 
-                                        return (
-                                            <tr>
-                                                <td> {f2.idFilial} </td>
-
-                                                <td>{f2.filial}</td>
-
-                                                <td>{f2.qtdVendas}</td>
-
-                                                <td>{f2.qtdItens}</td>
-
-                                                <td>{f2.qtdItensCupom}</td>
-
-                                                <td>{f2.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlTotalLiquido.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.margem.toFixed(2).replace('.', ',')} %</td>
-
-                                                <td>{(f2.percentual).toFixed(2)} %</td>
-                                            </tr>
-                                        );
-                                    })}
-                                </table>
-
-                            </div>
-                        </>
-                    )}
-                </RF.DataGeral>
+                    <div className='provas' >
+                        <div>Qtd.Vendas: </div> <div>Qtd.Itens: </div> <div>Médio Venda: </div> <div>Total NF-e:</div>
+                        <div>Total NFC-e:</div> <div>Venda Total:</div> <div>Total Credito:</div> <div>Total Liquido:</div>
+                    </div>
+                </>
             ) : aba === "vendedor" ? (
                 <RF.DataGeral>
                     {dadosVendedor.length === 0 && showElement === true ? (
@@ -1565,9 +1574,7 @@ export const ResumoFaturamento = () => {
 
                                             <td>{(dat.vlLucroLiquido).toFixed(2).replace('.', ',')}</td>
 
-
                                             <td>% {(dat.plucroLiquido).toFixed(2).replace('.', ',')}</td>
-
 
                                             <td>{(dat.percentual).toFixed(2).replace('.', ',')}</td>
                                         </tr>
@@ -2968,15 +2975,15 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts'>
 
-                        <h2 className='prices' > <p className='Gtext' > Venda Total:  R$ {resultFi1} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Venda Total:  R$ {resultFi1.toFixed(2).replace('.', ',')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > Lucro V.Total:  R$ {resultFi2} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Lucro V.Total:  R$ {resultFi2.toFixed(2).replace('.', ',')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > Liquido Total: R$ {resultFi6} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Liquido Total: R$ {resultFi6.toFixed(2).replace('.', ',')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {resultFi3} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {resultFi3.toFixed(2).replace('.', ',')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > NFC-e Total: R$ {resultFi4} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > NFC-e Total: R$ {resultFi4.toFixed(2).replace('.', ',')} </p> </h2>
                     </div>
 
                     <RF.Dashboard>
