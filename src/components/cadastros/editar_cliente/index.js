@@ -10,7 +10,7 @@ import * as CC from "../cadastro_cliente/cadastroCliente";
 
 export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
     const navigate = useNavigate();
-    const {user, empresa, cnpjMask} = useContext(AuthContext);
+    const {user, empresa, cnpjMask, dataMask, cepMask} = useContext(AuthContext);
     const idFuncionario = Array.isArray(user) && user.map((user) => user.id)
     
     //Pegar hora do computador
@@ -132,9 +132,9 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                 orgao_rg: data.ogao_rg,
                 inscricao_estadual: data.inscricao_estadual,
                 tipo_pessoa: data.tipo_pessoa,
-                cpf_cnpj: data.cpf_cnpj,
+                cpf_cnpj: cnpjMask(data.cpf_cnpj),
                 endereco: data.endereco,
-                cep: data.cep,
+                cep: cepMask(data.cep),
                 nome: data.nome,
                 nome_fantasia: data.nome_fantasia,
                 complemento: data.complemento,
@@ -154,7 +154,7 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                 ramoAtividade: data.ramoAtividade,
                 filial: data.filial,
                 inscricao_municipal: data.inscricao_municipal,
-                data_cadastro: data.data_cadastro,
+                data_cadastro: dataMask(data.data_cadastro),
                 municipio: data.municipio,
                 estado: data.estado,
                 cod_municipio: data.cod_municipio,

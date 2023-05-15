@@ -45,7 +45,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
         }
     }
 
-    const resultado3 = Array.isArray(rotinas) && rotinas.filter((rotina)=> String(rotina.id_empresa).toLowerCase().includes(busca))
+    const resultado3 = Array.isArray(rotinas) && rotinas.filter((rotina)=> rotina.id_empresa == selectFilial.value)
 
     const resultado2 = Array.isArray(resultado3) && resultado3.filter((rotina) => {
         if(filtroEscolhido === 'P' ){
@@ -69,7 +69,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
         if(filtroSelecionado === 'cliente'){
             return rotina.nome_cliente.toLowerCase().includes(busca);
         }else if(filtroSelecionado === 'data'){
-            return rotina.dataEmissao.toLowerCase().includes(busca);
+            return dataMask(rotina.dataEmissao).toLowerCase().includes(busca);
         }else if(filtroSelecionado === 'top'){
             return String(rotina.id_top).toLowerCase().includes(busca);
         }else if(filtroSelecionado === 'vendedor'){

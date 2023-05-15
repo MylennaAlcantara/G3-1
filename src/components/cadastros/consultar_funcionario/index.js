@@ -217,7 +217,7 @@ export const ConsultarFuncionario = () => {
                                             style={{background: index === selectIndex ? '#87CEFA' : ''}}>
                                             <td>{user.id}</td>
                                             <td>{user.nome}</td>
-                                            <td>{user.nome}</td>
+                                            <td>{user.telefone}</td>
                                         </tr>
                                     );
                                 })}
