@@ -218,7 +218,7 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
             <CF.DadosFuncionario>
                 <div>
                     <label>Código:</label>
-                    <input readOnly/>
+                    <input value={dadosFuncionario.id} readOnly/>
                 </div>
                 <div className="campo">
                     <div style={{justifyContent: "start", alignContent: "center", height: "100%"}}>

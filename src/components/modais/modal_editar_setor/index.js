@@ -4,8 +4,9 @@ import * as CP from "../modal_cadastro_perfil/cadastroPerfil";
 
 export const EditarSetor = ({close, dadosSetor, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const nomeSetor = dadosSetor.descricao;
+    const operadorCaixa = dadosSetor.operadorDeCaixa;
     const [novoSetor, setNovoSetor] = useState(nomeSetor);
-    const [operador, setOperador] = useState(false);
+    const [operador, setOperador] = useState(operadorCaixa);
 
     async function salvar (){
         try{
@@ -62,7 +63,7 @@ export const EditarSetor = ({close, dadosSetor, minimizado, setMinimizado, minim
                             <input value={novoSetor} onChange={(e)=>setNovoSetor(e.target.value)}/>
                         </div>
                         <div style={{height: 'auto', display: 'flex', flexDirection: 'row' ,  justifyContent: "start", alignItems: 'center'}}>
-                            <input type="checkbox" onChange={()=> setOperador(!operador)}/>
+                            <input type="checkbox" checked={operador ? true : false} onChange={()=> setOperador(!operador)}/>
                             <label>Operador de Caixa</label>
                         </div>
                     </div>

@@ -20,7 +20,7 @@ export const Familia = ({close, minimizado, setMinimizado}) => {
     const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.SubModal style={{zIndex: minimizado.familia === true ? minimizar : "1"}}>
+        <M.SubModal style={{zIndex: minimizado && minimizado.familia === true ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Familia</h3>

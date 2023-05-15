@@ -658,7 +658,7 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
                 {/*<fieldset><legend>Observação</legend>Observação</fieldset>*/}
             </C.Info>
                 
-            <C.Header>
+            <C.Header style={{position: "relative"}}>
                 <h4>Produtos</h4>
             </C.Header>
             <C.Add>
@@ -808,7 +808,7 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
                     </table>
                 </div>
             </C.Display>
-            <C.Footer>
+            <C.Footer style={{position: "relative"}}>
                 <form>
                     <div>
                     <label>Pré-descontoValor:</label>
@@ -832,6 +832,8 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
                     <input placeholder="0,000000"/>
                     </div>
                 </form>
+            </C.Footer>
+            <C.Footer>
                 <div className="buttons">
                     <button className="liberar" id="submit" onClick={handleSubmit}><img src="/images/salvar.png"/>Liberar</button>
                     <button className="Excluir"><img src="/images/lixeira.png"/>Excluir</button>

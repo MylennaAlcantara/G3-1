@@ -227,7 +227,7 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
             <CC.DadosCliente>
                     <div>
                         <label>Fornecedor: </label>
-                        <input readOnly/>
+                        <input value={dadosFornecedor.id} readOnly/>
                     </div>
                     <div className="checkbox">
                         <div>
@@ -236,7 +236,7 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
                     </div>
                     <div>
                         <label>Data: </label>
-                        <input readOnly/>
+                        <input value={dadosFornecedor.data_cadastro} readOnly/>
                     </div>
                     </div>
             </CC.DadosCliente>

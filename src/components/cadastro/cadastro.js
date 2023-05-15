@@ -10,7 +10,7 @@ export const Container = styled.div`
     width: 60vw;
     border: 1px solid black;
     border-radius: 12px;
-    z-index: 1;
+    z-index: 0;
     @media (max-width: 1920px){
         height: 80vh;
         width: 80vw;   
@@ -57,6 +57,8 @@ export const Header = styled.div`
     height: 24px;
     width: 100%;
     background-color: #f0f0f0;
+    position: sticky;
+    top: 0;
     button{
         margin: 0 5px;
         position: relative;
@@ -452,6 +454,8 @@ export const Footer = styled.div`
     display-flex: wrapper;
     flex-direction: column;
     justify-content: flex-end;
+    position: sticky;
+    bottom: 0;
     form{
         
         display: flex;
