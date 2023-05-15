@@ -17,6 +17,7 @@ export const Nivel = ({setNivel, close, cadastro, minimizado, setMinimizado, set
             setNiveis(data);
         }
         fetchData();
+        document.getElementById("search").focus();
     },[])
     
     const selecionado = (nivel) => {
@@ -79,7 +80,7 @@ export const Nivel = ({setNivel, close, cadastro, minimizado, setMinimizado, set
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar.."/>
+                        <input className="search" id="search" placeholder="Buscar.."/>
                     </div>
                 </M.Filtro>
                 {niveis.length === 0 ? (

@@ -17,6 +17,7 @@ export const PerfilCliente = ({close, cadastro, dadosCliente, setDadosCliente, m
             setPerfil(data);
         }
         fetchData();
+        document.getElementById("search").focus();
     }, []);
 
 

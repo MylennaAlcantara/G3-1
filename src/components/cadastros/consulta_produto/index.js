@@ -19,6 +19,7 @@ export const CounsultarProduto = () =>{
             setItens(data.content);
         }
         fetchData();
+        document.getElementById("search").focus();
     }, []);
 
     const selectColuna = document.getElementById('coluna');
@@ -91,7 +92,7 @@ export const CounsultarProduto = () =>{
                     <option value="2">NÃO</option>
                     <option value="3">TODOS</option>
                 </select>
-                <input placeholder="Buscar..." value={busca} onChange={(e)=> setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                <input placeholder="Buscar..." id="search" value={busca} onChange={(e)=> setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
             </CP.Filtro>
             <CP.Lista>
                 {itens.length === 0 ? (

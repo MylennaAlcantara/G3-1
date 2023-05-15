@@ -16,6 +16,7 @@ export const PerfilMovimentacao = ({close, setDadosTop, dadosTop, minimizado, se
             setPerfil(data);
         }
         fetchData();
+        document.getElementById("search").focus();
     }, []);
 
 

@@ -17,6 +17,7 @@ export const Ipi = ({close, minimizado, setMinimizado}) => {
             setGrupoIpi(data);
         }
         fetchData();
+        document.getElementById("search").focus();
     }, []);
 
     // Filtro de busca

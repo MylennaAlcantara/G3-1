@@ -30,6 +30,7 @@ export const Grupo = ({close, minimizado, setMinimizado}) => {
             setPai(data);
         }
         fetchData();
+        document.getElementById("search").focus();
     },[])
 
     function abrirFilho (grupo){
@@ -65,7 +66,7 @@ export const Grupo = ({close, minimizado, setMinimizado}) => {
                         <option>Código</option>
                         <option>Descrição</option>
                     </select>
-                    <input className="search" placeholder="Buscar..."/>
+                    <input className="search" id="search" placeholder="Buscar..."/>
                 </M.Filtro>
                 <Lista>
                     <div>

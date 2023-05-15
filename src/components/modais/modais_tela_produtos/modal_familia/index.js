@@ -14,6 +14,7 @@ export const Familia = ({close, minimizado, setMinimizado}) => {
             setFamilias(data); 
         }
         fetchData();
+        document.getElementById("search").focus();
     },[])
 
     // Estado que indica quando minimizado para colocar atrás de tudo
@@ -36,7 +37,7 @@ export const Familia = ({close, minimizado, setMinimizado}) => {
                         <option>Produto</option>
                     </select>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar..."/>
+                        <input className="search" id="search" placeholder="Buscar..."/>
                     </div>
                 </M.Filtro>
                 <div className="table-responsive">

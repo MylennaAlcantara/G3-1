@@ -17,6 +17,7 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
             setSetores(data);
         }
         fetchData();
+        document.getElementById("search").focus();
     },[])
     
     const selecionado = (setor) => {
@@ -79,7 +80,7 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar.."/>
+                        <input className="search" id="search" placeholder="Buscar.."/>
                     </div>
                 </M.Filtro>
                 {setores.length === 0 ? (

@@ -16,6 +16,7 @@ export const PisCofins = ({close, minimizado, setMinimizado}) => {
             setPerfil(data);
         }
         fetchData();
+        document.getElementById("search").focus();
     }, []);
 
     // Filtro de busca

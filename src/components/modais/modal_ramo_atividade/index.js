@@ -16,6 +16,7 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
             setRamos(data);
         }
             fetchData();
+            document.getElementById("search").focus();
     }, []);
 
     function selected (ramo){
