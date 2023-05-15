@@ -9,7 +9,7 @@ export const OpProdutos = ({setOpProdutos, close, modal, setModal, cadastro, set
 
     return(
         <M.Modal>
-            <C.Container style={{width: "40%"}}>
+            <C.Container style={{width: window.innerWidth < 700 ? '90%' : '40%'}}>
                 <C.Header>
                     <h3>Opções Produtos</h3>
                 </C.Header>

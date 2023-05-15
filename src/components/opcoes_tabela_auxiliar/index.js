@@ -9,7 +9,7 @@ export const OpAuxiliar = ({close, setOpAuxiliar, modal, setModal, cadastro, set
 
     return(
         <M.Modal>
-            <C.Container style={{width: "40%"}}>
+            <C.Container style={{width: window.innerWidth < 700 ? '90%' : '40%'}}>
                 <C.Header>
                     <h3>Tabelas Auxiliares</h3>
                 </C.Header>

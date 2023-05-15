@@ -11,7 +11,7 @@ export const OpFuncionarios = ({setOpfuncionario, close, modal, setModal, cadast
 
     return(
         <M.Modal>
-            <C.Container style={{width: "40%"}}>
+            <C.Container style={{width: window.innerWidth < 700 ? '90%' : '40%'}}>
                 <C.Header>
                     <h3>Opções Funcionários</h3>
                 </C.Header>
