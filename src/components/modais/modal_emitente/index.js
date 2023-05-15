@@ -105,7 +105,7 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
                     setSelectIdEmitente(resultado[selectIndex].id);
                     setDataSelectEmitente(resultado[selectIndex].razao_social);
                     setDataIdSelectEmitente(resultado[selectIndex].id);
-                    setDadosCliente({
+                    setDadosCliente && setDadosCliente({
                         ...dadosCliente,
                         filial: {
                             id: resultado[selectIndex].id,

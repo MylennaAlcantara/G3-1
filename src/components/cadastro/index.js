@@ -82,7 +82,7 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
         valor_venda: '',
         descricaoPdv: '',
         unidade_produto_nome: '',
-        subtotal: '',
+        subtotal: String('').replace(",","."),
         desconto: '',
         descontoPorcen:'',
         qtd_estoque: '',
@@ -191,10 +191,6 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
         valorUnidade();
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
-    function handleValorSubtotalBlur () {
-        const totalItem = parseFloat(subtotal).toFixed(2).replace("NaN", " ").replace(".", ",");
-        setSubtotal(totalItem);
-    }
 
     // Calcular o valor de quantidade vezes o valor para o total 
     const [numero1, setNumero1] = useState("1.000");
@@ -228,13 +224,13 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
     const calcularSubtotal = () => {
         if(valorDesc === total ){
             //alert('Desconto não pode ser maior que o valor total do item!');
-            return total
+            return valorTotal;
         }else if(descontoPorcen === '' || valorDesc === '' || valorDesc === 'undefined'){
-            return total
+            return valorTotal;
         }else if(valorDesc < 0){
             alert('Desconto não pode ser negativo!')
             setDescontoValor('0,00')
-            return total
+            return valorTotal;
         }
         else{
             return parseFloat(parseFloat(valorTotal) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ").replace(",", ".");
@@ -268,7 +264,7 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
         setDataSelectItem({
             ...dataSelectItem,
             valor_unitario: preco,
-            subtotal: subtotal,
+            subtotal: (subtotal).replace(",","."),
             quantidade: quantidade
         })
     }
@@ -751,14 +747,12 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
                     name="valor_total" 
                     id="Total" 
                     value={String(total).replace('.',',').replace('NaN','')}  
-                    onFocus={changeHandler} 
-                    onKeyDown={NextSubtotal}  required/>
+                    required/>
                 <label>Subtotal</label>
                 <input 
                     name='subtotal' 
                     id="subtotal" 
                     value={String(subtotal).replace('.',',').replace('NaN','')} 
-                    onFocus={changeHandler} 
                      required/>
                 <br/>
                 </div>
@@ -769,8 +763,6 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
                     className="descrição" 
                     type="text" 
                     value={dataSelectItem.descricao_produto} 
-                    onFocus={changeHandler} 
-                    onBlur={handleValorSubtotalBlur} 
                     name="descricao_produto" 
                     readOnly 
                     required/>

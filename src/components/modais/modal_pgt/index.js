@@ -201,7 +201,7 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
                     </table>
                 </div>
             )}
-            {cadastro.pgto ? (
+            {cadastro && cadastro.pgto ? (
                 <M.Footer>
                     <div className="buttons">
                         <button onClick={()=> setCadastrar(true)}><img src="/images/add.png"/>Novo</button>

@@ -10,7 +10,7 @@ export const Container = styled.div`
     width: 60vw;
     border: 1px solid black;
     border-radius: 12px;
-    position: sticky;
+    z-index: 1;
     @media (max-width: 1920px){
         height: 80vh;
         width: 80vw;   

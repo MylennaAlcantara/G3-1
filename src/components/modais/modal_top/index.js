@@ -198,7 +198,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                     </table>
                 </div>
             )}
-            {cadastro.top ? (
+            {cadastro && cadastro.top ? (
                 <Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/>Novo</button>
