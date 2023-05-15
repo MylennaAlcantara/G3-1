@@ -3,6 +3,21 @@
     border-width: 1px;
 }
 
+button:hover{
+    cursor: pointer;
+}
+
+.provas{
+    display: flex;
+    border-style: solid;
+    border-width: 1px;
+    width: 95%;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .test {
     background-color: #F0F0F0;
     margin-left: 50%;
@@ -14,6 +29,19 @@
     border-width: 2px;
     box-shadow: -1px -1px 1px #ABADB3;
     border-top-right-radius: 10px;
+}
+
+.textFilial{
+    background-color: #ffffff;
+}
+
+.filialBTN{
+    margin-left: 10px;
+    width: 117px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .FTFilterTop {
@@ -150,6 +178,19 @@ label {
     width: 70%;
     height: 75%;
     background-color: #1e81b0;
+}
+
+.dashboardCadaFilial {
+    overflow-x: scroll;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 75%;
+    background-color: #A2E8D6;
 }
 
 .graficoA {
@@ -755,22 +796,6 @@ span {
     width: 1400px;
     display: flex;
     flex-direction: row;
-}
-
-@media (max-width: 1270px) {
-    .filtro1 {
-        top: 3.5vw;
-        left: 8.5vw;
-        width: 335px;
-    }
-
-    .search-input {
-        width: 174px;
-    }
-
-    .obs {
-        left: -470px;
-    }
 }
 
 @media (max-width:1024px) {

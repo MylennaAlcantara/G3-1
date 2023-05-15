@@ -29,6 +29,34 @@ export function resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, da
         }
     }
 
+    const Filial = () => {
+        if (valorFilial.length === 0) {
+            return (
+                "TODAS"
+            )
+        } else {
+            return valorFilial
+        }
+    }
+
+    const Top = () => {
+        if (valorIdTop.length === 0) {
+            return (
+                "TODAS"
+            )
+        } else {
+            return valorIdTop
+        }
+    }
+
+    const qtdTotal = dadosProduto.reduce((a, b) => a + b.qtd_total, 0)
+    const Custo = dadosProduto.reduce((a, b) => a + b.vlr_custo_total, 0)
+    const Venda = dadosProduto.reduce((a, b) => a + b.vlr_venda_total, 0)
+    const Lucro = dadosProduto.reduce((a, b) => a + b.vlr_lucro_total, 0)
+    const Markup = dadosProduto.reduce((a, b) => a + b.p_markup, 0)
+    const Margem = dadosProduto.reduce((a, b) => a + b.p_margem, 0)
+    const percentual = dadosProduto.reduce((a, b) => a + b.percentual, 0)
+
     const produto = dadosProduto.map((data) => {
         return [
             { text: data.id_produto, fontSize: 8 },
@@ -68,10 +96,10 @@ export function resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, da
                 widths: ['*', 150],
                 body: [
                     [
-                        { text: 'Filial: ' + (valorFilial.toString()), bold: true, fontSize: 8 },
+                        { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
                     ],
                     [
-                        { text: 'T.OP: ' + (valorIdTop.toString()), bold: true, fontSize: 8 },
+                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
                     ],
                     [
                         { text: 'Período: ' + (dataIni) + ' Á ' + (dataFin), bold: true, fontSize: 8 },
@@ -109,8 +137,36 @@ export function resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, da
                     ...produto
                 ],
             },
-
         },
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*'],
+                body: [
+                    [
+                        { text: 'Totais', alignment: 'center', fillColor: '#E0E7ED',  bold: true, },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*', '*', '*', '*', '*', '*', '*'],
+                body: [
+                    [
+                        { text: 'Qtd. Total: ' + (qtdTotal), fontSize: 8 },
+                        { text: 'Custo: ' + (Custo.toFixed(2).replace('.', ',')), fontSize: 8 },
+                        { text: 'Venda: ' + (Venda.toFixed(2).replace('.', ',')), fontSize: 8 },
+                        { text: 'Lucro: ' + (Lucro.toFixed(2).replace('.', ',')), fontSize: 8 },
+                        { text: 'Markup: ' + (Markup.toFixed(2).replace('.', ',') + '%'), fontSize: 8 },
+                        { text: 'Margem: ' + (Margem.toFixed(2).replace('.', ',') + '%'), fontSize: 8 },
+                        { text: 'Percentual: ' + (percentual.toFixed(2).replace('.', ',')), fontSize: 8 },
+                    ],
+                ],
+                layout: 'lightHorizontalLines'
+            },
+        }
 
     ]
 

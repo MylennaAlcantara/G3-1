@@ -29,6 +29,34 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
         }
     }
 
+    const Filial = () => {
+        if(valorFilial.length === 0){
+            return (
+                "TODAS"
+            )
+        }else{
+            return valorFilial
+        }
+    }
+
+    const Top = () => {
+        if(valorIdTop.length === 0){
+            return (
+                "TODAS"
+            )
+        }else{
+            return valorIdTop
+        }
+    }
+
+    const qtdTotal = dadosFornecedor.reduce((a, b) => a + b.qtd_total, 0)
+    const Custo = dadosFornecedor.reduce((a, b) => a + b.vlr_lucro_total, 0)
+    const Venda = dadosFornecedor.reduce((a, b) => a + b.vlr_venda_total, 0)
+    const Lucro = dadosFornecedor.reduce((a, b) => a + b.vlr_lucro_total, 0)
+    const Markup = dadosFornecedor.reduce((a, b) => a + b.p_markup, 0) 
+    const Margem = dadosFornecedor.reduce((a, b) => a + b.p_margem, 0)
+    const Percentual = dadosFornecedor.reduce((a, b) => a + b.percentual, 0)
+
     const fornecedor = dadosFornecedor.map((data) => {
         return [
             { text: data.id_fornecedor, fontSize: 8 },
@@ -68,10 +96,10 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
                 widths: ['*', 150],
                 body: [
                     [
-                        { text: 'Filial: ' + (valorFilial.toString()), bold: true, fontSize: 8 },
+                        { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
                     ],
                     [
-                        { text: 'T.OP: ' + (valorIdTop.toString()), bold: true, fontSize: 8 },
+                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
                     ],
                     [
                         { text: 'Período: ' + (dataIni) + ' Á ' + (dataFin), bold: true, fontSize: 8 },
@@ -114,7 +142,35 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
             },
 
         },
-
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*'],
+                body: [
+                    [
+                        {text: 'Totais', alignment: 'center'}
+                    ]
+                ]
+            },
+            layout: 'headerLineOnly',
+        },
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*','*','*','*','*','*','*'],
+                body: [
+                    [
+                        {text: 'Qtd.Total: ' + (qtdTotal) , fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Custo: ' + (Custo.toFixed(2).replace('.', ',')) , fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Venda: ' + (Venda.toFixed(2).replace('.', ',')), fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Lucro: ' + (Lucro.toFixed(2).replace('.', ',')) , fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Markup: ' + (Markup.toFixed(2).replace('.', ',')) + '%', fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Margem' + (Margem.toFixed(2).replace('.', ',')) + '%' , fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Percentual: ' + (Percentual.toFixed(2).replace('.', ',')), fontSize: 8, alignment: 'center', bold: true},
+                    ]
+                ]
+            }
+        }
     ]
 
     const footer = (currentPage, pageCount) => {

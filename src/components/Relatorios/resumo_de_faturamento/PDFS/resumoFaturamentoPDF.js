@@ -29,6 +29,37 @@ export function resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, d
         }
     }
 
+    const Filial = () => {
+        if(valorFilial.length === 0){
+            return (
+                "TODAS"
+            )
+        }else{
+            return valorFilial
+        }
+    }
+
+    const Top = () => {
+        if(valorIdTop.length === 0){
+            return (
+                "TODAS"
+            )
+        }else{
+            return valorIdTop
+        }
+    }
+
+    const Quantidade = dadosVendedor.reduce((a, b) => a + b.qtdVendas, 0)
+    const valNfe = dadosVendedor.reduce((a, b) => a + b.vlTotalNfe, 0)
+    const valNfce = dadosVendedor.reduce((a, b) => a + b.vlTotalNfce, 0)
+    const Venda = dadosVendedor.reduce((a, b) => a + b.vlVendaTotal, 0)
+    const Cancelamento = dadosVendedor.reduce((a, b) => a + b.vlTotalCancelamento, 0)
+    const Comissao = dadosVendedor.reduce((a, b) => a + b.vlTotalComissao, 0)
+    const Custo = dadosVendedor.reduce((a, b) => a + b.vlCustoTotal, 0)
+    const Lucro = dadosVendedor.reduce((a, b) => a + b.vlLucroLiquido, 0)
+    const PerLucro = dadosVendedor.reduce((a, b) => a + b.plucroLiquido, 0)
+    const Percentual = dadosVendedor.reduce((a, b) => a + b.percentual, 0) 
+
     const vendedor = dadosVendedor.map((data) => {
         return[
             {text: data.idFilial, fontSize: 8 },
@@ -73,10 +104,10 @@ export function resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, d
                 widths: ['*', 150],
                 body: [
                     [
-                        { text: 'Filial: ' + (valorFilial.toString()), bold: true, fontSize: 8 },
+                        { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
                     ],
                     [
-                        { text: 'T.OP: ' + (valorIdTop.toString()), bold: true, fontSize: 8 },
+                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
                     ],
                     [
                         { text: 'Período: ' + (dataIni) + ' Á ' + (dataFin), bold: true, fontSize: 8 },
@@ -120,7 +151,37 @@ export function resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, d
             },
 
         },
-        
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*'],
+                body: [
+                    [
+                        {text: 'Totais', alignment: 'center'}
+                    ]
+                ]
+            },
+            layout: 'headerLineOnly',
+        },
+        {
+            table: {
+                widths: ['*','*','*','*','*','*','*','*','*','*'],
+                body: [
+                    [
+                        {text: 'Qtd.Vendas: ' + (Quantidade) , alignment: 'center', fontSize: 8, bold: true},
+                        {text: 'NF-e: ' + (valNfe.toFixed(2).replace('.', ',')) , alignment: 'center', fontSize: 8, bold: true},
+                        {text: 'NFC-e: ' + (valNfce.toFixed(2).replace('.', ',')) , alignment: 'center', fontSize: 8, bold: true},
+                        {text: 'Venda: ' + (Venda.toFixed(2).replace('.', ',')) , alignment: 'center', fontSize: 8, bold: true },
+                        {text: 'Cancelamento: ', alignment: 'center', fontSize: 8, bold: true},
+                        {text: 'Comissão: ' + (Comissao.toFixed(2).replace('.', ',')) , alignment: 'center', fontSize: 8, bold: true},
+                        {text: 'Custo: ' + (Custo.toFixed(2).replace('.', ',')) , alignment: 'center', fontSize: 8, bold: true },
+                        {text: 'Lucro: ' + (Lucro.toFixed(2).replace('.', ',')) , alignment: 'center', fontSize: 8, bold: true },
+                        {text: 'Per.Lucro: ' + (PerLucro.toFixed(2).replace('.', ',')) , alignment: 'center', fontSize: 8, bold: true},
+                        {text: 'Percentual: ' + (Percentual.toFixed(2).replace('.', ',')) , alignment: 'center', fontSize: 8, bold: true},
+                    ]
+                ]
+            }
+        },
     ]
 
     const footer = (currentPage, pageCount) => {
