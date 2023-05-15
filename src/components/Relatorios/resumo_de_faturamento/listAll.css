@@ -7,6 +7,17 @@ button:hover{
     cursor: pointer;
 }
 
+.provas{
+    display: flex;
+    border-style: solid;
+    border-width: 1px;
+    width: 95%;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .test {
     background-color: #F0F0F0;
     margin-left: 50%;

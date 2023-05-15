@@ -167,7 +167,7 @@ export const Navigacao = styled.div`
 `
 export const DataGeral = styled.div`
     width: 95%;
-    height: 45%;
+    height: 40%;
     border-style: solid;
     border-width: 1px;
     margin-left: auto;

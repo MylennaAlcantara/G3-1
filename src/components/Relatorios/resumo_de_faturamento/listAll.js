@@ -1299,86 +1299,86 @@ export const ResumoFaturamento = () => {
             </RF.Navigacao>
 
             {aba === "regiao" ? (
-                <RF.DataGeral>
-                    {dadosRegiao.length === 0 && showElementRegiao === true ? (
-                        <div className='c' >
-                            <Loading />
-                        </div>
-                    ) : (
-                        <>
-                            <div className='dashboardLine'>
-                                <label>Dashboards</label> <label className='esc'>( Use 'Esc' para fechar )</label>
-
-                                <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
-
+                <>
+                    <RF.DataGeral>
+                        {dadosRegiao.length === 0 && showElementRegiao === true ? (
+                            <div className='c'>
+                                <Loading />
                             </div>
+                        ) : (
+                            <>
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label className='esc'>( Use 'Esc' para fechar )</label>
 
-                            <div className='table-responsive'>
+                                    <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
-                                <table id='table' >
-                                    <tr>
-                                        <th>Id.Região</th>
+                                </div>
 
-                                        <th>Região</th>
+                                <div className='table-responsive'>
 
-                                        <th>Id. Filial</th>
+                                    <table id='table'>
+                                        <tr>
+                                            <th>Id.Região</th>
 
-                                        <th>Qtd. Vendas</th>
+                                            <th>Região</th>
 
-                                        <th>Vlr.Médio Venda</th>
+                                            <th>Id. Filial</th>
 
-                                        <th>Vlr. Total NF-e</th>
+                                            <th>Qtd. Vendas</th>
 
-                                        <th>Vlr. Total NFC-e</th>
+                                            <th>Vlr.Médio Venda</th>
 
-                                        <th>Vlr. Venda Total</th>
+                                            <th>Vlr. Total NF-e</th>
 
-                                        <th>Vlr. Custo Total</th>
+                                            <th>Vlr. Total NFC-e</th>
 
-                                        <th>Vlr. Lucro Venda</th>
+                                            <th>Vlr. Venda Total</th>
 
-                                        <th>Margem</th>
+                                            <th>Vlr. Custo Total</th>
 
-                                        <th>Markup</th>
+                                            <th>Vlr. Lucro Venda</th>
 
-                                    </tr>
-                                    {dadosRegiao.map((f1) => {
-                                        return (
-                                            <tr key={f1.idFilial}>
+                                            <th>Margem</th>
 
-                                                <td>{f1.idRegiao}</td>
+                                            <th>Markup</th>
 
-                                                <td>{f1.regiao}</td>
+                                        </tr>
+                                        {dadosRegiao.map((f1) => {
+                                            return (
+                                                <tr key={f1.idFilial}>
 
-                                                <td>{f1.idFilial}</td>
+                                                    <td>{f1.idRegiao}</td>
 
-                                                <td>{f1.qtdVendas.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{f1.regiao}</td>
 
-                                                <td>{f1.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{f1.idFilial}</td>
 
-                                                <td>{f1.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{f1.qtdVendas.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{f1.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{f1.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{f1.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{f1.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.margem.toFixed(3).replace('.', ',')}</td>
+                                                    <td>{f1.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
 
-                                                <td>{f1.markup.toFixed(3).replace('.', ',')}</td>
-                                            </tr>
-                                        );
-                                    })}
-                                </table>
+                                                    <td>{f1.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
 
-                            </div>
-                        </>
+                                                    <td>{f1.margem.toFixed(3).replace('.', ',')}</td>
 
-                    )}
-                </RF.DataGeral>
+                                                    <td>{f1.markup.toFixed(3).replace('.', ',')}</td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </table>
+                                </div>
+                            </>
+                        )}
+                    </RF.DataGeral>
+                </>
             ) : aba === "filial" ? (
                 <RF.DataGeral>
                     {dados.length === 0 && showElement === true ? (
@@ -2370,9 +2370,9 @@ export const ResumoFaturamento = () => {
                             ];
 
                             const grafico1 = [
-                                ["Element", "Liquido/Total", {role: "style" }],
+                                ["Element", "Liquido/Total", { role: "style" }],
                                 ["Liquido", data.vlTotalLiquido, "#ffaf56"],
-                                ["Total", data.vlVendaTotal , "#b2bb1c"]
+                                ["Total", data.vlVendaTotal, "#b2bb1c"]
                             ]
 
                             const optionsGra1 = {
