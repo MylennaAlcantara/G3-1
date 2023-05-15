@@ -12,7 +12,7 @@ export const ConsultarFuncionario = () => {
     const [empresas, setEmpresas] = useState([]);
     const [setores, setSetores] = useState([]);
     const [busca, setBusca] = useState('');
-    const {user, empresa, nivel} = useContext(AuthContext);
+    const {user, empresa, nivel, cnpjMask} = useContext(AuthContext);
 
     useEffect(() => {
         async function fetchData (){
@@ -158,7 +158,7 @@ export const ConsultarFuncionario = () => {
 
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Funcionários</h3>
             </C.Header>

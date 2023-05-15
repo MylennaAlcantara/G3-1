@@ -42,7 +42,7 @@ export const ResumoFaturamento = () => {
         resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor)
     }
 
-    const { user, empresa } = useContext(AuthContext);
+    const { user, empresa, cnpjMask } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [showElementRegiao, setShowElementRegiao] = useState(false)
@@ -1173,7 +1173,7 @@ export const ResumoFaturamento = () => {
 
         <C.Container>
 
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header> <h3>Resumo de Faturamento</h3> </C.Header>
 
             <span>Atenção: Ao selecionar NF-e, é importante destacar as T.OP.´s que serão tomadas em consideração na consulta, consultando sem nenhuma T.OP.(consulta geral), poderá vir ENTRADAS </span>

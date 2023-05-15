@@ -12,7 +12,7 @@ import { MD5 } from "crypto-js";
 
 export const EditarFuncionario = ({minimizado, setMinimizado}) => {
     const navigate = useNavigate();
-    const {user, empresa} = useContext(AuthContext);
+    const {user, empresa, cnpjMask} = useContext(AuthContext);
     const codigoFuncionario = localStorage.getItem('idFuncionario');
 
     useEffect(() => {
@@ -207,7 +207,7 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
 
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)} </C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))} </C.NaviBar>
             <C.Header>
                 <h3> Editar Funcionário</h3>
                 <div className="buttons">

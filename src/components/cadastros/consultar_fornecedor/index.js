@@ -7,7 +7,7 @@ import { AuthContext } from "../../../contexts/Auth/authContext";
 import {Loading} from "../../loading";
 export const ConsultarFornecedor = () => {
     const navigate = useNavigate();
-    const {user, empresa, nivel} = useContext(AuthContext);
+    const {user, empresa, nivel, cnpjMask} = useContext(AuthContext);
     const [users, setUsers] = useState([])
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('social');
@@ -90,7 +90,7 @@ export const ConsultarFornecedor = () => {
 
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Fornecedores</h3>
             </C.Header>
@@ -136,7 +136,7 @@ export const ConsultarFornecedor = () => {
                                             <td>{user.id}</td>
                                             <td>{user.razao_social}</td>
                                             <td>{user.nome_fantasia}</td>
-                                            <td>{user.numero_documento}</td>
+                                            <td>{cnpjMask(user.numero_documento)}</td>
                                         </tr>
                                     );
                                 })}

@@ -8,7 +8,7 @@ import {Loading} from "../loading";
 export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
-    const {autenticar, user, empresa, filiais, nivel} = useContext(AuthContext);
+    const {autenticar, user, empresa, filiais, nivel, cnpjMask, dataMask} = useContext(AuthContext);
 
     useEffect(()=>{
         async function fetchData(){
@@ -176,7 +176,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
 
     return(
         <C.Container>
-        <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)} </C.NaviBar>
+        <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))} </C.NaviBar>
 
             <C.Header>
                 <h3>Consultar</h3>
@@ -253,7 +253,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
                                         className={item.situacao === 'E' ? 'white' : item.situacao ==='B' ? 'red' : 'yellow'}
                                         style={{background: index === selectIndex ? '#87CEFA' : ''}} >
                                             <td>{item.id}</td>
-                                            <td>{item.dataEmissao}</td>
+                                            <td>{dataMask(item.dataEmissao)}</td>
                                             <td>{item.id_empresa}</td>
                                             <td>{item.nome_cliente}</td>
                                             <td>{item.situacao}</td>

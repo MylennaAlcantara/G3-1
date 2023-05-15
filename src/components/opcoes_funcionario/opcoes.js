@@ -7,6 +7,7 @@ export const Opcoes = styled.div`
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    align-content: center;
     div{
         margin: 5px;
         display: flex;

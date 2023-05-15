@@ -9,7 +9,7 @@ import * as CP from "./consultarProduto";
 export const CounsultarProduto = () =>{
     const [itens, setItens] = useState([]);
     const navigate = useNavigate();
-    const {user, empresa, nivel} = useContext(AuthContext);
+    const {user, empresa, nivel, cnpjMask} = useContext(AuthContext);
     const [busca, setBusca] = useState('');
 
     useEffect(() => {
@@ -70,7 +70,7 @@ export const CounsultarProduto = () =>{
     }
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Produtos</h3>
             </C.Header>

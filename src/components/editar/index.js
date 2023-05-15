@@ -12,7 +12,7 @@ import { rotinaPDF } from "../Relatorios/rotinaPDF";
 
 export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMinimizado}) => {
     const navigate = useNavigate();
-    const {autenticar, user, empresa, company} = useContext(AuthContext);
+    const {autenticar, user, empresa, company, cnpjMask} = useContext(AuthContext);
 
     const [rotinas, setRotinas] = useState([]);
     const [emitente, setEmitente] = useState([]);
@@ -640,7 +640,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
 
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Aberta para edição</h3>
                 <div className="buttons">

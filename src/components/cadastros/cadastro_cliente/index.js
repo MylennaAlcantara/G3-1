@@ -10,7 +10,7 @@ import * as CC from "../cadastro_cliente/cadastroCliente";
 
 export const CadastroCliente = ({ minimizado, setMinimizado}) => {
     const navigate = useNavigate();
-    const {user, empresa} = useContext(AuthContext);
+    const {user, empresa, cnpjMask} = useContext(AuthContext);
     const idFuncionario = Array.isArray(user) && user.map((user) => user.id)
     
     //Pegar hora do computador
@@ -274,7 +274,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
 
     return (
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Cadastrar Cliente</h3>
                 <div className="buttons">

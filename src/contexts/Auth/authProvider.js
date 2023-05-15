@@ -77,8 +77,40 @@ export const AuthProvider = ({children}) => {
         }
     }
 
+    const cnpjMask = (value) => {
+        if(value.length === 11){
+            return value
+                .replace(/\D+/g, '') 
+                .replace(/(\d{3})(\d)/, '$1.$2')
+                .replace(/(\d{3})(\d)/, '$1.$2')
+                .replace(/(\d{3})(\d)/, '$1-$2')
+        }else{
+            return value
+              .replace(/\D+/g, '') // não deixa ser digitado nenhuma letra
+              .replace(/(\d{2})(\d)/, '$1.$2') // captura 2 grupos de número o primeiro com 2 digitos e o segundo de com 3 digitos, apos capturar o primeiro grupo ele adiciona um ponto antes do segundo grupo de número
+              .replace(/(\d{3})(\d)/, '$1.$2')
+              .replace(/(\d{3})(\d)/, '$1/$2') // captura 2 grupos de número o primeiro e o segundo com 3 digitos, separados por /
+              .replace(/(\d{4})(\d)/, '$1-$2')
+              .replace(/(-\d{2})\d+?$/, '$1') // captura os dois últimos 2 números, com um - antes dos dois números
+        }
+    }
+
+    function dataMask(value) {
+        var ano  = value.split("-")[0];
+        var mes  = value.split("-")[1];
+        var dia  = value.split("-")[2];
+      
+        return ("0"+dia).slice(-2) + '-' + ("0"+mes).slice(-2) + '-' + ano;
+    }
+
+    function cepMask (value){
+        return value
+            .replace(/\D+/g, '')
+            .replace(/(\d{5})(\d)/, '$1-$2')
+    }
+
     return (
-        <AuthContext.Provider value={{ usuario,company, matricula, password, senha, user, empresa, filiais, nivel, setCompany, setMatricula, setPassword, handleLogin, autenticar}}>
+        <AuthContext.Provider value={{ usuario,company, matricula, password, senha, user, empresa, filiais, nivel, setCompany, setMatricula, setPassword, handleLogin, autenticar, cnpjMask, dataMask, cepMask}}>
             {children}
         </AuthContext.Provider>
     );

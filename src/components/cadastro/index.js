@@ -14,7 +14,7 @@ import { AuthContext } from "../../contexts/Auth/authContext.js";
 
 export const Cadastro = ({setMinimizado, minimizado}) => {
     const navigate = useNavigate();
-    const {user, empresa} = useContext(AuthContext);
+    const {user, empresa, cnpjMask} = useContext(AuthContext);
     
     /*Estado dos Modais */
     const [isModalPartner, setIsModalPartner] = useState(false);
@@ -589,7 +589,7 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
     return(
         
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Cadastro de Rotina</h3>
                 <div className="buttons">
