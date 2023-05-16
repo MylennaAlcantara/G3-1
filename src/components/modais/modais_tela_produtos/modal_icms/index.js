@@ -3,7 +3,7 @@ import * as M from "../../modal/modal";
 import {Lista} from "./grupo";
 //import grupos from "../../../../grupos/grupos.json";
 
-export const Grupo = ({close, minimizado, setMinimizado}) => {
+export const Grupo = ({close, minimizado, setMinimizado, setGrupo}) => {
     const [filho, setFilho] = useState(
         {
         ID: "",
@@ -44,6 +44,14 @@ export const Grupo = ({close, minimizado, setMinimizado}) => {
         setFilho(filho);
     }
 
+    function selecionado (grupo, filho){
+        setGrupo({
+            codigo: grupo ? grupo.codigo : filho ? filho.codigo : "",
+            descricao: grupo ? grupo.descricao : filho ? filho.descricao : ""
+        });
+        close();
+    }
+
     // Estado que indica quando minimizado para colocar atrás de tudo
     const [minimizar, setMinimizar] = useState("");
 
@@ -76,12 +84,12 @@ export const Grupo = ({close, minimizado, setMinimizado}) => {
                     {pai.map((grupo)=> {
                         return(
                             <>
-                                <div className="grupo" key={grupo.codigo} onDoubleClick={abrirFilho.bind(this, grupo)}>
+                                <div className="grupo" key={grupo.codigo} onClick={abrirFilho.bind(this, grupo)} onDoubleClick={selecionado.bind(this, grupo)}>
                                 <img src="/images/pastaFechada.png"/>{grupo.codigo} - {grupo.descricao}
                                 </div>
                                 {Array.isArray(filho) && filho.map((filho)=> {
                                     if(grupo.id === filho.id_pai){
-                                        return <div className="filho">{filho.codigo} - {filho.descricao}</div>
+                                        return <div className="filho" onDoubleClick={selecionado.bind(this, filho)}>{filho.codigo} - {filho.descricao}</div>
                                     }
                                 })}
                             </>

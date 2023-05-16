@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as M from "../../modal/modal";
 import * as C from "../../../cadastro/cadastro"
 import { CadastrarFamilia } from "../modal_cadastro_familia";
+import { AuthContext } from "../../../../contexts/Auth/authContext";
 
 export const Familia = ({close, minimizado, setMinimizado}) => {
     const [cadastrarFamilia, setCadastrarFamilia] = useState(false);
     const [familias, setFamilias] = useState([]);
+    const {dataMask} = useContext(AuthContext)
 
     useEffect(()=> {
         async function fetchData(){

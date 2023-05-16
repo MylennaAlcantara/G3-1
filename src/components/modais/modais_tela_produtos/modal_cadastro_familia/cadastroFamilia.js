@@ -9,6 +9,7 @@ export const DadosFamilia = styled.div`
         width: 95%;
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         div{
             display: flex;
             flex-direction: column;
@@ -36,6 +37,7 @@ export const DadosProduto = styled.div`
         width: 95%;
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         div{
             display: flex;
             flex-direction: column;
@@ -48,7 +50,8 @@ export const DadosProduto = styled.div`
             }
         }
         #descricao{
-            width: 100%;
+            width: 40%;
+            min-width: 169px;
             .descricao{
                 width: 100%;
             }
@@ -58,19 +61,31 @@ export const DadosProduto = styled.div`
             display: flex;
             flex-direction: row;
             align-items: end;
+            flex-wrap: wrap;
             select{
                 height: 24px;
+                width: 150px;
             }
             button{
                 height: 24px;
+                width: 24px;
+                display: flex;
+                aling-items: center;
+                justify-content: center;
+                margin-bottom: 5px;
             }
             img{
                 height: 20px;
                 width: 20px;
-                margin-top: 15px;
+                margin-bottom: 5px;
+                margin-left: 5px;
+            }
+            img:hover{
+                cursor: pointer;
             }
             #descricao{
-                width: 100%;
+                width: 90%;
+                min-width: 169px;
                 .descricao{
                     width: 100%;
                 }

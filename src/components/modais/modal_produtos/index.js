@@ -3,7 +3,7 @@ import { Header, Modal} from "./../modal/modal.js";
 import * as C from "../modal_produtos/produtos";
 import { Loading } from "../../loading/index";
 
-export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, setPromocao, dataIdSelectEmitente, dataIdSelectPgt, dataSelectTop, rotinas, tipoPgtoAlterado, emitenteAlterado, liberaEstoque, tipoMovimentacao}) => {
+export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listItems, setListItems, setPromocao, dataIdSelectEmitente, dataIdSelectPgt, dataSelectTop, rotinas, tipoPgtoAlterado, emitenteAlterado, liberaEstoque, tipoMovimentacao}) => {
 
     const [itens, setItens] = useState([]);
     const [busca, setBusca] = useState('');
@@ -32,9 +32,14 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, setPro
                 const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${rotinas.id_empresa}/payment/${rotinas.id_tipo_pagamento}?size=50`);
                 const data = await response.json();
                 setItens(data.content);
-            }else{
+            }else if(dataIdSelectEmitente && dataIdSelectPgt){
                 console.log("passou 5");
                 const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);
+                const data = await response.json();
+                setItens(data.content);
+            }else{
+                console.log("passou 6");
+                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/1/payment/1?size=50`);
                 const data = await response.json();
                 setItens(data.content);
             }
@@ -51,7 +56,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, setPro
 
     // Função para pegar as informações do produto selecionado com dois clicks
     const SelectedItem = (item) => {
-        if(dataSelectTop.libera_itens_estoque_indisponivel === true || liberaEstoque === true ){
+        if(dataSelectTop){
+            if(dataSelectTop.libera_itens_estoque_indisponivel === true || liberaEstoque === true ){
              setDataSelectItem({
                 id_produto: item.id,
                 gtin_produto: item.gtin,
@@ -73,52 +79,73 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, setPro
             });
             onClose();
             focoQtd();
-        }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque <= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
-            alert('Produto com estoque indisponivel');
-        }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false)  && (dataSelectTop.tipo_movimentacao === 'E' || tipoMovimentacao === 'E')){
-            setDataSelectItem({
-                id_produto: item.id,
-                gtin_produto: item.gtin,
-                valor_unitario: item.valor_venda,
-                descricao_produto: item.descricaoPdv,
-                unidade_produto: item.unidade_produto_nome,
-                valor_icms_st: 0,
-                acrescimo: 0,
-                desconto: 0,
-                ncm: item.ncm,
-                ncmEx: item.ncmex,
-                subtotal: '',
-                qtd_estoque: item.qtd_estoque,
-                quantidade: 1,
-                id_top: dataSelectTop.id_top,
-                preco_atacado: item.preco_atacado,
-                qtd_atacado: item.qtd_atacado
-            });
-            onClose();
-            focoQtd();
-        }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque >= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
-            setDataSelectItem({
-                id_produto: item.id,
-                gtin_produto: item.gtin,
-                valor_unitario: item.valor_venda,
-                descricao_produto: item.descricaoPdv,
-                unidade_produto: item.unidade_produto_nome,
-                valor_icms_st: 0,
-                acrescimo: 0,
-                desconto: 0,
-                ncm: item.ncm,
-                ncmEx: item.ncmex,
-                subtotal: '',
-                qtd_estoque: item.qtd_estoque,
-                quantidade: 1,
-                id_top: dataSelectTop.id_top,
-                preco_atacado: item.preco_atacado,
-                qtd_atacado: item.qtd_atacado
-            });
-            onClose();
-            focoQtd();
+            }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque <= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
+                alert('Produto com estoque indisponivel');
+            }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false)  && (dataSelectTop.tipo_movimentacao === 'E' || tipoMovimentacao === 'E')){
+                setDataSelectItem({
+                    id_produto: item.id,
+                    gtin_produto: item.gtin,
+                    valor_unitario: item.valor_venda,
+                    descricao_produto: item.descricaoPdv,
+                    unidade_produto: item.unidade_produto_nome,
+                    valor_icms_st: 0,
+                    acrescimo: 0,
+                    desconto: 0,
+                    ncm: item.ncm,
+                    ncmEx: item.ncmex,
+                    subtotal: '',
+                    qtd_estoque: item.qtd_estoque,
+                    quantidade: 1,
+                    id_top: dataSelectTop.id_top,
+                    preco_atacado: item.preco_atacado,
+                    qtd_atacado: item.qtd_atacado
+                });
+                onClose();
+                focoQtd();
+            }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque >= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
+                setDataSelectItem({
+                    id_produto: item.id,
+                    gtin_produto: item.gtin,
+                    valor_unitario: item.valor_venda,
+                    descricao_produto: item.descricaoPdv,
+                    unidade_produto: item.unidade_produto_nome,
+                    valor_icms_st: 0,
+                    acrescimo: 0,
+                    desconto: 0,
+                    ncm: item.ncm,
+                    ncmEx: item.ncmex,
+                    subtotal: '',
+                    qtd_estoque: item.qtd_estoque,
+                    quantidade: 1,
+                    id_top: dataSelectTop.id_top,
+                    preco_atacado: item.preco_atacado,
+                    qtd_atacado: item.qtd_atacado
+                });
+                onClose();
+                focoQtd();
+            }
         }else{
-            console.log('passou direto')
+            setListItems([...listItems, 
+                {
+                id_produto: item.id,
+                referencia: item.referencia,
+                gtin_produto: item.gtin,
+                valor_unitario: item.valor_venda,
+                descricao_produto: item.descricaoPdv,
+                unidade_produto: item.unidade_produto_nome,
+                valor_icms_st: 0,
+                acrescimo: 0,
+                desconto: 0,
+                ncm: item.ncm,
+                ncmEx: item.ncmex,
+                subtotal: '',
+                qtd_estoque: item.qtd_estoque,
+                quantidade: 1,
+                preco_atacado: item.preco_atacado,
+                qtd_atacado: item.qtd_atacado
+                }
+            ]);
+            onClose();
         }
     };
 
