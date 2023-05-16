@@ -263,3 +263,22 @@ justify-content: center;
     border-width: 1px;
 }
 `
+export const LinhaTotais = styled.div`
+overflow: auto;
+display: flex;
+border-style: solid;
+border-width: 1px;
+width: 95%;
+align-items: center;
+border-top: transparent;
+margin-left: auto;
+margin-right: auto;
+
+div{
+    font-weight: bold;
+    font-size: 11px;
+    margin: 2px;
+    border-style: solid;
+    border-width: 1px;
+}
+`

@@ -45,7 +45,6 @@ export const ResumoFaturamento = () => {
     const { user, empresa } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const [showElementRegiao, setShowElementRegiao] = useState(false)
     const [showElement, setShowElement] = useState(false)
 
     const show = () => setShowElement(true)
@@ -60,8 +59,6 @@ export const ResumoFaturamento = () => {
 
     const [query, setQuery] = useState(""); //Busca de Filial (Topo Esquerda)
     const [query1, setQuery1] = useState(""); //Busca de TOP
-    const [query2, setQuery2] = useState("");
-    const [query3, setQuery3] = useState("");
     const [query4, setQuery4] = useState(""); //Busca Vendedor
     const [query5, setQuery5] = useState(""); //Busca Cliente
     const [query6, setQuery6] = useState(""); //Busca Produto
@@ -212,13 +209,7 @@ export const ResumoFaturamento = () => {
                     alert('Consulta Finalizada')
                 }
                 setDadosRegiao(data);
-                setShowElementRegiao(true)
             });
-
-        } else if (res.status === 500) {
-            setShowElementRegiao(false)
-            alert('Não foi possivel carregar aba Região')
-
         }
     }
 
@@ -502,6 +493,13 @@ export const ResumoFaturamento = () => {
 
     const [graficosCadaFilial, setGraficosCadaFilial] = useState(false)
 
+    const quantidadeV = dados.reduce((a, b) => a + b.qtdVendas, 0)
+    const quantidadeI = dados.reduce((a, b) => a + b.qtdItens, 0)
+    const mVenda = dados.reduce((a, b) => a + b.vlMedioVendas, 0)
+    const lLiquido = dados.reduce((a, b) => a + b.vlLucroLiquido, 0)
+    const Margem = dados.reduce((a, b) => a + b.margem, 0)
+    const MedItensCup = dados.reduce((a, b) => a + b.qtdItensCupom, 0)
+    const Percentual = dados.reduce((a, b) => a + b.percentual, 0)
     const resultFi = dados.reduce((a, b) => a + b.vlCustoTotal, 0) //Dados Totais somados de Custo Total(Filial)
     const resultFi1 = dados.reduce((a, b) => a + b.vlVendaTotal, 0) //Dados Totais somados de Venda Total(Filial)
     const resultFi2 = dados.reduce((a, b) => a + b.vlLucroVenda, 0) //Dados Totais somados de Lucro Venda(Filial)
@@ -1304,14 +1302,14 @@ export const ResumoFaturamento = () => {
             {aba === "regiao" ? (
                 <>
                     <RF.DataGeral>
-                        {dadosRegiao.length === 0 && showElementRegiao === true ? (
+                        {dadosRegiao.length === 0 && showElement === true ? (
                             <div className='c'>
                                 <Loading />
                             </div>
                         ) : (
                             <>
                                 <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label className='esc'>( Use 'Esc' para fechar )</label>
+                                    <label>Dashboards</label>
 
                                     <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -1392,7 +1390,7 @@ export const ResumoFaturamento = () => {
                         ) : (
                             <>
                                 <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                    <label>Dashboards</label> <label>( Totais Abaixo da Lista! )</label>
 
                                     <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
                                 </div>
@@ -1484,10 +1482,11 @@ export const ResumoFaturamento = () => {
                         )}
                     </RF.DataGeral>
 
-                    <div className='provas' >
-                        <div>Qtd.Vendas: </div> <div>Qtd.Itens: </div> <div>Médio Venda: </div> <div>Total NF-e:</div>
-                        <div>Total NFC-e:</div> <div>Venda Total:</div> <div>Total Credito:</div> <div>Total Liquido:</div>
-                    </div>
+                    <RF.LinhaTotais >
+                        <div>Méd.Itens/Cup: {MedItensCup.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total NF-e: {resultFi3.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total NFC-e: {resultFi4.toFixed(2).replace('.', ',')}</div> <div>Vlr.Venda Total: {resultFi1.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total Credito: {resultFi5.toFixed(2).replace('.', ',')} </div>
+                        <div>Vlr.Total Líquido: {resultFi6.toFixed(2).replace('.', ',')} </div> <div>Vlr.Custo Total: {resultFi.toFixed(2).replace('.', ',')} </div> <div>Vlr.Lucro Venda: {resultFi2.toFixed(2).replace('.', ',')} </div> <div>Vlr.Lucro Líquido: {lLiquido.toFixed(2).replace('.', ',')} </div> <div>% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',') } </div>    
+                        <div>% Markup: {((resultFi1 - resultFi)/resultFi * 100).toFixed(2).replace('.', ',') } </div>
+                    </RF.LinhaTotais>
                 </>
             ) : aba === "vendedor" ? (
                 <RF.DataGeral>
@@ -1675,49 +1674,65 @@ export const ResumoFaturamento = () => {
                     )}
                 </RF.DataGeral>
             ) : aba === "tpPg" ? (
-                <RF.DataGeral>
-                    {dadosTipoPagamento.length === 0 && showElement === true ? (
-                        <div className='c' >
-                            <Loading />
-                        </div>
-                    ) : (
-                        <>
-                            <div className='dashboardLine'>
-                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-
-                                <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
-
-                                <button className='dashboardBtn' onClick={imprimirTpPg} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                <>
+                    <RF.DataGeral>
+                        {dadosTipoPagamento.length === 0 && showElement === true ? (
+                            <div className='c'>
+                                <Loading />
                             </div>
-                            <div className='table-responsive'>
-                                <table id='table'>
-                                    <thead>
+                        ) : (
+                            <>
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+
+                                    <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
+                                    <button className='dashboardBtn' onClick={imprimirTpPg}> <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                </div>
+                                <div className='table-responsive'>
+                                    <table id='table'>
+                                        <thead>
+                                            <tr>
+                                                {keys.map((nomes) => {
+                                                    return (
+                                                        <th>{(nomes).replace('_', ' ').toUpperCase()}</th>
+                                                    );
+                                                })}
+                                            </tr>
+                                        </thead>
                                         <tr>
-                                            {keys.map((nomes) => {
+                                            {dadosTipoPagamento.map((f5) => {
+                                                if (f5 === null) {
+                                                    f5 = 0;
+                                                }
+
                                                 return (
-                                                    <th>{(nomes).replace('_', ' ').toUpperCase()}</th>
+
+                                                    <td> {f5.toFixed(2).replace('.', ',')} </td>
+
                                                 );
                                             })}
                                         </tr>
-                                    </thead>
-                                    <tr>
-                                        {dadosTipoPagamento.map((f5) => {
-                                            if (f5 === null) {
-                                                f5 = 0
-                                            }
+                                    </table>
+                                </div>
+                            </>
+                        )}
+                    </RF.DataGeral>
 
-                                            return (
+                    <RF.LinhaTotais>
+                        <div>Boleto: {resultTpPg5.toFixed(2).replace('.', ',')}</div>
+                        <div>Dinheiro: {resultTpPg.toFixed(2).replace('.', ',')}</div>
+                        <div>Cartão de Credito: {resultTpPg2.toFixed(2).replace('.', ',')}</div>
+                        <div>Cartão de Debito: {resultTpPg3.toFixed(2).replace('.', ',')}</div>
+                        <div>Cheque: {resultTpPg4.toFixed(2).replace('.', ',')}</div>
+                        <div>Pix: {resultTpPg13.toFixed(2).replace('.', ',')}</div>
+                        <div>Cancelamento Total: </div>
+                        <div>Duplicata Mercanvil: </div>
+                        <div>Desconto Total: </div>
+                        <div>Total: </div>
+                    </RF.LinhaTotais>
 
-                                                <td> {f5.toFixed(2).replace('.', ',')} </td>
-
-                                            );
-                                        })}
-                                    </tr>
-                                </table>
-                            </div>
-                        </>
-                    )}
-                </RF.DataGeral>
+                </>
             ) : aba === "produto" ? (
                 <RF.DataGeral>
                     {dadosProduto.length === 0 && showElement === true ? (
