@@ -5,7 +5,7 @@ import { CadastroSetor } from "../modal_cadastro_setor";
 import { EditarSetor } from "../modal_editar_setor";
 import { Loading } from "../../loading";
 
-export const Setor = ({setSetor, close, cadastroSetor, minimizado, setMinimizado, setDadosFuncionario, dadosFuncionario}) => {
+export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, setDadosFuncionario, dadosFuncionario}) => {
     const [setores, setSetores] = useState([]);
     const [modalNovoSetor, setModalNovoSetor] = useState(false);
     const [modalEditarSetor, setModalEditarSetor] = useState(false);
@@ -17,6 +17,7 @@ export const Setor = ({setSetor, close, cadastroSetor, minimizado, setMinimizado
             setSetores(data);
         }
         fetchData();
+        document.getElementById("search").focus();
     },[])
     
     const selecionado = (setor) => {
@@ -79,7 +80,7 @@ export const Setor = ({setSetor, close, cadastroSetor, minimizado, setMinimizado
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar.."/>
+                        <input className="search" id="search" placeholder="Buscar.."/>
                     </div>
                 </M.Filtro>
                 {setores.length === 0 ? (
@@ -112,7 +113,7 @@ export const Setor = ({setSetor, close, cadastroSetor, minimizado, setMinimizado
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalNovoSetor(true)}><img src="/images/add.png"/>Novo</button>
-                        {cadastroSetor ? (<button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>) : null}
+                        {cadastro.setor ? (<button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>) : null}
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>

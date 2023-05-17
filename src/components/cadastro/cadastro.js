@@ -10,6 +10,7 @@ export const Container = styled.div`
     width: 60vw;
     border: 1px solid black;
     border-radius: 12px;
+    z-index: 0;
     @media (max-width: 1920px){
         height: 80vh;
         width: 80vw;   
@@ -23,17 +24,18 @@ export const Container = styled.div`
         width: 80vw;   
     }
     @media (max-width: 768px){
-        height: 100vh;
+        height: 80vh;
         width: 95vw;   
     }
     @media (max-width: 425px){
-        width: 90%;
-        height: 90%;
+        width: 95%;
+        height: 93%;
         position: relative;
         display: block;
         align-items: end;
         justify-content: space-between;
         overflow: auto;
+        margin-bottom: 0px;
     }
 `;
 
@@ -55,6 +57,8 @@ export const Header = styled.div`
     height: 24px;
     width: 100%;
     background-color: #f0f0f0;
+    position: sticky;
+    top: 0;
     button{
         margin: 0 5px;
         position: relative;
@@ -450,6 +454,8 @@ export const Footer = styled.div`
     display-flex: wrapper;
     flex-direction: column;
     justify-content: flex-end;
+    position: sticky;
+    bottom: 0;
     form{
         
         display: flex;

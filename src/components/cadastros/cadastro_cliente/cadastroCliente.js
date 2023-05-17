@@ -20,8 +20,18 @@ export const DadosCliente = styled.div`
         box-shadow: 0 3px 5px gray;
         margin: 5px;
     }
+    #descricao{
+        width: 50%;
+    }
     @media(max-width: 425px){
-        flex-wrap: wrap;;
+        flex-wrap: wrap;
+        justify-content: start;
+        #codigo{
+            width: 60px;
+        }
+        #descricao{
+            width: 100px;
+        }
     }
 `
 export const Documentos = styled.div`
@@ -176,6 +186,10 @@ export const Navegacao = styled.div`
         cursor: pointer;
         background-color: white;
     }
+    @media(max-width: 700px){
+        overflow-x: auto;
+        justify-content: start;
+    }
 `
 export const NavegacaoLimites = styled.div`
     width: 100%;
@@ -193,6 +207,10 @@ export const NavegacaoLimites = styled.div`
         background-color: white;
         cursor: pointer;
     }
+    @media(max-width: 700px){
+        overflow-x: auto;
+        justify-content: start;
+    }
 `
 export const DadosGerais = styled.div`
     overflow: auto;
@@ -204,6 +222,7 @@ export const DadosAdicionais = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: auto;
     div{
         display: flex;
         margin: 20px 0 0 20px;
@@ -251,6 +270,18 @@ export const DadosAdicionais = styled.div`
     textarea{
         height: 200px;
         width: 100%;
+    }
+    @media(max-width: 700px){
+        height: 78%;
+        div{
+            margin: auto;
+        }
+        fieldset{
+            overflow: auto;
+        }
+        textarea{
+            height: 100px;
+        }
     }
 
 `
@@ -341,5 +372,12 @@ export const Historico = styled.div`
             }
         }
     }
-    
+    @media(max-width: 700px){
+        height: auto;
+        .limite{
+            div{
+                width: 100%;
+                overflow: auto;
+            }
+        }
 `

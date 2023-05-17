@@ -4,7 +4,7 @@ import * as C from "../../cadastro/cadastro";
 import { CadastroPerfil } from "../modal_cadastro_perfil/index";
 import { Loading } from "../../loading/index";
 
-export const PerfilCliente = ({close, cadastroPerfil, dadosCliente, setDadosCliente, minimizado, setMinimizado}) => {
+export const PerfilCliente = ({close, cadastro, dadosCliente, setDadosCliente, minimizado, setMinimizado}) => {
     const [perfil, setPerfil] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -17,6 +17,7 @@ export const PerfilCliente = ({close, cadastroPerfil, dadosCliente, setDadosClie
             setPerfil(data);
         }
         fetchData();
+        document.getElementById("search").focus();
     }, []);
 
 
@@ -138,7 +139,7 @@ export const PerfilCliente = ({close, cadastroPerfil, dadosCliente, setDadosClie
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=>setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>
-                        {cadastroPerfil ? (
+                        {cadastro.perfil ? (
                             <button><img src="/images/abrir.png"/>Abrir</button>
                         ): null}
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>

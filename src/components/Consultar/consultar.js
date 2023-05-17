@@ -10,6 +10,7 @@ export const Container = styled.div`
     width: 60vw;
     border: 1px solid black;
     border-radius: 12px;
+    z-index: 0;
     @media (max-width: 1920px){
         height: 80vh;
         width: 80vw;   
@@ -27,8 +28,9 @@ export const Container = styled.div`
         width: 95vw;   
     }
     @media (max-width: 425px){
-        height: 90vh;
-        width: 90%;
+        height: 93%;
+        width: 95%;
+        margin-bottom: 0px;
     }
 `;
 
@@ -63,6 +65,8 @@ export const Header = styled.div`
     height: 24px;
     width: 100%;
     background-color: #f0f0f0;
+    position: sticky;
+    top: 0;
     button{
         margin: 0 5px;
         position: relative;
@@ -105,7 +109,7 @@ export const Rotinas = styled.div`
     background-color: #f0f0f0;
     display: flex;
     align-items: start;
-    justify-content: center;
+    justify-content: start;
     border: 1px solid black;
     height: 80%;
     width: 100%;
@@ -160,6 +164,8 @@ export const Footer = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
+    position: sticky;
+    bottom: 0;
     .yellow{
         height: 20px;
         width: 20px;

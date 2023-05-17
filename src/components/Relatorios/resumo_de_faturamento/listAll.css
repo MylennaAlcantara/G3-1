@@ -835,8 +835,10 @@ span {
     label{
         font-size: 13px;
     }
+
     .dashboardBtn{
         font-size: 13px;
         width: 90px;
+
     }
 }

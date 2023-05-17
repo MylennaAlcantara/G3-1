@@ -2,8 +2,17 @@ import React, { useState } from "react";
 import * as M from "../../modal/modal";
 import * as C from "../../../cadastro/cadastro"
 import * as CF from "./cadastroFamilia";
+import { Produtos } from "../../modal_produtos";
+import { Grupo } from "../modal_icms";
 
 export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
+    const [modalProduto, setModalProduto] = useState(false);
+    const [modalGrupo, setModalGrupo] = useState(false);
+    const [listItems, setListItems] = useState([]);
+    const [grupo, setGrupo] = useState({
+        codigo: "",
+        descricao: ""
+    })
 
     return(
         <M.SubModal style={{zIndex: minimizado.familia === true ? minimizar : "1"}}>
@@ -54,10 +63,12 @@ export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, s
                         <div className="grupo">
                             <div>
                                 <label>Grupo</label>
-                                <input/>
+                                <input value={grupo.codigo}/>
                             </div>
-                            <button>Buscar</button>
-                            <select/>
+                            <button onClick={()=> setModalGrupo(true)}>...</button>
+                            <select disabled>
+                                <option>{grupo.descricao}</option>
+                            </select>
                         </div>
                     </div>
                     <div className="dados-produto">
@@ -66,7 +77,7 @@ export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, s
                                 <label>Produtos</label>
                                 <input className="descricao"/>
                             </div>
-                            <img src="/images/add.png"/>
+                            <img src="/images/add.png" onClick={()=> setModalProduto(true)}/>
                         </div>
                     </div>
                 </CF.DadosProduto>
@@ -81,18 +92,16 @@ export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, s
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
+                            {listItems.map((item)=> {
+                                return(
+                                    <tr key={item.id_produto}>
+                                        <td>{item.id_produto}</td>
+                                        <td>{item.gtin_produto}</td>
+                                        <td>{item.referencia}</td>
+                                        <td>{item.descricao_produto}</td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -102,6 +111,8 @@ export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, s
                         <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </C.Footer>
+                {modalProduto ? <Produtos onClose={()=> setModalProduto(false)} listItems={listItems} setListItems={setListItems}/> : null}
+                {modalGrupo ? <Grupo close={()=> setModalGrupo(false)} setGrupo={setGrupo}/> : null}
             </C.Container>
         </M.SubModal>
     )

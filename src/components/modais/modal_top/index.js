@@ -1,15 +1,17 @@
 import React, {useEffect, useState, useRef} from "react";
+import { CadastrarTop } from "../../cadastros/tabela_auxiliar/cadastro_top/index.js";
+import { EditarTop } from "../../cadastros/tabela_auxiliar/editar_top/index.js";
 import { Loading } from "../../loading/index.js";
-import {Container, Filtro, Header, Modal} from './../modal/modal.js';
+import {Container, Filtro, Header, Modal, Footer} from './../modal/modal.js';
 
 
-export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, setTopAlterada, setValorTop, valorTop }) => {
+export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, setTopAlterada, setValorTop, valorTop,  cadastro, setMinimizado, minimizado, dadosRotina, setDadosRotina }) => {
 
     const [top, setTop] = useState([]);
-    const [selectTop, setSelectTop] = useState();
-    const [selectIdTop, setSelectIdTop] = useState();
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('codigo');
+    const [modalCadastro, setModalCadastro] = useState(false);
+    const [modalEditar, setModalEditar] = useState(false);
 
     useEffect(() => {
         async function fetchData (){
@@ -22,8 +24,8 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
     }, []);
 
     const SelectedTop = (top) => {
-        setValorTop([...valorTop, top])
-        setDataSelectTop({
+        setValorTop && setValorTop([...valorTop, top])
+        setDataSelectTop && setDataSelectTop({
             id_top: top.id,
             id_perfil_movimentacao:top.id_perfil_movimentacao,
             libera_itens_estoque_indisponivel: top.libera_itens_estoque_indisponivel,
@@ -37,6 +39,23 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
             editar_preco_rotina: top.editar_preco_rotina,
             tipo_edicao_preco_rotina: top.tipo_edicao_preco_rotina
         });
+        setDadosRotina && setDadosRotina({
+            ...dadosRotina,
+            top:{
+                id_top: top.id,
+                id_perfil_movimentacao:top.id_perfil_movimentacao,
+                libera_itens_estoque_indisponivel: top.libera_itens_estoque_indisponivel,
+                descricao: top.descricao,
+                tipo_movimentacao: top.tipo_movimentacao,
+                rotina_movimenta_estoque_reservado: top.rotina_movimenta_estoque_reservado,
+                gera_financeiro: top.gera_financeiro,
+                rotina_movimenta_estoque_real: top.rotina_movimenta_estoque_real,
+                rotina_movimenta_estoque_deposito_interno: top.rotina_movimenta_estoque_deposito_interno,
+                libera_editar_nome_do_consumidor_final: top.libera_editar_nome_do_consumidor_final,
+                editar_preco_rotina: top.editar_preco_rotina,
+                tipo_edicao_preco_rotina: top.tipo_edicao_preco_rotina
+            }
+        })
         onClose();
         focoCampoSeguinte();
         setTopAlterada(true);
@@ -62,6 +81,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
 
     const selecionado = (top, index) => {
         setSelectIndex(index);
+        localStorage.setItem("idTop", top.id);
     }
 
     const handleKeyDown = (e) => {
@@ -94,6 +114,23 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                     editar_preco_rotina: resultado[selectIndex].editar_preco_rotina,
                     tipo_edicao_preco_rotina: resultado[selectIndex].tipo_edicao_preco_rotina
                 });
+                setDadosRotina && setDadosRotina({
+                    ...dadosRotina,
+                    top:{
+                        id_top: resultado[selectIndex].id,
+                        id_perfil_movimentacao:resultado[selectIndex].id_perfil_movimentacao,
+                        libera_itens_estoque_indisponivel: resultado[selectIndex].libera_itens_estoque_indisponivel,
+                        descricao: resultado[selectIndex].descricao,
+                        tipo_movimentacao: resultado[selectIndex].tipo_movimentacao,
+                        rotina_movimenta_estoque_reservado: resultado[selectIndex].rotina_movimenta_estoque_reservado,
+                        gera_financeiro: resultado[selectIndex].gera_financeiro,
+                        rotina_movimenta_estoque_real: resultado[selectIndex].rotina_movimenta_estoque_real,
+                        rotina_movimenta_estoque_deposito_interno: resultado[selectIndex].rotina_movimenta_estoque_deposito_interno,
+                        libera_editar_nome_do_consumidor_final: resultado[selectIndex].libera_editar_nome_do_consumidor_final,
+                        editar_preco_rotina: resultado[selectIndex].editar_preco_rotina,
+                        tipo_edicao_preco_rotina: resultado[selectIndex].tipo_edicao_preco_rotina
+                    }
+                })
                 onClose();
                 focoCampoSeguinte();
                 setTopAlterada(true);
@@ -101,12 +138,18 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
         }
     };
 
+
+    const [minimizar, setMinimizar] = useState("");
+
     return(
-        <Modal>
+        <Modal style={{zIndex: minimizado && minimizado.top === true ? minimizar : "1"}}>
             <Container>
             <Header>
                 <label> Top</label>
-                <button className="close" onClick={onClose}>X</button>
+                <div className="buttons">
+                    <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, top: true})}}><div className="linha"/></button>
+                    <button className="close" onClick={onClose}>X</button>
+                </div>
             </Header>
             <Filtro>
             <div className="div-checkbox">
@@ -133,11 +176,11 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                                 <th>Código</th>
                                 <th>Descrição</th>
                                 <th>Mov. Est. reservado</th>
-                                <th>MOv. Est. Real</th>
+                                <th>Mov. Est. Real</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {resultado.slice(0, 10).map( (top, index) => {
+                            {resultado.map( (top, index) => {
                                 return(
                                     <tr 
                                     key={top.id} 
@@ -155,6 +198,17 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                     </table>
                 </div>
             )}
+            {cadastro && cadastro.top ? (
+                <Footer>
+                    <div className="buttons">
+                        <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/>Novo</button>
+                        <button onClick={()=> setModalEditar(true)}><img src="/images/abrir.png"/>Abrir</button>
+                        <button onClick={onClose}><img src="/images/voltar.png"/>Fechar</button>
+                    </div>
+                </Footer>
+            ) : null}
+            {modalCadastro ? <CadastrarTop close={()=> setModalCadastro(false)} setMinimizado={setMinimizado} minimizado={minimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
+            {modalEditar ? <EditarTop close={()=> setModalEditar(false)} setMinimizado={setMinimizado} minimizado={minimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
             </Container>
         </Modal>
     );

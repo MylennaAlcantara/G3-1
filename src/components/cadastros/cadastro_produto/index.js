@@ -14,7 +14,7 @@ import { Grupo } from "../../modais/modais_tela_produtos/modal_icms";
 
 export const CadastroProduto = () => {
     const navigate = useNavigate();
-    const {empresa, user} = useContext(AuthContext);
+    const {empresa, user, cnpjMask} = useContext(AuthContext);
 
     // Dados da area de informações
     const [codigo1, setCodigo1] = useState('');
@@ -137,7 +137,7 @@ export const CadastroProduto = () => {
 
     return(
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Cadastro de Produto</h3>
             </C.Header>

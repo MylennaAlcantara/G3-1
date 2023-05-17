@@ -12,9 +12,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext.js";
 
 
-export const Cadastro = () => {
+export const Cadastro = ({setMinimizado, minimizado}) => {
     const navigate = useNavigate();
-    const {user, empresa} = useContext(AuthContext);
+    const {user, empresa, cnpjMask} = useContext(AuthContext);
     
     /*Estado dos Modais */
     const [isModalPartner, setIsModalPartner] = useState(false);
@@ -23,11 +23,44 @@ export const Cadastro = () => {
     const [isModalPgt, setIsModalPgt] = useState(false);
     const [isModalEmitente, setIsModalEmitente] = useState(false);
     const [isModalProdutos, setIsModalProdutos] = useState(false);
+
+    const [dadosRotina, setDadosRotina] = useState(JSON.parse(localStorage.getItem("dadosRotina")) || {
+        emitente: {
+            id:"",
+            descricao: ""
+        },
+        vendedor: {
+            id: "",
+            descricao: ""
+        },
+        parceiro: {
+            id: "",
+            descricao: ""
+        },
+        pgto: {
+            id: "",
+            descricao: ""
+        },
+        top: {
+            id_top: '',
+            id_perfil_movimentacao: '',
+            libera_itens_estoque_indisponivel:  '',
+            descricao:  '',
+            tipo_movimentacao:  '',
+            rotina_movimenta_estoque_reservado:  '',
+            gera_financeiro: '',
+            rotina_movimenta_estoque_real: '',
+            rotina_movimenta_estoque_deposito_interno: '',
+            libera_editar_nome_do_consumidor_final: '',
+            editar_preco_rotina: '',
+            tipo_edicao_preco_rotina: ''
+        },
+    })
     
     /*Etado do elemento selecionado no modal */
-    const [dataSelectPartner, setDataSelectPartner] = useState('');
-    const [dataSelectEmitente, setDataSelectEmitente] = useState('');
-    const [dataSelectTop, setDataSelectTop] = useState({
+    const [dataSelectPartner, setDataSelectPartner] = useState(dadosRotina.parceiro.descricao || '');
+    const [dataSelectEmitente, setDataSelectEmitente] = useState(dadosRotina.emitente.descricao || '');
+    const [dataSelectTop, setDataSelectTop] = useState(dadosRotina.top || {
         id_top: '',
         id_perfil_movimentacao: '',
         libera_itens_estoque_indisponivel:  '',
@@ -41,15 +74,15 @@ export const Cadastro = () => {
         editar_preco_rotina: '',
         tipo_edicao_preco_rotina: ''
     });
-    const [dataSelectSaler, setDataSelectSaler] = useState('');
-    const [dataSelectPgt, setDataSelectPgt] = useState('');
+    const [dataSelectSaler, setDataSelectSaler] = useState(dadosRotina.vendedor.descricao || '');
+    const [dataSelectPgt, setDataSelectPgt] = useState(dadosRotina.pgto.descricao || '');
     const [dataSelectItem, setDataSelectItem] = useState({
         id_produto: '',
         gtin: '',
         valor_venda: '',
         descricaoPdv: '',
         unidade_produto_nome: '',
-        subtotal: '',
+        subtotal: String('').replace(",","."),
         desconto: '',
         descontoPorcen:'',
         qtd_estoque: '',
@@ -57,16 +90,16 @@ export const Cadastro = () => {
     });
     
     /*Estado do id dos elementos selecionados no modal */
-    const [dataIdSelectPartner, setDataIdSelectPartner] = useState('');
-    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState('');
-    const [dataIdSelectSaler, setDataIdSelectSaler] = useState('');
-    const [dataIdSelectPgt, setDataIdSelectPgt] = useState('');
+    const [dataIdSelectPartner, setDataIdSelectPartner] = useState(dadosRotina.parceiro.id || '');
+    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState(dadosRotina.emitente.id || '');
+    const [dataIdSelectSaler, setDataIdSelectSaler] = useState(dadosRotina.vendedor.id || '');
+    const [dataIdSelectPgt, setDataIdSelectPgt] = useState(dadosRotina.pgto.id || '');
 
     const [promocao, setPromocao] = useState([]);
 
 
     //Atualização da lista de itens
-    const [listItens, setListItens] = useState([]);
+    const [listItens, setListItens] = useState(JSON.parse(localStorage.getItem("lista")) || []);
     console.log(listItens);
 
     const [counter, setCounter] = useState(listItens.length+1);
@@ -158,10 +191,6 @@ export const Cadastro = () => {
         valorUnidade();
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
     }
-    function handleValorSubtotalBlur () {
-        const totalItem = parseFloat(subtotal).toFixed(2).replace("NaN", " ").replace(".", ",");
-        setSubtotal(totalItem);
-    }
 
     // Calcular o valor de quantidade vezes o valor para o total 
     const [numero1, setNumero1] = useState("1.000");
@@ -195,13 +224,13 @@ export const Cadastro = () => {
     const calcularSubtotal = () => {
         if(valorDesc === total ){
             //alert('Desconto não pode ser maior que o valor total do item!');
-            return total
+            return valorTotal;
         }else if(descontoPorcen === '' || valorDesc === '' || valorDesc === 'undefined'){
-            return total
+            return valorTotal;
         }else if(valorDesc < 0){
             alert('Desconto não pode ser negativo!')
             setDescontoValor('0,00')
-            return total
+            return valorTotal;
         }
         else{
             return parseFloat(parseFloat(valorTotal) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ").replace(",", ".");
@@ -235,7 +264,7 @@ export const Cadastro = () => {
         setDataSelectItem({
             ...dataSelectItem,
             valor_unitario: preco,
-            subtotal: subtotal,
+            subtotal: (subtotal).replace(",","."),
             quantidade: quantidade
         })
     }
@@ -491,6 +520,8 @@ export const Cadastro = () => {
                 if(res.status === 201){
                     alert('salvo com sucesso');
                     navigate('/consultar');
+                    localStorage.removeItem("dadosRotina");
+                    localStorage.removeItem("lista");
                 }
             }catch(err){
                 console.log(err);
@@ -503,6 +534,8 @@ export const Cadastro = () => {
 
     const Voltar = () => {
         navigate('/consultar');
+        localStorage.removeItem("dadosRotina");
+        localStorage.removeItem("lista");
     }
 
 
@@ -545,13 +578,24 @@ export const Cadastro = () => {
         window.removeEventListener('resize', handleResize);
       };
     }, []);
+
+    function minimizar (){
+        setMinimizado({...minimizado, cadastroRotina: true})
+        navigate("/home");
+        localStorage.setItem("dadosRotina", JSON.stringify(dadosRotina));
+        localStorage.setItem("lista", JSON.stringify(listItens));
+    }
            
     return(
         
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Cadastro de Rotina</h3>
+                <div className="buttons">
+                    <button className="minimizar" onClick={minimizar}><div className="linha"/></button>
+                    <button className="close" onClick={Voltar}>X</button>
+                </div>
             </C.Header>
             <C.Info>
                 <div className="div-info">
@@ -614,7 +658,7 @@ export const Cadastro = () => {
                 {/*<fieldset><legend>Observação</legend>Observação</fieldset>*/}
             </C.Info>
                 
-            <C.Header>
+            <C.Header style={{position: "relative"}}>
                 <h4>Produtos</h4>
             </C.Header>
             <C.Add>
@@ -703,14 +747,12 @@ export const Cadastro = () => {
                     name="valor_total" 
                     id="Total" 
                     value={String(total).replace('.',',').replace('NaN','')}  
-                    onFocus={changeHandler} 
-                    onKeyDown={NextSubtotal}  required/>
+                    required/>
                 <label>Subtotal</label>
                 <input 
                     name='subtotal' 
                     id="subtotal" 
                     value={String(subtotal).replace('.',',').replace('NaN','')} 
-                    onFocus={changeHandler} 
                      required/>
                 <br/>
                 </div>
@@ -721,8 +763,6 @@ export const Cadastro = () => {
                     className="descrição" 
                     type="text" 
                     value={dataSelectItem.descricao_produto} 
-                    onFocus={changeHandler} 
-                    onBlur={handleValorSubtotalBlur} 
                     name="descricao_produto" 
                     readOnly 
                     required/>
@@ -768,7 +808,7 @@ export const Cadastro = () => {
                     </table>
                 </div>
             </C.Display>
-            <C.Footer>
+            <C.Footer style={{position: "relative"}}>
                 <form>
                     <div>
                     <label>Pré-descontoValor:</label>
@@ -792,6 +832,8 @@ export const Cadastro = () => {
                     <input placeholder="0,000000"/>
                     </div>
                 </form>
+            </C.Footer>
+            <C.Footer>
                 <div className="buttons">
                     <button className="liberar" id="submit" onClick={handleSubmit}><img src="/images/salvar.png"/>Liberar</button>
                     <button className="Excluir"><img src="/images/lixeira.png"/>Excluir</button>
@@ -799,22 +841,22 @@ export const Cadastro = () => {
                 </div>
             </C.Footer>
             {isModalPartner ? (
-                <Modal onClose = {() => setIsModalPartner(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner}/>
+                <Modal onClose = {() => setIsModalPartner(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPartner={setDataSelectPartner} setDataIdSelectPartner={setDataIdSelectPartner} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
             {isModalEmitente ? (
-                <Emitente onClose = {() => setIsModalEmitente(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente}/>
+                <Emitente onClose = {() => setIsModalEmitente(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
             {isModalTop ? (
-                <Top onClose = {() => setIsModalTop(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectTop={setDataSelectTop}/>
+                <Top onClose = {() => setIsModalTop(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectTop={setDataSelectTop} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
             {isModalSaler ? (
-                <Saler onClose = {() => setIsModalSaler(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectSaler={setDataSelectSaler} setDataIdSelectSaler={setDataIdSelectSaler}/>
+                <Saler onClose = {() => setIsModalSaler(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectSaler={setDataSelectSaler} setDataIdSelectSaler={setDataIdSelectSaler} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
             {isModalPgt ? (
-                <Pgt onClose = {() => setIsModalPgt(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt}/>
+                <Pgt onClose = {() => setIsModalPgt(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} setPromocao={setPromocao} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop}/>
+                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} setPromocao={setPromocao} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
         </C.Container>   
     );

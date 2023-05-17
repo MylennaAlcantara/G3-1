@@ -11,7 +11,7 @@ export const ConsultarCliente = ({setCliente}) => {
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('nome');
     const navigate = useNavigate();
-    const {user, empresa, nivel} = useContext(AuthContext);
+    const {user, empresa, nivel, cnpjMask, dataMask, cepMask} = useContext(AuthContext);
 
     useEffect(() => {
         async function fetchData (){
@@ -94,7 +94,7 @@ export const ConsultarCliente = ({setCliente}) => {
 
     return(         
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)}</C.NaviBar>
+            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Clientes</h3>
             </C.Header>
@@ -155,12 +155,12 @@ export const ConsultarCliente = ({setCliente}) => {
                                     return(
                                         <tr key={user.id} onClick={selecionado.bind(this, user, index)} style={{background: index === selectIndex ? '#87CEFA' : ''}}>
                                             <td>{user.id}</td>
-                                            <td>{user.data_cadastro}</td>
+                                            <td>{dataMask(user.data_cadastro)}</td>
                                             <td>{user.nome}</td>
                                             <td>{user.nome_fantasia}</td>
-                                            <td>{user.cpf_cnpj}</td>
+                                            <td>{cnpjMask(user.cpf_cnpj)}</td>
                                             <td>{user.endereco}</td>
-                                            <td>{user.cep}</td>
+                                            <td>{cepMask(user.cep)}</td>
                                             <td>{user.municipio}</td>
                                             <td>{user.telefone}</td>
                                             <td>{user.celular}</td>

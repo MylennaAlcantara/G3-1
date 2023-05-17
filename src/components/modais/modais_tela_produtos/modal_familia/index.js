@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as M from "../../modal/modal";
 import * as C from "../../../cadastro/cadastro"
 import { CadastrarFamilia } from "../modal_cadastro_familia";
+import { AuthContext } from "../../../../contexts/Auth/authContext";
 
 export const Familia = ({close, minimizado, setMinimizado}) => {
     const [cadastrarFamilia, setCadastrarFamilia] = useState(false);
     const [familias, setFamilias] = useState([]);
+    const {dataMask} = useContext(AuthContext)
 
     useEffect(()=> {
         async function fetchData(){
@@ -14,13 +16,14 @@ export const Familia = ({close, minimizado, setMinimizado}) => {
             setFamilias(data); 
         }
         fetchData();
+        document.getElementById("search").focus();
     },[])
 
     // Estado que indica quando minimizado para colocar atrás de tudo
     const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.SubModal style={{zIndex: minimizado.familia === true ? minimizar : "1"}}>
+        <M.SubModal style={{zIndex: minimizado && minimizado.familia === true ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <h3>Familia</h3>
@@ -36,7 +39,7 @@ export const Familia = ({close, minimizado, setMinimizado}) => {
                         <option>Produto</option>
                     </select>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar..."/>
+                        <input className="search" id="search" placeholder="Buscar..."/>
                     </div>
                 </M.Filtro>
                 <div className="table-responsive">

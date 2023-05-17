@@ -16,6 +16,7 @@ export const PisCofins = ({close, minimizado, setMinimizado}) => {
             setPerfil(data);
         }
         fetchData();
+        document.getElementById("search").focus();
     }, []);
 
     // Filtro de busca
@@ -60,7 +61,7 @@ export const PisCofins = ({close, minimizado, setMinimizado}) => {
     const [minimizar, setMinimizar] = useState("");
 
     return(
-        <M.SubModal style={{zIndex: minimizado.pis ? minimizar : "1"}}>
+        <M.SubModal style={{zIndex: minimizado && minimizado.pis ? minimizar : "1"}}>
             <M.Container>
                 <M.Header>
                     <label>Grupos de PIS/COFINS</label>

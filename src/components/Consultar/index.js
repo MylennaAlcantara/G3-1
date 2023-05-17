@@ -8,7 +8,7 @@ import {Loading} from "../loading";
 export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
-    const {autenticar, user, empresa, filiais, nivel} = useContext(AuthContext);
+    const {autenticar, user, empresa, filiais, nivel, cnpjMask, dataMask} = useContext(AuthContext);
 
     useEffect(()=>{
         async function fetchData(){
@@ -45,7 +45,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
         }
     }
 
-    const resultado3 = Array.isArray(rotinas) && rotinas.filter((rotina)=> String(rotina.id_empresa).toLowerCase().includes(busca))
+    const resultado3 = Array.isArray(rotinas) && rotinas.filter((rotina)=> rotina.id_empresa == selectFilial.value)
 
     const resultado2 = Array.isArray(resultado3) && resultado3.filter((rotina) => {
         if(filtroEscolhido === 'P' ){
@@ -69,7 +69,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
         if(filtroSelecionado === 'cliente'){
             return rotina.nome_cliente.toLowerCase().includes(busca);
         }else if(filtroSelecionado === 'data'){
-            return rotina.dataEmissao.toLowerCase().includes(busca);
+            return dataMask(rotina.dataEmissao).toLowerCase().includes(busca);
         }else if(filtroSelecionado === 'top'){
             return String(rotina.id_top).toLowerCase().includes(busca);
         }else if(filtroSelecionado === 'vendedor'){
@@ -176,7 +176,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
 
     return(
         <C.Container>
-        <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.cnpj)} </C.NaviBar>
+        <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))} </C.NaviBar>
 
             <C.Header>
                 <h3>Consultar</h3>
@@ -226,7 +226,9 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
             </C.Filtro>
             <C.Rotinas>
                 {rotinas.length === 0 ? (
-                    <Loading/>
+                    <div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                        <Loading style={{margin: "auto"}}/>
+                    </div>
                 ) : (
                     <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
                         <thead>
@@ -251,7 +253,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
                                         className={item.situacao === 'E' ? 'white' : item.situacao ==='B' ? 'red' : 'yellow'}
                                         style={{background: index === selectIndex ? '#87CEFA' : ''}} >
                                             <td>{item.id}</td>
-                                            <td>{item.dataEmissao}</td>
+                                            <td>{dataMask(item.dataEmissao)}</td>
                                             <td>{item.id_empresa}</td>
                                             <td>{item.nome_cliente}</td>
                                             <td>{item.situacao}</td>

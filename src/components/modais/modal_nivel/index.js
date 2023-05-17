@@ -5,7 +5,7 @@ import { EditarNivel } from "../modal_editar_nivel";
 import { CadastrarNivel } from "../modal_cadastro_nivel";
 import { Loading } from "../../loading";
 
-export const Nivel = ({setNivel, close, cadastroNivel, minimizado, setMinimizado, setDadosFuncionario, dadosFuncionario}) => {
+export const Nivel = ({setNivel, close, cadastro, minimizado, setMinimizado, setDadosFuncionario, dadosFuncionario}) => {
     const [niveis, setNiveis] = useState([]);
     const [modalEditarNivel, setModalEditarNivel] = useState(false);
     const [modalCadastrarNivel, setModalCadastrarNivel] = useState(false);
@@ -17,6 +17,7 @@ export const Nivel = ({setNivel, close, cadastroNivel, minimizado, setMinimizado
             setNiveis(data);
         }
         fetchData();
+        document.getElementById("search").focus();
     },[])
     
     const selecionado = (nivel) => {
@@ -79,7 +80,7 @@ export const Nivel = ({setNivel, close, cadastroNivel, minimizado, setMinimizado
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" placeholder="Buscar.."/>
+                        <input className="search" id="search" placeholder="Buscar.."/>
                     </div>
                 </M.Filtro>
                 {niveis.length === 0 ? (
@@ -112,7 +113,7 @@ export const Nivel = ({setNivel, close, cadastroNivel, minimizado, setMinimizado
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalCadastrarNivel(true)}><img src="/images/add.png"/>Novo</button>
-                        {cadastroNivel ? (
+                        {cadastro.nivel ? (
                             <button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>
                         ) : null}
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
