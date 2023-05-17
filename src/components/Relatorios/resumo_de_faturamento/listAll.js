@@ -45,7 +45,6 @@ export const ResumoFaturamento = () => {
     const { user, empresa, cnpjMask } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const [showElementRegiao, setShowElementRegiao] = useState(false)
     const [showElement, setShowElement] = useState(false)
 
     const show = () => setShowElement(true)
@@ -60,8 +59,6 @@ export const ResumoFaturamento = () => {
 
     const [query, setQuery] = useState(""); //Busca de Filial (Topo Esquerda)
     const [query1, setQuery1] = useState(""); //Busca de TOP
-    const [query2, setQuery2] = useState("");
-    const [query3, setQuery3] = useState("");
     const [query4, setQuery4] = useState(""); //Busca Vendedor
     const [query5, setQuery5] = useState(""); //Busca Cliente
     const [query6, setQuery6] = useState(""); //Busca Produto
@@ -207,17 +204,14 @@ export const ResumoFaturamento = () => {
         });
         if (res.status === 200) {
             res.json().then(data => {
+                if (data.length === 0) {
+                    setShowElement(false)
+                    alert('Consulta Finalizada')
+                }
                 setDadosRegiao(data);
-                setShowElementRegiao(true)
             });
-        } else if (res.status === 500) {
-            setShowElementRegiao(false)
-            alert('Não foi possivel carregar aba Região')
         }
     }
-
-
-    console.log(valorFilial)
 
     const [keys, setDaDosKeys] = useState([]) //Usado para escrever o nome dos labels 
     const [dadosLeitura, setDadosLeitura] = useState([]) //Dados em Geral (Tipo de Pagamento)
@@ -499,6 +493,13 @@ export const ResumoFaturamento = () => {
 
     const [graficosCadaFilial, setGraficosCadaFilial] = useState(false)
 
+    const quantidadeV = dados.reduce((a, b) => a + b.qtdVendas, 0)
+    const quantidadeI = dados.reduce((a, b) => a + b.qtdItens, 0)
+    const mVenda = dados.reduce((a, b) => a + b.vlMedioVendas, 0)
+    const lLiquido = dados.reduce((a, b) => a + b.vlLucroLiquido, 0)
+    const Margem = dados.reduce((a, b) => a + b.margem, 0)
+    const MedItensCup = dados.reduce((a, b) => a + b.qtdItensCupom, 0)
+    const Percentual = dados.reduce((a, b) => a + b.percentual, 0)
     const resultFi = dados.reduce((a, b) => a + b.vlCustoTotal, 0) //Dados Totais somados de Custo Total(Filial)
     const resultFi1 = dados.reduce((a, b) => a + b.vlVendaTotal, 0) //Dados Totais somados de Venda Total(Filial)
     const resultFi2 = dados.reduce((a, b) => a + b.vlLucroVenda, 0) //Dados Totais somados de Lucro Venda(Filial)
@@ -797,6 +798,7 @@ export const ResumoFaturamento = () => {
     const resultTpPg6 = dadosLeitura.reduce((a, b) => a + b.credito_loja, 0) //Dados Totais somados de Credito Loja (Tipo de Pagamento)
     const resultTpPg7 = dadosLeitura.reduce((a, b) => a + b.cancelamento_total, 0) //Dados Totais somados de Cancelamento Total (Tipo de Pagamento)
     const resultTpPg8 = dadosLeitura.reduce((a, b) => a + b.desconto_total, 0) //Dados Totais somados de Desconto Total (Tipo de Pagamento)
+    const DPMercantil = dadosLeitura.reduce((a, b) => a + b.duplicata_mercantil, 0)
 
     const resultTpPg9 = dadosLeitura.reduce((a, b) => a + b.vale_alimentacao, 0) //Dados Totais somados de Vale Alimentação (Tipo de Pagamento)
     const resultTpPg10 = dadosLeitura.reduce((a, b) => a + b.vale_combustivel, 0) //Dados Totais somados de Vale Combustivel (Tipo de Pagamento)
@@ -1181,8 +1183,8 @@ export const ResumoFaturamento = () => {
             <RF.Filtros>
                 <div className='FTFilterTop' >
                     <div className='btns'>
-                        <button className='topFilialBtn' onClick={() => setFilial(true)} >Filial</button>
-                        <button className='topsBtn' onClick={() => setFilial(false)} >Tops</button>
+                        <button className='topFilialBtn' style={{ backgroundColor: filial === true ? "#8CB9DF" : "", borderBottom: filial === true ? "none" : "" }} onClick={() => setFilial(true)} >Filial</button>
+                        <button className='topsBtn' style={{ backgroundColor: filial === false ? "#8CB9DF" : "", borderBottom: filial === false ? "none" : "" }} onClick={() => setFilial(false)} >Tops</button>
                     </div>
                     <RF.FilialTop>
                         {filial ? (
@@ -1301,14 +1303,14 @@ export const ResumoFaturamento = () => {
             {aba === "regiao" ? (
                 <>
                     <RF.DataGeral>
-                        {dadosRegiao.length === 0 && showElementRegiao === true ? (
+                        {dadosRegiao.length === 0 && showElement === true ? (
                             <div className='c'>
                                 <Loading />
                             </div>
                         ) : (
                             <>
                                 <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label className='esc'>( Use 'Esc' para fechar )</label>
+                                    <label>Dashboards</label>
 
                                     <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -1380,106 +1382,113 @@ export const ResumoFaturamento = () => {
                     </RF.DataGeral>
                 </>
             ) : aba === "filial" ? (
-                <RF.DataGeral>
-                    {dados.length === 0 && showElement === true ? (
-                        <div className='c' >
-                            <Loading />
-                        </div>
-                    ) : (
-                        <>
-                            <div className='dashboardLine'>
-                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-
-                                <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                <>
+                    <RF.DataGeral>
+                        {dados.length === 0 && showElement === true ? (
+                            <div className='c' >
+                                <Loading />
                             </div>
+                        ) : (
+                            <>
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label>( Totais abaixo da lista! )</label>
 
-                            <div className='table-responsive' >
-                                <table id='table' >
-                                    <tr>
-                                        <th>Id.Filial</th>
+                                    <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                </div>
 
-                                        <th>Filial</th>
+                                <div className='table-responsive' >
+                                    <table id='table' >
+                                        <tr>
+                                            <th>Id.Filial</th>
+
+                                            <th>Filial</th>
+
+                                            <th>Qtd. Vendas</th>
+
+                                            <th>Qtd. Itens</th>
+
+                                            <th>Méd. Itens/Cup.</th>
+
+                                            <th>Vlr. Médio Venda</th>
+
+                                            <th>Vlr. Total NF-e</th>
+
+                                            <th>Vlr. Total NFC-e</th>
+
+                                            <th>Vlr. Venda Total</th>
+
+                                            <th>Vlr. Total Credito</th>
+
+                                            <th> Vlr. Total Líquido</th>
+
+                                            <th>Vlr. Custo Total</th>
+
+                                            <th>Vlr. Lucro Venda</th>
+
+                                            <th>Vlr. Lucro Líquido</th>
+
+                                            <th>% Margem</th>
+
+                                            <th>Percentual</th>
+
+                                        </tr>
+
+                                        {dados.map((f2) => {
 
 
-                                        <th>Qtd. Vendas</th>
+                                            if (f2.vlTotalCredito === null) {
+                                                f2.vlTotalCredito = 0
+                                            }
 
-                                        <th>Qtd. Itens</th>
+                                            return (
+                                                <tr>
+                                                    <td> {f2.idFilial} </td>
 
-                                        <th>Méd. Itens/Cup.</th>
+                                                    <td>{f2.filial}</td>
 
-                                        <th>Vlr. Médio Venda</th>
+                                                    <td>{f2.qtdVendas}</td>
 
-                                        <th>Vlr. Total NF-e</th>
+                                                    <td>{f2.qtdItens}</td>
 
-                                        <th>Vlr. Total NFC-e</th>
+                                                    <td>{f2.qtdItensCupom}</td>
 
-                                        <th>Vlr. Venda Total</th>
+                                                    <td>{f2.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>Vlr. Total Credito</th>
+                                                    <td>{f2.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
 
-                                        <th> Vlr. Total Líquido</th>
+                                                    <td>{f2.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>Vlr. Custo Total</th>
+                                                    <td>{f2.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>Vlr. Lucro Venda</th>
+                                                    <td>{f2.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>Vlr. Lucro Líquido</th>
+                                                    <td>{f2.vlTotalLiquido.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>% Margem</th>
+                                                    <td>{f2.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
 
-                                        <th>Percentual</th>
+                                                    <td>{f2.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
 
-                                    </tr>
+                                                    <td>{f2.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
 
-                                    {dados.map((f2) => {
+                                                    <td>{f2.margem.toFixed(2).replace('.', ',')} %</td>
 
+                                                    <td>{(f2.percentual).toFixed(2)} %</td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </table>
 
-                                        if (f2.vlTotalCredito === null) {
-                                            f2.vlTotalCredito = 0
-                                        }
+                                </div>
+                            </>
+                        )}
+                    </RF.DataGeral>
 
-                                        return (
-                                            <tr>
-                                                <td> {f2.idFilial} </td>
-
-                                                <td>{f2.filial}</td>
-
-                                                <td>{f2.qtdVendas}</td>
-
-                                                <td>{f2.qtdItens}</td>
-
-                                                <td>{f2.qtdItensCupom}</td>
-
-                                                <td>{f2.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlTotalLiquido.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
-
-                                                <td>{f2.margem.toFixed(2).replace('.', ',')} %</td>
-
-                                                <td>{(f2.percentual).toFixed(2)} %</td>
-                                            </tr>
-                                        );
-                                    })}
-                                </table>
-
-                            </div>
-                        </>
-                    )}
-                </RF.DataGeral>
+                    <RF.LinhaTotais >
+                        <div>Méd.Itens/Cup: {MedItensCup.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total NF-e: {resultFi3.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total NFC-e: {resultFi4.toFixed(2).replace('.', ',')}</div> <div>Vlr.Venda Total: {resultFi1.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total Credito: {resultFi5.toFixed(2).replace('.', ',')} </div>
+                        <div>Vlr.Total Líquido: {resultFi6.toFixed(2).replace('.', ',')} </div> <div>Vlr.Custo Total: {resultFi.toFixed(2).replace('.', ',')} </div> <div>Vlr.Lucro Venda: {resultFi2.toFixed(2).replace('.', ',')} </div> <div>Vlr.Lucro Líquido: {lLiquido.toFixed(2).replace('.', ',')} </div> <div>% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',') } </div>    
+                        <div>% Markup: {((resultFi1 - resultFi)/resultFi * 100).toFixed(2).replace('.', ',') } </div>
+                    </RF.LinhaTotais>
+                </>
             ) : aba === "vendedor" ? (
                 <RF.DataGeral>
                     {dadosVendedor.length === 0 && showElement === true ? (
@@ -1565,9 +1574,7 @@ export const ResumoFaturamento = () => {
 
                                             <td>{(dat.vlLucroLiquido).toFixed(2).replace('.', ',')}</td>
 
-
                                             <td>% {(dat.plucroLiquido).toFixed(2).replace('.', ',')}</td>
-
 
                                             <td>{(dat.percentual).toFixed(2).replace('.', ',')}</td>
                                         </tr>
@@ -1668,49 +1675,64 @@ export const ResumoFaturamento = () => {
                     )}
                 </RF.DataGeral>
             ) : aba === "tpPg" ? (
-                <RF.DataGeral>
-                    {dadosTipoPagamento.length === 0 && showElement === true ? (
-                        <div className='c' >
-                            <Loading />
-                        </div>
-                    ) : (
-                        <>
-                            <div className='dashboardLine'>
-                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
-
-                                <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
-
-                                <button className='dashboardBtn' onClick={imprimirTpPg} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                <>
+                    <RF.DataGeral>
+                        {dadosTipoPagamento.length === 0 && showElement === true ? (
+                            <div className='c'>
+                                <Loading />
                             </div>
-                            <div className='table-responsive'>
-                                <table id='table'>
-                                    <thead>
+                        ) : (
+                            <>
+                                <div className='dashboardLine'>
+                                    <label>Dashboards</label> <label>( Totais abaixo da lista! )</label>
+
+                                    <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
+                                    <button className='dashboardBtn' onClick={imprimirTpPg}> <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                </div>
+                                <div className='table-responsive'>
+                                    <table id='table'>
+                                        <thead>
+                                            <tr>
+                                                {keys.map((nomes) => {
+                                                    return (
+                                                        <th>{(nomes).replace('_', ' ').toUpperCase()}</th>
+                                                    );
+                                                })}
+                                            </tr>
+                                        </thead>
                                         <tr>
-                                            {keys.map((nomes) => {
+                                            {dadosTipoPagamento.map((f5) => {
+                                                if (f5 === null) {
+                                                    f5 = 0;
+                                                }
+
                                                 return (
-                                                    <th>{(nomes).replace('_', ' ').toUpperCase()}</th>
+
+                                                    <td> {f5.toFixed(2).replace('.', ',')} </td>
+
                                                 );
                                             })}
                                         </tr>
-                                    </thead>
-                                    <tr>
-                                        {dadosTipoPagamento.map((f5) => {
-                                            if (f5 === null) {
-                                                f5 = 0
-                                            }
+                                    </table>
+                                </div>
+                            </>
+                        )}
+                    </RF.DataGeral>
 
-                                            return (
-
-                                                <td> {f5.toFixed(2).replace('.', ',')} </td>
-
-                                            );
-                                        })}
-                                    </tr>
-                                </table>
-                            </div>
-                        </>
-                    )}
-                </RF.DataGeral>
+                    <RF.LinhaTotais>
+                        <div>Boleto: {resultTpPg5.toFixed(2).replace('.', ',')}</div>
+                        <div>Dinheiro: {resultTpPg.toFixed(2).replace('.', ',')}</div>
+                        <div>Cartão de Credito: {resultTpPg2.toFixed(2).replace('.', ',')}</div>
+                        <div>Cartão de Debito: {resultTpPg3.toFixed(2).replace('.', ',')}</div>
+                        <div>Cheque: {resultTpPg4.toFixed(2).replace('.', ',')}</div>
+                        <div>Pix: {resultTpPg13.toFixed(2).replace('.', ',')}</div>
+                        <div>Cancelamento Total: {resultTpPg7.toFixed(2).replace('.', ',')}</div>
+                        <div>Duplicata Mercanvil: {DPMercantil.toFixed(2).replace('.', ',')}</div>
+                        <div>Desconto Total: {resultTpPg8.toFixed(2).replace('.', ',')}</div>
+                        <div>Total: {resultTpPg1.toFixed(2).replace('.', ',')}</div>
+                    </RF.LinhaTotais>
+                </>
             ) : aba === "produto" ? (
                 <RF.DataGeral>
                     {dadosProduto.length === 0 && showElement === true ? (
@@ -2013,293 +2035,7 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard>
 
                     <RF.Dashboard0>
-
-                        <label className='bestRegion'>{dadosRegiao.map((banRe) => {
-
-                            if (banRe.regiao === 'PERNAMBUCO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/PE.png' />
-                                        <p>Pernambuco</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'PARAIBA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                        <p>PARAIBA</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'ACRE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/AC.png' />
-                                        <p>ACRE</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'AMAZONAS') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/AM.png' />
-                                        <p>AMAZONAS</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'ALAGOAS') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/AL.png' />
-                                        <p>ALAGOAS</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'PIAUÍ') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/PI.png' />
-                                        <p>PIAUÍ</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'AMAPÁ') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/AP.png' />
-                                        <p>AMAPÁ</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'SÃO PAULO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/SP.png' />
-                                        <p>SÃO PAULO</p>
-                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
-                                        <span className='spanName'>Sudeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'RIO DE JANEIRO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/RJ.png' />
-                                        <p>RIO DE JANEIRO</p>
-                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
-                                        <span className='spanName'>Sudeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'MINAS GERAIS') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/MG.png' />
-                                        <p>MINAS GERAIS</p>
-                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
-                                        <span className='spanName'>Sudeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'ESPÍRITO SANTO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/ES.png' />
-                                        <p>ESPÍRITO SANTO</p>
-                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
-                                        <span className='spanName'>Sudeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'BAHIA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/BA.png' />
-                                        <p>BAHIA</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'CEARA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/CE.png' />
-                                        <p>CEARA</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'MATO GROSSO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/MT.png' />
-                                        <p>MATO GROSSO</p>
-                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
-                                        <span className='spanName'>Centro Oeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'TOCANTINS') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/TO.png' />
-                                        <p>TOCANTINS</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'PARANÁ') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                        <p>PARANÁ</p>
-                                        <img className='regiaoImg' src='/images/sul.jpg' />
-                                        <span className='spanName'>Sul</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'MATO GROSSO DO SUL') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/MS.png' />
-                                        <p>MATO GROSSO DO SUL</p>
-                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
-                                        <span className='spanName'>Centro Oeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'DISTRITO FEDERAL') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/DF.png' />
-                                        <p>DISTRITO FEDERAL</p>
-                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
-                                        <span className='spanName'>Centro Oeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'GOIÁS') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/GO.png' />
-                                        <p>GOIÁS</p>
-                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
-                                        <span className='spanName'>Centro Oeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'MARANHÃO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/MA.png' />
-                                        <p>MARANHÃO</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'PARÁ') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/PA.png' />
-                                        <p>PARÁ</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'RIO GRANDE DO NORTE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/RN.png' />
-                                        <p>RIO GRANDE DO NORTE</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'RONDÔNIA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/RO.png' />
-                                        <p>RONDÔNIA</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'RORAIMA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/RR.png' />
-                                        <p>RORAIMA</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'RIO GRANDE DO SUL') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/RS.png' />
-                                        <p>RIO GRANDE DO SUL</p>
-                                        <img className='regiaoImg' src='/images/sul.jpg' />
-                                        <span className='spanName'>Sul</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'SANTA CATARINA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/SC.png' />
-                                        <p>SANTA CATARINA</p>
-                                        <img className='regiaoImg' src='/images/sul.jpg' />
-                                        <span className='spanName'>Sul</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'SERGIPE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/SE.png' />
-                                        <p>SERGIPE</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'NORTE' || banRe.regiao === 'REGIÃO NORTE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'NORDESTE' || banRe.regiao === 'REGIÃO NORDESTE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'CENTRO OESTE' || banRe.regiao === 'REGIÃO CENTRO OESTE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
-                                        <span className='spanName'>Centro Oeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'SUDESTE' || banRe.regiao === 'REGIÃO SUDESTE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
-                                        <span className='spanName'>Sudeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'SUL' || banRe.regiao === 'REGIÃO SUL') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='regiaoImg' src='/images/sul.jpg' />
-                                        <span className='spanName'>Sul</span>
-                                    </div>
-                                );
-                            }
-
-                        })}</label>
-
                         <div className='grafico'> <Chart chartType="BarChart" data={barData} options={barOptions} /> </div>
-
                     </RF.Dashboard0>
 
                 </div>
@@ -2968,15 +2704,15 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts'>
 
-                        <h2 className='prices' > <p className='Gtext' > Venda Total:  R$ {resultFi1} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Venda Total:  R$ {resultFi1.toFixed(2).replace('.', ',')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > Lucro V.Total:  R$ {resultFi2} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Lucro V.Total:  R$ {resultFi2.toFixed(2).replace('.', ',')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > Liquido Total: R$ {resultFi6} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Liquido Total: R$ {resultFi6.toFixed(2).replace('.', ',')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {resultFi3} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {resultFi3.toFixed(2).replace('.', ',')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > NFC-e Total: R$ {resultFi4} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > NFC-e Total: R$ {resultFi4.toFixed(2).replace('.', ',')} </p> </h2>
                     </div>
 
                     <RF.Dashboard>
