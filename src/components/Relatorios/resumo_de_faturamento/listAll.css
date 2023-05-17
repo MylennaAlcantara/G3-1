@@ -787,23 +787,6 @@ span {
     flex-direction: row;
 }
 
-@media (max-width:1024px) {
-
-    .ModalDados {
-        width: 95%;
-        height: 20vh;
-    }
-
-    .filtros {
-        left: 3%;
-    }
-
-    .relatorio-content {
-        top: 38.2%;
-        left: 64%;
-    }
-}
-
 @media (max-width: 800px) {
     .frontSpan {
         visibility: hidden;
@@ -840,81 +823,20 @@ span {
         left: 55%;
     }
 }
-
-@media (max-width: 420px) {
-    .btns {
-        left: -30vw;
-    }
-
-    .filtro1 {
-        width: 340px;
-        left: -25vw;
-        top: 1vw;
-    }
-
-    th {
+@media(max-width: 420px){
+    span{
         font-size: 11px;
     }
-
-    .ep3 {
-        font-size: 11px;
+    .FTFilterTop{
+        height: 23vh;
+        width: 97%;
+        margin-top: 0px;
     }
-
-    .search-input {
-        width: 150px;
+    label{
+        font-size: 13px;
     }
-
-    .obs {
-        left: -435px;
-    }
-
-    .test {
-        width: 350px;
-        flex-direction: row;
-        position: relative;
-        top: 200px;
-        right: 50%;
-
-    }
-
-    .filtros {
-        width: 92%;
-        top: 50vw;
-    }
-
-    .ModalDados {
-        top: 72.56%;
-        height: 25%;
-    }
-
-    .buttons {
-        position: relative;
-        top: 75vw;
-    }
-
-    .wrapper {
-        height: 112vw;
-    }
-
-    .pesquisar {
-        right: 4%;
-        top: -3%;
-    }
-
-    .checkboxs {
-        top: -12%;
-    }
-
-    .dataIni {
-        height: 60px;
-    }
-
-    .dataFin {
-        height: 60px;
-    }
-
-    .relatorio-content {
-        top: 107.6vw;
-        left: 10vw;
+    .dashboardBtn{
+        font-size: 13px;
+        width: 90px;
     }
 }
