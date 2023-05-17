@@ -798,6 +798,7 @@ export const ResumoFaturamento = () => {
     const resultTpPg6 = dadosLeitura.reduce((a, b) => a + b.credito_loja, 0) //Dados Totais somados de Credito Loja (Tipo de Pagamento)
     const resultTpPg7 = dadosLeitura.reduce((a, b) => a + b.cancelamento_total, 0) //Dados Totais somados de Cancelamento Total (Tipo de Pagamento)
     const resultTpPg8 = dadosLeitura.reduce((a, b) => a + b.desconto_total, 0) //Dados Totais somados de Desconto Total (Tipo de Pagamento)
+    const DPMercantil = dadosLeitura.reduce((a, b) => a + b.duplicata_mercantil, 0)
 
     const resultTpPg9 = dadosLeitura.reduce((a, b) => a + b.vale_alimentacao, 0) //Dados Totais somados de Vale Alimentação (Tipo de Pagamento)
     const resultTpPg10 = dadosLeitura.reduce((a, b) => a + b.vale_combustivel, 0) //Dados Totais somados de Vale Combustivel (Tipo de Pagamento)
@@ -1390,7 +1391,7 @@ export const ResumoFaturamento = () => {
                         ) : (
                             <>
                                 <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label>( Totais Abaixo da Lista! )</label>
+                                    <label>Dashboards</label> <label>( Totais abaixo da lista! )</label>
 
                                     <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
                                 </div>
@@ -1683,7 +1684,7 @@ export const ResumoFaturamento = () => {
                         ) : (
                             <>
                                 <div className='dashboardLine'>
-                                    <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                    <label>Dashboards</label> <label>( Totais abaixo da lista! )</label>
 
                                     <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -1726,12 +1727,11 @@ export const ResumoFaturamento = () => {
                         <div>Cartão de Debito: {resultTpPg3.toFixed(2).replace('.', ',')}</div>
                         <div>Cheque: {resultTpPg4.toFixed(2).replace('.', ',')}</div>
                         <div>Pix: {resultTpPg13.toFixed(2).replace('.', ',')}</div>
-                        <div>Cancelamento Total: </div>
-                        <div>Duplicata Mercanvil: </div>
-                        <div>Desconto Total: </div>
-                        <div>Total: </div>
+                        <div>Cancelamento Total: {resultTpPg7.toFixed(2).replace('.', ',')}</div>
+                        <div>Duplicata Mercanvil: {DPMercantil.toFixed(2).replace('.', ',')}</div>
+                        <div>Desconto Total: {resultTpPg8.toFixed(2).replace('.', ',')}</div>
+                        <div>Total: {resultTpPg1.toFixed(2).replace('.', ',')}</div>
                     </RF.LinhaTotais>
-
                 </>
             ) : aba === "produto" ? (
                 <RF.DataGeral>
@@ -2035,293 +2035,7 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard>
 
                     <RF.Dashboard0>
-
-                        <label className='bestRegion'>{dadosRegiao.map((banRe) => {
-
-                            if (banRe.regiao === 'PERNAMBUCO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/PE.png' />
-                                        <p>Pernambuco</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'PARAIBA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                        <p>PARAIBA</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'ACRE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/AC.png' />
-                                        <p>ACRE</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'AMAZONAS') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/AM.png' />
-                                        <p>AMAZONAS</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'ALAGOAS') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/AL.png' />
-                                        <p>ALAGOAS</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'PIAUÍ') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/PI.png' />
-                                        <p>PIAUÍ</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'AMAPÁ') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/AP.png' />
-                                        <p>AMAPÁ</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'SÃO PAULO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/SP.png' />
-                                        <p>SÃO PAULO</p>
-                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
-                                        <span className='spanName'>Sudeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'RIO DE JANEIRO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/RJ.png' />
-                                        <p>RIO DE JANEIRO</p>
-                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
-                                        <span className='spanName'>Sudeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'MINAS GERAIS') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/MG.png' />
-                                        <p>MINAS GERAIS</p>
-                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
-                                        <span className='spanName'>Sudeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'ESPÍRITO SANTO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/ES.png' />
-                                        <p>ESPÍRITO SANTO</p>
-                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
-                                        <span className='spanName'>Sudeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'BAHIA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/BA.png' />
-                                        <p>BAHIA</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'CEARA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/CE.png' />
-                                        <p>CEARA</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'MATO GROSSO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/MT.png' />
-                                        <p>MATO GROSSO</p>
-                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
-                                        <span className='spanName'>Centro Oeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'TOCANTINS') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/TO.png' />
-                                        <p>TOCANTINS</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'PARANÁ') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/PB.png' />
-                                        <p>PARANÁ</p>
-                                        <img className='regiaoImg' src='/images/sul.jpg' />
-                                        <span className='spanName'>Sul</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'MATO GROSSO DO SUL') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/MS.png' />
-                                        <p>MATO GROSSO DO SUL</p>
-                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
-                                        <span className='spanName'>Centro Oeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'DISTRITO FEDERAL') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/DF.png' />
-                                        <p>DISTRITO FEDERAL</p>
-                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
-                                        <span className='spanName'>Centro Oeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'GOIÁS') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/GO.png' />
-                                        <p>GOIÁS</p>
-                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
-                                        <span className='spanName'>Centro Oeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'MARANHÃO') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/MA.png' />
-                                        <p>MARANHÃO</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'PARÁ') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/PA.png' />
-                                        <p>PARÁ</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'RIO GRANDE DO NORTE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/RN.png' />
-                                        <p>RIO GRANDE DO NORTE</p>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'RONDÔNIA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/RO.png' />
-                                        <p>RONDÔNIA</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'RORAIMA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/RR.png' />
-                                        <p>RORAIMA</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'RIO GRANDE DO SUL') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/RS.png' />
-                                        <p>RIO GRANDE DO SUL</p>
-                                        <img className='regiaoImg' src='/images/sul.jpg' />
-                                        <span className='spanName'>Sul</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'SANTA CATARINA') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/SC.png' />
-                                        <p>SANTA CATARINA</p>
-                                        <img className='regiaoImg' src='/images/sul.jpg' />
-                                        <span className='spanName'>Sul</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'SERGIPE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='bandeira' src='/images/bandeiras/SE.png' />
-                                        <p>SERGIPE</p>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'NORTE' || banRe.regiao === 'REGIÃO NORTE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='regiaoImg' src='/images/norte.jpg' />
-                                        <span className='spanName'>Norte</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'NORDESTE' || banRe.regiao === 'REGIÃO NORDESTE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='regiaoImg' src='/images/nordeste.png' />
-                                        <span className='spanName'>Nordeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'CENTRO OESTE' || banRe.regiao === 'REGIÃO CENTRO OESTE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='regiaoImg' src='/images/centroOeste.jpg' />
-                                        <span className='spanName'>Centro Oeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'SUDESTE' || banRe.regiao === 'REGIÃO SUDESTE') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='regiaoImg' src='/images/sudeste.jpg' />
-                                        <span className='spanName'>Sudeste</span>
-                                    </div>
-                                );
-                            } else if (banRe.regiao === 'SUL' || banRe.regiao === 'REGIÃO SUL') {
-                                return (
-                                    <div className='grafico-regiao'>
-                                        <img className='regiaoImg' src='/images/sul.jpg' />
-                                        <span className='spanName'>Sul</span>
-                                    </div>
-                                );
-                            }
-
-                        })}</label>
-
                         <div className='grafico'> <Chart chartType="BarChart" data={barData} options={barOptions} /> </div>
-
                     </RF.Dashboard0>
 
                 </div>
