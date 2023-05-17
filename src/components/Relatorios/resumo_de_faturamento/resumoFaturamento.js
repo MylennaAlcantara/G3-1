@@ -13,6 +13,9 @@ export const Filtros = styled.div`
     button{
         height: 24px;
     }
+    @media(max-width: 420px){
+        display: grid;
+    }
 
 `
 export const FilialTop = styled.div`
@@ -126,6 +129,12 @@ export const Data = styled.div`
     @media (max-width: 800px) {
         overflow-x: auto;
     }
+    @media (max-width: 420px) {
+        margin-top: 5%;
+        width: 97%;
+        margin-left: 0px;
+        height: 23vh;
+    }
 `
 export const Navigacao = styled.div`
     margin: auto;
@@ -163,6 +172,18 @@ export const Navigacao = styled.div`
         width: 117px;
         height: 33px;
         border-bottom: none;
+    }
+    @media (max-width: 420px) {
+        margin-top: 55%;
+        .botão-filtros{
+            font-size: 11.8px;
+        }
+        .CE{
+            font-size: 11.8px;
+        }
+        .CD{
+            font-size: 11.8px;
+        }
     }
 `
 export const DataGeral = styled.div`
@@ -254,9 +275,9 @@ justify-content: center;
     background-color: #ffffff;
     align-items: center;
     display: flex;
-    justify-content: space-between;
-    width: 310px;
-    height: 210px;
+    justify-content: space-around;
+    width: 32%;
+    height: 95%;
     margin: 10px;
     border-style: solid;
     border-radius: 8px;

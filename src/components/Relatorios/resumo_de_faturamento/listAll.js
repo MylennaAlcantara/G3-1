@@ -205,8 +205,12 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 if (data.length === 0) {
-                    setShowElement(false)
+                    setShowElement(false)                    
+                    setDaDosKeys([])
+                    setDadosTipoPagamento([])
+                    setDadosLeitura([])
                     alert('Consulta Finalizada')
+
                 }
                 setDadosRegiao(data);
             });
@@ -1500,7 +1504,7 @@ export const ResumoFaturamento = () => {
                             <input type="search" name="search-vend" id="search-vend" className="search" placeholder="Buscar por Vendedor" onChange={(e) => setQuery4(e.target.value)} />
 
                             <div className='dashboardLine'>
-                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <label>Dashboards</label>
 
                                 <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
@@ -1597,7 +1601,7 @@ export const ResumoFaturamento = () => {
                             <input type="search" name="search-cli" id="search-cli" className="search" placeholder="Buscar por Cliente" onChange={(e) => setQuery5(e.target.value)} />
 
                             <div className='dashboardLine'>
-                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <label>Dashboards</label>
 
                                 <button className='dashboardBtn' onClick={openDashboardCliente}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
@@ -1677,7 +1681,7 @@ export const ResumoFaturamento = () => {
             ) : aba === "tpPg" ? (
                 <>
                     <RF.DataGeral>
-                        {dadosTipoPagamento.length === 0 && showElement === true ? (
+                        {dadosLeitura.length === 0 && showElement === true ? (
                             <div className='c'>
                                 <Loading />
                             </div>
@@ -1721,16 +1725,16 @@ export const ResumoFaturamento = () => {
                     </RF.DataGeral>
 
                     <RF.LinhaTotais>
-                        <div>Boleto: {resultTpPg5.toFixed(2).replace('.', ',')}</div>
-                        <div>Dinheiro: {resultTpPg.toFixed(2).replace('.', ',')}</div>
-                        <div>Cartão de Credito: {resultTpPg2.toFixed(2).replace('.', ',')}</div>
-                        <div>Cartão de Debito: {resultTpPg3.toFixed(2).replace('.', ',')}</div>
-                        <div>Cheque: {resultTpPg4.toFixed(2).replace('.', ',')}</div>
-                        <div>Pix: {resultTpPg13.toFixed(2).replace('.', ',')}</div>
-                        <div>Cancelamento Total: {resultTpPg7.toFixed(2).replace('.', ',')}</div>
-                        <div>Duplicata Mercanvil: {DPMercantil.toFixed(2).replace('.', ',')}</div>
-                        <div>Desconto Total: {resultTpPg8.toFixed(2).replace('.', ',')}</div>
-                        <div>Total: {resultTpPg1.toFixed(2).replace('.', ',')}</div>
+                        <div>Boleto: {resultTpPg5.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
+                        <div>Dinheiro: {resultTpPg.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
+                        <div>Cartão de Credito: {resultTpPg2.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
+                        <div>Cartão de Debito: {resultTpPg3.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
+                        <div>Cheque: {resultTpPg4.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
+                        <div>Pix: {resultTpPg13.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
+                        <div>Cancelamento Total: {resultTpPg7.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
+                        <div>Duplicata Mercanvil: {DPMercantil.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
+                        <div>Desconto Total: {resultTpPg8.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
+                        <div>Total: {resultTpPg1.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
                     </RF.LinhaTotais>
                 </>
             ) : aba === "produto" ? (
@@ -1744,7 +1748,7 @@ export const ResumoFaturamento = () => {
                             <input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)} />
 
                             <div className='dashboardLine'>
-                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <label>Dashboards</label> 
 
                                 <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -1830,7 +1834,7 @@ export const ResumoFaturamento = () => {
                             <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Grupo" onChange={(e) => setQuery7(e.target.value)} />
 
                             <div className='dashboardLine'>
-                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <label>Dashboards</label> 
 
                                 <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -1919,7 +1923,7 @@ export const ResumoFaturamento = () => {
                             <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)} />
 
                             <div className='dashboardLine'>
-                                <label>Dashboards</label> <label>( Use 'Esc' para fechar )</label>
+                                <label>Dashboards</label> 
 
                                 <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -2090,6 +2094,8 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard>
 
                     <Modal isOpen={graficosCadaFilial} onRequestClose={() => setGraficosCadaFilial(false)} className='dashboardCadaFilial' overlayClassName='none'>
+                    <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+                        
                         <h1>Cada Filial</h1>
                         {dados.map((data) => {
 
@@ -2122,9 +2128,9 @@ export const ResumoFaturamento = () => {
                                     <h1 className='textFilial' >{data.filial}</h1>
 
                                     <RF.Dashboard0>
-                                        <div className='grafico' > <Chart chartType="ColumnChart" width="300px" height="200px" data={grafico} /> </div>
-                                        <div className='grafico' > <Chart chartType="PieChart" width="300px" height="200px" data={grafico0} options={optionsGra1} /> </div>
-                                        <div className='grafico' > <Chart chartType="ColumnChart" width="300px" height="200px" data={grafico1} /> </div>
+                                        <div className='grafico' > <Chart chartType="ColumnChart" width="95%" height="23vh" data={grafico} /> </div>
+                                        <div className='grafico' > <Chart chartType="PieChart" width="95%" height="23vh" data={grafico0} options={optionsGra1} /> </div>
+                                        <div className='grafico' > <Chart chartType="ColumnChart" width="95%" height="23vh" data={grafico1} /> </div>
                                     </RF.Dashboard0>
                                 </div>
 
