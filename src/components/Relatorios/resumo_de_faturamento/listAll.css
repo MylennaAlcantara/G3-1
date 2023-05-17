@@ -1,9 +1,9 @@
-.tablePDF{
+.tablePDF {
     border-style: solid;
     border-width: 1px;
 }
 
-button:hover{
+button:hover {
     cursor: pointer;
 }
 
@@ -20,11 +20,11 @@ button:hover{
     border-top-right-radius: 10px;
 }
 
-.textFilial{
+.textFilial {
     background-color: #ffffff;
 }
 
-.filialBTN{
+.filialBTN {
     margin-left: 10px;
     width: 117px;
     height: 36px;
@@ -105,7 +105,7 @@ label {
     font-size: 15px;
 }
 
-.closeBtnMenor{
+.closeBtnMenor {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -247,7 +247,7 @@ label {
     margin-right: 20px;
 }
 
-.graficoLongo{
+.graficoLongo {
     align-items: center;
     background-color: #ffffff;
     display: flex;
@@ -260,7 +260,7 @@ label {
     border-width: 1px;
 }
 
-.graficoLongoB{
+.graficoLongoB {
     align-items: center;
     background-color: #ffffff;
     display: flex;
@@ -273,7 +273,7 @@ label {
     border-width: 1px;
 }
 
-.graficoLongoA{
+.graficoLongoA {
     align-items: center;
     background-color: #ffffff;
     display: flex;
@@ -793,11 +793,6 @@ span {
         font-size: 0px;
     }
 
-    .filtro1 {
-        top: 4.83vw;
-        left: -6.7vw;
-    }
-
     td {
         height: 30px;
     }
@@ -809,36 +804,55 @@ span {
     .dataFin {
         height: 40px;
     }
-
-    .checkboxs {
-        top: 17%;
-    }
-
-    .pesquisar {
-        top: 17%;
-    }
-
-    .relatorio-content {
-        top: 35.2%;
-        left: 55%;
-    }
 }
-@media(max-width: 420px){
-    span{
+
+@media(max-width: 420px) {
+    span {
         font-size: 11px;
     }
-    .FTFilterTop{
+
+    .FTFilterTop {
         height: 23vh;
         width: 97%;
         margin-top: 0px;
     }
-    label{
+
+    label {
         font-size: 13px;
     }
 
-    .dashboardBtn{
+    .dashboardBtn {
         font-size: 13px;
         width: 90px;
+    }
 
+    .dashboardTexts {
+        flex-direction: column;
+    }
+
+    .prices {
+        width: 315px;
+    }
+
+    .closeBtn {
+        left: 65%;
+    }
+
+    .graficos10 {
+        width: 300px;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .btnDetalhes {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom: black;
+    }
+    .closeBtnMenor{
+        margin-left: 55%;
+    }
+    .graficoA{
+        width: 100px;
     }
 }

@@ -151,6 +151,7 @@ export const Navigacao = styled.div`
     div{
         display: flex;
         width: 60%;
+        overflow-x: auto;
     }
     .botão-filtros {
         margin-bottom: 0;
@@ -175,6 +176,9 @@ export const Navigacao = styled.div`
     }
     @media (max-width: 420px) {
         margin-top: 55%;
+        div{
+            width: 90%;
+        }
         .botão-filtros{
             font-size: 11.8px;
         }
@@ -248,6 +252,12 @@ justify-content: space-between;
     border-radius: 8px;
     border-width: 1px;
 }
+@media(max-width: 420px){
+    display: grid;
+    .grafico{
+        margin: 10px;
+    }
+}
 `
 export const DashboardMenor = styled.div`
 height: 45%;
@@ -264,6 +274,12 @@ margin: 50px;
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+@media(max-width: 420px){
+    width: 250px;
+    .graficosReduzidos{
+        display: grid;
+    }
 }
 `
 export const Dashboard0 = styled.div`
@@ -282,6 +298,12 @@ justify-content: center;
     border-style: solid;
     border-radius: 8px;
     border-width: 1px;
+}
+@media(max-width: 420px){
+    display: grid;
+    .grafico{
+        width: 200px;
+    }
 }
 `
 export const LinhaTotais = styled.div`
