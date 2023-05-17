@@ -17,6 +17,7 @@ import { Pgt } from "../modais/modal_pgt";
 import { Grupo } from "../modais/modais_tela_produtos/modal_icms";
 import { Top } from "../modais/modal_top";
 import { PerfilMovimentacao } from "../modais/modal_perfil_mov";
+import { VendasCaixa } from "../Relatorios/vendas_caixas";
 
 export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setModal, modal}) => {
     const navigate = useNavigate();
@@ -33,6 +34,8 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
     const [opProdutos, setOpProdutos] = useState(false);
 
     const [opAuxiliar, setOpAuxiliar] = useState(false);
+
+    const [vendas, setVendas] = useState(false);
 
     function abrirBarra (){
         setAberto(!aberto);
@@ -172,7 +175,13 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                     ) : null}
                     {nivel.cadastro_dav_acessivel ? <div onClick={()=> {navigate('/consultar'); fecharOp()}}><img src="/images/ponto-de-venda.png"/>Rotina</div> : null}
                     <div onClick={() =>{setRelatorio(!relatorio)}}><img src="/images/relatorio.png"/>Relatórios</div>
-                    {relatorio ? (<div className="gaveta" onClick={()=> {navigate('/resumoDeFaturamento'); fecharOp()}} >Resumo de Faturamento</div>) : null}
+                    {relatorio ? (
+                        <>
+                            <div className="gaveta" onClick={()=> {navigate('/resumoDeFaturamento'); fecharOp()}} >Resumo de Faturamento</div>
+                            <div className="gaveta" onClick={()=> {setVendas(true); fecharOp()}} >Vendas Caixas</div>
+                        </>
+                    ) : null}
+
                     <button onClick={sair}>Sair</button>
                 </C.Barra>
             ) : null}
@@ -180,7 +189,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
             {opFuncionario ? <OpFuncionarios close={()=> setOpfuncionario(false)} setOpfuncionario={setOpfuncionario} setMinimizado={setMinimizado} minimizado={minimizado} modal={modal} setModal={setModal} cadastro={cadastro} setCadastro={setCadastro}/> : null}
             {opProdutos ? <OpProdutos close={()=> setOpProdutos(false)} setOpProdutos={setOpProdutos} setMinimizado={setMinimizado} minimizado={minimizado} modal={modal} setModal={setModal} cadastro={cadastro} setCadastro={setCadastro}/> : null}
             {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar} setMinimizado={setMinimizado} minimizado={minimizado} modal={modal} setModal={setModal} cadastro={cadastro} setCadastro={setCadastro}/> : null}
-            
+            {vendas ? <VendasCaixa/> : null}
         </C.Container>
     )
 }
