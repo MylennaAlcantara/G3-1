@@ -1183,8 +1183,8 @@ export const ResumoFaturamento = () => {
             <RF.Filtros>
                 <div className='FTFilterTop' >
                     <div className='btns'>
-                        <button className='topFilialBtn' onClick={() => setFilial(true)} >Filial</button>
-                        <button className='topsBtn' onClick={() => setFilial(false)} >Tops</button>
+                        <button className='topFilialBtn' style={{ backgroundColor: filial === true ? "#8CB9DF" : "", borderBottom: filial === true ? "none" : "" }} onClick={() => setFilial(true)} >Filial</button>
+                        <button className='topsBtn' style={{ backgroundColor: filial === false ? "#8CB9DF" : "", borderBottom: filial === false ? "none" : "" }} onClick={() => setFilial(false)} >Tops</button>
                     </div>
                     <RF.FilialTop>
                         {filial ? (
