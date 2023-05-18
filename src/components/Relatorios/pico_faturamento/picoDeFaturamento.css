@@ -1,0 +1,34 @@
+.filial-top-content{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin-top: -23px;
+}
+
+.buttons-filial-top{
+    display: flex;
+}
+
+.button-filial{
+    border-top-left-radius: 10px;
+    height: 25px;
+    border-width: 1px;
+    border-bottom: none;
+    border-right-color: gray;
+    border-color: gray;
+    cursor: pointer;
+    width: 50px;
+}
+
+.button-top{
+    height: 25px;
+    border-width: 1px;
+    border-style: outset;
+    border-bottom: none;
+    border-right-color: gray;
+    border-color: gray;
+    border-top-right-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    width: 45px;
+}

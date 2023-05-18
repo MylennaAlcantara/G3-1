@@ -1096,6 +1096,8 @@ export const ResumoFaturamento = () => {
     const resultFor3 = dadosFornecedor.reduce((a, b) => a + b.vlr_desconto_total, 0) //Dados Totais somados de Desconto Total (Fornecedor)
     const resultFor4 = dadosFornecedor.reduce((a, b) => a + b.sub_total, 0) //Dados Totais somados de Sub.Total (Fornecedor)
 
+    console.log(dadosFornecedor)
+
     const dataFor = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Fornecedor
         ["Element", "Valor", { role: "style" }],
         ["Venda", resultFor, "#bc1b2b"],
@@ -1164,6 +1166,12 @@ export const ResumoFaturamento = () => {
         [dadoNomeForn8, dadoVenForn8, dadoLuForn8],
         [dadoNomeForn9, dadoVenForn9, dadoLuForn9],
     ];
+
+    const dataFor3 = [
+        ["Element", "Valor", {role: "style"}],
+        ["Total", resultFor, "#bc1b2b"],
+        ["Sub.Total", resultFor4, "#b5bd2d"],
+    ]
 
     //------------------------------------------------------------------Dashboard Geral--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2621,10 +2629,11 @@ export const ResumoFaturamento = () => {
 
                     </div>
 
-                    <RF.Dashboard0>
+                    <RF.Dashboard>
                         <div className="grafico"><Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} /> </div>
                         <div className="grafico"><Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} /> </div>
-                    </RF.Dashboard0>
+                        <div className="grafico"><Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor3} /></div>
+                    </RF.Dashboard>
 
                     <RF.Dashboard>
 

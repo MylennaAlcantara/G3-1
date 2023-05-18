@@ -276,7 +276,11 @@ margin: 50px;
     align-items: center;
 }
 @media(max-width: 420px){
+    h2{
+        width: 230px;
+    }
     width: 250px;
+    margin: 20px;
     .graficosReduzidos{
         display: grid;
     }
