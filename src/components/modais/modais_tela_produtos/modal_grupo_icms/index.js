@@ -136,7 +136,7 @@ export const GrupoIcms = ({close, minimizado, setMinimizado}) => {
 
     return(
         <M.SubModal style={{zIndex: minimizado.regra ? minimizar : "1"}}>
-            <C.Container style={{width: "70%"}}>
+            <C.Container >
                 <GI.Header>
                     <h3>Grupos de ICMS</h3>
                     <div className="buttons">
