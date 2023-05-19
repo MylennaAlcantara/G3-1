@@ -853,6 +853,12 @@ span {
         margin-left: 55%;
     }
     .graficoA{
-        width: 100px;
+        width: 230px;
+    }
+}
+@media(min-width: 1500px){
+    .graficoLongo{
+        width: 48%;
+        height: 310px;
     }
 }

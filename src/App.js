@@ -11,6 +11,7 @@ import { NavBar } from './components/barra_navegacao';
 import { CadastroCliente } from './components/cadastros/cadastro_cliente';
 import { ConsultarCliente } from './components/cadastros/consulta_cliente/index';
 import { ResumoFaturamento} from './components/Relatorios/resumo_de_faturamento/listAll'
+import { PicoDeFaturamento} from './components/Relatorios/pico_faturamento/picoDeFaturamento'
 import { ConsultarFornecedor } from './components/cadastros/consultar_fornecedor/index';
 import { EditarCliente } from './components/cadastros/editar_cliente';
 import { CadastrarFornecedor } from './components/cadastros/cadastro_fornecedor';
@@ -182,6 +183,7 @@ function App() {
             ) : <Route path = '/cadastrarFuncionario' element = {token ? (<><NavBar setCadastro={setCadastro} cadastro={cadastro} setModal={setModal} modal={modal} minimizado={minimizado} setMinimizado={setMinimizado}/><ConsultarFuncionario/></>) : <Login/>}/>}
 
             <Route path = '/resumoDeFaturamento' element = {token ? (<><NavBar setCadastro={setCadastro} cadastro={cadastro} setModal={setModal} modal={modal} minimizado={minimizado} setMinimizado={setMinimizado}/><ResumoFaturamento/></>) : <Login/>}/>
+            <Route path = '/picoDeFaturamento' element = {token ? (<><NavBar setCadastro={setCadastro} cadastro={cadastro} setModal={setModal} modal={modal} minimizado={minimizado} setMinimizado={setMinimizado}/><PicoDeFaturamento/></>) : <Login/>}/>
           </Routes>
           {/* Renderização dos modais */}
             {modal.setor ? <Setor close={()=> setModal({...modal, setor: false})} cadastro={cadastro} setMinimizado={setMinimizado} minimizado={minimizado} setModal={setModal} modal={modal}/> : null}

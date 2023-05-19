@@ -459,8 +459,8 @@ export const ResumoFaturamento = () => {
     const barOptions = { //Configuração do Quinto Gráfico de Região 
         title: "Valores Totais Região .",
         //backgroundColor: '#d3d3d3',
-        width: 300,
-        height: 200,
+        width: "95%",
+        height: "95%",
         bar: { groupWidth: "95%", },
         legend: { position: "none" },
     };
@@ -520,8 +520,8 @@ export const ResumoFaturamento = () => {
 
     const barOptionsFi = { //Configuração do Segundo Gráfico de Filial
         title: "Valores Totais Filial.",
-        width: 350,
-        height: 200,
+        width: "95%",
+        height: "95%",
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
@@ -638,8 +638,8 @@ export const ResumoFaturamento = () => {
 
     const barOptionsVen = { //Configuração do Quarto Gráfico de Filial
         title: "Valores Totais Vendedor.",
-        width: 350,
-        height: 200,
+        width: "100%",
+        height: "95%",
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
@@ -706,8 +706,8 @@ export const ResumoFaturamento = () => {
 
     const barOptionsCli = { //Configuração do Segundo Gráfico de Cliente
         title: "Valores Totais Cliente.",
-        width: 300,
-        height: 200,
+        width: "100%",
+        height: "95%",
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
@@ -819,8 +819,8 @@ export const ResumoFaturamento = () => {
 
     const barOptionsTpPg = { //Configuração do Segundo Gráfico de Tipo de Pagamento
         title: "Pagamentos",
-        width: 400,
-        height: 200,
+        width: "100%",
+        height: "95%",
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
@@ -906,8 +906,8 @@ export const ResumoFaturamento = () => {
 
     const barOptionsPro = { //Configuração do Terceiro Gráfico de Produto
         title: "Valores Totais Tipo de Pagamento .",
-        width: 300,
-        height: 200,
+        width: "100%",
+        height: "95%",
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
@@ -1096,6 +1096,8 @@ export const ResumoFaturamento = () => {
     const resultFor3 = dadosFornecedor.reduce((a, b) => a + b.vlr_desconto_total, 0) //Dados Totais somados de Desconto Total (Fornecedor)
     const resultFor4 = dadosFornecedor.reduce((a, b) => a + b.sub_total, 0) //Dados Totais somados de Sub.Total (Fornecedor)
 
+    console.log(dadosFornecedor)
+
     const dataFor = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Fornecedor
         ["Element", "Valor", { role: "style" }],
         ["Venda", resultFor, "#bc1b2b"],
@@ -1104,8 +1106,8 @@ export const ResumoFaturamento = () => {
 
     const barOptionsFor = { //Configuração do Segundo Gráfico de Fornecedor
         title: "Valores Totais Fornecedor .",
-        width: 300,
-        height: 200,
+        width: "100%",
+        height: "95%",
         bar: { groupWidth: "95%" },
         legend: { position: "none" },
     };
@@ -1164,6 +1166,12 @@ export const ResumoFaturamento = () => {
         [dadoNomeForn8, dadoVenForn8, dadoLuForn8],
         [dadoNomeForn9, dadoVenForn9, dadoLuForn9],
     ];
+
+    const dataFor3 = [
+        ["Element", "Valor", {role: "style"}],
+        ["Total", resultFor, "#bc1b2b"],
+        ["Sub.Total", resultFor4, "#b5bd2d"],
+    ]
 
     //------------------------------------------------------------------Dashboard Geral--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1359,19 +1367,19 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{f1.idFilial}</td>
 
-                                                    <td>{f1.qtdVendas.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{f1.qtdVendas}</td>
 
-                                                    <td>{f1.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f1.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f1.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f1.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f1.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f1.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f1.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f1.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR')}</td>
 
                                                     <td>{f1.margem.toFixed(3).replace('.', ',')}</td>
 
@@ -1456,23 +1464,23 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{f2.qtdItensCupom}</td>
 
-                                                    <td>{f2.vlMedioVendas.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f2.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f2.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f2.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f2.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f2.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f2.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f2.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f2.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f2.vlTotalCredito.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f2.vlTotalLiquido.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f2.vlTotalLiquido.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f2.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f2.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f2.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f2.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f2.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f2.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR')}</td>
 
                                                     <td>{f2.margem.toFixed(2).replace('.', ',')} %</td>
 
@@ -1488,9 +1496,9 @@ export const ResumoFaturamento = () => {
                     </RF.DataGeral>
 
                     <RF.LinhaTotais >
-                        <div>Méd.Itens/Cup: {MedItensCup.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total NF-e: {resultFi3.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total NFC-e: {resultFi4.toFixed(2).replace('.', ',')}</div> <div>Vlr.Venda Total: {resultFi1.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total Credito: {resultFi5.toFixed(2).replace('.', ',')} </div>
-                        <div>Vlr.Total Líquido: {resultFi6.toFixed(2).replace('.', ',')} </div> <div>Vlr.Custo Total: {resultFi.toFixed(2).replace('.', ',')} </div> <div>Vlr.Lucro Venda: {resultFi2.toFixed(2).replace('.', ',')} </div> <div>Vlr.Lucro Líquido: {lLiquido.toFixed(2).replace('.', ',')} </div> <div>% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',') } </div>    
-                        <div>% Markup: {((resultFi1 - resultFi)/resultFi * 100).toFixed(2).replace('.', ',') } </div>
+                        <div>Méd.Itens/Cup: {MedItensCup.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total NF-e: {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Total NFC-e: {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Venda Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Total Credito: {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR')} </div>
+                        <div>Vlr.Total Líquido: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Custo Total: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Venda: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Líquido: {parseFloat(lLiquido.toFixed(2)).toLocaleString('pt-BR')} </div> <div>% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',').replace('NaN', '0,00') } </div>    
+                        <div>% Markup: {((resultFi1 - resultFi)/resultFi * 100).toFixed(2).replace('.', ',').replace("NaN", "0,00") } </div>
                     </RF.LinhaTotais>
                 </>
             ) : aba === "vendedor" ? (
@@ -1558,25 +1566,25 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat.qtdVendas}</td>
 
-                                            <td>{dat.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat.vlTotalCancelamento.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat.vlTotalCancelamento.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat.vlTotalDesconto.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat.vlTotalDesconto.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat.vlTotalCredito.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat.vlTotalComissao.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat.vlTotalComissao.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{(dat.vlCustoTotal).toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat((dat.vlCustoTotal).toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{(dat.vlLucroVenda).toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat((dat.vlLucroVenda).toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{(dat.vlLucroLiquido).toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat((dat.vlLucroLiquido).toFixed(2)).toLocaleString('pt-BR')}</td>
 
                                             <td>% {(dat.plucroLiquido).toFixed(2).replace('.', ',')}</td>
 
@@ -1651,21 +1659,21 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat1.qtdVendas}</td>
 
-                                            <td>{dat1.vlTotalNfe.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat1.vlTotalNfce.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat1.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat1.vlVendaTotal.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat1.vlTotalDesconto.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat1.vlTotalDesconto.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat1.vlTotalCredito.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat1.vlTotalCredito.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat1.vlCustoTotal.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat1.vlLucroVenda.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{dat1.vlLucroLiquido.toFixed(2).replace('.', ',')}</td>
+                                            <td>{parseFloat(dat1.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR')}</td>
 
                                             <td>{dat1.plucroLiquido.toFixed(2).replace('.', ',')} %</td>
 
@@ -1713,7 +1721,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> {f5.toFixed(2).replace('.', ',')} </td>
+                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
 
                                                 );
                                             })}
@@ -1725,16 +1733,16 @@ export const ResumoFaturamento = () => {
                     </RF.DataGeral>
 
                     <RF.LinhaTotais>
-                        <div>Boleto: {resultTpPg5.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
-                        <div>Dinheiro: {resultTpPg.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
-                        <div>Cartão de Credito: {resultTpPg2.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
-                        <div>Cartão de Debito: {resultTpPg3.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
-                        <div>Cheque: {resultTpPg4.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
-                        <div>Pix: {resultTpPg13.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
-                        <div>Cancelamento Total: {resultTpPg7.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
-                        <div>Duplicata Mercanvil: {DPMercantil.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
-                        <div>Desconto Total: {resultTpPg8.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
-                        <div>Total: {resultTpPg1.toFixed(2).replace('.', ',').replace('NaN', '0,00')}</div>
+                        <div>Boleto: {parseFloat(resultTpPg5.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div>Dinheiro: {parseFloat(resultTpPg.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div>Cartão de Credito: {parseFloat(resultTpPg2.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div>Cartão de Debito: {parseFloat(resultTpPg3.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div>Cheque: {parseFloat(resultTpPg4.toFixed(2).replace('.', ',').replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div>Pix: {parseFloat(resultTpPg13.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div>Cancelamento Total: {parseFloat(resultTpPg7.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div>Duplicata Mercanvil: {parseFloat(DPMercantil.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div>Desconto Total: {parseFloat(resultTpPg8.toFixed(2).replace('NaN', '0,00'))}</div>
+                        <div>Total: {parseFloat(resultTpPg1.toFixed(2).replace('.', ',').replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
                     </RF.LinhaTotais>
                 </>
             ) : aba === "produto" ? (
@@ -1798,17 +1806,17 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat2.qtd_total} </td>
 
-                                                <td> {dat2.sub_total.toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat2.sub_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {(dat2.p_desconto).toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat((dat2.p_desconto).toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {dat2.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat2.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {dat2.vlr_venda_total.toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat2.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {dat2.vlr_custo_total.toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat2.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {dat2.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat2.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
                                                 <td> % {dat2.p_markup.toFixed(2).replace('.', ',')} </td>
 
@@ -1885,17 +1893,17 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat3.qtd_total.toFixed(3).replace('.', ',')} </td>
 
-                                                <td> {dat3.sub_total.toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat3.sub_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {dat3.p_desconto.toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat3.p_desconto.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {dat3.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat3.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {dat3.vlr_venda_total.toFixed(2).replace('.', ',')}</td>
+                                                <td> {parseFloat(dat3.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                <td> {dat3.vlr_custo_total.toFixed(2).replace('.', ',')}</td>
+                                                <td> {parseFloat(dat3.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                <td> {dat3.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat3.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
                                                 <td> {dat3.p_markup.toFixed(2).replace('.', ',')} </td>
 
@@ -1972,17 +1980,17 @@ export const ResumoFaturamento = () => {
                                             <td> {dat.qtd_total} </td>
 
 
-                                            <td> {dat.sub_total.toFixed(2).replace('.', ',')} </td>
+                                            <td> {parseFloat(dat.sub_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                            <td> {(dat.p_desconto).toFixed(3).replace('.', ',')} </td>
+                                            <td> {parseFloat((dat.p_desconto).toFixed(3)).toLocaleString('pt-BR')} </td>
 
-                                            <td> {dat.vlr_desconto_total.toFixed(2).replace('.', ',')} </td>
+                                            <td> {parseFloat(dat.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                            <td> {dat.vlr_venda_total.toFixed(2).replace('.', ',')} </td>
+                                            <td> {parseFloat(dat.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                            <td> {dat.vlr_custo_total.toFixed(2).replace('.', ',')} </td>
+                                            <td> {parseFloat(dat.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                            <td> {dat.vlr_lucro_total.toFixed(2).replace('.', ',')} </td>
+                                            <td> {parseFloat(dat.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
                                             <td> {dat.p_markup.toFixed(2).replace('.', ',')} </td>
 
@@ -2033,9 +2041,9 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className='grafico'> <Chart chartType="ColumnChart" width="300px" height="200px" data={dataRegiao} options={options} /></div>
-                        <div className='grafico'><Chart chartType="Bar" width="300px" height="200px" data={dataRe0} options={optionsRe0} /></div>
-                        <div className='grafico'> <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="300px" height="200px" /></div>
+                        <div className='grafico'> <Chart chartType="ColumnChart" width="95%" height="95%" data={dataRegiao} options={options} /></div>
+                        <div className='grafico'><Chart chartType="Bar" width="95%" height="95%" data={dataRe0} options={optionsRe0} /></div>
+                        <div className='grafico'> <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="95%" height="95%" /></div>
                     </RF.Dashboard>
 
                     <RF.Dashboard0>
@@ -2084,13 +2092,13 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard className='dashboard' >
-                        <div className='grafico' > <Chart chartType="ColumnChart" width="300px" height="200px" data={dataFilial} /> </div>
+                        <div className='grafico' > <Chart chartType="ColumnChart" width="95%" height="95%" data={dataFilial} /> </div>
                         <div className='graficoLongo' > <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} /> </div>
-                        <div className='grafico' > <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="300px" height="200px" /> </div>
+                        <div className='grafico' > <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="95%" height="95%" /> </div>
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <div className='grafico'> <Chart chartType="Bar" width="300px" height="200px" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" /> </div>
+                        <div className='grafico'> <Chart chartType="Bar" width="95%" height="95%" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" /> </div>
                     </RF.Dashboard>
 
                     <Modal isOpen={graficosCadaFilial} onRequestClose={() => setGraficosCadaFilial(false)} className='dashboardCadaFilial' overlayClassName='none'>
@@ -2189,9 +2197,9 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className='grafico' > <Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor} /> </div>
-                        <div className="grafico"><Chart chartType="ColumnChart" width="300px" height="200px" data={datVendedor0} /></div>
-                        <div className="grafico"><Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="300px" height="200px" /></div>
+                        <div className='grafico' > <Chart chartType="ColumnChart" width="100%" height="95%" data={datVendedor} /> </div>
+                        <div className="grafico"><Chart chartType="ColumnChart" width="100%" height="95%" data={datVendedor0} /></div>
+                        <div className="grafico"><Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="100%" height="95%" /></div>
                     </RF.Dashboard>
 
                 </div>
@@ -2245,9 +2253,9 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard >
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataCliente} /></div>
+                        <div className="grafico" ><Chart chartType="ColumnChart" width="100%" height="95%" data={dataCliente} /></div>
                         <div className="grafico"><Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} /></div>
-                        <div className="grafico"><Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"300px"} height={"200px"} /></div>
+                        <div className="grafico"><Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"100%"} height={"95%"} /></div>
                     </RF.Dashboard>
 
                     <Modal isOpen={dashboardDezCliente} onRequestClose={closeDashboardDezCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
@@ -2374,9 +2382,9 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataTpPg} /> </div>
+                        <div className="grafico" ><Chart chartType="ColumnChart" width="100%" height="95%" data={dataTpPg} /> </div>
                         <div className="graficoLongo" ><Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} /> </div>
-                        <div className="grafico" ><Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="300px" height="200px" /> </div>
+                        <div className="grafico" ><Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="100%" height="95%" /> </div>
                     </RF.Dashboard>
 
                 </div>
@@ -2421,8 +2429,8 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataProd} /></div>
-                        <div className="grafico" ><Chart chartType="PieChart" data={dataProd} options={optionsProd} width="300px" height="200px" /></div>
+                        <div className="grafico" ><Chart chartType="ColumnChart" width="100%" height="95%" data={dataProd} /></div>
+                        <div className="grafico" ><Chart chartType="PieChart" data={dataProd} options={optionsProd} width="100%" height="95%" /></div>
                         <div className="grafico" ><Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} /></div>
                     </RF.Dashboard>
 
@@ -2621,10 +2629,11 @@ export const ResumoFaturamento = () => {
 
                     </div>
 
-                    <RF.Dashboard0>
-                        <div className="grafico"><Chart chartType="ColumnChart" width="300px" height="200px" data={dataFor} /> </div>
+                    <RF.Dashboard>
+                        <div className="grafico"><Chart chartType="ColumnChart" width="100%" height="95%" data={dataFor} /> </div>
                         <div className="grafico"><Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} /> </div>
-                    </RF.Dashboard0>
+                        <div className="grafico"><Chart chartType="ColumnChart" width="100%" height="95%" data={dataFor3} /></div>
+                    </RF.Dashboard>
 
                     <RF.Dashboard>
 
@@ -2730,7 +2739,7 @@ export const ResumoFaturamento = () => {
                     <RF.Dashboard>
                         <div className="grafico" ><Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} /></div>
                         <div className="graficoLongo" ><Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} /></div>
-                        <div className="grafico" ><Chart chartType="PieChart" data={dataNfs} options={options2} width="300px" height="200px" /></div>
+                        <div className="grafico" ><Chart chartType="PieChart" data={dataNfs} options={options2} width="100%" height="95%" /></div>
                     </RF.Dashboard>
 
                     <RF.Dashboard>

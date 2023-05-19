@@ -258,6 +258,12 @@ justify-content: space-between;
         margin: 10px;
     }
 }
+@media(min-width: 1500px){
+    .grafico{
+        width: 32%;
+        height: 310px;    
+    }
+}
 `
 export const DashboardMenor = styled.div`
 height: 45%;
@@ -276,7 +282,11 @@ margin: 50px;
     align-items: center;
 }
 @media(max-width: 420px){
+    h2{
+        width: 230px;
+    }
     width: 250px;
+    margin: 20px;
     .graficosReduzidos{
         display: grid;
     }
@@ -305,6 +315,12 @@ justify-content: center;
         width: 200px;
     }
 }
+@media(min-width: 1500px){
+    .grafico{
+        width: 45%;
+        height: 310px;
+    }
+}
 `
 export const LinhaTotais = styled.div`
 overflow: auto;
@@ -323,5 +339,11 @@ div{
     margin: 2px;
     border-style: solid;
     border-width: 1px;
+}
+
+@media(min-width: 1500px){
+    div{
+        font-size: 16px;
+    }
 }
 `
