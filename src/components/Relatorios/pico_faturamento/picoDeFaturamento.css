@@ -32,3 +32,12 @@
     cursor: pointer;
     width: 45px;
 }
+
+.buttons-config{
+    width: 117px;
+    height: 33px;
+}
+
+.search-button-content{
+    margin-left: 70%;
+}

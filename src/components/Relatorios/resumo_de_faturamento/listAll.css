@@ -856,3 +856,9 @@ span {
         width: 230px;
     }
 }
+@media(min-width: 1500px){
+    .graficoLongo{
+        width: 48%;
+        height: 310px;
+    }
+}

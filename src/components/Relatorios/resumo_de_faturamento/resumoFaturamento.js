@@ -258,6 +258,12 @@ justify-content: space-between;
         margin: 10px;
     }
 }
+@media(min-width: 1500px){
+    .grafico{
+        width: 32%;
+        height: 310px;    
+    }
+}
 `
 export const DashboardMenor = styled.div`
 height: 45%;
@@ -309,6 +315,12 @@ justify-content: center;
         width: 200px;
     }
 }
+@media(min-width: 1500px){
+    .grafico{
+        width: 45%;
+        height: 310px;
+    }
+}
 `
 export const LinhaTotais = styled.div`
 overflow: auto;
@@ -327,5 +339,11 @@ div{
     margin: 2px;
     border-style: solid;
     border-width: 1px;
+}
+
+@media(min-width: 1500px){
+    div{
+        font-size: 16px;
+    }
 }
 `

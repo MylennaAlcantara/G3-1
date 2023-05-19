@@ -47,8 +47,8 @@ export const PicoDeFaturamento = () => {
             <LB.Filtros>
                 <div className="filial-top-content" >
                     <div className="buttons-filial-top">
-                        <button className="button-filial" >Filial</button>
-                        <button className="button-top" >Tops</button>
+                        <button className="button-filial" onClick={() => setAbaFilial(true)} >Filial</button>
+                        <button className="button-top" onClick={() => setAbaFilial(false)} >Tops</button>
                     </div>
                     <LB.FilialTop>
                         {abaFilial ? (
@@ -79,7 +79,25 @@ export const PicoDeFaturamento = () => {
 
                             </div>
                         ) : (
-                            <div>Ok</div>
+                            <div className='filial-top'>
+                                <div>
+                                    <input placeholder="Buscar..." />
+                                    <img src="./images/LUPA.png" />
+                                </div>
+
+                                <div className="table-responsive">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Descrição</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                            </div>
+
                         )}
 
                     </LB.FilialTop>
@@ -96,12 +114,25 @@ export const PicoDeFaturamento = () => {
                             <label>Data Final</label>
                             <input type="date" onChange={GetDataFin} />
                         </div>
+                    </div>
+                    
+                    <div className="checkbox-content" >
+                        <input type="checkbox" /><label>NF-e</label>
+                        <input type="checkbox" /><label>NFC-e</label>
+                    </div>
 
+                    <div className="search-button-content" >
+                        <button className="buttons-config" >Pesquisar</button>
                     </div>
                 </LB.Data>
 
             </LB.Filtros>
 
+            <C.Footer>
+                <div className="buttons" >
+                    <button onClick={() => navigate('/home')}> <img src='/images/voltar.png' />Voltar</button>
+                </div>
+            </C.Footer>
 
         </C.Container>
     );
