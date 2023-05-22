@@ -1,0 +1,28 @@
+.top-content{
+    display: flex;
+    flex-direction: row;
+    margin: 25px;
+    justify-content: space-between;
+}
+
+.caixas-content{
+    display: flex;
+    flex-direction: row;
+}
+
+.data-content{
+    display: flex;
+}
+
+.caixa-select{
+    width: 100px;
+}
+
+.p-text{
+    font-weight: bold;
+    margin-top: 4px;
+}
+
+.total-content{
+    display: flex;
+}

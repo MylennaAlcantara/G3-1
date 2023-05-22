@@ -1979,7 +1979,6 @@ export const ResumoFaturamento = () => {
 
                                             <td> {dat.qtd_total} </td>
 
-
                                             <td> {parseFloat(dat.sub_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
                                             <td> {parseFloat((dat.p_desconto).toFixed(3)).toLocaleString('pt-BR')} </td>
@@ -2438,7 +2437,7 @@ export const ResumoFaturamento = () => {
 
                         <div className='graficos10' >
                             <button className='btnDetalhes' onClick={openDashboardProdutosDetalhados}><img className='close' src='images/itens.png' /> Individuais </button>
-                            <Chart chartType="Bar" width="100%" height="35vw" data={dataProd0} options={optionsProd0} className='grafico' />
+                            <Chart chartType="Bar" width="100%" height="600px" data={dataProd0} options={optionsProd0} className='grafico' />
                         </div>
 
                     </RF.Dashboard>
@@ -2534,7 +2533,7 @@ export const ResumoFaturamento = () => {
 
                         <div className='graficos10' >
                             <button className='btnDetalhes' onClick={openDashboardGrupoDetalhado}><img className='close' src='images/itens.png' /> Individuais </button>
-                            <Chart chartType="Bar" width="100%" height="35vw" data={dataGru0} options={optionsGru0} />
+                            <Chart chartType="Bar" width="100%" height="600px" data={dataGru0} options={optionsGru0} />
                         </div>
 
                     </RF.Dashboard>
@@ -2689,7 +2688,7 @@ export const ResumoFaturamento = () => {
                         };
 
                         return (
-                            <RF.DashboardMenor>
+                            <RF.Dashboard0>
                                 <h2>{forn.fornecedor}</h2>
 
                                 <div className='graficosReduzidos'>
@@ -2697,7 +2696,7 @@ export const ResumoFaturamento = () => {
                                     <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard1} /></div>
                                     <div className="graficoA" ><Chart chartType="BarChart" data={dashboard2} options={barOptions} /></div>
                                 </div>
-                            </RF.DashboardMenor>
+                            </RF.Dashboard0>
                         )
 
                     })}
