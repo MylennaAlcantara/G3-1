@@ -13,11 +13,17 @@ export const ConsultarCliente = ({setCliente}) => {
     const navigate = useNavigate();
     const {user, empresa, nivel, cnpjMask, dataMask, cepMask} = useContext(AuthContext);
 
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
+
     useEffect(() => {
         async function fetchData (){
             const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes");
             const data = await response.json();
             setUsers(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
             fetchData();
             document.getElementById('search').focus();
@@ -130,8 +136,31 @@ export const ConsultarCliente = ({setCliente}) => {
                 </div>                    
             </M.Filtro>
             <CCL.Lista>
-                {users.length == 0 ? (
+                {users.length == 0  && carregado === false ? (
                     <Loading/>
+                ) : users.length === 0 && carregado ? (
+                    <div className="table-responsive">
+                        <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Data Cadastro</th>
+                                    <th>Razão Social</th>
+                                    <th>Nome Fantasia</th>
+                                    <th>Documento</th>
+                                    <th>Endereço</th>
+                                    <th>CEP</th>
+                                    <th>Município</th>
+                                    <th>Telefone</th>
+                                    <th>Celular</th>
+                                    <th>Vendedor</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                                Não Existem dados a serem exibidos!
+                        </div>
+                    </div>
                 ) : (
                     <div className="table-responsive">
                         <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>

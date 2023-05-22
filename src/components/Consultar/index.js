@@ -9,12 +9,18 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
     const {autenticar, user, empresa, filiais, nivel, cnpjMask, dataMask} = useContext(AuthContext);
+    
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
 
     useEffect(()=>{
         async function fetchData(){
             const response = await fetch('http://8b38091fc43d.sn.mynetname.net:2004/preVenda/ofMonth'); // api POST e PUT -> http://10.0.1.10:8091/preVenda  minha Api fake ->  http://localhost:5000/rotinas
             const data = await response.json();
             setRotinas(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
         fetchData();
         autenticar();
@@ -225,9 +231,28 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
                     <div className="line"/>
             </C.Filtro>
             <C.Rotinas>
-                {rotinas.length === 0 ? (
+                {rotinas.length === 0 && carregado === false ? (
                     <div style={{width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
                         <Loading style={{margin: "auto"}}/>
+                    </div>
+                ) : rotinas.length === 0 && carregado ? (
+                    <div className="table-responsive">
+                        <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Data Venda</th>
+                                    <th>Empresa</th>
+                                    <th>Cliente</th>
+                                    <th>Situação</th>
+                                    <th>Valor</th>
+                                    <th>TOP</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                            Não Existem dados a serem exibidos!
+                        </div>
                     </div>
                 ) : (
                     <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>

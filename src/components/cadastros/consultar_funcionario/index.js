@@ -14,11 +14,17 @@ export const ConsultarFuncionario = () => {
     const [busca, setBusca] = useState('');
     const {user, empresa, nivel, cnpjMask} = useContext(AuthContext);
 
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
+
     useEffect(() => {
         async function fetchData (){
             const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/all");
             const data = await response.json();
             setUsers(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
         async function fetchDataEmpresas (){
             const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
@@ -199,6 +205,21 @@ export const ConsultarFuncionario = () => {
             <CCL.Lista>
                 {users.length === 0 ? (
                     <Loading/>
+                ) : users.length === 0 && carregado ? (
+                    <div className="table-responsive">
+                        <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nome</th>
+                                    <th>Fone</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                            Não Existem dados a serem exibidos!
+                        </div>
+                    </div>
                 ) : (
                     <div className="table-responsive">
                         <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0} style={{margin: "0"}}>
