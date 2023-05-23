@@ -30,7 +30,14 @@ export const VendasCaixa = ()=> {
                     </div>
 
                     <div className="total-content" >
-                        <h1>TOTAL :</h1>
+                        <h1 className="total-text" >TOTAL :</h1>
+                    </div>
+
+                    <div className="total-caixa-content" >
+                        <p>TOTAL POR CAIXA:</p>
+                        <p>Caixa0001:</p>
+                        <p>Caixa0002:</p>
+                        <p>Caixa0003:</p>
                     </div>
 
             </C.Container>

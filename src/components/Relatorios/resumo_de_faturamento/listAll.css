@@ -45,6 +45,12 @@ button:hover {
     display: flex;
     flex-direction: column;
     width: 100%;
+
+}
+
+.justSize{
+    width: 1150px;
+    height: 300px
 }
 
 .close {
@@ -857,6 +863,11 @@ span {
     }
     .graficoA{
         width: 230px;
+    }
+    .graficos10{
+        margin-left: 10px;
+        width: 96%;
+        overflow-x: auto;
     }
 }
 @media(min-width: 1500px){

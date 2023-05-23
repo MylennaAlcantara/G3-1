@@ -24,5 +24,32 @@
 }
 
 .total-content{
+    align-items: center;
     display: flex;
+    background-color: #064a8b;
+    border-style: solid;
+    border-color: #00a5dd;
+    width: 25%;
+    height: 12vh;
+    border-width: 2px;
+    margin-left: 10px;
+    border-radius: 8px;
+    color: white;
+}
+
+.total-text{
+    margin-left: 3px;
+}
+
+.total-caixa-content{
+    font-size: 23px;
+    background-color: #00a5dd;
+    width: 25%;
+    margin-top: 5px;
+    margin-left: 10px;
+    border-style: solid;
+    border-color: #064a8b;
+    border-radius: 8px;
+    border-width: 2px;
+    color: white;
 }
