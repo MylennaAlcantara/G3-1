@@ -22,6 +22,7 @@ button:hover {
 
 .textFilial {
     background-color: #ffffff;
+    font-size: 15px;
 }
 
 .filialBTN {
@@ -44,6 +45,12 @@ button:hover {
     display: flex;
     flex-direction: column;
     width: 100%;
+
+}
+
+.justSize{
+    width: 1150px;
+    height: 300px
 }
 
 .close {
@@ -177,8 +184,8 @@ label {
     right: auto;
     bottom: auto;
     transform: translate(-50%, -50%);
-    width: 70%;
-    height: 75%;
+    width: 85%;
+    height: 85%;
     background-color: #A2E8D6;
 }
 
@@ -839,9 +846,11 @@ span {
     }
 
     .graficos10 {
-        width: 300px;
+        width: 350px;
+        height: 300px;
         margin: 0px;
         padding: 0px;
+        overflow-y: auto;
     }
 
     .btnDetalhes {
@@ -854,6 +863,11 @@ span {
     }
     .graficoA{
         width: 230px;
+    }
+    .graficos10{
+        margin-left: 10px;
+        width: 96%;
+        overflow-x: auto;
     }
 }
 @media(min-width: 1500px){
