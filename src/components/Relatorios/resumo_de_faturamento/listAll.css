@@ -171,8 +171,8 @@ label {
     right: auto;
     bottom: auto;
     transform: translate(-50%, -50%);
-    width: 70%;
-    height: 75%;
+    width: 85%;
+    height: 86%;
     background-color: #1e81b0;
 }
 
@@ -868,6 +868,9 @@ span {
         margin-left: 10px;
         width: 96%;
         overflow-x: auto;
+    }
+    .graficoLongo{
+        width: 85%;   
     }
 }
 @media(min-width: 1500px){

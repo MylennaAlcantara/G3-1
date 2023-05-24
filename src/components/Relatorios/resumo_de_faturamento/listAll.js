@@ -2293,7 +2293,7 @@ export const ResumoFaturamento = () => {
 
                         })}
                     </Modal>
-
+ 
                 </div>
 
                 <RF.Dashboard>
@@ -2406,23 +2406,23 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts'>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {resultProd.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {parseFloat(resultProd.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {resultProd1.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {parseFloat(resultProd1.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {resultProd3.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {parseFloat(resultProd3.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {resultProd2.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {parseFloat(resultProd2.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Desconto: {resultProd4.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Desconto: {parseFloat(resultProd4.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                     </div>
@@ -2506,19 +2506,19 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts' >
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultGru.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(resultGru.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {resultGru1.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {parseFloat(resultGru1.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {resultGru2.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {parseFloat(resultGru2.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {resultGru3.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {parseFloat(resultGru3.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                     </div>
@@ -2607,23 +2607,23 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {resultFor.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(resultFor.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {resultFor1.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {parseFloat(resultFor1.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {resultFor2.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {parseFloat(resultFor2.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {resultFor3.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {parseFloat(resultFor3.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Sub.Total: {resultFor4.toFixed(2).replace('.', ',')}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Sub.Total: {parseFloat(resultFor4.toFixed(2)).toLocaleString('pt-BR')}
                         </h2>
 
                     </div>
@@ -2718,15 +2718,15 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts'>
 
-                        <h2 className='prices' > <p className='Gtext' > Venda Total:  R$ {resultFi1.toFixed(2).replace('.', ',')} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Venda Total:  R$ {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > Lucro V.Total:  R$ {resultFi2.toFixed(2).replace('.', ',')} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Lucro V.Total:  R$ {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > Liquido Total: R$ {resultFi6.toFixed(2).replace('.', ',')} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Liquido Total: R$ {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {resultFi3.toFixed(2).replace('.', ',')} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR')} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > NFC-e Total: R$ {resultFi4.toFixed(2).replace('.', ',')} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > NFC-e Total: R$ {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR')} </p> </h2>
                     </div>
 
                     <RF.Dashboard>
