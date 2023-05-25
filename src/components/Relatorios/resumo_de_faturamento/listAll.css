@@ -835,6 +835,8 @@ span {
 
     .dashboardTexts {
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .prices {
@@ -870,7 +872,7 @@ span {
         overflow-x: auto;
     }
     .graficoLongo{
-        width: 85%;   
+        width: 300px;   
     }
 }
 @media(min-width: 1500px){

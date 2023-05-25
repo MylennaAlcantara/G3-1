@@ -1367,7 +1367,7 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{f1.idFilial}</td>
 
-                                                    <td>{f1.qtdVendas}</td>
+                                                    <td>{parseFloat(f1.qtdVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
 
                                                     <td>{parseFloat(f1.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
 
@@ -1381,9 +1381,9 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{parseFloat(f1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f1.margem.toFixed(3).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f1.margem.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f1.markup.toFixed(3).replace('.', ',')}</td>
+                                                    <td>{parseFloat(f1.markup.toFixed(2)).toLocaleString('pt-BR')}</td>
                                                 </tr>
                                             );
                                         })}
@@ -1458,7 +1458,7 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{f2.filial}</td>
 
-                                                    <td>{f2.qtdVendas}</td>
+                                                    <td>{parseFloat(f2.qtdVendas).toLocaleString('pt-BR')}</td>
 
                                                     <td>{parseFloat(f2.qtdItens).toLocaleString}</td>
 
@@ -1482,9 +1482,9 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{parseFloat(f2.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{f2.margem.toFixed(2).replace('.', ',')} %</td>
+                                                    <td>{parseFloat(f2.margem.toFixed(2)).toLocaleString('pt-BR')} %</td>
 
-                                                    <td>{(f2.percentual).toFixed(2).replace('.', ',')} %</td>
+                                                    <td>{parseFloat(f2.percentual.toFixed(2)).toLocaleString('pt-BR')} %</td>
                                                 </tr>
                                             );
                                         })}
@@ -1564,7 +1564,7 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat.vendedor}</td>
 
-                                            <td>{dat.qtdVendas}</td>
+                                            <td>{parseFloat(dat.qtdVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
 
                                             <td>{parseFloat(dat.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR')}</td>
 
@@ -1657,7 +1657,7 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat1.cliente}</td>
 
-                                            <td>{dat1.qtdVendas}</td>
+                                            <td>{parseFloat(dat1.qtdVendas).toLocaleString('pt-BR')}</td>
 
                                             <td>{parseFloat(dat1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR')}</td>
 
@@ -1804,7 +1804,7 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat2.produto} </td>
 
-                                                <td> {dat2.qtd_total} </td>
+                                                <td> {parseFloat(dat2.qtd_total).toLocaleString('pt-BR')} </td>
 
                                                 <td> {parseFloat(dat2.sub_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
@@ -1905,11 +1905,11 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {parseFloat(dat3.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {dat3.p_markup.toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat3.p_markup.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {dat3.p_margem.toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat3.p_margem.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {(dat3.percentual).toFixed(2).replace('.', ',')} </td>
+                                                <td> {parseFloat(dat3.percentual.toFixed(2)).toLocaleString('pt-BR')} </td>
                                             </tr>
 
                                         );
@@ -1977,7 +1977,7 @@ export const ResumoFaturamento = () => {
 
                                             <td> {dat.fornecedor} </td>
 
-                                            <td> {dat.qtd_total} </td>
+                                            <td> {parseFloat(dat.qtd_total).toLocaleString('pt-BR')} </td>
 
                                             <td> {parseFloat(dat.sub_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 

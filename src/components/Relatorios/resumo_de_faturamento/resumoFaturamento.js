@@ -134,6 +134,9 @@ export const Data = styled.div`
         width: 97%;
         margin-left: 0px;
         height: 23vh;
+        .data{
+            overflow-x: auto;
+        }
     }
 `
 export const Navigacao = styled.div`
@@ -310,9 +313,11 @@ justify-content: center;
     border-width: 1px;
 }
 @media(max-width: 420px){
+    justify-content: center;
+    align-items: center;
     display: grid;
     .grafico{
-        width: 200px;
+        width: 300px;
     }
 }
 @media(min-width: 1500px){
