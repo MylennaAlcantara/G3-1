@@ -741,7 +741,7 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
                     onFocus={changeHandler}
                     value={String(descontoValor).replace('.',',').replace('NaN','')}/>
                 </div>
-                <div>
+                <div className="desconto">
                 <label>Total item: </label>
                 <input 
                     type="text" 
@@ -773,7 +773,7 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
             </form>
             </C.Add>
             <C.Display>
-                <div className="table-resp">
+                <div className="table-responsive">
                     <table className="table" >
                         <thead>
                             <tr>

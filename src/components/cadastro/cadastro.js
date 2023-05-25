@@ -239,7 +239,7 @@ export const Info = styled.div`
                 border: none;
                 background-color: #D9D9D9;
                 box-shadow: 0 3px 5px gray;
-                width: 120px;
+                width: 50%;
             }
             div{
                 width: 100%;
@@ -258,12 +258,12 @@ export const Info = styled.div`
                 background-color: #D9D9D9;
                 box-shadow: 0 3px 5px gray;
             }
-        }
-        .f1{
-            width: 60px;
-        }  
-        .option{
-            width: 50%;
+            .f1{
+                width: 60px;
+            }  
+            .option{
+                width: 50%;
+            }
         }
     }
     @media (max-width: 1920px){
@@ -354,13 +354,14 @@ export const Add = styled.div`
         }
         div{
             width: 40vw;
-            justify-content: space-between;
+            justify-content: end;
         }
         .desconto{
             display: flex;
             width: 85%;
         }        
         button{
+            margin-top: 5px;;
             width: 117px;
             height: 33px;
             display: flex;
@@ -390,7 +391,7 @@ export const Display = styled.div`
     }
     .table-responsive{
         overflow-x: auto;
-        height: 75%;
+        height: 100%;
         width: 100%;
     }
     th{    
@@ -507,6 +508,11 @@ export const Footer = styled.div`
         height: auto;
         form{
             margin: 0 25px;
+            div{
+                display: flex;
+                justify-content: space-between;
+                width: 90%;
+            }
         }
     }
 `
