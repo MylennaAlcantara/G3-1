@@ -377,6 +377,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                     </table>
                 </C.ListItens>
                 )}
+                {/*
                 <C.Valores>
                     <C.Preço>
                         <div>
@@ -461,11 +462,13 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                         <input className="estoque-tot" value={parseFloat(infoItem.qtd_estoque) - parseFloat(infoItem.qtd_estoque_reservado)} readOnly/>
                     </C.Estoque>
                 </C.Valores>
+                */}
                 <C.Footer>
                     <div>
                         <label> 0 - GRUPO DE ICMS </label>
                         <label> {infoItem.id_regra_icms} - REGRA DE ICMS </label>
                     </div>
+                    <div style={{margin: "auto"}}><label> A quantidade estoque exibida é a quantidade total de todas as filiais!</label></div>
                 </C.Footer>
             </C.ContainerProdutos>
             

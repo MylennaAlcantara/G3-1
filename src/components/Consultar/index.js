@@ -164,6 +164,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
         const responseEmitente = await fetch('http://8b38091fc43d.sn.mynetname.net:2005/emitente/all'); 
         const Emitente = await responseEmitente.json();
         rotinaPDF(rotina, vendedor, parceiro, tipoPagamento, Emitente, horaImpressao);
+        console.log(rotina);
     }
     const Fechar = () => {
 
@@ -282,7 +283,7 @@ export const Consultar = ( {setCodigo, setDataEmissao, setHoraEmissao} ) => {
                                             <td>{item.id_empresa}</td>
                                             <td>{item.nome_cliente}</td>
                                             <td>{item.situacao}</td>
-                                            <td>{parseFloat(item.total).toFixed(2).replace('.',',')}</td>
+                                            <td>{(item.total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</td>
                                             <td>{item.id_top}</td>
                                     </tr> 
                                 )

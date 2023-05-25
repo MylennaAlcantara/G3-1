@@ -12,16 +12,16 @@ export const Container = styled.div`
     ;
 
     @media (max-width: 1146px) {
-        width: 100vw;
+        width: 100%;
         height: 100vh;
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 50% 50%;
+        grid-template-rows: 50vh 50vh;
         grid-template-areas:
           "acessar"
           "image"
         ;
-      }
+    }
 
 `
 export const Image = styled.div`
@@ -66,13 +66,25 @@ export const Image = styled.div`
     @media(max-width: 1146px){
         width: 100%;
         height: 100%;
+        grid-area: image;
         .slideShow{
-            height: 80%;
-            width: 40%;
+            height: 100%;
+            width: 80%;
+        }
+        .slideshowSlider{
+            height: auto;
         }
         .slide{
             width: 100%;
-            height: 200px;
+            height: 300px;
+        }
+        .slideshowDots{
+            display: flex;
+            align-items: start;
+            justify-content: center;
+        }
+        .slideshowDot{
+            margin: 0 3px;
         }
     }
 `
@@ -153,8 +165,9 @@ export const Acessar = styled.div`
         margin-top: 25px;
         align-items: center;
         justify-content: start;
+        grid-area: acessar;
         .login{
-            width: 50%;
+            width: 80%;
         }
         .auth{
             label{
