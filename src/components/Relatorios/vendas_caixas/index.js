@@ -1,9 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import * as C from "../../Consultar/consultar";
 import * as M from "../../modais/modal/modal";
 import './vendas.css'
 
 export const VendasCaixa = ()=> {
+
+    const [caixa,setCaixa] = useState([])
+    const [total, setTotal] = useState()
+
+    useEffect(() => {
+        async function getCaixas (){
+            const res = await fetch('http://8b38091fc43d.sn.mynetname.net:2006/caixas')
+            const data = await res.json();
+            setCaixa(data)
+        }
+        getCaixas();
+    }, []);
+
+    useEffect(() => {
+        async function getTotal (){
+            const res = await fetch('http://8b38091fc43d.sn.mynetname.net:2006/totalVendas')
+            const data = await res.json();
+            setTotal(data)
+        }
+        getTotal();
+    });
+
+    useEffect(() => {
+        async function getTotal (){
+            const res = await fetch('http://8b38091fc43d.sn.mynetname.net:2006/totalVendas')
+            const data = await res.json();
+            setTotal(data)
+        }
+        getTotal();
+    });
+
+    console.log(total)
+
+    console.log(caixa)
+
     return(
         <M.Modal>
             <C.Container>
@@ -16,9 +51,12 @@ export const VendasCaixa = ()=> {
                         <div className="caixas-content" >
                             <p className="p-text" >Caixas: </p>
                             <select className="caixa-select" >
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
+                                <option></option>
+                                {caixa.map((data) => {
+                                    return(
+                                        <option>{data.nome}</option>
+                                    )
+                                } )}
                             </select> 
                         </div>
 
@@ -30,14 +68,25 @@ export const VendasCaixa = ()=> {
                     </div>
 
                     <div className="total-content" >
-                        <h1 className="total-text" >TOTAL :</h1>
+                        <h1 className="total-text" >TOTAL : {parseFloat(total).toLocaleString('pt-BR')} </h1>
                     </div>
 
                     <div className="total-caixa-content" >
                         <p>TOTAL POR CAIXA:</p>
-                        <p>Caixa0001:</p>
-                        <p>Caixa0002:</p>
-                        <p>Caixa0003:</p>
+                        {caixa.map((data) => {
+                            return(
+                                <p>{data.nome}:</p>
+                            )
+                        } )}
+                    </div>
+
+                    <div className="total-caixa-content" >
+                        <p>TOTAL POR TIPO PGTO:</p>
+                        <p>Dinheiro: </p>
+                        <p>Crédito: </p>
+                        <p>Débito: </p>
+                        <p>Alimentação: </p>
+                        <p>Pix: </p>
                     </div>
 
             </C.Container>
