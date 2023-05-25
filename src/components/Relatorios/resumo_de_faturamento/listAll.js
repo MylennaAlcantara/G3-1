@@ -237,6 +237,18 @@ export const ResumoFaturamento = () => {
 
     //console.log(dadosLeitura)
 
+
+
+
+    const [dadoNomeVend, setNomeVend] = useState(); const [dadoNomeVend1, setNomeVend1] = useState(); const [dadoNomeVend2, setNomeVend2] = useState(); const [dadoNomeVend3, setNomeVend3] = useState(); const [dadoNomeVend4, setNomeVend4] = useState(); const [dadoNomeVend5, setNomeVend5] = useState();
+    const [dadoNomeVend6, setNomeVend6] = useState(); const [dadoNomeVend7, setNomeVend7] = useState(); const [dadoNomeVend8, setNomeVend8] = useState(); const [dadoNomeVend9, setNomeVend9] = useState();
+
+    const [dadoVenVend, setVenVend] = useState(); const [dadoVenVend1, setVenVend1] = useState(); const [dadoVenVend2, setVenVend2] = useState(); const [dadoVenVend3, setVenVend3] = useState(); const [dadoVenVend4, setVenVend4] = useState(); const [dadoVenVend5, setVenVend5] = useState();
+    const [dadoVenVend6, setVenVend6] = useState(); const [dadoVenVend7, setVenVend7] = useState(); const [dadoVenVend8, setVenVend8] = useState(); const [dadoVenVend9, setVenVend9] = useState();
+
+    const [dadoLuVend, setLuVend] = useState(); const [dadoLuVend1, setLuVend1] = useState(); const [dadoLuVend2, setLuVend2] = useState(); const [dadoLuVend3, setLuVend3] = useState(); const [dadoLuVend4, setLuVend4] = useState(); const [dadoLuVend5, setLuVend5] = useState();
+    const [dadoLuVend6, setLuVend6] = useState(); const [dadoLuVend7, setLuVend7] = useState(); const [dadoLuVend8, setLuVend8] = useState(); const [dadoLuVend9, setLuVend9] = useState();
+
     async function setDataVendedor() { //Envia o JSON para a api e pega os dados de Vendedor
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorVendedor", {
             method: "POST",
@@ -246,10 +258,22 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosVendedor(data);
-            });
 
+                setNomeVend(data[0].vendedor); setVenVend(data[0].vlrVendaTotal); setLuVend(data[0].vlrLucroTotal)
+                setNomeVend1(data[1].vendedor); setVenVend1(data[1].vlrVendaTotal); setLuVend1(data[1].vlrLucroTotal)
+                setNomeVend2(data[2].vendedor); setVenVend2(data[2].vlrVendaTotal); setLuVend2(data[2].vlrLucroTotal)
+                setNomeVend3(data[3].vendedor); setVenVend3(data[3].vlrVendaTotal); setLuVend3(data[3].vlrLucroTotal)
+                setNomeVend4(data[4].vendedor); setVenVend4(data[4].vlrVendaTotal); setLuVend4(data[4].vlrLucroTotal)
+                setNomeVend5(data[5].vendedor); setVenVend5(data[5].vlrVendaTotal); setLuVend5(data[5].vlrLucroTotal)
+                setNomeVend6(data[6].vendedor); setVenVend6(data[6].vlrVendaTotal); setLuVend6(data[6].vlrLucroTotal)
+                setNomeVend7(data[7].vendedor); setVenVend7(data[7].vlrVendaTotal); setLuVend7(data[7].vlrLucroTotal)
+                setNomeVend8(data[8].vendedor); setVenVend8(data[8].vlrVendaTotal); setLuVend8(data[8].vlrLucroTotal)
+                setNomeVend9(data[9].vendedor); setVenVend9(data[9].vlrVendaTotal); setLuVend9(data[9].vlrLucroTotal)
+            });
         }
     }
+
+    console.log(dadosVendedor)
 
     const [dadoNomeProd, setNomeProd] = useState(); const [dadoNomeProd1, setNomeProd1] = useState(); const [dadoNomeProd2, setNomeProd2] = useState(); const [dadoNomeProd3, setNomeProd3] = useState(); const [dadoNomeProd4, setNomeProd4] = useState(); const [dadoNomeProd5, setNomeProd5] = useState();
     const [dadoNomeProd6, setNomeProd6] = useState(); const [dadoNomeProd7, setNomeProd7] = useState(); const [dadoNomeProd8, setNomeProd8] = useState(); const [dadoNomeProd9, setNomeProd9] = useState();
@@ -758,7 +782,7 @@ export const ResumoFaturamento = () => {
         vAxis: {
             title: "Valores",
         },
-        bars: "vertical",
+        bars: "horizontal",
         axes: {
             y: {
                 0: { side: "right" },
@@ -942,7 +966,7 @@ export const ResumoFaturamento = () => {
         vAxis: {
             title: "Valores",
         },
-        bars: "vertical",
+        bars: "horizontal",
 
         colors: ["#f6d001", "#1b7abc"],
 
@@ -1043,7 +1067,7 @@ export const ResumoFaturamento = () => {
         vAxis: {
             title: "Valores",
         },
-        bars: "vertical",
+        bars: "horizontal",
 
         //colors: [red, gray],
 
@@ -1096,8 +1120,6 @@ export const ResumoFaturamento = () => {
     const resultFor3 = dadosFornecedor.reduce((a, b) => a + b.vlr_desconto_total, 0) //Dados Totais somados de Desconto Total (Fornecedor)
     const resultFor4 = dadosFornecedor.reduce((a, b) => a + b.sub_total, 0) //Dados Totais somados de Sub.Total (Fornecedor)
 
-    console.log(dadosFornecedor)
-
     const dataFor = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Fornecedor
         ["Element", "Valor", { role: "style" }],
         ["Venda", resultFor, "#bc1b2b"],
@@ -1142,7 +1164,7 @@ export const ResumoFaturamento = () => {
         vAxis: {
             title: "Valores",
         },
-        bars: "vertical",
+        bars: "horizontal",
 
         colors: ["#bc1b2b", "#57ffe8"],
 
@@ -2688,15 +2710,15 @@ export const ResumoFaturamento = () => {
                         };
 
                         return (
-                            <RF.Dashboard0>
+                            <RF.DashboardMenor>
                                 <h2>{forn.fornecedor}</h2>
 
                                 <div className='graficosReduzidos'>
                                     <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard} /></div>
                                     <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard1} /></div>
-                                    <div className="graficoA" ><Chart chartType="BarChart" data={dashboard2} options={barOptions} /></div>
+                                    <div className="grafico" ><Chart chartType="BarChart" data={dashboard2} options={barOptions} /></div>
                                 </div>
-                            </RF.Dashboard0>
+                            </RF.DashboardMenor>
                         )
 
                     })}

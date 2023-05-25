@@ -161,12 +161,12 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
                 body: [
                     [
                         {text: 'Qtd.Total: ' + (qtdTotal) , fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Custo: ' + (Custo.toFixed(2).replace('.', ',')) , fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Venda: ' + (Venda.toFixed(2).replace('.', ',')), fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Lucro: ' + (Lucro.toFixed(2).replace('.', ',')) , fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Markup: ' + (Markup.toFixed(2).replace('.', ',')) + '%', fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Margem' + (Margem.toFixed(2).replace('.', ',')) + '%' , fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Percentual: ' + (Percentual.toFixed(2).replace('.', ',')), fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Custo: ' + parseFloat(Custo.toFixed(2)).toLocaleString('pt-BR') , fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Venda: ' + parseFloat(Venda.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Lucro: ' + parseFloat(Lucro.toFixed(2)).toLocaleString('pt-BR') , fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Markup: ' + parseFloat(Markup.toFixed(2)).toLocaleString('pt-BR') + '%', fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Margem' + parseFloat(Margem.toFixed(2)).toLocaleString('pt-BR') + '%' , fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Percentual: ' + parseFloat(Percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true},
                     ]
                 ]
             }
