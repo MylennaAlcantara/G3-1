@@ -237,17 +237,14 @@ export const ResumoFaturamento = () => {
 
     //console.log(dadosLeitura)
 
-
-
-
     const [dadoNomeVend, setNomeVend] = useState(); const [dadoNomeVend1, setNomeVend1] = useState(); const [dadoNomeVend2, setNomeVend2] = useState(); const [dadoNomeVend3, setNomeVend3] = useState(); const [dadoNomeVend4, setNomeVend4] = useState(); const [dadoNomeVend5, setNomeVend5] = useState();
-    const [dadoNomeVend6, setNomeVend6] = useState(); const [dadoNomeVend7, setNomeVend7] = useState(); const [dadoNomeVend8, setNomeVend8] = useState(); const [dadoNomeVend9, setNomeVend9] = useState();
+    const [dadoNomeVend6, setNomeVend6] = useState(); const [dadoNomeVend7, setNomeVend7] = useState(); const [dadoNomeVend8, setNomeVend8] = useState(); const [dadoNomeVend9, setNomeVend9] = useState('Vazio');
 
-    const [dadoVenVend, setVenVend] = useState(); const [dadoVenVend1, setVenVend1] = useState(); const [dadoVenVend2, setVenVend2] = useState(); const [dadoVenVend3, setVenVend3] = useState(); const [dadoVenVend4, setVenVend4] = useState(); const [dadoVenVend5, setVenVend5] = useState();
-    const [dadoVenVend6, setVenVend6] = useState(); const [dadoVenVend7, setVenVend7] = useState(); const [dadoVenVend8, setVenVend8] = useState(); const [dadoVenVend9, setVenVend9] = useState();
+    const [dadoVenVend, setVenVend] = useState(0); const [dadoVenVend1, setVenVend1] = useState(0); const [dadoVenVend2, setVenVend2] = useState(0); const [dadoVenVend3, setVenVend3] = useState(0); const [dadoVenVend4, setVenVend4] = useState(0); const [dadoVenVend5, setVenVend5] = useState(0);
+    const [dadoVenVend6, setVenVend6] = useState(0); const [dadoVenVend7, setVenVend7] = useState(0); const [dadoVenVend8, setVenVend8] = useState(0); const [dadoVenVend9, setVenVend9] = useState(0);
 
-    const [dadoLuVend, setLuVend] = useState(); const [dadoLuVend1, setLuVend1] = useState(); const [dadoLuVend2, setLuVend2] = useState(); const [dadoLuVend3, setLuVend3] = useState(); const [dadoLuVend4, setLuVend4] = useState(); const [dadoLuVend5, setLuVend5] = useState();
-    const [dadoLuVend6, setLuVend6] = useState(); const [dadoLuVend7, setLuVend7] = useState(); const [dadoLuVend8, setLuVend8] = useState(); const [dadoLuVend9, setLuVend9] = useState();
+    const [dadoLuVend, setLuVend] = useState(0); const [dadoLuVend1, setLuVend1] = useState(0); const [dadoLuVend2, setLuVend2] = useState(0); const [dadoLuVend3, setLuVend3] = useState(0); const [dadoLuVend4, setLuVend4] = useState(0); const [dadoLuVend5, setLuVend5] = useState(0);
+    const [dadoLuVend6, setLuVend6] = useState(0); const [dadoLuVend7, setLuVend7] = useState(0); const [dadoLuVend8, setLuVend8] = useState(0); const [dadoLuVend9, setLuVend9] = useState(0);
 
     async function setDataVendedor() { //Envia o JSON para a api e pega os dados de Vendedor
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorVendedor", {
@@ -259,21 +256,22 @@ export const ResumoFaturamento = () => {
             res.json().then(data => {
                 setDadosVendedor(data);
 
-                setNomeVend(data[0].vendedor); setVenVend(data[0].vlrVendaTotal); setLuVend(data[0].vlrLucroTotal)
-                setNomeVend1(data[1].vendedor); setVenVend1(data[1].vlrVendaTotal); setLuVend1(data[1].vlrLucroTotal)
-                setNomeVend2(data[2].vendedor); setVenVend2(data[2].vlrVendaTotal); setLuVend2(data[2].vlrLucroTotal)
-                setNomeVend3(data[3].vendedor); setVenVend3(data[3].vlrVendaTotal); setLuVend3(data[3].vlrLucroTotal)
-                setNomeVend4(data[4].vendedor); setVenVend4(data[4].vlrVendaTotal); setLuVend4(data[4].vlrLucroTotal)
-                setNomeVend5(data[5].vendedor); setVenVend5(data[5].vlrVendaTotal); setLuVend5(data[5].vlrLucroTotal)
-                setNomeVend6(data[6].vendedor); setVenVend6(data[6].vlrVendaTotal); setLuVend6(data[6].vlrLucroTotal)
-                setNomeVend7(data[7].vendedor); setVenVend7(data[7].vlrVendaTotal); setLuVend7(data[7].vlrLucroTotal)
-                setNomeVend8(data[8].vendedor); setVenVend8(data[8].vlrVendaTotal); setLuVend8(data[8].vlrLucroTotal)
-                setNomeVend9(data[9].vendedor); setVenVend9(data[9].vlrVendaTotal); setLuVend9(data[9].vlrLucroTotal)
+                setNomeVend(data[0].vendedor.replace('undefined', 'Vazio')); setVenVend(data[0].vlVendaTotal); setLuVend(data[0].vlLucroTotal)
+                setNomeVend1(data[1].vendedor.replace('undefined', 'Vazio')); setVenVend1(data[1].vlVendaTotal); setLuVend1(data[1].vlLucroTotal)
+                setNomeVend2(data[2].vendedor.replace('undefined', 'Vazio')); setVenVend2(data[2].vlVendaTotal); setLuVend2(data[2].vlLucroTotal)
+                setNomeVend3(data[3].vendedor.replace('undefined', 'Vazio')); setVenVend3(data[3].vlVendaTotal); setLuVend3(data[3].vlLucroTotal)
+                setNomeVend4(data[4].vendedor.replace('undefined', 'Vazio')); setVenVend4(data[4].vlVendaTotal); setLuVend4(data[4].vlLucroTotal)
+                setNomeVend5(data[5].vendedor.replace('undefined', 'Vazio')); setVenVend5(data[5].vlVendaTotal); setLuVend5(data[5].vlLucroTotal)
+                setNomeVend6(data[6].vendedor.replace('undefined', 'Vazio')); setVenVend6(data[6].vlVendaTotal); setLuVend6(data[6].vlLucroTotal)
+                setNomeVend7(data[7].vendedor.replace('undefined', 'Vazio')); setVenVend7(data[7].vlVendaTotal); setLuVend7(data[7].vlLucroTotal)
+                setNomeVend8(data[8].vendedor.replace('undefined', 'Vazio')); setVenVend8(data[8].vlVendaTotal); setLuVend8(data[8].vlLucroTotal)
+                setNomeVend9(data[9].vendedor.replace('undefined', 'Vazio')); setVenVend9(data[9].vlVendaTotal); setLuVend9(data[9].vlLucroTotal)
+            
             });
         }
     }
 
-    console.log(dadosVendedor)
+    console.log(dadoNomeVend9)
 
     const [dadoNomeProd, setNomeProd] = useState(); const [dadoNomeProd1, setNomeProd1] = useState(); const [dadoNomeProd2, setNomeProd2] = useState(); const [dadoNomeProd3, setNomeProd3] = useState(); const [dadoNomeProd4, setNomeProd4] = useState(); const [dadoNomeProd5, setNomeProd5] = useState();
     const [dadoNomeProd6, setNomeProd6] = useState(); const [dadoNomeProd7, setNomeProd7] = useState(); const [dadoNomeProd8, setNomeProd8] = useState(); const [dadoNomeProd9, setNomeProd9] = useState();
@@ -690,6 +688,41 @@ export const ResumoFaturamento = () => {
         ["Comissão", resultVen7, "#57ffe8", null],
         ["Desconto", resultVen8, "#727272", null]
     ];
+
+    const chartDataVend = [
+        ["Valores em R$", "Venda", "Lucro"],
+        [dadoNomeVend, dadoVenVend, dadoLuVend],
+        [dadoNomeVend1, dadoVenVend1, dadoLuVend1],
+        [dadoNomeVend2, dadoVenVend2, dadoLuVend2],
+        [dadoNomeVend3, dadoVenVend3, dadoLuVend3],
+        [dadoNomeVend4, dadoVenVend4, dadoLuVend4],
+        [dadoNomeVend5, dadoVenVend5, dadoLuVend5],
+        [dadoNomeVend6, dadoVenVend6, dadoLuVend6],
+        [dadoNomeVend7, dadoVenVend7, dadoLuVend7],
+        [dadoNomeVend8, dadoVenVend8, dadoLuVend8],
+        [dadoNomeVend9, dadoVenVend9, dadoLuVend9],
+    ];
+
+    const optionsVendedor = {
+        chart: {
+            title: "Dez Primeiros Vendedores",
+            subtitle: "Comparativo",
+        },
+        hAxis: {
+            title: "Value",
+            minValue: 0,
+        },
+        vAxis: {
+            title: "Valores",
+        },
+        bars: "horizontal",
+        axes: {
+            y: {
+                0: {side: "right"},
+            },
+        },
+    }
+
     //---------------------------------------------------------------Dashboard Cliente------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardCliente, setIsOpenDashboardCliente] = useState(false);//Estado do Modal 
@@ -2227,7 +2260,13 @@ export const ResumoFaturamento = () => {
 
                 <RF.Dashboard>
                     <div className="graficoLongo"><Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} /></div>
+                </RF.Dashboard>
 
+                <RF.Dashboard>
+                    <div className='graficos10'>
+                        <button className='btnDetalhes'><img className='close' src='images/itens.png'/> Individuais </button>
+                        <div className='justSize' ><Chart chartType='Bar' width="100%" height="95%" data={chartDataVend} options={optionsVendedor} className='grafico' /></div>
+                    </div>
                 </RF.Dashboard>
 
             </Modal>
