@@ -61,13 +61,13 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
         return [
             { text: data.id_fornecedor, fontSize: 8 },
             { text: data.fornecedor, fontSize: 8 },
-            { text: data.qtd_total, fontSize: 8 },
-            { text: data.vlr_custo_total.toFixed(2).replace('.', ','), fontSize: 8 },
-            { text: data.vlr_venda_total.toFixed(2).replace('.', ','), fontSize: 8 },
-            { text: data.vlr_lucro_total.toFixed(2).replace('.', ','), fontSize: 8 },
-            { text: data.p_markup.toFixed(2).replace('.', ','), fontSize: 8 },
-            { text: data.p_margem.toFixed(2).replace('.', ','), fontSize: 8 },
-            { text: data.percentual.toFixed(2).replace('.', ','), fontSize: 8 },
+            { text: parseFloat(data.qtd_total).toLocaleString('pt-BR') , fontSize: 8 },
+            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.p_markup.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.p_margem.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.percentual.toFixed(2).toLocaleString('pt-BR')), fontSize: 8 },
         ]
     })
 
@@ -160,12 +160,12 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
                 widths: ['*','*','*','*','*','*','*'],
                 body: [
                     [
-                        {text: 'Qtd.Total: ' + (qtdTotal) , fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Qtd.Total: ' + parseFloat(qtdTotal).toLocaleString('pt-BR') , fontSize: 8, alignment: 'center', bold: true},
                         {text: 'Custo: ' + parseFloat(Custo.toFixed(2)).toLocaleString('pt-BR') , fontSize: 8, alignment: 'center', bold: true},
                         {text: 'Venda: ' + parseFloat(Venda.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true},
                         {text: 'Lucro: ' + parseFloat(Lucro.toFixed(2)).toLocaleString('pt-BR') , fontSize: 8, alignment: 'center', bold: true},
                         {text: 'Markup: ' + parseFloat(Markup.toFixed(2)).toLocaleString('pt-BR') + '%', fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Margem' + parseFloat(Margem.toFixed(2)).toLocaleString('pt-BR') + '%' , fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Margem: ' + parseFloat(Margem.toFixed(2)).toLocaleString('pt-BR') + '%' , fontSize: 8, alignment: 'center', bold: true},
                         {text: 'Percentual: ' + parseFloat(Percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true},
                     ]
                 ]

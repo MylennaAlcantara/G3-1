@@ -352,3 +352,22 @@ div{
     }
 }
 `
+export const A = styled.div`
+overflow-x: auto;
+.ajuste{
+    display: flex;
+}
+.labels{
+    border-style: solid;
+    border-left: transparent;
+    border-bottom: transparent;
+    height: 35px;
+    margin-right: 5px;
+    border-top: transparent;
+    border-width: 1px;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: #ffffff;
+    width: 300px;
+}
+`

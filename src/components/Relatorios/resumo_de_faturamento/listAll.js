@@ -196,6 +196,19 @@ export const ResumoFaturamento = () => {
         }
     }
 
+    const LimparGCliente = () => {
+        setNomeCli('Vazio'); setVenCli(0); setLiqCli(0);
+        setNomeCli1('Vazio'); setVenCli1(0); setLiqCli1(0);
+        setNomeCli2('Vazio'); setVenCli2(0); setLiqCli2(0);
+        setNomeCLi3('Vazio'); setVenCli3(0); setLiqCli3(0);
+        setNomeCli4('Vazio'); setVenCli4(0); setLiqCli4(0);
+        setNomeCli5('Vazio'); setVenCli5(0); setLiqCli5(0);
+        setNomeCli6('Vazio'); setVenCli6(0); setLiqCli6(0);
+        setNomeCli7('Vazio'); setVenCli7(0); setLiqCli7(0);
+        setNomeCli8('Vazio'); setVenCli8(0); setLiqCli8(0);
+        setNomeCli9('Vazio'); setVenCli9(0); setLiqCli9(0);
+    }
+
     async function setDataRegiao() {//Envia o JSON para a api e pega os dados de Região
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorRegiao", {
             method: "POST",
@@ -205,7 +218,7 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 if (data.length === 0) {
-                    setShowElement(false)                    
+                    setShowElement(false)
                     setDaDosKeys([])
                     setDadosTipoPagamento([])
                     setDadosLeitura([])
@@ -228,7 +241,7 @@ export const ResumoFaturamento = () => {
         });
         if (res.status === 200) {
             res.json().then(data => {
-                setDadosTipoPagamento(Object.values(data[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]));
+                setDadosTipoPagamento(Object.values(data[0]));
                 setDaDosKeys(Object.keys(data[0]));
                 setDadosLeitura(data);
             });
@@ -266,12 +279,24 @@ export const ResumoFaturamento = () => {
                 setNomeVend7(data[7].vendedor.replace('undefined', 'Vazio')); setVenVend7(data[7].vlVendaTotal); setLuVend7(data[7].vlLucroTotal)
                 setNomeVend8(data[8].vendedor.replace('undefined', 'Vazio')); setVenVend8(data[8].vlVendaTotal); setLuVend8(data[8].vlLucroTotal)
                 setNomeVend9(data[9].vendedor.replace('undefined', 'Vazio')); setVenVend9(data[9].vlVendaTotal); setLuVend9(data[9].vlLucroTotal)
-            
+
             });
         }
     }
 
-    console.log(dadoNomeVend9)
+    const LimparGVendedor = () => {
+        setNomeVend('Vazio'); setVenVend(0); setLuVend(0);
+        setNomeVend1('Vazio'); setVenVend1(0); setLuVend1(0);
+        setNomeVend2('Vazio'); setVenVend2(0); setLuVend2(0);
+        setNomeVend3('Vazio'); setVenVend3(0); setLuVend3(0);
+        setNomeVend4('Vazio'); setVenVend4(0); setLuVend4(0);
+        setNomeVend5('Vazio'); setVenVend5(0); setLuVend5(0);
+        setNomeVend5('Vazio'); setVenVend5(0); setLuVend5(0);
+        setNomeVend6('Vazio'); setVenVend6(0); setLuVend6(0);
+        setNomeVend7('Vazio'); setVenVend7(0); setLuVend7(0);
+        setNomeVend8('Vazio'); setVenVend8(0); setLuVend8(0);
+        setNomeVend9('Vazio'); setVenVend9(0); setLuVend9(0);
+    }
 
     const [dadoNomeProd, setNomeProd] = useState(); const [dadoNomeProd1, setNomeProd1] = useState(); const [dadoNomeProd2, setNomeProd2] = useState(); const [dadoNomeProd3, setNomeProd3] = useState(); const [dadoNomeProd4, setNomeProd4] = useState(); const [dadoNomeProd5, setNomeProd5] = useState();
     const [dadoNomeProd6, setNomeProd6] = useState(); const [dadoNomeProd7, setNomeProd7] = useState(); const [dadoNomeProd8, setNomeProd8] = useState(); const [dadoNomeProd9, setNomeProd9] = useState();
@@ -304,6 +329,19 @@ export const ResumoFaturamento = () => {
                 setNomeProd9(data[9].produto); setVenProd9(data[9].vlr_venda_total); setLuProd9(data[9].vlr_lucro_total)
             })
         }
+    }
+
+    const LimparGProduto = () => {
+        setNomeProd('Vazio'); setVenProd(0); setLuProd(0);
+        setNomeProd1('Vazio'); setVenProd1(0); setLuProd1(0);
+        setNomeProd2('Vazio'); setVenProd2(0); setLuProd2(0);
+        setNomeProd3('Vazio'); setVenProd3(0); setLuProd3(0);
+        setNomeProd4('Vazio'); setVenProd4(0); setLuProd4(0);
+        setNomeProd5('Vazio'); setVenProd5(0); setLuProd5(0);
+        setNomeProd6('Vazio'); setVenProd6(0); setLuProd6(0);
+        setNomeProd7('Vazio'); setVenProd7(0); setLuProd7(0);
+        setNomeProd8('Vazio'); setVenProd8(0); setLuProd8(0);
+        setNomeProd9('Vazio'); setVenProd9(0); setLuProd9(0);
     }
 
     //Pega 10 Dados Individualmente 
@@ -340,6 +378,19 @@ export const ResumoFaturamento = () => {
         }
     }
 
+    const LimparGGrupo = () => {
+        setNomeGrupo('Vazio'); setVenGrupo(0); setLuGrupo(0);
+        setNomeGrupo1('Vazio'); setVenGrupo1(0); setLuGrupo1(0);
+        setNomeGrupo2('Vazio'); setVenGrupo2(0); setLuGrupo2(0);
+        setNomeGrupo3('Vazio'); setVenGrupo3(0); setLuGrupo3(0);
+        setNomeGrupo4('Vazio'); setVenGrupo4(0); setLuGrupo4(0);
+        setNomeGrupo5('Vazio'); setVenGrupo5(0); setLuGrupo5(0);
+        setNomeGrupo6('Vazio'); setVenGrupo6(0); setLuGrupo6(0);
+        setNomeGrupo7('Vazio'); setVenGrupo7(0); setLuGrupo7(0);
+        setNomeGrupo8('Vazio'); setVenGrupo8(0); setLuGrupo8(0);
+        setNomeGrupo9('Vazio'); setVenGrupo9(0); setLuGrupo9(0);
+    }
+
     //Pega 10 Dados Individualmente 
     const [dadoNomeForn, setNomeForn] = useState(); const [dadoNomeForn1, setNomeForn1] = useState(); const [dadoNomeForn2, setNomeForn2] = useState(); const [dadoNomeForn3, setNomeForn3] = useState(); const [dadoNomeForn4, setNomeForn4] = useState(); const [dadoNomeForn5, setNomeForn5] = useState();
     const [dadoNomeForn6, setNomeForn6] = useState(); const [dadoNomeForn7, setNomeForn7] = useState(); const [dadoNomeForn8, setNomeForn8] = useState(); const [dadoNomeForn9, setNomeForn9] = useState();
@@ -374,7 +425,25 @@ export const ResumoFaturamento = () => {
         }
     }
 
+    const LimparGFornecedor = () => {
+        setNomeForn('Vazio'); setVenForn(0); setLuForn(0);
+        setNomeForn1('Vazio'); setVenForn1(0); setLuForn1(0);
+        setNomeForn2('Vazio'); setVenForn2(0); setLuForn2(0);
+        setNomeForn3('Vazio'); setVenForn3(0); setLuForn3(0);
+        setNomeForn4('Vazio'); setVenForn4(0); setLuForn4(0);
+        setNomeForn5('Vazio'); setVenForn5(0); setLuForn5(0);
+        setNomeForn6('Vazio'); setVenForn6(0); setLuForn6(0);
+        setNomeForn7('Vazio'); setVenForn7(0); setLuForn7(0);
+        setNomeForn8('Vazio'); setVenForn8(0); setLuForn8(0);
+        setNomeForn9('Vazio'); setVenForn9(0); setLuForn9(0);
+    }
+
     const handleSetData = () => { //Envia o JSON para todas as APIS ao mesmo tempo 
+        LimparGCliente();
+        LimparGGrupo();
+        LimparGProduto();
+        LimparGVendedor();
+        LimparGFornecedor();
         show();
         setDataCliente();
         setDataFilial();
@@ -718,7 +787,7 @@ export const ResumoFaturamento = () => {
         bars: "horizontal",
         axes: {
             y: {
-                0: {side: "right"},
+                0: { side: "right" },
             },
         },
     }
@@ -1223,7 +1292,7 @@ export const ResumoFaturamento = () => {
     ];
 
     const dataFor3 = [
-        ["Element", "Valor", {role: "style"}],
+        ["Element", "Valor", { role: "style" }],
         ["Total", resultFor, "#bc1b2b"],
         ["Sub.Total", resultFor4, "#b5bd2d"],
     ]
@@ -1515,7 +1584,7 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{parseFloat(f2.qtdVendas).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{parseFloat(f2.qtdItens).toLocaleString}</td>
+                                                    <td>{parseFloat(f2.qtdItens).toLocaleString('pt-BR')}</td>
 
                                                     <td>{parseFloat(f2.qtdItensCupom.toFixed(2)).toLocaleString('pt-BR')}</td>
 
@@ -1552,8 +1621,8 @@ export const ResumoFaturamento = () => {
 
                     <RF.LinhaTotais >
                         <div>Méd.Itens/Cup: {MedItensCup.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total NF-e: {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Total NFC-e: {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Venda Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Total Credito: {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR')} </div>
-                        <div>Vlr.Total Líquido: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Custo Total: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Venda: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Líquido: {parseFloat(lLiquido.toFixed(2)).toLocaleString('pt-BR')} </div> <div>% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',').replace('NaN', '0,00') } </div>    
-                        <div>% Markup: {((resultFi1 - resultFi)/resultFi * 100).toFixed(2).replace('.', ',').replace("NaN", "0,00") } </div>
+                        <div>Vlr.Total Líquido: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Custo Total: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Venda: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Líquido: {parseFloat(lLiquido.toFixed(2)).toLocaleString('pt-BR')} </div> <div>% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',').replace('NaN', '0,00')} </div>
+                        <div>% Markup: {((resultFi1 - resultFi) / resultFi * 100).toFixed(2).replace('.', ',').replace("NaN", "0,00")} </div>
                     </RF.LinhaTotais>
                 </>
             ) : aba === "vendedor" ? (
@@ -1770,8 +1839,8 @@ export const ResumoFaturamento = () => {
                                         </thead>
                                         <tr>
                                             {dadosTipoPagamento.map((f5) => {
-                                                if (f5 === null) {
-                                                    f5 = 0;
+                                                if (f5 === null || f5 === 0) {
+                                                    f5 = 0.00;
                                                 }
 
                                                 return (
@@ -1811,7 +1880,7 @@ export const ResumoFaturamento = () => {
                             <input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)} />
 
                             <div className='dashboardLine'>
-                                <label>Dashboards</label> 
+                                <label>Dashboards</label>
 
                                 <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -1897,7 +1966,7 @@ export const ResumoFaturamento = () => {
                             <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Grupo" onChange={(e) => setQuery7(e.target.value)} />
 
                             <div className='dashboardLine'>
-                                <label>Dashboards</label> 
+                                <label>Dashboards</label>
 
                                 <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -1986,7 +2055,7 @@ export const ResumoFaturamento = () => {
                             <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)} />
 
                             <div className='dashboardLine'>
-                                <label>Dashboards</label> 
+                                <label>Dashboards</label>
 
                                 <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -2156,8 +2225,8 @@ export const ResumoFaturamento = () => {
                     </RF.Dashboard>
 
                     <Modal isOpen={graficosCadaFilial} onRequestClose={() => setGraficosCadaFilial(false)} className='dashboardCadaFilial' overlayClassName='none'>
-                    <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
-                        
+                        <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+
                         <h1>Cada Filial</h1>
                         {dados.map((data) => {
 
@@ -2264,7 +2333,7 @@ export const ResumoFaturamento = () => {
 
                 <RF.Dashboard>
                     <div className='graficos10'>
-                        <button className='btnDetalhes'><img className='close' src='images/itens.png'/> Individuais </button>
+                        <button className='btnDetalhes'><img className='close' src='images/itens.png' /> Individuais </button>
                         <div className='justSize' ><Chart chartType='Bar' width="100%" height="95%" data={chartDataVend} options={optionsVendedor} className='grafico' /></div>
                     </div>
                 </RF.Dashboard>
@@ -2354,7 +2423,7 @@ export const ResumoFaturamento = () => {
 
                         })}
                     </Modal>
- 
+
                 </div>
 
                 <RF.Dashboard>
@@ -2376,70 +2445,32 @@ export const ResumoFaturamento = () => {
 
                     <h1>Dados Tipo Pagamento</h1>
 
-                    <div className='dashboardTexts' >
+                    <RF.A>
+                        <table className='pricesTpPg' >
+                            <thead>
+                                <div className='ajuste' >
+                                    {keys.map((nomes) => {
+                                        return (
+                                            <div className='labels' >{(nomes).replace('_', ' ').toUpperCase()}:</div>
+                                        );
+                                    })}
+                                </div>
+                            </thead>
+                            <div className='ajuste' >
+                                {dadosTipoPagamento.map((f5) => {
+                                    if (f5 === null || f5 === 0) {
+                                        f5 = 0.00;
+                                    }
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/dinheiro.png' /> Dinheiro : R$ {parseFloat(resultTpPg.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
+                                    return (
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/credito.png' /> Cartão Credito: R$ {parseFloat(resultTpPg2.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
+                                        <div className='labels' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </div>
 
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/debito.png' /> Cartão Debito: R$ {parseFloat(resultTpPg3.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cheque.png' /> Cheque : R$ {parseFloat(resultTpPg4.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/boleto.png' /> Boleto Bancario: R$ {parseFloat(resultTpPg5.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito Loja: R$ {parseFloat(resultTpPg6.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento Total: R$ {parseFloat(resultTpPg7.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Desconto Total: R$ {parseFloat(resultTpPg8.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/pix.png' /> Pix: R$ {parseFloat(resultTpPg13.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {parseFloat(resultTpPg1.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                    </div>
-
-                    <h1>Vales(Caso possua)</h1>
-
-                    <div className='dashboardTexts'>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeAlimentacao.png' /> Alimentação: R$ {resultTpPg9.toString().replace('NaN', '0,00')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10.toString().replace('NaN', '0,00')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/valePresente.png' /> Presente: R$ {resultTpPg11.toString().replace('NaN', '0,00')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeRefeicao.png' /> Refeição: R$ {resultTpPg12.toString().replace('NaN', '0,00')}
-                        </h2>
-                    </div>
+                                    );
+                                })}
+                            </div>
+                        </table>
+                    </RF.A>
 
                     <RF.Dashboard>
                         <div className="grafico" ><Chart chartType="ColumnChart" width="100%" height="95%" data={dataTpPg} /> </div>
@@ -2593,7 +2624,7 @@ export const ResumoFaturamento = () => {
                     <RF.Dashboard>
 
                         <div className='graficos10' >
-                        <button onClick={openDashboardGrupoDetalhado} className='btnDetalhes'> <img className='close' src='/images/itens.png' /> Individuais </button>
+                            <button onClick={openDashboardGrupoDetalhado} className='btnDetalhes'> <img className='close' src='/images/itens.png' /> Individuais </button>
                             <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataGru0} options={optionsGru0} /></div>
                         </div>
 

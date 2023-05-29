@@ -45,12 +45,11 @@ button:hover {
     display: flex;
     flex-direction: column;
     width: 100%;
-
 }
 
-.justSize{
+.justSize {
     width: 1150px;
-    height: 300px
+    height: 400px
 }
 
 .close {
@@ -80,6 +79,7 @@ button:hover {
 .dashboardTexts {
     display: flex;
     flex-direction: row;
+    overflow-x: auto;
 }
 
 .dashboardTpPg {
@@ -338,7 +338,19 @@ h2 {
     align-items: center;
     border-style: solid;
     height: 75px;
+    min-width: 300px;
     width: 350px;
+    margin: 2px;
+    border-radius: 6px;
+}
+
+.pricesTpPg{
+    background-color: white;
+    font-size: 12px;
+    border-style: solid;
+    border-width: 1px;
+    height: 75px;
+    min-width: 1200px;
     margin: 2px;
     border-radius: 6px;
 }
@@ -794,6 +806,21 @@ span {
     flex-direction: row;
 }
 
+.c-loader {
+    animation: is-rotating 1s infinite;
+    border: 6px solid #e5e5e5;
+    border-radius: 50%;
+    border-top-color: #51d4db;
+    height: 50px;
+    width: 50px;
+}
+
+@keyframes is-rotating {
+    to {
+        transform: rotate(1turn);
+    }
+}
+
 @media (max-width: 800px) {
     .frontSpan {
         visibility: hidden;
@@ -860,23 +887,28 @@ span {
         border-top-right-radius: 0px;
         border-bottom: black;
     }
-    .closeBtnMenor{
+
+    .closeBtnMenor {
         margin-left: 55%;
     }
-    .graficoA{
+
+    .graficoA {
         width: 230px;
     }
-    .graficos10{
+
+    .graficos10 {
         margin-left: 10px;
         width: 96%;
         overflow-x: auto;
     }
-    .graficoLongo{
-        width: 300px;   
+
+    .graficoLongo {
+        width: 300px;
     }
 }
-@media(min-width: 1500px){
-    .graficoLongo{
+
+@media(min-width: 1500px) {
+    .graficoLongo {
         width: 48%;
         height: 310px;
     }
