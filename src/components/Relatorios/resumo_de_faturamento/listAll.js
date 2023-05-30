@@ -17,7 +17,6 @@ import * as RF from "../resumo_de_faturamento/resumoFaturamento"
 
 import { useNavigate } from 'react-router-dom';
 
-
 Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
@@ -197,17 +196,28 @@ export const ResumoFaturamento = () => {
     }
 
     const LimparGCliente = () => {
-        setNomeCli('Vazio'); setVenCli(0); setLiqCli(0);
-        setNomeCli1('Vazio'); setVenCli1(0); setLiqCli1(0);
-        setNomeCli2('Vazio'); setVenCli2(0); setLiqCli2(0);
-        setNomeCLi3('Vazio'); setVenCli3(0); setLiqCli3(0);
-        setNomeCli4('Vazio'); setVenCli4(0); setLiqCli4(0);
-        setNomeCli5('Vazio'); setVenCli5(0); setLiqCli5(0);
-        setNomeCli6('Vazio'); setVenCli6(0); setLiqCli6(0);
-        setNomeCli7('Vazio'); setVenCli7(0); setLiqCli7(0);
-        setNomeCli8('Vazio'); setVenCli8(0); setLiqCli8(0);
-        setNomeCli9('Vazio'); setVenCli9(0); setLiqCli9(0);
+        setNomeCli(' '); setVenCli(0); setLiqCli(0);
+        setNomeCli1(' '); setVenCli1(0); setLiqCli1(0);
+        setNomeCli2(' '); setVenCli2(0); setLiqCli2(0);
+        setNomeCLi3(' '); setVenCli3(0); setLiqCli3(0);
+        setNomeCli4(' '); setVenCli4(0); setLiqCli4(0);
+        setNomeCli5(' '); setVenCli5(0); setLiqCli5(0);
+        setNomeCli6(' '); setVenCli6(0); setLiqCli6(0);
+        setNomeCli7(' '); setVenCli7(0); setLiqCli7(0);
+        setNomeCli8(' '); setVenCli8(0); setLiqCli8(0);
+        setNomeCli9(' '); setVenCli9(0); setLiqCli9(0);
     }
+
+    const [nomeRegiao, setNomeRegiao] = useState(); const [vendaRegiao, setVendaRegiao] = useState(); const [lucroRegiao, setLucroRegiao] = useState();
+    const [nomeRegiao1, setNomeRegiao1] = useState(); const [vendaRegiao1, setVendaRegiao1] = useState(); const [lucroRegiao1, setLucroRegiao1] = useState();
+    const [nomeRegiao2, setNomeRegiao2] = useState(); const [vendaRegiao2, setVendaRegiao2] = useState(); const [lucroRegiao2, setLucroRegiao2] = useState();
+    const [nomeRegiao3, setNomeRegiao3] = useState(); const [vendaRegiao3, setVendaRegiao3] = useState(); const [lucroRegiao3, setLucroRegiao3] = useState();
+    const [nomeRegiao4, setNomeRegiao4] = useState(); const [vendaRegiao4, setVendaRegiao4] = useState(); const [lucroRegiao4, setLucroRegiao4] = useState();
+    const [nomeRegiao5, setNomeRegiao5] = useState(); const [vendaRegiao5, setVendaRegiao5] = useState(); const [lucroRegiao5, setLucroRegiao5] = useState();
+    const [nomeRegiao6, setNomeRegiao6] = useState(); const [vendaRegiao6, setVendaRegiao6] = useState(); const [lucroRegiao6, setLucroRegiao6] = useState();
+    const [nomeRegiao7, setNomeRegiao7] = useState(); const [vendaRegiao7, setVendaRegiao7] = useState(); const [lucroRegiao7, setLucroRegiao7] = useState();
+    const [nomeRegiao8, setNomeRegiao8] = useState(); const [vendaRegiao8, setVendaRegiao8] = useState(); const [lucroRegiao8, setLucroRegiao8] = useState();
+    const [nomeRegiao9, setNomeRegiao9] = useState(); const [vendaRegiao9, setVendaRegiao9] = useState(); const [lucroRegiao9, setLucroRegiao9] = useState();
 
     async function setDataRegiao() {//Envia o JSON para a api e pega os dados de Região
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorRegiao", {
@@ -226,8 +236,32 @@ export const ResumoFaturamento = () => {
 
                 }
                 setDadosRegiao(data);
+
+                setNomeRegiao(data[0].regiao); setVendaRegiao(data[0].vlVendaTotal); setLucroRegiao(data[0].vlVendaTotal);
+                setNomeRegiao1(data[1].regiao); setVendaRegiao1(data[1].vlVendaTotal); setLucroRegiao1(data[1].vlVendaTotal);
+                setNomeRegiao2(data[2].regiao); setVendaRegiao2(data[2].vlVendaTotal); setLucroRegiao2(data[2].vlVendaTotal);
+                setNomeRegiao3(data[3].regiao); setVendaRegiao3(data[3].vlVendaTotal); setLucroRegiao3(data[3].vlVendaTotal);
+                setNomeRegiao4(data[4].regiao); setVendaRegiao4(data[4].vlVendaTotal); setLucroRegiao4(data[4].vlVendaTotal);
+                setNomeRegiao5(data[5].regiao); setVendaRegiao5(data[5].vlVendaTotal); setLucroRegiao5(data[5].vlVendaTotal);
+                setNomeRegiao6(data[6].regiao); setVendaRegiao6(data[6].vlVendaTotal); setLucroRegiao6(data[6].vlVendaTotal);
+                setNomeRegiao7(data[7].regiao); setVendaRegiao7(data[7].vlVendaTotal); setLucroRegiao7(data[7].vlVendaTotal);
+                setNomeRegiao8(data[8].regiao); setVendaRegiao8(data[8].vlVendaTotal); setLucroRegiao8(data[8].vlVendaTotal);
+                setNomeRegiao9(data[9].regiao); setVendaRegiao9(data[9].vlVendaTotal); setLucroRegiao9(data[9].vlVendaTotal);
             });
         }
+    }
+
+    const LimparGRegiao = () => {
+        setNomeRegiao(' '); setVendaRegiao(0); setLucroRegiao(0);
+        setNomeRegiao1(' '); setVendaRegiao1(0); setLucroRegiao1(0);
+        setNomeRegiao2(' '); setVendaRegiao2(0); setLucroRegiao2(0);
+        setNomeRegiao3(' '); setVendaRegiao3(0); setLucroRegiao3(0);
+        setNomeRegiao4(' '); setVendaRegiao4(0); setLucroRegiao4(0);
+        setNomeRegiao5(' '); setVendaRegiao5(0); setLucroRegiao5(0);
+        setNomeRegiao6(' '); setVendaRegiao6(0); setLucroRegiao6(0);
+        setNomeRegiao7(' '); setVendaRegiao7(0); setLucroRegiao7(0);
+        setNomeRegiao8(' '); setVendaRegiao8(0); setLucroRegiao8(0);
+        setNomeRegiao9(' '); setVendaRegiao9(0); setLucroRegiao9(0);
     }
 
     const [keys, setDaDosKeys] = useState([]) //Usado para escrever o nome dos labels 
@@ -269,33 +303,33 @@ export const ResumoFaturamento = () => {
             res.json().then(data => {
                 setDadosVendedor(data);
 
-                setNomeVend(data[0].vendedor.replace('undefined', 'Vazio')); setVenVend(data[0].vlVendaTotal); setLuVend(data[0].vlLucroTotal)
-                setNomeVend1(data[1].vendedor.replace('undefined', 'Vazio')); setVenVend1(data[1].vlVendaTotal); setLuVend1(data[1].vlLucroTotal)
-                setNomeVend2(data[2].vendedor.replace('undefined', 'Vazio')); setVenVend2(data[2].vlVendaTotal); setLuVend2(data[2].vlLucroTotal)
-                setNomeVend3(data[3].vendedor.replace('undefined', 'Vazio')); setVenVend3(data[3].vlVendaTotal); setLuVend3(data[3].vlLucroTotal)
-                setNomeVend4(data[4].vendedor.replace('undefined', 'Vazio')); setVenVend4(data[4].vlVendaTotal); setLuVend4(data[4].vlLucroTotal)
-                setNomeVend5(data[5].vendedor.replace('undefined', 'Vazio')); setVenVend5(data[5].vlVendaTotal); setLuVend5(data[5].vlLucroTotal)
-                setNomeVend6(data[6].vendedor.replace('undefined', 'Vazio')); setVenVend6(data[6].vlVendaTotal); setLuVend6(data[6].vlLucroTotal)
-                setNomeVend7(data[7].vendedor.replace('undefined', 'Vazio')); setVenVend7(data[7].vlVendaTotal); setLuVend7(data[7].vlLucroTotal)
-                setNomeVend8(data[8].vendedor.replace('undefined', 'Vazio')); setVenVend8(data[8].vlVendaTotal); setLuVend8(data[8].vlLucroTotal)
-                setNomeVend9(data[9].vendedor.replace('undefined', 'Vazio')); setVenVend9(data[9].vlVendaTotal); setLuVend9(data[9].vlLucroTotal)
+                setNomeVend(data[0].vendedor); setVenVend(data[0].vlVendaTotal); setLuVend(data[0].vlLucroTotal)
+                setNomeVend1(data[1].vendedor); setVenVend1(data[1].vlVendaTotal); setLuVend1(data[1].vlLucroTotal)
+                setNomeVend2(data[2].vendedor); setVenVend2(data[2].vlVendaTotal); setLuVend2(data[2].vlLucroTotal)
+                setNomeVend3(data[3].vendedor); setVenVend3(data[3].vlVendaTotal); setLuVend3(data[3].vlLucroTotal)
+                setNomeVend4(data[4].vendedor); setVenVend4(data[4].vlVendaTotal); setLuVend4(data[4].vlLucroTotal)
+                setNomeVend5(data[5].vendedor); setVenVend5(data[5].vlVendaTotal); setLuVend5(data[5].vlLucroTotal)
+                setNomeVend6(data[6].vendedor); setVenVend6(data[6].vlVendaTotal); setLuVend6(data[6].vlLucroTotal)
+                setNomeVend7(data[7].vendedor); setVenVend7(data[7].vlVendaTotal); setLuVend7(data[7].vlLucroTotal)
+                setNomeVend8(data[8].vendedor); setVenVend8(data[8].vlVendaTotal); setLuVend8(data[8].vlLucroTotal)
+                setNomeVend9(data[9].vendedor); setVenVend9(data[9].vlVendaTotal); setLuVend9(data[9].vlLucroTotal)
 
             });
         }
     }
 
     const LimparGVendedor = () => {
-        setNomeVend('Vazio'); setVenVend(0); setLuVend(0);
-        setNomeVend1('Vazio'); setVenVend1(0); setLuVend1(0);
-        setNomeVend2('Vazio'); setVenVend2(0); setLuVend2(0);
-        setNomeVend3('Vazio'); setVenVend3(0); setLuVend3(0);
-        setNomeVend4('Vazio'); setVenVend4(0); setLuVend4(0);
-        setNomeVend5('Vazio'); setVenVend5(0); setLuVend5(0);
-        setNomeVend5('Vazio'); setVenVend5(0); setLuVend5(0);
-        setNomeVend6('Vazio'); setVenVend6(0); setLuVend6(0);
-        setNomeVend7('Vazio'); setVenVend7(0); setLuVend7(0);
-        setNomeVend8('Vazio'); setVenVend8(0); setLuVend8(0);
-        setNomeVend9('Vazio'); setVenVend9(0); setLuVend9(0);
+        setNomeVend(' '); setVenVend(0); setLuVend(0);
+        setNomeVend1(' '); setVenVend1(0); setLuVend1(0);
+        setNomeVend2(' '); setVenVend2(0); setLuVend2(0);
+        setNomeVend3(' '); setVenVend3(0); setLuVend3(0);
+        setNomeVend4(' '); setVenVend4(0); setLuVend4(0);
+        setNomeVend5(' '); setVenVend5(0); setLuVend5(0);
+        setNomeVend5(' '); setVenVend5(0); setLuVend5(0);
+        setNomeVend6(' '); setVenVend6(0); setLuVend6(0);
+        setNomeVend7(' '); setVenVend7(0); setLuVend7(0);
+        setNomeVend8(' '); setVenVend8(0); setLuVend8(0);
+        setNomeVend9(' '); setVenVend9(0); setLuVend9(0);
     }
 
     const [dadoNomeProd, setNomeProd] = useState(); const [dadoNomeProd1, setNomeProd1] = useState(); const [dadoNomeProd2, setNomeProd2] = useState(); const [dadoNomeProd3, setNomeProd3] = useState(); const [dadoNomeProd4, setNomeProd4] = useState(); const [dadoNomeProd5, setNomeProd5] = useState();
@@ -332,16 +366,16 @@ export const ResumoFaturamento = () => {
     }
 
     const LimparGProduto = () => {
-        setNomeProd('Vazio'); setVenProd(0); setLuProd(0);
-        setNomeProd1('Vazio'); setVenProd1(0); setLuProd1(0);
-        setNomeProd2('Vazio'); setVenProd2(0); setLuProd2(0);
-        setNomeProd3('Vazio'); setVenProd3(0); setLuProd3(0);
-        setNomeProd4('Vazio'); setVenProd4(0); setLuProd4(0);
-        setNomeProd5('Vazio'); setVenProd5(0); setLuProd5(0);
-        setNomeProd6('Vazio'); setVenProd6(0); setLuProd6(0);
-        setNomeProd7('Vazio'); setVenProd7(0); setLuProd7(0);
-        setNomeProd8('Vazio'); setVenProd8(0); setLuProd8(0);
-        setNomeProd9('Vazio'); setVenProd9(0); setLuProd9(0);
+        setNomeProd(' '); setVenProd(0); setLuProd(0);
+        setNomeProd1(' '); setVenProd1(0); setLuProd1(0);
+        setNomeProd2(' '); setVenProd2(0); setLuProd2(0);
+        setNomeProd3(' '); setVenProd3(0); setLuProd3(0);
+        setNomeProd4(' '); setVenProd4(0); setLuProd4(0);
+        setNomeProd5(' '); setVenProd5(0); setLuProd5(0);
+        setNomeProd6(' '); setVenProd6(0); setLuProd6(0);
+        setNomeProd7(' '); setVenProd7(0); setLuProd7(0);
+        setNomeProd8(' '); setVenProd8(0); setLuProd8(0);
+        setNomeProd9(' '); setVenProd9(0); setLuProd9(0);
     }
 
     //Pega 10 Dados Individualmente 
@@ -379,16 +413,16 @@ export const ResumoFaturamento = () => {
     }
 
     const LimparGGrupo = () => {
-        setNomeGrupo('Vazio'); setVenGrupo(0); setLuGrupo(0);
-        setNomeGrupo1('Vazio'); setVenGrupo1(0); setLuGrupo1(0);
-        setNomeGrupo2('Vazio'); setVenGrupo2(0); setLuGrupo2(0);
-        setNomeGrupo3('Vazio'); setVenGrupo3(0); setLuGrupo3(0);
-        setNomeGrupo4('Vazio'); setVenGrupo4(0); setLuGrupo4(0);
-        setNomeGrupo5('Vazio'); setVenGrupo5(0); setLuGrupo5(0);
-        setNomeGrupo6('Vazio'); setVenGrupo6(0); setLuGrupo6(0);
-        setNomeGrupo7('Vazio'); setVenGrupo7(0); setLuGrupo7(0);
-        setNomeGrupo8('Vazio'); setVenGrupo8(0); setLuGrupo8(0);
-        setNomeGrupo9('Vazio'); setVenGrupo9(0); setLuGrupo9(0);
+        setNomeGrupo(' '); setVenGrupo(0); setLuGrupo(0);
+        setNomeGrupo1(' '); setVenGrupo1(0); setLuGrupo1(0);
+        setNomeGrupo2(' '); setVenGrupo2(0); setLuGrupo2(0);
+        setNomeGrupo3(' '); setVenGrupo3(0); setLuGrupo3(0);
+        setNomeGrupo4(' '); setVenGrupo4(0); setLuGrupo4(0);
+        setNomeGrupo5(' '); setVenGrupo5(0); setLuGrupo5(0);
+        setNomeGrupo6(' '); setVenGrupo6(0); setLuGrupo6(0);
+        setNomeGrupo7(' '); setVenGrupo7(0); setLuGrupo7(0);
+        setNomeGrupo8(' '); setVenGrupo8(0); setLuGrupo8(0);
+        setNomeGrupo9(' '); setVenGrupo9(0); setLuGrupo9(0);
     }
 
     //Pega 10 Dados Individualmente 
@@ -439,6 +473,7 @@ export const ResumoFaturamento = () => {
     }
 
     const handleSetData = () => { //Envia o JSON para todas as APIS ao mesmo tempo 
+        LimparGRegiao();
         LimparGCliente();
         LimparGGrupo();
         LimparGProduto();
@@ -473,6 +508,8 @@ export const ResumoFaturamento = () => {
     function closeDashboardGeral() { //Função para Fechar o Modal de Gráficos Geral
         setIsOpenDashboardGeral(false);
     }
+
+
 
     //------------------------------------------------------------------Dashboards Região----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -529,7 +566,7 @@ export const ResumoFaturamento = () => {
     };
 
     const dataRe0 = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Região
-        ["Valores em R$", "", ""],
+        ["Valores em R$", "NF-e/Custo", "NFC-e/Lucro"],
         ["NF-e / NFC-e  ", result3, result4],
         ["Custo / Lucro", result, result2],
     ];
@@ -575,6 +612,41 @@ export const ResumoFaturamento = () => {
         ["Valor NFC-e", result4, "#2686ED", null],
     ];
 
+    const chartRegiao = [
+        ["Valores em R$", "Venda", "Lucro"],
+        [nomeRegiao, vendaRegiao, lucroRegiao],
+        [nomeRegiao1, vendaRegiao1, lucroRegiao1],
+        [nomeRegiao2, vendaRegiao2, lucroRegiao2],
+        [nomeRegiao3, vendaRegiao3, lucroRegiao3],
+        [nomeRegiao4, vendaRegiao4, lucroRegiao4],
+        [nomeRegiao5, vendaRegiao5, lucroRegiao5],
+        [nomeRegiao6, vendaRegiao6, lucroRegiao6],
+        [nomeRegiao7, vendaRegiao7, lucroRegiao7],
+        [nomeRegiao8, vendaRegiao8, lucroRegiao8],
+        [nomeRegiao9, vendaRegiao9, lucroRegiao9],
+    ];
+
+    const optionsRegiao = {
+        chart: {
+            title: "Regiões",
+            subtitle: "Comparativo",
+        },
+        hAxis: {
+            title: "Ok",
+            minValue: 0,
+        },
+        vAxis: {
+            title: "Valores",
+        },
+        bars: "horizontal",
+        axes: {
+            y: {
+                0: { side: "right" },
+            },
+        },
+        colors: ["#F7C64F", "#bc1b2b"],
+    }
+
     //-------------------------------------------------------------Dashboard Filial----------------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardFilial, setIsOpenDashboardFilial] = useState(false);//Estado do Modal 
@@ -585,6 +657,8 @@ export const ResumoFaturamento = () => {
     function closeDashboardFilial() { //Função para Fechar o Modal de Gráficos de Filial
         setIsOpenDashboardFilial(false)
     }
+
+    console.log(dadosRegiao)
 
     const [graficosCadaFilial, setGraficosCadaFilial] = useState(false)
 
@@ -1305,6 +1379,22 @@ export const ResumoFaturamento = () => {
         ["NFC-e", resultFi4, "#bc1b2b"],
     ];
 
+    console.log(dados)
+
+    const deleteById = id => {
+        setValor(oldValues => {
+            return oldValues.filter(valor => valor.id !== id)
+        })
+    }
+
+    const deleteByIdTop = id => {
+        setValorTop(oldValues => {
+            return oldValues.filter(valorTop => valorTop.id !== id)
+        })
+    }
+
+    const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false)
+
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
@@ -1338,6 +1428,7 @@ export const ResumoFaturamento = () => {
                                     <table id='table'>
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th >Código</th>
                                                 <th >Fantasia</th>
                                                 <th>Razão Social</th>
@@ -1350,6 +1441,7 @@ export const ResumoFaturamento = () => {
                                             return (
                                                 <tbody >
                                                     <tr>
+                                                        <img className='del' src='/images/lixeira.png' onClick={() => deleteById(item.id)} />
                                                         <td>{item.id}</td>
                                                         <td>{item.nome_fantasia}</td>
                                                         <td>{item.razao_social}</td>
@@ -1374,6 +1466,7 @@ export const ResumoFaturamento = () => {
                                     <table id='table'>
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th >Código</th>
                                                 <th >Descrição</th>
                                             </tr>
@@ -1382,6 +1475,7 @@ export const ResumoFaturamento = () => {
 
                                             return (
                                                 <tr>
+                                                    <img className='del' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
                                                     <td>{item.id}</td>
                                                     <td>{item.descricao}</td>
                                                 </tr>
@@ -2137,7 +2231,7 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Região</h1>
+                    <h1>Dados Região <button className='filialBTN' onClick={() => setDsRegiaoDetalhada(true)}><img className='close' src='/images/regiao.png' />Cada Região</button></h1>
 
                     <div className='dashboardTexts'>
 
@@ -2165,13 +2259,67 @@ export const ResumoFaturamento = () => {
 
                     <RF.Dashboard>
                         <div className='grafico'> <Chart chartType="ColumnChart" width="95%" height="95%" data={dataRegiao} options={options} /></div>
-                        <div className='grafico'><Chart chartType="Bar" width="95%" height="95%" data={dataRe0} options={optionsRe0} /></div>
+                        <div className='grafico'> <Chart chartType="Bar" width="95%" height="95%" data={dataRe0} options={optionsRe0} /></div>
                         <div className='grafico'> <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="95%" height="95%" /></div>
                     </RF.Dashboard>
 
                     <RF.Dashboard0>
                         <div className='grafico'> <Chart chartType="BarChart" data={barData} options={barOptions} /> </div>
                     </RF.Dashboard0>
+
+                    <Modal className='dashboardCadaFilial' shouldCloseOnEsc={false} isOpen={dsRegiaoDetalhada} onRequestClose={() => setDsRegiaoDetalhada(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
+
+                        <button className='closeBtnMenor' onClick={() => setDsRegiaoDetalhada(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+                                    
+                        <h1>Região</h1>
+
+                        <h1 className='textFilial' >Grafico Comparativo</h1>
+
+                        <RF.Dashboard0>
+
+                            <div className='justSize' > <Chart chartType='Bar' width='100%' height='95%' data={chartRegiao} options={optionsRegiao} /> </div>
+
+                        </RF.Dashboard0>
+                        
+                        <h1 className='textFilial' >Cada Região</h1>
+
+                        {dadosRegiao.map((data) => {
+                            const chartRe = [
+                                [
+                                    "Element",
+                                    "Valor",
+                                    {role: "style"},
+                                    {
+                                        sourceColumn: 0,
+                                        role: "annotation",
+                                        type: "string",
+                                        calc: "stringify",
+                                    },
+                                ],
+                                ["Lucro", data.vlLucroTotal, "#f6d001", null],
+                                ["Custo", data.vlCustoTotal, "#bc1b2b", null],
+                                ["Venda Total", data.vlVendaTotal, "#F7C64F", null],
+                                ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                                ["NFC-e", data.vlTotalNfce, "#0854b2", null],
+                            ]
+
+                            const optionsRe = {
+                                title: data.regiao,
+                                width: "100%",
+                                height: "95%",
+                                bar: {groupWidth: "95%",},
+                                legend: {position: "none"}
+                            } 
+
+                            return(
+                                <RF.Dashboard0>
+                                    <div className='grafico' ><Chart chartType='BarChart' data={chartRe} options={optionsRe} /></div>
+                                </RF.Dashboard0>
+                            )
+
+                        } )}
+
+                    </Modal>
 
                 </div>
             </Modal>
@@ -2228,45 +2376,29 @@ export const ResumoFaturamento = () => {
                         <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
 
                         <h1>Cada Filial</h1>
+                        
                         {dados.map((data) => {
-
-                            const grafico = [
-                                ["Element", "Lucro/Custo", { role: "style" }],
-                                ["Lucro", data.vlLucroVenda, "#f6d001"],
-                                ["Custo", data.vlCustoTotal, "#bc1b2b"],
-                            ];
-
-                            const grafico0 = [
-                                ["Element", "Notas Fiscais", { role: "style" }],
-                                ["NF-e", data.vlTotalNfe, "#bc1b9c"],
-                                ["NFC-e", data.vlTotalNfce, "#1b7abc"],
-                            ];
-
-                            const grafico1 = [
-                                ["Element", "Liquido/Total", { role: "style" }],
-                                ["Liquido", data.vlTotalLiquido, "#ffaf56"],
-                                ["Total", data.vlVendaTotal, "#b2bb1c"]
+                            const ChartFi = [
+                                [
+                                    "Element",
+                                    "Valor",
+                                    {role: "style"},
+                                    {
+                                        sourceColumn: 0,
+                                        role: "annotation",
+                                        type: "string",
+                                        calc: "stringify",
+                                    },
+                                ],
+                                ["Lucro", data.vlLucroVenda],
+                                ["Custo", data.vlCustoTotal],
+                                ["Total Venda", data.vlVendaTotal],
+                                ["NF-e", data.vlTotalNfe],
+                                ["NFC-e", data.vlTotalNfce],
+                                ["Credito", data.vlTotalCredito],
+                                ["Liquido", data.vlTotalLiquido],
                             ]
-
-                            const optionsGra1 = {
-                                title: "NF-e/NFC-e",
-                                is3D: true,
-                                colors: ["#bc1b9c", "#b2bb1c"],
-                            };
-
-                            return (
-                                <div>
-                                    <h1 className='textFilial' >{data.filial}</h1>
-
-                                    <RF.Dashboard0>
-                                        <div className='grafico' > <Chart chartType="ColumnChart" width="95%" height="23vh" data={grafico} /> </div>
-                                        <div className='grafico' > <Chart chartType="PieChart" width="95%" height="23vh" data={grafico0} options={optionsGra1} /> </div>
-                                        <div className='grafico' > <Chart chartType="ColumnChart" width="95%" height="23vh" data={grafico1} /> </div>
-                                    </RF.Dashboard0>
-                                </div>
-
-                            )
-                        })}
+                        } )}
 
                     </Modal>
 
