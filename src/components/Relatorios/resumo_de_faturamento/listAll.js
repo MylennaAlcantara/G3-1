@@ -160,16 +160,6 @@ export const ResumoFaturamento = () => {
         }
     }
 
-    //Pega 10 Dados Individualmente 
-    const [dadoNomeCli, setNomeCli] = useState(); const [dadoNomeCli1, setNomeCli1] = useState(); const [dadoNomeCli2, setNomeCli2] = useState(); const [dadoNomeCli3, setNomeCLi3] = useState(); const [dadoNomeCli4, setNomeCli4] = useState(); const [dadoNomeCli5, setNomeCli5] = useState();
-    const [dadoNomeCli6, setNomeCli6] = useState(); const [dadoNomeCli7, setNomeCli7] = useState(); const [dadoNomeCli8, setNomeCli8] = useState(); const [dadoNomeCli9, setNomeCli9] = useState();
-
-    const [dadoVenCli, setVenCli] = useState(); const [dadoVenCli1, setVenCli1] = useState(); const [dadoVenCli2, setVenCli2] = useState(); const [dadoVenCli3, setVenCli3] = useState(); const [dadoVenCli4, setVenCli4] = useState(); const [dadoVenCli5, setVenCli5] = useState();
-    const [dadoVenCli6, setVenCli6] = useState(); const [dadoVenCli7, setVenCli7] = useState(); const [dadoVenCli8, setVenCli8] = useState(); const [dadoVenCli9, setVenCli9] = useState();
-
-    const [dadoLiqCli, setLiqCli] = useState(); const [dadoLiqCli1, setLiqCli1] = useState(); const [dadoLiqCli2, setLiqCli2] = useState(); const [dadoLiqCli3, setLiqCli3] = useState(); const [dadoLiqCli4, setLiqCli4] = useState(); const [dadoLiqCli5, setLiqCli5] = useState();
-    const [dadoLiqCli6, setLiqCli6] = useState(); const [dadoLiqCli7, setLiqCli7] = useState(); const [dadoLiqCli8, setLiqCli8] = useState(); const [dadoLiqCli9, setLiqCli9] = useState();
-
     async function setDataCliente() {//Envia o JSON para a api e pega os dados de Cliente
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorCliente", {
             method: "POST",
@@ -180,44 +170,9 @@ export const ResumoFaturamento = () => {
             res.json().then(data => {
 
                 setDadosCliente(data);
-
-                setNomeCli(data[0].cliente); setVenCli(data[0].vlLucroVenda); setLiqCli(data[0].vlLucroLiquido)
-                setNomeCli1(data[1].cliente); setVenCli1(data[1].vlLucroVenda); setLiqCli1(data[1].vlLucroLiquido)
-                setNomeCli2(data[2].cliente); setVenCli2(data[2].vlLucroVenda); setLiqCli2(data[2].vlLucroLiquido)
-                setNomeCLi3(data[3].cliente); setVenCli3(data[3].vlLucroVenda); setLiqCli3(data[3].vlLucroLiquido)
-                setNomeCli4(data[4].cliente); setVenCli4(data[4].vlLucroVenda); setLiqCli4(data[4].vlLucroLiquido)
-                setNomeCli5(data[5].cliente); setVenCli5(data[5].vlLucroVenda); setLiqCli5(data[5].vlLucroLiquido)
-                setNomeCli6(data[6].cliente); setVenCli6(data[6].vlLucroVenda); setLiqCli6(data[6].vlLucroLiquido)
-                setNomeCli7(data[7].cliente); setVenCli7(data[7].vlLucroVenda); setLiqCli7(data[7].vlLucroLiquido)
-                setNomeCli8(data[8].cliente); setVenCli8(data[8].vlLucroVenda); setLiqCli8(data[8].vlLucroLiquido)
-                setNomeCli9(data[9].cliente); setVenCli9(data[9].vlLucroVenda); setLiqCli9(data[9].vlLucroLiquido)
             });
         }
     }
-
-    const LimparGCliente = () => {
-        setNomeCli(' '); setVenCli(0); setLiqCli(0);
-        setNomeCli1(' '); setVenCli1(0); setLiqCli1(0);
-        setNomeCli2(' '); setVenCli2(0); setLiqCli2(0);
-        setNomeCLi3(' '); setVenCli3(0); setLiqCli3(0);
-        setNomeCli4(' '); setVenCli4(0); setLiqCli4(0);
-        setNomeCli5(' '); setVenCli5(0); setLiqCli5(0);
-        setNomeCli6(' '); setVenCli6(0); setLiqCli6(0);
-        setNomeCli7(' '); setVenCli7(0); setLiqCli7(0);
-        setNomeCli8(' '); setVenCli8(0); setLiqCli8(0);
-        setNomeCli9(' '); setVenCli9(0); setLiqCli9(0);
-    }
-
-    const [nomeRegiao, setNomeRegiao] = useState(); const [vendaRegiao, setVendaRegiao] = useState(); const [lucroRegiao, setLucroRegiao] = useState();
-    const [nomeRegiao1, setNomeRegiao1] = useState(); const [vendaRegiao1, setVendaRegiao1] = useState(); const [lucroRegiao1, setLucroRegiao1] = useState();
-    const [nomeRegiao2, setNomeRegiao2] = useState(); const [vendaRegiao2, setVendaRegiao2] = useState(); const [lucroRegiao2, setLucroRegiao2] = useState();
-    const [nomeRegiao3, setNomeRegiao3] = useState(); const [vendaRegiao3, setVendaRegiao3] = useState(); const [lucroRegiao3, setLucroRegiao3] = useState();
-    const [nomeRegiao4, setNomeRegiao4] = useState(); const [vendaRegiao4, setVendaRegiao4] = useState(); const [lucroRegiao4, setLucroRegiao4] = useState();
-    const [nomeRegiao5, setNomeRegiao5] = useState(); const [vendaRegiao5, setVendaRegiao5] = useState(); const [lucroRegiao5, setLucroRegiao5] = useState();
-    const [nomeRegiao6, setNomeRegiao6] = useState(); const [vendaRegiao6, setVendaRegiao6] = useState(); const [lucroRegiao6, setLucroRegiao6] = useState();
-    const [nomeRegiao7, setNomeRegiao7] = useState(); const [vendaRegiao7, setVendaRegiao7] = useState(); const [lucroRegiao7, setLucroRegiao7] = useState();
-    const [nomeRegiao8, setNomeRegiao8] = useState(); const [vendaRegiao8, setVendaRegiao8] = useState(); const [lucroRegiao8, setLucroRegiao8] = useState();
-    const [nomeRegiao9, setNomeRegiao9] = useState(); const [vendaRegiao9, setVendaRegiao9] = useState(); const [lucroRegiao9, setLucroRegiao9] = useState();
 
     async function setDataRegiao() {//Envia o JSON para a api e pega os dados de Região
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorRegiao", {
@@ -236,32 +191,8 @@ export const ResumoFaturamento = () => {
 
                 }
                 setDadosRegiao(data);
-
-                setNomeRegiao(data[0].regiao); setVendaRegiao(data[0].vlVendaTotal); setLucroRegiao(data[0].vlVendaTotal);
-                setNomeRegiao1(data[1].regiao); setVendaRegiao1(data[1].vlVendaTotal); setLucroRegiao1(data[1].vlVendaTotal);
-                setNomeRegiao2(data[2].regiao); setVendaRegiao2(data[2].vlVendaTotal); setLucroRegiao2(data[2].vlVendaTotal);
-                setNomeRegiao3(data[3].regiao); setVendaRegiao3(data[3].vlVendaTotal); setLucroRegiao3(data[3].vlVendaTotal);
-                setNomeRegiao4(data[4].regiao); setVendaRegiao4(data[4].vlVendaTotal); setLucroRegiao4(data[4].vlVendaTotal);
-                setNomeRegiao5(data[5].regiao); setVendaRegiao5(data[5].vlVendaTotal); setLucroRegiao5(data[5].vlVendaTotal);
-                setNomeRegiao6(data[6].regiao); setVendaRegiao6(data[6].vlVendaTotal); setLucroRegiao6(data[6].vlVendaTotal);
-                setNomeRegiao7(data[7].regiao); setVendaRegiao7(data[7].vlVendaTotal); setLucroRegiao7(data[7].vlVendaTotal);
-                setNomeRegiao8(data[8].regiao); setVendaRegiao8(data[8].vlVendaTotal); setLucroRegiao8(data[8].vlVendaTotal);
-                setNomeRegiao9(data[9].regiao); setVendaRegiao9(data[9].vlVendaTotal); setLucroRegiao9(data[9].vlVendaTotal);
             });
         }
-    }
-
-    const LimparGRegiao = () => {
-        setNomeRegiao(' '); setVendaRegiao(0); setLucroRegiao(0);
-        setNomeRegiao1(' '); setVendaRegiao1(0); setLucroRegiao1(0);
-        setNomeRegiao2(' '); setVendaRegiao2(0); setLucroRegiao2(0);
-        setNomeRegiao3(' '); setVendaRegiao3(0); setLucroRegiao3(0);
-        setNomeRegiao4(' '); setVendaRegiao4(0); setLucroRegiao4(0);
-        setNomeRegiao5(' '); setVendaRegiao5(0); setLucroRegiao5(0);
-        setNomeRegiao6(' '); setVendaRegiao6(0); setLucroRegiao6(0);
-        setNomeRegiao7(' '); setVendaRegiao7(0); setLucroRegiao7(0);
-        setNomeRegiao8(' '); setVendaRegiao8(0); setLucroRegiao8(0);
-        setNomeRegiao9(' '); setVendaRegiao9(0); setLucroRegiao9(0);
     }
 
     const [keys, setDaDosKeys] = useState([]) //Usado para escrever o nome dos labels 
@@ -284,15 +215,6 @@ export const ResumoFaturamento = () => {
 
     //console.log(dadosLeitura)
 
-    const [dadoNomeVend, setNomeVend] = useState(); const [dadoNomeVend1, setNomeVend1] = useState(); const [dadoNomeVend2, setNomeVend2] = useState(); const [dadoNomeVend3, setNomeVend3] = useState(); const [dadoNomeVend4, setNomeVend4] = useState(); const [dadoNomeVend5, setNomeVend5] = useState();
-    const [dadoNomeVend6, setNomeVend6] = useState(); const [dadoNomeVend7, setNomeVend7] = useState(); const [dadoNomeVend8, setNomeVend8] = useState(); const [dadoNomeVend9, setNomeVend9] = useState('Vazio');
-
-    const [dadoVenVend, setVenVend] = useState(0); const [dadoVenVend1, setVenVend1] = useState(0); const [dadoVenVend2, setVenVend2] = useState(0); const [dadoVenVend3, setVenVend3] = useState(0); const [dadoVenVend4, setVenVend4] = useState(0); const [dadoVenVend5, setVenVend5] = useState(0);
-    const [dadoVenVend6, setVenVend6] = useState(0); const [dadoVenVend7, setVenVend7] = useState(0); const [dadoVenVend8, setVenVend8] = useState(0); const [dadoVenVend9, setVenVend9] = useState(0);
-
-    const [dadoLuVend, setLuVend] = useState(0); const [dadoLuVend1, setLuVend1] = useState(0); const [dadoLuVend2, setLuVend2] = useState(0); const [dadoLuVend3, setLuVend3] = useState(0); const [dadoLuVend4, setLuVend4] = useState(0); const [dadoLuVend5, setLuVend5] = useState(0);
-    const [dadoLuVend6, setLuVend6] = useState(0); const [dadoLuVend7, setLuVend7] = useState(0); const [dadoLuVend8, setLuVend8] = useState(0); const [dadoLuVend9, setLuVend9] = useState(0);
-
     async function setDataVendedor() { //Envia o JSON para a api e pega os dados de Vendedor
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorVendedor", {
             method: "POST",
@@ -302,44 +224,9 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosVendedor(data);
-
-                setNomeVend(data[0].vendedor); setVenVend(data[0].vlVendaTotal); setLuVend(data[0].vlLucroTotal)
-                setNomeVend1(data[1].vendedor); setVenVend1(data[1].vlVendaTotal); setLuVend1(data[1].vlLucroTotal)
-                setNomeVend2(data[2].vendedor); setVenVend2(data[2].vlVendaTotal); setLuVend2(data[2].vlLucroTotal)
-                setNomeVend3(data[3].vendedor); setVenVend3(data[3].vlVendaTotal); setLuVend3(data[3].vlLucroTotal)
-                setNomeVend4(data[4].vendedor); setVenVend4(data[4].vlVendaTotal); setLuVend4(data[4].vlLucroTotal)
-                setNomeVend5(data[5].vendedor); setVenVend5(data[5].vlVendaTotal); setLuVend5(data[5].vlLucroTotal)
-                setNomeVend6(data[6].vendedor); setVenVend6(data[6].vlVendaTotal); setLuVend6(data[6].vlLucroTotal)
-                setNomeVend7(data[7].vendedor); setVenVend7(data[7].vlVendaTotal); setLuVend7(data[7].vlLucroTotal)
-                setNomeVend8(data[8].vendedor); setVenVend8(data[8].vlVendaTotal); setLuVend8(data[8].vlLucroTotal)
-                setNomeVend9(data[9].vendedor); setVenVend9(data[9].vlVendaTotal); setLuVend9(data[9].vlLucroTotal)
-
             });
         }
     }
-
-    const LimparGVendedor = () => {
-        setNomeVend(' '); setVenVend(0); setLuVend(0);
-        setNomeVend1(' '); setVenVend1(0); setLuVend1(0);
-        setNomeVend2(' '); setVenVend2(0); setLuVend2(0);
-        setNomeVend3(' '); setVenVend3(0); setLuVend3(0);
-        setNomeVend4(' '); setVenVend4(0); setLuVend4(0);
-        setNomeVend5(' '); setVenVend5(0); setLuVend5(0);
-        setNomeVend5(' '); setVenVend5(0); setLuVend5(0);
-        setNomeVend6(' '); setVenVend6(0); setLuVend6(0);
-        setNomeVend7(' '); setVenVend7(0); setLuVend7(0);
-        setNomeVend8(' '); setVenVend8(0); setLuVend8(0);
-        setNomeVend9(' '); setVenVend9(0); setLuVend9(0);
-    }
-
-    const [dadoNomeProd, setNomeProd] = useState(); const [dadoNomeProd1, setNomeProd1] = useState(); const [dadoNomeProd2, setNomeProd2] = useState(); const [dadoNomeProd3, setNomeProd3] = useState(); const [dadoNomeProd4, setNomeProd4] = useState(); const [dadoNomeProd5, setNomeProd5] = useState();
-    const [dadoNomeProd6, setNomeProd6] = useState(); const [dadoNomeProd7, setNomeProd7] = useState(); const [dadoNomeProd8, setNomeProd8] = useState(); const [dadoNomeProd9, setNomeProd9] = useState();
-
-    const [dadoVenProd, setVenProd] = useState(); const [dadoVenProd1, setVenProd1] = useState(); const [dadoVenProd2, setVenProd2] = useState(); const [dadoVenProd3, setVenProd3] = useState(); const [dadoVenProd4, setVenProd4] = useState(); const [dadoVenProd5, setVenProd5] = useState();
-    const [dadoVenProd6, setVenProd6] = useState(); const [dadoVenProd7, setVenProd7] = useState(); const [dadoVenProd8, setVenProd8] = useState(); const [dadoVenProd9, setVenProd9] = useState();
-
-    const [dadoLuProd, setLuProd] = useState(); const [dadoLuProd1, setLuProd1] = useState(); const [dadoLuProd2, setLuProd2] = useState(); const [dadoLuProd3, setLuProd3] = useState(); const [dadoLuProd4, setLuProd4] = useState(); const [dadoLuProd5, setLuProd5] = useState();
-    const [dadoLuProd6, setLuProd6] = useState(); const [dadoLuProd7, setLuProd7] = useState(); const [dadoLuProd8, setLuProd8] = useState(); const [dadoLuProd9, setLuProd9] = useState();
 
     async function setDataProduto() { //Envia o JSON para a api e pega os dados de Produto
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorProduto", {
@@ -350,43 +237,11 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosProduto(data);
-
-                setNomeProd(data[0].produto); setVenProd(data[0].vlr_venda_total); setLuProd(data[0].vlr_lucro_total)
-                setNomeProd1(data[1].produto); setVenProd1(data[1].vlr_venda_total); setLuProd1(data[1].vlr_lucro_total)
-                setNomeProd2(data[2].produto); setVenProd2(data[2].vlr_venda_total); setLuProd2(data[2].vlr_lucro_total)
-                setNomeProd3(data[3].produto); setVenProd3(data[3].vlr_venda_total); setLuProd3(data[3].vlr_lucro_total)
-                setNomeProd4(data[4].produto); setVenProd4(data[4].vlr_venda_total); setLuProd4(data[4].vlr_lucro_total)
-                setNomeProd5(data[5].produto); setVenProd5(data[5].vlr_venda_total); setLuProd5(data[5].vlr_lucro_total)
-                setNomeProd6(data[6].produto); setVenProd6(data[6].vlr_venda_total); setLuProd6(data[6].vlr_lucro_total)
-                setNomeProd7(data[7].produto); setVenProd7(data[7].vlr_venda_total); setLuProd7(data[7].vlr_lucro_total)
-                setNomeProd8(data[8].produto); setVenProd8(data[8].vlr_venda_total); setLuProd8(data[8].vlr_lucro_total)
-                setNomeProd9(data[9].produto); setVenProd9(data[9].vlr_venda_total); setLuProd9(data[9].vlr_lucro_total)
             })
         }
     }
 
-    const LimparGProduto = () => {
-        setNomeProd(' '); setVenProd(0); setLuProd(0);
-        setNomeProd1(' '); setVenProd1(0); setLuProd1(0);
-        setNomeProd2(' '); setVenProd2(0); setLuProd2(0);
-        setNomeProd3(' '); setVenProd3(0); setLuProd3(0);
-        setNomeProd4(' '); setVenProd4(0); setLuProd4(0);
-        setNomeProd5(' '); setVenProd5(0); setLuProd5(0);
-        setNomeProd6(' '); setVenProd6(0); setLuProd6(0);
-        setNomeProd7(' '); setVenProd7(0); setLuProd7(0);
-        setNomeProd8(' '); setVenProd8(0); setLuProd8(0);
-        setNomeProd9(' '); setVenProd9(0); setLuProd9(0);
-    }
-
     //Pega 10 Dados Individualmente 
-    const [dadoNomeGrupo, setNomeGrupo] = useState(); const [dadoNomeGrupo1, setNomeGrupo1] = useState(); const [dadoNomeGrupo2, setNomeGrupo2] = useState(); const [dadoNomeGrupo3, setNomeGrupo3] = useState(); const [dadoNomeGrupo4, setNomeGrupo4] = useState(); const [dadoNomeGrupo5, setNomeGrupo5] = useState();
-    const [dadoNomeGrupo6, setNomeGrupo6] = useState(); const [dadoNomeGrupo7, setNomeGrupo7] = useState(); const [dadoNomeGrupo8, setNomeGrupo8] = useState(); const [dadoNomeGrupo9, setNomeGrupo9] = useState();
-
-    const [dadoVenGrupo, setVenGrupo] = useState(); const [dadoVenGrupo1, setVenGrupo1] = useState(); const [dadoVenGrupo2, setVenGrupo2] = useState(); const [dadoVenGrupo3, setVenGrupo3] = useState(); const [dadoVenGrupo4, setVenGrupo4] = useState(); const [dadoVenGrupo5, setVenGrupo5] = useState();
-    const [dadoVenGrupo6, setVenGrupo6] = useState(); const [dadoVenGrupo7, setVenGrupo7] = useState(); const [dadoVenGrupo8, setVenGrupo8] = useState(); const [dadoVenGrupo9, setVenGrupo9] = useState();
-
-    const [dadoLuGrupo, setLuGrupo] = useState(); const [dadoLuGrupo1, setLuGrupo1] = useState(); const [dadoLuGrupo2, setLuGrupo2] = useState(); const [dadoLuGrupo3, setLuGrupo3] = useState(); const [dadoLuGrupo4, setLuGrupo4] = useState(); const [dadoLuGrupo5, setLuGrupo5] = useState();
-    const [dadoLuGrupo6, setLuGrupo6] = useState(); const [dadoLuGrupo7, setLuGrupo7] = useState(); const [dadoLuGrupo8, setLuGrupo8] = useState(); const [dadoLuGrupo9, setLuGrupo9] = useState();
 
     async function setDataGrupo() { //Envia o JSON para a api e pega os dados de Grupo
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorGrupo", {
@@ -397,43 +252,9 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosGrupo(data);
-
-                setNomeGrupo(data[0].grupo); setVenGrupo(data[0].vlr_venda_total); setLuGrupo(data[0].vlr_lucro_total)
-                setNomeGrupo1(data[1].grupo); setVenGrupo1(data[1].vlr_venda_total); setLuGrupo1(data[1].vlr_lucro_total)
-                setNomeGrupo2(data[2].grupo); setVenGrupo2(data[2].vlr_venda_total); setLuGrupo2(data[2].vlr_lucro_total)
-                setNomeGrupo3(data[3].grupo); setVenGrupo3(data[3].vlr_venda_total); setLuGrupo3(data[3].vlr_lucro_total)
-                setNomeGrupo4(data[4].grupo); setVenGrupo4(data[4].vlr_venda_total); setLuGrupo4(data[4].vlr_lucro_total)
-                setNomeGrupo5(data[5].grupo); setVenGrupo5(data[5].vlr_venda_total); setLuGrupo5(data[5].vlr_lucro_total)
-                setNomeGrupo6(data[6].grupo); setVenGrupo6(data[6].vlr_venda_total); setLuGrupo6(data[6].vlr_lucro_total)
-                setNomeGrupo7(data[7].grupo); setVenGrupo7(data[7].vlr_venda_total); setLuGrupo7(data[7].vlr_lucro_total)
-                setNomeGrupo8(data[8].grupo); setVenGrupo8(data[8].vlr_venda_total); setLuGrupo8(data[8].vlr_lucro_total)
-                setNomeGrupo9(data[9].grupo); setVenGrupo9(data[9].vlr_venda_total); setLuGrupo9(data[9].vlr_custo_total)
             })
         }
     }
-
-    const LimparGGrupo = () => {
-        setNomeGrupo(' '); setVenGrupo(0); setLuGrupo(0);
-        setNomeGrupo1(' '); setVenGrupo1(0); setLuGrupo1(0);
-        setNomeGrupo2(' '); setVenGrupo2(0); setLuGrupo2(0);
-        setNomeGrupo3(' '); setVenGrupo3(0); setLuGrupo3(0);
-        setNomeGrupo4(' '); setVenGrupo4(0); setLuGrupo4(0);
-        setNomeGrupo5(' '); setVenGrupo5(0); setLuGrupo5(0);
-        setNomeGrupo6(' '); setVenGrupo6(0); setLuGrupo6(0);
-        setNomeGrupo7(' '); setVenGrupo7(0); setLuGrupo7(0);
-        setNomeGrupo8(' '); setVenGrupo8(0); setLuGrupo8(0);
-        setNomeGrupo9(' '); setVenGrupo9(0); setLuGrupo9(0);
-    }
-
-    //Pega 10 Dados Individualmente 
-    const [dadoNomeForn, setNomeForn] = useState(); const [dadoNomeForn1, setNomeForn1] = useState(); const [dadoNomeForn2, setNomeForn2] = useState(); const [dadoNomeForn3, setNomeForn3] = useState(); const [dadoNomeForn4, setNomeForn4] = useState(); const [dadoNomeForn5, setNomeForn5] = useState();
-    const [dadoNomeForn6, setNomeForn6] = useState(); const [dadoNomeForn7, setNomeForn7] = useState(); const [dadoNomeForn8, setNomeForn8] = useState(); const [dadoNomeForn9, setNomeForn9] = useState();
-
-    const [dadoVenForn, setVenForn] = useState(); const [dadoVenForn1, setVenForn1] = useState(); const [dadoVenForn2, setVenForn2] = useState(); const [dadoVenForn3, setVenForn3] = useState(); const [dadoVenForn4, setVenForn4] = useState(); const [dadoVenForn5, setVenForn5] = useState();
-    const [dadoVenForn6, setVenForn6] = useState(); const [dadoVenForn7, setVenForn7] = useState(); const [dadoVenForn8, setVenForn8] = useState(); const [dadoVenForn9, setVenForn9] = useState();
-
-    const [dadoLuForn, setLuForn] = useState(); const [dadoLuForn1, setLuForn1] = useState(); const [dadoLuForn2, setLuForn2] = useState(); const [dadoLuForn3, setLuForn3] = useState(); const [dadoLuForn4, setLuForn4] = useState(); const [dadoLuForn5, setLuForn5] = useState();
-    const [dadoLuForn6, setLuForn6] = useState(); const [dadoLuForn7, setLuForn7] = useState(); const [dadoLuForn8, setLuForn8] = useState(); const [dadoLuForn9, setLuForn9] = useState();
 
     async function setDataFornecedor() { //Envia o JSON para a api e pega os dados de Fornecedor
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFornecedor", {
@@ -444,41 +265,11 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosFornecedor(data);
-
-                setNomeForn(data[0].fornecedor); setVenForn(data[0].vlr_venda_total); setLuForn(data[0].vlr_lucro_total)
-                setNomeForn1(data[1].fornecedor); setVenForn1(data[1].vlr_venda_total); setLuForn1(data[1].vlr_lucro_total)
-                setNomeForn2(data[2].fornecedor); setVenForn2(data[2].vlr_venda_total); setLuForn2(data[2].vlr_lucro_total)
-                setNomeForn3(data[3].fornecedor); setVenForn3(data[3].vlr_venda_total); setLuForn3(data[3].vlr_lucro_total)
-                setNomeForn4(data[4].fornecedor); setVenForn4(data[4].vlr_venda_total); setLuForn4(data[4].vlr_lucro_total)
-                setNomeForn5(data[5].fornecedor); setVenForn5(data[5].vlr_venda_total); setLuForn5(data[5].vlr_lucro_total)
-                setNomeForn6(data[6].fornecedor); setVenForn6(data[6].vlr_venda_total); setLuForn6(data[6].vlr_lucro_total)
-                setNomeForn7(data[7].fornecedor); setVenForn7(data[7].vlr_venda_total); setLuForn7(data[7].vlr_lucro_total)
-                setNomeForn8(data[8].fornecedor); setVenForn8(data[8].vlr_venda_total); setLuForn8(data[8].vlr_lucro_total)
-                setNomeForn9(data[9].fornecedor); setVenForn9(data[9].vlr_venda_total); setLuForn9(data[9].vlr_lucro_total)
             })
         }
     }
 
-    const LimparGFornecedor = () => {
-        setNomeForn('Vazio'); setVenForn(0); setLuForn(0);
-        setNomeForn1('Vazio'); setVenForn1(0); setLuForn1(0);
-        setNomeForn2('Vazio'); setVenForn2(0); setLuForn2(0);
-        setNomeForn3('Vazio'); setVenForn3(0); setLuForn3(0);
-        setNomeForn4('Vazio'); setVenForn4(0); setLuForn4(0);
-        setNomeForn5('Vazio'); setVenForn5(0); setLuForn5(0);
-        setNomeForn6('Vazio'); setVenForn6(0); setLuForn6(0);
-        setNomeForn7('Vazio'); setVenForn7(0); setLuForn7(0);
-        setNomeForn8('Vazio'); setVenForn8(0); setLuForn8(0);
-        setNomeForn9('Vazio'); setVenForn9(0); setLuForn9(0);
-    }
-
     const handleSetData = () => { //Envia o JSON para todas as APIS ao mesmo tempo 
-        LimparGRegiao();
-        LimparGCliente();
-        LimparGGrupo();
-        LimparGProduto();
-        LimparGVendedor();
-        LimparGFornecedor();
         show();
         setDataCliente();
         setDataFilial();
@@ -614,16 +405,7 @@ export const ResumoFaturamento = () => {
 
     const chartRegiao = [
         ["Valores em R$", "Venda", "Lucro"],
-        [nomeRegiao, vendaRegiao, lucroRegiao],
-        [nomeRegiao1, vendaRegiao1, lucroRegiao1],
-        [nomeRegiao2, vendaRegiao2, lucroRegiao2],
-        [nomeRegiao3, vendaRegiao3, lucroRegiao3],
-        [nomeRegiao4, vendaRegiao4, lucroRegiao4],
-        [nomeRegiao5, vendaRegiao5, lucroRegiao5],
-        [nomeRegiao6, vendaRegiao6, lucroRegiao6],
-        [nomeRegiao7, vendaRegiao7, lucroRegiao7],
-        [nomeRegiao8, vendaRegiao8, lucroRegiao8],
-        [nomeRegiao9, vendaRegiao9, lucroRegiao9],
+        ...dadosRegiao.map(item => [item.regiao, item.vlVendaTotal, item.vlLucroVenda] )
     ];
 
     const optionsRegiao = {
@@ -832,18 +614,13 @@ export const ResumoFaturamento = () => {
         ["Desconto", resultVen8, "#727272", null]
     ];
 
+    console.log(dadosVendedor)
+
+    const dadosVendedorReduzidos = dadosVendedor.slice(0, 10);
+
     const chartDataVend = [
         ["Valores em R$", "Venda", "Lucro"],
-        [dadoNomeVend, dadoVenVend, dadoLuVend],
-        [dadoNomeVend1, dadoVenVend1, dadoLuVend1],
-        [dadoNomeVend2, dadoVenVend2, dadoLuVend2],
-        [dadoNomeVend3, dadoVenVend3, dadoLuVend3],
-        [dadoNomeVend4, dadoVenVend4, dadoLuVend4],
-        [dadoNomeVend5, dadoVenVend5, dadoLuVend5],
-        [dadoNomeVend6, dadoVenVend6, dadoLuVend6],
-        [dadoNomeVend7, dadoVenVend7, dadoLuVend7],
-        [dadoNomeVend8, dadoVenVend8, dadoLuVend8],
-        [dadoNomeVend9, dadoVenVend9, dadoLuVend9],
+        ...dadosVendedorReduzidos.map(item => [item.vendedor, item.vlVendaTotal, item.vlLucroVenda])
     ];
 
     const optionsVendedor = {
@@ -968,16 +745,7 @@ export const ResumoFaturamento = () => {
 
     const dataCli0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Cliente
         ["Valores em R$", "Liquido", "Venda"],
-        [dadoNomeCli, dadoLiqCli, dadoVenCli],
-        [dadoNomeCli1, dadoLiqCli1, dadoVenCli1],
-        [dadoNomeCli2, dadoLiqCli2, dadoVenCli2],
-        [dadoNomeCli3, dadoLiqCli3, dadoVenCli3],
-        [dadoNomeCli4, dadoLiqCli4, dadoVenCli4],
-        [dadoNomeCli5, dadoLiqCli5, dadoVenCli5],
-        [dadoNomeCli6, dadoLiqCli6, dadoVenCli6],
-        [dadoNomeCli7, dadoLiqCli7, dadoVenCli7],
-        [dadoNomeCli8, dadoLiqCli8, dadoVenCli8],
-        [dadoNomeCli9, dadoLiqCli9, dadoVenCli9],
+        ...dadosClienteReduzido.map(item => [item.cliente, item.vlLucroLiquido, item.vlVendaTotal])
     ];
 
     //console.log(dadosClienteReduzido)
@@ -1155,16 +923,7 @@ export const ResumoFaturamento = () => {
 
     const dataProd0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Produto
         ["Valores em R$", "Venda", "Lucro"],
-        [dadoNomeProd, dadoVenProd, dadoLuProd],
-        [dadoNomeProd1, dadoVenProd1, dadoLuProd1],
-        [dadoNomeProd2, dadoVenProd2, dadoLuProd2],
-        [dadoNomeProd3, dadoVenProd3, dadoLuProd3],
-        [dadoNomeProd4, dadoVenProd4, dadoLuProd4],
-        [dadoNomeProd5, dadoVenProd5, dadoLuProd5],
-        [dadoNomeProd6, dadoVenProd6, dadoLuProd6],
-        [dadoNomeProd7, dadoVenProd7, dadoLuProd7],
-        [dadoNomeProd8, dadoVenProd8, dadoLuProd8],
-        [dadoNomeProd9, dadoVenProd9, dadoLuProd9],
+        ...dadosProdutoReduzidos.map(item => [item.produto, item.vlr_venda_total, item.vlr_lucro_total])
     ]
 
     //------------------------------------------------------------------------Dashboard Grupo-----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1245,7 +1004,7 @@ export const ResumoFaturamento = () => {
         },
         bars: "horizontal",
 
-        //colors: [red, gray],
+        colors: ["#bc1b2b", "#ffaf56"],
 
         axes: {
             y: {
@@ -1256,16 +1015,7 @@ export const ResumoFaturamento = () => {
 
     const dataGru0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Grupo
         ["Valores em R$", "Venda", "Lucro"],
-        [dadoNomeGrupo, dadoVenGrupo, dadoLuGrupo],
-        [dadoNomeGrupo1, dadoVenGrupo1, dadoLuGrupo1],
-        [dadoNomeGrupo2, dadoVenGrupo2, dadoLuGrupo2],
-        [dadoNomeGrupo3, dadoVenGrupo3, dadoLuGrupo3],
-        [dadoNomeGrupo4, dadoVenGrupo4, dadoLuGrupo4],
-        [dadoNomeGrupo5, dadoVenGrupo5, dadoLuGrupo5],
-        [dadoNomeGrupo6, dadoVenGrupo6, dadoLuGrupo6],
-        [dadoNomeGrupo7, dadoVenGrupo7, dadoLuGrupo7],
-        [dadoNomeGrupo8, dadoVenGrupo8, dadoLuGrupo8],
-        [dadoNomeGrupo9, dadoVenGrupo9, dadoLuGrupo9],
+        ...dadosGrupoDetalhado.map(item => [item.grupo, item.vlr_venda_total, item.vlr_lucro_total])
 
     ];
 
@@ -1353,16 +1103,7 @@ export const ResumoFaturamento = () => {
 
     const dataFor0 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Fornecedor
         ["Valores em R$", "Venda", "Lucro"],
-        [dadoNomeForn, dadoVenForn, dadoLuForn],
-        [dadoNomeForn1, dadoVenForn1, dadoLuForn1],
-        [dadoNomeForn2, dadoVenForn2, dadoLuForn2],
-        [dadoNomeForn3, dadoVenForn3, dadoLuForn3],
-        [dadoNomeForn4, dadoVenForn4, dadoLuForn4],
-        [dadoNomeForn5, dadoVenForn5, dadoLuForn5],
-        [dadoNomeForn6, dadoVenForn6, dadoLuForn6],
-        [dadoNomeForn7, dadoVenForn7, dadoLuForn7],
-        [dadoNomeForn8, dadoVenForn8, dadoLuForn8],
-        [dadoNomeForn9, dadoVenForn9, dadoLuForn9],
+        ...dadosFornecedorDetalhado.map(item => [item.fornecedor, item.vlr_venda_total, item.vlr_lucro_total])
     ];
 
     const dataFor3 = [
