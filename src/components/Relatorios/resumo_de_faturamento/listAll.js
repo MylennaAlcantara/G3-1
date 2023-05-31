@@ -300,8 +300,6 @@ export const ResumoFaturamento = () => {
         setIsOpenDashboardGeral(false);
     }
 
-
-
     //------------------------------------------------------------------Dashboards Região----------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardRegiao, setIsOpenDashboardRegiao] = useState(false);//Estado do Modal
