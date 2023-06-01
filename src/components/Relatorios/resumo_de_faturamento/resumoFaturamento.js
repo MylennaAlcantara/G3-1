@@ -139,7 +139,7 @@ export const Data = styled.div`
         }
     }
 `
-export const Navigacao = styled.div`
+export const Navegacao = styled.div`
     margin: auto;
     margin-bottom: 0;
     display: flex;

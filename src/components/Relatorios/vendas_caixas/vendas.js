@@ -91,8 +91,7 @@ export const Totais = styled.div`
 `
 
 export const Graficos = styled.div`
-    width: 50%;
-    margin-left: 20%;
+    margin: auto;
     .A{
         width: 400px;
         height: 300px;

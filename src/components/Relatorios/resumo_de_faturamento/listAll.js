@@ -1256,7 +1256,7 @@ export const ResumoFaturamento = () => {
                     </div>
                 </RF.Data>
             </RF.Filtros>
-            <RF.Navigacao>
+            <RF.Navegacao>
                 <div>
                     <button className='CE' style={{ backgroundColor: aba === "regiao" ? "#8CB9DF" : "", borderBottom: aba === 'regiao' ? "none" : "" }} onClick={() => setOpenAba("regiao")} >Região</button>
                     <button className='botão-filtros' style={{ backgroundColor: aba === "filial" ? "#8CB9DF" : "", borderBottom: aba === 'filial' ? "none" : "" }} onClick={() => setOpenAba("filial")}  >Filial</button>
@@ -1267,7 +1267,7 @@ export const ResumoFaturamento = () => {
                     <button className='botão-filtros' style={{ backgroundColor: aba === "grupo" ? "#8CB9DF" : "", borderBottom: aba === 'grupo' ? "none" : "" }} onClick={() => setOpenAba("grupo")} > Grupo </button>
                     <button className='CD' style={{ backgroundColor: aba === "fornecedor" ? "#8CB9DF" : "", borderBottom: aba === 'fornecedor' ? "none" : "" }} onClick={() => setOpenAba("fornecedor")} >Fornecedor</button>
                 </div>
-            </RF.Navigacao>
+            </RF.Navegacao>
 
             {aba === "regiao" ? (
                 <>

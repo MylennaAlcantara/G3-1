@@ -7,8 +7,66 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as LB from "../resumo_de_faturamento/resumoFaturamento"
 import './picoDeFaturamento.css'
+import { data } from "jquery";
 
 export const PicoDeFaturamento = () => {
+
+    const [hora, setHora] = useState([]);
+    const [semana, setSemana] = useState([]);
+    const [mes, setMes] = useState([]);
+    const [ano, setAno] = useState([]);
+
+    async function setDataHora() {
+        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2006/picoHora", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(objs),
+        });
+        if (res.status === 200) {
+            res.json().then(data => {
+                setHora(data);
+            })
+        }
+    }
+
+    async function setDataSemana() {
+        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2006/picoSemana", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(objs),
+        });
+        if (res.status === 200) {
+            res.json().then(data => {
+                setSemana(data);
+            })
+        }
+    }
+
+    async function setDataMes() {
+        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2006/picoMes", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(objs),
+        });
+        if (res.status === 200) {
+            res.json().then(data => {
+                setMes(data);
+            })
+        }
+    }
+
+    async function setDataAno() {
+        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2006/picoAno", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(objs),
+        });
+        if (res.status === 200) {
+            res.json().then(data => {
+                setAno(data);
+            })
+        }
+    }
 
     const [busca, setBusca] = useState();
 
@@ -26,8 +84,8 @@ export const PicoDeFaturamento = () => {
     const { user, empresa, cnpjMask } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const [NFE, setDataNFE] = useState();
-    const [NFCE, setDataNFCE] = useState();
+    const [NFE, setDataNFE] = useState(true);
+    const [NFCE, setDataNFCE] = useState(true);
 
     const nfeCheck = (e) => {
         setDataNFE(e.currentTarget.checked)
@@ -37,7 +95,46 @@ export const PicoDeFaturamento = () => {
         setDataNFCE(e.currentTarget.checked)
     }
 
+    const [isModalFilial, setIsModalFilial] = useState(false);
+    const [isModalTop, setIsModalTop] = useState(false);
+
     const [abaFilial, setAbaFilial] = useState(true);
+
+    const [valor, setValor] = useState([])
+    const [valorTop, setValorTop] = useState([])
+
+    const [aba, setAba] = useState('Hora');
+
+    const [showElement, setShowElement] = useState(false)
+
+    const show = () => setShowElement(true)
+
+    const valorIdTop = valorTop.map((test) => (
+        (test.id)
+    ))
+
+    const valorFilial = valor.map((test) => (
+        (test.id)
+    ))
+
+    const objs = {
+        "dataInicial": dataInicial,
+        "dataFinal": dataFinal,
+        "incluir_nfce": NFCE,
+        "incluir_nfe": NFE,
+        "id_filial": valorIdTop.toString(),
+        "id_top": valorFilial.toString(),
+    }
+
+    const start = () => {
+        show();
+        setDataHora();
+        setDataSemana();
+        setDataMes();
+        setDataAno();
+    }
+
+    console.log(mes)
 
     return (
         <C.Container>
@@ -60,7 +157,7 @@ export const PicoDeFaturamento = () => {
                                         <option>Região</option>
                                     </select>
                                     <input placeholder="Buscar..." onChange={(e) => setBusca(e.target.value)} />
-                                    <img src="./images/LUPA.png" />
+                                    <img src="./images/LUPA.png" onClick={() => setIsModalFilial(true)} />
                                 </div>
 
                                 <div className='table-responsive'>
@@ -74,6 +171,22 @@ export const PicoDeFaturamento = () => {
                                                 <th>Município</th>
                                             </tr>
                                         </thead>
+                                        {valor.map((item) => {
+                                            return (
+                                                <tr>
+                                                    <td>{item.id}</td>
+
+                                                    <td>{item.nome_fantasia}</td>
+
+                                                    <td>{item.razao_social}</td>
+
+                                                    <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
+
+                                                    <td>{item.municipio}</td>
+                                                </tr>
+                                            )
+                                        })}
+
                                     </table>
                                 </div>
 
@@ -82,7 +195,7 @@ export const PicoDeFaturamento = () => {
                             <div className='filial-top'>
                                 <div>
                                     <input placeholder="Buscar..." />
-                                    <img src="./images/LUPA.png" />
+                                    <img src="./images/LUPA.png" onClick={() => setIsModalTop(true)} />
                                 </div>
 
                                 <div className="table-responsive">
@@ -93,6 +206,15 @@ export const PicoDeFaturamento = () => {
                                                 <th>Descrição</th>
                                             </tr>
                                         </thead>
+                                        {valorTop.map((item) => {
+                                            return (
+                                                <tr>
+                                                    <td>{item.id}</td>
+
+                                                    <td>{item.descricao}</td>
+                                                </tr>
+                                            )
+                                        })}
                                     </table>
                                 </div>
 
@@ -115,18 +237,160 @@ export const PicoDeFaturamento = () => {
                             <input type="date" onChange={GetDataFin} />
                         </div>
                     </div>
-                    
+
                     <div className="checkbox-content" >
-                        <input type="checkbox" /><label>NF-e</label>
-                        <input type="checkbox" /><label>NFC-e</label>
+                        <input type="checkbox" checked={NFE} onChange={nfeCheck} /><label>NF-e</label>
+                        <input type="checkbox" checked={NFCE} onChange={nfceCheck} /><label>NFC-e</label>
                     </div>
 
                     <div className="search-button-content" >
-                        <button className="buttons-config" >Pesquisar</button>
+                        <button className="buttons-config" onClick={start} > <img src="/images/check.png" /> Pesquisar</button>
                     </div>
                 </LB.Data>
 
             </LB.Filtros>
+
+            <LB.Navegacao>
+                <div>
+                    <button className="CE" onClick={() => setAba('Hora') } >Hora/Dia</button> 
+                    <button className="botão-filtros" onClick={() => setAba('Semana') } >Dia/Semana</button>
+                    <button className="botão-filtros" >Dia/Mês</button>
+                    <button className="CD" >Mês/Ano</button>
+                </div>
+            </LB.Navegacao>
+            {aba === 'Hora' ? (
+                <>
+                    <LB.DataGeral>
+                        {hora.length === 0 && showElement === true ? (
+
+                            <div className='c' >
+                                <Loading />
+                            </div>
+
+                        ) : (
+                            <div className='table-responsive' >
+                                <table>
+                                    <tr>
+                                        <th>Hora</th>
+
+                                        <th>Qtd. NF-e</th>
+
+                                        <th>Vlr. Total NF-e</th>
+
+                                        <th>Qtd. NFC-e</th>
+
+                                        <th>Vlr. Total NFC-e</th>
+
+                                        <th>Qtd. Vendas</th>
+
+                                        <th>Vlr. Total</th>
+
+                                        <th>Tiket Médio</th>
+                                    </tr>
+
+                                    {hora.map((item) => {
+                                        return (
+                                            <tr>
+                                                <td>{item.hora}</td>
+
+                                                <td>{item.qtd_nfe.toLocaleString("pt-BR")}</td>
+
+                                                <td>{item.vlr_total_nfe.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                <td>{item.qtd_nfce.toLocaleString("pt-BR")}</td>
+
+                                                <td>{item.vlr_total_nfce.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                <td>{item.qtd_vendas.toLocaleString("pt-BR")}</td>
+
+                                                <td>{item.vlr_total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </table>
+                            </div>
+                        )}
+                    </LB.DataGeral>
+                </>
+            ) : aba === 'Semana' ? (
+                <>
+                    <LB.DataGeral>
+                        {semana.length === 0 && showElement === true ? (
+                            <Loading />
+                        ) : (
+                            <>
+                                <div className="table-responsive" >
+                                    <table>
+                                        <tr>
+                                            <th>Dia</th>
+
+                                            <th>Qtd. NF-e</th>
+
+                                            <th>Vlr. Total NF-e</th>
+
+                                            <th>Qtd. NFC-e</th>
+
+                                            <th>Vlr. Total NFC-e</th>
+
+                                            <th>Qtd. Vendas</th>
+
+                                            <th>Vlr. Total</th>
+
+                                            <th>Tiket Médio</th>
+                                        </tr>
+
+                                        {semana.map((item) => {
+                                            return(
+                                                <tr>
+                                                    <td>{item.dia}</td>
+
+                                                    <td>{item.qtd_nfe.toLocaleString("pt-BR")}</td>
+
+                                                    <td>{item.vlr_total_nfe.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                    <td>{item.qtd_nfce.toLocaleString("pt-BR")}</td>
+
+                                                    <td>{item.vlr_total_nfce.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                    <td>{item.qtd_vendas.toLocaleString("pt-BR")}</td>
+
+                                                    <td>{item.vlr_total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                    <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                </tr>
+                                            )
+                                        } )}
+                                    </table>
+                                </div>
+                            </>
+                        )}
+                    </LB.DataGeral>
+                </>
+            ) : aba === 'Mes' ? (
+                <>
+                    <LB.DataGeral>
+                        {mes.length === 0 && showElement === true ? (
+                            <Loading/>
+                        ) : (
+                            <>
+                                <div className="table-responsive" >
+                                    <table>
+                                        <tr>
+                                            <th>Dia</th>
+
+                                            <th></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </>
+                        )}
+                    </LB.DataGeral>
+                </>
+            ) : (
+                <div>oi</div>
+            )}
 
             <C.Footer>
                 <div className="buttons" >
@@ -134,6 +398,8 @@ export const PicoDeFaturamento = () => {
                 </div>
             </C.Footer>
 
+            {isModalTop ? <Top onClose={() => setIsModalTop(false)} setValorTop={setValorTop} valorTop={valorTop} /> : null}
+            {isModalFilial ? <Emitente onClose={() => setIsModalFilial(false)} setValor={setValor} valor={valor} /> : null}
         </C.Container>
     );
 
