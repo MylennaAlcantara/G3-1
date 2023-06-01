@@ -15,19 +15,11 @@ export const VendasCaixa = ({close})=> {
 
     async function consultarCaixas() {
         const resultados = [];
-        for (let i = 0; i < caixa.length; i++) {
-            const id = caixa[i].id;
-            const nomeCaixa = caixa[i].nome;
-            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${id}`);
-            const data = await response.json();
-            resultados.push({ nome: nomeCaixa, total: data });
-        }
-        setTotalCaixas(resultados);
 
         if(dataInicial && dataFinal){
             const [totalRes, tipoPgtoRes] = await Promise.all([
                 fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${dataInicial}/${dataFinal}`),
-                fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/totalTipoPagamento/${dataInicial}/${dataFinal}`)
+                fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/totalTipoPagamento/${dataInicial}/${dataFinal}`),
             ]);
         
             const totalData = await totalRes.json();
@@ -35,6 +27,24 @@ export const VendasCaixa = ({close})=> {
         
             setTotal(totalData);
             setTipoPgto(tipoPgtoData);
+            
+            for (let i = 0; i < caixa.length; i++) {
+                const id = caixa[i].id;
+                const nomeCaixa = caixa[i].nome;
+                const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${id}/${dataInicial}/${dataFinal}`);
+                const data = await response.json();
+                resultados.push({ nome: nomeCaixa, total: data });
+            }
+            setTotalCaixas(resultados);
+        }else{
+            for (let i = 0; i < caixa.length; i++) {
+                const id = caixa[i].id;
+                const nomeCaixa = caixa[i].nome;
+                const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${id}`);
+                const data = await response.json();
+                resultados.push({ nome: nomeCaixa, total: data });
+            }
+            setTotalCaixas(resultados);
         }
     }
 
@@ -44,7 +54,7 @@ export const VendasCaixa = ({close})=> {
             const [caixasRes, totalRes, tipoPgtoRes] = await Promise.all([
                 fetch('http://8b38091fc43d.sn.mynetname.net:2006/caixas'),
                 fetch('http://8b38091fc43d.sn.mynetname.net:2006/totalVendas'),
-                fetch('http://10.0.1.107:8091/totalVendas/totalTipoPagamento') //http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/totalTipoPagamento
+                fetch('http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/totalTipoPagamento') //http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/totalTipoPagamento
             ]);
         
             const caixasData = await caixasRes.json();
@@ -86,29 +96,36 @@ export const VendasCaixa = ({close})=> {
 
     async function filtroCaixa (e){
         setFiltro(e.target.value);
-        if(e.target.value === 'todos'){
+        if(e.target.value === 'todos' && dataInicial=='' && dataFinal===''){
             async function getTotal (){
                 const res = await fetch('http://8b38091fc43d.sn.mynetname.net:2006/totalVendas')
                 const data = await res.json();
                 setTotal(data)
             }
             getTotal();
-        }else if(e.target.value != "todos"){
+        }else if(e.target.value ==='todos' && dataInicial && dataFinal){
+            async function getTotal (){
+                const res = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${dataInicial}/${dataFinal}`)
+                const data = await res.json();
+                setTotal(data)
+            }
+            getTotal();
+        }else if(e.target.value != "todos" && dataInicial && dataFinal){
+            async function getTotal (){
+                const res = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${e.target.value}/${dataInicial}/${dataFinal}`);
+                const data = await res.json();
+                setTotal(data);
+            }
+            getTotal();
+            const filtrado = tipoPgto.filter((pgto)=> pgto.idCaixa == e.target.value);
+            setPagamentoCaixa(filtrado);
+        }else if(e.target.value != "todos" && dataInicial=='' && dataFinal===''){
             async function getTotal (){
                 const res = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${e.target.value}`);
                 const data = await res.json();
                 setTotal(data);
             }
             getTotal();
-            /*const caixasSeparados = tipoPgto.reduce((result, item) => {
-                const caixa = item.caixa;
-                if (!result[caixa]) {
-                    result[caixa] = [];
-                }
-                result[caixa].push(item);
-                return result;
-            }, {});
-            setPagamentoCaixa(caixasSeparados);*/
             const filtrado = tipoPgto.filter((pgto)=> pgto.idCaixa == e.target.value);
             setPagamentoCaixa(filtrado);
         }
@@ -200,7 +217,6 @@ export const VendasCaixa = ({close})=> {
                         </div>
                     </V.Totais>
                     <V.Graficos>
-
                     </V.Graficos>
                 </V.Content>
                 <C.Footer>
