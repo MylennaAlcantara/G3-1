@@ -22,23 +22,23 @@ Modal.setAppElement("#root")
 export const ResumoFaturamento = () => {
 
     const imprimirVendedor = () => {
-        resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosVendedor)
+        resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosVendedor, empresa)
     }
 
     const imprimirTpPg = () => {
-        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, keys)
+        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, keys, empresa)
     }
 
     const imprimirProduto = () => {
-        resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosProduto)
+        resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosProduto, empresa)
     }
 
     const imprimirGrupo = () => {
-        resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosGrupo)
+        resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosGrupo, empresa)
     }
 
     const imprimirFornecedor = () => {
-        resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor)
+        resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor, empresa)
     }
 
     const { user, empresa, cnpjMask } = useContext(AuthContext);
@@ -58,6 +58,11 @@ export const ResumoFaturamento = () => {
 
     const [query, setQuery] = useState(""); //Busca de Filial (Topo Esquerda)
     const [query1, setQuery1] = useState(""); //Busca de TOP
+    const [query2, setQuery2] = useState("");
+    const [queryC, setQueryC] = useState("");
+    const [queryP, setQueryP] = useState("");
+    const [queryG, setQueryG] = useState("");
+    const [queryF, setQueryF] = useState("");
     const [query4, setQuery4] = useState(""); //Busca Vendedor
     const [query5, setQuery5] = useState(""); //Busca Cliente
     const [query6, setQuery6] = useState(""); //Busca Produto
@@ -145,8 +150,6 @@ export const ResumoFaturamento = () => {
         descricao: "",
     })
 
-    //console.log(dataSelectTop);
-
     async function setDataFilial() { //Envia o JSON para a api e pega os dados de Filial
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFilial", {
             method: "POST",
@@ -213,8 +216,6 @@ export const ResumoFaturamento = () => {
         }
     }
 
-    //console.log(dadosLeitura)
-
     async function setDataVendedor() { //Envia o JSON para a api e pega os dados de Vendedor
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorVendedor", {
             method: "POST",
@@ -240,8 +241,6 @@ export const ResumoFaturamento = () => {
             })
         }
     }
-
-    //Pega 10 Dados Individualmente 
 
     async function setDataGrupo() { //Envia o JSON para a api e pega os dados de Grupo
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorGrupo", {
@@ -270,6 +269,15 @@ export const ResumoFaturamento = () => {
     }
 
     const handleSetData = () => { //Envia o JSON para todas as APIS ao mesmo tempo 
+        setDados([]);
+        setDadosCliente([]);
+        setDadosFornecedor([]);
+        setDadosGrupo([]);
+        setDadosProduto([]);
+        setDadosRegiao([]);
+        setDadosVendedor([]);
+        setDadosLeitura([]);
+        setDaDosKeys([]);
         show();
         setDataCliente();
         setDataFilial();
@@ -317,61 +325,12 @@ export const ResumoFaturamento = () => {
     const result3 = dadosRegiao.reduce((a, b) => a + b.vlTotalNfe, 0) //Dados Totais somados de NF-e (Região) 
     const result4 = dadosRegiao.reduce((a, b) => a + b.vlTotalNfce, 0) //Dados Totais somados de NFC-e (Região) 
 
-    const options = { //Configuração do Primeiro Gráfico de Região 
-        title: "Valores Lucro e Custo",
-        is3D: true,
-        backgroundColor: "#ffff",
-    };
-
-    const dataRegiao = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Região
-        ["Element", "Valor Total", { role: "style" }],
-        ["Valor de Lucro", result2, "#F7C64F"],
-        ["Valor de Custo", result, "#bc1b2b"],
-        ["Valor Total", result1, "#39E055"],
-    ];
-
-    const optionsRe0 = { //Configuração do Segundo Gráfico de Região 
-
-        colors: ["#bc1b9c", "#1b7abc"],
-
-        chart: {
-            title: "Valores Gerais",
-            subtitle: "Comparativo",
-        },
-        hAxis: {
-            title: "GGG",
-            minValue: 0,
-        },
-        vAxis: {
-            title: "Valores",
-        },
-        bars: "vertical",
-
-        axes: {
-            y: {
-                0: { side: "right" },
-            },
-        },
-    };
-
-    const dataRe0 = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Região
-        ["Valores em R$", "NF-e/Custo", "NFC-e/Lucro"],
-        ["NF-e / NFC-e  ", result3, result4],
-        ["Custo / Lucro", result, result2],
-    ];
-
     const options2 = { //Configuração do Terceiro Gráfico de Região 
         title: "Valores NF-e / NFC-e",
         is3D: true,
         backgroundColor: "#ffff",
         colors: ["#bc1b9c", "#1b7abc"]
     };
-
-    const dataRegiao2 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Região
-        ["Element", "Valor Total", { role: "style" }],
-        ["NF-e", result3, "#F7C64F"],
-        ["NFC-e", result4, "#bc1b2b"],
-    ];
 
     const barOptions = { //Configuração do Quinto Gráfico de Região 
         title: "Valores Totais Região .",
@@ -403,7 +362,7 @@ export const ResumoFaturamento = () => {
 
     const chartRegiao = [
         ["Valores em R$", "Venda", "Lucro"],
-        ...dadosRegiao.map(item => [item.regiao, item.vlVendaTotal, item.vlLucroVenda] )
+        ...dadosRegiao.map(item => [item.regiao, item.vlVendaTotal, item.vlLucroVenda])
     ];
 
     const optionsRegiao = {
@@ -438,8 +397,6 @@ export const ResumoFaturamento = () => {
         setIsOpenDashboardFilial(false)
     }
 
-    console.log(dadosRegiao)
-
     const [graficosCadaFilial, setGraficosCadaFilial] = useState(false)
 
     const quantidadeV = dados.reduce((a, b) => a + b.qtdVendas, 0)
@@ -456,12 +413,6 @@ export const ResumoFaturamento = () => {
     const resultFi4 = dados.reduce((a, b) => a + b.vlTotalNfce, 0) //Dados Totais somados de NFC-e(Filial)
     const resultFi5 = dados.reduce((a, b) => a + b.vlTotalCredito, 0) //Dados Totais somados de Total Credito(Filial)
     const resultFi6 = dados.reduce((a, b) => a + b.vlTotalLiquido, 0) //Dados Totais somados de Total Liquido(Filial)
-
-    const dataFilial = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Filial
-        ["Element", "Valor Total", { role: "style" }],
-        ["Lucro Venda", result2, "#F7C64F"],
-        ["Valor Custo", result, "#b87333"],
-    ];
 
     const barOptionsFi = { //Configuração do Segundo Gráfico de Filial
         title: "Valores Totais Filial.",
@@ -492,47 +443,28 @@ export const ResumoFaturamento = () => {
         ["Valor Liquido", resultFi6, "#ffaf56", null]
     ];
 
-    const optionsFi = { //Configuração do Terceiro Gráfico de Filial
-        title: "Liquido e Bruto",
-        is3D: true,
-        colors: ["#ffaf56", "#b2bb1c"],
-    };
+    const chartFilial = [
+        ["Valores em R$", "Venda", "Lucro"],
+        ...dados.map(item => [item.filial, item.vlVendaTotal, item.vlLucroVenda])
+    ]
 
-    const dataFilial2 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Filial
-        ["Element", "Valor Total", { role: "style" }],
-        ["Valor Liquido", resultFi6, "#ffaf56"],
-        ["Valor Total", resultFi1, "#39E055"],
-    ];
-
-    const optionsFi0 = { //Configuração do Quarto Gráfico de Filial
+    const filialOptions = {
         chart: {
-            title: "Valores Gerais",
+            title: "Filiais",
             subtitle: "Comparativo",
         },
         hAxis: {
-            title: "GGG",
+            title: "Ok",
             minValue: 0,
         },
-        vAxis: {
-            title: "Valores",
-        },
-        bars: "vertical",
-
-        colors: ["#bc1b2b", "#f6d001"],
-
+        bars: "horizontal",
         axes: {
             y: {
                 0: { side: "right" },
             },
         },
-    };
-
-    const dataFi0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Filial
-        ["Valores em R$", "", ""],
-        ["Custo / Lucro", resultFi, resultFi2],
-        ["NF-e / NFC-e  ", resultFi3, resultFi4],
-        ["Liquido / Total", resultFi6, resultFi1],
-    ];
+        colors: ["#f6d001", "#b2bb1c"]
+    }
 
     //------------------------------------------------------------------Dashboard Vendedor----------------------------------------------------------------------------------------------------------------------------------------------------  
 
@@ -554,32 +486,6 @@ export const ResumoFaturamento = () => {
     const resultVen6 = dadosVendedor.reduce((a, b) => a + b.vlTotalCancelamento, 0) //Dados Totais somados de Total Cancelamento (Vendedor)
     const resultVen7 = dadosVendedor.reduce((a, b) => a + b.vlTotalComissao, 0) //Dados Totais somados de Total Comissão (Vendedor)
     const resultVen8 = dadosVendedor.reduce((a, b) => a + b.vlTotalDesconto, 0) //Dados Totais somados de Total Desconto (Vendedor)
-
-    const datVendedor = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Vendedor
-        ["Element", "Valor Total", { role: "style" }],
-        ["Cancelamento", resultVen6, "#ffaf56"],
-        ["Comissão", resultVen7, "#57ffe8"],
-        ["Desconto", resultVen8, "#727272"],
-    ];
-
-    const datVendedor0 = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Vendedor
-        ["Element", "Valor Total", { role: "style" }],
-        ["Lucro", resultVen2, "#f6d001"],
-        ["Custo", resultVen, "#bc1b2b"],
-        ["Total ", resultVen1, "#b2bb1c"],
-    ];
-
-    const optionsVen = { //Configuração do Terceiro Gráfico de Filial
-        title: "Valores",
-        is3D: true,
-        colors: ["#8226ED", "#2686ED"]
-    };
-
-    const dataVendedor = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Vendedor
-        ["Element", "Valor Total", { role: "style" }],
-        ["Nf-e", resultVen3, "#8226ED"],
-        ["NFC-e", resultVen4, "#2686ED"],
-    ];
 
     const barOptionsVen = { //Configuração do Quarto Gráfico de Filial
         title: "Valores Totais Vendedor.",
@@ -612,13 +518,9 @@ export const ResumoFaturamento = () => {
         ["Desconto", resultVen8, "#727272", null]
     ];
 
-    console.log(dadosVendedor)
-
-    const dadosVendedorReduzidos = dadosVendedor.slice(0, 10);
-
     const chartDataVend = [
         ["Valores em R$", "Venda", "Lucro"],
-        ...dadosVendedorReduzidos.map(item => [item.vendedor, item.vlVendaTotal, item.vlLucroVenda])
+        ...dadosVendedor.map(item => [item.vendedor, item.vlVendaTotal, item.vlLucroVenda])
     ];
 
     const optionsVendedor = {
@@ -652,16 +554,7 @@ export const ResumoFaturamento = () => {
         setIsOpenDashboardCliente(false)
     }
 
-    const [dashboardDezCliente, setIsOpenDashboardDezCliente] = useState(false);//Estado do Modal com 10  
-
-    function openDashboardDezCliente() { //Função para Abrir o Modal de Gráficos de 10 primeiros Clientes
-        setIsOpenDashboardDezCliente(true)
-    }
-    function closeDashboardDezCliente() { //Função para Fechar o Modal de Gráficos de 10 primeiros Clientes
-        setIsOpenDashboardDezCliente(false)
-    }
-
-    const dadosClienteReduzido = dadosCliente.slice(0, 10) //Constante com os 10 primeiros Clientes
+    const [dashboardClienteAll, setIsOpenDashboardClienteAll] = useState(false);
 
     const resultCli = dadosCliente.reduce((a, b) => a + b.vlVendaTotal, 0) //Dados Totais somados de Venda Total (Cliente)
     const resultCli1 = dadosCliente.reduce((a, b) => a + b.vlLucroVenda, 0) //Dados Totais somados de Lucro Venda (Cliente)
@@ -671,13 +564,6 @@ export const ResumoFaturamento = () => {
     const resultCli5 = dadosCliente.reduce((a, b) => a + b.vlTotalDesconto, 0) //Dados Totais somados de Total Desconto (Cliente)
     const resultCli6 = dadosCliente.reduce((a, b) => a + b.vlLucroLiquido, 0) //Dados Totais somados de Lucro Liquido (Cliente)
     const resultCli7 = dadosCliente.reduce((a, b) => a + b.vlTotalCredito, 0) //Dados Totais somados de Total Credito (Cliente)
-
-    const dataCliente = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Cliente
-        ["Element", "Valor Total", { role: "style" }],
-        ["Custo", resultCli4, "#bc1b2b"],
-        ["Lucro", resultCli1, "#f6d001"],
-        ["Total", resultCli, "#b2bb1c"],
-    ];
 
     const barOptionsCli = { //Configuração do Segundo Gráfico de Cliente
         title: "Valores Totais Cliente.",
@@ -709,18 +595,6 @@ export const ResumoFaturamento = () => {
         ["Desconto", resultCli5, "#57ffe8", null],
     ];
 
-    const optionsCli = { //Configuração do Terceiro Gráfico de Cliente 
-        title: "Valores",
-        is3D: true,
-        colors: ["#8226ED", "#2686ED"]
-    };
-
-    const dataCliente0 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Cliente
-        ["Element", "Valor Total", { role: "style" }],
-        ["NF-e", resultCli2, "#8226ED"],
-        ["NFC-e", resultCli3, "#2686ED"],
-    ];
-
     const optionsCli0 = { //Configuração do Quarto Gráfico de Cliente 
         chart: {
             title: "Valores Gerais",
@@ -730,10 +604,24 @@ export const ResumoFaturamento = () => {
             title: "GGG",
             minValue: 0,
         },
+        chartArea: {
+            width: '100%'
+        },
         vAxis: {
             title: "Valores",
         },
         bars: "horizontal",
+        annotations: {
+            textStyle: {
+                fontName: 'Times-Roman',
+                fontSize: 8,
+                bold: true,
+                italic: true,
+                color: '#871b47',
+                auraColor: '#d799ae',
+                opacity: 0.8
+            }
+        },
         axes: {
             y: {
                 0: { side: "right" },
@@ -743,7 +631,7 @@ export const ResumoFaturamento = () => {
 
     const dataCli0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Cliente
         ["Valores em R$", "Liquido", "Venda"],
-        ...dadosClienteReduzido.map(item => [item.cliente, item.vlLucroLiquido, item.vlVendaTotal])
+        ...dadosCliente.map(item => [item.cliente, item.vlLucroLiquido, item.vlVendaTotal])
     ];
 
     //console.log(dadosClienteReduzido)
@@ -751,6 +639,7 @@ export const ResumoFaturamento = () => {
     //------------------------------------------------------------------Dashboard Tipo de Pagamento-----------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardTipoDePagamento, setIsOpenDashboardTipoDePagamento] = useState(false) //Estado do Modal
+    const [openIndividualVend, setOpenIndivualVend] = useState(false)
 
     function openDashboardTipoDePagamento() { //Função para Abrir o Modal de Gráficos de Tipo de Pagamento
         setIsOpenDashboardTipoDePagamento(true)
@@ -850,25 +739,11 @@ export const ResumoFaturamento = () => {
         setIsOpenDashboardProdutosDetalhados(false)
     }
 
-    const dadosProdutoReduzidos = dadosProduto.slice(0, 10); //Constante com os 10 primeiros Produtos
-
     const resultProd = dadosProduto.reduce((a, b) => a + b.vlr_venda_total, 0) //Dados Totais somados de Venda Total
     const resultProd1 = dadosProduto.reduce((a, b) => a + b.vlr_lucro_total, 0) //Dados Totais somados de Lucro Total 
     const resultProd2 = dadosProduto.reduce((a, b) => a + b.vlr_custo_total, 0) //Dados Totais somados de Custo Total
     const resultProd3 = dadosProduto.reduce((a, b) => a + b.sub_total, 0) //Dados Totais somados de Sub Total
     const resultProd4 = dadosProduto.reduce((a, b) => a + b.vlr_desconto_total, 0) //Dados Totais somados de Desconto Total
-
-    const optionsProd = { //Configuração do Segundo Gráfico de Produto
-        title: "Valores",
-        is3D: true,
-        colors: ['#f6d001', '#1b7abc']
-    };
-
-    const dataProd = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Produto
-        ["Element", "Valor", { role: "style" }],
-        ["Venda:", resultProd, "#f6d001"],
-        ["Lucro", resultProd1, "#1b7abc"],
-    ];
 
     const barOptionsPro = { //Configuração do Terceiro Gráfico de Produto
         title: "Valores Totais Tipo de Pagamento .",
@@ -921,7 +796,7 @@ export const ResumoFaturamento = () => {
 
     const dataProd0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Produto
         ["Valores em R$", "Venda", "Lucro"],
-        ...dadosProdutoReduzidos.map(item => [item.produto, item.vlr_venda_total, item.vlr_lucro_total])
+        ...dadosProduto.slice(0, 90).map(item => [item.produto, item.vlr_venda_total, item.vlr_lucro_total])
     ]
 
     //------------------------------------------------------------------------Dashboard Grupo-----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -950,12 +825,6 @@ export const ResumoFaturamento = () => {
     const resultGru2 = dadosGrupo.reduce((a, b) => a + b.sub_total, 0); //Dados Totais somados de Sub.Total
     const resultGru3 = dadosGrupo.reduce((a, b) => a + b.vlr_desconto_total, 0); //Dados Totais somados de Desconto Total
 
-    const dataGru = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Grupo
-        ["Element", "Valor", { role: "style" }],
-        ["Venda:", resultGru, "#bc1b2b"],
-        ["Lucro", resultGru1, "#ffaf56"],
-    ];
-
     const barOptionsGru = { //Configuração do Segundo Gráfico de Grupo
         title: "Valores Totais Grupos.",
         width: "100%",
@@ -980,12 +849,6 @@ export const ResumoFaturamento = () => {
         ["Lucro", resultGru1, "#ffaf56", null],
         ["Sub Total", resultGru2, "#f6d001", null],
         ["Desconto Total", resultGru3, "#1b7abc", null],
-    ];
-
-    const dataGru2 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Grupo
-        ["Element", "Valor", { role: "style" }],
-        ["Venda", resultGru, "bc1b2b"],
-        ["Lucro", resultGru1, "ffaf56"],
     ];
 
     const optionsGru0 = { //Configuração do Quarto Gráfico de Grupo
@@ -1013,7 +876,7 @@ export const ResumoFaturamento = () => {
 
     const dataGru0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Grupo
         ["Valores em R$", "Venda", "Lucro"],
-        ...dadosGrupoDetalhado.map(item => [item.grupo, item.vlr_venda_total, item.vlr_lucro_total])
+        ...dadosGrupo.map(item => [item.grupo, item.vlr_venda_total, item.vlr_lucro_total])
 
     ];
 
@@ -1043,12 +906,6 @@ export const ResumoFaturamento = () => {
     const resultFor2 = dadosFornecedor.reduce((a, b) => a + b.vlr_custo_total, 0) //Dados Totais somados de Custo Total (Fornecedor)
     const resultFor3 = dadosFornecedor.reduce((a, b) => a + b.vlr_desconto_total, 0) //Dados Totais somados de Desconto Total (Fornecedor)
     const resultFor4 = dadosFornecedor.reduce((a, b) => a + b.sub_total, 0) //Dados Totais somados de Sub.Total (Fornecedor)
-
-    const dataFor = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Fornecedor
-        ["Element", "Valor", { role: "style" }],
-        ["Venda", resultFor, "#bc1b2b"],
-        ["Lucro", resultFor1, "#57ffe8"],
-    ];
 
     const barOptionsFor = { //Configuração do Segundo Gráfico de Fornecedor
         title: "Valores Totais Fornecedor .",
@@ -1101,14 +958,8 @@ export const ResumoFaturamento = () => {
 
     const dataFor0 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Fornecedor
         ["Valores em R$", "Venda", "Lucro"],
-        ...dadosFornecedorDetalhado.map(item => [item.fornecedor, item.vlr_venda_total, item.vlr_lucro_total])
+        ...dadosFornecedor.map(item => [item.fornecedor, item.vlr_venda_total, item.vlr_lucro_total])
     ];
-
-    const dataFor3 = [
-        ["Element", "Valor", { role: "style" }],
-        ["Total", resultFor, "#bc1b2b"],
-        ["Sub.Total", resultFor4, "#b5bd2d"],
-    ]
 
     //------------------------------------------------------------------Dashboard Geral--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1117,8 +968,6 @@ export const ResumoFaturamento = () => {
         ["NF-e", resultFi3, "#F7C64F"],
         ["NFC-e", resultFi4, "#bc1b2b"],
     ];
-
-    console.log(dados)
 
     const deleteById = id => {
         setValor(oldValues => {
@@ -1133,6 +982,8 @@ export const ResumoFaturamento = () => {
     }
 
     const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false)
+
+    console.log(dataIni)
 
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1338,7 +1189,7 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{parseFloat(f1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{parseFloat(f1.margem.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td>{parseFloat(f1.margem.toFixed(2)).toLocaleString('pt-BR')} % </td>
 
                                                     <td>{parseFloat(f1.markup.toFixed(2)).toLocaleString('pt-BR')}</td>
                                                 </tr>
@@ -1543,9 +1394,9 @@ export const ResumoFaturamento = () => {
 
                                             <td>{parseFloat((dat.vlLucroLiquido).toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>% {(dat.plucroLiquido).toFixed(2).replace('.', ',')}</td>
+                                            <td> {(dat.plucroLiquido).toFixed(2).replace('.', ',')} % </td>
 
-                                            <td>{(dat.percentual).toFixed(2).replace('.', ',')}</td>
+                                            <td>{(dat.percentual).toFixed(2).replace('.', ',')} %</td>
                                         </tr>
 
                                     ))}
@@ -1634,7 +1485,7 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat1.plucroLiquido.toFixed(2).replace('.', ',')} %</td>
 
-                                            <td>{(dat1.percentual).toFixed(3).replace('.', ',')}</td>
+                                            <td>{(dat1.percentual).toFixed(3).replace('.', ',')} % </td>
 
                                         </tr>
                                     ))}
@@ -1775,11 +1626,11 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {parseFloat(dat2.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> % {dat2.p_markup.toFixed(2).replace('.', ',')} </td>
+                                                <td> {dat2.p_markup.toFixed(2).replace('.', ',')} % </td>
 
-                                                <td> % {dat2.p_margem.toFixed(2).replace('.', ',')} </td>
+                                                <td> {dat2.p_margem.toFixed(2).replace('.', ',')} % </td>
 
-                                                <td> {(dat2.percentual).toFixed(2).replace('.', ',')} </td>
+                                                <td> {(dat2.percentual).toFixed(2).replace('.', ',')} % </td>
                                             </tr>
                                         );
                                     })}
@@ -1997,37 +1848,21 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className='grafico'> <Chart chartType="ColumnChart" width="95%" height="95%" data={dataRegiao} options={options} /></div>
-                        <div className='grafico'> <Chart chartType="Bar" width="95%" height="95%" data={dataRe0} options={optionsRe0} /></div>
-                        <div className='grafico'> <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="95%" height="95%" /></div>
+                        <div className='justSize' > <Chart chartType='Bar' width='100%' height='95%' data={chartRegiao} options={optionsRegiao} /> </div>
                     </RF.Dashboard>
-
-                    <RF.Dashboard0>
-                        <div className='grafico'> <Chart chartType="BarChart" data={barData} options={barOptions} /> </div>
-                    </RF.Dashboard0>
 
                     <Modal className='dashboardCadaFilial' shouldCloseOnEsc={false} isOpen={dsRegiaoDetalhada} onRequestClose={() => setDsRegiaoDetalhada(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
 
                         <button className='closeBtnMenor' onClick={() => setDsRegiaoDetalhada(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
-                                    
-                        <h1>Região</h1>
 
-                        <h1 className='textFilial' >Grafico Comparativo</h1>
-
-                        <RF.Dashboard0>
-
-                            <div className='justSize' > <Chart chartType='Bar' width='100%' height='95%' data={chartRegiao} options={optionsRegiao} /> </div>
-
-                        </RF.Dashboard0>
-                        
-                        <h1 className='textFilial' >Cada Região</h1>
+                        <h1>Cada Região</h1>
 
                         {dadosRegiao.map((data) => {
                             const chartRe = [
                                 [
                                     "Element",
                                     "Valor",
-                                    {role: "style"},
+                                    { role: "style" },
                                     {
                                         sourceColumn: 0,
                                         role: "annotation",
@@ -2046,17 +1881,17 @@ export const ResumoFaturamento = () => {
                                 title: data.regiao,
                                 width: "100%",
                                 height: "95%",
-                                bar: {groupWidth: "95%",},
-                                legend: {position: "none"}
-                            } 
+                                bar: { groupWidth: "95%", },
+                                legend: { position: "none" }
+                            }
 
-                            return(
+                            return (
                                 <RF.Dashboard0>
                                     <div className='grafico' ><Chart chartType='BarChart' data={chartRe} options={optionsRe} /></div>
                                 </RF.Dashboard0>
                             )
 
-                        } )}
+                        })}
 
                     </Modal>
 
@@ -2101,27 +1936,22 @@ export const ResumoFaturamento = () => {
                         </h2>
                     </div>
 
-                    <RF.Dashboard className='dashboard' >
-                        <div className='grafico' > <Chart chartType="ColumnChart" width="95%" height="95%" data={dataFilial} /> </div>
-                        <div className='graficoLongo' > <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} /> </div>
-                        <div className='grafico' > <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="95%" height="95%" /> </div>
+                    <RF.Dashboard>
+                        <div className='justSize' ><Chart width='98%' height='96%' chartType='Bar' data={chartFilial} options={filialOptions} /></div>
                     </RF.Dashboard>
 
-                    <RF.Dashboard>
-                        <div className='grafico'> <Chart chartType="Bar" width="95%" height="95%" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" /> </div>
-                    </RF.Dashboard>
 
                     <Modal isOpen={graficosCadaFilial} onRequestClose={() => setGraficosCadaFilial(false)} className='dashboardCadaFilial' overlayClassName='none'>
                         <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
 
                         <h1>Cada Filial</h1>
-                        
+
                         {dados.map((data) => {
                             const ChartFi = [
                                 [
                                     "Element",
                                     "Valor",
-                                    {role: "style"},
+                                    { role: "style" },
                                     {
                                         sourceColumn: 0,
                                         role: "annotation",
@@ -2129,15 +1959,29 @@ export const ResumoFaturamento = () => {
                                         calc: "stringify",
                                     },
                                 ],
-                                ["Lucro", data.vlLucroVenda, "#f6d002"],
-                                ["Custo", data.vlCustoTotal, "#ad1b27"],
-                                ["Total Venda", data.vlVendaTotal, "#b2bb1c"],
-                                ["NF-e", data.vlTotalNfe],
-                                ["NFC-e", data.vlTotalNfce],
-                                ["Credito", data.vlTotalCredito],
-                                ["Liquido", data.vlTotalLiquido],
+                                ["Lucro", data.vlLucroVenda, "#f6d002", null],
+                                ["Custo", data.vlCustoTotal, "#ad1b27", null],
+                                ["Total Venda", data.vlVendaTotal, "#b2bb1c", null],
+                                ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                                ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
+                                ["Credito", data.vlTotalCredito, "#ff6ad8", null],
+                                ["Liquido", data.vlTotalLiquido, "#ffaf56", null],
                             ]
-                        } )}
+
+                            const optionsFili = {
+                                title: data.filial,
+                                width: "100%",
+                                height: "95%",
+                                bar: { groupWidth: "95%", },
+                                legend: { position: "none" }
+                            }
+
+                            return (
+                                <RF.Dashboard0>
+                                    <div className='grafico'><Chart chartType='BarChart' data={ChartFi} options={optionsFili} /></div>
+                                </RF.Dashboard0>
+                            )
+                        })}
 
                     </Modal>
 
@@ -2150,7 +1994,7 @@ export const ResumoFaturamento = () => {
                 <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
-                    <h1>Dados Vendedor</h1>
+                    <h1>Dados Vendedor<button onClick={() => setOpenIndivualVend(true)} className='filialBTN' > <img className='close' src='/images/vendedor.png' /> Cada Vendedor</button></h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
@@ -2190,24 +2034,48 @@ export const ResumoFaturamento = () => {
                         </h2>
                     </div>
 
-                    <RF.Dashboard>
-                        <div className='grafico' > <Chart chartType="ColumnChart" width="100%" height="95%" data={datVendedor} /> </div>
-                        <div className="grafico"><Chart chartType="ColumnChart" width="100%" height="95%" data={datVendedor0} /></div>
-                        <div className="grafico"><Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="100%" height="95%" /></div>
-                    </RF.Dashboard>
-
                 </div>
 
                 <RF.Dashboard>
-                    <div className="graficoLongo"><Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} /></div>
+                    <div className='justSize' ><Chart chartType='Bar' width="100%" height="2000px" data={chartDataVend} options={optionsVendedor} className='grafico' /></div>
                 </RF.Dashboard>
 
-                <RF.Dashboard>
-                    <div className='graficos10'>
-                        <button className='btnDetalhes'><img className='close' src='images/itens.png' /> Individuais </button>
-                        <div className='justSize' ><Chart chartType='Bar' width="100%" height="95%" data={chartDataVend} options={optionsVendedor} className='grafico' /></div>
-                    </div>
-                </RF.Dashboard>
+                <Modal isOpen={openIndividualVend} shouldCloseOnEsc={false} onRequestClose={() => setOpenIndivualVend(false)} contentLabel='dashboard' shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardCadaFilial' >
+                    <button className='closeBtnMenor' onClick={() => setOpenIndivualVend(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+
+                    <h1>Cada Vendedor</h1>
+
+                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Vendedor" onChange={(e) => setQuery2(e.target.value)} />
+
+                    {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query2)).map((data) => {
+                        const optionsVen = {
+                            title: data.vendedor,
+                            width: "100%",
+                            height: "95%",
+                            bar: { groupWidth: "95%", },
+                            legend: { position: "none" }
+                        }
+
+                        const ChartFi = [
+                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                            ["Lucro", data.vlLucroVenda, "#f6d001", null],
+                            ["Custo", data.vlCustoTotal, "#bc1b2b", null],
+                            ["Venda Total", data.vlVendaTotal, "#b2bb1c", null],
+                            ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                            ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
+                            ["Credito", data.vlTotalCredito, "ff6ad8", null],
+                            ["Cancelamento", data.vlTotalCancelamento, "ffaf56", null],
+                            ["Comissão", data.vlTotalComissao, "#57ffe8", null],
+                            ["Desconto", data.vlTotalDesconto, "#727272", null],
+                        ]
+
+                        return (
+                            <RF.Dashboard0>
+                                <div className='grafico' ><Chart chartType='BarChart' data={ChartFi} options={optionsVen} /></div>
+                            </RF.Dashboard0>
+                        )
+                    })}
+                </Modal>
 
             </Modal>
 
@@ -2215,7 +2083,7 @@ export const ResumoFaturamento = () => {
                 <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
-                    <h1>Dados Cliente</h1>
+                    <h1>Dados Cliente <button className='filialBTN' onClick={() => setIsOpenDashboardClienteAll(true)}><img className='close' src='/images/cliente.png' />Cada Cliente</button> </h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
@@ -2252,58 +2120,46 @@ export const ResumoFaturamento = () => {
 
                     </div>
 
-                    <RF.Dashboard >
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="100%" height="95%" data={dataCliente} /></div>
-                        <div className="grafico"><Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} /></div>
-                        <div className="grafico"><Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"100%"} height={"95%"} /></div>
-                    </RF.Dashboard>
+                    <Modal isOpen={dashboardClienteAll} onRequestClose={() => setIsOpenDashboardClienteAll(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                        <button className='closeBtnMenor' onClick={() => setIsOpenDashboardClienteAll(false)} ><img className='close' src='/images/voltar.png' />Voltar</button>
 
-                    <Modal isOpen={dashboardDezCliente} onRequestClose={closeDashboardDezCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
-                        <button className='closeBtnMenor' onClick={closeDashboardDezCliente} ><img className='close' src='/images/voltar.png' />Voltar</button>
-                        {dadosClienteReduzido.map((dados) => {
+                        <h1>Cada Cliente</h1>
 
-                            const dashboard = [
-                                ["Element", "Lucro", { role: "style" }],
-                                ["Liquido", dados.vlLucroLiquido, "#ffaf56"],
-                                ["Bruto", dados.vlLucroVenda, "#f6d001"],
-                            ];
+                        <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Cliente..." onChange={(e) => setQueryC(e.target.value)} />
 
-                            const dashboard1 = [
-                                ["Element", "", { role: "style" }],
-                                ["Custo", dados.vlCustoTotal, "#f6d001"],
-                                ["Lucro", dados.vlLucroVenda, "#ffaf56"],
-                            ];
+                        {dadosCliente.filter(dat => dat.cliente.toLowerCase().includes(queryC)).map((data) => {
+                            const ChartCli = [
+                                ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                                ["Lucro", data.vlLucroVenda, "#f6d001", null],
+                                ["Custo", data.vlLucroVenda, "#bc1b2b", null],
+                                ["Venda", data.vlVendaTotal, "#b2bb1c", null],
+                                ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                                ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
+                                ["Credito", data.vlTotalCredito, "#ff6ad8", null],
+                                ["Liquido", data.vlTotalLiquido, "#ffaf56", null],
+                                ["Desconto", data.vlTotalDesconto, "#57ffe8", null]
+                            ]
 
-                            const dashboard2 = [
-                                ["Element", "", { role: "style" }],
-                                ["NF-e", dados.vlTotalNfe, ""],
-                                ["NFC-e", dados.vlTotalNfce, ""],
-                            ];
+                            const optionCli = {
+                                title: data.cliente,
+                                width: "100%",
+                                height: "95%",
+                                bar: { groupWidth: "95%", },
+                                legend: { position: "none" }
+                            }
 
                             return (
-                                <RF.DashboardMenor>
-                                    <h2>{dados.cliente}</h2>
-                                    <div className='graficosReduzidos'>
-                                        <div className="graficoA"><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard} /></div>
-                                        <div className="graficoA"><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard1} /></div>
-                                        <div className="graficoA" ><Chart chartType="PieChart" width="100%" height="23vh" data={dashboard2} options={optionsCli} /></div>
-                                    </div>
-
-                                </RF.DashboardMenor>
-                            );
-
+                                <RF.Dashboard0>
+                                    <div className='grafico' ><Chart chartType='BarChart' data={ChartCli} options={optionCli} /></div>
+                                </RF.Dashboard0>
+                            )
                         })}
                     </Modal>
 
                 </div>
 
                 <RF.Dashboard>
-
-                    <div className='graficos10' >
-                        <button className='btnDetalhes' onClick={openDashboardDezCliente}> <img className='close' src='images/itens.png' /> Individuais </button>
-                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataCli0} options={optionsCli0} className='grafico' /></div>
-                    </div>
-
+                    <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataCli0} options={optionsCli0} /></div>
                 </RF.Dashboard>
 
             </Modal>
@@ -2364,7 +2220,7 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Produtos</h1>
+                    <h1>Dados Produtos<button onClick={openDashboardProdutosDetalhados} className='filialBTN' > <img className='close' src='/images/produto.png' /> Cada Produto</button></h1>
 
                     <div className='dashboardTexts'>
 
@@ -2391,68 +2247,41 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="100%" height="95%" data={dataProd} /></div>
-                        <div className="grafico" ><Chart chartType="PieChart" data={dataProd} options={optionsProd} width="100%" height="95%" /></div>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} /></div>
-                    </RF.Dashboard>
-
-                    <RF.Dashboard>
-
-                        <div className='graficos10' >
-                            <button className='btnDetalhes' onClick={openDashboardProdutosDetalhados}><img className='close' src='images/itens.png' /> Individuais </button>
-                            <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataProd0} options={optionsProd0} className='grafico' /></div>
-                        </div>
-
+                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataProd0} options={optionsProd0} className='grafico' /></div>
                     </RF.Dashboard>
 
                 </div>
 
                 <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado'>
                     <button className='closeBtnMenor' onClick={closeDashboardProdutosDetalhados} ><img className='close' src='/images/voltar.png' />Voltar</button>
-                    {dadosProdutoReduzidos.map((prod) => {
 
-                        const dashboard = [
-                            ["Element", "Valor", { role: "style" }],
-                            ["Venda:", prod.vlr_venda_total, "#f6d001"],
-                            ["Lucro", prod.vlr_lucro_total, "#1b7abc"],
-                        ];
+                    <h1>Cada Produto</h1>
 
-                        const dashboard1 = [
-                            ["Element", "", { role: "style" }],
-                            ["Custo", prod.vlr_custo_total, "#727272"],
-                            ["Lucro", prod.vlr_lucro_total, "#1b7abc"],
-                        ];
+                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Produto..." onChange={(e) => setQueryP(e.target.value)} />
 
-                        const dashboard2 = [
-                            [
-                                "Element",
-                                "Valor",
-                                { role: "style" },
-                                {
-                                    sourceColumn: 0,
-                                    role: "annotation",
-                                    type: "string",
-                                    calc: "stringify",
-                                },
-                            ],
-                            ["Desconto", prod.vlr_desconto_total, "#a9b21a", null],
-                            ["Sub.Total", prod.sub_total, "#ff6ad8", null],
-                            ["Venda", prod.vlr_venda_total, "#f6d001", null],
-                        ];
+                    {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(queryP)).slice(0, 90).map((data) => {
+                        const ChartProd = [
+                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                            ["Venda", data.vlr_venda_total, "#f6d001", null],
+                            ["Lucro", data.vlr_lucro_total, "#1b7abc", null],
+                            ["Sub.Total", data.sub_total, "#ff6ad8", null],
+                            ["Custo", data.vlr_custo_total, "#727272", null],
+                            ["Desconto", data.vlr_desconto_total, "#b2bb1c", null],
+                        ]
+
+                        const optionProd = {
+                            title: data.produto,
+                            width: "100%",
+                            height: "95%",
+                            bar: { groupWidth: "95%", },
+                            legend: { position: "none" }
+                        }
 
                         return (
-                            <RF.DashboardMenor>
-
-                                <h2>{prod.produto}</h2>
-                                <div className='graficosReduzidos' >
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard} /></div>
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard1} /></div>
-                                    <div className="graficoA" ><Chart chartType="BarChart" data={dashboard2} options={barOptionsGru} /></div>
-                                </div>
-
-                            </RF.DashboardMenor>
-                        );
-
+                            <RF.Dashboard0>
+                                <div className='grafico' ><Chart chartType='BarChart' data={ChartProd} options={optionProd} /></div>
+                            </RF.Dashboard0>
+                        )
                     })}
                 </Modal>
 
@@ -2464,7 +2293,7 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Grupo </h1>
+                    <h1>Dados Grupo <button onClick={openDashboardGrupoDetalhado} className='filialBTN' > <img className='close' src='/images/grupo.png' /> Cada Grupo</button> </h1>
 
                     <div className='dashboardTexts' >
 
@@ -2487,75 +2316,44 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} /></div>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} /></div>
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru2} /></div>
+                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataGru0} options={optionsGru0} /></div>
                     </RF.Dashboard>
 
-                    <RF.Dashboard>
 
-                        <div className='graficos10' >
-                            <button onClick={openDashboardGrupoDetalhado} className='btnDetalhes'> <img className='close' src='/images/itens.png' /> Individuais </button>
-                            <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataGru0} options={optionsGru0} /></div>
-                        </div>
-
-                    </RF.Dashboard>
 
                 </div>
 
                 <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
                     <button className='closeBtnMenor' onClick={closeDashboardGrupoDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
-                    {dadosGrupoDetalhado.map((detalhado) => {
 
-                        const grupoDetalhado = [
-                            ["Element", "Valor", { role: "style" }],
-                            ["Venda:", detalhado.vlr_venda_total, "#bc1b2b"],
-                            ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
-                        ];
+                    <h1>Cada Grupo</h1>
 
-                        const grupoDetalhado1 = [
-                            ["Element", "Valor", { role: "style" }],
-                            ["Sub.Total", detalhado.sub_total, "#bc1b2b"],
-                            ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
-                        ];
+                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Grupo..." onChange={(e) => setQueryG(e.target.value)} />
 
-                        const grupoDetalhadoBar = [
-                            [
-                                "Element",
-                                "Valor",
-                                { role: "style" },
-                                {
-                                    sourceColumn: 0,
-                                    role: "annotation",
-                                    type: "string",
-                                    calc: "stringify",
-                                },
-                            ],
-                            ["Venda", detalhado.vlr_venda_total, "#bc1b2b", null],
-                            ["Lucro", detalhado.vlr_lucro_total, "ffaf56", null],
-                            ["Sub Total", detalhado.sub_total, "#f6d001", null],
-                            ["Desconto Total", detalhado.vlr_desconto_total, "#1b7abc", null],
-                        ];
-
-                        const barGruOptions = {
-                            title: "Tabela Valores Totais.",
+                    {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(queryG)).map((data) => {
+                        const optionGru = {
+                            title: data.grupo,
                             width: "100%",
-                            height: "23vh",
-                            bar: { groupWidth: "95%" },
-                            legend: { position: "none" },
-                        };
+                            height: "95%",
+                            bar: { groupWidth: "95%", },
+                            legend: { position: "none" }
+                        }
+
+                        const ChartGru = [
+                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                            ["Venda", data.vlr_venda_total, "#bc1b2b", null],
+                            ["Lucro", data.vlr_lucro_total, "#ffaf56", null],
+                            ["Sub.Total", data.sub_total, "#f6d001", null],
+                            ["Desc.Total", data.desconto_tota, "#1b7abc", null],
+                        ]
 
                         return (
-                            <RF.DashboardMenor>
-                                <h2>{detalhado.grupo}</h2>
-                                <div className='graficosReduzidos'>
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={grupoDetalhado} /></div>
-                                    <div className="graficoA" ><Chart chartType="BarChart" data={grupoDetalhadoBar} options={barGruOptions} /></div>
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={grupoDetalhado1} /></div>
-                                </div>
-                            </RF.DashboardMenor>
+                            <RF.Dashboard0>
+                                <div className='grafico'><Chart chartType='BarChart' data={ChartGru} options={optionGru} /></div>
+                            </RF.Dashboard0>
                         )
                     })}
+
                 </Modal>
 
             </Modal>
@@ -2566,7 +2364,7 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Fornecedor</h1>
+                    <h1>Dados Fornecedor<button onClick={openDashboardFornecedorDetalhado} className='filialBTN' > <img className='close' src='/images/fornecedor.png' /> Cada Fornecedor</button></h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
@@ -2592,77 +2390,42 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className="grafico"><Chart chartType="ColumnChart" width="100%" height="95%" data={dataFor} /> </div>
-                        <div className="grafico"><Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} /> </div>
-                        <div className="grafico"><Chart chartType="ColumnChart" width="100%" height="95%" data={dataFor3} /></div>
-                    </RF.Dashboard>
-
-                    <RF.Dashboard>
-
-                        <div className='graficos10' >
-                            <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='close' src='/images/itens.png' /> Individuais </button>
-                            <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataFor0} options={optionsFor0} /></div>
-                        </div>
-
+                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataFor0} options={optionsFor0} /></div>
                     </RF.Dashboard>
 
                 </div>
 
                 <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardDetalhado' overlayClassName="dashboard-overlay"  >
                     <button className='closeBtnMenor' onClick={closeDashboardFornecedorDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
-                    {dadosFornecedorDetalhado.map((forn) => {
 
-                        const dashboard = [
-                            ["Element", "Valor", { role: "style" }],
-                            ["Venda", forn.vlr_venda_total, "#bc1b2b"],
-                            ["Lucro", forn.vlr_lucro_total, "#57ffe8"],
+                    <h1>Cada Fornecedor</h1>
+
+                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Fornecedor..." onChange={(e) => setQueryF(e.target.value)} />
+
+                    {dadosFornecedor.filter(dat => dat.fornecedor.toLowerCase().includes(queryF)).slice(0, 90).map((data) => {
+                        const ChartFor = [
+                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                            ["Venda", data.vlr_venda_total, "#bc1b2b", null],
+                            ["Lucro", data.vlr_lucro_total, "#57ffe8", null],
+                            ["Custo", data.vlr_custo_total, "#bc1b9c", null],
+                            ["Desconto", data.vlr_desconto_total, "#1b7abc", null],
+                            ["Sub.Total", data.sub_total, "#b2bb1c", null],
                         ]
 
-                        const dashboard1 = [
-                            ["Element", "Valor", { role: "style" }],
-                            ["Sub.Total", forn.sub_total, "#b2bb1d"],
-                            ["Lucro", forn.vlr_lucro_total, "#57ffe8"],
-                        ]
-
-                        const dashboard2 = [
-                            [
-                                "Element",
-                                "Valor",
-                                { role: "style" },
-                                {
-                                    sourceColumn: 0,
-                                    role: "annotation",
-                                    type: "string",
-                                    calc: "stringify",
-                                },
-                            ],
-                            ["Lucro", forn.vlr_lucro_total, "#57ffe8", null],
-                            ["Sub.Total", forn.sub_total, "#b2bb1d", null],
-                            ["Venda", forn.vlr_venda_total, "#bc1b2b", null],
-                            ["Desconto", forn.vlr_venda_total, "#1b7abc", null],
-                        ];
-
-                        const barOptions = {
-                            title: "Valores Totais Fornecedor .",
+                        const optionFor = {
+                            title: data.fornecedor,
                             width: "100%",
-                            height: "23vh",
-                            bar: { groupWidth: "95%" },
-                            legend: { position: "none" },
-                        };
+                            height: "95%",
+                            bar: { groupWidth: "95%" }
+                        }
 
                         return (
-                            <RF.DashboardMenor>
-                                <h2>{forn.fornecedor}</h2>
-
-                                <div className='graficosReduzidos'>
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard} /></div>
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard1} /></div>
-                                    <div className="grafico" ><Chart chartType="BarChart" data={dashboard2} options={barOptions} /></div>
-                                </div>
-                            </RF.DashboardMenor>
+                            <RF.Dashboard0>
+                                <div className='grafico' ><Chart chartType='BarChart' data={ChartFor} options={optionFor} /></div>
+                            </RF.Dashboard0>
                         )
-
                     })}
+
                 </Modal>
             </Modal>
 

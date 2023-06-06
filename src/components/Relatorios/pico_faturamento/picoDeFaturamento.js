@@ -134,8 +134,6 @@ export const PicoDeFaturamento = () => {
         setDataAno();
     }
 
-    console.log(mes)
-
     return (
         <C.Container>
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
@@ -252,10 +250,10 @@ export const PicoDeFaturamento = () => {
 
             <LB.Navegacao>
                 <div>
-                    <button className="CE" onClick={() => setAba('Hora') } >Hora/Dia</button> 
-                    <button className="botão-filtros" onClick={() => setAba('Semana') } >Dia/Semana</button>
-                    <button className="botão-filtros" >Dia/Mês</button>
-                    <button className="CD" >Mês/Ano</button>
+                    <button className="CE" onClick={() => setAba('Hora')} >Hora/Dia</button>
+                    <button className="botão-filtros" onClick={() => setAba('Semana')} >Dia/Semana</button>
+                    <button className="botão-filtros" onClick={() => setAba('Mes')} >Dia/Mês</button>
+                    <button className="CD" onClick={() => setAba('Ano')} >Mês/Ano</button>
                 </div>
             </LB.Navegacao>
             {aba === 'Hora' ? (
@@ -268,49 +266,59 @@ export const PicoDeFaturamento = () => {
                             </div>
 
                         ) : (
-                            <div className='table-responsive' >
-                                <table>
-                                    <tr>
-                                        <th>Hora</th>
+                            <>
+                                <div className='dashboardLine'>
 
-                                        <th>Qtd. NF-e</th>
+                                    <label>Dashboards</label>
 
-                                        <th>Vlr. Total NF-e</th>
+                                    <button className='dashboardBtn' > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
-                                        <th>Qtd. NFC-e</th>
+                                </div>
 
-                                        <th>Vlr. Total NFC-e</th>
+                                <div className='table-responsive' >
+                                    <table>
+                                        <tr>
+                                            <th>Hora</th>
 
-                                        <th>Qtd. Vendas</th>
+                                            <th>Qtd. NF-e</th>
 
-                                        <th>Vlr. Total</th>
+                                            <th>Vlr. Total NF-e</th>
 
-                                        <th>Tiket Médio</th>
-                                    </tr>
+                                            <th>Qtd. NFC-e</th>
 
-                                    {hora.map((item) => {
-                                        return (
-                                            <tr>
-                                                <td>{item.hora}</td>
+                                            <th>Vlr. Total NFC-e</th>
 
-                                                <td>{item.qtd_nfe.toLocaleString("pt-BR")}</td>
+                                            <th>Qtd. Vendas</th>
 
-                                                <td>{item.vlr_total_nfe.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                            <th>Vlr. Total</th>
 
-                                                <td>{item.qtd_nfce.toLocaleString("pt-BR")}</td>
+                                            <th>Tiket Médio</th>
+                                        </tr>
 
-                                                <td>{item.vlr_total_nfce.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                        {hora.map((item) => {
+                                            return (
+                                                <tr>
+                                                    <td>{item.hora}</td>
 
-                                                <td>{item.qtd_vendas.toLocaleString("pt-BR")}</td>
+                                                    <td>{item.qtd_nfe.toLocaleString("pt-BR")}</td>
 
-                                                <td>{item.vlr_total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                    <td>{item.vlr_total_nfe.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
 
-                                                <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-                                            </tr>
-                                        )
-                                    })}
-                                </table>
-                            </div>
+                                                    <td>{item.qtd_nfce.toLocaleString("pt-BR")}</td>
+
+                                                    <td>{item.vlr_total_nfce.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                    <td>{item.qtd_vendas.toLocaleString("pt-BR")}</td>
+
+                                                    <td>{item.vlr_total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                    <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </table>
+                                </div>
+                            </>
                         )}
                     </LB.DataGeral>
                 </>
@@ -318,9 +326,19 @@ export const PicoDeFaturamento = () => {
                 <>
                     <LB.DataGeral>
                         {semana.length === 0 && showElement === true ? (
-                            <Loading />
+                            <div className="c" >
+                                <Loading />
+                            </div>
                         ) : (
                             <>
+                                <div className='dashboardLine'>
+
+                                    <label>Dashboards</label>
+
+                                    <button className='dashboardBtn' > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+
+                                </div>
+
                                 <div className="table-responsive" >
                                     <table>
                                         <tr>
@@ -342,7 +360,7 @@ export const PicoDeFaturamento = () => {
                                         </tr>
 
                                         {semana.map((item) => {
-                                            return(
+                                            return (
                                                 <tr>
                                                     <td>{item.dia}</td>
 
@@ -361,7 +379,7 @@ export const PicoDeFaturamento = () => {
                                                     <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
                                                 </tr>
                                             )
-                                        } )}
+                                        })}
                                     </table>
                                 </div>
                             </>
@@ -372,25 +390,132 @@ export const PicoDeFaturamento = () => {
                 <>
                     <LB.DataGeral>
                         {mes.length === 0 && showElement === true ? (
-                            <Loading/>
+                            <div className="c" >
+                                <Loading />
+                            </div>
                         ) : (
                             <>
+                                <div className='dashboardLine'>
+
+                                    <label>Dashboards</label>
+
+                                    <button className='dashboardBtn' > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+
+                                </div>
+
                                 <div className="table-responsive" >
                                     <table>
                                         <tr>
                                             <th>Dia</th>
 
-                                            <th></th>
+                                            <th>Qtd. NF-e</th>
+
+                                            <th>Vlr. Total NF-e</th>
+
+                                            <th>Qtd. NFC-e</th>
+
+                                            <th>Vlr. Total NFC-e</th>
+
+                                            <th>Qtd. Vendas</th>
+
+                                            <th>Vlr. Total</th>
+
+                                            <th>Tiket Médio</th>
                                         </tr>
+
+                                        {mes.map((item) => {
+                                            return (
+                                                <tr>
+                                                    <td>{item.dia}</td>
+
+                                                    <td>{item.qtd_nfe.toLocaleString("pt-BR")}</td>
+
+                                                    <td>{item.vlr_total_nfe.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                    <td>{item.qtd_nfce.toLocaleString("pt-BR")}</td>
+
+                                                    <td>{item.vlr_total_nfce.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                    <td>{item.qtd_vendas.toLocaleString("pt-BR")}</td>
+
+                                                    <td>{item.vlr_total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                    <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                </tr>
+                                            )
+                                        })}
                                     </table>
                                 </div>
                             </>
                         )}
                     </LB.DataGeral>
                 </>
-            ) : (
-                <div>oi</div>
-            )}
+            ) : aba === 'Ano' ? (
+                <>
+                    <LB.DataGeral>
+                        {ano.length === 0 && showElement === true ? (
+                            <div className="c" >
+                                <Loading />
+                            </div>
+
+                        ) : (
+                            <>
+                                <div className='dashboardLine'>
+
+                                    <label>Dashboards</label>
+
+                                    <button className='dashboardBtn' > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+
+                                </div>
+
+                                <div className="table-responsive" >
+                                    <table>
+                                        <tr>
+                                            <th>Mês</th>
+
+                                            <th>Qtd. NF-e</th>
+
+                                            <th>Vlr. Total NF-e</th>
+
+                                            <th>Qtd. NFC-e</th>
+
+                                            <th>Vlr. Total NFC-e</th>
+
+                                            <th>Qtd. Vendas</th>
+
+                                            <th>Vlr. Total</th>
+
+                                            <th>Tiket Médio</th>
+                                        </tr>
+                                        {ano.map((item) => {
+                                            return (
+                                                <tr>
+                                                    <td>{item.mes}</td>
+
+                                                    <td>{item.qtd_nfe.toLocaleString("pt-Br")}</td>
+
+                                                    <td>{item.vlr_total_nfe.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                    <td>{item.qtd_nfce.toLocaleString("pt-BR")}</td>
+
+                                                    <td>{item.vlr_total_nfce.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                    <td>{item.qtd_vendas.toLocaleString("pt-BR")}</td>
+
+                                                    <td>{item.vlr_total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+
+                                                    <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                </tr>
+                                            )
+                                        })}
+
+                                    </table>
+                                </div>
+                            </>
+                        )}
+                    </LB.DataGeral>
+                </>
+            ) : null}
 
             <C.Footer>
                 <div className="buttons" >

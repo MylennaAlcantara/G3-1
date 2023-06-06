@@ -179,6 +179,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                         <>
                             <div className="gaveta" onClick={()=> {navigate('/resumoDeFaturamento'); fecharOp()}} >Resumo de Faturamento</div>
                             <div className="gaveta" onClick={()=> {setVendas(true); fecharOp()}} >Vendas Caixas</div>
+                            <div className="gaveta" onClick={()=> {navigate('/picoDeFaturamento')} } >Pico de Faturamento</div>
                         </>
                     ) : null}
 

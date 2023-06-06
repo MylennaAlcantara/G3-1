@@ -48,8 +48,13 @@ button:hover {
 }
 
 .justSize {
+    background-color: white;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
     width: 1150px;
-    height: 400px
+    height: 700px;
+    overflow-x: auto;
 }
 
 .close {
@@ -200,6 +205,13 @@ label {
     border-style: solid;
     border-width: 1px;
     border-radius: 8px;
+}
+
+.srch{
+    width: 99%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
 }
 
 .graficoB {

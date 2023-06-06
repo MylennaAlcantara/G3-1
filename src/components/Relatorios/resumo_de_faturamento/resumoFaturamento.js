@@ -340,15 +340,15 @@ margin-right: auto;
 
 div{
     font-weight: bold;
-    font-size: 11px;
+    font-size: 10px;
     margin: 2px;
     border-style: solid;
     border-width: 1px;
 }
 
-@media(min-width: 1500px){
+@media(min-width: 1600px){
     div{
-        font-size: 16px;
+        font-size: 14px;
     }
 }
 `
