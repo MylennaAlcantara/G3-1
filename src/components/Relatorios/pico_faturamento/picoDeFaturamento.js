@@ -4,12 +4,32 @@ import { Top } from "../../modais/modal_top";
 import * as C from "../../cadastro/cadastro"
 import { Loading } from "../../loading";
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from "../../../contexts/Auth/authContext"
-import * as LB from "../resumo_de_faturamento/resumoFaturamento"
+import { AuthContext } from "../../../contexts/Auth/authContext";
+import * as LB from "../resumo_de_faturamento/resumoFaturamento";
 import './picoDeFaturamento.css'
 import { data } from "jquery";
+import Modal from 'react-modal';
+import Chart from 'react-google-charts';
+
+Modal.setAppElement("#root")
 
 export const PicoDeFaturamento = () => {
+
+    const customStyles = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%)',
+            width: '75%',
+            height: '80%',
+            backgroundColor: '#6EC2FA',
+            overlay: {
+                backgroundColor: 'rgba(0, 0 ,0, 0.8)'
+            },
+        },
+    };
 
     const [hora, setHora] = useState([]);
     const [semana, setSemana] = useState([]);
@@ -127,6 +147,10 @@ export const PicoDeFaturamento = () => {
     }
 
     const start = () => {
+        setHora([]);
+        setSemana([]);
+        setMes([]);
+        setAno([]);
         show();
         setDataHora();
         setDataSemana();
@@ -134,10 +158,77 @@ export const PicoDeFaturamento = () => {
         setDataAno();
     }
 
+    const deleteById = id => {
+        setValor(oldValues => {
+            return oldValues.filter(valor => valor.id !== id)
+        })
+    }
+
+    const deleteByIdTop = id => {
+        setValorTop(oldValues => {
+            return oldValues.filter(valorTop => valorTop.id !== id)
+        })
+    }
+
+    function passarMes() {
+        document.getElementById("DataInicial").stepUp(30);
+        document.getElementById("DataFinal").stepUp(30);
+    }
+
+    function voltarMes() {
+        document.getElementById("DataInicial").stepDown(30);
+        document.getElementById("DataFinal").stepDown(30);
+    }
+
+    function voltar15Dias() {
+        document.getElementById("DataInicial").stepDown(15);
+        document.getElementById("DataFinal").stepDown(15);
+    }
+
+    console.log(semana)
+
+    //-------------------------------------------------------------------------------------------------------Pico Hora-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    const [abrirHora, setOpenAbrirHora] = useState(false);
+
+    const picoHora = [
+        ["Horas", "Vlr.Total NF-e", "Vlr.Total NFC-e", "Vlr.Total"],
+        ...hora.map(item => [item.hora, item.vlr_total_nfe, item.vlr_total_nfce, item.vlr_total])
+    ]
+
+    const optionsPicoHora = {
+        chart: {
+            title: "Pico comparativos por horas.",
+            subtitle: "Valores em R$",
+        },
+    };
+    
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------   
+
+    //--------------------------------------------------------------------------------------------------------Pico Semana--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    const [abrirSemana, setOpenAbrirSemana] = useState(false);
+    
+    const picoSemana = [
+        ["Dia da semana", "Vlr.Total NF-e", "Vlr.Total NFC-e", "Vlr.Total"],
+        ...semana.map(item => [item.dia, item.vlr_total_nfe, item.vlr_total_nfce, item.vlr_total])
+    ]
+
+    const optionsPicoSemana = {
+        chart: {
+            title: "Pico comparativos por semana",
+            subtitle: "Valores em R$",
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     return (
         <C.Container>
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header><h3>Pico de Faturamento</h3></C.Header>
+
+            <span>Atenção: Digite ou selecione uma data antes apertar nos Botões</span>
 
             <LB.Filtros>
                 <div className="filial-top-content" >
@@ -162,6 +253,7 @@ export const PicoDeFaturamento = () => {
                                     <table>
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>Código</th>
                                                 <th>Fantasia</th>
                                                 <th>Razão Social</th>
@@ -172,6 +264,8 @@ export const PicoDeFaturamento = () => {
                                         {valor.map((item) => {
                                             return (
                                                 <tr>
+                                                    <img className='del' src='/images/lixeira.png' onClick={() => deleteById(item.id)} />
+
                                                     <td>{item.id}</td>
 
                                                     <td>{item.nome_fantasia}</td>
@@ -200,6 +294,7 @@ export const PicoDeFaturamento = () => {
                                     <table>
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>Código</th>
                                                 <th>Descrição</th>
                                             </tr>
@@ -207,6 +302,8 @@ export const PicoDeFaturamento = () => {
                                         {valorTop.map((item) => {
                                             return (
                                                 <tr>
+                                                    <img className='del' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
+
                                                     <td>{item.id}</td>
 
                                                     <td>{item.descricao}</td>
@@ -227,16 +324,24 @@ export const PicoDeFaturamento = () => {
                     <div>
                         <div className="data" >
                             <label>Data Inicial</label>
-                            <input type="date" onChange={GetDataIni} />
+                            <input id="DataInicial" type="date" onChange={GetDataIni} />
                         </div>
 
                         <div className="data" >
                             <label>Data Final</label>
-                            <input type="date" onChange={GetDataFin} />
+                            <input id="DataFinal" type="date" onChange={GetDataFin} />
                         </div>
+
+                        <div className="data" >
+                            <label><img src="/images/calendario.png" /></label>
+                            <button onClick={voltar15Dias} >Voltar 15 dias.</button>
+                        </div>
+
                     </div>
 
                     <div className="checkbox-content" >
+                        <button onClick={voltarMes} className="setaE" ><img src="/images/setaEsquerda.png" /></button>
+                        <button onClick={passarMes} className="setaD" ><img src="/images/setaDireita.png" /></button>
                         <input type="checkbox" checked={NFE} onChange={nfeCheck} /><label>NF-e</label>
                         <input type="checkbox" checked={NFCE} onChange={nfceCheck} /><label>NFC-e</label>
                     </div>
@@ -271,7 +376,7 @@ export const PicoDeFaturamento = () => {
 
                                     <label>Dashboards</label>
 
-                                    <button className='dashboardBtn' > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                    <button className='dashboardBtn' onClick={() => setOpenAbrirHora(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
                                 </div>
 
@@ -335,7 +440,7 @@ export const PicoDeFaturamento = () => {
 
                                     <label>Dashboards</label>
 
-                                    <button className='dashboardBtn' > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                    <button className='dashboardBtn' onClick={() => setOpenAbrirSemana(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
                                 </div>
 
@@ -516,6 +621,22 @@ export const PicoDeFaturamento = () => {
                     </LB.DataGeral>
                 </>
             ) : null}
+
+            <Modal isOpen={abrirHora} onRequestClose={() => setOpenAbrirHora(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" > 
+                
+                <button onClick={() => setOpenAbrirHora(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
+
+                <h1>Pico por Hora</h1>
+
+                <LB.Dashboard>
+                    <div className="justSize" ><Chart chartType="Line" width="100%" height="95%" data={picoHora} options={optionsPicoHora} /></div>
+                </LB.Dashboard>
+
+            </Modal>
+
+            <Modal isOpen={abrirSemana} onRequestClose={() => setOpenAbrirSemana(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
+                <button onClick={() => setOpenAbrirSemana(false) } className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
+            </Modal>
 
             <C.Footer>
                 <div className="buttons" >

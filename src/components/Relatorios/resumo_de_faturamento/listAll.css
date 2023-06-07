@@ -214,6 +214,18 @@ label {
     align-self: center;
 }
 
+.setaE{
+    margin-top: 10px;
+    width: 55px;
+    margin-left: 6px;
+}
+
+.setaD{
+    margin-top: 10px;
+    width: 55px;
+    margin-right: 10px;
+}
+
 .graficoB {
     border-radius: 8px;
     left: 20px;

@@ -985,6 +985,16 @@ export const ResumoFaturamento = () => {
 
     console.log(dataIni)
 
+    function passarMes() {
+        document.getElementById("DataIni").stepUp(30);
+        document.getElementById("DataFin").stepUp(30);
+    }
+
+    function voltarMes() {
+        document.getElementById("DataIni").stepDown(30);
+        document.getElementById("DataFin").stepDown(30);
+    }
+
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
@@ -1082,12 +1092,13 @@ export const ResumoFaturamento = () => {
                     <div>
                         <div className="data" >
                             <label>Data Inicial</label>
-                            <input type="date" onChange={onChangeDataIni} />
+                            <input type="date" id="DataIni" onChange={onChangeDataIni} />
                         </div>
                         <div className="data" >
                             <label>Data Final</label>
-                            <input type="date" onChange={onChangeDataFin} />
+                            <input type="date" id="DataFin" onChange={onChangeDataFin} />
                         </div>
+
                         <div className="select">
                             <label>Status NFC-e</label>
                             <select onChange={(e) => setFilter(e.target.value)}>
@@ -1097,11 +1108,16 @@ export const ResumoFaturamento = () => {
                             </select>
                         </div>
                     </div>
-                    <div className='checks' >
-                        <input type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
-                        <input type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
-                        <input type="checkbox" value="false" id='NFCE' checked={checkNFCE} onChange={handleChecked01} /><label>NFC-e</label>
+                    <div>
+                        <button className='setaE' onClick={voltarMes} ><img className='close' src='/images/setaEsquerda.png' /></button>
+                        <button className='setaD' onClick={passarMes} ><img className='close' src='/images/setaDireita.png' /></button>
+                        <div className='checks' >
+                            <input type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
+                            <input type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
+                            <input type="checkbox" value="false" id='NFCE' checked={checkNFCE} onChange={handleChecked01} /><label>NFC-e</label>
+                        </div>
                     </div>
+
                     <div className='botao-pesquisar'>
                         <button onClick={handleSetData} >Pesquisar</button>
                     </div>
