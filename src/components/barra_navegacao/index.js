@@ -179,7 +179,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                         <>
                             <div className="gaveta" onClick={()=> {navigate('/resumoDeFaturamento'); fecharOp()}} >Resumo de Faturamento</div>
                             <div className="gaveta" onClick={()=> {setVendas(true); fecharOp()}} >Vendas Caixas</div>
-                            <div className="gaveta" onClick={()=> {navigate('/picoDeFaturamento')} } >Pico de Faturamento</div>
+                            <div className="gaveta" onClick={() => {navigate('/picoDeFaturamento'); fecharOp()} }>Pico de Faturamento</div>
                         </>
                     ) : null}
 
@@ -190,7 +190,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
             {opFuncionario ? <OpFuncionarios close={()=> setOpfuncionario(false)} setOpfuncionario={setOpfuncionario} setMinimizado={setMinimizado} minimizado={minimizado} modal={modal} setModal={setModal} cadastro={cadastro} setCadastro={setCadastro}/> : null}
             {opProdutos ? <OpProdutos close={()=> setOpProdutos(false)} setOpProdutos={setOpProdutos} setMinimizado={setMinimizado} minimizado={minimizado} modal={modal} setModal={setModal} cadastro={cadastro} setCadastro={setCadastro}/> : null}
             {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar} setMinimizado={setMinimizado} minimizado={minimizado} modal={modal} setModal={setModal} cadastro={cadastro} setCadastro={setCadastro}/> : null}
-            {vendas ? <VendasCaixa/> : null}
+            {vendas ? <VendasCaixa close={()=> setVendas(false)}/> : null}
         </C.Container>
     )
 }

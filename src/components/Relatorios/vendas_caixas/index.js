@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Chart from 'react-google-charts';
 import * as C from "../../cadastro/cadastro";
 import * as M from "../../modais/modal/modal";
 import * as V from "./vendas";
+import Chart from 'react-google-charts';
 
 export const VendasCaixa = ({ close }) => {
 
@@ -16,19 +16,11 @@ export const VendasCaixa = ({ close }) => {
 
     async function consultarCaixas() {
         const resultados = [];
-        for (let i = 0; i < caixa.length; i++) {
-            const id = caixa[i].id;
-            const nomeCaixa = caixa[i].nome;
-            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${id}`);
-            const data = await response.json();
-            resultados.push({ nome: nomeCaixa, total: data });
-        }
-        setTotalCaixas(resultados);
 
         if (dataInicial && dataFinal) {
             const [totalRes, tipoPgtoRes] = await Promise.all([
                 fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${dataInicial}/${dataFinal}`),
-                fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/totalTipoPagamento/${dataInicial}/${dataFinal}`)
+                fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/totalTipoPagamento/${dataInicial}/${dataFinal}`),
             ]);
 
             const totalData = await totalRes.json();
@@ -36,6 +28,24 @@ export const VendasCaixa = ({ close }) => {
 
             setTotal(totalData);
             setTipoPgto(tipoPgtoData);
+
+            for (let i = 0; i < caixa.length; i++) {
+                const id = caixa[i].id;
+                const nomeCaixa = caixa[i].nome;
+                const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${id}/${dataInicial}/${dataFinal}`);
+                const data = await response.json();
+                resultados.push({ nome: nomeCaixa, total: data });
+            }
+            setTotalCaixas(resultados);
+        } else {
+            for (let i = 0; i < caixa.length; i++) {
+                const id = caixa[i].id;
+                const nomeCaixa = caixa[i].nome;
+                const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${id}`);
+                const data = await response.json();
+                resultados.push({ nome: nomeCaixa, total: data });
+            }
+            setTotalCaixas(resultados);
         }
     }
 
@@ -87,40 +97,45 @@ export const VendasCaixa = ({ close }) => {
 
     async function filtroCaixa(e) {
         setFiltro(e.target.value);
-        if (e.target.value === 'todos') {
+        if (e.target.value === 'todos' && dataInicial == '' && dataFinal === '') {
             async function getTotal() {
                 const res = await fetch('http://8b38091fc43d.sn.mynetname.net:2006/totalVendas')
                 const data = await res.json();
                 setTotal(data)
             }
             getTotal();
-        } else if (e.target.value != "todos") {
+        } else if (e.target.value === 'todos' && dataInicial && dataFinal) {
+            async function getTotal() {
+                const res = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${dataInicial}/${dataFinal}`)
+                const data = await res.json();
+                setTotal(data)
+            }
+            getTotal();
+        } else if (e.target.value != "todos" && dataInicial && dataFinal) {
+            async function getTotal() {
+                const res = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${e.target.value}/${dataInicial}/${dataFinal}`);
+                const data = await res.json();
+                setTotal(data);
+            }
+            getTotal();
+            const filtrado = tipoPgto.filter((pgto) => pgto.idCaixa == e.target.value);
+            setPagamentoCaixa(filtrado);
+        } else if (e.target.value != "todos" && dataInicial == '' && dataFinal === '') {
             async function getTotal() {
                 const res = await fetch(`http://8b38091fc43d.sn.mynetname.net:2006/totalVendas/${e.target.value}`);
                 const data = await res.json();
                 setTotal(data);
             }
             getTotal();
-            /*const caixasSeparados = tipoPgto.reduce((result, item) => {
-                const caixa = item.caixa;
-                if (!result[caixa]) {
-                    result[caixa] = [];
-                }
-                result[caixa].push(item);
-                return result;
-            }, {});
-            setPagamentoCaixa(caixasSeparados);*/
             const filtrado = tipoPgto.filter((pgto) => pgto.idCaixa == e.target.value);
             setPagamentoCaixa(filtrado);
         }
     }
 
-    const graficosCaixas = [
+    const graficosCaixa = [
         ["Element", "Valor Total", { role: "style" }],
         ...totalCaixas.map(item => [item.nome, item.total, ''])
     ]
-
-    console.log(totais)
 
     const graficosPGTOCaixasTotal = totais && [
         ["Element", ""],
@@ -137,9 +152,13 @@ export const VendasCaixa = ({ close }) => {
         is3D: true,
     }
 
+    const graficosBarra = pagamentoCaixa && [
+        ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+        ...pagamentoCaixa.map(item => [item.descricao])
+    ]
+
     console.log(pagamentoCaixa)
 
-    console.log(filtro)
     return (
         <M.Modal>
             <C.Container>
@@ -225,10 +244,10 @@ export const VendasCaixa = ({ close }) => {
                         </div>
                     </V.Totais>
                     <V.Graficos>
-                        {filtro === 'todos' ? (
+                    {filtro === 'todos' ? (
                             <div>
                                 <div className="A" >
-                                    <Chart width="100%" height="95%" chartType="ColumnChart" data={graficosCaixas} />
+                                    <Chart width="100%" height="95%" chartType="ColumnChart" data={graficosCaixa} />
                                 </div>
 
                                 <div>

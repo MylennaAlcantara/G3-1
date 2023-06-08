@@ -1833,11 +1833,15 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles}>
 
-                <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                <div className='topo-content' >
 
-                <div>
+                    <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                     <h1>Dados Região <button className='filialBTN' onClick={() => setDsRegiaoDetalhada(true)}><img className='close' src='/images/regiao.png' />Cada Região</button></h1>
+
+                </div>
+
+                <div>
 
                     <div className='dashboardTexts'>
 
@@ -1916,12 +1920,15 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
-                <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                <div>
+                <div className='topo-content' >
+                    
+                    <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                     <h1>Dados Filial<button onClick={() => setGraficosCadaFilial(true)} className='filialBTN' > <img className='close' src='/images/filiais.png' /> Cada Filial</button></h1>
+                
+                </div>
 
+                <div>
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
                             <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')}

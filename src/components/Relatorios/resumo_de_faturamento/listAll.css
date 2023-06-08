@@ -72,6 +72,10 @@ button:hover {
     height: 33px;
 }
 
+.topo-content{
+    position: sticky;
+    top: 0;
+}
 
 .dashboard01 {
     align-items: center;
@@ -752,6 +756,9 @@ table tr:nth-child(odd) {
 span {
     margin: 0px;
     padding: 0px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .modal-content {

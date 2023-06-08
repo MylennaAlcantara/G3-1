@@ -49,7 +49,7 @@ export const Totais = styled.div`
         color: white;
         border-radius: 10px;
         border: 1px solid #064A8B;
-        box-shadow: 3pc 5px 5px gray;
+        box-shadow: 3px 5px 5px gray;
         .pgto{
             display: flex;
             div{
@@ -91,9 +91,9 @@ export const Totais = styled.div`
 `
 
 export const Graficos = styled.div`
-    margin: auto;
-    .A{
-        width: 400px;
-        height: 300px;
-    }
+margin: auto;
+.A{
+    width: 400px;
+    height: 250px;
+}
 `

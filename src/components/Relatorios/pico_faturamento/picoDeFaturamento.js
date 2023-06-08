@@ -185,9 +185,9 @@ export const PicoDeFaturamento = () => {
         document.getElementById("DataFinal").stepDown(15);
     }
 
-    console.log(semana)
+    console.log(ano)
 
-    //-------------------------------------------------------------------------------------------------------Pico Hora-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------Pico Hora----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [abrirHora, setOpenAbrirHora] = useState(false);
 
@@ -202,13 +202,13 @@ export const PicoDeFaturamento = () => {
             subtitle: "Valores em R$",
         },
     };
-    
+
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------   
 
-    //--------------------------------------------------------------------------------------------------------Pico Semana--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    const [abrirSemana, setOpenAbrirSemana] = useState(false);
+    //---------------------------------------------------------------------------------------------------------Pico Semana--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     
+    const [abrirSemana, setOpenAbrirSemana] = useState(false);
+
     const picoSemana = [
         ["Dia da semana", "Vlr.Total NF-e", "Vlr.Total NFC-e", "Vlr.Total"],
         ...semana.map(item => [item.dia, item.vlr_total_nfe, item.vlr_total_nfce, item.vlr_total])
@@ -217,6 +217,42 @@ export const PicoDeFaturamento = () => {
     const optionsPicoSemana = {
         chart: {
             title: "Pico comparativos por semana",
+            subtitle: "Valores em R$",
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    //---------------------------------------------------------------------------------------------------------Pico Mês----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    const [abrirMes, setOpenAbrirMes] = useState(false);
+
+    const picoMes = [
+        ["Dias do Mês", "Vlr.Total NF-e", "Vlr.Total NFC-e", "Vlr.Total"],
+        ...mes.map(item => [item.dia, item.vlr_total_nfe, item.vlr_total_nfce, item.vlr_total])
+    ]
+
+    const optionsPicoMes = {
+        chart: {
+            title: "Comparativos por dias do mês",
+            subtitle: "Valores em R$",
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    //---------------------------------------------------------------------------------------------------------Pico Ano---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    const [abrirAno, setOpenAbrirAno] = useState(false);
+
+    const picoAno = [
+        ["Meses do Ano", "Vlr.Total NF-e", "Vlr.Total NFC-e", "Vlr.Total"],
+        ...ano.map(item => [item.mes, item.vlr_total_nfe, item.vlr_total_nfce, item.vlr_total])
+    ]
+
+    const optionsPicoAno = {
+        chart: {
+            title: "Comparativos meses do ano",
             subtitle: "Valores em R$",
         }
     }
@@ -355,12 +391,13 @@ export const PicoDeFaturamento = () => {
 
             <LB.Navegacao>
                 <div>
-                    <button className="CE" onClick={() => setAba('Hora')} >Hora/Dia</button>
-                    <button className="botão-filtros" onClick={() => setAba('Semana')} >Dia/Semana</button>
-                    <button className="botão-filtros" onClick={() => setAba('Mes')} >Dia/Mês</button>
-                    <button className="CD" onClick={() => setAba('Ano')} >Mês/Ano</button>
+                    <button className="CE" style={{ backgroundColor: aba === "Hora" ? "#8CB9DF" : "", borderBottom: aba === 'Hora' ? "none" : "" }} onClick={() => setAba('Hora')} >Hora/Dia</button>
+                    <button className="botão-filtros" style={{ backgroundColor: aba === "Semana" ? "#8CB9DF" : "", borderBottom: aba === 'Semana' ? "none" : "" }} onClick={() => setAba('Semana')} >Dia/Semana</button>
+                    <button className="botão-filtros" style={{ backgroundColor: aba === "Mes" ? "#8CB9DF" : "", borderBottom: aba === 'Mes' ? "none" : "" }} onClick={() => setAba('Mes')} >Dia/Mês</button>
+                    <button className="CD" style={{ backgroundColor: aba === "Ano" ? "#8CB9DF" : "", borderBottom: aba === 'Ano' ? "none" : "" }} onClick={() => setAba('Ano')} >Mês/Ano</button>
                 </div>
             </LB.Navegacao>
+
             {aba === 'Hora' ? (
                 <>
                     <LB.DataGeral>
@@ -504,7 +541,7 @@ export const PicoDeFaturamento = () => {
 
                                     <label>Dashboards</label>
 
-                                    <button className='dashboardBtn' > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                    <button className='dashboardBtn' onClick={() => setOpenAbrirMes(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
                                 </div>
 
@@ -569,7 +606,7 @@ export const PicoDeFaturamento = () => {
 
                                     <label>Dashboards</label>
 
-                                    <button className='dashboardBtn' > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                    <button className='dashboardBtn' onClick={() => setOpenAbrirAno(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
                                 </div>
 
@@ -622,8 +659,8 @@ export const PicoDeFaturamento = () => {
                 </>
             ) : null}
 
-            <Modal isOpen={abrirHora} onRequestClose={() => setOpenAbrirHora(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" > 
-                
+            <Modal isOpen={abrirHora} onRequestClose={() => setOpenAbrirHora(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
+
                 <button onClick={() => setOpenAbrirHora(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
 
                 <h1>Pico por Hora</h1>
@@ -635,7 +672,38 @@ export const PicoDeFaturamento = () => {
             </Modal>
 
             <Modal isOpen={abrirSemana} onRequestClose={() => setOpenAbrirSemana(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
-                <button onClick={() => setOpenAbrirSemana(false) } className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
+                <button onClick={() => setOpenAbrirSemana(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
+
+                <h1>Pico por dia da Semana</h1>
+
+                <LB.Dashboard>
+                    <div className="justSize" ><Chart chartType="Line" width="100%" height="95%" data={picoSemana} options={optionsPicoSemana} /></div>
+                </LB.Dashboard>
+
+            </Modal>
+
+            <Modal isOpen={abrirMes} onRequestClose={() => setOpenAbrirMes(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnEsc={false} overlayClassName="dashboard-overlay" >
+
+                <button onClick={() => setOpenAbrirMes(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
+
+                <h1>Pico por dias do Mês</h1>
+
+                <LB.Dashboard>
+                    <div className="justSize" ><Chart chartType="Line" width="100%" height="95%" data={picoMes} options={optionsPicoMes} /></div>
+                </LB.Dashboard>
+
+            </Modal>
+
+            <Modal isOpen={abrirAno} onRequestClose={() => setOpenAbrirAno(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnEsc={false} overlayClassName="dashboard-overlay" >
+
+                <button onClick={() => setOpenAbrirAno(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
+
+                <h1>Pico por meses do ano</h1>
+
+                <LB.Dashboard>
+                    <div className="justSize" ><Chart chartType="Line" width="100%" height="95%" data={picoAno} options={optionsPicoAno} /></div>
+                </LB.Dashboard>
+
             </Modal>
 
             <C.Footer>
