@@ -25,7 +25,8 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
         async function setarHoraData(){
             setDadosCliente({
                 ...dadosCliente,
-                data_cadastro: String(dataAtual)
+                data_cadastro: String(dataAtual),
+                data_insercao: String(dataAtual)
             });
         } 
         setarHoraData();
@@ -69,6 +70,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
         filial: {},
         inscricao_municipal: "",
         data_cadastro: "",
+        data_insercao: "",
         municipio: "",
         estado: "",
         cod_municipio: "",

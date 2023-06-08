@@ -26,7 +26,7 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
     }, []);
 
     function selected (ramo){
-        setDadosCliente({
+        setDadosCliente && setDadosCliente({
             ...dadosCliente,
             ramoAtividade:{
                 id: ramo.id,
@@ -159,7 +159,7 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>
-                        {cadastro.ramo ? (
+                        {cadastro && cadastro.ramo ? (
                             <button><img src="/images/abrir.png"/>Abrir</button>
                         ): null}
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>

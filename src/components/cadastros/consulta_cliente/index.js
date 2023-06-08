@@ -180,7 +180,7 @@ export const ConsultarCliente = ({setCliente}) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {resultado.slice(0, 50).map( (user, index) => {
+                                {Array.isArray(resultado) && resultado.map( (user, index) => {
                                     return(
                                         <tr key={user.id} onClick={selecionado.bind(this, user, index)} style={{background: index === selectIndex ? '#87CEFA' : ''}}>
                                             <td>{user.id}</td>
@@ -189,7 +189,7 @@ export const ConsultarCliente = ({setCliente}) => {
                                             <td>{user.nome_fantasia}</td>
                                             <td>{cnpjMask(user.cpf_cnpj)}</td>
                                             <td>{user.endereco}</td>
-                                            <td>{cepMask(user.cep)}</td>
+                                            <td>{user.cep}</td>
                                             <td>{user.municipio}</td>
                                             <td>{user.telefone}</td>
                                             <td>{user.celular}</td>

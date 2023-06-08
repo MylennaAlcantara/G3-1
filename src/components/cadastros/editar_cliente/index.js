@@ -25,7 +25,7 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
         async function setarHoraData(){
             setDadosCliente({
                 ...dadosCliente,
-                dataEdicao: String(dataAtual)
+                data_edicao: String(dataAtual)
             });
         } 
         setarHoraData();
@@ -64,13 +64,14 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
         id_tipo_pagamento: null,
         data_nasc: "",
         id_funcionario: selectFuncionario,
-        id_usuario_insercao: parseFloat(idFuncionario),
+        id_usuario_insercao: "",
+        id_usuario_edicao: parseFloat(idFuncionario),
         perfilRegra: {},
         ramoAtividade: {},
         filial: {},
         inscricao_municipal: "",
         data_cadastro: "",
-        dataEdicao: "",
+        data_edicao: String(dataAtual),
         municipio: "",
         estado: "",
         cod_municipio: "",
@@ -132,9 +133,9 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                 orgao_rg: data.ogao_rg,
                 inscricao_estadual: data.inscricao_estadual,
                 tipo_pessoa: data.tipo_pessoa,
-                cpf_cnpj: cnpjMask(data.cpf_cnpj),
+                cpf_cnpj: data.cpf_cnpj,
                 endereco: data.endereco,
-                cep: cepMask(data.cep),
+                cep: data.cep,
                 nome: data.nome,
                 nome_fantasia: data.nome_fantasia,
                 complemento: data.complemento,
@@ -150,11 +151,14 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                 data_nasc: data.data_nasc,
                 id_funcionario: data.id_funcionario,
                 id_usuario_insercao: data.id_usuario_insercao,
+                id_usuario_edicao: parseFloat(idFuncionario),
                 perfilRegra: data.perfilRegra,
                 ramoAtividade: data.ramoAtividade,
                 filial: data.filial,
                 inscricao_municipal: data.inscricao_municipal,
-                data_cadastro: dataMask(data.data_cadastro),
+                data_cadastro: data.data_cadastro,
+                data_insercao: data.data_insercao,
+                data_edicao: String(dataAtual),
                 municipio: data.municipio,
                 estado: data.estado,
                 cod_municipio: data.cod_municipio,
@@ -317,7 +321,7 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                         </div>
                         <div>
                             <label>Data: </label>
-                            <input value={dadosCliente.data_cadastro} readOnly/>
+                            <input value={dataMask(dadosCliente.data_cadastro)} readOnly/>
                         </div>
                         <div className="checkbox">
                             <div>
@@ -345,7 +349,7 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                                 <div>
                                     <label>CNPJ: </label>
                                     {dadosCliente.tipo_pessoa === "J" ? (
-                                        <input className="input-documentos" value={dadosCliente.cpf_cnpj} onChange={(e)=> setDadosCliente({...dadosCliente, cpf_cnpj: e.target.value})}  style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
+                                        <input className="input-documentos" value={cnpjMask(dadosCliente.cpf_cnpj)} onChange={(e)=> setDadosCliente({...dadosCliente, cpf_cnpj: e.target.value})}  style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                     ) : (
                                         <input className="input-documentos" style={{backgroundColor: cor}} readOnly/>
                                     )}
@@ -372,7 +376,7 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                                 <div>
                                     <label>CPF: </label>
                                     {dadosCliente.tipo_pessoa === "F" ? (
-                                        <input className="input-documentos" value={dadosCliente.cpf_cnpj} onChange={(e)=> setDadosCliente({...dadosCliente, cpf_cnpj: e.target.value})}  style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
+                                        <input className="input-documentos" value={cnpjMask(dadosCliente.cpf_cnpj)} onChange={(e)=> setDadosCliente({...dadosCliente, cpf_cnpj: e.target.value})}  style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                     ) : (
                                         <input className="input-documentos" style={{backgroundColor: corFisica}} readOnly/>
                                     )}
@@ -417,7 +421,7 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                             </div>
                             <div className="div-input">
                                 <label>CEP: </label>
-                                <input className="codigo" value={dadosCliente.cep} onChange={(e) => setDadosCliente({...dadosCliente, cep: e.target.value})} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
+                                <input className="codigo" value={cepMask(dadosCliente.cep)} onChange={(e) => setDadosCliente({...dadosCliente, cep: e.target.value})} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                 <img src="/images/LUPA.png" onClick={pesquisarCep}/>
                                 <label>Complemento: </label>
                                 <input className="complemento" value={dadosCliente.complemento} onChange={(e)=> setDadosCliente({...dadosCliente, complemento: e.target.value})}/>

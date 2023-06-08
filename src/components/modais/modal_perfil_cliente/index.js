@@ -27,7 +27,7 @@ export const PerfilCliente = ({close, cadastro, dadosCliente, setDadosCliente, m
 
 
     function selected (perfil){
-        setDadosCliente({
+        setDadosCliente && setDadosCliente({
             ...dadosCliente,
             perfilRegra:{
                 id: perfil.id,
@@ -158,7 +158,7 @@ export const PerfilCliente = ({close, cadastro, dadosCliente, setDadosCliente, m
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=>setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>
-                        {cadastro.perfil ? (
+                        {cadastro && cadastro.perfil ? (
                             <button><img src="/images/abrir.png"/>Abrir</button>
                         ): null}
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
