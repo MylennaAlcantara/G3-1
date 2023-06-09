@@ -268,7 +268,7 @@ export const Visualizar = ({ codRotina}) => {
                                         <td>{list.unidade_produto}</td>
                                         <td>{parseFloat(list.quantidade).toFixed(3).replace('.',',')}</td>
                                         <td>{String(list.valor_unitario).replace('.',',')}</td>
-                                        <td>{String(list.subtotal).replace('.',',')}</td>
+                                        <td>{parseFloat(list.subtotal).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN','')}</td>
                                         <td>{parseFloat(list.desconto).toFixed(2).replace('.',',')}</td>
                                     </tr>
                                 )
@@ -290,11 +290,11 @@ export const Visualizar = ({ codRotina}) => {
                     <label className="total-itens"></label>
                     <div>
                     <label>Subtotal da Rotina: </label>
-                    <input value={rotinas.subtotal} readOnly/>
+                    <input value={(rotinas.subtotal).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN','')} readOnly/>
                     </div>
                     <div>
                     <label>Total da Rotina: </label>
-                    <input value={rotinas.total} readOnly />
+                    <input value={(rotinas.total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN','')} readOnly />
                     </div> 
                     <div>
                     <label>descontoValor Total(R$): </label>

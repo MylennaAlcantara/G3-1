@@ -9,12 +9,17 @@ export const MensagemNfe = ({close, setDadosTop, dadosTop, minimizado, setMinimi
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
 
-    
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
+
     useEffect(() => {
         async function fetchData (){
             const response = await fetch("");
             const data = await response.json();
             setMensagem(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
         fetchData();
     }, []);
@@ -71,8 +76,22 @@ export const MensagemNfe = ({close, setDadosTop, dadosTop, minimizado, setMinimi
                         <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>
                 </M.Filtro>
-                {mensagem.length === 0 ? (
+                {mensagem.length === 0 && carregado === false ? (
                     <Loading/>
+                ) : mensagem.length === 0 && carregado ? (
+                    <div className="table-responsive">
+                        <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Mensagem</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                            Não Existem dados a serem exibidos!
+                        </div>
+                    </div>
                 ) : (
                     <div className="table-responsive">
                         <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>

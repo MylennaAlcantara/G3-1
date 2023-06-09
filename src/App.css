@@ -67,8 +67,8 @@ select{
 }
 
 @media screen and (max-width: 425px){
-  .App{
-    height: 95vh;   
+  .App{  
+    height: 100vh;
     width: auto;
     align-items: start;
   }

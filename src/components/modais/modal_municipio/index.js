@@ -6,11 +6,17 @@ export const ListaMunicipio = ({close, setDadosCliente, dadosCliente, setDadosFu
     const [municipios, setMunicipios] = useState([]);
     const [busca, setBusca] = useState([]);
 
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
+
     useEffect(() => {
         async function fetchData (){
             const response = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/municipios");
             const data = await response.json();
             setMunicipios(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
             fetchData();
     }, []);
@@ -49,8 +55,23 @@ export const ListaMunicipio = ({close, setDadosCliente, dadosCliente, setDadosFu
                         <input className="search" id="search" placeholder="Buscar" value={busca} onChange={(e)=> setBusca(e.target.value)}/>
                     </div>
                 </M.Filtro>
-                {municipios.length === 0 ? (
+                {municipios.length === 0 && carregado === false? (
                     <Loading/>
+                ) : municipios.length === 0 && carregado ? (
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nome</th>
+                                    <th>UF</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                            Não Existem dados a serem exibidos!
+                        </div>
+                    </div>
                 ) : (
                     <div className="table-responsive">
                         <table id="table">

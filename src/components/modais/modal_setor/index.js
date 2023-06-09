@@ -10,11 +10,17 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
     const [modalNovoSetor, setModalNovoSetor] = useState(false);
     const [modalEditarSetor, setModalEditarSetor] = useState(false);
 
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
+
     useEffect(()=> {
         async function fetchData (){
             const response = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/setorFuncionario/all');
             const data = await response.json();
             setSetores(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
         fetchData();
         document.getElementById("search").focus();
@@ -83,8 +89,22 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
                         <input className="search" id="search" placeholder="Buscar.."/>
                     </div>
                 </M.Filtro>
-                {setores.length === 0 ? (
+                {setores.length === 0 && carregado === false ? (
                     <Loading/>
+                ) : setores.length === 0 && carregado ? (
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                            Não Existem dados a serem exibidos!
+                        </div>
+                    </div>
                 ) : (
                     <div className="table-responsive">
                         <table className="table">

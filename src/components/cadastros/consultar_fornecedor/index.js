@@ -12,6 +12,9 @@ export const ConsultarFornecedor = () => {
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('social');
 
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
+
     // Filtro de busca
     function handleFiltroChange(event) {
         setFiltro(event.target.value);
@@ -22,6 +25,9 @@ export const ConsultarFornecedor = () => {
             const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/all");
             const data = await response.json();
             setUsers(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
             fetchData();
             document.getElementById('search').focus();
@@ -29,7 +35,7 @@ export const ConsultarFornecedor = () => {
 
     const resultado = Array.isArray(users) && users.filter((user) => {
         if(filtro === 'fantasia'){
-            return user.nome_fantasia.toLowerCase().includes(busca);
+            return String(user.nome_fantasia).toLowerCase().includes(busca);
         }else if(filtro === 'codigo'){
             return String(user.id).toLowerCase().includes(busca);
         }else if(filtro === 'documento'){
@@ -116,6 +122,23 @@ export const ConsultarFornecedor = () => {
             <CCL.Lista>
                 {users.length === 0 ? (
                     <Loading/>
+                ) : users.length === 0 && carregado ? (
+                    <div className="table-responsive">
+                        <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                            <thead>
+                                <tr>
+                                    <th>Ativo</th>
+                                    <th>Código</th>
+                                    <th>Razão Social</th>
+                                    <th>Nome Fantasia</th>
+                                    <th>Documento</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                            Não Existem dados a serem exibidos!
+                        </div>
+                    </div>
                 ) : (
                     <div className="table-responsive">
                         <table id="table" onKeyDown={handleKeyDown} ref={tableRef} tableRef={0}>

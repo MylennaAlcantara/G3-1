@@ -58,6 +58,8 @@ export const TipoPagamento = styled.div`
     }
     .table-responsive{
         overflow: auto;
+        display: flex;
+        justify-content: start;
         width: 90%;
         height: auto;
     }
@@ -91,6 +93,11 @@ export const TipoPagamento = styled.div`
     }
     #table tr:hover td{
         background-color: #87CEFA;
+    }
+    @media(max-width: 700px){
+        div{
+            flex-wrap: wrap;
+        }
     }
 `
 export const NotasFiscais = styled.div`

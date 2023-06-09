@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Loading } from "../../../loading";
 import * as M from "../../modal/modal";
 import {Lista} from "./grupo";
 //import grupos from "../../../../grupos/grupos.json";
@@ -23,11 +24,17 @@ export const Grupo = ({close, minimizado, setMinimizado, setGrupo}) => {
     /*const pai = grupos.filter((grupo) => grupo.DESCRICAO === grupo.NOME_PAI);*/
     const [pai, setPai] = useState([]);
 
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
+
     useEffect(()=> {
         async function fetchData (){
             const response = await fetch('http://10.0.1.10:8092/grupo/all');
             const data = await response.json();
             setPai(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
         fetchData();
         document.getElementById("search").focus();
@@ -81,20 +88,46 @@ export const Grupo = ({close, minimizado, setMinimizado, setGrupo}) => {
                         <img src="/images/pastaFechada.png"/>
                         <label>Grupos:</label>
                     </div>
-                    {pai.map((grupo)=> {
-                        return(
-                            <>
-                                <div className="grupo" key={grupo.codigo} onClick={abrirFilho.bind(this, grupo)} onDoubleClick={selecionado.bind(this, grupo)}>
-                                <img src="/images/pastaFechada.png"/>{grupo.codigo} - {grupo.descricao}
-                                </div>
-                                {Array.isArray(filho) && filho.map((filho)=> {
-                                    if(grupo.id === filho.id_pai){
-                                        return <div className="filho" onDoubleClick={selecionado.bind(this, filho)}>{filho.codigo} - {filho.descricao}</div>
-                                    }
-                                })}
-                            </>
-                            )
-                    })}
+                    {pai.length === 0 && carregado === false ? (
+                        <div style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            <Loading/>
+                        </div>
+                    ) : pai.length === 0 && carregado ? (
+                        <div className="table-responsive">
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Data Venda</th>
+                                        <th>Empresa</th>
+                                        <th>Cliente</th>
+                                        <th>Situação</th>
+                                        <th>Valor</th>
+                                        <th>TOP</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                                Não Existem dados a serem exibidos!
+                            </div>
+                        </div>
+                    ) : (
+                        pai.map((grupo)=> {
+                            return(
+                                <>
+                                    <div className="grupo" key={grupo.codigo} onClick={abrirFilho.bind(this, grupo)} onDoubleClick={selecionado.bind(this, grupo)}>
+                                    <img src="/images/pastaFechada.png"/>{grupo.codigo} - {grupo.descricao}
+                                    </div>
+                                    {Array.isArray(filho) && filho.map((filho)=> {
+                                        if(grupo.id === filho.id_pai){
+                                            return <div className="filho" onDoubleClick={selecionado.bind(this, filho)}>{filho.codigo} - {filho.descricao}</div>
+                                        }
+                                    })}
+                                </>
+                                )
+                        })
+                    )}
+                    
                 </Lista>
             </M.Container>
         </M.Modal>

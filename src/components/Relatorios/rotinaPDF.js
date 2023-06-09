@@ -47,7 +47,7 @@ export function rotinaPDF (rotina, vendedor, parceiro, tipoPagamento, emitente, 
             {text: '', fontSize: 10 },
             {text: rotina.descricao_produto, fontSize: 10 }, 
             {text: parseFloat(rotina.valor_unitario).toFixed(2).replace('.',','), fontSize: 10 },
-            {text: parseFloat(rotina.valor_total).toFixed(2).replace('.',','), fontSize: 10 },
+            {text: parseFloat(rotina.valor_total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN',''), fontSize: 10 },
         ]
     })
     
@@ -134,7 +134,7 @@ export function rotinaPDF (rotina, vendedor, parceiro, tipoPagamento, emitente, 
             layout: 'lightHorizontalLines'
         },
         [{text: 'observação: ', margin: [0, 15, 0, 20]}],
-        [{text: 'Total: R$ ' + parseFloat(rotina.total).toFixed(2).replace('.',','), alignment: 'right', bold: true}],
+        [{text: 'Total: ' + parseFloat(rotina.total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN',''), alignment: 'right', bold: true}],
         [{text: 'É vedada a autenticação deste documento', alignment: 'center', fontSize: 15,  margin: [0, 40, 0, 20]}],
         {   table: {
             headerRows: 1,

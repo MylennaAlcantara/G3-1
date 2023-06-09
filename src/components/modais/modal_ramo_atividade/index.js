@@ -9,18 +9,24 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
 
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
+
     useEffect(() => {
         async function fetchData (){
             const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/ramoAtividade/all");
             const data = await response.json();
             setRamos(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
             fetchData();
             document.getElementById("search").focus();
     }, []);
 
     function selected (ramo){
-        setDadosCliente({
+        setDadosCliente && setDadosCliente({
             ...dadosCliente,
             ramoAtividade:{
                 id: ramo.id,
@@ -108,8 +114,22 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
                         <input className="search" id="search" placeholder="Buscar" onChange={(e)=> setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>
                 </M.Filtro>
-                {ramos.length === 0 ? (
+                {ramos.length === 0 && carregado === false ? (
                     <Loading/>
+                ) : ramos.length === 0 && carregado ? (
+                    <div className="table-responsive">
+                        <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                            Não Existem dados a serem exibidos!
+                        </div>
+                    </div>
                 ) : (
                     <div className="table-responsive">
                         <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
@@ -139,7 +159,7 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
                 <C.Footer>
                     <div className="buttons">
                         <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>
-                        {cadastro.ramo ? (
+                        {cadastro && cadastro.ramo ? (
                             <button><img src="/images/abrir.png"/>Abrir</button>
                         ): null}
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>

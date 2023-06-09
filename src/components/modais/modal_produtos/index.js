@@ -9,6 +9,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
     const [busca, setBusca] = useState('');
     const [infoItem, setInfoItem] = useState([]);
 
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
 
     useEffect(() => {
         async function fetchData (){
@@ -17,31 +19,49 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                 const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
                 const data = await response.json();
                 setItens(data.content);
+                if( response.status === 200){
+                    setCarregado(true);
+                }
             }else if(emitenteAlterado === true && tipoPgtoAlterado === false){
                 console.log("passou 2");
                 const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${rotinas.id_tipo_pagamento}?size=50`);
                 const data = await response.json();
                 setItens(data.content);
+                if( response.status === 200){
+                    setCarregado(true);
+                }
             }else if(emitenteAlterado === false && tipoPgtoAlterado === true){
                 console.log("passou 3");
                 const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${rotinas.id_empresa}/payment/${dataIdSelectPgt}?size=50`);
                 const data = await response.json();
                 setItens(data.content);
+                if( response.status === 200){
+                    setCarregado(true);
+                }
             }else if(emitenteAlterado === false && tipoPgtoAlterado === false){
                 console.log("passou 4");
                 const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${rotinas.id_empresa}/payment/${rotinas.id_tipo_pagamento}?size=50`);
                 const data = await response.json();
                 setItens(data.content);
+                if( response.status === 200){
+                    setCarregado(true);
+                }
             }else if(dataIdSelectEmitente && dataIdSelectPgt){
                 console.log("passou 5");
                 const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);
                 const data = await response.json();
                 setItens(data.content);
+                if( response.status === 200){
+                    setCarregado(true);
+                }
             }else{
                 console.log("passou 6");
                 const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/1/payment/1?size=50`);
                 const data = await response.json();
                 setItens(data.content);
+                if( response.status === 200){
+                    setCarregado(true);
+                }
             }
         }
         fetchData();
@@ -298,9 +318,27 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                     <label>Buscar: </label>
                     <input className="search" id="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                 </C.Filtro>
-                {itens.length === 0 ? (
+                {itens.length === 0 && carregado === false ? (
                     <div className="load">
                         <Loading/>
+                    </div>
+                ) : itens.length === 0 && carregado ? (
+                    <div className="table-responsive">
+                        <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                            <thead>
+                            <tr>
+                                <th>Cód. Interno</th>
+                                <th>Cód. referência</th>
+                                <th>Código Barras</th>
+                                <th>Descrição</th>
+                                <th>Qtd. Estoque</th>
+                                <th>Promoção</th>                        
+                            </tr>
+                            </thead>
+                        </table>
+                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                            Não Existem dados a serem exibidos!
+                        </div>
                     </div>
                 ) : (
                 <C.ListItens>
@@ -339,6 +377,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                     </table>
                 </C.ListItens>
                 )}
+                {/*
                 <C.Valores>
                     <C.Preço>
                         <div>
@@ -412,10 +451,10 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                             <tbody>
                                 <tr >
                                     <td>{dataIdSelectEmitente}</td>
-                                    <td>{parseFloat(infoItem.qtd_estoque).toFixed(3).replace('.',',')}</td>
-                                    <td>{parseFloat(infoItem.qtd_estoque_reservado).toFixed(3).replace('.',',')}</td>
-                                    <td>{parseFloat(infoItem.qtd_estoque_di).toFixed(3).replace('.',',')}</td>
-                                    <td>{parseFloat(parseFloat(infoItem.qtd_estoque) - parseFloat(infoItem.qtd_estoque_reservado)).toFixed(3).replace('.',',')}</td>
+                                    <td>{parseFloat(infoItem.qtd_estoque).toFixed(3).replace('.',',').replace("NaN", "")}</td>
+                                    <td>{parseFloat(infoItem.qtd_estoque_reservado).toFixed(3).replace('.',',').replace("NaN", "")}</td>
+                                    <td>{parseFloat(infoItem.qtd_estoque_di).toFixed(3).replace('.',',').replace("NaN", "")}</td>
+                                    <td>{parseFloat(parseFloat(infoItem.qtd_estoque) - parseFloat(infoItem.qtd_estoque_reservado)).toFixed(3).replace('.',',').replace("NaN", "")}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -423,11 +462,13 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                         <input className="estoque-tot" value={parseFloat(infoItem.qtd_estoque) - parseFloat(infoItem.qtd_estoque_reservado)} readOnly/>
                     </C.Estoque>
                 </C.Valores>
+                */}
                 <C.Footer>
                     <div>
                         <label> 0 - GRUPO DE ICMS </label>
                         <label> {infoItem.id_regra_icms} - REGRA DE ICMS </label>
                     </div>
+                    <div style={{margin: "auto"}}><label> A quantidade estoque exibida é a quantidade total de todas as filiais!</label></div>
                 </C.Footer>
             </C.ContainerProdutos>
             

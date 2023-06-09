@@ -95,7 +95,7 @@ export const CadastroPgto = ({close, minimizado, setMinimizado, minimizar, setMi
                                 </div>
                                 <div className="coluna">
                                     <div>
-                                        <label>Valor mín. para deesc.:</label>
+                                        <label>Valor mín. para desc.:</label>
                                         <input/>R$
                                     </div>
                                     <div>

@@ -657,13 +657,13 @@ export const CadastroProduto = () => {
             ) : aba === "fornecedores" ? (
                 <CP.Fornecedores>
                     <div className="fornecedores">
-                        <div className="foto">
+                        {/*<div className="foto">
                             <div id="foto"></div>
                             <div>
                                 <input placeholder="Selecione uma foto"/>
                                 <img src="/images/LUPA.png"/>
                             </div>
-                        </div>
+                        </div>*/}
                         <div className="div-fornecedor">
                             <fieldset>
                                 <legend>Fornecedor</legend>
