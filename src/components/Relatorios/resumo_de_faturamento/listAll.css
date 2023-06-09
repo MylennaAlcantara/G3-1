@@ -45,12 +45,16 @@ button:hover {
     display: flex;
     flex-direction: column;
     width: 100%;
-
 }
 
-.justSize{
+.justSize {
+    background-color: white;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 8px;
     width: 1150px;
-    height: 300px
+    height: 700px;
+    overflow-x: auto;
 }
 
 .close {
@@ -68,6 +72,10 @@ button:hover {
     height: 33px;
 }
 
+.topo-content{
+    position: sticky;
+    top: 0;
+}
 
 .dashboard01 {
     align-items: center;
@@ -80,6 +88,7 @@ button:hover {
 .dashboardTexts {
     display: flex;
     flex-direction: row;
+    overflow-x: auto;
 }
 
 .dashboardTpPg {
@@ -200,6 +209,25 @@ label {
     border-style: solid;
     border-width: 1px;
     border-radius: 8px;
+}
+
+.srch{
+    width: 99%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.setaE{
+    margin-top: 10px;
+    width: 55px;
+    margin-left: 6px;
+}
+
+.setaD{
+    margin-top: 10px;
+    width: 55px;
+    margin-right: 10px;
 }
 
 .graficoB {
@@ -338,7 +366,24 @@ h2 {
     align-items: center;
     border-style: solid;
     height: 75px;
+    min-width: 300px;
     width: 350px;
+    margin: 2px;
+    border-radius: 6px;
+}
+
+.del{
+    width: 40px;
+    height: 40px;
+}
+
+.pricesTpPg{
+    background-color: white;
+    font-size: 12px;
+    border-style: solid;
+    border-width: 1px;
+    height: 75px;
+    min-width: 1200px;
     margin: 2px;
     border-radius: 6px;
 }
@@ -711,6 +756,9 @@ table tr:nth-child(odd) {
 span {
     margin: 0px;
     padding: 0px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .modal-content {
@@ -794,6 +842,21 @@ span {
     flex-direction: row;
 }
 
+.c-loader {
+    animation: is-rotating 1s infinite;
+    border: 6px solid #e5e5e5;
+    border-radius: 50%;
+    border-top-color: #51d4db;
+    height: 50px;
+    width: 50px;
+}
+
+@keyframes is-rotating {
+    to {
+        transform: rotate(1turn);
+    }
+}
+
 @media (max-width: 800px) {
     .frontSpan {
         visibility: hidden;
@@ -860,23 +923,28 @@ span {
         border-top-right-radius: 0px;
         border-bottom: black;
     }
-    .closeBtnMenor{
+
+    .closeBtnMenor {
         margin-left: 55%;
     }
-    .graficoA{
+
+    .graficoA {
         width: 230px;
     }
-    .graficos10{
+
+    .graficos10 {
         margin-left: 10px;
         width: 96%;
         overflow-x: auto;
     }
-    .graficoLongo{
-        width: 300px;   
+
+    .graficoLongo {
+        width: 300px;
     }
 }
-@media(min-width: 1500px){
-    .graficoLongo{
+
+@media(min-width: 1500px) {
+    .graficoLongo {
         width: 48%;
         height: 310px;
     }

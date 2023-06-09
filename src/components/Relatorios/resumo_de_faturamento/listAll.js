@@ -17,29 +17,28 @@ import * as RF from "../resumo_de_faturamento/resumoFaturamento"
 
 import { useNavigate } from 'react-router-dom';
 
-
 Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
 
     const imprimirVendedor = () => {
-        resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosVendedor)
+        resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosVendedor, empresa)
     }
 
     const imprimirTpPg = () => {
-        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, keys)
+        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, keys, empresa)
     }
 
     const imprimirProduto = () => {
-        resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosProduto)
+        resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosProduto, empresa)
     }
 
     const imprimirGrupo = () => {
-        resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosGrupo)
+        resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosGrupo, empresa)
     }
 
     const imprimirFornecedor = () => {
-        resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor)
+        resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor, empresa)
     }
 
     const { user, empresa, cnpjMask } = useContext(AuthContext);
@@ -59,6 +58,11 @@ export const ResumoFaturamento = () => {
 
     const [query, setQuery] = useState(""); //Busca de Filial (Topo Esquerda)
     const [query1, setQuery1] = useState(""); //Busca de TOP
+    const [query2, setQuery2] = useState("");
+    const [queryC, setQueryC] = useState("");
+    const [queryP, setQueryP] = useState("");
+    const [queryG, setQueryG] = useState("");
+    const [queryF, setQueryF] = useState("");
     const [query4, setQuery4] = useState(""); //Busca Vendedor
     const [query5, setQuery5] = useState(""); //Busca Cliente
     const [query6, setQuery6] = useState(""); //Busca Produto
@@ -146,8 +150,6 @@ export const ResumoFaturamento = () => {
         descricao: "",
     })
 
-    //console.log(dataSelectTop);
-
     async function setDataFilial() { //Envia o JSON para a api e pega os dados de Filial
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFilial", {
             method: "POST",
@@ -161,16 +163,6 @@ export const ResumoFaturamento = () => {
         }
     }
 
-    //Pega 10 Dados Individualmente 
-    const [dadoNomeCli, setNomeCli] = useState(); const [dadoNomeCli1, setNomeCli1] = useState(); const [dadoNomeCli2, setNomeCli2] = useState(); const [dadoNomeCli3, setNomeCLi3] = useState(); const [dadoNomeCli4, setNomeCli4] = useState(); const [dadoNomeCli5, setNomeCli5] = useState();
-    const [dadoNomeCli6, setNomeCli6] = useState(); const [dadoNomeCli7, setNomeCli7] = useState(); const [dadoNomeCli8, setNomeCli8] = useState(); const [dadoNomeCli9, setNomeCli9] = useState();
-
-    const [dadoVenCli, setVenCli] = useState(); const [dadoVenCli1, setVenCli1] = useState(); const [dadoVenCli2, setVenCli2] = useState(); const [dadoVenCli3, setVenCli3] = useState(); const [dadoVenCli4, setVenCli4] = useState(); const [dadoVenCli5, setVenCli5] = useState();
-    const [dadoVenCli6, setVenCli6] = useState(); const [dadoVenCli7, setVenCli7] = useState(); const [dadoVenCli8, setVenCli8] = useState(); const [dadoVenCli9, setVenCli9] = useState();
-
-    const [dadoLiqCli, setLiqCli] = useState(); const [dadoLiqCli1, setLiqCli1] = useState(); const [dadoLiqCli2, setLiqCli2] = useState(); const [dadoLiqCli3, setLiqCli3] = useState(); const [dadoLiqCli4, setLiqCli4] = useState(); const [dadoLiqCli5, setLiqCli5] = useState();
-    const [dadoLiqCli6, setLiqCli6] = useState(); const [dadoLiqCli7, setLiqCli7] = useState(); const [dadoLiqCli8, setLiqCli8] = useState(); const [dadoLiqCli9, setLiqCli9] = useState();
-
     async function setDataCliente() {//Envia o JSON para a api e pega os dados de Cliente
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorCliente", {
             method: "POST",
@@ -181,17 +173,6 @@ export const ResumoFaturamento = () => {
             res.json().then(data => {
 
                 setDadosCliente(data);
-
-                setNomeCli(data[0].cliente); setVenCli(data[0].vlLucroVenda); setLiqCli(data[0].vlLucroLiquido)
-                setNomeCli1(data[1].cliente); setVenCli1(data[1].vlLucroVenda); setLiqCli1(data[1].vlLucroLiquido)
-                setNomeCli2(data[2].cliente); setVenCli2(data[2].vlLucroVenda); setLiqCli2(data[2].vlLucroLiquido)
-                setNomeCLi3(data[3].cliente); setVenCli3(data[3].vlLucroVenda); setLiqCli3(data[3].vlLucroLiquido)
-                setNomeCli4(data[4].cliente); setVenCli4(data[4].vlLucroVenda); setLiqCli4(data[4].vlLucroLiquido)
-                setNomeCli5(data[5].cliente); setVenCli5(data[5].vlLucroVenda); setLiqCli5(data[5].vlLucroLiquido)
-                setNomeCli6(data[6].cliente); setVenCli6(data[6].vlLucroVenda); setLiqCli6(data[6].vlLucroLiquido)
-                setNomeCli7(data[7].cliente); setVenCli7(data[7].vlLucroVenda); setLiqCli7(data[7].vlLucroLiquido)
-                setNomeCli8(data[8].cliente); setVenCli8(data[8].vlLucroVenda); setLiqCli8(data[8].vlLucroLiquido)
-                setNomeCli9(data[9].cliente); setVenCli9(data[9].vlLucroVenda); setLiqCli9(data[9].vlLucroLiquido)
             });
         }
     }
@@ -205,7 +186,7 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 if (data.length === 0) {
-                    setShowElement(false)                    
+                    setShowElement(false)
                     setDaDosKeys([])
                     setDadosTipoPagamento([])
                     setDadosLeitura([])
@@ -228,26 +209,12 @@ export const ResumoFaturamento = () => {
         });
         if (res.status === 200) {
             res.json().then(data => {
-                setDadosTipoPagamento(Object.values(data[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]));
+                setDadosTipoPagamento(Object.values(data[0]));
                 setDaDosKeys(Object.keys(data[0]));
                 setDadosLeitura(data);
             });
         }
     }
-
-    //console.log(dadosLeitura)
-
-
-
-
-    const [dadoNomeVend, setNomeVend] = useState(); const [dadoNomeVend1, setNomeVend1] = useState(); const [dadoNomeVend2, setNomeVend2] = useState(); const [dadoNomeVend3, setNomeVend3] = useState(); const [dadoNomeVend4, setNomeVend4] = useState(); const [dadoNomeVend5, setNomeVend5] = useState();
-    const [dadoNomeVend6, setNomeVend6] = useState(); const [dadoNomeVend7, setNomeVend7] = useState(); const [dadoNomeVend8, setNomeVend8] = useState(); const [dadoNomeVend9, setNomeVend9] = useState();
-
-    const [dadoVenVend, setVenVend] = useState(); const [dadoVenVend1, setVenVend1] = useState(); const [dadoVenVend2, setVenVend2] = useState(); const [dadoVenVend3, setVenVend3] = useState(); const [dadoVenVend4, setVenVend4] = useState(); const [dadoVenVend5, setVenVend5] = useState();
-    const [dadoVenVend6, setVenVend6] = useState(); const [dadoVenVend7, setVenVend7] = useState(); const [dadoVenVend8, setVenVend8] = useState(); const [dadoVenVend9, setVenVend9] = useState();
-
-    const [dadoLuVend, setLuVend] = useState(); const [dadoLuVend1, setLuVend1] = useState(); const [dadoLuVend2, setLuVend2] = useState(); const [dadoLuVend3, setLuVend3] = useState(); const [dadoLuVend4, setLuVend4] = useState(); const [dadoLuVend5, setLuVend5] = useState();
-    const [dadoLuVend6, setLuVend6] = useState(); const [dadoLuVend7, setLuVend7] = useState(); const [dadoLuVend8, setLuVend8] = useState(); const [dadoLuVend9, setLuVend9] = useState();
 
     async function setDataVendedor() { //Envia o JSON para a api e pega os dados de Vendedor
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorVendedor", {
@@ -258,31 +225,9 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosVendedor(data);
-
-                setNomeVend(data[0].vendedor); setVenVend(data[0].vlrVendaTotal); setLuVend(data[0].vlrLucroTotal)
-                setNomeVend1(data[1].vendedor); setVenVend1(data[1].vlrVendaTotal); setLuVend1(data[1].vlrLucroTotal)
-                setNomeVend2(data[2].vendedor); setVenVend2(data[2].vlrVendaTotal); setLuVend2(data[2].vlrLucroTotal)
-                setNomeVend3(data[3].vendedor); setVenVend3(data[3].vlrVendaTotal); setLuVend3(data[3].vlrLucroTotal)
-                setNomeVend4(data[4].vendedor); setVenVend4(data[4].vlrVendaTotal); setLuVend4(data[4].vlrLucroTotal)
-                setNomeVend5(data[5].vendedor); setVenVend5(data[5].vlrVendaTotal); setLuVend5(data[5].vlrLucroTotal)
-                setNomeVend6(data[6].vendedor); setVenVend6(data[6].vlrVendaTotal); setLuVend6(data[6].vlrLucroTotal)
-                setNomeVend7(data[7].vendedor); setVenVend7(data[7].vlrVendaTotal); setLuVend7(data[7].vlrLucroTotal)
-                setNomeVend8(data[8].vendedor); setVenVend8(data[8].vlrVendaTotal); setLuVend8(data[8].vlrLucroTotal)
-                setNomeVend9(data[9].vendedor); setVenVend9(data[9].vlrVendaTotal); setLuVend9(data[9].vlrLucroTotal)
             });
         }
     }
-
-    console.log(dadosVendedor)
-
-    const [dadoNomeProd, setNomeProd] = useState(); const [dadoNomeProd1, setNomeProd1] = useState(); const [dadoNomeProd2, setNomeProd2] = useState(); const [dadoNomeProd3, setNomeProd3] = useState(); const [dadoNomeProd4, setNomeProd4] = useState(); const [dadoNomeProd5, setNomeProd5] = useState();
-    const [dadoNomeProd6, setNomeProd6] = useState(); const [dadoNomeProd7, setNomeProd7] = useState(); const [dadoNomeProd8, setNomeProd8] = useState(); const [dadoNomeProd9, setNomeProd9] = useState();
-
-    const [dadoVenProd, setVenProd] = useState(); const [dadoVenProd1, setVenProd1] = useState(); const [dadoVenProd2, setVenProd2] = useState(); const [dadoVenProd3, setVenProd3] = useState(); const [dadoVenProd4, setVenProd4] = useState(); const [dadoVenProd5, setVenProd5] = useState();
-    const [dadoVenProd6, setVenProd6] = useState(); const [dadoVenProd7, setVenProd7] = useState(); const [dadoVenProd8, setVenProd8] = useState(); const [dadoVenProd9, setVenProd9] = useState();
-
-    const [dadoLuProd, setLuProd] = useState(); const [dadoLuProd1, setLuProd1] = useState(); const [dadoLuProd2, setLuProd2] = useState(); const [dadoLuProd3, setLuProd3] = useState(); const [dadoLuProd4, setLuProd4] = useState(); const [dadoLuProd5, setLuProd5] = useState();
-    const [dadoLuProd6, setLuProd6] = useState(); const [dadoLuProd7, setLuProd7] = useState(); const [dadoLuProd8, setLuProd8] = useState(); const [dadoLuProd9, setLuProd9] = useState();
 
     async function setDataProduto() { //Envia o JSON para a api e pega os dados de Produto
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorProduto", {
@@ -293,30 +238,9 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosProduto(data);
-
-                setNomeProd(data[0].produto); setVenProd(data[0].vlr_venda_total); setLuProd(data[0].vlr_lucro_total)
-                setNomeProd1(data[1].produto); setVenProd1(data[1].vlr_venda_total); setLuProd1(data[1].vlr_lucro_total)
-                setNomeProd2(data[2].produto); setVenProd2(data[2].vlr_venda_total); setLuProd2(data[2].vlr_lucro_total)
-                setNomeProd3(data[3].produto); setVenProd3(data[3].vlr_venda_total); setLuProd3(data[3].vlr_lucro_total)
-                setNomeProd4(data[4].produto); setVenProd4(data[4].vlr_venda_total); setLuProd4(data[4].vlr_lucro_total)
-                setNomeProd5(data[5].produto); setVenProd5(data[5].vlr_venda_total); setLuProd5(data[5].vlr_lucro_total)
-                setNomeProd6(data[6].produto); setVenProd6(data[6].vlr_venda_total); setLuProd6(data[6].vlr_lucro_total)
-                setNomeProd7(data[7].produto); setVenProd7(data[7].vlr_venda_total); setLuProd7(data[7].vlr_lucro_total)
-                setNomeProd8(data[8].produto); setVenProd8(data[8].vlr_venda_total); setLuProd8(data[8].vlr_lucro_total)
-                setNomeProd9(data[9].produto); setVenProd9(data[9].vlr_venda_total); setLuProd9(data[9].vlr_lucro_total)
             })
         }
     }
-
-    //Pega 10 Dados Individualmente 
-    const [dadoNomeGrupo, setNomeGrupo] = useState(); const [dadoNomeGrupo1, setNomeGrupo1] = useState(); const [dadoNomeGrupo2, setNomeGrupo2] = useState(); const [dadoNomeGrupo3, setNomeGrupo3] = useState(); const [dadoNomeGrupo4, setNomeGrupo4] = useState(); const [dadoNomeGrupo5, setNomeGrupo5] = useState();
-    const [dadoNomeGrupo6, setNomeGrupo6] = useState(); const [dadoNomeGrupo7, setNomeGrupo7] = useState(); const [dadoNomeGrupo8, setNomeGrupo8] = useState(); const [dadoNomeGrupo9, setNomeGrupo9] = useState();
-
-    const [dadoVenGrupo, setVenGrupo] = useState(); const [dadoVenGrupo1, setVenGrupo1] = useState(); const [dadoVenGrupo2, setVenGrupo2] = useState(); const [dadoVenGrupo3, setVenGrupo3] = useState(); const [dadoVenGrupo4, setVenGrupo4] = useState(); const [dadoVenGrupo5, setVenGrupo5] = useState();
-    const [dadoVenGrupo6, setVenGrupo6] = useState(); const [dadoVenGrupo7, setVenGrupo7] = useState(); const [dadoVenGrupo8, setVenGrupo8] = useState(); const [dadoVenGrupo9, setVenGrupo9] = useState();
-
-    const [dadoLuGrupo, setLuGrupo] = useState(); const [dadoLuGrupo1, setLuGrupo1] = useState(); const [dadoLuGrupo2, setLuGrupo2] = useState(); const [dadoLuGrupo3, setLuGrupo3] = useState(); const [dadoLuGrupo4, setLuGrupo4] = useState(); const [dadoLuGrupo5, setLuGrupo5] = useState();
-    const [dadoLuGrupo6, setLuGrupo6] = useState(); const [dadoLuGrupo7, setLuGrupo7] = useState(); const [dadoLuGrupo8, setLuGrupo8] = useState(); const [dadoLuGrupo9, setLuGrupo9] = useState();
 
     async function setDataGrupo() { //Envia o JSON para a api e pega os dados de Grupo
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorGrupo", {
@@ -327,30 +251,9 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosGrupo(data);
-
-                setNomeGrupo(data[0].grupo); setVenGrupo(data[0].vlr_venda_total); setLuGrupo(data[0].vlr_lucro_total)
-                setNomeGrupo1(data[1].grupo); setVenGrupo1(data[1].vlr_venda_total); setLuGrupo1(data[1].vlr_lucro_total)
-                setNomeGrupo2(data[2].grupo); setVenGrupo2(data[2].vlr_venda_total); setLuGrupo2(data[2].vlr_lucro_total)
-                setNomeGrupo3(data[3].grupo); setVenGrupo3(data[3].vlr_venda_total); setLuGrupo3(data[3].vlr_lucro_total)
-                setNomeGrupo4(data[4].grupo); setVenGrupo4(data[4].vlr_venda_total); setLuGrupo4(data[4].vlr_lucro_total)
-                setNomeGrupo5(data[5].grupo); setVenGrupo5(data[5].vlr_venda_total); setLuGrupo5(data[5].vlr_lucro_total)
-                setNomeGrupo6(data[6].grupo); setVenGrupo6(data[6].vlr_venda_total); setLuGrupo6(data[6].vlr_lucro_total)
-                setNomeGrupo7(data[7].grupo); setVenGrupo7(data[7].vlr_venda_total); setLuGrupo7(data[7].vlr_lucro_total)
-                setNomeGrupo8(data[8].grupo); setVenGrupo8(data[8].vlr_venda_total); setLuGrupo8(data[8].vlr_lucro_total)
-                setNomeGrupo9(data[9].grupo); setVenGrupo9(data[9].vlr_venda_total); setLuGrupo9(data[9].vlr_custo_total)
             })
         }
     }
-
-    //Pega 10 Dados Individualmente 
-    const [dadoNomeForn, setNomeForn] = useState(); const [dadoNomeForn1, setNomeForn1] = useState(); const [dadoNomeForn2, setNomeForn2] = useState(); const [dadoNomeForn3, setNomeForn3] = useState(); const [dadoNomeForn4, setNomeForn4] = useState(); const [dadoNomeForn5, setNomeForn5] = useState();
-    const [dadoNomeForn6, setNomeForn6] = useState(); const [dadoNomeForn7, setNomeForn7] = useState(); const [dadoNomeForn8, setNomeForn8] = useState(); const [dadoNomeForn9, setNomeForn9] = useState();
-
-    const [dadoVenForn, setVenForn] = useState(); const [dadoVenForn1, setVenForn1] = useState(); const [dadoVenForn2, setVenForn2] = useState(); const [dadoVenForn3, setVenForn3] = useState(); const [dadoVenForn4, setVenForn4] = useState(); const [dadoVenForn5, setVenForn5] = useState();
-    const [dadoVenForn6, setVenForn6] = useState(); const [dadoVenForn7, setVenForn7] = useState(); const [dadoVenForn8, setVenForn8] = useState(); const [dadoVenForn9, setVenForn9] = useState();
-
-    const [dadoLuForn, setLuForn] = useState(); const [dadoLuForn1, setLuForn1] = useState(); const [dadoLuForn2, setLuForn2] = useState(); const [dadoLuForn3, setLuForn3] = useState(); const [dadoLuForn4, setLuForn4] = useState(); const [dadoLuForn5, setLuForn5] = useState();
-    const [dadoLuForn6, setLuForn6] = useState(); const [dadoLuForn7, setLuForn7] = useState(); const [dadoLuForn8, setLuForn8] = useState(); const [dadoLuForn9, setLuForn9] = useState();
 
     async function setDataFornecedor() { //Envia o JSON para a api e pega os dados de Fornecedor
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFornecedor", {
@@ -361,22 +264,20 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosFornecedor(data);
-
-                setNomeForn(data[0].fornecedor); setVenForn(data[0].vlr_venda_total); setLuForn(data[0].vlr_lucro_total)
-                setNomeForn1(data[1].fornecedor); setVenForn1(data[1].vlr_venda_total); setLuForn1(data[1].vlr_lucro_total)
-                setNomeForn2(data[2].fornecedor); setVenForn2(data[2].vlr_venda_total); setLuForn2(data[2].vlr_lucro_total)
-                setNomeForn3(data[3].fornecedor); setVenForn3(data[3].vlr_venda_total); setLuForn3(data[3].vlr_lucro_total)
-                setNomeForn4(data[4].fornecedor); setVenForn4(data[4].vlr_venda_total); setLuForn4(data[4].vlr_lucro_total)
-                setNomeForn5(data[5].fornecedor); setVenForn5(data[5].vlr_venda_total); setLuForn5(data[5].vlr_lucro_total)
-                setNomeForn6(data[6].fornecedor); setVenForn6(data[6].vlr_venda_total); setLuForn6(data[6].vlr_lucro_total)
-                setNomeForn7(data[7].fornecedor); setVenForn7(data[7].vlr_venda_total); setLuForn7(data[7].vlr_lucro_total)
-                setNomeForn8(data[8].fornecedor); setVenForn8(data[8].vlr_venda_total); setLuForn8(data[8].vlr_lucro_total)
-                setNomeForn9(data[9].fornecedor); setVenForn9(data[9].vlr_venda_total); setLuForn9(data[9].vlr_lucro_total)
             })
         }
     }
 
     const handleSetData = () => { //Envia o JSON para todas as APIS ao mesmo tempo 
+        setDados([]);
+        setDadosCliente([]);
+        setDadosFornecedor([]);
+        setDadosGrupo([]);
+        setDadosProduto([]);
+        setDadosRegiao([]);
+        setDadosVendedor([]);
+        setDadosLeitura([]);
+        setDaDosKeys([]);
         show();
         setDataCliente();
         setDataFilial();
@@ -424,61 +325,12 @@ export const ResumoFaturamento = () => {
     const result3 = dadosRegiao.reduce((a, b) => a + b.vlTotalNfe, 0) //Dados Totais somados de NF-e (Região) 
     const result4 = dadosRegiao.reduce((a, b) => a + b.vlTotalNfce, 0) //Dados Totais somados de NFC-e (Região) 
 
-    const options = { //Configuração do Primeiro Gráfico de Região 
-        title: "Valores Lucro e Custo",
-        is3D: true,
-        backgroundColor: "#ffff",
-    };
-
-    const dataRegiao = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Região
-        ["Element", "Valor Total", { role: "style" }],
-        ["Valor de Lucro", result2, "#F7C64F"],
-        ["Valor de Custo", result, "#bc1b2b"],
-        ["Valor Total", result1, "#39E055"],
-    ];
-
-    const optionsRe0 = { //Configuração do Segundo Gráfico de Região 
-
-        colors: ["#bc1b9c", "#1b7abc"],
-
-        chart: {
-            title: "Valores Gerais",
-            subtitle: "Comparativo",
-        },
-        hAxis: {
-            title: "GGG",
-            minValue: 0,
-        },
-        vAxis: {
-            title: "Valores",
-        },
-        bars: "vertical",
-
-        axes: {
-            y: {
-                0: { side: "right" },
-            },
-        },
-    };
-
-    const dataRe0 = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Região
-        ["Valores em R$", "", ""],
-        ["NF-e / NFC-e  ", result3, result4],
-        ["Custo / Lucro", result, result2],
-    ];
-
     const options2 = { //Configuração do Terceiro Gráfico de Região 
         title: "Valores NF-e / NFC-e",
         is3D: true,
         backgroundColor: "#ffff",
         colors: ["#bc1b9c", "#1b7abc"]
     };
-
-    const dataRegiao2 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Região
-        ["Element", "Valor Total", { role: "style" }],
-        ["NF-e", result3, "#F7C64F"],
-        ["NFC-e", result4, "#bc1b2b"],
-    ];
 
     const barOptions = { //Configuração do Quinto Gráfico de Região 
         title: "Valores Totais Região .",
@@ -508,6 +360,32 @@ export const ResumoFaturamento = () => {
         ["Valor NFC-e", result4, "#2686ED", null],
     ];
 
+    const chartRegiao = [
+        ["Valores em R$", "Venda", "Lucro"],
+        ...dadosRegiao.map(item => [item.regiao, item.vlVendaTotal, item.vlLucroVenda])
+    ];
+
+    const optionsRegiao = {
+        chart: {
+            title: "Regiões",
+            subtitle: "Comparativo",
+        },
+        hAxis: {
+            title: "Ok",
+            minValue: 0,
+        },
+        vAxis: {
+            title: "Valores",
+        },
+        bars: "horizontal",
+        axes: {
+            y: {
+                0: { side: "right" },
+            },
+        },
+        colors: ["#F7C64F", "#bc1b2b"],
+    }
+
     //-------------------------------------------------------------Dashboard Filial----------------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardFilial, setIsOpenDashboardFilial] = useState(false);//Estado do Modal 
@@ -535,12 +413,6 @@ export const ResumoFaturamento = () => {
     const resultFi4 = dados.reduce((a, b) => a + b.vlTotalNfce, 0) //Dados Totais somados de NFC-e(Filial)
     const resultFi5 = dados.reduce((a, b) => a + b.vlTotalCredito, 0) //Dados Totais somados de Total Credito(Filial)
     const resultFi6 = dados.reduce((a, b) => a + b.vlTotalLiquido, 0) //Dados Totais somados de Total Liquido(Filial)
-
-    const dataFilial = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Filial
-        ["Element", "Valor Total", { role: "style" }],
-        ["Lucro Venda", result2, "#F7C64F"],
-        ["Valor Custo", result, "#b87333"],
-    ];
 
     const barOptionsFi = { //Configuração do Segundo Gráfico de Filial
         title: "Valores Totais Filial.",
@@ -571,47 +443,28 @@ export const ResumoFaturamento = () => {
         ["Valor Liquido", resultFi6, "#ffaf56", null]
     ];
 
-    const optionsFi = { //Configuração do Terceiro Gráfico de Filial
-        title: "Liquido e Bruto",
-        is3D: true,
-        colors: ["#ffaf56", "#b2bb1c"],
-    };
+    const chartFilial = [
+        ["Valores em R$", "Venda", "Lucro"],
+        ...dados.map(item => [item.filial, item.vlVendaTotal, item.vlLucroVenda])
+    ]
 
-    const dataFilial2 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Filial
-        ["Element", "Valor Total", { role: "style" }],
-        ["Valor Liquido", resultFi6, "#ffaf56"],
-        ["Valor Total", resultFi1, "#39E055"],
-    ];
-
-    const optionsFi0 = { //Configuração do Quarto Gráfico de Filial
+    const filialOptions = {
         chart: {
-            title: "Valores Gerais",
+            title: "Filiais",
             subtitle: "Comparativo",
         },
         hAxis: {
-            title: "GGG",
+            title: "Ok",
             minValue: 0,
         },
-        vAxis: {
-            title: "Valores",
-        },
-        bars: "vertical",
-
-        colors: ["#bc1b2b", "#f6d001"],
-
+        bars: "horizontal",
         axes: {
             y: {
                 0: { side: "right" },
             },
         },
-    };
-
-    const dataFi0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Filial
-        ["Valores em R$", "", ""],
-        ["Custo / Lucro", resultFi, resultFi2],
-        ["NF-e / NFC-e  ", resultFi3, resultFi4],
-        ["Liquido / Total", resultFi6, resultFi1],
-    ];
+        colors: ["#f6d001", "#b2bb1c"]
+    }
 
     //------------------------------------------------------------------Dashboard Vendedor----------------------------------------------------------------------------------------------------------------------------------------------------  
 
@@ -633,32 +486,6 @@ export const ResumoFaturamento = () => {
     const resultVen6 = dadosVendedor.reduce((a, b) => a + b.vlTotalCancelamento, 0) //Dados Totais somados de Total Cancelamento (Vendedor)
     const resultVen7 = dadosVendedor.reduce((a, b) => a + b.vlTotalComissao, 0) //Dados Totais somados de Total Comissão (Vendedor)
     const resultVen8 = dadosVendedor.reduce((a, b) => a + b.vlTotalDesconto, 0) //Dados Totais somados de Total Desconto (Vendedor)
-
-    const datVendedor = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Vendedor
-        ["Element", "Valor Total", { role: "style" }],
-        ["Cancelamento", resultVen6, "#ffaf56"],
-        ["Comissão", resultVen7, "#57ffe8"],
-        ["Desconto", resultVen8, "#727272"],
-    ];
-
-    const datVendedor0 = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Vendedor
-        ["Element", "Valor Total", { role: "style" }],
-        ["Lucro", resultVen2, "#f6d001"],
-        ["Custo", resultVen, "#bc1b2b"],
-        ["Total ", resultVen1, "#b2bb1c"],
-    ];
-
-    const optionsVen = { //Configuração do Terceiro Gráfico de Filial
-        title: "Valores",
-        is3D: true,
-        colors: ["#8226ED", "#2686ED"]
-    };
-
-    const dataVendedor = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Vendedor
-        ["Element", "Valor Total", { role: "style" }],
-        ["Nf-e", resultVen3, "#8226ED"],
-        ["NFC-e", resultVen4, "#2686ED"],
-    ];
 
     const barOptionsVen = { //Configuração do Quarto Gráfico de Filial
         title: "Valores Totais Vendedor.",
@@ -690,6 +517,32 @@ export const ResumoFaturamento = () => {
         ["Comissão", resultVen7, "#57ffe8", null],
         ["Desconto", resultVen8, "#727272", null]
     ];
+
+    const chartDataVend = [
+        ["Valores em R$", "Venda", "Lucro"],
+        ...dadosVendedor.map(item => [item.vendedor, item.vlVendaTotal, item.vlLucroVenda])
+    ];
+
+    const optionsVendedor = {
+        chart: {
+            title: "Dez Primeiros Vendedores",
+            subtitle: "Comparativo",
+        },
+        hAxis: {
+            title: "Value",
+            minValue: 0,
+        },
+        vAxis: {
+            title: "Valores",
+        },
+        bars: "horizontal",
+        axes: {
+            y: {
+                0: { side: "right" },
+            },
+        },
+    }
+
     //---------------------------------------------------------------Dashboard Cliente------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardCliente, setIsOpenDashboardCliente] = useState(false);//Estado do Modal 
@@ -701,16 +554,7 @@ export const ResumoFaturamento = () => {
         setIsOpenDashboardCliente(false)
     }
 
-    const [dashboardDezCliente, setIsOpenDashboardDezCliente] = useState(false);//Estado do Modal com 10  
-
-    function openDashboardDezCliente() { //Função para Abrir o Modal de Gráficos de 10 primeiros Clientes
-        setIsOpenDashboardDezCliente(true)
-    }
-    function closeDashboardDezCliente() { //Função para Fechar o Modal de Gráficos de 10 primeiros Clientes
-        setIsOpenDashboardDezCliente(false)
-    }
-
-    const dadosClienteReduzido = dadosCliente.slice(0, 10) //Constante com os 10 primeiros Clientes
+    const [dashboardClienteAll, setIsOpenDashboardClienteAll] = useState(false);
 
     const resultCli = dadosCliente.reduce((a, b) => a + b.vlVendaTotal, 0) //Dados Totais somados de Venda Total (Cliente)
     const resultCli1 = dadosCliente.reduce((a, b) => a + b.vlLucroVenda, 0) //Dados Totais somados de Lucro Venda (Cliente)
@@ -720,13 +564,6 @@ export const ResumoFaturamento = () => {
     const resultCli5 = dadosCliente.reduce((a, b) => a + b.vlTotalDesconto, 0) //Dados Totais somados de Total Desconto (Cliente)
     const resultCli6 = dadosCliente.reduce((a, b) => a + b.vlLucroLiquido, 0) //Dados Totais somados de Lucro Liquido (Cliente)
     const resultCli7 = dadosCliente.reduce((a, b) => a + b.vlTotalCredito, 0) //Dados Totais somados de Total Credito (Cliente)
-
-    const dataCliente = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Cliente
-        ["Element", "Valor Total", { role: "style" }],
-        ["Custo", resultCli4, "#bc1b2b"],
-        ["Lucro", resultCli1, "#f6d001"],
-        ["Total", resultCli, "#b2bb1c"],
-    ];
 
     const barOptionsCli = { //Configuração do Segundo Gráfico de Cliente
         title: "Valores Totais Cliente.",
@@ -758,18 +595,6 @@ export const ResumoFaturamento = () => {
         ["Desconto", resultCli5, "#57ffe8", null],
     ];
 
-    const optionsCli = { //Configuração do Terceiro Gráfico de Cliente 
-        title: "Valores",
-        is3D: true,
-        colors: ["#8226ED", "#2686ED"]
-    };
-
-    const dataCliente0 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Cliente
-        ["Element", "Valor Total", { role: "style" }],
-        ["NF-e", resultCli2, "#8226ED"],
-        ["NFC-e", resultCli3, "#2686ED"],
-    ];
-
     const optionsCli0 = { //Configuração do Quarto Gráfico de Cliente 
         chart: {
             title: "Valores Gerais",
@@ -779,10 +604,24 @@ export const ResumoFaturamento = () => {
             title: "GGG",
             minValue: 0,
         },
+        chartArea: {
+            width: '100%'
+        },
         vAxis: {
             title: "Valores",
         },
         bars: "horizontal",
+        annotations: {
+            textStyle: {
+                fontName: 'Times-Roman',
+                fontSize: 8,
+                bold: true,
+                italic: true,
+                color: '#871b47',
+                auraColor: '#d799ae',
+                opacity: 0.8
+            }
+        },
         axes: {
             y: {
                 0: { side: "right" },
@@ -792,16 +631,7 @@ export const ResumoFaturamento = () => {
 
     const dataCli0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Cliente
         ["Valores em R$", "Liquido", "Venda"],
-        [dadoNomeCli, dadoLiqCli, dadoVenCli],
-        [dadoNomeCli1, dadoLiqCli1, dadoVenCli1],
-        [dadoNomeCli2, dadoLiqCli2, dadoVenCli2],
-        [dadoNomeCli3, dadoLiqCli3, dadoVenCli3],
-        [dadoNomeCli4, dadoLiqCli4, dadoVenCli4],
-        [dadoNomeCli5, dadoLiqCli5, dadoVenCli5],
-        [dadoNomeCli6, dadoLiqCli6, dadoVenCli6],
-        [dadoNomeCli7, dadoLiqCli7, dadoVenCli7],
-        [dadoNomeCli8, dadoLiqCli8, dadoVenCli8],
-        [dadoNomeCli9, dadoLiqCli9, dadoVenCli9],
+        ...dadosCliente.map(item => [item.cliente, item.vlLucroLiquido, item.vlVendaTotal])
     ];
 
     //console.log(dadosClienteReduzido)
@@ -809,6 +639,7 @@ export const ResumoFaturamento = () => {
     //------------------------------------------------------------------Dashboard Tipo de Pagamento-----------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardTipoDePagamento, setIsOpenDashboardTipoDePagamento] = useState(false) //Estado do Modal
+    const [openIndividualVend, setOpenIndivualVend] = useState(false)
 
     function openDashboardTipoDePagamento() { //Função para Abrir o Modal de Gráficos de Tipo de Pagamento
         setIsOpenDashboardTipoDePagamento(true)
@@ -908,25 +739,11 @@ export const ResumoFaturamento = () => {
         setIsOpenDashboardProdutosDetalhados(false)
     }
 
-    const dadosProdutoReduzidos = dadosProduto.slice(0, 10); //Constante com os 10 primeiros Produtos
-
     const resultProd = dadosProduto.reduce((a, b) => a + b.vlr_venda_total, 0) //Dados Totais somados de Venda Total
     const resultProd1 = dadosProduto.reduce((a, b) => a + b.vlr_lucro_total, 0) //Dados Totais somados de Lucro Total 
     const resultProd2 = dadosProduto.reduce((a, b) => a + b.vlr_custo_total, 0) //Dados Totais somados de Custo Total
     const resultProd3 = dadosProduto.reduce((a, b) => a + b.sub_total, 0) //Dados Totais somados de Sub Total
     const resultProd4 = dadosProduto.reduce((a, b) => a + b.vlr_desconto_total, 0) //Dados Totais somados de Desconto Total
-
-    const optionsProd = { //Configuração do Segundo Gráfico de Produto
-        title: "Valores",
-        is3D: true,
-        colors: ['#f6d001', '#1b7abc']
-    };
-
-    const dataProd = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Produto
-        ["Element", "Valor", { role: "style" }],
-        ["Venda:", resultProd, "#f6d001"],
-        ["Lucro", resultProd1, "#1b7abc"],
-    ];
 
     const barOptionsPro = { //Configuração do Terceiro Gráfico de Produto
         title: "Valores Totais Tipo de Pagamento .",
@@ -979,16 +796,7 @@ export const ResumoFaturamento = () => {
 
     const dataProd0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Produto
         ["Valores em R$", "Venda", "Lucro"],
-        [dadoNomeProd, dadoVenProd, dadoLuProd],
-        [dadoNomeProd1, dadoVenProd1, dadoLuProd1],
-        [dadoNomeProd2, dadoVenProd2, dadoLuProd2],
-        [dadoNomeProd3, dadoVenProd3, dadoLuProd3],
-        [dadoNomeProd4, dadoVenProd4, dadoLuProd4],
-        [dadoNomeProd5, dadoVenProd5, dadoLuProd5],
-        [dadoNomeProd6, dadoVenProd6, dadoLuProd6],
-        [dadoNomeProd7, dadoVenProd7, dadoLuProd7],
-        [dadoNomeProd8, dadoVenProd8, dadoLuProd8],
-        [dadoNomeProd9, dadoVenProd9, dadoLuProd9],
+        ...dadosProduto.slice(0, 90).map(item => [item.produto, item.vlr_venda_total, item.vlr_lucro_total])
     ]
 
     //------------------------------------------------------------------------Dashboard Grupo-----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1017,12 +825,6 @@ export const ResumoFaturamento = () => {
     const resultGru2 = dadosGrupo.reduce((a, b) => a + b.sub_total, 0); //Dados Totais somados de Sub.Total
     const resultGru3 = dadosGrupo.reduce((a, b) => a + b.vlr_desconto_total, 0); //Dados Totais somados de Desconto Total
 
-    const dataGru = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Grupo
-        ["Element", "Valor", { role: "style" }],
-        ["Venda:", resultGru, "#bc1b2b"],
-        ["Lucro", resultGru1, "#ffaf56"],
-    ];
-
     const barOptionsGru = { //Configuração do Segundo Gráfico de Grupo
         title: "Valores Totais Grupos.",
         width: "100%",
@@ -1049,12 +851,6 @@ export const ResumoFaturamento = () => {
         ["Desconto Total", resultGru3, "#1b7abc", null],
     ];
 
-    const dataGru2 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Grupo
-        ["Element", "Valor", { role: "style" }],
-        ["Venda", resultGru, "bc1b2b"],
-        ["Lucro", resultGru1, "ffaf56"],
-    ];
-
     const optionsGru0 = { //Configuração do Quarto Gráfico de Grupo
         chart: {
             title: "Grupos",
@@ -1069,7 +865,7 @@ export const ResumoFaturamento = () => {
         },
         bars: "horizontal",
 
-        //colors: [red, gray],
+        colors: ["#bc1b2b", "#ffaf56"],
 
         axes: {
             y: {
@@ -1080,16 +876,7 @@ export const ResumoFaturamento = () => {
 
     const dataGru0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Grupo
         ["Valores em R$", "Venda", "Lucro"],
-        [dadoNomeGrupo, dadoVenGrupo, dadoLuGrupo],
-        [dadoNomeGrupo1, dadoVenGrupo1, dadoLuGrupo1],
-        [dadoNomeGrupo2, dadoVenGrupo2, dadoLuGrupo2],
-        [dadoNomeGrupo3, dadoVenGrupo3, dadoLuGrupo3],
-        [dadoNomeGrupo4, dadoVenGrupo4, dadoLuGrupo4],
-        [dadoNomeGrupo5, dadoVenGrupo5, dadoLuGrupo5],
-        [dadoNomeGrupo6, dadoVenGrupo6, dadoLuGrupo6],
-        [dadoNomeGrupo7, dadoVenGrupo7, dadoLuGrupo7],
-        [dadoNomeGrupo8, dadoVenGrupo8, dadoLuGrupo8],
-        [dadoNomeGrupo9, dadoVenGrupo9, dadoLuGrupo9],
+        ...dadosGrupo.map(item => [item.grupo, item.vlr_venda_total, item.vlr_lucro_total])
 
     ];
 
@@ -1119,12 +906,6 @@ export const ResumoFaturamento = () => {
     const resultFor2 = dadosFornecedor.reduce((a, b) => a + b.vlr_custo_total, 0) //Dados Totais somados de Custo Total (Fornecedor)
     const resultFor3 = dadosFornecedor.reduce((a, b) => a + b.vlr_desconto_total, 0) //Dados Totais somados de Desconto Total (Fornecedor)
     const resultFor4 = dadosFornecedor.reduce((a, b) => a + b.sub_total, 0) //Dados Totais somados de Sub.Total (Fornecedor)
-
-    const dataFor = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Fornecedor
-        ["Element", "Valor", { role: "style" }],
-        ["Venda", resultFor, "#bc1b2b"],
-        ["Lucro", resultFor1, "#57ffe8"],
-    ];
 
     const barOptionsFor = { //Configuração do Segundo Gráfico de Fornecedor
         title: "Valores Totais Fornecedor .",
@@ -1177,23 +958,8 @@ export const ResumoFaturamento = () => {
 
     const dataFor0 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Fornecedor
         ["Valores em R$", "Venda", "Lucro"],
-        [dadoNomeForn, dadoVenForn, dadoLuForn],
-        [dadoNomeForn1, dadoVenForn1, dadoLuForn1],
-        [dadoNomeForn2, dadoVenForn2, dadoLuForn2],
-        [dadoNomeForn3, dadoVenForn3, dadoLuForn3],
-        [dadoNomeForn4, dadoVenForn4, dadoLuForn4],
-        [dadoNomeForn5, dadoVenForn5, dadoLuForn5],
-        [dadoNomeForn6, dadoVenForn6, dadoLuForn6],
-        [dadoNomeForn7, dadoVenForn7, dadoLuForn7],
-        [dadoNomeForn8, dadoVenForn8, dadoLuForn8],
-        [dadoNomeForn9, dadoVenForn9, dadoLuForn9],
+        ...dadosFornecedor.map(item => [item.fornecedor, item.vlr_venda_total, item.vlr_lucro_total])
     ];
-
-    const dataFor3 = [
-        ["Element", "Valor", {role: "style"}],
-        ["Total", resultFor, "#bc1b2b"],
-        ["Sub.Total", resultFor4, "#b5bd2d"],
-    ]
 
     //------------------------------------------------------------------Dashboard Geral--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1202,6 +968,32 @@ export const ResumoFaturamento = () => {
         ["NF-e", resultFi3, "#F7C64F"],
         ["NFC-e", resultFi4, "#bc1b2b"],
     ];
+
+    const deleteById = id => {
+        setValor(oldValues => {
+            return oldValues.filter(valor => valor.id !== id)
+        })
+    }
+
+    const deleteByIdTop = id => {
+        setValorTop(oldValues => {
+            return oldValues.filter(valorTop => valorTop.id !== id)
+        })
+    }
+
+    const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false)
+
+    console.log(dataIni)
+
+    function passarMes() {
+        document.getElementById("DataIni").stepUp(30);
+        document.getElementById("DataFin").stepUp(30);
+    }
+
+    function voltarMes() {
+        document.getElementById("DataIni").stepDown(30);
+        document.getElementById("DataFin").stepDown(30);
+    }
 
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1236,6 +1028,7 @@ export const ResumoFaturamento = () => {
                                     <table id='table'>
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th >Código</th>
                                                 <th >Fantasia</th>
                                                 <th>Razão Social</th>
@@ -1248,6 +1041,7 @@ export const ResumoFaturamento = () => {
                                             return (
                                                 <tbody >
                                                     <tr>
+                                                        <img className='del' src='/images/lixeira.png' onClick={() => deleteById(item.id)} />
                                                         <td>{item.id}</td>
                                                         <td>{item.nome_fantasia}</td>
                                                         <td>{item.razao_social}</td>
@@ -1272,6 +1066,7 @@ export const ResumoFaturamento = () => {
                                     <table id='table'>
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th >Código</th>
                                                 <th >Descrição</th>
                                             </tr>
@@ -1280,6 +1075,7 @@ export const ResumoFaturamento = () => {
 
                                             return (
                                                 <tr>
+                                                    <img className='del' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
                                                     <td>{item.id}</td>
                                                     <td>{item.descricao}</td>
                                                 </tr>
@@ -1296,12 +1092,13 @@ export const ResumoFaturamento = () => {
                     <div>
                         <div className="data" >
                             <label>Data Inicial</label>
-                            <input type="date" onChange={onChangeDataIni} />
+                            <input type="date" id="DataIni" onChange={onChangeDataIni} />
                         </div>
                         <div className="data" >
                             <label>Data Final</label>
-                            <input type="date" onChange={onChangeDataFin} />
+                            <input type="date" id="DataFin" onChange={onChangeDataFin} />
                         </div>
+
                         <div className="select">
                             <label>Status NFC-e</label>
                             <select onChange={(e) => setFilter(e.target.value)}>
@@ -1311,17 +1108,22 @@ export const ResumoFaturamento = () => {
                             </select>
                         </div>
                     </div>
-                    <div className='checks' >
-                        <input type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
-                        <input type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
-                        <input type="checkbox" value="false" id='NFCE' checked={checkNFCE} onChange={handleChecked01} /><label>NFC-e</label>
+                    <div>
+                        <button className='setaE' onClick={voltarMes} ><img className='close' src='/images/setaEsquerda.png' /></button>
+                        <button className='setaD' onClick={passarMes} ><img className='close' src='/images/setaDireita.png' /></button>
+                        <div className='checks' >
+                            <input type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
+                            <input type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
+                            <input type="checkbox" value="false" id='NFCE' checked={checkNFCE} onChange={handleChecked01} /><label>NFC-e</label>
+                        </div>
                     </div>
+
                     <div className='botao-pesquisar'>
                         <button onClick={handleSetData} >Pesquisar</button>
                     </div>
                 </RF.Data>
             </RF.Filtros>
-            <RF.Navigacao>
+            <RF.Navegacao>
                 <div>
                     <button className='CE' style={{ backgroundColor: aba === "regiao" ? "#8CB9DF" : "", borderBottom: aba === 'regiao' ? "none" : "" }} onClick={() => setOpenAba("regiao")} >Região</button>
                     <button className='botão-filtros' style={{ backgroundColor: aba === "filial" ? "#8CB9DF" : "", borderBottom: aba === 'filial' ? "none" : "" }} onClick={() => setOpenAba("filial")}  >Filial</button>
@@ -1332,7 +1134,7 @@ export const ResumoFaturamento = () => {
                     <button className='botão-filtros' style={{ backgroundColor: aba === "grupo" ? "#8CB9DF" : "", borderBottom: aba === 'grupo' ? "none" : "" }} onClick={() => setOpenAba("grupo")} > Grupo </button>
                     <button className='CD' style={{ backgroundColor: aba === "fornecedor" ? "#8CB9DF" : "", borderBottom: aba === 'fornecedor' ? "none" : "" }} onClick={() => setOpenAba("fornecedor")} >Fornecedor</button>
                 </div>
-            </RF.Navigacao>
+            </RF.Navegacao>
 
             {aba === "regiao" ? (
                 <>
@@ -1403,7 +1205,7 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{parseFloat(f1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{parseFloat(f1.margem.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td>{parseFloat(f1.margem.toFixed(2)).toLocaleString('pt-BR')} % </td>
 
                                                     <td>{parseFloat(f1.markup.toFixed(2)).toLocaleString('pt-BR')}</td>
                                                 </tr>
@@ -1482,7 +1284,7 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{parseFloat(f2.qtdVendas).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{parseFloat(f2.qtdItens).toLocaleString}</td>
+                                                    <td>{parseFloat(f2.qtdItens).toLocaleString('pt-BR')}</td>
 
                                                     <td>{parseFloat(f2.qtdItensCupom.toFixed(2)).toLocaleString('pt-BR')}</td>
 
@@ -1519,8 +1321,8 @@ export const ResumoFaturamento = () => {
 
                     <RF.LinhaTotais >
                         <div>Méd.Itens/Cup: {MedItensCup.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total NF-e: {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Total NFC-e: {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Venda Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Total Credito: {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR')} </div>
-                        <div>Vlr.Total Líquido: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Custo Total: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Venda: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Líquido: {parseFloat(lLiquido.toFixed(2)).toLocaleString('pt-BR')} </div> <div>% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',').replace('NaN', '0,00') } </div>    
-                        <div>% Markup: {((resultFi1 - resultFi)/resultFi * 100).toFixed(2).replace('.', ',').replace("NaN", "0,00") } </div>
+                        <div>Vlr.Total Líquido: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Custo Total: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Venda: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Líquido: {parseFloat(lLiquido.toFixed(2)).toLocaleString('pt-BR')} </div> <div>% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',').replace('NaN', '0,00')} </div>
+                        <div>% Markup: {((resultFi1 - resultFi) / resultFi * 100).toFixed(2).replace('.', ',').replace("NaN", "0,00")} </div>
                     </RF.LinhaTotais>
                 </>
             ) : aba === "vendedor" ? (
@@ -1608,9 +1410,9 @@ export const ResumoFaturamento = () => {
 
                                             <td>{parseFloat((dat.vlLucroLiquido).toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>% {(dat.plucroLiquido).toFixed(2).replace('.', ',')}</td>
+                                            <td> {(dat.plucroLiquido).toFixed(2).replace('.', ',')} % </td>
 
-                                            <td>{(dat.percentual).toFixed(2).replace('.', ',')}</td>
+                                            <td>{(dat.percentual).toFixed(2).replace('.', ',')} %</td>
                                         </tr>
 
                                     ))}
@@ -1699,7 +1501,7 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat1.plucroLiquido.toFixed(2).replace('.', ',')} %</td>
 
-                                            <td>{(dat1.percentual).toFixed(3).replace('.', ',')}</td>
+                                            <td>{(dat1.percentual).toFixed(3).replace('.', ',')} % </td>
 
                                         </tr>
                                     ))}
@@ -1737,8 +1539,8 @@ export const ResumoFaturamento = () => {
                                         </thead>
                                         <tr>
                                             {dadosTipoPagamento.map((f5) => {
-                                                if (f5 === null) {
-                                                    f5 = 0;
+                                                if (f5 === null || f5 === 0) {
+                                                    f5 = 0.00;
                                                 }
 
                                                 return (
@@ -1778,7 +1580,7 @@ export const ResumoFaturamento = () => {
                             <input type="search" name="search-pro" id="search-pro" className="search" placeholder="Buscar por Produto" onChange={(e) => setQuery6(e.target.value)} />
 
                             <div className='dashboardLine'>
-                                <label>Dashboards</label> 
+                                <label>Dashboards</label>
 
                                 <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -1840,11 +1642,11 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {parseFloat(dat2.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> % {dat2.p_markup.toFixed(2).replace('.', ',')} </td>
+                                                <td> {dat2.p_markup.toFixed(2).replace('.', ',')} % </td>
 
-                                                <td> % {dat2.p_margem.toFixed(2).replace('.', ',')} </td>
+                                                <td> {dat2.p_margem.toFixed(2).replace('.', ',')} % </td>
 
-                                                <td> {(dat2.percentual).toFixed(2).replace('.', ',')} </td>
+                                                <td> {(dat2.percentual).toFixed(2).replace('.', ',')} % </td>
                                             </tr>
                                         );
                                     })}
@@ -1864,7 +1666,7 @@ export const ResumoFaturamento = () => {
                             <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Grupo" onChange={(e) => setQuery7(e.target.value)} />
 
                             <div className='dashboardLine'>
-                                <label>Dashboards</label> 
+                                <label>Dashboards</label>
 
                                 <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -1953,7 +1755,7 @@ export const ResumoFaturamento = () => {
                             <input type="search" name="search-gru" id="search-gru" className="search" placeholder="Buscar por Fornecedor" onChange={(e) => setQuery8(e.target.value)} />
 
                             <div className='dashboardLine'>
-                                <label>Dashboards</label> 
+                                <label>Dashboards</label>
 
                                 <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
@@ -2031,11 +1833,15 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles}>
 
-                <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                <div className='topo-content' >
+
+                    <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                    <h1>Dados Região <button className='filialBTN' onClick={() => setDsRegiaoDetalhada(true)}><img className='close' src='/images/regiao.png' />Cada Região</button></h1>
+
+                </div>
 
                 <div>
-
-                    <h1>Dados Região</h1>
 
                     <div className='dashboardTexts'>
 
@@ -2062,26 +1868,67 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className='grafico'> <Chart chartType="ColumnChart" width="95%" height="95%" data={dataRegiao} options={options} /></div>
-                        <div className='grafico'><Chart chartType="Bar" width="95%" height="95%" data={dataRe0} options={optionsRe0} /></div>
-                        <div className='grafico'> <Chart chartType="PieChart" data={dataRegiao2} options={options2} width="95%" height="95%" /></div>
+                        <div className='justSize' > <Chart chartType='Bar' width='100%' height='95%' data={chartRegiao} options={optionsRegiao} /> </div>
                     </RF.Dashboard>
 
-                    <RF.Dashboard0>
-                        <div className='grafico'> <Chart chartType="BarChart" data={barData} options={barOptions} /> </div>
-                    </RF.Dashboard0>
+                    <Modal className='dashboardCadaFilial' shouldCloseOnEsc={false} isOpen={dsRegiaoDetalhada} onRequestClose={() => setDsRegiaoDetalhada(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
+
+                        <button className='closeBtnMenor' onClick={() => setDsRegiaoDetalhada(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+
+                        <h1>Cada Região</h1>
+
+                        {dadosRegiao.map((data) => {
+                            const chartRe = [
+                                [
+                                    "Element",
+                                    "Valor",
+                                    { role: "style" },
+                                    {
+                                        sourceColumn: 0,
+                                        role: "annotation",
+                                        type: "string",
+                                        calc: "stringify",
+                                    },
+                                ],
+                                ["Lucro", data.vlLucroTotal, "#f6d001", null],
+                                ["Custo", data.vlCustoTotal, "#bc1b2b", null],
+                                ["Venda Total", data.vlVendaTotal, "#F7C64F", null],
+                                ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                                ["NFC-e", data.vlTotalNfce, "#0854b2", null],
+                            ]
+
+                            const optionsRe = {
+                                title: data.regiao,
+                                width: "100%",
+                                height: "95%",
+                                bar: { groupWidth: "95%", },
+                                legend: { position: "none" }
+                            }
+
+                            return (
+                                <RF.Dashboard0>
+                                    <div className='grafico' ><Chart chartType='BarChart' data={chartRe} options={optionsRe} /></div>
+                                </RF.Dashboard0>
+                            )
+
+                        })}
+
+                    </Modal>
 
                 </div>
             </Modal>
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
-                <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                <div>
+                <div className='topo-content' >
+                    
+                    <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                     <h1>Dados Filial<button onClick={() => setGraficosCadaFilial(true)} className='filialBTN' > <img className='close' src='/images/filiais.png' /> Cada Filial</button></h1>
+                
+                </div>
 
+                <div>
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
                             <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')}
@@ -2112,57 +1959,50 @@ export const ResumoFaturamento = () => {
                         </h2>
                     </div>
 
-                    <RF.Dashboard className='dashboard' >
-                        <div className='grafico' > <Chart chartType="ColumnChart" width="95%" height="95%" data={dataFilial} /> </div>
-                        <div className='graficoLongo' > <Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} /> </div>
-                        <div className='grafico' > <Chart chartType="PieChart" data={dataFilial2} options={optionsFi} width="95%" height="95%" /> </div>
+                    <RF.Dashboard>
+                        <div className='justSize' ><Chart width='98%' height='96%' chartType='Bar' data={chartFilial} options={filialOptions} /></div>
                     </RF.Dashboard>
 
-                    <RF.Dashboard>
-                        <div className='grafico'> <Chart chartType="Bar" width="95%" height="95%" data={dataFi0} options={optionsFi0} backgroundColor="#d3d3d3" /> </div>
-                    </RF.Dashboard>
 
                     <Modal isOpen={graficosCadaFilial} onRequestClose={() => setGraficosCadaFilial(false)} className='dashboardCadaFilial' overlayClassName='none'>
-                    <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
-                        
+                        <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+
                         <h1>Cada Filial</h1>
+
                         {dados.map((data) => {
-
-                            const grafico = [
-                                ["Element", "Lucro/Custo", { role: "style" }],
-                                ["Lucro", data.vlLucroVenda, "#f6d001"],
-                                ["Custo", data.vlCustoTotal, "#bc1b2b"],
-                            ];
-
-                            const grafico0 = [
-                                ["Element", "Notas Fiscais", { role: "style" }],
-                                ["NF-e", data.vlTotalNfe, "#bc1b9c"],
-                                ["NFC-e", data.vlTotalNfce, "#1b7abc"],
-                            ];
-
-                            const grafico1 = [
-                                ["Element", "Liquido/Total", { role: "style" }],
-                                ["Liquido", data.vlTotalLiquido, "#ffaf56"],
-                                ["Total", data.vlVendaTotal, "#b2bb1c"]
+                            const ChartFi = [
+                                [
+                                    "Element",
+                                    "Valor",
+                                    { role: "style" },
+                                    {
+                                        sourceColumn: 0,
+                                        role: "annotation",
+                                        type: "string",
+                                        calc: "stringify",
+                                    },
+                                ],
+                                ["Lucro", data.vlLucroVenda, "#f6d002", null],
+                                ["Custo", data.vlCustoTotal, "#ad1b27", null],
+                                ["Total Venda", data.vlVendaTotal, "#b2bb1c", null],
+                                ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                                ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
+                                ["Credito", data.vlTotalCredito, "#ff6ad8", null],
+                                ["Liquido", data.vlTotalLiquido, "#ffaf56", null],
                             ]
 
-                            const optionsGra1 = {
-                                title: "NF-e/NFC-e",
-                                is3D: true,
-                                colors: ["#bc1b9c", "#b2bb1c"],
-                            };
+                            const optionsFili = {
+                                title: data.filial,
+                                width: "100%",
+                                height: "95%",
+                                bar: { groupWidth: "95%", },
+                                legend: { position: "none" }
+                            }
 
                             return (
-                                <div>
-                                    <h1 className='textFilial' >{data.filial}</h1>
-
-                                    <RF.Dashboard0>
-                                        <div className='grafico' > <Chart chartType="ColumnChart" width="95%" height="23vh" data={grafico} /> </div>
-                                        <div className='grafico' > <Chart chartType="PieChart" width="95%" height="23vh" data={grafico0} options={optionsGra1} /> </div>
-                                        <div className='grafico' > <Chart chartType="ColumnChart" width="95%" height="23vh" data={grafico1} /> </div>
-                                    </RF.Dashboard0>
-                                </div>
-
+                                <RF.Dashboard0>
+                                    <div className='grafico'><Chart chartType='BarChart' data={ChartFi} options={optionsFili} /></div>
+                                </RF.Dashboard0>
                             )
                         })}
 
@@ -2177,7 +2017,7 @@ export const ResumoFaturamento = () => {
                 <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
-                    <h1>Dados Vendedor</h1>
+                    <h1>Dados Vendedor<button onClick={() => setOpenIndivualVend(true)} className='filialBTN' > <img className='close' src='/images/vendedor.png' /> Cada Vendedor</button></h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
@@ -2217,18 +2057,48 @@ export const ResumoFaturamento = () => {
                         </h2>
                     </div>
 
-                    <RF.Dashboard>
-                        <div className='grafico' > <Chart chartType="ColumnChart" width="100%" height="95%" data={datVendedor} /> </div>
-                        <div className="grafico"><Chart chartType="ColumnChart" width="100%" height="95%" data={datVendedor0} /></div>
-                        <div className="grafico"><Chart chartType="PieChart" data={dataVendedor} options={optionsVen} width="100%" height="95%" /></div>
-                    </RF.Dashboard>
-
                 </div>
 
                 <RF.Dashboard>
-                    <div className="graficoLongo"><Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} /></div>
-
+                    <div className='justSize' ><Chart chartType='Bar' width="100%" height="2000px" data={chartDataVend} options={optionsVendedor} className='grafico' /></div>
                 </RF.Dashboard>
+
+                <Modal isOpen={openIndividualVend} shouldCloseOnEsc={false} onRequestClose={() => setOpenIndivualVend(false)} contentLabel='dashboard' shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardCadaFilial' >
+                    <button className='closeBtnMenor' onClick={() => setOpenIndivualVend(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+
+                    <h1>Cada Vendedor</h1>
+
+                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Vendedor" onChange={(e) => setQuery2(e.target.value)} />
+
+                    {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query2)).map((data) => {
+                        const optionsVen = {
+                            title: data.vendedor,
+                            width: "100%",
+                            height: "95%",
+                            bar: { groupWidth: "95%", },
+                            legend: { position: "none" }
+                        }
+
+                        const ChartFi = [
+                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                            ["Lucro", data.vlLucroVenda, "#f6d001", null],
+                            ["Custo", data.vlCustoTotal, "#bc1b2b", null],
+                            ["Venda Total", data.vlVendaTotal, "#b2bb1c", null],
+                            ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                            ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
+                            ["Credito", data.vlTotalCredito, "ff6ad8", null],
+                            ["Cancelamento", data.vlTotalCancelamento, "ffaf56", null],
+                            ["Comissão", data.vlTotalComissao, "#57ffe8", null],
+                            ["Desconto", data.vlTotalDesconto, "#727272", null],
+                        ]
+
+                        return (
+                            <RF.Dashboard0>
+                                <div className='grafico' ><Chart chartType='BarChart' data={ChartFi} options={optionsVen} /></div>
+                            </RF.Dashboard0>
+                        )
+                    })}
+                </Modal>
 
             </Modal>
 
@@ -2236,7 +2106,7 @@ export const ResumoFaturamento = () => {
                 <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                 <div>
-                    <h1>Dados Cliente</h1>
+                    <h1>Dados Cliente <button className='filialBTN' onClick={() => setIsOpenDashboardClienteAll(true)}><img className='close' src='/images/cliente.png' />Cada Cliente</button> </h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
@@ -2273,58 +2143,46 @@ export const ResumoFaturamento = () => {
 
                     </div>
 
-                    <RF.Dashboard >
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="100%" height="95%" data={dataCliente} /></div>
-                        <div className="grafico"><Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} /></div>
-                        <div className="grafico"><Chart chartType="PieChart" data={dataCliente0} options={optionsCli} width={"100%"} height={"95%"} /></div>
-                    </RF.Dashboard>
+                    <Modal isOpen={dashboardClienteAll} onRequestClose={() => setIsOpenDashboardClienteAll(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
+                        <button className='closeBtnMenor' onClick={() => setIsOpenDashboardClienteAll(false)} ><img className='close' src='/images/voltar.png' />Voltar</button>
 
-                    <Modal isOpen={dashboardDezCliente} onRequestClose={closeDashboardDezCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
-                        <button className='closeBtnMenor' onClick={closeDashboardDezCliente} ><img className='close' src='/images/voltar.png' />Voltar</button>
-                        {dadosClienteReduzido.map((dados) => {
+                        <h1>Cada Cliente</h1>
 
-                            const dashboard = [
-                                ["Element", "Lucro", { role: "style" }],
-                                ["Liquido", dados.vlLucroLiquido, "#ffaf56"],
-                                ["Bruto", dados.vlLucroVenda, "#f6d001"],
-                            ];
+                        <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Cliente..." onChange={(e) => setQueryC(e.target.value)} />
 
-                            const dashboard1 = [
-                                ["Element", "", { role: "style" }],
-                                ["Custo", dados.vlCustoTotal, "#f6d001"],
-                                ["Lucro", dados.vlLucroVenda, "#ffaf56"],
-                            ];
+                        {dadosCliente.filter(dat => dat.cliente.toLowerCase().includes(queryC)).map((data) => {
+                            const ChartCli = [
+                                ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                                ["Lucro", data.vlLucroVenda, "#f6d001", null],
+                                ["Custo", data.vlLucroVenda, "#bc1b2b", null],
+                                ["Venda", data.vlVendaTotal, "#b2bb1c", null],
+                                ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                                ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
+                                ["Credito", data.vlTotalCredito, "#ff6ad8", null],
+                                ["Liquido", data.vlTotalLiquido, "#ffaf56", null],
+                                ["Desconto", data.vlTotalDesconto, "#57ffe8", null]
+                            ]
 
-                            const dashboard2 = [
-                                ["Element", "", { role: "style" }],
-                                ["NF-e", dados.vlTotalNfe, ""],
-                                ["NFC-e", dados.vlTotalNfce, ""],
-                            ];
+                            const optionCli = {
+                                title: data.cliente,
+                                width: "100%",
+                                height: "95%",
+                                bar: { groupWidth: "95%", },
+                                legend: { position: "none" }
+                            }
 
                             return (
-                                <RF.DashboardMenor>
-                                    <h2>{dados.cliente}</h2>
-                                    <div className='graficosReduzidos'>
-                                        <div className="graficoA"><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard} /></div>
-                                        <div className="graficoA"><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard1} /></div>
-                                        <div className="graficoA" ><Chart chartType="PieChart" width="100%" height="23vh" data={dashboard2} options={optionsCli} /></div>
-                                    </div>
-
-                                </RF.DashboardMenor>
-                            );
-
+                                <RF.Dashboard0>
+                                    <div className='grafico' ><Chart chartType='BarChart' data={ChartCli} options={optionCli} /></div>
+                                </RF.Dashboard0>
+                            )
                         })}
                     </Modal>
- 
+
                 </div>
 
                 <RF.Dashboard>
-
-                    <div className='graficos10' >
-                        <button className='btnDetalhes' onClick={openDashboardDezCliente}> <img className='close' src='images/itens.png' /> Individuais </button>
-                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataCli0} options={optionsCli0} className='grafico' /></div>
-                    </div>
-
+                    <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataCli0} options={optionsCli0} /></div>
                 </RF.Dashboard>
 
             </Modal>
@@ -2337,70 +2195,32 @@ export const ResumoFaturamento = () => {
 
                     <h1>Dados Tipo Pagamento</h1>
 
-                    <div className='dashboardTexts' >
+                    <RF.A>
+                        <table className='pricesTpPg' >
+                            <thead>
+                                <div className='ajuste' >
+                                    {keys.map((nomes) => {
+                                        return (
+                                            <div className='labels' >{(nomes).replace('_', ' ').toUpperCase()}:</div>
+                                        );
+                                    })}
+                                </div>
+                            </thead>
+                            <div className='ajuste' >
+                                {dadosTipoPagamento.map((f5) => {
+                                    if (f5 === null || f5 === 0) {
+                                        f5 = 0.00;
+                                    }
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/dinheiro.png' /> Dinheiro : R$ {parseFloat(resultTpPg.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
+                                    return (
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/credito.png' /> Cartão Credito: R$ {parseFloat(resultTpPg2.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
+                                        <div className='labels' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </div>
 
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/debito.png' /> Cartão Debito: R$ {parseFloat(resultTpPg3.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cheque.png' /> Cheque : R$ {parseFloat(resultTpPg4.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/boleto.png' /> Boleto Bancario: R$ {parseFloat(resultTpPg5.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito Loja: R$ {parseFloat(resultTpPg6.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento Total: R$ {parseFloat(resultTpPg7.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Desconto Total: R$ {parseFloat(resultTpPg8.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/pix.png' /> Pix: R$ {parseFloat(resultTpPg13.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {parseFloat(resultTpPg1.toFixed(2)).toLocaleString('pt-BR')}
-                        </h2>
-
-                    </div>
-
-                    <h1>Vales(Caso possua)</h1>
-
-                    <div className='dashboardTexts'>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeAlimentacao.png' /> Alimentação: R$ {resultTpPg9.toString().replace('NaN', '0,00')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeCombustivel.png' /> Combustivel: R$ {resultTpPg10.toString().replace('NaN', '0,00')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/valePresente.png' /> Presente: R$ {resultTpPg11.toString().replace('NaN', '0,00')}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/valeRefeicao.png' /> Refeição: R$ {resultTpPg12.toString().replace('NaN', '0,00')}
-                        </h2>
-                    </div>
+                                    );
+                                })}
+                            </div>
+                        </table>
+                    </RF.A>
 
                     <RF.Dashboard>
                         <div className="grafico" ><Chart chartType="ColumnChart" width="100%" height="95%" data={dataTpPg} /> </div>
@@ -2423,7 +2243,7 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Produtos</h1>
+                    <h1>Dados Produtos<button onClick={openDashboardProdutosDetalhados} className='filialBTN' > <img className='close' src='/images/produto.png' /> Cada Produto</button></h1>
 
                     <div className='dashboardTexts'>
 
@@ -2450,68 +2270,41 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="100%" height="95%" data={dataProd} /></div>
-                        <div className="grafico" ><Chart chartType="PieChart" data={dataProd} options={optionsProd} width="100%" height="95%" /></div>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} /></div>
-                    </RF.Dashboard>
-
-                    <RF.Dashboard>
-
-                        <div className='graficos10' >
-                            <button className='btnDetalhes' onClick={openDashboardProdutosDetalhados}><img className='close' src='images/itens.png' /> Individuais </button>
-                            <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataProd0} options={optionsProd0} className='grafico' /></div>
-                        </div>
-
+                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataProd0} options={optionsProd0} className='grafico' /></div>
                     </RF.Dashboard>
 
                 </div>
 
                 <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado'>
                     <button className='closeBtnMenor' onClick={closeDashboardProdutosDetalhados} ><img className='close' src='/images/voltar.png' />Voltar</button>
-                    {dadosProdutoReduzidos.map((prod) => {
 
-                        const dashboard = [
-                            ["Element", "Valor", { role: "style" }],
-                            ["Venda:", prod.vlr_venda_total, "#f6d001"],
-                            ["Lucro", prod.vlr_lucro_total, "#1b7abc"],
-                        ];
+                    <h1>Cada Produto</h1>
 
-                        const dashboard1 = [
-                            ["Element", "", { role: "style" }],
-                            ["Custo", prod.vlr_custo_total, "#727272"],
-                            ["Lucro", prod.vlr_lucro_total, "#1b7abc"],
-                        ];
+                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Produto..." onChange={(e) => setQueryP(e.target.value)} />
 
-                        const dashboard2 = [
-                            [
-                                "Element",
-                                "Valor",
-                                { role: "style" },
-                                {
-                                    sourceColumn: 0,
-                                    role: "annotation",
-                                    type: "string",
-                                    calc: "stringify",
-                                },
-                            ],
-                            ["Desconto", prod.vlr_desconto_total, "#a9b21a", null],
-                            ["Sub.Total", prod.sub_total, "#ff6ad8", null],
-                            ["Venda", prod.vlr_venda_total, "#f6d001", null],
-                        ];
+                    {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(queryP)).slice(0, 90).map((data) => {
+                        const ChartProd = [
+                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                            ["Venda", data.vlr_venda_total, "#f6d001", null],
+                            ["Lucro", data.vlr_lucro_total, "#1b7abc", null],
+                            ["Sub.Total", data.sub_total, "#ff6ad8", null],
+                            ["Custo", data.vlr_custo_total, "#727272", null],
+                            ["Desconto", data.vlr_desconto_total, "#b2bb1c", null],
+                        ]
+
+                        const optionProd = {
+                            title: data.produto,
+                            width: "100%",
+                            height: "95%",
+                            bar: { groupWidth: "95%", },
+                            legend: { position: "none" }
+                        }
 
                         return (
-                            <RF.DashboardMenor>
-
-                                <h2>{prod.produto}</h2>
-                                <div className='graficosReduzidos' >
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard} /></div>
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard1} /></div>
-                                    <div className="graficoA" ><Chart chartType="BarChart" data={dashboard2} options={barOptionsGru} /></div>
-                                </div>
-
-                            </RF.DashboardMenor>
-                        );
-
+                            <RF.Dashboard0>
+                                <div className='grafico' ><Chart chartType='BarChart' data={ChartProd} options={optionProd} /></div>
+                            </RF.Dashboard0>
+                        )
                     })}
                 </Modal>
 
@@ -2523,7 +2316,7 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Grupo </h1>
+                    <h1>Dados Grupo <button onClick={openDashboardGrupoDetalhado} className='filialBTN' > <img className='close' src='/images/grupo.png' /> Cada Grupo</button> </h1>
 
                     <div className='dashboardTexts' >
 
@@ -2546,75 +2339,44 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru} /></div>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} /></div>
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="300px" height="200px" data={dataGru2} /></div>
+                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataGru0} options={optionsGru0} /></div>
                     </RF.Dashboard>
 
-                    <RF.Dashboard>
 
-                        <div className='graficos10' >
-                        <button onClick={openDashboardGrupoDetalhado} className='btnDetalhes'> <img className='close' src='/images/itens.png' /> Individuais </button>
-                            <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataGru0} options={optionsGru0} /></div>
-                        </div>
-
-                    </RF.Dashboard>
 
                 </div>
 
                 <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
                     <button className='closeBtnMenor' onClick={closeDashboardGrupoDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
-                    {dadosGrupoDetalhado.map((detalhado) => {
 
-                        const grupoDetalhado = [
-                            ["Element", "Valor", { role: "style" }],
-                            ["Venda:", detalhado.vlr_venda_total, "#bc1b2b"],
-                            ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
-                        ];
+                    <h1>Cada Grupo</h1>
 
-                        const grupoDetalhado1 = [
-                            ["Element", "Valor", { role: "style" }],
-                            ["Sub.Total", detalhado.sub_total, "#bc1b2b"],
-                            ["Lucro", detalhado.vlr_lucro_total, "#ffaf56"],
-                        ];
+                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Grupo..." onChange={(e) => setQueryG(e.target.value)} />
 
-                        const grupoDetalhadoBar = [
-                            [
-                                "Element",
-                                "Valor",
-                                { role: "style" },
-                                {
-                                    sourceColumn: 0,
-                                    role: "annotation",
-                                    type: "string",
-                                    calc: "stringify",
-                                },
-                            ],
-                            ["Venda", detalhado.vlr_venda_total, "#bc1b2b", null],
-                            ["Lucro", detalhado.vlr_lucro_total, "ffaf56", null],
-                            ["Sub Total", detalhado.sub_total, "#f6d001", null],
-                            ["Desconto Total", detalhado.vlr_desconto_total, "#1b7abc", null],
-                        ];
-
-                        const barGruOptions = {
-                            title: "Tabela Valores Totais.",
+                    {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(queryG)).map((data) => {
+                        const optionGru = {
+                            title: data.grupo,
                             width: "100%",
-                            height: "23vh",
-                            bar: { groupWidth: "95%" },
-                            legend: { position: "none" },
-                        };
+                            height: "95%",
+                            bar: { groupWidth: "95%", },
+                            legend: { position: "none" }
+                        }
+
+                        const ChartGru = [
+                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                            ["Venda", data.vlr_venda_total, "#bc1b2b", null],
+                            ["Lucro", data.vlr_lucro_total, "#ffaf56", null],
+                            ["Sub.Total", data.sub_total, "#f6d001", null],
+                            ["Desc.Total", data.desconto_tota, "#1b7abc", null],
+                        ]
 
                         return (
-                            <RF.DashboardMenor>
-                                <h2>{detalhado.grupo}</h2>
-                                <div className='graficosReduzidos'>
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={grupoDetalhado} /></div>
-                                    <div className="graficoA" ><Chart chartType="BarChart" data={grupoDetalhadoBar} options={barGruOptions} /></div>
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={grupoDetalhado1} /></div>
-                                </div>
-                            </RF.DashboardMenor>
+                            <RF.Dashboard0>
+                                <div className='grafico'><Chart chartType='BarChart' data={ChartGru} options={optionGru} /></div>
+                            </RF.Dashboard0>
                         )
                     })}
+
                 </Modal>
 
             </Modal>
@@ -2625,7 +2387,7 @@ export const ResumoFaturamento = () => {
 
                 <div>
 
-                    <h1>Dados Fornecedor</h1>
+                    <h1>Dados Fornecedor<button onClick={openDashboardFornecedorDetalhado} className='filialBTN' > <img className='close' src='/images/fornecedor.png' /> Cada Fornecedor</button></h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
@@ -2651,77 +2413,42 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className="grafico"><Chart chartType="ColumnChart" width="100%" height="95%" data={dataFor} /> </div>
-                        <div className="grafico"><Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} /> </div>
-                        <div className="grafico"><Chart chartType="ColumnChart" width="100%" height="95%" data={dataFor3} /></div>
-                    </RF.Dashboard>
-
-                    <RF.Dashboard>
-
-                        <div className='graficos10' >
-                            <button onClick={openDashboardFornecedorDetalhado} className='btnDetalhes'> <img className='close' src='/images/itens.png' /> Individuais </button>
-                            <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataFor0} options={optionsFor0} /></div>
-                        </div>
-
+                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataFor0} options={optionsFor0} /></div>
                     </RF.Dashboard>
 
                 </div>
 
                 <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardDetalhado' overlayClassName="dashboard-overlay"  >
                     <button className='closeBtnMenor' onClick={closeDashboardFornecedorDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
-                    {dadosFornecedorDetalhado.map((forn) => {
 
-                        const dashboard = [
-                            ["Element", "Valor", { role: "style" }],
-                            ["Venda", forn.vlr_venda_total, "#bc1b2b"],
-                            ["Lucro", forn.vlr_lucro_total, "#57ffe8"],
+                    <h1>Cada Fornecedor</h1>
+
+                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Fornecedor..." onChange={(e) => setQueryF(e.target.value)} />
+
+                    {dadosFornecedor.filter(dat => dat.fornecedor.toLowerCase().includes(queryF)).slice(0, 90).map((data) => {
+                        const ChartFor = [
+                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                            ["Venda", data.vlr_venda_total, "#bc1b2b", null],
+                            ["Lucro", data.vlr_lucro_total, "#57ffe8", null],
+                            ["Custo", data.vlr_custo_total, "#bc1b9c", null],
+                            ["Desconto", data.vlr_desconto_total, "#1b7abc", null],
+                            ["Sub.Total", data.sub_total, "#b2bb1c", null],
                         ]
 
-                        const dashboard1 = [
-                            ["Element", "Valor", { role: "style" }],
-                            ["Sub.Total", forn.sub_total, "#b2bb1d"],
-                            ["Lucro", forn.vlr_lucro_total, "#57ffe8"],
-                        ]
-
-                        const dashboard2 = [
-                            [
-                                "Element",
-                                "Valor",
-                                { role: "style" },
-                                {
-                                    sourceColumn: 0,
-                                    role: "annotation",
-                                    type: "string",
-                                    calc: "stringify",
-                                },
-                            ],
-                            ["Lucro", forn.vlr_lucro_total, "#57ffe8", null],
-                            ["Sub.Total", forn.sub_total, "#b2bb1d", null],
-                            ["Venda", forn.vlr_venda_total, "#bc1b2b", null],
-                            ["Desconto", forn.vlr_venda_total, "#1b7abc", null],
-                        ];
-
-                        const barOptions = {
-                            title: "Valores Totais Fornecedor .",
+                        const optionFor = {
+                            title: data.fornecedor,
                             width: "100%",
-                            height: "23vh",
-                            bar: { groupWidth: "95%" },
-                            legend: { position: "none" },
-                        };
+                            height: "95%",
+                            bar: { groupWidth: "95%" }
+                        }
 
                         return (
-                            <RF.DashboardMenor>
-                                <h2>{forn.fornecedor}</h2>
-
-                                <div className='graficosReduzidos'>
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard} /></div>
-                                    <div className="graficoA" ><Chart chartType="ColumnChart" width="100%" height="23vh" data={dashboard1} /></div>
-                                    <div className="grafico" ><Chart chartType="BarChart" data={dashboard2} options={barOptions} /></div>
-                                </div>
-                            </RF.DashboardMenor>
+                            <RF.Dashboard0>
+                                <div className='grafico' ><Chart chartType='BarChart' data={ChartFor} options={optionFor} /></div>
+                            </RF.Dashboard0>
                         )
-
                     })}
+
                 </Modal>
             </Modal>
 

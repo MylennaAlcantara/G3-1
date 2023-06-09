@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Content = styled.div`
+    display: flex;
     width: 90%;
     height: 90%;
     overflow: auto;
@@ -90,5 +91,9 @@ export const Totais = styled.div`
 `
 
 export const Graficos = styled.div`
-
+margin: auto;
+.A{
+    width: 400px;
+    height: 250px;
+}
 `

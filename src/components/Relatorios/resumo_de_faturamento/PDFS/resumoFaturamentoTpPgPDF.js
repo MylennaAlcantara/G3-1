@@ -73,24 +73,21 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
                 widths: ['*', 150],
                 body: [
                     [
-                        { text: 'Filial: ' + (valorFilial.toString()), bold: true, fontSize: 8 },
-                    ],
-                    [
+                        { text: 'Filial: ' + (valorFilial.toString()), bold: true, fontSize: 8 },                        
                         { text: 'T.OP: ' + (valorIdTop.toString()), bold: true, fontSize: 8 },
                     ],
                     [
-                        { text: 'Período: ' + (dataIni) + ' Á ' + (dataFin), bold: true, fontSize: 8 },
+                        { text: 'Período: ' + (dataIni).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFin).substr(0, 10).split('-').reverse().join('/'), bold: true, fontSize: 8 },
+                        { text: '', fontSize: 8},
                     ],
                     [
                         { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
-                    ],
-                    [
                         { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
                     ],
                     [
                         { text: '', fontSize: 8 },
+                        { text: '', fontSize: 8},
                     ],
-
                 ]
             },
             layout: 'headerLineOnly',

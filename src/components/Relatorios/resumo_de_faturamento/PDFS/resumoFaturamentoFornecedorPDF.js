@@ -1,7 +1,8 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { useContext } from 'react';
 
-export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor) {
+export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor, empresa) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
     const nfe = () => {
@@ -61,13 +62,13 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
         return [
             { text: data.id_fornecedor, fontSize: 8 },
             { text: data.fornecedor, fontSize: 8 },
-            { text: data.qtd_total, fontSize: 8 },
-            { text: data.vlr_custo_total.toFixed(2).replace('.', ','), fontSize: 8 },
-            { text: data.vlr_venda_total.toFixed(2).replace('.', ','), fontSize: 8 },
-            { text: data.vlr_lucro_total.toFixed(2).replace('.', ','), fontSize: 8 },
-            { text: data.p_markup.toFixed(2).replace('.', ','), fontSize: 8 },
-            { text: data.p_margem.toFixed(2).replace('.', ','), fontSize: 8 },
-            { text: data.percentual.toFixed(2).replace('.', ','), fontSize: 8 },
+            { text: parseFloat(data.qtd_total).toLocaleString('pt-BR') , fontSize: 8 },
+            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.p_markup.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.p_margem.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.percentual.toFixed(2).toLocaleString('pt-BR')), fontSize: 8 },
         ]
     })
 
@@ -93,30 +94,25 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
     const content = [
         {
             table: {
-                widths: ['*', 150],
+                widths: ['*', '*'],
                 body: [
                     [
-                        { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
-                    ],
-                    [
+                        { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 }, 
                         { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
                     ],
                     [
-                        { text: 'Período: ' + (dataIni) + ' Á ' + (dataFin), bold: true, fontSize: 8 },
-                    ],
-                    [
-                        { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
+                        { text: 'Período: ' + (dataIni).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFin).substr(0, 10).split('-').reverse().join('/'), bold: true, fontSize: 8 },
+                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) , bold: true , fontSize: 8 },
                     ],
                     [
                         { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
+                        { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
                     ],
                     [
                         { text: '', fontSize: 8 },
-                    ],
-                    [
                         { text: '', fontSize: 8 },
-                    ],
-    
+                    ]
+
                 ]
             },
             layout: 'headerLineOnly',
@@ -160,12 +156,12 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
                 widths: ['*','*','*','*','*','*','*'],
                 body: [
                     [
-                        {text: 'Qtd.Total: ' + (qtdTotal) , fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Qtd.Total: ' + parseFloat(qtdTotal).toLocaleString('pt-BR') , fontSize: 8, alignment: 'center', bold: true},
                         {text: 'Custo: ' + parseFloat(Custo.toFixed(2)).toLocaleString('pt-BR') , fontSize: 8, alignment: 'center', bold: true},
                         {text: 'Venda: ' + parseFloat(Venda.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true},
                         {text: 'Lucro: ' + parseFloat(Lucro.toFixed(2)).toLocaleString('pt-BR') , fontSize: 8, alignment: 'center', bold: true},
                         {text: 'Markup: ' + parseFloat(Markup.toFixed(2)).toLocaleString('pt-BR') + '%', fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Margem' + parseFloat(Margem.toFixed(2)).toLocaleString('pt-BR') + '%' , fontSize: 8, alignment: 'center', bold: true},
+                        {text: 'Margem: ' + parseFloat(Margem.toFixed(2)).toLocaleString('pt-BR') + '%' , fontSize: 8, alignment: 'center', bold: true},
                         {text: 'Percentual: ' + parseFloat(Percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true},
                     ]
                 ]

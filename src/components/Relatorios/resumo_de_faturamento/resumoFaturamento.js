@@ -139,7 +139,7 @@ export const Data = styled.div`
         }
     }
 `
-export const Navigacao = styled.div`
+export const Navegacao = styled.div`
     margin: auto;
     margin-bottom: 0;
     display: flex;
@@ -340,15 +340,34 @@ margin-right: auto;
 
 div{
     font-weight: bold;
-    font-size: 11px;
+    font-size: 10px;
     margin: 2px;
     border-style: solid;
     border-width: 1px;
 }
 
-@media(min-width: 1500px){
+@media(min-width: 1600px){
     div{
-        font-size: 16px;
+        font-size: 14px;
     }
+}
+`
+export const A = styled.div`
+overflow-x: auto;
+.ajuste{
+    display: flex;
+}
+.labels{
+    border-style: solid;
+    border-left: transparent;
+    border-bottom: transparent;
+    height: 35px;
+    margin-right: 5px;
+    border-top: transparent;
+    border-width: 1px;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: #ffffff;
+    width: 300px;
 }
 `

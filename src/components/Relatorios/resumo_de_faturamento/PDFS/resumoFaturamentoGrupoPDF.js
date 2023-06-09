@@ -1,7 +1,7 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosGrupo) {
+export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosGrupo, empresa) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
     const nfe = () => {
@@ -93,27 +93,24 @@ export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, data
     const content = [
         {
             table: {
-                widths: ['*', 150],
+                widths: ['*', '*'],
                 body: [
                     [
                         { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
-                    ],
-                    [
                         { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
                     ],
                     [
-                        { text: 'Período: ' + (dataIni) + ' Á ' + (dataFin), bold: true, fontSize: 8 },
+                        { text: 'Período: ' + (dataIni).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFin).substr(0, 10).split('-').reverse().join('/') , bold: true, fontSize: 8 },
+                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) , bold: true , fontSize: 8 }
                     ],
                     [
                         { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
-                    ],
-                    [
                         { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
                     ],
                     [
                         { text: '', fontSize: 8 },
+                        { text: '', fontSize: 8 }
                     ],
-
                 ]
             },
             layout: 'headerLineOnly',
