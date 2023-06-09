@@ -122,7 +122,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         valor_venda: '',
         descricaoPdv: '',
         unidade_produto_nome: '',
-        subtotal: '',
+        subtotal: String('').replace(",","."),
         desconto: '',
         descontoPorcen:'',
         qtd_estoque: '',
@@ -136,6 +136,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
     const [dataIdSelectSaler, setDataIdSelectSaler] = useState(dadosRotina.vendedor.id || '');
     const [dataIdSelectPgt, setDataIdSelectPgt] = useState(dadosRotina.pgto.id || '');
 
+    const [promocao, setPromocao] = useState([]);
 
     //Atualização da lista de itens
     const [listItens, setListItens] = useState(JSON.parse(localStorage.getItem("lista")) || []);
@@ -228,14 +229,10 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         setDescontoPorcen(valor);
     }
     function handleQtdEstoqueBlur(e){
-        const valor = parseFloat(numero1).toFixed(3).replace("NaN", " ").replace(".", ",");
+        const valor = parseFloat(numero1).toFixed(3).replace("NaN", " ")//.replace(".", ",");
         setNumero1(valor);
         valorUnidade();
         setDataSelectItem({...dataSelectItem, [e.target?.name]: e.target?.value, item: counter});
-    }
-    function handleValorSubtotalBlur () {
-        const totalItem = parseFloat(subtotal).toFixed(2).replace("NaN", " ").replace(".", ",");
-        setSubtotal(totalItem);
     }
 
     // Calcular o valor de quantidade vezes o valor para o total 
@@ -264,22 +261,22 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         if(dataSelectTop.editar_preco_rotina === true){
             return parseFloat(parseFloat(valor1) * parseFloat(valor2)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
         }else{
-            return parseFloat(parseFloat(valor1) * parseFloat(valorUnita)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+            return parseFloat(parseFloat(valor1) * parseFloat(valor2)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
         }
     }
     const calcularSubtotal = () => {
         if(valorDesc === total ){
             //alert('Desconto não pode ser maior que o valor total do item!');
-            return total
+            return valorTotal;
         }else if(descontoPorcen === '' || valorDesc === '' || valorDesc === 'undefined'){
-            return total
+            return valorTotal;
         }else if(valorDesc < 0){
             alert('Desconto não pode ser negativo!')
             setDescontoValor('0,00')
-            return total
+            return valorTotal;
         }
         else{
-            return parseFloat(parseFloat(valorTotal) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
+            return parseFloat(parseFloat(valorTotal) - parseFloat(valorDesc)).toFixed(2).replace("NaN", " ").replace(",", ".");
         }
     }
 
@@ -303,21 +300,63 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         }
     }
 
+    const pegarDados = () => {
+        const quantidade = document.getElementById('quantidade').value;
+        const preco = document.getElementById('valorUnit').value;
+        const subtotal = document.getElementById('subtotal').value;
+        setDataSelectItem({
+            ...dataSelectItem,
+            valor_unitario: preco,
+            valor_total: String(total).replace(",","."),
+            subtotal: (subtotal).replace(",","."),
+            quantidade: quantidade
+        })
+    }
+    const validarValor = (e) => {
+        if(promocao.length > 0){
+            if(promocao[0].aplicarNaPreVenda === true){
+                if(String(numero1).replace(',','.') >= promocao[0].qtdMinima){
+                    setNumero2(promocao[0].precoPromocional);
+                    console.log("passou 1");
+                }else{
+                    console.log("passou 2");
+                    setNumero2(dataSelectItem.valor_unitario);
+                }
+            }
+        }else{
+            if(dataSelectItem.qtd_atacado != 0){
+                if(String(numero1).replace(',','.') >= dataSelectItem.qtd_atacado && tipoVenda === 'A'){
+                    setNumero2(dataSelectItem.preco_atacado);
+                    console.log("passou 3");
+                }else if(String(numero1).replace(',','.') < dataSelectItem.qtd_atacado){
+                    setNumero2(dataSelectItem.valor_unitario);
+                    console.log("passou 4");
+                }
+            }else{
+                setNumero2(dataSelectItem.valor_unitario);
+                console.log("passou 5");
+            }
+        }        
+    }
     useEffect(()=>{
         setTotal(calcular());
         setDescontoValor(condição());
         setSubtotal(calcularSubtotal());
+        pegarDados();
+        validarValor();
     }, [numero1,numero2,descontoValor,total,descontoPorcen]);
     
     const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal)), 0);
 
     // Funções para abrir o modal de cada campo apertando F2
     function keyProduto(event){
-        if( event.keyCode === 113 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value /*&& document.getElementById('top').value*/ && document.getElementById('parceiro').value){
+        if( event.keyCode === 113 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value && document.getElementById('top').value && document.getElementById('parceiro').value){
             setIsModalProdutos(true);
+            zerarInput();
         }else if(event.keyCode != 113){
             event.preventDefault();
-        }else{
+        }
+        else{
             setCor('yellow');
             alert("Preencha os campos acima!")
         }
@@ -362,7 +401,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                 e.preventDefault();
                 document.getElementById('valorUnit').focus();
             }
-            
+           
         }
     }
     function NextAddItem (e){
@@ -382,12 +421,6 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
             e.preventDefault();
             document.getElementById('Total').focus();
             setDescontoPorcen(calcularPorcentagem());
-        }
-    }
-    function NextDescrição (e){
-        if(e.keyCode === 13){
-            e.preventDefault();
-            document.getElementById('descrição').focus();
         }
     }
     function NextTop (e){
@@ -420,7 +453,14 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
             document.getElementById('subtotal').focus();
         }
     }
-    function NextProduto (e){
+    function NextAdd (e){
+        if(e.keyCode === 13){
+            e.preventDefault();
+            validarQtd();
+            zerarInput();
+        }
+    }
+    function NextPoduto (e){
         if(e.keyCode === 13){
             e.preventDefault();
             document.getElementById('produto').focus();
@@ -544,7 +584,20 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         }
         
     }
+    const [showButton, setShowButton] = useState(false);
 
+    useEffect(() => {
+      const handleResize = () => {
+        setShowButton(window.innerWidth <= 440);
+      };
+  
+      handleResize();
+      window.addEventListener('resize', handleResize);
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
     function minimizar (){
         setMinimizado({...minimizado, editarRotina: true})
         navigate("/home");
@@ -753,7 +806,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                         {tipoPgtoAlterado === false ? (
                             <div>
                             <label>Tipo pgto: </label>
-                            <input className="f1" id="pgto" value={rotinas.id_tipo_pagamento} onKeyUp={keyPgt} onKeyDown={NextProduto} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                            <input className="f1" id="pgto" value={rotinas.id_tipo_pagamento} onKeyUp={keyPgt} onKeyDown={NextPoduto} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
                             {descricaoPagamento.map((item)=> {
                             return <input id="option_pgto" className="option" value={item.descricao} />
                             })}
@@ -761,7 +814,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                         ) : (
                             <div>
                             <label>Tipo pgto: </label>
-                            <input className="f1" id="pgto" value={dataIdSelectPgt} onKeyUp={keyPgt} onKeyDown={NextProduto} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
+                            <input className="f1" id="pgto" value={dataIdSelectPgt} onKeyUp={keyPgt} onKeyDown={NextPoduto} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{backgroundColor: cor}} readOnly/>
                             <input id="option_pgto" className="option" value={dataSelectPgt} />
                             </div>
                         )}
@@ -775,7 +828,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
             </C.Header>
             <C.Add>
             <form onSubmit={event =>{event.preventDefault();  setCounter(prevCounter => prevCounter + 1); zerarInput(); validarQtd();}} >
-                <div>
+            <div>
                 <label>Código: </label>
                 <input 
                     id="produto" 
@@ -796,28 +849,30 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                     type="text" 
                     value={numero1} 
                     onChange={qtdEstoque}
-                    onBlur={handleQtdEstoqueBlur} 
+                    onBlur={handleQtdEstoqueBlur}
+                    onFocus={()=>document.getElementById('quantidade').select()} 
                     onKeyDown={NextValorUnit} 
                     id="quantidade"  required/>
                 </div>
                 <div>
                 <label>Vl. Unit.: </label>
-                {dataSelectTop.editar_preco_rotina === true ? (
+                {dataSelectTop.editar_preco_rotina === true && tipoVenda === 'V' ? (
                     <input 
                     className="add-item" 
                     value={numero2} 
                     name="valor_unitario" 
                     onChange={(e) => setNumero2(e.target.value)}
                     onBlur={changeHandler} 
+                    onFocus={validarValor}
                     onKeyDown={NextAddItem} 
                     type="text" 
                     id="valorUnit" required/>
                     ) : (
                     <input 
                     className="add-item" 
-                    value={valorUnitario} 
+                    value={numero2} 
                     name="valor_unitario" 
-                    onFocus={(e) => setNumero2(e.target.value)} 
+                    onFocus={validarValor} 
                     onBlur={changeHandler} 
                     onKeyDown={NextAddItem} 
                     type="text" 
@@ -826,7 +881,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                 }
                 <datalist></datalist>
                 </div>
-                <div>
+                <div className="desconto">
                 <label>Desc.: </label>
                 <input 
                     id="add-item" 
@@ -845,27 +900,25 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                     className="add-item" 
                     placeholder="R$ 0,000000" 
                     type='text' 
-                    onKeyDown={NextTotal} 
+                    onKeyDown={NextAdd} 
                     onChange={valorDesconto} 
                     onFocus={changeHandler}
                     value={String(descontoValor).replace('.',',').replace('NaN','')}/>
                 </div>
                 <div>
-                <label>Total do item: </label>
+                <label>Total item: </label>
                 <input 
                     type="text" 
                     name="valor_total" 
                     id="Total" 
-                    value={String(total).replace('.',',').replace('NaN','')} 
-                    onFocus={changeHandler} 
-                    onKeyDown={NextSubtotal}  required/>
+                    value={String(total).replace('.',',').replace('NaN','')}  
+                    required/>
                 <label>Subtotal</label>
                 <input 
                     name='subtotal' 
                     id="subtotal" 
-                    value={String(subtotal).replace('.',',').replace('NaN','')}
-                    onFocus={changeHandler} 
-                    onKeyDown={NextDescrição} required/>
+                    value={String(subtotal).replace('.',',').replace('NaN','')} 
+                     required/>
                 <br/>
                 </div>
                 <div className="div-descrição" >
@@ -875,13 +928,11 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                     className="descrição" 
                     type="text" 
                     value={dataSelectItem.descricao_produto} 
-                    onFocus={changeHandler} 
-                    onBlur={handleValorSubtotalBlur} 
                     name="descricao_produto" 
                     readOnly 
                     required/>
                 </div>
-                <button onSubmit={validarQtd}>Adicionar</button>
+                {showButton ? <button onSubmit={validarQtd}>Adicionar</button> : null}
             </form>
             </C.Add>
             <C.Display>
@@ -911,7 +962,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                                         <td>{list.unidade_produto}</td>
                                         <td>{parseFloat(list.quantidade).toFixed(3).replace('.',',')}</td>
                                         <td>{String(list.valor_unitario).replace('.',',')}</td>
-                                        <td>{String(list.subtotal).replace('.',',')}</td>
+                                        <td>{parseFloat(list.subtotal).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN','')}</td>
                                         <td>{parseFloat(list.desconto).toFixed(2).replace('.',',')}</td>
                                         <img src="/images/lixeira.png" className="button-excluir" onClick={Deletar.bind(this, list, index)}/>
                                     </tr>
@@ -934,11 +985,11 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                     <label className="total-itens"></label>
                     <div>
                     <label>Subtotal da Rotina: </label>
-                    <input value={parseFloat(totalVenda).toFixed(2).replace(".", ",")} readOnly/>
+                    <input value={parseFloat(totalVenda).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN','')} readOnly/>
                     </div>
                     <div>
                     <label>Total da Rotina: </label>
-                    <input value={parseFloat(totalVenda).toFixed(2).replace(".", ",")} readOnly />
+                    <input value={parseFloat(totalVenda).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN','')} readOnly />
                     </div> 
                     <div>
                     <label>descontoValor Total(R$): </label>
@@ -968,7 +1019,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                 <Pgt onClose = {() => setIsModalPgt(false)} focoCampoSeguinte={focoCampoSeguinte} setDataSelectPgt={setDataSelectPgt} setDataIdSelectPgt={setDataIdSelectPgt} setTipoPgtoAlterado={setTipoPgtoAlterado} dadosRotina={dadosRotina} setDadosRotina={setDadosRotina}/>
             ) : null}
             {isModalProdutos ? (
-                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop} rotinas={rotinas} tipoPgtoAlterado={tipoPgtoAlterado} emitenteAlterado={emitenteAlterado} liberaEstoque={liberaEstoque} tipoMovimentacao={tipoMovimentacao}/>
+                <Produtos onClose = {() => setIsModalProdutos(false)} focoQtd={focoQtd} setPromocao={setPromocao} setDataSelectItem={setDataSelectItem} dataIdSelectEmitente={dataIdSelectEmitente} dataIdSelectPgt ={dataIdSelectPgt} dataSelectTop={dataSelectTop} rotinas={rotinas} tipoPgtoAlterado={tipoPgtoAlterado} emitenteAlterado={emitenteAlterado} liberaEstoque={liberaEstoque} tipoMovimentacao={tipoMovimentacao}/>
             ) : null}
         </C.Container>   
     );

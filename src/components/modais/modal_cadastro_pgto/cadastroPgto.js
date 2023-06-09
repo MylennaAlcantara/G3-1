@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const DadosGerais = styled.div`
     width: 100%;
     height: 70%;
+    overflow: auto;
     .descricao{
         width: 80%;
     }
@@ -55,6 +56,11 @@ export const DadosGerais = styled.div`
                 flex-direction: column;
                 align-items: start;
             }
+        }
+    }
+    @media(max-width: 700px){
+        .comissao-desconto{
+            display: block;
         }
     }
 `

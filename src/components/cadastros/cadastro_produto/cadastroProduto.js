@@ -68,6 +68,11 @@ export const InfoItem = styled.div`
             justify-content: start;
         }
     }
+    @media(max-width: 700px){
+        display: block;
+        height: 30%;
+        overflow: auto;
+    }
 `
 export const Geral = styled.div`
     height: 80%;
@@ -128,6 +133,14 @@ export const Geral = styled.div`
         }
         img:hover{
             cursor: pointer;
+        }
+    }
+    @media(max-width: 700px){
+        .geral{
+            display: block;
+        }
+        .table-responsive{
+            height: 30%;
         }
     }
 `
@@ -204,6 +217,11 @@ export const Tributacao = styled.div`
         img{
             height: 20px;
             width: 20px;
+        }
+    }
+    @media(max-width: 700px){
+        .tributacao{
+            display: block;
         }
     }
 `
@@ -301,6 +319,7 @@ export const Movimentação = styled.div`
         width: 100%;
         background-color: #F0F0F0;
         margin: 5px 0 5px 0;
+        overflow: auto;
     }
     .data{
         display: flex;
@@ -364,6 +383,7 @@ export const Fornecedores = styled.div`
         height: 100%;
         width: 100%;
         display: flex;
+        justify-content: center;
         fieldset{
             height: 30%;
             background-color: #F0F0F0;
@@ -422,6 +442,17 @@ export const Fornecedores = styled.div`
             }
             .table tr:hover td{
                 background-color: #87CEFA;
+            }
+        }
+    }
+
+    @media(max-width: 700px){
+        .fornecedores{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .pesos{
+                flex-wrap: wrap;
             }
         }
     }

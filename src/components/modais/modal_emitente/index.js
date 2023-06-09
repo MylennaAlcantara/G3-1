@@ -13,11 +13,17 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('fantasia');
 
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
+
     useEffect(() => {
         async function fetchData (){
             const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
             const data = await response.json();
             setUsers(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
             fetchData();
             document.getElementById('search').focus();
@@ -159,8 +165,25 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
                         <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>
                 </Filtro>
-                {users.length === 0 ? (
+                {users.length === 0 && carregado === false ? (
                     <Loading/>
+                ) : users.length === 0 && carregado ? (
+                    <div className="table-responsive">
+                        <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nome Fantasia</th>
+                                    <th>Razão Social</th>
+                                    <th>CNPJ</th>
+                                    <th>Município</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                            Não Existem dados a serem exibidos!
+                        </div>
+                    </div>
                 ) : (
                     <div className="table-responsive">
                         <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>

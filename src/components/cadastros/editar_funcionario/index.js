@@ -48,21 +48,11 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
                 titulo_eleitor: data.titulo_eleitor,
                 ric: data.ric,
                 pis: data.pis,
-                setorFuncionario: {
-                    id: data.setorFuncionario.id,
-                    descricao: data.setorFuncionario.descricao,
-                    operadorDeCaixa: data.setorFuncionario.operadorDeCaixa
-                },
-                nivelAcesso: {
-                    id: data.nivelAcesso.id,
-                    descricao: data.nivelAcesso.descricao
-                },
+                setorFuncionario: data.setorFuncionario,
+                nivelAcesso: data.nivelAcesso,
                 meta: data.meta,
                 senhaExpirada: data.senhaExpirada,
-                filial: {
-                    id: data.filial.id,
-                    razaoSocial: data.filial.razaoSocial
-                },
+                filial: data.filial,
                 usuarioSistema: data.usuarioSistema,
                 motorista: data.motorista,
                 dataNascimento: data.dataNascimento,
@@ -295,18 +285,18 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
                         </div>
                         <div className="double-input">
                             <label>Setor: </label>
-                            <input className="codigo" value={dadosFuncionario.setorFuncionario.id} onDoubleClick={()=> setIsModalSetor(true)} onKeyDown={setores} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
-                            <input value={dadosFuncionario.setorFuncionario.descricao}/>
+                            <input className="codigo" value={dadosFuncionario.setorFuncionario && dadosFuncionario.setorFuncionario.id} onDoubleClick={()=> setIsModalSetor(true)} onKeyDown={setores} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
+                            <input value={dadosFuncionario.setorFuncionario && dadosFuncionario.setorFuncionario.descricao}/>
                         </div>
                         <div className="double-input">
                             <label>Nível: </label>
-                            <input className="codigo" value={dadosFuncionario.nivelAcesso.id} onKeyDown={niveis} onDoubleClick={()=> setIsModalNivel(true)} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
-                            <input value={dadosFuncionario.nivelAcesso.descricao}/>
+                            <input className="codigo" value={dadosFuncionario.nivelAcesso && dadosFuncionario.nivelAcesso.id} onKeyDown={niveis} onDoubleClick={()=> setIsModalNivel(true)} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
+                            <input value={dadosFuncionario.nivelAcesso && dadosFuncionario.nivelAcesso.descricao}/>
                         </div>
                         <div className="double-input">
                             <label>Filial: </label>
-                            <input className="codigo" value={dadosFuncionario.filial.id} onDoubleClick={()=> setIsModalFilial(true)} onKeyDown={filiais} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
-                            <input value={dadosFuncionario.filial.razaoSocial}/>
+                            <input className="codigo" value={dadosFuncionario.filial && dadosFuncionario.filial.id} onDoubleClick={()=> setIsModalFilial(true)} onKeyDown={filiais} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
+                            <input value={dadosFuncionario.filial &&  dadosFuncionario.filial.razaoSocial}/>
                         </div>
                     </div>
                 </CF.Geral>

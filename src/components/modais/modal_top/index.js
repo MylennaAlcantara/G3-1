@@ -13,11 +13,17 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
     const [modalCadastro, setModalCadastro] = useState(false);
     const [modalEditar, setModalEditar] = useState(false);
 
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
+
     useEffect(() => {
         async function fetchData (){
             const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/top/all");//http://localhost:5000/tops
             const data = await response.json();
             setTop(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
             fetchData();
             document.getElementById('search').focus();
@@ -166,8 +172,24 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                         <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
                     </div>                
             </Filtro>
-            {top.length === 0 ? (
+            {top.length === 0 && carregado === false ? (
                 <Loading/>
+            ) : top.length === 0 && carregado ? (
+                <div className="table-responsive">
+                    <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Descrição</th>
+                                <th>Mov. Est. reservado</th>
+                                <th>Mov. Est. Real</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                        Não Existem dados a serem exibidos!
+                    </div>
+                </div>
             ) : (
                 <div className="table-responsive">
                     <table id="table" ref={tableRef} onKeyDown={handleKeyDown}  tabIndex={0} >

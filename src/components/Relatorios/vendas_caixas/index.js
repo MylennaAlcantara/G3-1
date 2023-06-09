@@ -7,6 +7,7 @@ import Chart from 'react-google-charts';
 export const VendasCaixa = ({ close }) => {
 
     const [caixa, setCaixa] = useState([]);
+
     const [total, setTotal] = useState();
     const [totalCaixas, setTotalCaixas] = useState([]);
     const [tipoPgto, setTipoPgto] = useState([]);
@@ -16,6 +17,7 @@ export const VendasCaixa = ({ close }) => {
 
     async function consultarCaixas() {
         const resultados = [];
+
 
         if (dataInicial && dataFinal) {
             const [totalRes, tipoPgtoRes] = await Promise.all([
@@ -165,7 +167,7 @@ export const VendasCaixa = ({ close }) => {
                 <C.Header>
                     <h3>Vendas</h3>
                     <div className="buttons">
-                        <button className="minimizar" ><div className="linha" /></button>
+                        <button className="minimizar" ><div className="linha"/></button>
                         <button className="close" onClick={close}>X</button>
                     </div>
                 </C.Header>
@@ -263,7 +265,7 @@ export const VendasCaixa = ({ close }) => {
                 </V.Content>
                 <C.Footer>
                     <div className="buttons">
-                        <button onClick={close}><img src="/images/voltar.png" />Fechar</button>
+                        <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </C.Footer>
             </C.Container>

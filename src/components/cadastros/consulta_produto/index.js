@@ -11,17 +11,23 @@ export const CounsultarProduto = () =>{
     const navigate = useNavigate();
     const {user, empresa, nivel, cnpjMask} = useContext(AuthContext);
     const [busca, setBusca] = useState('');
+    
+    // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
+    const [carregado, setCarregado] = useState(false);
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/1/payment/1?size=50`);
+            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/0/payment/0?size=50`);
             const data = await response.json();
             setItens(data.content);
+            if( response.status === 200){
+                setCarregado(true);
+            }
         }
         fetchData();
         document.getElementById("search").focus();
     }, []);
-
+    
     const selectColuna = document.getElementById('coluna');
     const selectAtivo = document.getElementById('ativo');
 
@@ -95,11 +101,28 @@ export const CounsultarProduto = () =>{
                 <input placeholder="Buscar..." id="search" value={busca} onChange={(e)=> setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
             </CP.Filtro>
             <CP.Lista>
-                {itens.length === 0 ? (
+                {itens.length === 0 && carregado === false ? (
                     <Loading/>
+                ) : itens.length === 0 && carregado ? (
+                    <div className="table-responsive">
+                        <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                            <thead>
+                                <tr>
+                                    <th>Cód. Interno</th>
+                                    <th>Ativo</th>
+                                    <th>Referência</th>
+                                    <th>GTIN / EAN</th>
+                                    <th>Descrição</th>                     
+                                </tr>
+                            </thead>
+                        </table>
+                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                            Não Existem dados a serem exibidos!
+                        </div>
+                    </div>
                 ) : (
                     <div className="table-responsive">
-                    <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                        <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
                             <thead>
                                 <tr>
                                     <th>Cód. Interno</th>

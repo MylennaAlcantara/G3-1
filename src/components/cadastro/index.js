@@ -264,6 +264,7 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
         setDataSelectItem({
             ...dataSelectItem,
             valor_unitario: preco,
+            valor_total: String(total).replace(",","."),
             subtotal: (subtotal).replace(",","."),
             quantidade: quantidade
         })
@@ -740,7 +741,7 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
                     onFocus={changeHandler}
                     value={String(descontoValor).replace('.',',').replace('NaN','')}/>
                 </div>
-                <div>
+                <div className="desconto">
                 <label>Total item: </label>
                 <input 
                     type="text" 
@@ -772,7 +773,7 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
             </form>
             </C.Add>
             <C.Display>
-                <div className="table-resp">
+                <div className="table-responsive">
                     <table className="table" >
                         <thead>
                             <tr>
@@ -798,7 +799,7 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
                                         <td>{list.unidade_produto}</td>
                                         <td>{parseFloat(list.quantidade).toFixed(3).replace('.',',')}</td>
                                         <td>{String(list.valor_unitario).replace('.',',')}</td>
-                                        <td>{String(list.subtotal).replace('.',',')}</td>
+                                        <td>{parseFloat(list.subtotal).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN','')}</td>
                                         <td>{parseFloat(list.desconto).toFixed(2).replace('.',',')}</td>
                                         <img src="/images/lixeira.png" className="button-excluir" onClick={Deletar.bind(this, list, index)}/>
                                     </tr>
@@ -821,11 +822,11 @@ export const Cadastro = ({setMinimizado, minimizado}) => {
                     <label className="total-itens"></label>
                     <div>
                     <label>Subtotal da Rotina: </label>
-                    <input value={parseFloat(totalVenda).toFixed(2).replace(".", ",")}/>
+                    <input value={parseFloat(totalVenda).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN','')}/>
                     </div>
                     <div>
                     <label>Total da Rotina: </label>
-                    <input value={parseFloat(totalVenda).toFixed(2).replace(".", ",")}/>
+                    <input value={parseFloat(totalVenda).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN','')}/>
                     </div> 
                     <div>
                     <label>descontoValor Total(R$): </label>
