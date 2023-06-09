@@ -181,9 +181,11 @@ export const PicoDeFaturamento = () => {
     }
 
     function voltar15Dias() {
-        document.getElementById("DataInicial").stepDown(15);
         document.getElementById("DataFinal").stepDown(15);
     }
+
+    const [query, setQuery] = useState()
+    const [query1, setQuery1] = useState()
 
     console.log(ano)
 
@@ -206,7 +208,7 @@ export const PicoDeFaturamento = () => {
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------   
 
     //---------------------------------------------------------------------------------------------------------Pico Semana--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    
+
     const [abrirSemana, setOpenAbrirSemana] = useState(false);
 
     const picoSemana = [
@@ -267,92 +269,85 @@ export const PicoDeFaturamento = () => {
             <span>Atenção: Digite ou selecione uma data antes apertar nos Botões</span>
 
             <LB.Filtros>
-                <div className="filial-top-content" >
-                    <div className="buttons-filial-top">
-                        <button className="button-filial" onClick={() => setAbaFilial(true)} >Filial</button>
-                        <button className="button-top" onClick={() => setAbaFilial(false)} >Tops</button>
+                <div className='FTFilterTop' >
+                    <div className='btns'>
+                        <button className='topFilialBtn' style={{ backgroundColor: abaFilial === true ? "#8CB9DF" : "", borderBottom: abaFilial === true ? "none" : "" }} onClick={() => setAbaFilial(true)} >Filial</button>
+                        <button className='topsBtn' style={{ backgroundColor: abaFilial === false ? "#8CB9DF" : "", borderBottom: abaFilial === false ? "none" : "" }} onClick={() => setAbaFilial(false)} >Tops</button>
                     </div>
                     <LB.FilialTop>
                         {abaFilial ? (
                             <div className='filial-top'>
-
                                 <div>
                                     <select>
                                         <option>Filial</option>
                                         <option>Região</option>
                                     </select>
-                                    <input placeholder="Buscar..." onChange={(e) => setBusca(e.target.value)} />
-                                    <img src="./images/LUPA.png" onClick={() => setIsModalFilial(true)} />
+                                    <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
+                                    <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
+                                    <button onClick={() => setValor([])} >Limpar</button>
                                 </div>
-
                                 <div className='table-responsive'>
-                                    <table>
+                                    <table id='table'>
                                         <thead>
                                             <tr>
                                                 <th></th>
-                                                <th>Código</th>
-                                                <th>Fantasia</th>
+                                                <th >Código</th>
+                                                <th >Fantasia</th>
                                                 <th>Razão Social</th>
-                                                <th>Documento</th>
-                                                <th>Município</th>
+                                                <th >Documento</th>
+                                                <th >Município</th>
                                             </tr>
                                         </thead>
-                                        {valor.map((item) => {
+                                        {valor.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
+
                                             return (
-                                                <tr>
-                                                    <img className='del' src='/images/lixeira.png' onClick={() => deleteById(item.id)} />
-
-                                                    <td>{item.id}</td>
-
-                                                    <td>{item.nome_fantasia}</td>
-
-                                                    <td>{item.razao_social}</td>
-
-                                                    <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
-
-                                                    <td>{item.municipio}</td>
-                                                </tr>
+                                                <tbody >
+                                                    <tr>
+                                                        <img className='del' src='/images/lixeira.png' onClick={() => deleteById(item.id)} />
+                                                        <td>{item.id}</td>
+                                                        <td>{item.nome_fantasia}</td>
+                                                        <td>{item.razao_social}</td>
+                                                        <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
+                                                        <td>{item.municipio}</td>
+                                                    </tr>
+                                                </tbody>
                                             )
-                                        })}
 
+                                        })}
                                     </table>
                                 </div>
-
                             </div>
                         ) : (
                             <div className='filial-top'>
                                 <div>
-                                    <input placeholder="Buscar..." />
-                                    <img src="./images/LUPA.png" onClick={() => setIsModalTop(true)} />
+                                    <input placeholder='Buscar pela Descrição...' onChange={(e) => setQuery1(e.target.value)} />
+                                    <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
+                                    <button onClick={() => setValorTop([])} >Limpar</button>
                                 </div>
-
-                                <div className="table-responsive">
-                                    <table>
+                                <div className='table-responsive'>
+                                    <table id='table'>
                                         <thead>
                                             <tr>
                                                 <th></th>
-                                                <th>Código</th>
-                                                <th>Descrição</th>
+                                                <th >Código</th>
+                                                <th >Descrição</th>
                                             </tr>
                                         </thead>
-                                        {valorTop.map((item) => {
+                                        {valorTop.filter(dat => dat.descricao.toLowerCase().includes(query1)).map((item) => {
+
                                             return (
                                                 <tr>
                                                     <img className='del' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
-
                                                     <td>{item.id}</td>
-
                                                     <td>{item.descricao}</td>
                                                 </tr>
                                             )
+
                                         })}
                                     </table>
                                 </div>
-
                             </div>
-
                         )}
-
                     </LB.FilialTop>
                 </div>
 
@@ -375,7 +370,7 @@ export const PicoDeFaturamento = () => {
 
                     </div>
 
-                    <div className="checkbox-content" >
+                    <div>
                         <button onClick={voltarMes} className="setaE" ><img src="/images/setaEsquerda.png" /></button>
                         <button onClick={passarMes} className="setaD" ><img src="/images/setaDireita.png" /></button>
                         <input type="checkbox" checked={NFE} onChange={nfeCheck} /><label>NF-e</label>

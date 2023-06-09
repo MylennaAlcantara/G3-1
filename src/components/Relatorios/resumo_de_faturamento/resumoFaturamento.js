@@ -178,7 +178,7 @@ export const Navegacao = styled.div`
         border-bottom: none;
     }
     @media (max-width: 420px) {
-        margin-top: 55%;
+        margin-top: 60%;
         div{
             width: 90%;
         }
@@ -238,6 +238,8 @@ export const DataGeral = styled.div`
     #table tr:hover td{
         background-color: #87CEFA;
     }
+
+      
 `
 export const Dashboard = styled.div`
 margin-top: 10px;

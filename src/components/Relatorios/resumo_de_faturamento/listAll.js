@@ -70,7 +70,7 @@ export const ResumoFaturamento = () => {
     const [query8, setQuery8] = useState(""); //Busca Fornecedor 
 
     const [filter, setFilter] = useState(""); //Pega Valor da opção selecionada ("VENDA", "TODOS", "ORÇAMENTO")
-    const [dataIni, setDataIni] = useState(""); //Pega Data inicial 
+    const [dataIni, setDataIni] = useState("2023-01-01"); //Pega Data inicial 
     const [dataFin, setDataFin] = useState(""); //Pega Data Final
 
     const [dados, setDados] = useState([]); //Pega Dados de Filial
@@ -177,6 +177,16 @@ export const ResumoFaturamento = () => {
         }
     }
 
+    function comparer(a, b) {
+    if (a.idFilial < b.idFilial)
+        return -1;
+
+    if (a.idFilial > b.idFilial)
+        return 1;
+
+    return 0;
+    }
+
     async function setDataRegiao() {//Envia o JSON para a api e pega os dados de Região
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorRegiao", {
             method: "POST",
@@ -194,7 +204,14 @@ export const ResumoFaturamento = () => {
 
                 }
                 setDadosRegiao(data);
+                data.sort(comparer)
             });
+        } else {
+            setShowElement(false)
+            setDaDosKeys([])
+            setDadosTipoPagamento([])
+            setDadosLeitura([])
+            alert('Consulta Finalizada')
         }
     }
 
@@ -399,13 +416,8 @@ export const ResumoFaturamento = () => {
 
     const [graficosCadaFilial, setGraficosCadaFilial] = useState(false)
 
-    const quantidadeV = dados.reduce((a, b) => a + b.qtdVendas, 0)
-    const quantidadeI = dados.reduce((a, b) => a + b.qtdItens, 0)
-    const mVenda = dados.reduce((a, b) => a + b.vlMedioVendas, 0)
     const lLiquido = dados.reduce((a, b) => a + b.vlLucroLiquido, 0)
-    const Margem = dados.reduce((a, b) => a + b.margem, 0)
     const MedItensCup = dados.reduce((a, b) => a + b.qtdItensCupom, 0)
-    const Percentual = dados.reduce((a, b) => a + b.percentual, 0)
     const resultFi = dados.reduce((a, b) => a + b.vlCustoTotal, 0) //Dados Totais somados de Custo Total(Filial)
     const resultFi1 = dados.reduce((a, b) => a + b.vlVendaTotal, 0) //Dados Totais somados de Venda Total(Filial)
     const resultFi2 = dados.reduce((a, b) => a + b.vlLucroVenda, 0) //Dados Totais somados de Lucro Venda(Filial)
@@ -899,8 +911,6 @@ export const ResumoFaturamento = () => {
         setIsOpenDashboardFornecedorDetalhado(false)
     }
 
-    const dadosFornecedorDetalhado = dadosFornecedor.slice(0, 10); //Constante com os 10 primeiros Fornecedores 
-
     const resultFor = dadosFornecedor.reduce((a, b) => a + b.vlr_venda_total, 0) //Dados Totais somados de Venda Total (Fornecedor)
     const resultFor1 = dadosFornecedor.reduce((a, b) => a + b.vlr_lucro_total, 0) //Dados Totais somados de Lucro Total (Fornecedor)
     const resultFor2 = dadosFornecedor.reduce((a, b) => a + b.vlr_custo_total, 0) //Dados Totais somados de Custo Total (Fornecedor)
@@ -958,7 +968,7 @@ export const ResumoFaturamento = () => {
 
     const dataFor0 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Fornecedor
         ["Valores em R$", "Venda", "Lucro"],
-        ...dadosFornecedor.map(item => [item.fornecedor, item.vlr_venda_total, item.vlr_lucro_total])
+        ...dadosFornecedor.slice(0, 90).map(item => [item.fornecedor, item.vlr_venda_total, item.vlr_lucro_total])
     ];
 
     //------------------------------------------------------------------Dashboard Geral--------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -983,8 +993,6 @@ export const ResumoFaturamento = () => {
 
     const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false)
 
-    console.log(dataIni)
-
     function passarMes() {
         document.getElementById("DataIni").stepUp(30);
         document.getElementById("DataFin").stepUp(30);
@@ -993,6 +1001,10 @@ export const ResumoFaturamento = () => {
     function voltarMes() {
         document.getElementById("DataIni").stepDown(30);
         document.getElementById("DataFin").stepDown(30);
+    }
+
+    function sortfunction(a, b) {
+        return (a - b)
     }
 
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1178,7 +1190,7 @@ export const ResumoFaturamento = () => {
 
                                             <th>Margem</th>
 
-                                            <th>Markup</th>
+                                            <th>Markup %</th>
 
                                         </tr>
                                         {dadosRegiao.map((f1) => {
@@ -1193,17 +1205,17 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{parseFloat(f1.qtdVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{parseFloat(f1.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td>{parseFloat(f1.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
 
                                                     <td>{parseFloat(f1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{parseFloat(f1.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td>{parseFloat(f1.vlTotalNfce).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
 
-                                                    <td>{parseFloat(f1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td>{parseFloat(f1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
 
-                                                    <td>{parseFloat(f1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td>{parseFloat(f1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
 
-                                                    <td>{parseFloat(f1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td>{parseFloat(f1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
 
                                                     <td>{parseFloat(f1.margem.toFixed(2)).toLocaleString('pt-BR')} % </td>
 
@@ -1319,11 +1331,11 @@ export const ResumoFaturamento = () => {
                         )}
                     </RF.DataGeral>
 
-                    <RF.LinhaTotais >
+                    <div className='row' >
                         <div>Méd.Itens/Cup: {MedItensCup.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total NF-e: {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Total NFC-e: {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Venda Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Total Credito: {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR')} </div>
                         <div>Vlr.Total Líquido: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Custo Total: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Venda: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Líquido: {parseFloat(lLiquido.toFixed(2)).toLocaleString('pt-BR')} </div> <div>% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',').replace('NaN', '0,00')} </div>
                         <div>% Markup: {((resultFi1 - resultFi) / resultFi * 100).toFixed(2).replace('.', ',').replace("NaN", "0,00")} </div>
-                    </RF.LinhaTotais>
+                    </div>
                 </>
             ) : aba === "vendedor" ? (
                 <RF.DataGeral>
@@ -1343,7 +1355,7 @@ export const ResumoFaturamento = () => {
                                 <button className='dashboardBtn' onClick={imprimirVendedor} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
-                                <table id='table'>
+                                <table>
                                     <thead>
                                         <tr>
                                             <th>Id. Filial</th>
@@ -1921,11 +1933,11 @@ export const ResumoFaturamento = () => {
             <Modal shouldCloseOnEsc={false} isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
                 <div className='topo-content' >
-                    
+
                     <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
                     <h1>Dados Filial<button onClick={() => setGraficosCadaFilial(true)} className='filialBTN' > <img className='close' src='/images/filiais.png' /> Cada Filial</button></h1>
-                
+
                 </div>
 
                 <div>
@@ -2413,7 +2425,7 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="95%" data={dataFor0} options={optionsFor0} /></div>
+                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataFor0} options={optionsFor0} /></div>
                     </RF.Dashboard>
 
                 </div>
