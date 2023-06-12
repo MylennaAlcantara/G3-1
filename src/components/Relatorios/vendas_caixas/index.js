@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as C from "../../cadastro/cadastro";
 import * as M from "../../modais/modal/modal";
 import * as V from "./vendas";
+import { Loading } from "../../loading";
 import Chart from 'react-google-charts';
 
 export const VendasCaixa = ({ close }) => {
@@ -16,6 +17,9 @@ export const VendasCaixa = ({ close }) => {
     const [dataFinal, setDataFinal] = useState();
 
     async function consultarCaixas() {
+        setCaixa([]);
+        setShowElement(true);
+
         const resultados = [];
 
 
@@ -96,6 +100,7 @@ export const VendasCaixa = ({ close }) => {
     });
 
     const [pagamentoCaixa, setPagamentoCaixa] = useState();
+    const [show, setShowElement] = useState(false);
 
     async function filtroCaixa(e) {
         setFiltro(e.target.value);
@@ -167,7 +172,7 @@ export const VendasCaixa = ({ close }) => {
                 <C.Header>
                     <h3>Vendas</h3>
                     <div className="buttons">
-                        <button className="minimizar" ><div className="linha"/></button>
+                        <button className="minimizar" ><div className="linha" /></button>
                         <button className="close" onClick={close}>X</button>
                     </div>
                 </C.Header>
@@ -246,26 +251,35 @@ export const VendasCaixa = ({ close }) => {
                         </div>
                     </V.Totais>
                     <V.Graficos>
-                    {filtro === 'todos' ? (
+                        {totais.length === 0 && show === true ? (
                             <div>
-                                <div className="A" >
-                                    <Chart width="100%" height="95%" chartType="ColumnChart" data={graficosCaixa} />
-                                </div>
-
-                                <div>
-                                    <Chart chartType="PieChart" data={graficosPGTOCaixasTotal} options={optionsPizza} />
-                                </div>
+                                <Loading />
                             </div>
                         ) : (
-                            <div>
-                                <Chart chartType="PieChart" height="300px" data={graficosTipoPagamento} options={optionsPizza} />
-                            </div>
+                            <>
+                                {filtro === 'todos' ? (
+                                    <div>
+                                        <div className="A" >
+                                            <Chart width="100%" height="95%" chartType="ColumnChart" data={graficosCaixa} />
+                                        </div>
+
+                                        <div>
+                                            <Chart chartType="PieChart" data={graficosPGTOCaixasTotal} options={optionsPizza} />
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <Chart chartType="PieChart" height="300px" data={graficosTipoPagamento} options={optionsPizza} />
+                                    </div>
+                                )}
+                            </>
                         )}
+
                     </V.Graficos>
                 </V.Content>
                 <C.Footer>
                     <div className="buttons">
-                        <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
+                        <button onClick={close}><img src="/images/voltar.png" />Fechar</button>
                     </div>
                 </C.Footer>
             </C.Container>

@@ -92,6 +92,12 @@ export const Data = styled.div`
     overflow-y: auto;
     .checks{
         margin-top: 10px;
+        label{
+            font-size: 12px;
+        }
+        input{
+            margin: 3px;
+        }
     }
     .select {
         display: flex;
@@ -99,14 +105,20 @@ export const Data = styled.div`
         flex-direction: column;
         justify-content: center;
         margin-left: 8px;
+        label{
+            font-size: 12px;
+        }
+        select{
+            width: 85px;
+        }
     }
     .data{    
-        width: 120px;
+        width: 90px;
         border-radius: 5px;
         border: 2px solid black;
-        height: 52px;
+        height: 48px;
         margin-top: 10px;
-        font-size: 15px;
+        font-size: 13px;
         display: flex;
         flex-direction: column;
         margin-left: 8px;

@@ -1,7 +1,7 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosGrupo, empresa) {
+export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosGrupo, empresa, user) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
     const nfe = () => {
@@ -101,7 +101,7 @@ export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, data
                     ],
                     [
                         { text: 'Período: ' + (dataIni).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFin).substr(0, 10).split('-').reverse().join('/') , bold: true, fontSize: 8 },
-                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) , bold: true , fontSize: 8 }
+                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) + '  ID: ' + (Array.isArray(user) && user.map(user => user.id)), bold: true , fontSize: 8 }
                     ],
                     [
                         { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },

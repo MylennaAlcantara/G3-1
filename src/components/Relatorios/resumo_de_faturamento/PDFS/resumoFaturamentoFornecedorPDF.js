@@ -2,7 +2,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { useContext } from 'react';
 
-export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor, empresa) {
+export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor, empresa, user) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
     const nfe = () => {
@@ -102,7 +102,7 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
                     ],
                     [
                         { text: 'Período: ' + (dataIni).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFin).substr(0, 10).split('-').reverse().join('/'), bold: true, fontSize: 8 },
-                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) , bold: true , fontSize: 8 },
+                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) + '    ID: ' + (Array.isArray(user) && user.map(user => user.id)) , bold: true , fontSize: 8 },
                     ],
                     [
                         { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useReducer } from 'react';
 import './listAll.css'
 import Modal from 'react-modal'
 import { Emitente } from '../../modais/modal_emitente';
@@ -22,23 +22,23 @@ Modal.setAppElement("#root")
 export const ResumoFaturamento = () => {
 
     const imprimirVendedor = () => {
-        resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosVendedor, empresa)
+        resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosVendedor, empresa, user)
     }
 
     const imprimirTpPg = () => {
-        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, keys, empresa)
+        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, keys, empresa, user)
     }
 
     const imprimirProduto = () => {
-        resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosProduto, empresa)
+        resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosProduto, empresa, user)
     }
 
     const imprimirGrupo = () => {
-        resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosGrupo, empresa)
+        resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosGrupo, empresa, user)
     }
 
     const imprimirFornecedor = () => {
-        resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor, empresa)
+        resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosFornecedor, empresa, user)
     }
 
     const { user, empresa, cnpjMask } = useContext(AuthContext);
@@ -1003,16 +1003,12 @@ export const ResumoFaturamento = () => {
         document.getElementById("DataFin").stepDown(30);
     }
 
-    function sortfunction(a, b) {
-        return (a - b)
-    }
-
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
 
         <C.Container>
-
+                                                                            
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header> <h3>Resumo de Faturamento</h3> </C.Header>
 
