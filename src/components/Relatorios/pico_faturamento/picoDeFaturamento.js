@@ -241,6 +241,52 @@ export const PicoDeFaturamento = () => {
         }
     }
 
+    //const lastDay = new Date(dataInicial.toLocaleString().getFullYear(), dataInicial.toLocaleString().getMonth() + 1, 0);
+
+    const ok = dataInicial && dataInicial.split("-")
+
+    function doideira (){
+        if(ok[1] === '01' ){
+            setDataInicial( ok[0] + "-02-01");
+            setDataFinal(ok[0] + "-02-28" );
+        }else if (ok[1] === '02' ){
+            setDataInicial(ok[0] + "-03-01" );
+            setDataFinal(ok[0] + "-03-31" )
+        }else if (ok[1] === '03' ){
+            setDataInicial(ok[0] + "-04-01");
+            setDataFinal(ok[0] + "-04-30" );
+        }else if (ok[1] === '04' ){
+            setDataInicial(ok[0] + "-05-01" );
+            setDataFinal(ok[0] + "-05-31" );
+        }else if (ok[1] === '05' ){
+            setDataInicial(ok[0] + "-06-01" );
+            setDataFinal(ok[0] + "-06-30" );
+        }else if (ok[1] === '06' ){
+           setDataInicial(ok[0] + "-07-01");
+           setDataFinal(ok[0] + "-07-31" ); 
+        }else if (ok[1] === '07' ){
+            setDataInicial(ok[0] + "-08-01" );
+            setDataFinal(ok[0] + "-08-31" );
+        }else if (ok[1] === '08' ){
+            setDataInicial(ok[0] + "-09-01");
+            setDataFinal(ok[0] + "-09-30" );
+        }else if (ok[1] === '09' ){
+            setDataInicial(ok[0] + "-10-01" );
+            setDataFinal(ok[0] + "-10-31");
+        }else if (ok[1] === '10' ){
+            setDataInicial(ok[0] + "-11-01");
+            setDataFinal(ok[0] + "-11-30" );
+        }else if (ok[1] === '11' ){
+            setDataInicial(ok[0] + "-12-01");
+            setDataFinal(ok[0] + "-12-31" );
+        }else if (ok[1] === '12' ){
+            setDataInicial((parseFloat(ok[0]) + 1).toString() + "-01-01")
+            setDataFinal((parseFloat(ok[0]) + 1).toString() + "-01-31")
+        }
+    } 
+
+    console.log(dataInicial)
+
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------Pico Ano---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -266,7 +312,7 @@ export const PicoDeFaturamento = () => {
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header><h3>Pico de Faturamento</h3></C.Header>
 
-            <span>Atenção: Digite ou selecione uma data antes apertar nos Botões</span>
+            <span>Atenção: Digite ou selecione uma data antes apertar nos Botões</span> <button onClick={doideira} >OK</button>
 
             <LB.Filtros>
                 <div className='FTFilterTop' >
@@ -288,32 +334,35 @@ export const PicoDeFaturamento = () => {
                                 </div>
                                 <div className='table-responsive'>
                                     <table id='table'>
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th >Código</th>
-                                                <th >Fantasia</th>
-                                                <th>Razão Social</th>
-                                                <th >Documento</th>
-                                                <th >Município</th>
-                                            </tr>
-                                        </thead>
-                                        {valor.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
 
+                                        <tr>
+                                            <th></th>
+                                            <th >Código</th>
+                                            <th >Fantasia</th>
+                                            <th>Razão Social</th>
+                                            <th >Documento</th>
+                                            <th >Município</th>
+                                        </tr>
+
+                                        {valor.map((item) => {
                                             return (
-                                                <tbody >
-                                                    <tr>
-                                                        <img className='del' src='/images/lixeira.png' onClick={() => deleteById(item.id)} />
-                                                        <td>{item.id}</td>
-                                                        <td>{item.nome_fantasia}</td>
-                                                        <td>{item.razao_social}</td>
-                                                        <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
-                                                        <td>{item.municipio}</td>
-                                                    </tr>
-                                                </tbody>
-                                            )
+                                                <tr>
+                                                    <img className="del" src="/images/lixeira.png" onClick={() => deleteById(item.id)} />
 
+                                                    <td>{item.id}</td>
+
+                                                    <td>{item.nome_fantasia}</td>
+
+                                                    <td>{item.razao_social}</td>
+
+                                                    <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
+
+                                                    <td>{item.municipio}</td>
+                                                </tr>
+                                            )
                                         })}
+
+
                                     </table>
                                 </div>
                             </div>
@@ -355,12 +404,12 @@ export const PicoDeFaturamento = () => {
                     <div>
                         <div className="data" >
                             <label>Data Inicial</label>
-                            <input id="DataInicial" type="date" onChange={GetDataIni} />
+                            <input value={dataInicial} id="DataInicial" type="date" onChange={GetDataIni} />
                         </div>
 
                         <div className="data" >
                             <label>Data Final</label>
-                            <input id="DataFinal" type="date" onChange={GetDataFin} />
+                            <input value={dataFinal} id="DataFinal" type="date" onChange={GetDataFin} />
                         </div>
 
                         <div className="data" >
