@@ -544,6 +544,14 @@ h2 {
     margin-left: 8px;
 }
 
+.alinharValor{
+    display: flex;
+    justify-content: end;
+    align-items: center ;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
 .dataFin {
     width: 120px;
     border-radius: 5px;

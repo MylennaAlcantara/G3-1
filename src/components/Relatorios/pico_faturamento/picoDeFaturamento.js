@@ -93,6 +93,102 @@ export const PicoDeFaturamento = () => {
     const [dataInicial, setDataInicial] = useState();
     const [dataFinal, setDataFinal] = useState();
 
+
+    const dataDiv = dataInicial && dataInicial.split("-")
+
+    function voltarDias(){
+        if (dataDiv[2] > 15 && dataDiv[1] === '01' ){
+            setDataInicial(dataDiv[0] + "-01-01" )
+            setDataFinal(dataDiv[0] + "-01-15" )
+        }else if (dataDiv[2] <= 15 && dataDiv[1] === '01' ){
+            setDataInicial((parseFloat(dataDiv[0]) - 1 ).toString() + "-12-01" );
+            setDataFinal((parseFloata(dataDiv[0]) - 1 ).toString() + "-12-15" );
+        }else if(dataDiv[2] > 15 && dataDiv[1] === '02' ){
+            setDataInicial(dataDiv[0] + "-02-01" );
+            setDataFinal(dataDiv[0] + "-02-14" );
+        }
+    }
+
+    function voltarMes() {
+        if (dataDiv[1] === '01') {
+            setDataInicial((parseFloat(dataDiv[0]) - 1).toString() + "-12-01");
+            setDataFinal((parseFloat(dataDiv[0]) - 1).toString() + "-12-31");
+        } else if (dataDiv[1] === '02') {
+            setDataInicial(dataDiv[0] + "-01-01");
+            setDataFinal(dataDiv[0] + "-01-31");
+        } else if (dataDiv[1] === '03') {
+            setDataInicial(dataDiv[0] + "-02-01");
+            setDataFinal(dataDiv[0] + "-02-28");
+        } else if (dataDiv[1] === '04') {
+            setDataInicial(dataDiv[0] + "-03-01");
+            setDataFinal(dataDiv[0] + "-03-31");
+        } else if (dataDiv[1] === '05') {
+            setDataInicial(dataDiv[0] + "-04-01");
+            setDataFinal(dataDiv[0] + "-04-30");
+        } else if (dataDiv[1] === '06') {
+            setDataInicial(dataDiv[0] + "-05-01");
+            setDataFinal(dataDiv[0] + "-05-31");
+        } else if (dataDiv[1] === '07') {
+            setDataInicial(dataDiv[0] + "-06-01");
+            setDataFinal(dataDiv[0] + "-06-30");
+        } else if (dataDiv[1] === '08') {
+            setDataInicial(dataDiv[0] + "-07-01");
+            setDataFinal(dataDiv[0] + "-07-31");
+        } else if (dataDiv[1] === '09') {
+            setDataInicial(dataDiv[0] + "-08-01");
+            setDataFinal(dataDiv[0] + "-08-31");
+        } else if (dataDiv[1] === '10') {
+            setDataInicial(dataDiv[0] + "-09-01");
+            setDataFinal(dataDiv[0] + "09-30");
+        } else if (dataDiv[1] === '11') {
+            setDataInicial(dataDiv[0] + "-10-01");
+            setDataFinal(dataDiv[0] + "-10-31");
+        } else if (dataDiv[1] === '12') {
+            setDataInicial(dataDiv[0] + "-11-01");
+            setDataFinal(dataDiv[0] + "-11-30");
+        }
+    }
+
+    function passarMes() {
+        if (dataDiv[1] === '01') {
+            setDataInicial(dataDiv[0] + "-02-01");
+            setDataFinal(dataDiv[0] + "-02-28");
+        } else if (dataDiv[1] === '02') {
+            setDataInicial(dataDiv[0] + "-03-01");
+            setDataFinal(dataDiv[0] + "-03-31")
+        } else if (dataDiv[1] === '03') {
+            setDataInicial(dataDiv[0] + "-04-01");
+            setDataFinal(dataDiv[0] + "-04-30");
+        } else if (dataDiv[1] === '04') {
+            setDataInicial(dataDiv[0] + "-05-01");
+            setDataFinal(dataDiv[0] + "-05-31");
+        } else if (dataDiv[1] === '05') {
+            setDataInicial(dataDiv[0] + "-06-01");
+            setDataFinal(dataDiv[0] + "-06-30");
+        } else if (dataDiv[1] === '06') {
+            setDataInicial(dataDiv[0] + "-07-01");
+            setDataFinal(dataDiv[0] + "-07-31");
+        } else if (dataDiv[1] === '07') {
+            setDataInicial(dataDiv[0] + "-08-01");
+            setDataFinal(dataDiv[0] + "-08-31");
+        } else if (dataDiv[1] === '08') {
+            setDataInicial(dataDiv[0] + "-09-01");
+            setDataFinal(dataDiv[0] + "-09-30");
+        } else if (dataDiv[1] === '09') {
+            setDataInicial(dataDiv[0] + "-10-01");
+            setDataFinal(dataDiv[0] + "-10-31");
+        } else if (dataDiv[1] === '10') {
+            setDataInicial(dataDiv[0] + "-11-01");
+            setDataFinal(dataDiv[0] + "-11-30");
+        } else if (dataDiv[1] === '11') {
+            setDataInicial(dataDiv[0] + "-12-01");
+            setDataFinal(dataDiv[0] + "-12-31");
+        } else if (dataDiv[1] === '12') {
+            setDataInicial((parseFloat(dataDiv[0]) + 1).toString() + "-01-01");
+            setDataFinal((parseFloat(dataDiv[0]) + 1).toString() + "-01-31");
+        }
+    }
+
     function GetDataIni(e) {
         setDataInicial(e.currentTarget.value);
     }
@@ -170,16 +266,6 @@ export const PicoDeFaturamento = () => {
         })
     }
 
-    function passarMes() {
-        document.getElementById("DataInicial").stepUp(30);
-        document.getElementById("DataFinal").stepUp(30);
-    }
-
-    function voltarMes() {
-        document.getElementById("DataInicial").stepDown(30);
-        document.getElementById("DataFinal").stepDown(30);
-    }
-
     function voltar15Dias() {
         document.getElementById("DataFinal").stepDown(15);
     }
@@ -243,50 +329,6 @@ export const PicoDeFaturamento = () => {
 
     //const lastDay = new Date(dataInicial.toLocaleString().getFullYear(), dataInicial.toLocaleString().getMonth() + 1, 0);
 
-    const ok = dataInicial && dataInicial.split("-")
-
-    function doideira (){
-        if(ok[1] === '01' ){
-            setDataInicial( ok[0] + "-02-01");
-            setDataFinal(ok[0] + "-02-28" );
-        }else if (ok[1] === '02' ){
-            setDataInicial(ok[0] + "-03-01" );
-            setDataFinal(ok[0] + "-03-31" )
-        }else if (ok[1] === '03' ){
-            setDataInicial(ok[0] + "-04-01");
-            setDataFinal(ok[0] + "-04-30" );
-        }else if (ok[1] === '04' ){
-            setDataInicial(ok[0] + "-05-01" );
-            setDataFinal(ok[0] + "-05-31" );
-        }else if (ok[1] === '05' ){
-            setDataInicial(ok[0] + "-06-01" );
-            setDataFinal(ok[0] + "-06-30" );
-        }else if (ok[1] === '06' ){
-           setDataInicial(ok[0] + "-07-01");
-           setDataFinal(ok[0] + "-07-31" ); 
-        }else if (ok[1] === '07' ){
-            setDataInicial(ok[0] + "-08-01" );
-            setDataFinal(ok[0] + "-08-31" );
-        }else if (ok[1] === '08' ){
-            setDataInicial(ok[0] + "-09-01");
-            setDataFinal(ok[0] + "-09-30" );
-        }else if (ok[1] === '09' ){
-            setDataInicial(ok[0] + "-10-01" );
-            setDataFinal(ok[0] + "-10-31");
-        }else if (ok[1] === '10' ){
-            setDataInicial(ok[0] + "-11-01");
-            setDataFinal(ok[0] + "-11-30" );
-        }else if (ok[1] === '11' ){
-            setDataInicial(ok[0] + "-12-01");
-            setDataFinal(ok[0] + "-12-31" );
-        }else if (ok[1] === '12' ){
-            setDataInicial((parseFloat(ok[0]) + 1).toString() + "-01-01")
-            setDataFinal((parseFloat(ok[0]) + 1).toString() + "-01-31")
-        }
-    } 
-
-    console.log(dataInicial)
-
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------Pico Ano---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -312,7 +354,7 @@ export const PicoDeFaturamento = () => {
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header><h3>Pico de Faturamento</h3></C.Header>
 
-            <span>Atenção: Digite ou selecione uma data antes apertar nos Botões</span> <button onClick={doideira} >OK</button>
+            <span>Atenção: Digite ou selecione uma data antes apertar nos Botões</span> <button onClick={voltarDias} >Ok</button>
 
             <LB.Filtros>
                 <div className='FTFilterTop' >

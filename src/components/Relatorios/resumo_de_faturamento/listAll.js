@@ -71,7 +71,7 @@ export const ResumoFaturamento = () => {
 
     const [filter, setFilter] = useState(""); //Pega Valor da opção selecionada ("VENDA", "TODOS", "ORÇAMENTO")
     const [dataIni, setDataIni] = useState("2023-01-01"); //Pega Data inicial 
-    const [dataFin, setDataFin] = useState(""); //Pega Data Final
+    const [dataFin, setDataFin] = useState("2023-01-15"); //Pega Data Final
 
     const [dados, setDados] = useState([]); //Pega Dados de Filial
     const [dadosRegiao, setDadosRegiao] = useState([]); //Pega dados de Região
@@ -178,13 +178,13 @@ export const ResumoFaturamento = () => {
     }
 
     function comparer(a, b) {
-    if (a.idFilial < b.idFilial)
-        return -1;
+        if (a.idFilial < b.idFilial)
+            return -1;
 
-    if (a.idFilial > b.idFilial)
-        return 1;
+        if (a.idFilial > b.idFilial)
+            return 1;
 
-    return 0;
+        return 0;
     }
 
     async function setDataRegiao() {//Envia o JSON para a api e pega os dados de Região
@@ -312,6 +312,90 @@ export const ResumoFaturamento = () => {
 
     function onChangeDataFin(e) { //Pega os Valores da Data Final
         setDataFin(e.currentTarget.value)
+    }
+
+    console.log(dataIni)
+
+    const divData = dataIni && dataIni.split("-");
+
+    function passarMeses() {
+        if (divData[1] === '01') {
+            setDataIni(divData[0] + "-02-01");
+            setDataFin(divData[0] + "-02-28");
+        } else if (divData[1] === '02') {
+            setDataIni(divData[0] + "-03-01");
+            setDataFin(divData[0] + "-03-31");
+        } else if (divData[1] === '03') {
+            setDataIni(divData[0] + "-04-01");
+            setDataFin(divData[0] + "-04-30");
+        } else if (divData[1] === '04') {
+            setDataIni(divData[0] + "-05-01");
+            setDataFin(divData[0] + "-05-31");
+        } else if (divData[1] === '05') {
+            setDataIni(divData[0] + "-06-01");
+            setDataFin(divData[0] + "-06-30");
+        } else if (divData[1] === '06') {
+            setDataIni(divData[0] + "-07-01");
+            setDataFin(divData[0] + "-07-31");
+        } else if (divData[1] === '07') {
+            setDataIni(divData[0] + "-08-01");
+            setDataFin(divData[0] + "-08-31");
+        } else if (divData[1] === '08') {
+            setDataIni(divData[0] + "-09-01");
+            setDataFin(divData[0] + "-09-30");
+        } else if (divData[1] === '09') {
+            setDataIni(divData[0] + "-10-01");
+            setDataFin(divData[0] + "-10-31");
+        } else if (divData[1] === '10') {
+            setDataIni(divData[0] + "-11-01");
+            setDataFin(divData[0] + "-11-30");
+        } else if (divData[1] === '11') {
+            setDataIni(divData[0] + "-12-01");
+            setDataFin(divData[0] + "-12-31");
+        } else if (divData[1] === '12') {
+            setDataIni((parseFloat(divData[0]) + 1).toString() + "-01-01");
+            setDataFin((parseFloat(divData[0]) + 1).toString() + "-01-31");
+        }
+    }
+
+    function voltarMeses() {
+        if (divData[1] === '01') {
+            setDataIni((parseFloat(divData[0]) - 1).toString() + "-12-01");
+            setDataFin((parseFloat(divData[0]) - 1).toString() + "-12-31");
+        } else if (divData[1] === '02') {
+            setDataIni(divData[0] + "-01-01");
+            setDataFin(divData[0] + "-01-31");
+        } else if (divData[1] === '03') {
+            setDataIni(divData[0] + "-02-01");
+            setDataFin(divData[0] + "-02-28");
+        } else if (divData[1] === '04') {
+            setDataIni(divData[0] + "-03-01");
+            setDataFin(divData[0] + "-03-31");
+        } else if (divData[1] === '05') {
+            setDataIni(divData[0] + "-04-01");
+            setDataFin(divData[0] + "-04-30");
+        } else if (divData[1] === '06') {
+            setDataIni(divData[0] + "-05-01");
+            setDataFin(divData[0] + "-05-31");
+        } else if (divData[1] === '07') {
+            setDataIni(divData[0] + "-06-01");
+            setDataFin(divData[0] + "-06-30");
+        } else if (divData[1] === '08') {
+            setDataIni(divData[0] + "-07-01");
+            setDataIni(divData[0] + "-07-31");
+        } else if (divData[1] === '09') {
+            setDataIni(divData[0] + "-08-01");
+            setDataFin(divData[0] + "-08-31");
+        } else if (divData[1] === '10') {
+            setDataIni(divData[0] + "-09-01");
+            setDataFin(divData[0] + "-09-30");
+        } else if (divData[1] === '11') {
+            setDataIni(divData[0] + "-10-01");
+            setDataFin(divData[0] + "-10-31");
+        } else if (divData[1] === '12') {
+            setDataIni(divData[0] + "-11-01");
+            setDataFin(divData[0] + "-11-30");
+        }
     }
 
     //------------------------------------------------------------------ Dashboard Geral ----------------------------------------------------------------------------------------------------------------------------------------
@@ -645,8 +729,6 @@ export const ResumoFaturamento = () => {
         ["Valores em R$", "Liquido", "Venda"],
         ...dadosCliente.map(item => [item.cliente, item.vlLucroLiquido, item.vlVendaTotal])
     ];
-
-    //console.log(dadosClienteReduzido)
 
     //------------------------------------------------------------------Dashboard Tipo de Pagamento-----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -993,22 +1075,12 @@ export const ResumoFaturamento = () => {
 
     const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false)
 
-    function passarMes() {
-        document.getElementById("DataIni").stepUp(30);
-        document.getElementById("DataFin").stepUp(30);
-    }
-
-    function voltarMes() {
-        document.getElementById("DataIni").stepDown(30);
-        document.getElementById("DataFin").stepDown(30);
-    }
-
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
 
         <C.Container>
-                                                                            
+
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header> <h3>Resumo de Faturamento</h3> </C.Header>
 
@@ -1100,11 +1172,11 @@ export const ResumoFaturamento = () => {
                     <div>
                         <div className="data" >
                             <label>Data Inicial</label>
-                            <input type="date" id="DataIni" onChange={onChangeDataIni} />
+                            <input value={dataIni} type="date" id="DataIni" onChange={onChangeDataIni} />
                         </div>
                         <div className="data" >
                             <label>Data Final</label>
-                            <input type="date" id="DataFin" onChange={onChangeDataFin} />
+                            <input value={dataFin} type="date" id="DataFin" onChange={onChangeDataFin} />
                         </div>
 
                         <div className="select">
@@ -1117,8 +1189,8 @@ export const ResumoFaturamento = () => {
                         </div>
                     </div>
                     <div>
-                        <button className='setaE' onClick={voltarMes} ><img className='close' src='/images/setaEsquerda.png' /></button>
-                        <button className='setaD' onClick={passarMes} ><img className='close' src='/images/setaDireita.png' /></button>
+                        <button className='setaE' onClick={voltarMeses} ><img className='close' src='/images/setaEsquerda.png' /></button>
+                        <button className='setaD' onClick={passarMeses} ><img className='close' src='/images/setaDireita.png' /></button>
                         <div className='checks' >
                             <input type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
                             <input type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
@@ -1190,6 +1262,13 @@ export const ResumoFaturamento = () => {
 
                                         </tr>
                                         {dadosRegiao.map((f1) => {
+
+                                            const ordenado = f1.idFilial.split(',').sort(function (a, b) {
+                                                return a - b;
+                                            })
+
+                                            console.log(ordenado)
+
                                             return (
                                                 <tr key={f1.idFilial}>
 
@@ -1197,21 +1276,21 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{f1.regiao}</td>
 
-                                                    <td>{f1.idFilial}</td>
+                                                    <td>{ordenado.map(ok => ok + ',')}</td>
 
                                                     <td>{parseFloat(f1.qtdVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{parseFloat(f1.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f1.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f1.vlTotalNfce).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f1.vlTotalNfce).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
                                                     <td>{parseFloat(f1.margem.toFixed(2)).toLocaleString('pt-BR')} % </td>
 
@@ -1296,23 +1375,23 @@ export const ResumoFaturamento = () => {
 
                                                     <td>{parseFloat(f2.qtdItensCupom.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                                    <td>{parseFloat(f2.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f2.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f2.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f2.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f2.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f2.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f2.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f2.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f2.vlTotalCredito.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f2.vlTotalCredito.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f2.vlTotalLiquido.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f2.vlTotalLiquido.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f2.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f2.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f2.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f2.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                                    <td>{parseFloat(f2.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                    <td><p className='alinharValor' >{parseFloat(f2.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
                                                     <td>{parseFloat(f2.margem.toFixed(2)).toLocaleString('pt-BR')} %</td>
 
@@ -1398,25 +1477,25 @@ export const ResumoFaturamento = () => {
 
                                             <td>{parseFloat(dat.qtdVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
 
-                                            <td>{parseFloat(dat.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat.vlTotalCancelamento.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalCancelamento.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat.vlTotalDesconto.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalDesconto.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat.vlTotalCredito.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalCredito.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat.vlTotalComissao.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalComissao.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat((dat.vlCustoTotal).toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat((dat.vlCustoTotal).toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat((dat.vlLucroVenda).toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat((dat.vlLucroVenda).toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat((dat.vlLucroLiquido).toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat((dat.vlLucroLiquido).toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
                                             <td> {(dat.plucroLiquido).toFixed(2).replace('.', ',')} % </td>
 
@@ -1491,21 +1570,21 @@ export const ResumoFaturamento = () => {
 
                                             <td>{parseFloat(dat1.qtdVendas).toLocaleString('pt-BR')}</td>
 
-                                            <td>{parseFloat(dat1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat1.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat1.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat1.vlTotalDesconto.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat1.vlTotalDesconto.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat1.vlTotalCredito.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat1.vlTotalCredito.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{parseFloat(dat1.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td><p className='alinharValor' >{parseFloat(dat1.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
                                             <td>{dat1.plucroLiquido.toFixed(2).replace('.', ',')} %</td>
 
@@ -1636,19 +1715,19 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat2.produto} </td>
 
-                                                <td> {parseFloat(dat2.qtd_total).toLocaleString('pt-BR')} </td>
+                                                <td><p className='alinharValor' >{parseFloat(dat2.qtd_total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 <td> {parseFloat(dat2.sub_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
                                                 <td> {parseFloat((dat2.p_desconto).toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {parseFloat(dat2.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td><p className='alinharValor' > {parseFloat(dat2.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td> {parseFloat(dat2.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td><p className='alinharValor' > {parseFloat(dat2.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td> {parseFloat(dat2.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td><p className='alinharValor' > {parseFloat(dat2.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td> {parseFloat(dat2.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td><p className='alinharValor' > {parseFloat(dat2.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 <td> {dat2.p_markup.toFixed(2).replace('.', ',')} % </td>
 
@@ -1725,17 +1804,17 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {parseFloat(dat3.qtd_total.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {parseFloat(dat3.sub_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td><p className='alinharValor' > {parseFloat(dat3.sub_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 <td> {parseFloat(dat3.p_desconto.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td> {parseFloat(dat3.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} </p></td>
 
-                                                <td> {parseFloat(dat3.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} </p></td>
 
-                                                <td> {parseFloat(dat3.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} </p></td>
 
-                                                <td> {parseFloat(dat3.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} </p></td>
 
                                                 <td> {parseFloat(dat3.p_markup.toFixed(2)).toLocaleString('pt-BR')} </td>
 
@@ -1811,17 +1890,17 @@ export const ResumoFaturamento = () => {
 
                                             <td> {parseFloat(dat.qtd_total).toLocaleString('pt-BR')} </td>
 
-                                            <td> {parseFloat(dat.sub_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                            <td><p className='alinharValor' > {parseFloat(dat.sub_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                             <td> {parseFloat((dat.p_desconto).toFixed(3)).toLocaleString('pt-BR')} </td>
 
-                                            <td> {parseFloat(dat.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                            <td><p className='alinharValor' > {parseFloat(dat.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                            <td> {parseFloat(dat.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                            <td><p className='alinharValor' >{parseFloat(dat.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL' })} </p></td>
 
-                                            <td> {parseFloat(dat.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                            <td><p className='alinharValor' > {parseFloat(dat.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL' })} </p></td>
 
-                                            <td> {parseFloat(dat.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                            <td><p className='alinharValor' > {parseFloat(dat.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL' })} </p></td>
 
                                             <td> {dat.p_markup.toFixed(2).replace('.', ',')} </td>
 

@@ -159,10 +159,18 @@ export const VendasCaixa = ({ close }) => {
         is3D: true,
     }
 
+    const [subGrafico, setSubGrafico] = useState('pizza');
+
     const graficosBarra = pagamentoCaixa && [
-        ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
-        ...pagamentoCaixa.map(item => [item.descricao])
+            ["Element","Valor",{ role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify",}, ],
+            ...pagamentoCaixa.map(item => [item.descricao, item.total, '', null])
     ]
+
+    const opcao = {
+        title: "Tipos de Pagamento",
+        bar: { groupWidth: "95%" },
+        legend: { position: "none" },
+    };
 
     console.log(pagamentoCaixa)
 
@@ -219,7 +227,7 @@ export const VendasCaixa = ({ close }) => {
                             </div>
                         ) : null}
                         <div className={filtro === "todos" ? "caixa-pgto" : "pgto-caixa"}>
-                            <h3>TOTAL POR TIPO PGTO.:</h3>
+                            <h3 onClick={() => setSubGrafico('')} >TOTAL POR TIPO PGTO.:</h3>
                             {filtro === "todos" ? (
                                 Array.isArray(totais) && totais.map((pgto) => {
                                     return (
@@ -228,7 +236,7 @@ export const VendasCaixa = ({ close }) => {
                                                 <label>{pgto.descricao}:</label>
                                             </div>
                                             <div>
-                                                <label>{(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
+                                                <label>{parseFloat(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
                                             </div>
                                         </div>
                                     )
@@ -263,9 +271,15 @@ export const VendasCaixa = ({ close }) => {
                                             <Chart width="100%" height="95%" chartType="ColumnChart" data={graficosCaixa} />
                                         </div>
 
-                                        <div>
-                                            <Chart chartType="PieChart" data={graficosPGTOCaixasTotal} options={optionsPizza} />
-                                        </div>
+                                        {subGrafico === 'pizza' ? (
+                                            <div onDoubleClick={() => setSubGrafico('')} >
+                                                <Chart chartType="PieChart" data={graficosPGTOCaixasTotal} options={optionsPizza} />
+                                            </div>
+                                        ) : (
+                                            <div className="A" onDoubleClick={() => setSubGrafico('pizza')} >
+                                                <Chart chartType="BarChart" data={graficosBarra} options={opcao}  />
+                                            </div>
+                                        ) }
                                     </div>
                                 ) : (
                                     <div>

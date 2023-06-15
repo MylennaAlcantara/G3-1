@@ -113,7 +113,7 @@ export const Data = styled.div`
         }
     }
     .data{    
-        width: 90px;
+        width: 105px;
         border-radius: 5px;
         border: 2px solid black;
         height: 48px;
