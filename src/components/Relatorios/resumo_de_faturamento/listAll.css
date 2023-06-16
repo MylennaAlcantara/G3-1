@@ -220,13 +220,13 @@ label {
 
 .setaE{
     margin-top: 10px;
-    width: 55px;
+    width: 45px;
     margin-left: 6px;
 }
 
 .setaD{
     margin-top: 10px;
-    width: 55px;
+    width: 45px;
     margin-right: 10px;
 }
 
@@ -544,6 +544,14 @@ h2 {
     margin-left: 8px;
 }
 
+.alinharValor{
+    display: flex;
+    justify-content: end;
+    align-items: center ;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
 .dataFin {
     width: 120px;
     border-radius: 5px;
@@ -756,9 +764,27 @@ table tr:nth-child(odd) {
 span {
     margin: 0px;
     padding: 0px;
-    font-size: 12px;
+    font-size: 10px;
     margin-bottom: 10px;
     font-weight: bold;
+}
+
+.row{
+    border-style: solid;
+    border-width: 1px;
+    display: flex;
+    flex-direction: row;
+    font-size: 13px;
+    justify-content: space-between;
+}
+
+.item-bottom{
+    border-right: black;
+    border-style: solid;
+    border-bottom: transparent;
+    border-top: transparent;
+    border-left: transparent;
+    border-width: 1px;
 }
 
 .modal-content {

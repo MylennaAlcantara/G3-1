@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as C from "../../cadastro/cadastro";
 import * as M from "../../modais/modal/modal";
 import * as V from "./vendas";
+import { Loading } from "../../loading";
 import Chart from 'react-google-charts';
 
 export const VendasCaixa = ({ close }) => {
@@ -16,6 +17,9 @@ export const VendasCaixa = ({ close }) => {
     const [dataFinal, setDataFinal] = useState();
 
     async function consultarCaixas() {
+        setCaixa([]);
+        setShowElement(true);
+
         const resultados = [];
 
 
@@ -96,6 +100,7 @@ export const VendasCaixa = ({ close }) => {
     });
 
     const [pagamentoCaixa, setPagamentoCaixa] = useState();
+    const [show, setShowElement] = useState(false);
 
     async function filtroCaixa(e) {
         setFiltro(e.target.value);
@@ -154,10 +159,18 @@ export const VendasCaixa = ({ close }) => {
         is3D: true,
     }
 
+    const [subGrafico, setSubGrafico] = useState('pizza');
+
     const graficosBarra = pagamentoCaixa && [
-        ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
-        ...pagamentoCaixa.map(item => [item.descricao])
+            ["Element","Valor",{ role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify",}, ],
+            ...pagamentoCaixa.map(item => [item.descricao, item.total, '', null])
     ]
+
+    const opcao = {
+        title: "Tipos de Pagamento",
+        bar: { groupWidth: "95%" },
+        legend: { position: "none" },
+    };
 
     console.log(pagamentoCaixa)
 
@@ -167,7 +180,7 @@ export const VendasCaixa = ({ close }) => {
                 <C.Header>
                     <h3>Vendas</h3>
                     <div className="buttons">
-                        <button className="minimizar" ><div className="linha"/></button>
+                        <button className="minimizar" ><div className="linha" /></button>
                         <button className="close" onClick={close}>X</button>
                     </div>
                 </C.Header>
@@ -214,7 +227,7 @@ export const VendasCaixa = ({ close }) => {
                             </div>
                         ) : null}
                         <div className={filtro === "todos" ? "caixa-pgto" : "pgto-caixa"}>
-                            <h3>TOTAL POR TIPO PGTO.:</h3>
+                            <h3 onClick={() => setSubGrafico('')} >TOTAL POR TIPO PGTO.:</h3>
                             {filtro === "todos" ? (
                                 Array.isArray(totais) && totais.map((pgto) => {
                                     return (
@@ -223,7 +236,7 @@ export const VendasCaixa = ({ close }) => {
                                                 <label>{pgto.descricao}:</label>
                                             </div>
                                             <div>
-                                                <label>{(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
+                                                <label>{parseFloat(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
                                             </div>
                                         </div>
                                     )
@@ -246,26 +259,41 @@ export const VendasCaixa = ({ close }) => {
                         </div>
                     </V.Totais>
                     <V.Graficos>
-                    {filtro === 'todos' ? (
+                        {totais.length === 0 && show === true ? (
                             <div>
-                                <div className="A" >
-                                    <Chart width="100%" height="95%" chartType="ColumnChart" data={graficosCaixa} />
-                                </div>
-
-                                <div>
-                                    <Chart chartType="PieChart" data={graficosPGTOCaixasTotal} options={optionsPizza} />
-                                </div>
+                                <Loading />
                             </div>
                         ) : (
-                            <div>
-                                <Chart chartType="PieChart" height="300px" data={graficosTipoPagamento} options={optionsPizza} />
-                            </div>
+                            <>
+                                {filtro === 'todos' ? (
+                                    <div>
+                                        <div className="A" >
+                                            <Chart width="100%" height="95%" chartType="ColumnChart" data={graficosCaixa} />
+                                        </div>
+
+                                        {subGrafico === 'pizza' ? (
+                                            <div onDoubleClick={() => setSubGrafico('')} >
+                                                <Chart chartType="PieChart" data={graficosPGTOCaixasTotal} options={optionsPizza} />
+                                            </div>
+                                        ) : (
+                                            <div className="A" onDoubleClick={() => setSubGrafico('pizza')} >
+                                                <Chart chartType="BarChart" data={graficosBarra} options={opcao}  />
+                                            </div>
+                                        ) }
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <Chart chartType="PieChart" height="300px" data={graficosTipoPagamento} options={optionsPizza} />
+                                    </div>
+                                )}
+                            </>
                         )}
+
                     </V.Graficos>
                 </V.Content>
                 <C.Footer>
                     <div className="buttons">
-                        <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
+                        <button onClick={close}><img src="/images/voltar.png" />Fechar</button>
                     </div>
                 </C.Footer>
             </C.Container>

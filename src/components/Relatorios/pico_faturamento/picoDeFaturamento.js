@@ -88,10 +88,169 @@ export const PicoDeFaturamento = () => {
         }
     }
 
-    const [busca, setBusca] = useState();
+    const [busca, setBusca] = useState([]);
 
     const [dataInicial, setDataInicial] = useState();
     const [dataFinal, setDataFinal] = useState();
+
+
+    const dataDiv = dataInicial && dataInicial.split("-")
+
+    function voltar15Dias(){
+        if (dataDiv[2] >= 15 && dataDiv[1] === '01' ){
+            setDataInicial(dataDiv[0] + "-01-01" )
+            setDataFinal(dataDiv[0] + "-01-15" )
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '01' ){
+            setDataInicial((parseFloat(dataDiv[0]) - 1 ).toString() + "-12-15" );
+            setDataFinal((parseFloat(dataDiv[0]) - 1 ).toString() + "-12-31" );
+        }else if (dataDiv[2] >= 14 && dataDiv[1] === '02' ){
+            setDataInicial(dataDiv[0] + "-02-01" );
+            setDataFinal(dataDiv[0] + "-02-14" );
+        }else if (dataDiv[2] < 14 && dataDiv[1] === '02' ){
+            setDataInicial(dataDiv[0] + "-01-15" );
+            setDataFinal(dataDiv[0] + "-01-31" );
+        }else if (dataDiv[2] >= 15 && dataDiv[1] === '03' ){
+            setDataInicial(dataDiv[0] + "-03-01" );
+            setDataFinal(dataDiv[0] + "-03-15" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '03' ){
+            setDataInicial(dataDiv[0] + "-02-14" );
+            setDataFinal(dataDiv[0] + "-02-28" );
+        }else if (dataDiv[2] >= 15 && dataDiv[1] === '04' ){
+            setDataInicial(dataDiv[0] + "-04-01" );
+            setDataFinal(dataDiv[0] + "-04-15" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '04' ){
+            setDataInicial(dataDiv[0] + "-03-15" );
+            setDataFinal(dataDiv[0] + "-03-31" );
+        }else if (dataDiv[2] >= 16 && dataDiv[1] === '05' ){
+            setDataInicial(dataDiv[0] + "-05-01" );
+            setDataFinal(dataDiv[0] + "-05-16" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '05' ){
+            setDataInicial(dataDiv[0] + "-04-15" );
+            setDataFinal(dataDiv[0] + "-04-30" );
+        }else if (dataDiv[2] >= 15 && dataDiv[1] === '06' ){
+            setDataInicial(dataDiv[0] + "-06-01" );
+            setDataFinal(dataDiv[0] + "-06-15" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '06'){
+            setDataInicial(dataDiv[0] + "-05-16" );
+            setDataFinal(dataDiv[0] + "-05-31" );
+        }else if (dataDiv[2] >= 16 && dataDiv[1] === '07' ){
+            setDataInicial(dataDiv[0] + "-07-01" );
+            setDataFinal(dataDiv[0] + "-07-16" );
+        }else if (dataDiv[2] < 16 && dataDiv[1] === '07' ){
+            setDataInicial(dataDiv[0] + "-06-15" );
+            setDataFinal(dataDiv[0] + "-06-30" );
+        }else if (dataDiv[2] >= 16 && dataDiv[1] === '08' ){
+            setDataInicial(dataDiv[0] + "-08-01" );
+            setDataFinal(dataDiv[0] + "-08-16" );
+        }else if (dataDiv[2] < 16 && dataDiv[1] === '08' ){
+            setDataInicial(dataDiv[0] + "-07-16" );
+            setDataFinal(dataDiv[0] + "-07-31" );
+        }else if (dataDiv[2] >= 15 && dataDiv[1] === '09' ){
+            setDataInicial(dataDiv[0] + "-09-01" );
+            setDataFinal(dataDiv[0] + "-09-15" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '09' ){
+            setDataInicial(dataDiv[0] + "-08-16" );
+            setDataFinal(dataDiv[0] + "-08-31" );
+        }else if (dataDiv[2] >= 16 && dataDiv[1] === '10' ){
+            setDataInicial(dataDiv[0] + "-10-01" );
+            setDataFinal(dataDiv[0] + "-10-16" );
+        }else if (dataDiv[2] < 16 && dataDiv[1] === '10' ){
+            setDataInicial(dataDiv[0] + "-09-15" );
+            setDataFinal(dataDiv[0] + "-09-30" );
+        }else if (dataDiv[2] >= 15 && dataDiv[1] === '11' ){
+            setDataInicial(dataDiv[0] + "-11-01" );
+            setDataFinal(dataDiv[0] + "-11-15" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '11' ){
+            setDataInicial(dataDiv[0] + "-10-16" );
+            setDataFinal(dataDiv[0] + "-10-31" );
+        }else if (dataDiv[2] >= 16 && dataDiv[1] === '12' ){
+            setDataInicial(dataDiv[0] + "-12-01" );
+            setDataFinal(dataDiv[0] + "-12-16" );
+        }else if (dataDiv[2] < 16 && dataDiv[1] === '12' ){
+            setDataInicial(dataDiv[0] + "-11-15" );
+            setDataFinal(dataDiv[0] + "-11-30" );
+        }
+    }
+
+    function voltarMes() {
+        if (dataDiv[1] === '01') {
+            setDataInicial((parseFloat(dataDiv[0]) - 1).toString() + "-12-01");
+            setDataFinal((parseFloat(dataDiv[0]) - 1).toString() + "-12-31");
+        } else if (dataDiv[1] === '02') {
+            setDataInicial(dataDiv[0] + "-01-01");
+            setDataFinal(dataDiv[0] + "-01-31");
+        } else if (dataDiv[1] === '03') {
+            setDataInicial(dataDiv[0] + "-02-01");
+            setDataFinal(dataDiv[0] + "-02-28");
+        } else if (dataDiv[1] === '04') {
+            setDataInicial(dataDiv[0] + "-03-01");
+            setDataFinal(dataDiv[0] + "-03-31");
+        } else if (dataDiv[1] === '05') {
+            setDataInicial(dataDiv[0] + "-04-01");
+            setDataFinal(dataDiv[0] + "-04-30");
+        } else if (dataDiv[1] === '06') {
+            setDataInicial(dataDiv[0] + "-05-01");
+            setDataFinal(dataDiv[0] + "-05-31");
+        } else if (dataDiv[1] === '07') {
+            setDataInicial(dataDiv[0] + "-06-01");
+            setDataFinal(dataDiv[0] + "-06-30");
+        } else if (dataDiv[1] === '08') {
+            setDataInicial(dataDiv[0] + "-07-01");
+            setDataFinal(dataDiv[0] + "-07-31");
+        } else if (dataDiv[1] === '09') {
+            setDataInicial(dataDiv[0] + "-08-01");
+            setDataFinal(dataDiv[0] + "-08-31");
+        } else if (dataDiv[1] === '10') {
+            setDataInicial(dataDiv[0] + "-09-01");
+            setDataFinal(dataDiv[0] + "09-30");
+        } else if (dataDiv[1] === '11') {
+            setDataInicial(dataDiv[0] + "-10-01");
+            setDataFinal(dataDiv[0] + "-10-31");
+        } else if (dataDiv[1] === '12') {
+            setDataInicial(dataDiv[0] + "-11-01");
+            setDataFinal(dataDiv[0] + "-11-30");
+        }
+    }
+
+    function passarMes() {
+        if (dataDiv[1] === '01') {
+            setDataInicial(dataDiv[0] + "-02-01");
+            setDataFinal(dataDiv[0] + "-02-28");
+        } else if (dataDiv[1] === '02') {
+            setDataInicial(dataDiv[0] + "-03-01");
+            setDataFinal(dataDiv[0] + "-03-31")
+        } else if (dataDiv[1] === '03') {
+            setDataInicial(dataDiv[0] + "-04-01");
+            setDataFinal(dataDiv[0] + "-04-30");
+        } else if (dataDiv[1] === '04') {
+            setDataInicial(dataDiv[0] + "-05-01");
+            setDataFinal(dataDiv[0] + "-05-31");
+        } else if (dataDiv[1] === '05') {
+            setDataInicial(dataDiv[0] + "-06-01");
+            setDataFinal(dataDiv[0] + "-06-30");
+        } else if (dataDiv[1] === '06') {
+            setDataInicial(dataDiv[0] + "-07-01");
+            setDataFinal(dataDiv[0] + "-07-31");
+        } else if (dataDiv[1] === '07') {
+            setDataInicial(dataDiv[0] + "-08-01");
+            setDataFinal(dataDiv[0] + "-08-31");
+        } else if (dataDiv[1] === '08') {
+            setDataInicial(dataDiv[0] + "-09-01");
+            setDataFinal(dataDiv[0] + "-09-30");
+        } else if (dataDiv[1] === '09') {
+            setDataInicial(dataDiv[0] + "-10-01");
+            setDataFinal(dataDiv[0] + "-10-31");
+        } else if (dataDiv[1] === '10') {
+            setDataInicial(dataDiv[0] + "-11-01");
+            setDataFinal(dataDiv[0] + "-11-30");
+        } else if (dataDiv[1] === '11') {
+            setDataInicial(dataDiv[0] + "-12-01");
+            setDataFinal(dataDiv[0] + "-12-31");
+        } else if (dataDiv[1] === '12') {
+            setDataInicial((parseFloat(dataDiv[0]) + 1).toString() + "-01-01");
+            setDataFinal((parseFloat(dataDiv[0]) + 1).toString() + "-01-31");
+        }
+    }
 
     function GetDataIni(e) {
         setDataInicial(e.currentTarget.value);
@@ -170,22 +329,7 @@ export const PicoDeFaturamento = () => {
         })
     }
 
-    function passarMes() {
-        document.getElementById("DataInicial").stepUp(30);
-        document.getElementById("DataFinal").stepUp(30);
-    }
-
-    function voltarMes() {
-        document.getElementById("DataInicial").stepDown(30);
-        document.getElementById("DataFinal").stepDown(30);
-    }
-
-    function voltar15Dias() {
-        document.getElementById("DataInicial").stepDown(15);
-        document.getElementById("DataFinal").stepDown(15);
-    }
-
-    console.log(ano)
+    const [query, setQuery] = useState([])
 
     //---------------------------------------------------------------------------------------------------------Pico Hora----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -206,7 +350,7 @@ export const PicoDeFaturamento = () => {
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------   
 
     //---------------------------------------------------------------------------------------------------------Pico Semana--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    
+
     const [abrirSemana, setOpenAbrirSemana] = useState(false);
 
     const picoSemana = [
@@ -239,6 +383,8 @@ export const PicoDeFaturamento = () => {
         }
     }
 
+    //const lastDay = new Date(dataInicial.toLocaleString().getFullYear(), dataInicial.toLocaleString().getMonth() + 1, 0);
+
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------Pico Ano---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -267,40 +413,39 @@ export const PicoDeFaturamento = () => {
             <span>Atenção: Digite ou selecione uma data antes apertar nos Botões</span>
 
             <LB.Filtros>
-                <div className="filial-top-content" >
-                    <div className="buttons-filial-top">
-                        <button className="button-filial" onClick={() => setAbaFilial(true)} >Filial</button>
-                        <button className="button-top" onClick={() => setAbaFilial(false)} >Tops</button>
+                <div className='FTFilterTop' >
+                    <div className='btns'>
+                        <button className='topFilialBtn' style={{ backgroundColor: abaFilial === true ? "#8CB9DF" : "", borderBottom: abaFilial === true ? "none" : "" }} onClick={() => setAbaFilial(true)} >Filial</button>
+                        <button className='topsBtn' style={{ backgroundColor: abaFilial === false ? "#8CB9DF" : "", borderBottom: abaFilial === false ? "none" : "" }} onClick={() => setAbaFilial(false)} >Tops</button>
                     </div>
                     <LB.FilialTop>
                         {abaFilial ? (
                             <div className='filial-top'>
-
                                 <div>
                                     <select>
                                         <option>Filial</option>
                                         <option>Região</option>
                                     </select>
-                                    <input placeholder="Buscar..." onChange={(e) => setBusca(e.target.value)} />
-                                    <img src="./images/LUPA.png" onClick={() => setIsModalFilial(true)} />
+                                    <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
+                                    <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
+                                    <button onClick={() => setValor([])} >Limpar</button>
                                 </div>
-
                                 <div className='table-responsive'>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Código</th>
-                                                <th>Fantasia</th>
-                                                <th>Razão Social</th>
-                                                <th>Documento</th>
-                                                <th>Município</th>
-                                            </tr>
-                                        </thead>
-                                        {valor.map((item) => {
+                                    <table id='table'>
+
+                                        <tr>
+                                            <th></th>
+                                            <th >Código</th>
+                                            <th >Fantasia</th>
+                                            <th>Razão Social</th>
+                                            <th >Documento</th>
+                                            <th >Município</th>
+                                        </tr>
+
+                                        {valor.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
                                             return (
                                                 <tr>
-                                                    <img className='del' src='/images/lixeira.png' onClick={() => deleteById(item.id)} />
+                                                    <img className="del" src="/images/lixeira.png" onClick={() => deleteById(item.id)} />
 
                                                     <td>{item.id}</td>
 
@@ -315,44 +460,41 @@ export const PicoDeFaturamento = () => {
                                             )
                                         })}
 
+
                                     </table>
                                 </div>
-
                             </div>
                         ) : (
                             <div className='filial-top'>
                                 <div>
-                                    <input placeholder="Buscar..." />
-                                    <img src="./images/LUPA.png" onClick={() => setIsModalTop(true)} />
+                                    <input placeholder='Buscar pela Descrição...' onChange={(e) => setBusca(e.target.value)} />
+                                    <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
+                                    <button onClick={() => setValorTop([])} >Limpar</button>
                                 </div>
-
-                                <div className="table-responsive">
-                                    <table>
+                                <div className='table-responsive'>
+                                    <table id='table'>
                                         <thead>
                                             <tr>
                                                 <th></th>
-                                                <th>Código</th>
-                                                <th>Descrição</th>
+                                                <th >Código</th>
+                                                <th >Descrição</th>
                                             </tr>
                                         </thead>
-                                        {valorTop.map((item) => {
+                                        {valorTop.filter(dat => dat.descricao.toLowerCase().includes(busca)).map((item) => {
+
                                             return (
                                                 <tr>
                                                     <img className='del' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
-
                                                     <td>{item.id}</td>
-
                                                     <td>{item.descricao}</td>
                                                 </tr>
                                             )
+
                                         })}
                                     </table>
                                 </div>
-
                             </div>
-
                         )}
-
                     </LB.FilialTop>
                 </div>
 
@@ -360,12 +502,12 @@ export const PicoDeFaturamento = () => {
                     <div>
                         <div className="data" >
                             <label>Data Inicial</label>
-                            <input id="DataInicial" type="date" onChange={GetDataIni} />
+                            <input value={dataInicial} id="DataInicial" type="date" onChange={GetDataIni} />
                         </div>
 
                         <div className="data" >
                             <label>Data Final</label>
-                            <input id="DataFinal" type="date" onChange={GetDataFin} />
+                            <input value={dataFinal} id="DataFinal" type="date" onChange={GetDataFin} />
                         </div>
 
                         <div className="data" >
@@ -375,7 +517,7 @@ export const PicoDeFaturamento = () => {
 
                     </div>
 
-                    <div className="checkbox-content" >
+                    <div>
                         <button onClick={voltarMes} className="setaE" ><img src="/images/setaEsquerda.png" /></button>
                         <button onClick={passarMes} className="setaD" ><img src="/images/setaDireita.png" /></button>
                         <input type="checkbox" checked={NFE} onChange={nfeCheck} /><label>NF-e</label>

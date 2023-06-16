@@ -111,6 +111,11 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
                     setSelectIdEmitente(resultado[selectIndex].id);
                     setDataSelectEmitente(resultado[selectIndex].razao_social);
                     setDataIdSelectEmitente(resultado[selectIndex].id);
+                    setDataSelectDadosEmitente && setDataSelectDadosEmitente({
+                        fantasia: resultado[selectIndex].nome_fantasia,
+                        doc: resultado[selectIndex].cnpj,
+                        municipio: resultado[selectIndex].municipio
+                    })
                     setDadosCliente && setDadosCliente({
                         ...dadosCliente,
                         filial: {

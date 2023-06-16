@@ -92,6 +92,12 @@ export const Data = styled.div`
     overflow-y: auto;
     .checks{
         margin-top: 10px;
+        label{
+            font-size: 12px;
+        }
+        input{
+            margin: 3px;
+        }
     }
     .select {
         display: flex;
@@ -99,14 +105,20 @@ export const Data = styled.div`
         flex-direction: column;
         justify-content: center;
         margin-left: 8px;
+        label{
+            font-size: 12px;
+        }
+        select{
+            width: 85px;
+        }
     }
     .data{    
-        width: 120px;
+        width: 105px;
         border-radius: 5px;
         border: 2px solid black;
-        height: 52px;
+        height: 48px;
         margin-top: 10px;
-        font-size: 15px;
+        font-size: 13px;
         display: flex;
         flex-direction: column;
         margin-left: 8px;
@@ -178,7 +190,7 @@ export const Navegacao = styled.div`
         border-bottom: none;
     }
     @media (max-width: 420px) {
-        margin-top: 55%;
+        margin-top: 60%;
         div{
             width: 90%;
         }
@@ -238,11 +250,24 @@ export const DataGeral = styled.div`
     #table tr:hover td{
         background-color: #87CEFA;
     }
+
+      
 `
 export const Dashboard = styled.div`
 margin-top: 10px;
 display: flex;
 justify-content: space-between;
+.grafico-reg{
+    overflow: auto;
+    background-color: #ffffff;
+    display: flex;
+    width: 810px;
+    height: 370px;
+    margin-right: 10px;
+    border-style: solid;
+    border-radius: 8px;
+    border-width: 1px;
+}
 .grafico {
     align-items: center;
     background-color: #ffffff;
