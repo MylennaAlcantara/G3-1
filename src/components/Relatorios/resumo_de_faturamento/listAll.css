@@ -778,6 +778,15 @@ span {
     justify-content: space-between;
 }
 
+.item-bottom{
+    border-right: black;
+    border-style: solid;
+    border-bottom: transparent;
+    border-top: transparent;
+    border-left: transparent;
+    border-width: 1px;
+}
+
 .modal-content {
     display: flex;
     position: absolute;

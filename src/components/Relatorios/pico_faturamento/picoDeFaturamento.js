@@ -88,7 +88,7 @@ export const PicoDeFaturamento = () => {
         }
     }
 
-    const [busca, setBusca] = useState();
+    const [busca, setBusca] = useState([]);
 
     const [dataInicial, setDataInicial] = useState();
     const [dataFinal, setDataFinal] = useState();
@@ -96,16 +96,79 @@ export const PicoDeFaturamento = () => {
 
     const dataDiv = dataInicial && dataInicial.split("-")
 
-    function voltarDias(){
-        if (dataDiv[2] > 15 && dataDiv[1] === '01' ){
+    function voltar15Dias(){
+        if (dataDiv[2] >= 15 && dataDiv[1] === '01' ){
             setDataInicial(dataDiv[0] + "-01-01" )
             setDataFinal(dataDiv[0] + "-01-15" )
-        }else if (dataDiv[2] <= 15 && dataDiv[1] === '01' ){
-            setDataInicial((parseFloat(dataDiv[0]) - 1 ).toString() + "-12-01" );
-            setDataFinal((parseFloata(dataDiv[0]) - 1 ).toString() + "-12-15" );
-        }else if(dataDiv[2] > 15 && dataDiv[1] === '02' ){
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '01' ){
+            setDataInicial((parseFloat(dataDiv[0]) - 1 ).toString() + "-12-15" );
+            setDataFinal((parseFloat(dataDiv[0]) - 1 ).toString() + "-12-31" );
+        }else if (dataDiv[2] >= 14 && dataDiv[1] === '02' ){
             setDataInicial(dataDiv[0] + "-02-01" );
             setDataFinal(dataDiv[0] + "-02-14" );
+        }else if (dataDiv[2] < 14 && dataDiv[1] === '02' ){
+            setDataInicial(dataDiv[0] + "-01-15" );
+            setDataFinal(dataDiv[0] + "-01-31" );
+        }else if (dataDiv[2] >= 15 && dataDiv[1] === '03' ){
+            setDataInicial(dataDiv[0] + "-03-01" );
+            setDataFinal(dataDiv[0] + "-03-15" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '03' ){
+            setDataInicial(dataDiv[0] + "-02-14" );
+            setDataFinal(dataDiv[0] + "-02-28" );
+        }else if (dataDiv[2] >= 15 && dataDiv[1] === '04' ){
+            setDataInicial(dataDiv[0] + "-04-01" );
+            setDataFinal(dataDiv[0] + "-04-15" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '04' ){
+            setDataInicial(dataDiv[0] + "-03-15" );
+            setDataFinal(dataDiv[0] + "-03-31" );
+        }else if (dataDiv[2] >= 16 && dataDiv[1] === '05' ){
+            setDataInicial(dataDiv[0] + "-05-01" );
+            setDataFinal(dataDiv[0] + "-05-16" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '05' ){
+            setDataInicial(dataDiv[0] + "-04-15" );
+            setDataFinal(dataDiv[0] + "-04-30" );
+        }else if (dataDiv[2] >= 15 && dataDiv[1] === '06' ){
+            setDataInicial(dataDiv[0] + "-06-01" );
+            setDataFinal(dataDiv[0] + "-06-15" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '06'){
+            setDataInicial(dataDiv[0] + "-05-16" );
+            setDataFinal(dataDiv[0] + "-05-31" );
+        }else if (dataDiv[2] >= 16 && dataDiv[1] === '07' ){
+            setDataInicial(dataDiv[0] + "-07-01" );
+            setDataFinal(dataDiv[0] + "-07-16" );
+        }else if (dataDiv[2] < 16 && dataDiv[1] === '07' ){
+            setDataInicial(dataDiv[0] + "-06-15" );
+            setDataFinal(dataDiv[0] + "-06-30" );
+        }else if (dataDiv[2] >= 16 && dataDiv[1] === '08' ){
+            setDataInicial(dataDiv[0] + "-08-01" );
+            setDataFinal(dataDiv[0] + "-08-16" );
+        }else if (dataDiv[2] < 16 && dataDiv[1] === '08' ){
+            setDataInicial(dataDiv[0] + "-07-16" );
+            setDataFinal(dataDiv[0] + "-07-31" );
+        }else if (dataDiv[2] >= 15 && dataDiv[1] === '09' ){
+            setDataInicial(dataDiv[0] + "-09-01" );
+            setDataFinal(dataDiv[0] + "-09-15" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '09' ){
+            setDataInicial(dataDiv[0] + "-08-16" );
+            setDataFinal(dataDiv[0] + "-08-31" );
+        }else if (dataDiv[2] >= 16 && dataDiv[1] === '10' ){
+            setDataInicial(dataDiv[0] + "-10-01" );
+            setDataFinal(dataDiv[0] + "-10-16" );
+        }else if (dataDiv[2] < 16 && dataDiv[1] === '10' ){
+            setDataInicial(dataDiv[0] + "-09-15" );
+            setDataFinal(dataDiv[0] + "-09-30" );
+        }else if (dataDiv[2] >= 15 && dataDiv[1] === '11' ){
+            setDataInicial(dataDiv[0] + "-11-01" );
+            setDataFinal(dataDiv[0] + "-11-15" );
+        }else if (dataDiv[2] < 15 && dataDiv[1] === '11' ){
+            setDataInicial(dataDiv[0] + "-10-16" );
+            setDataFinal(dataDiv[0] + "-10-31" );
+        }else if (dataDiv[2] >= 16 && dataDiv[1] === '12' ){
+            setDataInicial(dataDiv[0] + "-12-01" );
+            setDataFinal(dataDiv[0] + "-12-16" );
+        }else if (dataDiv[2] < 16 && dataDiv[1] === '12' ){
+            setDataInicial(dataDiv[0] + "-11-15" );
+            setDataFinal(dataDiv[0] + "-11-30" );
         }
     }
 
@@ -266,14 +329,7 @@ export const PicoDeFaturamento = () => {
         })
     }
 
-    function voltar15Dias() {
-        document.getElementById("DataFinal").stepDown(15);
-    }
-
-    const [query, setQuery] = useState()
-    const [query1, setQuery1] = useState()
-
-    console.log(ano)
+    const [query, setQuery] = useState([])
 
     //---------------------------------------------------------------------------------------------------------Pico Hora----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -354,7 +410,7 @@ export const PicoDeFaturamento = () => {
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header><h3>Pico de Faturamento</h3></C.Header>
 
-            <span>Atenção: Digite ou selecione uma data antes apertar nos Botões</span> <button onClick={voltarDias} >Ok</button>
+            <span>Atenção: Digite ou selecione uma data antes apertar nos Botões</span>
 
             <LB.Filtros>
                 <div className='FTFilterTop' >
@@ -386,7 +442,7 @@ export const PicoDeFaturamento = () => {
                                             <th >Município</th>
                                         </tr>
 
-                                        {valor.map((item) => {
+                                        {valor.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
                                             return (
                                                 <tr>
                                                     <img className="del" src="/images/lixeira.png" onClick={() => deleteById(item.id)} />
@@ -411,7 +467,7 @@ export const PicoDeFaturamento = () => {
                         ) : (
                             <div className='filial-top'>
                                 <div>
-                                    <input placeholder='Buscar pela Descrição...' onChange={(e) => setQuery1(e.target.value)} />
+                                    <input placeholder='Buscar pela Descrição...' onChange={(e) => setBusca(e.target.value)} />
                                     <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
                                     <button onClick={() => setValorTop([])} >Limpar</button>
                                 </div>
@@ -424,7 +480,7 @@ export const PicoDeFaturamento = () => {
                                                 <th >Descrição</th>
                                             </tr>
                                         </thead>
-                                        {valorTop.filter(dat => dat.descricao.toLowerCase().includes(query1)).map((item) => {
+                                        {valorTop.filter(dat => dat.descricao.toLowerCase().includes(busca)).map((item) => {
 
                                             return (
                                                 <tr>

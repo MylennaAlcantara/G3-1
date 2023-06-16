@@ -257,6 +257,17 @@ export const Dashboard = styled.div`
 margin-top: 10px;
 display: flex;
 justify-content: space-between;
+.grafico-reg{
+    overflow: auto;
+    background-color: #ffffff;
+    display: flex;
+    width: 810px;
+    height: 370px;
+    margin-right: 10px;
+    border-style: solid;
+    border-radius: 8px;
+    border-width: 1px;
+}
 .grafico {
     align-items: center;
     background-color: #ffffff;

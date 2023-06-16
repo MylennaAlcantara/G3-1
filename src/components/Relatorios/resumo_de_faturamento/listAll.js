@@ -76,7 +76,16 @@ export const ResumoFaturamento = () => {
     const [dados, setDados] = useState([]); //Pega Dados de Filial
     const [dadosRegiao, setDadosRegiao] = useState([]); //Pega dados de Região
     const [dadosCliente, setDadosCliente] = useState([]); //Pega dados de Cliente 
-    const [dadosTipoPagamento, setDadosTipoPagamento] = useState([]); //Pega dados de Tipo de Pagamento
+    const [dadosTipoPagamento, setDadosTipoPagamento] = useState([]);
+    const [dadosTipoPagamento1, setDadosTipoPagamento1] = useState([]);
+    const [dadosTipoPagamento2, setDadosTipoPagamento2] = useState([]);
+    const [dadosTipoPagamento3, setDadosTipoPagamento3] = useState([]);
+    const [dadosTipoPagamento4, setDadosTipoPagamento4] = useState([]);
+    const [dadosTipoPagamento5, setDadosTipoPagamento5] = useState([]);
+    const [dadosTipoPagamento6, setDadosTipoPagamento6] = useState([]);
+    const [dadosTipoPagamento7, setDadosTipoPagamento7] = useState([]);
+    const [dadosTipoPagamento8, setDadosTipoPagamento8] = useState([]);
+    const [dadosTipoPagamento9, setDadosTipoPagamento9] = useState([]);
     const [dadosVendedor, setDadosVendedor] = useState([]); //Pega dados de Vendedor 
     const [dadosProduto, setDadosProduto] = useState([]); //Pega dados de Produtos
     const [dadosGrupo, setDadosGrupo] = useState([]); //Pega dados de Grupo
@@ -227,6 +236,15 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosTipoPagamento(Object.values(data[0]));
+                setDadosTipoPagamento1(Object.values(data[1]));
+                setDadosTipoPagamento2(Object.values(data[2]));
+                setDadosTipoPagamento3(Object.values(data[3]));
+                setDadosTipoPagamento4(Object.values(data[4]));
+                setDadosTipoPagamento5(Object.values(data[5]));
+                setDadosTipoPagamento6(Object.values(data[6]));
+                setDadosTipoPagamento7(Object.values(data[7]));
+                setDadosTipoPagamento8(Object.values(data[8]));
+                setDadosTipoPagamento9(Object.values(data[9]));
                 setDaDosKeys(Object.keys(data[0]));
                 setDadosLeitura(data);
             });
@@ -313,8 +331,6 @@ export const ResumoFaturamento = () => {
     function onChangeDataFin(e) { //Pega os Valores da Data Final
         setDataFin(e.currentTarget.value)
     }
-
-    console.log(dataIni)
 
     const divData = dataIni && dataIni.split("-");
 
@@ -1407,8 +1423,8 @@ export const ResumoFaturamento = () => {
                     </RF.DataGeral>
 
                     <div className='row' >
-                        <div>Méd.Itens/Cup: {MedItensCup.toFixed(2).replace('.', ',')}</div> <div>Vlr.Total NF-e: {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Total NFC-e: {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Venda Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR')}</div> <div>Vlr.Total Credito: {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR')} </div>
-                        <div>Vlr.Total Líquido: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Custo Total: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Venda: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')} </div> <div>Vlr.Lucro Líquido: {parseFloat(lLiquido.toFixed(2)).toLocaleString('pt-BR')} </div> <div>% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',').replace('NaN', '0,00')} </div>
+                        <div className='item-bottom' >Méd.Itens/Cup: {MedItensCup.toFixed(2).replace('.', ',')}</div> <div className='item-bottom' >Vlr.Total NF-e: {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR')}</div> <div className='item-bottom' >Vlr.Total NFC-e: {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR')}</div> <div className='item-bottom' >Vlr.Venda Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR')}</div> <div className='item-bottom' >Vlr.Total Credito: {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR')} </div>
+                        <div className='item-bottom' >Vlr.Total Líquido: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')} </div> <div className='item-bottom' >Vlr.Custo Total: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR')} </div> <div className='item-bottom' >Vlr.Lucro Venda: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')} </div> <div className='item-bottom' >Vlr.Lucro Líquido: {parseFloat(lLiquido.toFixed(2)).toLocaleString('pt-BR')} </div> <div className='item-bottom' >% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',').replace('NaN', '0,00')} </div>
                         <div>% Markup: {((resultFi1 - resultFi) / resultFi * 100).toFixed(2).replace('.', ',').replace("NaN", "0,00")} </div>
                     </div>
                 </>
@@ -1631,30 +1647,153 @@ export const ResumoFaturamento = () => {
                                                 }
 
                                                 return (
+                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                );
+                                            })}
+                                        </tr>
+
+                                        <tr>
+                                            {dadosTipoPagamento1.map((item) => {
+                                                if (item === null || item === 0) {
+                                                    item = 0.00;
+                                                }
+
+                                                return (
+                                                    <td> {parseFloat(item.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                );
+                                            })}
+                                        </tr>
+
+                                        <tr>
+                                            {dadosTipoPagamento2.map((item) => {
+                                                if (item === null || item === 0) {
+                                                    item = 0.00;
+                                                }
+
+                                                return (
+
+                                                    <td> {parseFloat(item.toFixed(2)).toLocaleString('pt-BR')} </td>
+
+                                                );
+                                            })}
+                                        </tr>
+
+                                        <tr>
+                                            {dadosTipoPagamento3.map((f5) => {
+                                                if (f5 === null || f5 === 0) {
+                                                    f5 = 0.00;
+                                                }
+
+                                                return (
 
                                                     <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
 
                                                 );
                                             })}
                                         </tr>
+
+                                        <tr>
+                                            {dadosTipoPagamento4.map((f5) => {
+                                                if (f5 === null || f5 === 0) {
+                                                    f5 = 0.00;
+                                                }
+
+                                                return (
+
+                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+
+                                                );
+                                            })}
+                                        </tr>
+
+                                        <tr>
+                                            {dadosTipoPagamento5.map((f5) => {
+                                                if (f5 === null || f5 === 0) {
+                                                    f5 = 0.00;
+                                                }
+
+                                                return (
+
+                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+
+                                                );
+                                            })}
+                                        </tr>
+
+                                        <tr>
+                                            {dadosTipoPagamento6.map((f5) => {
+                                                if (f5 === null || f5 === 0) {
+                                                    f5 = 0.00;
+                                                }
+
+                                                return (
+
+                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+
+                                                );
+                                            })}
+                                        </tr>
+
+                                        <tr>
+                                            {dadosTipoPagamento7.map((f5) => {
+                                                if (f5 === null || f5 === 0) {
+                                                    f5 = 0.00;
+                                                }
+
+                                                return (
+
+                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+
+                                                );
+                                            })}
+                                        </tr>
+
+                                        <tr>
+                                            {dadosTipoPagamento8.map((f5) => {
+                                                if (f5 === null || f5 === 0) {
+                                                    f5 = 0.00;
+                                                }
+
+                                                return (
+
+                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+
+                                                );
+                                            })}
+                                        </tr>
+
+                                        <tr>
+                                            {dadosTipoPagamento9.map((f5) => {
+                                                if (f5 === null || f5 === 0) {
+                                                    f5 = 0.00;
+                                                }
+
+                                                return (
+
+                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+
+                                                );
+                                            })}
+                                        </tr>
+
                                     </table>
                                 </div>
                             </>
                         )}
                     </RF.DataGeral>
 
-                    <RF.LinhaTotais>
-                        <div>Boleto: {parseFloat(resultTpPg5.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div>Dinheiro: {parseFloat(resultTpPg.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div>Cartão de Credito: {parseFloat(resultTpPg2.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div>Cartão de Debito: {parseFloat(resultTpPg3.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div>Cheque: {parseFloat(resultTpPg4.toFixed(2).replace('.', ',').replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div>Pix: {parseFloat(resultTpPg13.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div>Cancelamento Total: {parseFloat(resultTpPg7.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div>Duplicata Mercanvil: {parseFloat(DPMercantil.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div>Desconto Total: {parseFloat(resultTpPg8.toFixed(2).replace('NaN', '0,00'))}</div>
-                        <div>Total: {parseFloat(resultTpPg1.toFixed(2).replace('.', ',').replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                    </RF.LinhaTotais>
+                    <div className='row' >
+                        <div className='item-bottom' >Boleto: {parseFloat(resultTpPg5.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div className='item-bottom' >Dinheiro: {parseFloat(resultTpPg.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div className='item-bottom' >Cartão de Credito: {parseFloat(resultTpPg2.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div className='item-bottom' >Cartão de Debito: {parseFloat(resultTpPg3.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div className='item-bottom' >Cheque: {parseFloat(resultTpPg4.toFixed(2).replace('.', ',').replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div className='item-bottom' >Pix: {parseFloat(resultTpPg13.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div className='item-bottom' >Cancelamento Total: {parseFloat(resultTpPg7.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div className='item-bottom' >Duplicata Mercanvil: {parseFloat(DPMercantil.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div className='item-bottom' >Desconto Total: {parseFloat(resultTpPg8.toFixed(2).replace('NaN', '0,00'))}</div>
+                        <div className='item-bottom' >Total: {parseFloat(resultTpPg1.toFixed(2).replace('.', ',').replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                    </div>
                 </>
             ) : aba === "produto" ? (
                 <RF.DataGeral>
@@ -1808,13 +1947,13 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {parseFloat(dat3.p_desconto.toFixed(2)).toLocaleString('pt-BR')} </td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 <td> {parseFloat(dat3.p_markup.toFixed(2)).toLocaleString('pt-BR')} </td>
 
@@ -1896,11 +2035,11 @@ export const ResumoFaturamento = () => {
 
                                             <td><p className='alinharValor' > {parseFloat(dat.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL' })} </p></td>
+                                            <td><p className='alinharValor' >{parseFloat(dat.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                            <td><p className='alinharValor' > {parseFloat(dat.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL' })} </p></td>
+                                            <td><p className='alinharValor' > {parseFloat(dat.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                            <td><p className='alinharValor' > {parseFloat(dat.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL' })} </p></td>
+                                            <td><p className='alinharValor' > {parseFloat(dat.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                             <td> {dat.p_markup.toFixed(2).replace('.', ',')} </td>
 
@@ -1921,12 +2060,10 @@ export const ResumoFaturamento = () => {
             <Modal shouldCloseOnEsc={false} isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles}>
 
                 <div className='topo-content' >
-
                     <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                    <h1>Dados Região <button className='filialBTN' onClick={() => setDsRegiaoDetalhada(true)}><img className='close' src='/images/regiao.png' />Cada Região</button></h1>
-
                 </div>
+
+                <h1>Dados Região <button className='filialBTN' onClick={() => setDsRegiaoDetalhada(true)}><img className='close' src='/images/regiao.png' />Cada Região</button></h1>
 
                 <div>
 
@@ -1955,7 +2092,7 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className='justSize' > <Chart chartType='Bar' width='100%' height='95%' data={chartRegiao} options={optionsRegiao} /> </div>
+                        <div className='grafico-reg' > <Chart chartType='Bar' width='100%' height='95%' data={chartRegiao} options={optionsRegiao} /> </div>
                     </RF.Dashboard>
 
                     <Modal className='dashboardCadaFilial' shouldCloseOnEsc={false} isOpen={dsRegiaoDetalhada} onRequestClose={() => setDsRegiaoDetalhada(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
