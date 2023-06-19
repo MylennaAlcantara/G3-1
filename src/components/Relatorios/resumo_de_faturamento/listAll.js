@@ -904,9 +904,15 @@ export const ResumoFaturamento = () => {
         },
     };
 
-    const dataProd0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Produto
+    const [produtoDetalhado, setProdutoDetalhado] = useState()
+
+    function abp1(){ setProdutoDetalhado(dadosProduto.slice(0, 90)) }; function abp2() { setProdutoDetalhado(dadosProduto.slice(91, 181)) }; function abp3() { setProdutoDetalhado(dadosProduto.slice(182, 272)) }; function abp4() { setProdutoDetalhado(dadosProduto.slice(273, 363)) }; function abp5() { setProdutoDetalhado(dadosProduto.slice(364, 454)) };
+    function abp6(){ setProdutoDetalhado(dadosProduto.slice(455, 545))}; function abp7(){ setProdutoDetalhado(dadosProduto.slice(546, 636))}; function abp8(){setProdutoDetalhado(dadosProduto.slice(637, 727))}; function abp9(){ setProdutoDetalhado(dadosProduto.slice(728, 818))}; function abp10(){ setProdutoDetalhado(dadosProduto.slice(819, 909))};
+    function abp11(){ setProdutoDetalhado(dadosProduto.slice(910, 1000))};
+
+    const dataProd0 = produtoDetalhado && [ 
         ["Valores em R$", "Venda", "Lucro"],
-        ...dadosProduto.slice(0, 90).map(item => [item.produto, item.vlr_venda_total, item.vlr_lucro_total])
+        ...produtoDetalhado.map(item => [item.produto, item.vlr_venda_total, item.vlr_lucro_total])
     ]
 
     //------------------------------------------------------------------------Dashboard Grupo-----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2494,6 +2500,12 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
+                        <div className='next' >
+                            <button onClick={abp1} >1-90</button> <button onClick={abp2} >91-181</button> <button onClick={abp3} >182-272</button> <button onClick={abp4} >273-363</button> <button onClick={abp5} >364-454</button>
+                            <button onClick={abp6} >455-545</button> <button onClick={abp7} >546-636</button> <button onClick={abp8} >637-727</button> <button onClick={abp9} >728-818</button> <button onClick={abp10} >819-909</button>
+                            <button onClick={abp11} >910-1000</button>
+                        </div>
+
                         <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataProd0} options={optionsProd0} className='grafico' /></div>
                     </RF.Dashboard>
 

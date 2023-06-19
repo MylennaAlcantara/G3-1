@@ -243,6 +243,12 @@ export const VendasCaixa = ({ close }) => {
                                 })
                             ) : (
                                 Array.isArray(pagamentoCaixa) && pagamentoCaixa.map((pgto) => {
+                                    if(pgto === null || pgto === undefined){
+                                        return(
+                                            <div>CAIXA COM PROBLEMA OU OFFLINE</div>
+                                        )
+                                    }
+
                                     return (
                                         <div className="pgto">
                                             <div>
