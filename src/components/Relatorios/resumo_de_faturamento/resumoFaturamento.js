@@ -256,13 +256,22 @@ export const DataGeral = styled.div`
 export const Dashboard = styled.div`
 margin-top: 10px;
 display: flex;
+.next{
+    display: flex;
+    flex-direction: column;
+    margin: 2px;
+    button{
+        margin: 2px;
+        width: 100px;
+    }
+}
 justify-content: space-between;
 .grafico-reg{
     overflow: auto;
     background-color: #ffffff;
     display: flex;
-    width: 810px;
-    height: 370px;
+    width: 80%;
+    height: 400px;
     margin-right: 10px;
     border-style: solid;
     border-radius: 8px;

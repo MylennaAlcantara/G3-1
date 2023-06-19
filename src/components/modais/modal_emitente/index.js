@@ -6,7 +6,6 @@ import { ResumoFaturamento } from "../../Relatorios/resumo_de_faturamento/listAl
 
 export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente, dadosCliente, setDadosCliente, setDadosFuncionario, dadosFuncionario, setValor, valor, dadosRotina, setDadosRotina }) => {
 
-
     const [users, setUsers] = useState([]);
     const [selectEmitente, setSelectEmitente] = useState();
     const [selectIdEmitente, setSelectIdEmitente] = useState();
@@ -111,6 +110,7 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
                     setSelectIdEmitente(resultado[selectIndex].id);
                     setDataSelectEmitente(resultado[selectIndex].razao_social);
                     setDataIdSelectEmitente(resultado[selectIndex].id);
+                    setValor && setValor([...valor, resultado[selectIndex]]);
                     setDataSelectDadosEmitente && setDataSelectDadosEmitente({
                         fantasia: resultado[selectIndex].nome_fantasia,
                         doc: resultado[selectIndex].cnpj,

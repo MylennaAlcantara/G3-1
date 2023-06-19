@@ -106,6 +106,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
+                setValorTop && setValorTop([...valorTop, resultado[selectIndex]])
                 setDataSelectTop({
                     id_top: resultado[selectIndex].id,
                     id_perfil_movimentacao:resultado[selectIndex].id_perfil_movimentacao,
