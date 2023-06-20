@@ -62,9 +62,9 @@ export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, data
             { text: data.id_grupo, fontSize: 8 },
             { text: data.grupo, fontSize: 8 },
             { text: parseFloat(data.qtd_total).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
             { text: parseFloat(data.p_markup.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
             { text: parseFloat(data.p_margem.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
             { text: parseFloat(data.percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
@@ -93,21 +93,20 @@ export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, data
     const content = [
         {
             table: {
-                widths: ['*', '*'],
+                widths: ['*', '*', '*'],
                 body: [
                     [
                         { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
-                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
-                    ],
-                    [
-                        { text: 'Período: ' + (dataIni).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFin).substr(0, 10).split('-').reverse().join('/') , bold: true, fontSize: 8 },
-                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) + '  ID: ' + (Array.isArray(user) && user.map(user => user.id)), bold: true , fontSize: 8 }
-                    ],
-                    [
+                        { text: 'Período: ' + (dataIni).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFin).substr(0, 10).split('-').reverse().join('/'), bold: true, fontSize: 8 },
                         { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
+                    ],
+                    [
+                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) + '  ID: ' + (Array.isArray(user) && user.map(user => user.id)), bold: true, fontSize: 8 },
+                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
                         { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
                     ],
                     [
+                        { text: '', fontSize: 8 },
                         { text: '', fontSize: 8 },
                         { text: '', fontSize: 8 }
                     ],
@@ -160,7 +159,7 @@ export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, data
                         { text: 'Lucro: ' + parseFloat(Lucro.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
                         { text: 'Markup: ' + parseFloat(Markup.toFixed(2)).toLocaleString('pt-BR') + '%', fontSize: 8 },
                         { text: 'Margem: ' + parseFloat((Margem.toFixed(2)).toLocaleString('pt-BR') + '%'), fontSize: 8 },
-                        { text: 'Percentual: ' + parseFloat(Percentual.toFixed(2)).toLocaleString('pt-BR') , fontSize: 8 },
+                        { text: 'Percentual: ' + parseFloat(Percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
                     ]
                 ]
             }

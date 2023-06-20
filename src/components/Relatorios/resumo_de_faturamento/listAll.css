@@ -245,6 +245,11 @@ label {
     flex-direction: row;
 }
 
+.testando9{
+    display: flex;
+
+}
+
 .grafico-regiao {
     display: flex;
     flex-direction: row;

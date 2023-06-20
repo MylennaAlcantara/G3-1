@@ -1124,7 +1124,8 @@ export const ResumoFaturamento = () => {
                     <RF.FilialTop>
                         {filial ? (
                             <div className='filial-top'>
-                                <div>
+
+                                <div >
                                     <select>
                                         <option>Filial</option>
                                         <option>Região</option>
@@ -1133,8 +1134,9 @@ export const ResumoFaturamento = () => {
                                     <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
                                     <button onClick={() => setValor([])} >Limpar</button>
                                 </div>
+
                                 <div className='table-responsive'>
-                                    <table id='table'>
+                                    <table id='table' >
                                         <thead>
                                             <tr>
                                                 <th></th>
@@ -1148,7 +1150,7 @@ export const ResumoFaturamento = () => {
                                         {valor.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
 
                                             return (
-                                                <tbody >
+                                                
                                                     <tr>
                                                         <img className='del' src='/images/lixeira.png' onClick={() => deleteById(item.id)} />
                                                         <td>{item.id}</td>
@@ -1156,10 +1158,8 @@ export const ResumoFaturamento = () => {
                                                         <td>{item.razao_social}</td>
                                                         <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
                                                         <td>{item.municipio}</td>
-                                                    </tr>
-                                                </tbody>
+                                                    </tr>                                             
                                             )
-
                                         })}
                                     </table>
                                 </div>
@@ -1349,44 +1349,47 @@ export const ResumoFaturamento = () => {
                                 </div>
 
                                 <div className='table-responsive' >
-                                    <table id='table' >
-                                        <tr>
-                                            <th>Id.Filial</th>
+                                    <table>
+                                        <thead>
 
-                                            <th>Filial</th>
 
-                                            <th>Qtd. Vendas</th>
+                                            <tr>
+                                                <th>Id.Filial</th>
 
-                                            <th>Qtd. Itens</th>
+                                                <th>Filial</th>
 
-                                            <th>Méd. Itens/Cup.</th>
+                                                <th>Qtd. Vendas</th>
 
-                                            <th>Vlr. Médio Venda</th>
+                                                <th>Qtd. Itens</th>
 
-                                            <th>Vlr. Total NF-e</th>
+                                                <th>Méd. Itens/Cup.</th>
 
-                                            <th>Vlr. Total NFC-e</th>
+                                                <th>Vlr. Médio Venda</th>
 
-                                            <th>Vlr. Venda Total</th>
+                                                <th>Vlr. Total NF-e</th>
 
-                                            <th>Vlr. Total Credito</th>
+                                                <th>Vlr. Total NFC-e</th>
 
-                                            <th> Vlr. Total Líquido</th>
+                                                <th>Vlr. Venda Total</th>
 
-                                            <th>Vlr. Custo Total</th>
+                                                <th>Vlr. Total Credito</th>
 
-                                            <th>Vlr. Lucro Venda</th>
+                                                <th> Vlr. Total Líquido</th>
 
-                                            <th>Vlr. Lucro Líquido</th>
+                                                <th>Vlr. Custo Total</th>
 
-                                            <th>% Margem</th>
+                                                <th>Vlr. Lucro Venda</th>
 
-                                            <th>Percentual</th>
+                                                <th>Vlr. Lucro Líquido</th>
 
-                                        </tr>
+                                                <th>% Margem</th>
+
+                                                <th>Percentual</th>
+
+                                            </tr>
+                                        </thead>
 
                                         {dados.map((f2) => {
-
 
                                             if (f2.vlTotalCredito === null) {
                                                 f2.vlTotalCredito = 0
@@ -1658,7 +1661,7 @@ export const ResumoFaturamento = () => {
                                                 }
 
                                                 return (
-                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
                                                 );
                                             })}
                                         </tr>
@@ -1670,7 +1673,7 @@ export const ResumoFaturamento = () => {
                                                 }
 
                                                 return (
-                                                    <td> {parseFloat(item.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                    <td> <p className='alinharValor' >{parseFloat(item.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
                                                 );
                                             })}
                                         </tr>
@@ -1683,7 +1686,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> {parseFloat(item.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                    <td> <p className='alinharValor' > {parseFloat(item.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1697,7 +1700,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                    <td> <p className='alinharValor' >{parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
 
                                                 );
                                             })}
@@ -1711,7 +1714,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                    <td> <p> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1725,7 +1728,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1739,7 +1742,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1753,7 +1756,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1767,7 +1770,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1781,7 +1784,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
 
                                                 );
                                             })}
@@ -2072,9 +2075,8 @@ export const ResumoFaturamento = () => {
 
                 <div className='topo-content' >
                     <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Região <button className='filialBTN' onClick={() => setDsRegiaoDetalhada(true)}><img className='close' src='/images/regiao.png' />Cada Região</button></h1>
                 </div>
-
-                <h1>Dados Região <button className='filialBTN' onClick={() => setDsRegiaoDetalhada(true)}><img className='close' src='/images/regiao.png' />Cada Região</button></h1>
 
                 <div>
 
@@ -2203,7 +2205,7 @@ export const ResumoFaturamento = () => {
                         <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
 
                         <h1>Cada Filial</h1>
-                        
+
                         <RF.Dashboard0>
                             {dados.map((data) => {
                                 const ChartFi = [
@@ -2242,7 +2244,7 @@ export const ResumoFaturamento = () => {
                                 )
                             })}
                         </RF.Dashboard0>
-                        
+
                     </Modal>
 
                 </div>
@@ -2251,10 +2253,12 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
-                <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                <div className='topo-content' >
+                    <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Vendedor<button onClick={() => setOpenIndivualVend(true)} className='filialBTN' > <img className='close' src='/images/vendedor.png' /> Cada Vendedor</button></h1>
+                </div>
 
                 <div>
-                    <h1>Dados Vendedor<button onClick={() => setOpenIndivualVend(true)} className='filialBTN' > <img className='close' src='/images/vendedor.png' /> Cada Vendedor</button></h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
@@ -2340,10 +2344,13 @@ export const ResumoFaturamento = () => {
             </Modal>
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
-                <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <div className='topo-content' >
+                    <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Cliente <button className='filialBTN' onClick={() => setIsOpenDashboardClienteAll(true)}><img className='close' src='/images/cliente.png' />Cada Cliente</button> </h1>
+                </div>
 
                 <div>
-                    <h1>Dados Cliente <button className='filialBTN' onClick={() => setIsOpenDashboardClienteAll(true)}><img className='close' src='/images/cliente.png' />Cada Cliente</button> </h1>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
@@ -2431,12 +2438,12 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
-                <button onClick={closeDashboardTipoDePagamento} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                <div className='topo-content' >
+                    <button onClick={closeDashboardTipoDePagamento} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Tipo Pagamento</h1>
+                </div>
 
                 <div>
-
-                    <h1>Dados Tipo Pagamento</h1>
-
                     <RF.A>
                         <table className='pricesTpPg' >
                             <thead>
@@ -2450,14 +2457,13 @@ export const ResumoFaturamento = () => {
                             </thead>
                             <div className='ajuste' >
                                 {dadosTipoPagamento.map((f5) => {
+                                    console.log(dadosLeitura)
                                     if (f5 === null || f5 === 0) {
                                         f5 = 0.00;
                                     }
 
                                     return (
-
                                         <div className='labels' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </div>
-
                                     );
                                 })}
                             </div>
@@ -2481,12 +2487,12 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles}>
 
-                <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                <div className='topo-content' >
+                    <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Produtos<button onClick={openDashboardProdutosDetalhados} className='filialBTN' > <img className='close' src='/images/produto.png' /> Cada Produto</button></h1>
+                </div>
 
                 <div>
-
-                    <h1>Dados Produtos<button onClick={openDashboardProdutosDetalhados} className='filialBTN' > <img className='close' src='/images/produto.png' /> Cada Produto</button></h1>
-
                     <div className='dashboardTexts'>
 
                         <h2 className='prices'>
@@ -2560,12 +2566,12 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupo} onRequestClose={closeDashboardGrupo} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
 
-                <button onClick={closeDashboardGrupo} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                <div className='topo-content' >
+                    <button onClick={closeDashboardGrupo} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Grupo <button onClick={openDashboardGrupoDetalhado} className='filialBTN' > <img className='close' src='/images/grupo.png' /> Cada Grupo</button> </h1>
+                </div>
 
                 <div>
-
-                    <h1>Dados Grupo <button onClick={openDashboardGrupoDetalhado} className='filialBTN' > <img className='close' src='/images/grupo.png' /> Cada Grupo</button> </h1>
-
                     <div className='dashboardTexts' >
 
                         <h2 className='prices' >
@@ -2633,12 +2639,12 @@ export const ResumoFaturamento = () => {
 
             <Modal isOpen={dashboardFornecedor} onRequestClose={closeDashboardFornecedor} shouldCloseOnOverlayClick={false} style={customStyles} overlayClassName="null"  >
 
-                <button onClick={closeDashboardFornecedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                <div className='topo-content' >
+                    <button onClick={closeDashboardFornecedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Fornecedor<button onClick={openDashboardFornecedorDetalhado} className='filialBTN' > <img className='close' src='/images/fornecedor.png' /> Cada Fornecedor</button></h1>
+                </div>
 
                 <div>
-
-                    <h1>Dados Fornecedor<button onClick={openDashboardFornecedorDetalhado} className='filialBTN' > <img className='close' src='/images/fornecedor.png' /> Cada Fornecedor</button></h1>
-
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
                             <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(resultFor.toFixed(2)).toLocaleString('pt-BR')}

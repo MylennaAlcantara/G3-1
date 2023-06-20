@@ -66,14 +66,14 @@ export function resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, d
             { text: data.idVendedor, fontSize: 8 },
             { text: data.vendedor, fontSize: 8 },
             { text: parseFloat(data.qtdVendas).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.vlTotalCancelamento.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.vlTotalComissao.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlTotalCancelamento.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlTotalComissao.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
             { text: parseFloat(data.plucroLiquido.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
             { text: parseFloat(data.percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
         ]
@@ -101,21 +101,22 @@ export function resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, d
     const content = [
         {
             table: {
-                widths: ['*', '*'],
+                widths: ['*', '*', '*'],
                 body: [
                     [
                         { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
-                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
-                    ],
-                    [
                         { text: 'Período: ' + (dataIni).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFin).substr(0, 10).split('-').reverse().join('/'), bold: true, fontSize: 8 },
-                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) + '  ID: ' + (Array.isArray(user) && user.map(user => user.id)) , bold: true, fontSize: 8 },
-                    ],
-                    [
                         { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
-                        { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
+
                     ],
                     [
+                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) + '  ID: ' + (Array.isArray(user) && user.map(user => user.id)), bold: true, fontSize: 8 },
+                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
+                        { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
+
+                    ],
+                    [
+                        { text: '', fontSize: 8 },
                         { text: '', fontSize: 8 },
                         { text: '', fontSize: 8 },
                     ],
