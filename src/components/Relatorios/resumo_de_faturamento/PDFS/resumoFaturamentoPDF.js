@@ -66,14 +66,14 @@ export function resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, d
             { text: data.idVendedor, fontSize: 8 },
             { text: data.vendedor, fontSize: 8 },
             { text: parseFloat(data.qtdVendas).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlTotalCancelamento.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlTotalComissao.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlTotalCancelamento.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlTotalComissao.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
             { text: parseFloat(data.plucroLiquido.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
             { text: parseFloat(data.percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
         ]
@@ -126,7 +126,7 @@ export function resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, d
         {
             table: {
                 headerRows: 1,
-                widths: [30, 40, 125, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45],
+                widths: [25, 30, 125, 30, 55, 40, 55, 55, 45, 55, 52, 52, 35, 40],
                 body: [
                     [
                         { text: 'Id. Filial', fillColor: '#E0E7ED', fontSize: 7 },
@@ -141,8 +141,8 @@ export function resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, d
                         { text: 'Vlr. Custo Total', fillColor: '#E0E7ED', fontSize: 7, headerRows: 1, },
                         { text: 'Vlr. Lucro Venda', fillColor: '#E0E7ED', fontSize: 7, headerRows: 1, },
                         { text: 'Vlr. Lucro Liquido', fillColor: '#E0E7ED', fontSize: 7, headerRows: 1, },
-                        { text: 'Per. Lucro Líquido', fillColor: '#E0E7ED', fontSize: 7, headerRows: 1, },
-                        { text: 'Percentual', fillColor: '#E0E7ED', fontSize: 7, headerRows: 1, },
+                        { text: 'Per. Lucro Líquido(%)', fillColor: '#E0E7ED', fontSize: 7, headerRows: 1, },
+                        { text: 'Percentual(%)', fillColor: '#E0E7ED', fontSize: 7, headerRows: 1, },
                     ],
                     ...vendedor
                 ],

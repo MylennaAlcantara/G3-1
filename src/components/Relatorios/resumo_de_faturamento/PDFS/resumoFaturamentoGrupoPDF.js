@@ -62,9 +62,9 @@ export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, data
             { text: data.id_grupo, fontSize: 8 },
             { text: data.grupo, fontSize: 8 },
             { text: parseFloat(data.qtd_total).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
             { text: parseFloat(data.p_markup.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
             { text: parseFloat(data.p_margem.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
             { text: parseFloat(data.percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
@@ -118,7 +118,7 @@ export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, data
         {
             table: {
                 headerRows: 1,
-                widths: [30, 150, 40, 45, 45, 45, 45, 45, 45],
+                widths: [30, 150, 30, 55, 55, 55, 35, 35, 45],
                 body: [
                     [
                         { text: 'Id. Grupo', fillColor: '#E0E7ED', fontSize: 7 },
@@ -129,7 +129,7 @@ export function resumoFaturamentoGrupoPDF(valorFilial, valorIdTop, dataIni, data
                         { text: 'Vlr. Lucro', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Markup(%)', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Margem(%)', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Percentual', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Percentual(%)', fillColor: '#E0E7ED', fontSize: 7 },
                     ],
                     ...grupo
                 ],

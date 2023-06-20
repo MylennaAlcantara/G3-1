@@ -62,13 +62,13 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
         return [
             { text: data.id_fornecedor, fontSize: 8 },
             { text: data.fornecedor, fontSize: 8 },
-            { text: parseFloat(data.qtd_total).toLocaleString('pt-BR') , fontSize: 8 },
-            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.p_markup.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.p_margem.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.percentual.toFixed(2).toLocaleString('pt-BR')), fontSize: 8 },
+            { text: parseFloat(data.qtd_total).toLocaleString('pt-BR') , fontSize: 8 ,alignment: 'right' },
+            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR' , { style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR',{ style: 'currency', currency: 'BRL' }),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.p_markup.toFixed(2)).toLocaleString('pt-BR'),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.p_margem.toFixed(2)).toLocaleString('pt-BR'),alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.percentual.toFixed(2).toLocaleString('pt-BR')),alignment: 'right', fontSize: 8 },
         ]
     })
 
@@ -120,7 +120,7 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
         {
             table: {
                 headerRows: 1,
-                widths: [30, 150, 40, 45, 45, 45, 45, 45, 45],
+                widths: [30, 150, 30, 55, 55, 55, 35, 40, 45],
                 body: [
                     [
                         { text: 'Id. Fornecedor', fillColor: '#E0E7ED', fontSize: 7 },
@@ -131,7 +131,7 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
                         { text: 'Vlr. Lucro', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Markup(%)', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Margem(%)', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Percentual', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Percentual(%)', fillColor: '#E0E7ED', fontSize: 7 },
                     ],
                     ...fornecedor 
                 ],

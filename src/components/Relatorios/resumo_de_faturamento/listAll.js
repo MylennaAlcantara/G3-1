@@ -69,9 +69,16 @@ export const ResumoFaturamento = () => {
     const [query7, setQuery7] = useState(""); //Busca Grupo
     const [query8, setQuery8] = useState(""); //Busca Fornecedor 
 
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    const dataAtual = ano + '-' + mes + '-' + dia;
+
     const [filter, setFilter] = useState(""); //Pega Valor da opção selecionada ("VENDA", "TODOS", "ORÇAMENTO")
-    const [dataIni, setDataIni] = useState("2023-01-01"); //Pega Data inicial 
-    const [dataFin, setDataFin] = useState("2023-01-15"); //Pega Data Final
+    const [dataIni, setDataIni] = useState(dataAtual); //Pega Data inicial 
+    const [dataFin, setDataFin] = useState(dataAtual); //Pega Data Final
+
 
     const [dados, setDados] = useState([]); //Pega Dados de Filial
     const [dadosRegiao, setDadosRegiao] = useState([]); //Pega dados de Região
@@ -906,11 +913,11 @@ export const ResumoFaturamento = () => {
 
     const [produtoDetalhado, setProdutoDetalhado] = useState()
 
-    function abp1(){ setProdutoDetalhado(dadosProduto.slice(0, 90)) }; function abp2() { setProdutoDetalhado(dadosProduto.slice(91, 181)) }; function abp3() { setProdutoDetalhado(dadosProduto.slice(182, 272)) }; function abp4() { setProdutoDetalhado(dadosProduto.slice(273, 363)) }; function abp5() { setProdutoDetalhado(dadosProduto.slice(364, 454)) };
-    function abp6(){ setProdutoDetalhado(dadosProduto.slice(455, 545))}; function abp7(){ setProdutoDetalhado(dadosProduto.slice(546, 636))}; function abp8(){setProdutoDetalhado(dadosProduto.slice(637, 727))}; function abp9(){ setProdutoDetalhado(dadosProduto.slice(728, 818))}; function abp10(){ setProdutoDetalhado(dadosProduto.slice(819, 909))};
-    function abp11(){ setProdutoDetalhado(dadosProduto.slice(910, 1000))};
+    function abp1() { setProdutoDetalhado(dadosProduto.slice(0, 90)) }; function abp2() { setProdutoDetalhado(dadosProduto.slice(91, 181)) }; function abp3() { setProdutoDetalhado(dadosProduto.slice(182, 272)) }; function abp4() { setProdutoDetalhado(dadosProduto.slice(273, 363)) }; function abp5() { setProdutoDetalhado(dadosProduto.slice(364, 454)) };
+    function abp6() { setProdutoDetalhado(dadosProduto.slice(455, 545)) }; function abp7() { setProdutoDetalhado(dadosProduto.slice(546, 636)) }; function abp8() { setProdutoDetalhado(dadosProduto.slice(637, 727)) }; function abp9() { setProdutoDetalhado(dadosProduto.slice(728, 818)) }; function abp10() { setProdutoDetalhado(dadosProduto.slice(819, 909)) };
+    function abp11() { setProdutoDetalhado(dadosProduto.slice(910, 1000)) };
 
-    const dataProd0 = produtoDetalhado && [ 
+    const dataProd0 = produtoDetalhado && [
         ["Valores em R$", "Venda", "Lucro"],
         ...produtoDetalhado.map(item => [item.produto, item.vlr_venda_total, item.vlr_lucro_total])
     ]
@@ -1632,8 +1639,6 @@ export const ResumoFaturamento = () => {
                                     <label>Dashboards</label> <label>( Totais abaixo da lista! )</label>
 
                                     <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
-
-                                    <button className='dashboardBtn' onClick={imprimirTpPg}> <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                                 </div>
                                 <div className='table-responsive'>
                                     <table id='table'>
@@ -1932,7 +1937,7 @@ export const ResumoFaturamento = () => {
 
                                             <th>% Margem</th>
 
-                                            <th>Percentual</th>
+                                            <th>% Percentual</th>
                                         </tr>
                                     </thead>
                                     {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(query7)).map((dat3) => {
@@ -2021,7 +2026,7 @@ export const ResumoFaturamento = () => {
 
                                             <th>% Margem</th>
 
-                                            <th>Percentual</th>
+                                            <th>% Percentual</th>
                                         </tr>
                                     </thead>
                                     {dadosFornecedor.filter(dat => dat.fornecedor.toLowerCase().includes(query8)).map((dat) => (
@@ -2107,41 +2112,41 @@ export const ResumoFaturamento = () => {
 
                         <h1>Cada Região</h1>
 
-                        {dadosRegiao.map((data) => {
-                            const chartRe = [
-                                [
-                                    "Element",
-                                    "Valor",
-                                    { role: "style" },
-                                    {
-                                        sourceColumn: 0,
-                                        role: "annotation",
-                                        type: "string",
-                                        calc: "stringify",
-                                    },
-                                ],
-                                ["Lucro", data.vlLucroTotal, "#f6d001", null],
-                                ["Custo", data.vlCustoTotal, "#bc1b2b", null],
-                                ["Venda Total", data.vlVendaTotal, "#F7C64F", null],
-                                ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
-                                ["NFC-e", data.vlTotalNfce, "#0854b2", null],
-                            ]
+                        <RF.Dashboard0>
+                            {dadosRegiao.map((data) => {
+                                const chartRe = [
+                                    [
+                                        "Element",
+                                        "Valor",
+                                        { role: "style" },
+                                        {
+                                            sourceColumn: 0,
+                                            role: "annotation",
+                                            type: "string",
+                                            calc: "stringify",
+                                        },
+                                    ],
+                                    ["Lucro", data.vlLucroTotal, "#f6d001", null],
+                                    ["Custo", data.vlCustoTotal, "#bc1b2b", null],
+                                    ["Venda Total", data.vlVendaTotal, "#F7C64F", null],
+                                    ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                                    ["NFC-e", data.vlTotalNfce, "#0854b2", null],
+                                ]
 
-                            const optionsRe = {
-                                title: data.regiao,
-                                width: "100%",
-                                height: "95%",
-                                bar: { groupWidth: "95%", },
-                                legend: { position: "none" }
-                            }
+                                const optionsRe = {
+                                    title: data.regiao,
+                                    width: "100%",
+                                    height: "95%",
+                                    bar: { groupWidth: "95%", },
+                                    legend: { position: "none" }
+                                }
 
-                            return (
-                                <RF.Dashboard0>
+                                return (
                                     <div className='grafico' ><Chart chartType='BarChart' data={chartRe} options={optionsRe} /></div>
-                                </RF.Dashboard0>
-                            )
+                                )
 
-                        })}
+                            })}
+                        </RF.Dashboard0>
 
                     </Modal>
 
@@ -2198,44 +2203,46 @@ export const ResumoFaturamento = () => {
                         <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
 
                         <h1>Cada Filial</h1>
+                        
+                        <RF.Dashboard0>
+                            {dados.map((data) => {
+                                const ChartFi = [
+                                    [
+                                        "Element",
+                                        "Valor",
+                                        { role: "style" },
+                                        {
+                                            sourceColumn: 0,
+                                            role: "annotation",
+                                            type: "string",
+                                            calc: "stringify",
+                                        },
+                                    ],
+                                    ["Lucro", data.vlLucroVenda, "#f6d002", null],
+                                    ["Custo", data.vlCustoTotal, "#ad1b27", null],
+                                    ["Total Venda", data.vlVendaTotal, "#b2bb1c", null],
+                                    ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                                    ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
+                                    ["Credito", data.vlTotalCredito, "#ff6ad8", null],
+                                    ["Liquido", data.vlTotalLiquido, "#ffaf56", null],
+                                ]
 
-                        {dados.map((data) => {
-                            const ChartFi = [
-                                [
-                                    "Element",
-                                    "Valor",
-                                    { role: "style" },
-                                    {
-                                        sourceColumn: 0,
-                                        role: "annotation",
-                                        type: "string",
-                                        calc: "stringify",
-                                    },
-                                ],
-                                ["Lucro", data.vlLucroVenda, "#f6d002", null],
-                                ["Custo", data.vlCustoTotal, "#ad1b27", null],
-                                ["Total Venda", data.vlVendaTotal, "#b2bb1c", null],
-                                ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
-                                ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
-                                ["Credito", data.vlTotalCredito, "#ff6ad8", null],
-                                ["Liquido", data.vlTotalLiquido, "#ffaf56", null],
-                            ]
+                                const optionsFili = {
+                                    title: data.filial,
+                                    width: "100%",
+                                    height: "95%",
+                                    bar: { groupWidth: "95%", },
+                                    legend: { position: "none" }
+                                }
 
-                            const optionsFili = {
-                                title: data.filial,
-                                width: "100%",
-                                height: "95%",
-                                bar: { groupWidth: "95%", },
-                                legend: { position: "none" }
-                            }
+                                return (
 
-                            return (
-                                <RF.Dashboard0>
                                     <div className='grafico'><Chart chartType='BarChart' data={ChartFi} options={optionsFili} /></div>
-                                </RF.Dashboard0>
-                            )
-                        })}
 
+                                )
+                            })}
+                        </RF.Dashboard0>
+                        
                     </Modal>
 
                 </div>
@@ -2299,35 +2306,35 @@ export const ResumoFaturamento = () => {
                     <h1>Cada Vendedor</h1>
 
                     <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Vendedor" onChange={(e) => setQuery2(e.target.value)} />
+                    <RF.Dashboard0>
+                        {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query2)).map((data) => {
+                            const optionsVen = {
+                                title: data.vendedor,
+                                width: "100%",
+                                height: "95%",
+                                bar: { groupWidth: "95%", },
+                                legend: { position: "none" }
+                            }
 
-                    {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query2)).map((data) => {
-                        const optionsVen = {
-                            title: data.vendedor,
-                            width: "100%",
-                            height: "95%",
-                            bar: { groupWidth: "95%", },
-                            legend: { position: "none" }
-                        }
+                            const ChartFi = [
+                                ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                                ["Lucro", data.vlLucroVenda, "#f6d001", null],
+                                ["Custo", data.vlCustoTotal, "#bc1b2b", null],
+                                ["Venda Total", data.vlVendaTotal, "#b2bb1c", null],
+                                ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                                ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
+                                ["Credito", data.vlTotalCredito, "ff6ad8", null],
+                                ["Cancelamento", data.vlTotalCancelamento, "ffaf56", null],
+                                ["Comissão", data.vlTotalComissao, "#57ffe8", null],
+                                ["Desconto", data.vlTotalDesconto, "#727272", null],
+                            ]
 
-                        const ChartFi = [
-                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
-                            ["Lucro", data.vlLucroVenda, "#f6d001", null],
-                            ["Custo", data.vlCustoTotal, "#bc1b2b", null],
-                            ["Venda Total", data.vlVendaTotal, "#b2bb1c", null],
-                            ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
-                            ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
-                            ["Credito", data.vlTotalCredito, "ff6ad8", null],
-                            ["Cancelamento", data.vlTotalCancelamento, "ffaf56", null],
-                            ["Comissão", data.vlTotalComissao, "#57ffe8", null],
-                            ["Desconto", data.vlTotalDesconto, "#727272", null],
-                        ]
-
-                        return (
-                            <RF.Dashboard0>
+                            return (
                                 <div className='grafico' ><Chart chartType='BarChart' data={ChartFi} options={optionsVen} /></div>
-                            </RF.Dashboard0>
-                        )
-                    })}
+                            )
+                        })}
+                    </RF.Dashboard0>
+
                 </Modal>
 
             </Modal>
@@ -2380,34 +2387,39 @@ export const ResumoFaturamento = () => {
 
                         <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Cliente..." onChange={(e) => setQueryC(e.target.value)} />
 
-                        {dadosCliente.filter(dat => dat.cliente.toLowerCase().includes(queryC)).map((data) => {
-                            const ChartCli = [
-                                ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
-                                ["Lucro", data.vlLucroVenda, "#f6d001", null],
-                                ["Custo", data.vlLucroVenda, "#bc1b2b", null],
-                                ["Venda", data.vlVendaTotal, "#b2bb1c", null],
-                                ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
-                                ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
-                                ["Credito", data.vlTotalCredito, "#ff6ad8", null],
-                                ["Liquido", data.vlTotalLiquido, "#ffaf56", null],
-                                ["Desconto", data.vlTotalDesconto, "#57ffe8", null]
-                            ]
+                        <RF.Dashboard0>
+                            {dadosCliente.filter(dat => dat.cliente.toLowerCase().includes(queryC)).map((data) => {
+                                const ChartCli = [
+                                    ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                                    ["Lucro", data.vlLucroVenda, "#f6d001", null],
+                                    ["Custo", data.vlLucroVenda, "#bc1b2b", null],
+                                    ["Venda", data.vlVendaTotal, "#b2bb1c", null],
+                                    ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                                    ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
+                                    ["Credito", data.vlTotalCredito, "#ff6ad8", null],
+                                    ["Liquido", data.vlTotalLiquido, "#ffaf56", null],
+                                    ["Desconto", data.vlTotalDesconto, "#57ffe8", null]
+                                ]
 
-                            const optionCli = {
-                                title: data.cliente,
-                                width: "100%",
-                                height: "95%",
-                                bar: { groupWidth: "95%", },
-                                legend: { position: "none" }
-                            }
+                                const optionCli = {
+                                    title: data.cliente,
+                                    width: "100%",
+                                    height: "95%",
+                                    bar: { groupWidth: "95%", },
+                                    legend: { position: "none" }
+                                }
 
-                            return (
-                                <RF.Dashboard0>
+                                return (
+
                                     <div className='grafico' ><Chart chartType='BarChart' data={ChartCli} options={optionCli} /></div>
-                                </RF.Dashboard0>
-                            )
-                        })}
+
+                                )
+                            })}
+                        </RF.Dashboard0>
+
+
                     </Modal>
+
 
                 </div>
 
@@ -2589,29 +2601,31 @@ export const ResumoFaturamento = () => {
 
                     <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Grupo..." onChange={(e) => setQueryG(e.target.value)} />
 
-                    {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(queryG)).map((data) => {
-                        const optionGru = {
-                            title: data.grupo,
-                            width: "100%",
-                            height: "95%",
-                            bar: { groupWidth: "95%", },
-                            legend: { position: "none" }
-                        }
+                    <RF.Dashboard0>
+                        {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(queryG)).map((data) => {
+                            const optionGru = {
+                                title: data.grupo,
+                                width: "100%",
+                                height: "95%",
+                                bar: { groupWidth: "95%", },
+                                legend: { position: "none" }
+                            }
 
-                        const ChartGru = [
-                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
-                            ["Venda", data.vlr_venda_total, "#bc1b2b", null],
-                            ["Lucro", data.vlr_lucro_total, "#ffaf56", null],
-                            ["Sub.Total", data.sub_total, "#f6d001", null],
-                            ["Desc.Total", data.desconto_tota, "#1b7abc", null],
-                        ]
+                            const ChartGru = [
+                                ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                                ["Venda", data.vlr_venda_total, "#bc1b2b", null],
+                                ["Lucro", data.vlr_lucro_total, "#ffaf56", null],
+                                ["Sub.Total", data.sub_total, "#f6d001", null],
+                                ["Desc.Total", data.desconto_tota, "#1b7abc", null],
+                            ]
 
-                        return (
-                            <RF.Dashboard0>
+                            return (
+
                                 <div className='grafico'><Chart chartType='BarChart' data={ChartGru} options={optionGru} /></div>
-                            </RF.Dashboard0>
-                        )
-                    })}
+
+                            )
+                        })}
+                    </RF.Dashboard0>
 
                 </Modal>
 
@@ -2661,29 +2675,31 @@ export const ResumoFaturamento = () => {
 
                     <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Fornecedor..." onChange={(e) => setQueryF(e.target.value)} />
 
-                    {dadosFornecedor.filter(dat => dat.fornecedor.toLowerCase().includes(queryF)).slice(0, 90).map((data) => {
-                        const ChartFor = [
-                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
-                            ["Venda", data.vlr_venda_total, "#bc1b2b", null],
-                            ["Lucro", data.vlr_lucro_total, "#57ffe8", null],
-                            ["Custo", data.vlr_custo_total, "#bc1b9c", null],
-                            ["Desconto", data.vlr_desconto_total, "#1b7abc", null],
-                            ["Sub.Total", data.sub_total, "#b2bb1c", null],
-                        ]
+                    <RF.Dashboard0>
+                        {dadosFornecedor.filter(dat => dat.fornecedor.toLowerCase().includes(queryF)).slice(0, 90).map((data) => {
+                            const ChartFor = [
+                                ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                                ["Venda", data.vlr_venda_total, "#bc1b2b", null],
+                                ["Lucro", data.vlr_lucro_total, "#57ffe8", null],
+                                ["Custo", data.vlr_custo_total, "#bc1b9c", null],
+                                ["Desconto", data.vlr_desconto_total, "#1b7abc", null],
+                                ["Sub.Total", data.sub_total, "#b2bb1c", null],
+                            ]
 
-                        const optionFor = {
-                            title: data.fornecedor,
-                            width: "100%",
-                            height: "95%",
-                            bar: { groupWidth: "95%" }
-                        }
+                            const optionFor = {
+                                title: data.fornecedor,
+                                width: "100%",
+                                height: "95%",
+                                bar: { groupWidth: "95%" }
+                            }
 
-                        return (
-                            <RF.Dashboard0>
+                            return (
+
                                 <div className='grafico' ><Chart chartType='BarChart' data={ChartFor} options={optionFor} /></div>
-                            </RF.Dashboard0>
-                        )
-                    })}
+
+                            )
+                        })}
+                    </RF.Dashboard0>
 
                 </Modal>
             </Modal>

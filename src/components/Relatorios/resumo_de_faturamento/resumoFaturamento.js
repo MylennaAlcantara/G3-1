@@ -332,6 +332,7 @@ margin: 50px;
 export const Dashboard0 = styled.div`
 display: flex;
 margin: 10px;
+flex-wrap: wrap;
 align-items: center;
 justify-content: center;
 .grafico {

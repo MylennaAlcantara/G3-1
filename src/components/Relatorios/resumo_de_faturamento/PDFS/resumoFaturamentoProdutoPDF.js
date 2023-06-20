@@ -131,7 +131,7 @@ export function resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, da
                         { text: 'Vlr. Lucro', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Markup(%)', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Margem(%)', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Percentual', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Percentual(%)', fillColor: '#E0E7ED', fontSize: 7 },
                     ],
                     ...produto
                 ],
