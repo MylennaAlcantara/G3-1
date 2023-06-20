@@ -35,6 +35,7 @@ import { PerfilCliente } from './components/modais/modal_perfil_cliente';
 import { PerfilMovimentacao } from './components/modais/modal_perfil_mov';
 import { RamoAtividade } from './components/modais/modal_ramo_atividade';
 import { Pgt } from './components/modais/modal_pgt';
+import { EvolucaoFaturamento } from './components/Relatorios/evolucao_de_faturamento(CAGR)/evolucaoFaturamento'
 
 function App() {    
   const navigate = useNavigate();
@@ -184,6 +185,7 @@ function App() {
 
             <Route path = '/resumoDeFaturamento' element = {token ? (<><NavBar setCadastro={setCadastro} cadastro={cadastro} setModal={setModal} modal={modal} minimizado={minimizado} setMinimizado={setMinimizado}/><ResumoFaturamento/></>) : <Login/>}/>
             <Route path = '/picoDeFaturamento' element = {token ? (<><NavBar setCadastro={setCadastro} cadastro={cadastro} setModal={setModal} modal={modal} minimizado={minimizado} setMinimizado={setMinimizado}/><PicoDeFaturamento/></>) : <Login/>}/>
+            <Route path = '/evolucaoDeFaturamento' element = {token ? (<><NavBar setCadastro={setCadastro} cadastro={cadastro} setModal={setModal} modal={modal} minimizado={minimizado} setMinimizado={setMinimizado}/><EvolucaoFaturamento/></>) : <Login/>}/>
           </Routes>
           {/* Renderização dos modais */}
             {modal.setor ? <Setor close={()=> setModal({...modal, setor: false})} cadastro={cadastro} setMinimizado={setMinimizado} minimizado={minimizado} setModal={setModal} modal={modal}/> : null}

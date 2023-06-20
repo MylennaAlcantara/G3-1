@@ -31,21 +31,21 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
     }
 
     const Filial = () => {
-        if(valorFilial.length === 0){
+        if (valorFilial.length === 0) {
             return (
                 "TODAS"
             )
-        }else{
+        } else {
             return valorFilial
         }
     }
 
     const Top = () => {
-        if(valorIdTop.length === 0){
+        if (valorIdTop.length === 0) {
             return (
                 "TODAS"
             )
-        }else{
+        } else {
             return valorIdTop
         }
     }
@@ -54,7 +54,7 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
     const Custo = dadosFornecedor.reduce((a, b) => a + b.vlr_lucro_total, 0)
     const Venda = dadosFornecedor.reduce((a, b) => a + b.vlr_venda_total, 0)
     const Lucro = dadosFornecedor.reduce((a, b) => a + b.vlr_lucro_total, 0)
-    const Markup = dadosFornecedor.reduce((a, b) => a + b.p_markup, 0) 
+    const Markup = dadosFornecedor.reduce((a, b) => a + b.p_markup, 0)
     const Margem = dadosFornecedor.reduce((a, b) => a + b.p_margem, 0)
     const Percentual = dadosFornecedor.reduce((a, b) => a + b.percentual, 0)
 
@@ -62,13 +62,13 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
         return [
             { text: data.id_fornecedor, fontSize: 8 },
             { text: data.fornecedor, fontSize: 8 },
-            { text: parseFloat(data.qtd_total).toLocaleString('pt-BR') , fontSize: 8 },
-            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.p_markup.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.p_margem.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.percentual.toFixed(2).toLocaleString('pt-BR')), fontSize: 8 },
+            { text: parseFloat(data.qtd_total).toLocaleString('pt-BR'), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.p_markup.toFixed(2)).toLocaleString('pt-BR'), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.p_margem.toFixed(2)).toLocaleString('pt-BR'), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.percentual.toFixed(2).toLocaleString('pt-BR')), alignment: 'right', fontSize: 8 },
         ]
     })
 
@@ -94,25 +94,23 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
     const content = [
         {
             table: {
-                widths: ['*', '*'],
+                widths: ['*', '*', '*'],
                 body: [
                     [
-                        { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 }, 
-                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
-                    ],
-                    [
+                        { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
                         { text: 'Período: ' + (dataIni).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFin).substr(0, 10).split('-').reverse().join('/'), bold: true, fontSize: 8 },
-                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) + '    ID: ' + (Array.isArray(user) && user.map(user => user.id)) , bold: true , fontSize: 8 },
-                    ],
-                    [
-                        { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
                         { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
                     ],
                     [
+                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) + '    ID: ' + (Array.isArray(user) && user.map(user => user.id)), bold: true, fontSize: 8 },
+                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
+                        { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
+                    ],
+                    [
+                        { text: '', fontSize: 8 },
                         { text: '', fontSize: 8 },
                         { text: '', fontSize: 8 },
                     ]
-
                 ]
             },
             layout: 'headerLineOnly',
@@ -120,7 +118,7 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
         {
             table: {
                 headerRows: 1,
-                widths: [30, 150, 40, 45, 45, 45, 45, 45, 45],
+                widths: [30, 150, 30, 55, 55, 55, 35, 40, 45],
                 body: [
                     [
                         { text: 'Id. Fornecedor', fillColor: '#E0E7ED', fontSize: 7 },
@@ -131,9 +129,9 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
                         { text: 'Vlr. Lucro', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Markup(%)', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Margem(%)', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Percentual', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Percentual(%)', fillColor: '#E0E7ED', fontSize: 7 },
                     ],
-                    ...fornecedor 
+                    ...fornecedor
                 ],
             },
 
@@ -144,7 +142,7 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
                 widths: ['*'],
                 body: [
                     [
-                        {text: 'Totais', alignment: 'center'}
+                        { text: 'Totais', alignment: 'center' }
                     ]
                 ]
             },
@@ -153,16 +151,16 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
         {
             table: {
                 headerRows: 1,
-                widths: ['*','*','*','*','*','*','*'],
+                widths: ['*', '*', '*', '*', '*', '*', '*'],
                 body: [
                     [
-                        {text: 'Qtd.Total: ' + parseFloat(qtdTotal).toLocaleString('pt-BR') , fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Custo: ' + parseFloat(Custo.toFixed(2)).toLocaleString('pt-BR') , fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Venda: ' + parseFloat(Venda.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Lucro: ' + parseFloat(Lucro.toFixed(2)).toLocaleString('pt-BR') , fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Markup: ' + parseFloat(Markup.toFixed(2)).toLocaleString('pt-BR') + '%', fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Margem: ' + parseFloat(Margem.toFixed(2)).toLocaleString('pt-BR') + '%' , fontSize: 8, alignment: 'center', bold: true},
-                        {text: 'Percentual: ' + parseFloat(Percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true},
+                        { text: 'Qtd.Total: ' + parseFloat(qtdTotal).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Custo: ' + parseFloat(Custo.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Venda: ' + parseFloat(Venda.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Lucro: ' + parseFloat(Lucro.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Markup: ' + parseFloat(Markup.toFixed(2)).toLocaleString('pt-BR') + '%', fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Margem: ' + parseFloat(Margem.toFixed(2)).toLocaleString('pt-BR') + '%', fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Percentual: ' + parseFloat(Percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true },
                     ]
                 ]
             }

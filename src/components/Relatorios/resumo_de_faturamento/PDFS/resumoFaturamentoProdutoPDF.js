@@ -62,9 +62,9 @@ export function resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, da
             { text: data.id_produto, fontSize: 8 },
             { text: data.produto, fontSize: 8 },
             { text: parseFloat(data.qtd_total).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
             { text: parseFloat(data.p_markup.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
             { text: parseFloat(data.p_margem.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
             { text: parseFloat(data.percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
@@ -93,22 +93,21 @@ export function resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, da
     const content = [
         {
             table: {
-                widths: ['*', '*'],
+                widths: ['*', '*', '*'],
                 body: [
                     [
                         { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
-                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
-                    ],
-                    [
                         { text: 'Período: ' + (dataIni).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFin).substr(0, 10).split('-').reverse().join('/'), bold: true, fontSize: 8 },
-                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) + '  ID: ' + (Array.isArray(user) && user.map(user => user.id)) , bold: true , fontSize: 8 }
-                    ],
-                    [
                         { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
-                        { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
 
                     ],
                     [
+                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) + '  ID: ' + (Array.isArray(user) && user.map(user => user.id)), bold: true, fontSize: 8 },
+                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
+                        { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
+                    ],
+                    [
+                        { text: '', fontSize: 8 },
                         { text: '', fontSize: 8 },
                         { text: '', fontSize: 8 },
                     ],
@@ -131,7 +130,7 @@ export function resumoFaturamentoProdutoPDF(valorFilial, valorIdTop, dataIni, da
                         { text: 'Vlr. Lucro', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Markup(%)', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Margem(%)', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Percentual', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Percentual(%)', fillColor: '#E0E7ED', fontSize: 7 },
                     ],
                     ...produto
                 ],

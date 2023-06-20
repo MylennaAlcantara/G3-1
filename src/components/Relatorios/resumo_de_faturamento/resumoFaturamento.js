@@ -25,6 +25,7 @@ export const FilialTop = styled.div`
     border-top-left-radius: 0;
     background-color: #F0F0F0;
     .filial-top{
+        display: flex;
         width: 100%;
         height: 100%;
         display: flex;
@@ -45,6 +46,9 @@ export const FilialTop = styled.div`
     .table-responsive{
         overflow: auto;
         width: 100%;
+    }
+    .tr{
+        margin-top: auto;
     }
     table{
         border-collapse: collapse;
@@ -332,6 +336,7 @@ margin: 50px;
 export const Dashboard0 = styled.div`
 display: flex;
 margin: 10px;
+flex-wrap: wrap;
 align-items: center;
 justify-content: center;
 .grafico {
