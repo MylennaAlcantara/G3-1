@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Familia } from "../modais/modais_tela_produtos/modal_familia/index";
 import { Ipi } from "../modais/modais_tela_produtos/modal_ipi";
@@ -97,6 +97,18 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
     }
     */
 
+    const [sincronizando, setSincronizando] = useState(null);
+
+    const sincronizar = async () => {
+        setSincronizando(true);
+        const response = await fetch("http://10.0.1.107:8091/sincronizar",{
+            method: "POST"
+        });
+        if(response.ok){
+            setSincronizando(false);
+        }
+    }
+
     const sair = () => {
         localStorage.clear();
         document.location.reload(true);
@@ -182,7 +194,16 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                             <div className="gaveta" onClick={() => {navigate('/picoDeFaturamento'); fecharOp()} }>Pico de Faturamento</div>
                         </>
                     ) : null}
-
+                    {sincronizando === true ? (
+                        <div className="sincronizando">
+                            Sincronizando<div className="loader"/>
+                        </div>
+                    ) : sincronizando === false ? (
+                        <div className="sincronizado">
+                            Sincronizado!
+                        </div>
+                    ) : null}
+                    <button className={sincronizando ? "sincronizar" : "sincronizar-sinc"} onClick={sincronizando ? null : sincronizar}>Sincronizar</button>
                     <button onClick={sair}>Sair</button>
                 </C.Barra>
             ) : null}

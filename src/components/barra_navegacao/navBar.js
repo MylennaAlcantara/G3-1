@@ -74,7 +74,28 @@ export const Barra = styled.div `
         border-bottom: 1px solid #064a8b;
         cursor: pointer;
     }
-    
+    .sincronizar{
+        position: fixed;
+        bottom: 50px;
+        color: white;
+        font-weight: bold;
+        width: 117px;
+        height: 33px;
+        background-color: orange;
+        border: 1px solid orange;
+        border-radius: 5px;
+    }
+    .sincronizar-sinc{
+        position: fixed;
+        bottom: 50px;
+        color: white;
+        font-weight: bold;
+        width: 117px;
+        height: 33px;
+        background-color: orange;
+        border: 1px solid orange;
+        border-radius: 5px;
+    }
     button{
         position: fixed;
         bottom: 15px;
@@ -89,5 +110,61 @@ export const Barra = styled.div `
     button:hover{
         cursor: pointer;
     }
+    .sincronizando{
+        margin-left: 20px;
+        background-color: yellow;
+        color: red;
+        font-weight: bold;
+        font-size: 12px;
+        border: 1px solid orange;
+        border-radius: 30px 20px 20px 0px;
+        width: 100px;
+        position: fixed;
+        bottom: 85px;
+    }
+    .sincronizar:hover,
+    .sincronizando:hover{
+        cursor: wait;
+    }
+    .sincronizado{
+        margin-left: 20px;
+        background-color: Green;
+        color: white;
+        border-radius: 30px 20px 20px 0px;
+        width: 100px;
+        position: fixed;
+        bottom: 85px;
+    }
 
+    .sincronizar-sinc:hover{
+        cursor: pointer;
+    }
+    .sincronizado:hover{
+        cursor: auto;
+    }
+    @keyframes hide {
+        from { opacity: 1 }
+        to   { opacity: 0 }
+    }
+    
+    .sincronizado {
+    animation: hide 2s 2s forwards
+    }
+
+    .loader {
+        margin-left: 2px;
+        background-color: yellow;
+        animation: is-rotating 1s infinite;
+        border: 3px solid #51d4db;
+        border-radius: 50%;
+        border-top-color: #00a5dd;
+        height: 5px;
+        width: 5px;
+    }
+    
+    @keyframes is-rotating {
+    to {
+        transform: rotate(1turn);
+    }
+    }
 `
