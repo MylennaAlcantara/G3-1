@@ -17,11 +17,9 @@ export const VendasCaixa = ({ close }) => {
     const [dataFinal, setDataFinal] = useState();
 
     async function consultarCaixas() {
-        setCaixa([]);
         setShowElement(true);
 
         const resultados = [];
-
 
         if (dataInicial && dataFinal) {
             const [totalRes, tipoPgtoRes] = await Promise.all([
@@ -162,8 +160,8 @@ export const VendasCaixa = ({ close }) => {
     const [subGrafico, setSubGrafico] = useState('pizza');
 
     const graficosBarra = pagamentoCaixa && [
-            ["Element","Valor",{ role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify",}, ],
-            ...pagamentoCaixa.map(item => [item.descricao, item.total, '', null])
+        ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+        ...pagamentoCaixa.map(item => [item.descricao, item.total, '', null])
     ]
 
     const opcao = {
@@ -210,6 +208,7 @@ export const VendasCaixa = ({ close }) => {
                             <label>{parseFloat(total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", " ").replace("NaN", "0,00")}</label>
                         </div>
                         {filtro === "todos" ? (
+
                             <div className={filtro === "todos" ? "caixa-pgto" : "pgto-caixa"}>
                                 <h3>CAIXAS:</h3>
                                 {totalCaixas.map((cx) => {
@@ -218,8 +217,8 @@ export const VendasCaixa = ({ close }) => {
                                             <div>
                                                 <label>{cx.nome}:</label>
                                             </div>
-                                            <div>
-                                                <label>{(cx.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
+                                            <div className="alinharValor" >
+                                                <label >{(cx.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
                                             </div>
                                         </div>
                                     )
@@ -236,29 +235,38 @@ export const VendasCaixa = ({ close }) => {
                                                 <label>{pgto.descricao}:</label>
                                             </div>
                                             <div>
-                                                <label>{parseFloat(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
+                                                <label className="alinharValor" >{parseFloat(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
                                             </div>
                                         </div>
                                     )
                                 })
                             ) : (
                                 Array.isArray(pagamentoCaixa) && pagamentoCaixa.map((pgto) => {
-                                    if(pgto === null || pgto === undefined){
-                                        return(
-                                            <div>CAIXA COM PROBLEMA OU OFFLINE</div>
+
+                                    if (pagamentoCaixa.length === 0) {
+
+                                        return (
+                                            <div className="pgto">
+                                                <div>
+                                                    <label>CAIXA SEM PAGAMENTOS OU OFFLINE</label>
+                                                </div>
+                                            </div>
+                                        )
+
+                                    } else {
+
+                                        return (
+                                            <div className="pgto">
+                                                <div>
+                                                    <label>{pgto.descricao}:</label>
+                                                </div>
+                                                <div>
+                                                    <p className="alinharValor" >{(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</p>
+                                                </div>
+                                            </div>
                                         )
                                     }
 
-                                    return (
-                                        <div className="pgto">
-                                            <div>
-                                                <label>{pgto.descricao}:</label>
-                                            </div>
-                                            <div>
-                                                <label>{(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
-                                            </div>
-                                        </div>
-                                    )
                                 })
                             )}
 
@@ -283,9 +291,9 @@ export const VendasCaixa = ({ close }) => {
                                             </div>
                                         ) : (
                                             <div className="A" onDoubleClick={() => setSubGrafico('pizza')} >
-                                                <Chart chartType="BarChart" data={graficosBarra} options={opcao}  />
+                                                <Chart chartType="BarChart" data={graficosBarra} options={opcao} />
                                             </div>
-                                        ) }
+                                        )}
                                     </div>
                                 ) : (
                                     <div>

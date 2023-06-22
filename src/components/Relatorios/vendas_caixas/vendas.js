@@ -25,6 +25,13 @@ export const Filtro = styled.div`
 export const Totais = styled.div`
     height: 90%;
     width: 40%;
+    .alinharValor{
+        display: flex;
+        justify-content: end;
+        align-items: center ;
+        margin-right: 30px;
+        margin-left: 20px;
+    }
     .total{
         margin-top: 10px;
         background-color: #064A8B;
@@ -56,7 +63,8 @@ export const Totais = styled.div`
                 width: 50%;
                 display: flex;
                 flex-direction: column;
-                align-items: start;
+                align-items: end;
+                justify-content: space-b;
                 label{
                     margin-left: 10px;
                 }
