@@ -132,11 +132,21 @@ export const ResumoFaturamento = () => {
 
     const [valor, setValor] = useState([])
 
+    const valoresA = valor.filter(function (a) {
+        return !this[JSON.stringify(a)] && (this[JSON.stringify(a)] = true);
+    }, Object.create(null))
+
+    console.log(valoresA)
+
     const valorFilial = valor.map((test) => ( //Pega o numero do código(Filial) para a API
         (test.id)
     ))
 
     const [valorTop, setValorTop] = useState([])
+
+    const valoresB = valorTop.filter(function (b) {
+        return !this[JSON.stringify(b)] && (this[JSON.stringify(b)] = true);
+    }, Object.create(null))
 
     const valorIdTop = valorTop.map((test) => ( //Pega o numero do código(TOPS) para a API
         (test.id)
@@ -243,15 +253,15 @@ export const ResumoFaturamento = () => {
         if (res.status === 200) {
             res.json().then(data => {
                 setDadosTipoPagamento(Object.values(data[0]));
-                setDadosTipoPagamento1(Object.values(data[1]));
-                setDadosTipoPagamento2(Object.values(data[2]));
-                setDadosTipoPagamento3(Object.values(data[3]));
-                setDadosTipoPagamento4(Object.values(data[4]));
-                setDadosTipoPagamento5(Object.values(data[5]));
-                setDadosTipoPagamento6(Object.values(data[6]));
-                setDadosTipoPagamento7(Object.values(data[7]));
-                setDadosTipoPagamento8(Object.values(data[8]));
-                setDadosTipoPagamento9(Object.values(data[9]));
+                data[1] && setDadosTipoPagamento1(Object.values(data[1]));
+                data[2] && setDadosTipoPagamento2(Object.values(data[2]));
+                data[3] && setDadosTipoPagamento3(Object.values(data[3]));
+                data[4] && setDadosTipoPagamento4(Object.values(data[4]));
+                data[5] && setDadosTipoPagamento5(Object.values(data[5]));
+                data[6] && setDadosTipoPagamento6(Object.values(data[6]));
+                data[7] && setDadosTipoPagamento7(Object.values(data[7]));
+                data[8] && setDadosTipoPagamento8(Object.values(data[8]));
+                data[9] && setDadosTipoPagamento9(Object.values(data[9]));
                 setDaDosKeys(Object.keys(data[0]));
                 setDadosLeitura(data);
             });
@@ -311,6 +321,15 @@ export const ResumoFaturamento = () => {
     }
 
     const handleSetData = () => { //Envia o JSON para todas as APIS ao mesmo tempo 
+        setDadosTipoPagamento1([])
+        setDadosTipoPagamento2([])
+        setDadosTipoPagamento3([])
+        setDadosTipoPagamento4([])
+        setDadosTipoPagamento5([])
+        setDadosTipoPagamento6([])
+        setDadosTipoPagamento7([])
+        setDadosTipoPagamento8([])
+        setDadosTipoPagamento9([])
         setDados([]);
         setDadosCliente([]);
         setDadosFornecedor([]);
@@ -811,7 +830,6 @@ export const ResumoFaturamento = () => {
     const optionsTpPg = { //Configuração do Terceiro Gráfico de Cliente
         title: "Valores",
         is3D: true,
-        colors: ["#a6dce8", "#a6dce8", "#a6dce8", "#f98b68", "#ffe670"],
     };
 
     const dataTipoPagamentoPizza = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Tipo de Pagamento
@@ -1135,7 +1153,7 @@ export const ResumoFaturamento = () => {
                                     <button onClick={() => setValor([])} >Limpar</button>
                                 </div>
 
-                                <div className='table-responsive'>
+                                <div>
                                     <table id='table' >
                                         <thead>
                                             <tr>
@@ -1147,18 +1165,18 @@ export const ResumoFaturamento = () => {
                                                 <th >Município</th>
                                             </tr>
                                         </thead>
-                                        {valor.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
+                                        {valoresA.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
 
                                             return (
-                                                
-                                                    <tr>
-                                                        <img className='del' src='/images/lixeira.png' onClick={() => deleteById(item.id)} />
-                                                        <td>{item.id}</td>
-                                                        <td>{item.nome_fantasia}</td>
-                                                        <td>{item.razao_social}</td>
-                                                        <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
-                                                        <td>{item.municipio}</td>
-                                                    </tr>                                             
+
+                                                <tr>
+                                                    <td><img src='/images/lixeira.png' onClick={() => deleteById(item.id)} /></td>
+                                                    <td>{item.id}</td>
+                                                    <td>{item.nome_fantasia}</td>
+                                                    <td>{item.razao_social}</td>
+                                                    <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
+                                                    <td>{item.municipio}</td>
+                                                </tr>
                                             )
                                         })}
                                     </table>
@@ -1180,11 +1198,11 @@ export const ResumoFaturamento = () => {
                                                 <th >Descrição</th>
                                             </tr>
                                         </thead>
-                                        {valorTop.filter(dat => dat.descricao.toLowerCase().includes(query1)).map((item) => {
+                                        {valoresB.filter(dat => dat.descricao.toLowerCase().includes(query1)).map((item) => {
 
                                             return (
                                                 <tr>
-                                                    <img className='del' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
+                                                    <img src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
                                                     <td>{item.id}</td>
                                                     <td>{item.descricao}</td>
                                                 </tr>
@@ -1295,8 +1313,6 @@ export const ResumoFaturamento = () => {
                                             const ordenado = f1.idFilial.split(',').sort(function (a, b) {
                                                 return a - b;
                                             })
-
-                                            console.log(ordenado)
 
                                             return (
                                                 <tr key={f1.idFilial}>
@@ -1714,7 +1730,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> <p> {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -2073,10 +2089,9 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles}>
 
-                <div className='topo-content' >
-                    <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-                    <h1>Dados Região <button className='filialBTN' onClick={() => setDsRegiaoDetalhada(true)}><img className='close' src='/images/regiao.png' />Cada Região</button></h1>
-                </div>
+                <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <h1>Dados Região <button className='filialBTN' onClick={() => setDsRegiaoDetalhada(true)}><img className='close' src='/images/regiao.png' />Cada Região</button></h1>
 
                 <div>
 
@@ -2110,9 +2125,11 @@ export const ResumoFaturamento = () => {
 
                     <Modal className='dashboardCadaFilial' shouldCloseOnEsc={false} isOpen={dsRegiaoDetalhada} onRequestClose={() => setDsRegiaoDetalhada(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
 
-                        <button className='closeBtnMenor' onClick={() => setDsRegiaoDetalhada(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+                        <div className='topo-content' >
+                            <button className='closeBtnMenor' onClick={() => setDsRegiaoDetalhada(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
 
-                        <h1>Cada Região</h1>
+                            <h1>Cada Região</h1>
+                        </div>
 
                         <RF.Dashboard0>
                             {dadosRegiao.map((data) => {
@@ -2137,7 +2154,7 @@ export const ResumoFaturamento = () => {
 
                                 const optionsRe = {
                                     title: data.regiao,
-                                    width: "100%",
+                                    width: "80%",
                                     height: "95%",
                                     bar: { groupWidth: "95%", },
                                     legend: { position: "none" }
@@ -2157,13 +2174,9 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
-                <div className='topo-content' >
+                <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
 
-                    <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                    <h1>Dados Filial<button onClick={() => setGraficosCadaFilial(true)} className='filialBTN' > <img className='close' src='/images/filiais.png' /> Cada Filial</button></h1>
-
-                </div>
+                <h1>Dados Filial<button onClick={() => setGraficosCadaFilial(true)} className='filialBTN' > <img className='close' src='/images/filiais.png' /> Cada Filial</button></h1>
 
                 <div>
                     <div className='dashboardTexts' >
@@ -2200,11 +2213,13 @@ export const ResumoFaturamento = () => {
                         <div className='justSize' ><Chart width='98%' height='96%' chartType='Bar' data={chartFilial} options={filialOptions} /></div>
                     </RF.Dashboard>
 
-
                     <Modal isOpen={graficosCadaFilial} onRequestClose={() => setGraficosCadaFilial(false)} className='dashboardCadaFilial' overlayClassName='none'>
-                        <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
 
-                        <h1>Cada Filial</h1>
+                        <div className='topo-content' >
+                            <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+
+                            <h1>Cada Filial</h1>
+                        </div>
 
                         <RF.Dashboard0>
                             {dados.map((data) => {
@@ -2231,7 +2246,7 @@ export const ResumoFaturamento = () => {
 
                                 const optionsFili = {
                                     title: data.filial,
-                                    width: "100%",
+                                    width: "80%",
                                     height: "95%",
                                     bar: { groupWidth: "95%", },
                                     legend: { position: "none" }
@@ -2253,10 +2268,9 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
-                <div className='topo-content' >
-                    <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-                    <h1>Dados Vendedor<button onClick={() => setOpenIndivualVend(true)} className='filialBTN' > <img className='close' src='/images/vendedor.png' /> Cada Vendedor</button></h1>
-                </div>
+                <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <h1>Dados Vendedor<button onClick={() => setOpenIndivualVend(true)} className='filialBTN' > <img className='close' src='/images/vendedor.png' /> Cada Vendedor</button></h1>
 
                 <div>
 
@@ -2305,16 +2319,20 @@ export const ResumoFaturamento = () => {
                 </RF.Dashboard>
 
                 <Modal isOpen={openIndividualVend} shouldCloseOnEsc={false} onRequestClose={() => setOpenIndivualVend(false)} contentLabel='dashboard' shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardCadaFilial' >
-                    <button className='closeBtnMenor' onClick={() => setOpenIndivualVend(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
 
-                    <h1>Cada Vendedor</h1>
+                    <div className='topo-content' >
+                        <button className='closeBtnMenor' onClick={() => setOpenIndivualVend(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
 
-                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Vendedor" onChange={(e) => setQuery2(e.target.value)} />
+                        <h1>Cada Vendedor</h1>
+
+                        <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Vendedor" onChange={(e) => setQuery2(e.target.value)} />
+                    </div>
+
                     <RF.Dashboard0>
                         {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query2)).map((data) => {
                             const optionsVen = {
                                 title: data.vendedor,
-                                width: "100%",
+                                width: "80%",
                                 height: "95%",
                                 bar: { groupWidth: "95%", },
                                 legend: { position: "none" }
@@ -2345,10 +2363,9 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
-                <div className='topo-content' >
-                    <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-                    <h1>Dados Cliente <button className='filialBTN' onClick={() => setIsOpenDashboardClienteAll(true)}><img className='close' src='/images/cliente.png' />Cada Cliente</button> </h1>
-                </div>
+                <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <h1>Dados Cliente <button className='filialBTN' onClick={() => setIsOpenDashboardClienteAll(true)}><img className='close' src='/images/cliente.png' />Cada Cliente</button> </h1>
 
                 <div>
 
@@ -2387,12 +2404,15 @@ export const ResumoFaturamento = () => {
 
                     </div>
 
-                    <Modal isOpen={dashboardClienteAll} onRequestClose={() => setIsOpenDashboardClienteAll(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
-                        <button className='closeBtnMenor' onClick={() => setIsOpenDashboardClienteAll(false)} ><img className='close' src='/images/voltar.png' />Voltar</button>
+                    <Modal isOpen={dashboardClienteAll} onRequestClose={() => setIsOpenDashboardClienteAll(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardCadaFilial' >
 
-                        <h1>Cada Cliente</h1>
+                        <div className='topo-content' >
+                            <button className='closeBtnMenor' onClick={() => setIsOpenDashboardClienteAll(false)} ><img className='close' src='/images/voltar.png' />Voltar</button>
 
-                        <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Cliente..." onChange={(e) => setQueryC(e.target.value)} />
+                            <h1>Cada Cliente</h1>
+
+                            <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Cliente..." onChange={(e) => setQueryC(e.target.value)} />
+                        </div>
 
                         <RF.Dashboard0>
                             {dadosCliente.filter(dat => dat.cliente.toLowerCase().includes(queryC)).map((data) => {
@@ -2410,16 +2430,14 @@ export const ResumoFaturamento = () => {
 
                                 const optionCli = {
                                     title: data.cliente,
-                                    width: "100%",
+                                    width: "80%",
                                     height: "95%",
                                     bar: { groupWidth: "95%", },
                                     legend: { position: "none" }
                                 }
 
                                 return (
-
                                     <div className='grafico' ><Chart chartType='BarChart' data={ChartCli} options={optionCli} /></div>
-
                                 )
                             })}
                         </RF.Dashboard0>
@@ -2438,10 +2456,9 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
 
-                <div className='topo-content' >
-                    <button onClick={closeDashboardTipoDePagamento} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-                    <h1>Dados Tipo Pagamento</h1>
-                </div>
+                <button onClick={closeDashboardTipoDePagamento} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <h1>Dados Tipo Pagamento</h1>
 
                 <div>
                     <RF.A>
@@ -2457,7 +2474,7 @@ export const ResumoFaturamento = () => {
                             </thead>
                             <div className='ajuste' >
                                 {dadosTipoPagamento.map((f5) => {
-                                    console.log(dadosLeitura)
+                                    
                                     if (f5 === null || f5 === 0) {
                                         f5 = 0.00;
                                     }
@@ -2487,10 +2504,9 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles}>
 
-                <div className='topo-content' >
                     <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                    
                     <h1>Dados Produtos<button onClick={openDashboardProdutosDetalhados} className='filialBTN' > <img className='close' src='/images/produto.png' /> Cada Produto</button></h1>
-                </div>
 
                 <div>
                     <div className='dashboardTexts'>

@@ -25,6 +25,7 @@ export const FilialTop = styled.div`
     border-top-left-radius: 0;
     background-color: #F0F0F0;
     .filial-top{
+        overflow: auto;
         display: flex;
         width: 100%;
         height: 100%;
@@ -214,6 +215,7 @@ export const DataGeral = styled.div`
     height: 40%;
     border-style: solid;
     border-width: 1px;
+    margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
     .table-responsive{
