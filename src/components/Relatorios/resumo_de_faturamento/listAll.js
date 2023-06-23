@@ -79,7 +79,6 @@ export const ResumoFaturamento = () => {
     const [dataIni, setDataIni] = useState(dataAtual); //Pega Data inicial 
     const [dataFin, setDataFin] = useState(dataAtual); //Pega Data Final
 
-
     const [dados, setDados] = useState([]); //Pega Dados de Filial
     const [dadosRegiao, setDadosRegiao] = useState([]); //Pega dados de Região
     const [dadosCliente, setDadosCliente] = useState([]); //Pega dados de Cliente 
