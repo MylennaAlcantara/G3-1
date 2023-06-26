@@ -93,7 +93,6 @@ export const PicoDeFaturamento = () => {
     const [dataInicial, setDataInicial] = useState();
     const [dataFinal, setDataFinal] = useState();
 
-
     const dataDiv = dataInicial && dataInicial.split("-")
 
     function voltar15Dias(){
