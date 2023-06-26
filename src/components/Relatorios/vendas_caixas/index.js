@@ -170,8 +170,6 @@ export const VendasCaixa = ({ close }) => {
         legend: { position: "none" },
     };
 
-    console.log(pagamentoCaixa)
-
     return (
         <M.Modal>
             <C.Container>
@@ -226,9 +224,11 @@ export const VendasCaixa = ({ close }) => {
                             </div>
                         ) : null}
                         <div className={filtro === "todos" ? "caixa-pgto" : "pgto-caixa"}>
+                            
                             <h3 onClick={() => setSubGrafico('')} >TOTAL POR TIPO PGTO.:</h3>
                             {filtro === "todos" ? (
                                 Array.isArray(totais) && totais.map((pgto) => {
+
                                     return (
                                         <div className="pgto">
                                             <div>
@@ -243,29 +243,16 @@ export const VendasCaixa = ({ close }) => {
                             ) : (
                                 Array.isArray(pagamentoCaixa) && pagamentoCaixa.map((pgto) => {
 
-                                    if (pagamentoCaixa.length === 0) {
-
-                                        return (
-                                            <div className="pgto">
-                                                <div>
-                                                    <label>CAIXA SEM PAGAMENTOS OU OFFLINE</label>
-                                                </div>
+                                    return (
+                                        <div className="pgto">
+                                            <div>
+                                                <label>{pgto.descricao}:</label>
                                             </div>
-                                        )
-
-                                    } else {
-
-                                        return (
-                                            <div className="pgto">
-                                                <div>
-                                                    <label>{pgto.descricao}:</label>
-                                                </div>
-                                                <div>
-                                                    <p className="alinharValor" >{(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</p>
-                                                </div>
+                                            <div>
+                                                <p className="alinharValor" >{(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</p>
                                             </div>
-                                        )
-                                    }
+                                        </div>
+                                    )
 
                                 })
                             )}
