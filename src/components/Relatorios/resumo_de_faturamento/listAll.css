@@ -73,8 +73,10 @@ button:hover {
 }
 
 .topo-content{
+    background-color: #A2E8D6;
     position: sticky;
     top: 0;
+    z-index: 1;
 }
 
 .dashboard01 {

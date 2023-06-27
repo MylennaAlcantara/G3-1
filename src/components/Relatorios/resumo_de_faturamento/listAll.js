@@ -1188,7 +1188,8 @@ export const ResumoFaturamento = () => {
                                     <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
                                     <button onClick={() => setValorTop([])} >Limpar</button>
                                 </div>
-                                <div className='table-responsive'>
+
+                                <div>
                                     <table id='table'>
                                         <thead>
                                             <tr>
@@ -2153,7 +2154,7 @@ export const ResumoFaturamento = () => {
 
                                 const optionsRe = {
                                     title: data.regiao,
-                                    width: "80%",
+                                    width: "100%",
                                     height: "95%",
                                     bar: { groupWidth: "95%", },
                                     legend: { position: "none" }
@@ -2245,7 +2246,7 @@ export const ResumoFaturamento = () => {
 
                                 const optionsFili = {
                                     title: data.filial,
-                                    width: "80%",
+                                    width: "100%",
                                     height: "95%",
                                     bar: { groupWidth: "95%", },
                                     legend: { position: "none" }
@@ -2331,7 +2332,7 @@ export const ResumoFaturamento = () => {
                         {dadosVendedor.filter(dat => dat.vendedor.toLowerCase().includes(query2)).map((data) => {
                             const optionsVen = {
                                 title: data.vendedor,
-                                width: "80%",
+                                width: "100%",
                                 height: "95%",
                                 bar: { groupWidth: "95%", },
                                 legend: { position: "none" }
@@ -2429,7 +2430,7 @@ export const ResumoFaturamento = () => {
 
                                 const optionCli = {
                                     title: data.cliente,
-                                    width: "80%",
+                                    width: "100%",
                                     height: "95%",
                                     bar: { groupWidth: "95%", },
                                     legend: { position: "none" }
@@ -2473,7 +2474,7 @@ export const ResumoFaturamento = () => {
                             </thead>
                             <div className='ajuste' >
                                 {dadosTipoPagamento.map((f5) => {
-                                    
+
                                     if (f5 === null || f5 === 0) {
                                         f5 = 0.00;
                                     }
@@ -2503,9 +2504,9 @@ export const ResumoFaturamento = () => {
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles}>
 
-                    <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-                    
-                    <h1>Dados Produtos<button onClick={openDashboardProdutosDetalhados} className='filialBTN' > <img className='close' src='/images/produto.png' /> Cada Produto</button></h1>
+                <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <h1>Dados Produtos<button onClick={openDashboardProdutosDetalhados} className='filialBTN' > <img className='close' src='/images/produto.png' /> Cada Produto</button></h1>
 
                 <div>
                     <div className='dashboardTexts'>
@@ -2544,47 +2545,50 @@ export const ResumoFaturamento = () => {
 
                 </div>
 
-                <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado'>
-                    <button className='closeBtnMenor' onClick={closeDashboardProdutosDetalhados} ><img className='close' src='/images/voltar.png' />Voltar</button>
+                <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardCadaFilial'>
 
-                    <h1>Cada Produto</h1>
+                    <div className='topo-content' >
+                        <button className='closeBtnMenor' onClick={closeDashboardProdutosDetalhados} ><img className='close' src='/images/voltar.png' />Voltar</button>
 
-                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Produto..." onChange={(e) => setQueryP(e.target.value)} />
+                        <h1>Cada Produto</h1>
 
-                    {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(queryP)).slice(0, 90).map((data) => {
-                        const ChartProd = [
-                            ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
-                            ["Venda", data.vlr_venda_total, "#f6d001", null],
-                            ["Lucro", data.vlr_lucro_total, "#1b7abc", null],
-                            ["Sub.Total", data.sub_total, "#ff6ad8", null],
-                            ["Custo", data.vlr_custo_total, "#727272", null],
-                            ["Desconto", data.vlr_desconto_total, "#b2bb1c", null],
-                        ]
+                        <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Produto..." onChange={(e) => setQueryP(e.target.value)} />
+                    </div>
 
-                        const optionProd = {
-                            title: data.produto,
-                            width: "100%",
-                            height: "95%",
-                            bar: { groupWidth: "95%", },
-                            legend: { position: "none" }
-                        }
+                    <RF.Dashboard0>
+                        {dadosProduto.filter(dat => dat.produto.toLowerCase().includes(queryP)).slice(0, 90).map((data) => {
+                            const ChartProd = [
+                                ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
+                                ["Venda", data.vlr_venda_total, "#f6d001", null],
+                                ["Lucro", data.vlr_lucro_total, "#1b7abc", null],
+                                ["Sub.Total", data.sub_total, "#ff6ad8", null],
+                                ["Custo", data.vlr_custo_total, "#727272", null],
+                                ["Desconto", data.vlr_desconto_total, "#b2bb1c", null],
+                            ]
 
-                        return (
-                            <RF.Dashboard0>
+                            const optionProd = {
+                                title: data.produto,
+                                width: "100%",
+                                height: "95%",
+                                bar: { groupWidth: "95%", },
+                                legend: { position: "none" }
+                            }
+
+                            return (
                                 <div className='grafico' ><Chart chartType='BarChart' data={ChartProd} options={optionProd} /></div>
-                            </RF.Dashboard0>
-                        )
-                    })}
+                            )
+                        })}
+                    </RF.Dashboard0>
+
                 </Modal>
 
             </Modal>
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupo} onRequestClose={closeDashboardGrupo} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
 
-                <div className='topo-content' >
-                    <button onClick={closeDashboardGrupo} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-                    <h1>Dados Grupo <button onClick={openDashboardGrupoDetalhado} className='filialBTN' > <img className='close' src='/images/grupo.png' /> Cada Grupo</button> </h1>
-                </div>
+                <button onClick={closeDashboardGrupo} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <h1>Dados Grupo <button onClick={openDashboardGrupoDetalhado} className='filialBTN' > <img className='close' src='/images/grupo.png' /> Cada Grupo</button> </h1>
 
                 <div>
                     <div className='dashboardTexts' >
@@ -2611,16 +2615,17 @@ export const ResumoFaturamento = () => {
                         <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataGru0} options={optionsGru0} /></div>
                     </RF.Dashboard>
 
-
-
                 </div>
 
-                <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardDetalhado' >
-                    <button className='closeBtnMenor' onClick={closeDashboardGrupoDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
+                <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardCadaFilial' >
 
-                    <h1>Cada Grupo</h1>
+                    <div className='topo-content' >
+                        <button className='closeBtnMenor' onClick={closeDashboardGrupoDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
 
-                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Grupo..." onChange={(e) => setQueryG(e.target.value)} />
+                        <h1>Cada Grupo</h1>
+
+                        <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Grupo..." onChange={(e) => setQueryG(e.target.value)} />
+                    </div>
 
                     <RF.Dashboard0>
                         {dadosGrupo.filter(dat => dat.grupo.toLowerCase().includes(queryG)).map((data) => {
@@ -2641,9 +2646,7 @@ export const ResumoFaturamento = () => {
                             ]
 
                             return (
-
                                 <div className='grafico'><Chart chartType='BarChart' data={ChartGru} options={optionGru} /></div>
-
                             )
                         })}
                     </RF.Dashboard0>
@@ -2654,10 +2657,9 @@ export const ResumoFaturamento = () => {
 
             <Modal isOpen={dashboardFornecedor} onRequestClose={closeDashboardFornecedor} shouldCloseOnOverlayClick={false} style={customStyles} overlayClassName="null"  >
 
-                <div className='topo-content' >
-                    <button onClick={closeDashboardFornecedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-                    <h1>Dados Fornecedor<button onClick={openDashboardFornecedorDetalhado} className='filialBTN' > <img className='close' src='/images/fornecedor.png' /> Cada Fornecedor</button></h1>
-                </div>
+                <button onClick={closeDashboardFornecedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+
+                <h1>Dados Fornecedor<button onClick={openDashboardFornecedorDetalhado} className='filialBTN' > <img className='close' src='/images/fornecedor.png' /> Cada Fornecedor</button></h1>
 
                 <div>
                     <div className='dashboardTexts' >
@@ -2689,12 +2691,15 @@ export const ResumoFaturamento = () => {
 
                 </div>
 
-                <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardDetalhado' overlayClassName="dashboard-overlay"  >
-                    <button className='closeBtnMenor' onClick={closeDashboardFornecedorDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
+                <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardCadaFilial' overlayClassName="dashboard-overlay"  >
 
-                    <h1>Cada Fornecedor</h1>
+                    <div className='topo-content' >
+                        <button className='closeBtnMenor' onClick={closeDashboardFornecedorDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
 
-                    <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Fornecedor..." onChange={(e) => setQueryF(e.target.value)} />
+                        <h1>Cada Fornecedor</h1>
+
+                        <input className='srch' type="search" name="search-vend" id="search-vend" placeholder="Buscar por Fornecedor..." onChange={(e) => setQueryF(e.target.value)} />
+                    </div>
 
                     <RF.Dashboard0>
                         {dadosFornecedor.filter(dat => dat.fornecedor.toLowerCase().includes(queryF)).slice(0, 90).map((data) => {

@@ -102,7 +102,7 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
                         { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
                     ],
                     [
-                        { text: 'Usuario: ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)) + '    ID: ' + (Array.isArray(user) && user.map(user => user.id)), bold: true, fontSize: 8 },
+                        { text: 'Usuario: ' + (Array.isArray(user) && user.map(user => user.id)) + ' - ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)), bold: true, fontSize: 8 },
                         { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
                         { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
                     ],
