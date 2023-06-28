@@ -215,7 +215,7 @@ export const VendasCaixa = ({ close }) => {
                                             <div>
                                                 <label>{cx.nome}:</label>
                                             </div>
-                                            <div>
+                                            <div className="alinharValor" >
                                                 <label >{(cx.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
                                             </div>
                                         </div>
@@ -234,8 +234,8 @@ export const VendasCaixa = ({ close }) => {
                                             <div>
                                                 <label>{pgto.descricao}:</label>
                                             </div>
-                                            <div>
-                                                <label className="alinharValor" >{parseFloat(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
+                                            <div className="alinharValor" >
+                                                <label>{parseFloat(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
                                             </div>
                                         </div>
                                     )

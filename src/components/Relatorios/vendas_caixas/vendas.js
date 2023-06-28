@@ -28,7 +28,7 @@ export const Totais = styled.div`
     .alinharValor{
         display: flex;
         justify-content: end;
-        align-items: center ;
+        align-items: end;
         margin-right: 30px;
         margin-left: 20px;
     }
@@ -97,7 +97,6 @@ export const Totais = styled.div`
         }
     }
 `
-
 export const Graficos = styled.div`
 margin: auto;
 .A{
