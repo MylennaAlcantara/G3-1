@@ -90,8 +90,14 @@ export const PicoDeFaturamento = () => {
 
     const [busca, setBusca] = useState([]);
 
-    const [dataInicial, setDataInicial] = useState();
-    const [dataFinal, setDataFinal] = useState();
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mesAtu = String(data.getMonth() + 1).padStart(2, '0');
+    const anoAtu = data.getFullYear();
+    const dataAtual = anoAtu + '-' + mesAtu + '-' + dia;
+
+    const [dataInicial, setDataInicial] = useState(dataAtual);
+    const [dataFinal, setDataFinal] = useState(dataAtual);
 
     const dataDiv = dataInicial && dataInicial.split("-")
 
@@ -209,7 +215,7 @@ export const PicoDeFaturamento = () => {
             setDataInicial(dataDiv[0] + "-11-01");
             setDataFinal(dataDiv[0] + "-11-30");
         }
-    }
+    } 
 
     function passarMes() {
         if (dataDiv[1] === '01') {
