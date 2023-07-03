@@ -14,6 +14,16 @@ export const EvolucaoFaturamento = () => {
     const [dataFinal, setDataFinal] = useState([]);
     const [dataInicial, setDataInicial] = useState([]);
 
+    function changeDateIni(e){
+        setDataInicial(e.currentTarget.value);
+    }
+
+    function chanceDateFin(e){
+        setDataFinal(e.currentTarget.value);
+    }
+
+    const [abasTopo, setAbasTopo] = useState("filial");
+
     return (
         <C.Container>
             <C.Header><h3>Evolução de Faturamento (CAGR) </h3></C.Header>
@@ -22,13 +32,99 @@ export const EvolucaoFaturamento = () => {
                 <div className='FTFilterTop' >
 
                     <div className="btns">
-                    <button className='fornecedorBTN' >Fornecedor</button>
+                        <button className="topFilialBtn" onClick={() => setAbasTopo('filial') } >Filial</button>
+
+                        <button className='midBTN' onClick={() => setAbasTopo('top')} >Tops</button>
+
+                        <button className='midBTN' >Grupo</button>
 
                         <button className='fornecedorBTN' >Fornecedor</button>
-
                     </div>
 
+                    <LB.FilialTop>
+                        {abasTopo === "filial" ? (
+                            <div className='filial-top' >
+                                
+                                <div>
+                                    <select>
+                                        <option>Filial</option>
+                                        <option>Região</option>
+                                    </select>
+
+                                    <input placeholder='Buscar...' />
+
+                                    <img src='/images/LUPA.png' />
+                                </div>
+
+                                <div>
+                                    <table id='table' >
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th >Código</th>
+                                                <th >Fantasia</th>
+                                                <th>Razão Social</th>
+                                                <th >Documento</th>
+                                                <th >Município</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                            </div>
+                        ) : abasTopo === 'top' ? (
+                            <div className='filial-top' >
+                                <div>
+                                    <input placeholder='Buscar...' />
+
+                                    <img src='/images/LUPA.png' />
+                                </div>
+
+                                <div>
+                                    <table id='table'>
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th >Código</th>
+                                                <th >Descrição</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                            </div>
+                        ) : abasTopo === 'grupo' ? (
+                            <div className='filial-top' >
+                                <div>
+                                    <input placeholder='Buscar...' />
+
+                                    <img src='/images/LUPA.png' />
+                                </div>
+
+                                <div>
+                                    <table id='table'>
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th >Código</th>
+                                                <th >Grupo</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                            </div>
+                        ) : (
+                            <div></div>
+                        ) }
+                    </LB.FilialTop>
+
                 </div>
+
+                <LB.Data>
+
+                </LB.Data>
+
             </LB.Filtros>
 
         </C.Container>
