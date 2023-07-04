@@ -36,9 +36,9 @@ export const EvolucaoFaturamento = () => {
 
                         <button className='midBTN' onClick={() => setAbasTopo('top')} >Tops</button>
 
-                        <button className='midBTN' >Grupo</button>
+                        <button className='midBTN' onClick={() => setAbasTopo('grupo') } >Grupo</button>
 
-                        <button className='fornecedorBTN' >Fornecedor</button>
+                        <button className='fornecedorBTN' onClick={() => setAbasTopo('fornecedor') } >Fornecedor</button>
                     </div>
 
                     <LB.FilialTop>
@@ -114,9 +114,31 @@ export const EvolucaoFaturamento = () => {
                                 </div>
 
                             </div>
-                        ) : (
-                            <div></div>
-                        ) }
+                        ) : abasTopo === 'fornecedor' ? (
+                            <div className="filial-top" >
+                                <div>
+                                    <input placeholder='Buscar...' />
+
+                                    <img src='/images/LUPA.png' />
+                                </div>
+
+                                <div>
+                                    <table id='table' >
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Ativo</th>
+                                                <th>Código</th>
+                                                <th>Razão Social</th>
+                                                <th>Nome Fantasia</th>
+                                                <th>Documento</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                            </div>
+                        ) : null }
                     </LB.FilialTop>
 
                 </div>

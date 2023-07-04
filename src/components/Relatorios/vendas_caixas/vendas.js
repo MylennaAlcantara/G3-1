@@ -99,6 +99,10 @@ export const Totais = styled.div`
 `
 export const Graficos = styled.div`
 margin: auto;
+.caixa{
+    margin-top: -20px;
+    height: 240px;
+}
 .A{
     width: 400px;
     height: 250px;
