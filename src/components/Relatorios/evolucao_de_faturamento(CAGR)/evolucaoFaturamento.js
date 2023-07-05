@@ -11,15 +11,39 @@ export const EvolucaoFaturamento = () => {
     const [grupo, setGrupo] = useState([]);
     const [fornecedor, setFornecedor] = useState([]);
 
-    const [dataFinal, setDataFinal] = useState([]);
-    const [dataInicial, setDataInicial] = useState([]);
+    const [checkNFE, setCheckNFE] = useState(true);
+    const [checkNFCE, setCheckNFCE] = useState(true); 
+    const [checkTOP, setCheckTOP] = useState(true);
+
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    const dataAtual = ano + '-' + mes + '-' + dia;
+    
+    const [dataFinal, setDataFinal] = useState(dataAtual);
+    const [dataInicial, setDataInicial] = useState(dataAtual  );
+
+    const divisaDaData = dataInicial && dataInicial.split('-');
 
     function changeDateIni(e){
         setDataInicial(e.currentTarget.value);
     }
 
-    function chanceDateFin(e){
+    function changeDateFin(e){
         setDataFinal(e.currentTarget.value);
+    }
+
+    function handleCheckNFCE(e){ 
+        setCheckNFCE(e.currentTarget.checked);
+    }
+
+    function handleCheckNFE(e){ 
+        setCheckNFE(e.currentTarget.checked);
+    }
+
+    function handleCheckTOP(e){ 
+        setCheckTOP(e.currentTarget.checked);
     }
 
     const [abasTopo, setAbasTopo] = useState("filial");
@@ -144,7 +168,27 @@ export const EvolucaoFaturamento = () => {
                 </div>
 
                 <LB.Data>
+                    <div>
+                        <div className="data" >
+                            <label>Data Inicial</label>
+                            <input value={dataInicial} type="date" id="DataIni" onChange={changeDateIni} />
+                        </div>
 
+                        <div className="data" >
+                            <label>Data Final</label>
+                            <input value={dataFinal} type="date" id="DataFin" onChange={changeDateFin} />
+                        </div>
+                    </div>
+
+                    <div>
+                    <button className='setaE' ><img className='close' src='/images/setaEsquerda.png' /></button>
+                        <button className='setaD' ><img className='close' src='/images/setaDireita.png' /></button>
+                        <div className='checks' >
+                            <input type="checkbox" value="false" id='TOP' checked={checkTOP} /><label>Incluir T.OP. Salvas</label>
+                            <input type="checkbox" value="false" id='NFE' checked={checkNFE} /><label>NF-e</label>
+                            <input type="checkbox" value="false" id='NFCE' checked={checkNFCE} /><label>NFC-e</label>
+                        </div>
+                    </div>
                 </LB.Data>
 
             </LB.Filtros>
