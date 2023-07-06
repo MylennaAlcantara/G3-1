@@ -12,7 +12,7 @@ export const EvolucaoFaturamento = () => {
     const [fornecedor, setFornecedor] = useState([]);
 
     const [checkNFE, setCheckNFE] = useState(true);
-    const [checkNFCE, setCheckNFCE] = useState(true); 
+    const [checkNFCE, setCheckNFCE] = useState(true);
     const [checkTOP, setCheckTOP] = useState(true);
 
     const data = new Date();
@@ -20,31 +20,113 @@ export const EvolucaoFaturamento = () => {
     const mes = String(data.getMonth() + 1).padStart(2, '0');
     const ano = data.getFullYear();
     const dataAtual = ano + '-' + mes + '-' + dia;
-    
+
     const [dataFinal, setDataFinal] = useState(dataAtual);
-    const [dataInicial, setDataInicial] = useState(dataAtual  );
+    const [dataInicial, setDataInicial] = useState(dataAtual);
 
-    const divisaDaData = dataInicial && dataInicial.split('-');
+    const divData = dataInicial && dataInicial.split("-");
 
-    function changeDateIni(e){
+    function passarMeses() {
+        if (divData[1] === '01') {
+            setDataInicial(divData[0] + "-02-01");
+            setDataFinal(divData[0] + "-02-28");
+        } else if (divData[1] === '02') {
+            setDataInicial(divData[0] + "-03-01");
+            setDataFinal(divData[0] + "-03-31");
+        } else if (divData[1] === '03') {
+            setDataInicial(divData[0] + "-04-01");
+            setDataFinal(divData[0] + "-04-30");
+        } else if (divData[1] === '04') {
+            setDataInicial(divData[0] + "-05-01");
+            setDataFinal(divData[0] + "-05-31");
+        } else if (divData[1] === '05') {
+            setDataInicial(divData[0] + "-06-01");
+            setDataFinal(divData[0] + "-06-30");
+        } else if (divData[1] === '06') {
+            setDataInicial(divData[0] + "-07-01");
+            setDataFinal(divData[0] + "-07-31");
+        } else if (divData[1] === '07') {
+            setDataInicial(divData[0] + "-08-01");
+            setDataFinal(divData[0] + "-08-31");
+        } else if (divData[1] === '08') {
+            setDataInicial(divData[0] + "-09-01");
+            setDataFinal(divData[0] + "-09-30");
+        } else if (divData[1] === '09') {
+            setDataInicial(divData[0] + "-10-01");
+            setDataFinal(divData[0] + "-10-31");
+        } else if (divData[1] === '10') {
+            setDataInicial(divData[0] + "-11-01");
+            setDataFinal(divData[0] + "-11-30");
+        } else if (divData[1] === '11') {
+            setDataInicial(divData[0] + "-12-01");
+            setDataFinal(divData[0] + "-12-31");
+        } else if (divData[1] === '12') {
+            setDataInicial((parseFloat(divData[0]) + 1).toString() + "-01-01");
+            setDataFinal((parseFloat(divData[0]) + 1).toString() + "-01-31");
+        }
+    }
+
+    function voltarMeses() {
+        if (divData[1] === '01') {
+            setDataInicial((parseFloat(divData[0]) - 1).toString() + "-12-01");
+            setDataFinal((parseFloat(divData[0]) - 1).toString() + "-12-31");
+        } else if (divData[1] === '02') {
+            setDataInicial(divData[0] + "-01-01");
+            setDataFinal(divData[0] + "-01-31");
+        } else if (divData[1] === '03') {
+            setDataInicial(divData[0] + "-02-01");
+            setDataFinal(divData[0] + "-02-28");
+        } else if (divData[1] === '04') {
+            setDataInicial(divData[0] + "-03-01");
+            setDataFinal(divData[0] + "-03-31");
+        } else if (divData[1] === '05') {
+            setDataInicial(divData[0] + "-04-01");
+            setDataFinal(divData[0] + "-04-30");
+        } else if (divData[1] === '06') {
+            setDataInicial(divData[0] + "-05-01");
+            setDataFinal(divData[0] + "-05-31");
+        } else if (divData[1] === '07') {
+            setDataInicial(divData[0] + "-06-01");
+            setDataFinal(divData[0] + "-06-30");
+        } else if (divData[1] === '08') {
+            setDataInicial(divData[0] + "-07-01");
+            setDataFinal(divData[0] + "-07-31");
+        } else if (divData[1] === '09') {
+            setDataInicial(divData[0] + "-08-01");
+            setDataFinal(divData[0] + "-08-31");
+        } else if (divData[1] === '10') {
+            setDataInicial(divData[0] + "-09-01");
+            setDataFinal(divData[0] + "-09-30");
+        } else if (divData[1] === '11') {
+            setDataInicial(divData[0] + "-10-01");
+            setDataFinal(divData[0] + "-10-31");
+        } else if (divData[1] === '12') {
+            setDataInicial(divData[0] + "-11-01");
+            setDataFinal(divData[0] + "-11-30");
+        }
+    }
+
+    function changeDateIni(e) {
         setDataInicial(e.currentTarget.value);
     }
 
-    function changeDateFin(e){
+    function changeDateFin(e) {
         setDataFinal(e.currentTarget.value);
     }
 
-    function handleCheckNFCE(e){ 
+    function handleCheckNFCE(e) {
         setCheckNFCE(e.currentTarget.checked);
     }
 
-    function handleCheckNFE(e){ 
+    function handleCheckNFE(e) {
         setCheckNFE(e.currentTarget.checked);
     }
 
-    function handleCheckTOP(e){ 
+    function handleCheckTOP(e) {
         setCheckTOP(e.currentTarget.checked);
     }
+
+    const [aba, setAba] = useState('filial');
 
     const [abasTopo, setAbasTopo] = useState("filial");
 
@@ -56,19 +138,19 @@ export const EvolucaoFaturamento = () => {
                 <div className='FTFilterTop' >
 
                     <div className="btns">
-                        <button className="topFilialBtn" onClick={() => setAbasTopo('filial') } >Filial</button>
+                        <button className="topFilialBtn" onClick={() => setAbasTopo('filial')} >Filial</button>
 
                         <button className='midBTN' onClick={() => setAbasTopo('top')} >Tops</button>
 
-                        <button className='midBTN' onClick={() => setAbasTopo('grupo') } >Grupo</button>
+                        <button className='midBTN' onClick={() => setAbasTopo('grupo')} >Grupo</button>
 
-                        <button className='fornecedorBTN' onClick={() => setAbasTopo('fornecedor') } >Fornecedor</button>
+                        <button className='fornecedorBTN' onClick={() => setAbasTopo('fornecedor')} >Fornecedor</button>
                     </div>
 
                     <LB.FilialTop>
                         {abasTopo === "filial" ? (
                             <div className='filial-top' >
-                                
+
                                 <div>
                                     <select>
                                         <option>Filial</option>
@@ -162,7 +244,7 @@ export const EvolucaoFaturamento = () => {
                                 </div>
 
                             </div>
-                        ) : null }
+                        ) : null}
                     </LB.FilialTop>
 
                 </div>
@@ -181,8 +263,8 @@ export const EvolucaoFaturamento = () => {
                     </div>
 
                     <div>
-                    <button className='setaE' ><img className='close' src='/images/setaEsquerda.png' /></button>
-                        <button className='setaD' ><img className='close' src='/images/setaDireita.png' /></button>
+                        <button className='setaE' onClick={voltarMeses} ><img className='close' src='/images/setaEsquerda.png' /></button>
+                        <button className='setaD' onClick={passarMeses} ><img className='close' src='/images/setaDireita.png' /></button>
                         <div className='checks' >
                             <input type="checkbox" value="false" id='TOP' checked={checkTOP} /><label>Incluir T.OP. Salvas</label>
                             <input type="checkbox" value="false" id='NFE' checked={checkNFE} /><label>NF-e</label>
@@ -192,6 +274,48 @@ export const EvolucaoFaturamento = () => {
                 </LB.Data>
 
             </LB.Filtros>
+
+            <LB.Navegacao>
+                <div>
+                    <button className='CE'  >Por Filial</button>
+                    <button className='botão-filtros'   >Por Produto</button>
+                    <button className='botão-filtros'  >Por Produto Quantidade </button>
+                    <button className='botão-filtros'  >Por Grupo </button>
+                    <button className='CD'  >Por Fornecedor</button>
+                </div>
+            </LB.Navegacao>
+
+            {aba === 'filial' ? (
+                <>
+                    <LB.DataGeral>
+
+                    </LB.DataGeral>
+                </>
+            ) : aba === 'produto' ? (
+                <>
+                    <LB.DataGeral>
+
+                    </LB.DataGeral>
+                </>
+            ) : aba === 'prodQTD' ? (
+                <>
+                    <LB.DataGeral>
+
+                    </LB.DataGeral>
+                </>
+            ) : aba === 'grupo' ? (
+                <>
+                    <LB.DataGeral>
+
+                    </LB.DataGeral>
+                </>
+            ) : aba === 'fornecedor' ? (
+                <>
+                    <LB.DataGeral>
+
+                    </LB.DataGeral>
+                </>
+            ) : null}
 
         </C.Container>
     )
