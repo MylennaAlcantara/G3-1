@@ -24,7 +24,7 @@ export const EvolucaoFaturamento = () => {
     const [dataFinal, setDataFinal] = useState(dataAtual);
     const [dataInicial, setDataInicial] = useState(dataAtual);
 
-    const divData = dataInicial && dataInicial.split("-");
+    const divData = dataInicial && dataInicial.split("-"); //
 
     function passarMeses() {
         if (divData[1] === '01') {
@@ -250,6 +250,7 @@ export const EvolucaoFaturamento = () => {
                 </div>
 
                 <LB.Data>
+
                     <div>
                         <div className="data" >
                             <label>Data Inicial</label>
@@ -270,49 +271,57 @@ export const EvolucaoFaturamento = () => {
                             <input type="checkbox" value="false" id='NFE' checked={checkNFE} /><label>NF-e</label>
                             <input type="checkbox" value="false" id='NFCE' checked={checkNFCE} /><label>NFC-e</label>
                         </div>
+
                     </div>
+
+                    <div className='botao-pesquisar'>
+                        <button >Pesquisar</button>
+                    </div>
+
                 </LB.Data>
 
             </LB.Filtros>
 
             <LB.Navegacao>
+
                 <div>
-                    <button className='CE'  >Por Filial</button>
-                    <button className='botão-filtros'   >Por Produto</button>
-                    <button className='botão-filtros'  >Por Produto Quantidade </button>
-                    <button className='botão-filtros'  >Por Grupo </button>
-                    <button className='CD'  >Por Fornecedor</button>
+                    <button className='CE' onClick={() => setAba('filial')} >Por Filial</button>
+                    <button className='botão-filtros' onClick={() => setAba('produto')} >Por Produto</button>
+                    <button className='botão-filtros' onClick={() => setAba('prodQTD')} >Por Produto Quantidade </button>
+                    <button className='botão-filtros' onClick={() => setAba('grupo')} >Por Grupo </button>
+                    <button className='CD' onClick={() => setAba('fornecedor')} >Por Fornecedor</button>
                 </div>
+
             </LB.Navegacao>
 
             {aba === 'filial' ? (
                 <>
                     <LB.DataGeral>
-
+                        <div>1</div>
                     </LB.DataGeral>
                 </>
             ) : aba === 'produto' ? (
                 <>
                     <LB.DataGeral>
-
+                        <div>2</div>
                     </LB.DataGeral>
                 </>
             ) : aba === 'prodQTD' ? (
                 <>
                     <LB.DataGeral>
-
+                        <div>3</div>
                     </LB.DataGeral>
                 </>
             ) : aba === 'grupo' ? (
                 <>
                     <LB.DataGeral>
-
+                        <div>4</div>
                     </LB.DataGeral>
                 </>
             ) : aba === 'fornecedor' ? (
                 <>
                     <LB.DataGeral>
-
+                        <div>5</div>
                     </LB.DataGeral>
                 </>
             ) : null}

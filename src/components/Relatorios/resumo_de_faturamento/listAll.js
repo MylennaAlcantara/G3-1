@@ -56,9 +56,11 @@ export const ResumoFaturamento = () => {
 
     //--------------------------------------------------------------Filtros Parte de Cima-------------------------------------------------------------------------
 
+
     const [query, setQuery] = useState(""); //Busca de Filial (Topo Esquerda)
     const [query1, setQuery1] = useState(""); //Busca de TOP
     const [query2, setQuery2] = useState("");
+    const [queryFi, setQueryFi] = useState("");
     const [queryC, setQueryC] = useState("");
     const [queryP, setQueryP] = useState("");
     const [queryG, setQueryG] = useState("");
@@ -2181,31 +2183,31 @@ export const ResumoFaturamento = () => {
                 <div>
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR',  { style: 'currency', currency: 'BRL' })}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR',  { style: 'currency', currency: 'BRL' })}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR',  { style: 'currency', currency: 'BRL' })}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR',  { style: 'currency', currency: 'BRL' })}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR',  { style: 'currency', currency: 'BRL' })}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR',  { style: 'currency', currency: 'BRL' })}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR',  { style: 'currency', currency: 'BRL' })}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
                     </div>
 
@@ -2219,10 +2221,12 @@ export const ResumoFaturamento = () => {
                             <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
 
                             <h1>Cada Filial</h1>
+
+                            <input className='srch' type='search' name='search-fili' id='search-fili' placeholder='Buscar por Filial...' onChange={(e) => setQueryFi(e.target.value)} />
                         </div>
 
                         <RF.Dashboard0>
-                            {dados.map((data) => {
+                            {dados.filter(dat => dat.filial.toLowerCase().includes(queryFi)).map((data) => {
                                 const ChartFi = [
                                     [
                                         "Element",
@@ -2253,9 +2257,7 @@ export const ResumoFaturamento = () => {
                                 }
 
                                 return (
-
                                     <div className='grafico'><Chart chartType='BarChart' data={ChartFi} options={optionsFili} /></div>
-
                                 )
                             })}
                         </RF.Dashboard0>
