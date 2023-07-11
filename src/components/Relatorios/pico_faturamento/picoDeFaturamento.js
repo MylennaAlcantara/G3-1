@@ -44,6 +44,10 @@ export const PicoDeFaturamento = () => {
         });
         if (res.status === 200) {
             res.json().then(data => {
+                if(data.length === 0){
+                    showElement(false);
+                    alert('Consulta Finalizada');
+                }
                 setHora(data);
             })
         }
