@@ -138,13 +138,13 @@ export const EvolucaoFaturamento = () => {
                 <div className='FTFilterTop' >
 
                     <div className="btns">
-                        <button className="topFilialBtn" onClick={() => setAbasTopo('filial')} >Filial</button>
+                        <button className="topFilialBtn" style={{ backgroundColor: abasTopo === "filial" ? "#8CB9DF" : "", borderBottom: abasTopo === 'filial' ? "none" : "" }} onClick={() => setAbasTopo('filial')} >Filial</button>
 
-                        <button className='midBTN' onClick={() => setAbasTopo('top')} >Tops</button>
+                        <button className='midBTN' style={{ backgroundColor: abasTopo === "top" ? "#8CB9DF" : "", borderBottom: abasTopo === 'top' ? "none" : "" }} onClick={() => setAbasTopo('top')} >Tops</button>
 
-                        <button className='midBTN' onClick={() => setAbasTopo('grupo')} >Grupo</button>
+                        <button className='midBTN' style={{ backgroundColor: abasTopo === "grupo" ? "#8CB9DF" : "", borderBottom: abasTopo === 'grupo' ? "none" : "" }} onClick={() => setAbasTopo('grupo')} >Grupo</button>
 
-                        <button className='fornecedorBTN' onClick={() => setAbasTopo('fornecedor')} >Fornecedor</button>
+                        <button className='fornecedorBTN' style={{ backgroundColor: abasTopo === "fornecedor" ? "#8CB9DF" : "", borderBottom: abasTopo === 'fornecedor' ? "none" : "" }} onClick={() => setAbasTopo('fornecedor')} >Fornecedor</button>
                     </div>
 
                     <LB.FilialTop>
@@ -283,27 +283,89 @@ export const EvolucaoFaturamento = () => {
             </LB.Filtros>
 
             <LB.Navegacao>
-
                 <div>
-                    <button className='CE' onClick={() => setAba('filial')} >Por Filial</button>
-                    <button className='botão-filtros' onClick={() => setAba('produto')} >Por Produto</button>
-                    <button className='botão-filtros' onClick={() => setAba('prodQTD')} >Por Produto Quantidade </button>
-                    <button className='botão-filtros' onClick={() => setAba('grupo')} >Por Grupo </button>
-                    <button className='CD' onClick={() => setAba('fornecedor')} >Por Fornecedor</button>
+                    <button className='CE' style={{ backgroundColor: aba === "filial" ? "#8CB9DF" : "", borderBottom: aba === 'filial' ? "none" : "" }} onClick={() => setAba('filial')} >Por Filial</button>
+                    <button className='botão-filtros' style={{ backgroundColor: aba === "produto" ? "#8CB9DF" : "", borderBottom: aba === 'produto' ? "none" : "" }} onClick={() => setAba('produto')} >Por Produto</button>
+                    <button className='botão-filtros' style={{ backgroundColor: aba === "prodQTD" ? "#8CB9DF" : "", borderBottom: aba === 'prodQTD' ? "none" : "" }} onClick={() => setAba('prodQTD')} >Por Produto Quantidade </button>
+                    <button className='botão-filtros' style={{ backgroundColor: aba === "grupo" ? "#8CB9DF" : "", borderBottom: aba === 'grupo' ? "none" : "" }} onClick={() => setAba('grupo')} >Por Grupo </button>
+                    <button className='CD' style={{ backgroundColor: aba === "fornecedor" ? "#8CB9DF" : "", borderBottom: aba === 'fornecedor' ? "none" : "" }} onClick={() => setAba('fornecedor')} >Por Fornecedor</button>
                 </div>
-
             </LB.Navegacao>
 
             {aba === 'filial' ? (
                 <>
                     <LB.DataGeral>
-                        <div>1</div>
+                        <div className='dashboardLine'>
+                            <label>Dashboards</label>
+
+                            <button className='dashboardBtn' ><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
+                        </div>
+
+
+                        <div className='table-responsive'>
+
+                            <table id='table'>
+                                <tr>
+                                    <th>Id. Filial</th>
+
+                                    <th>Filial</th>
+
+                                    <th> Venda ( Ano Anterior ) </th>
+
+                                    <th> Venda ( Ano Escolhido ) </th>
+
+                                    <th> Lucro ( Ano Anterior ) </th>
+
+                                    <th> Lucro ( Ano Escolhido ) </th>
+
+                                    <th>CAGR de Venda</th>
+
+                                    <th>CARG de Lucro</th>
+
+                                    <th>meses seguintes</th>
+
+                                </tr>
+                            </table>
+                        </div>
                     </LB.DataGeral>
                 </>
             ) : aba === 'produto' ? (
                 <>
                     <LB.DataGeral>
-                        <div>2</div>
+                        <div className='dashboardLine'>
+                            <label>Dashboards</label>
+
+                            <button className='dashboardBtn' ><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
+                        </div>
+
+                        <div className='table-responsive'>
+
+                            <table id='table'>
+                                <tr>
+                                    <th>Id. Filial</th>
+
+                                    <th>Filial</th>
+
+                                    <th> Venda ( Ano Anterior ) </th>
+
+                                    <th> Venda ( Ano Escolhido ) </th>
+
+                                    <th> Lucro ( Ano Anterior ) </th>
+
+                                    <th> Lucro ( Ano Escolhido ) </th>
+
+                                    <th>CAGR de Venda</th>
+
+                                    <th>CARG de Lucro</th>
+
+                                    <th>meses seguintes</th>
+
+                                </tr>
+                            </table>
+                        </div>
+
                     </LB.DataGeral>
                 </>
             ) : aba === 'prodQTD' ? (
