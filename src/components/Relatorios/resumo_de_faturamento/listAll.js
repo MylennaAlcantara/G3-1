@@ -56,9 +56,11 @@ export const ResumoFaturamento = () => {
 
     //--------------------------------------------------------------Filtros Parte de Cima-------------------------------------------------------------------------
 
+
     const [query, setQuery] = useState(""); //Busca de Filial (Topo Esquerda)
     const [query1, setQuery1] = useState(""); //Busca de TOP
     const [query2, setQuery2] = useState("");
+    const [queryFi, setQueryFi] = useState("");
     const [queryC, setQueryC] = useState("");
     const [queryP, setQueryP] = useState("");
     const [queryG, setQueryG] = useState("");
@@ -2098,23 +2100,23 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts'>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {parseFloat(result2.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: {parseFloat(result2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {parseFloat(result.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: {parseFloat(result.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {parseFloat(result1.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: {parseFloat(result1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {parseFloat(result3.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(result3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(result4.toFixed(2).toLocaleString('pt-BR'))}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(result4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                     </div>
@@ -2181,31 +2183,31 @@ export const ResumoFaturamento = () => {
                 <div>
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: R$ {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: R$ {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: R$ {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
                     </div>
 
@@ -2219,10 +2221,12 @@ export const ResumoFaturamento = () => {
                             <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
 
                             <h1>Cada Filial</h1>
+
+                            <input className='srch' type='search' name='search-fili' id='search-fili' placeholder='Buscar por Filial...' onChange={(e) => setQueryFi(e.target.value)} />
                         </div>
 
                         <RF.Dashboard0>
-                            {dados.map((data) => {
+                            {dados.filter(dat => dat.filial.toLowerCase().includes(queryFi)).map((data) => {
                                 const ChartFi = [
                                     [
                                         "Element",
@@ -2253,9 +2257,7 @@ export const ResumoFaturamento = () => {
                                 }
 
                                 return (
-
                                     <div className='grafico'><Chart chartType='BarChart' data={ChartFi} options={optionsFili} /></div>
-
                                 )
                             })}
                         </RF.Dashboard0>
@@ -2276,39 +2278,39 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: R$ {parseFloat((resultVen2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: R$ {parseFloat((resultVen2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {parseFloat((resultVen)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {parseFloat((resultVen)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {parseFloat(resultVen1.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {parseFloat(resultVen1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {parseFloat(resultVen3.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {parseFloat(resultVen3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(resultVen4.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(resultVen4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: R$ {parseFloat(resultVen5.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: R$ {parseFloat(resultVen5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: R$ {parseFloat(resultVen6.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: R$ {parseFloat(resultVen6.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: R$ {parseFloat(resultVen7.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: R$ {parseFloat(resultVen7.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoCinza.png' /> Desconto: R$ {parseFloat(resultVen8.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoCinza.png' /> Desconto: R$ {parseFloat(resultVen8.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
                     </div>
 
@@ -2371,35 +2373,35 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: R$ {parseFloat(resultCli1.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: R$ {parseFloat(resultCli1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {parseFloat(resultCli4.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {parseFloat(resultCli4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: R$ {parseFloat(resultCli.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: R$ {parseFloat(resultCli.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {parseFloat(resultCli2.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {parseFloat(resultCli2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(resultCli3.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(resultCli3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: {parseFloat(resultCli7.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: {parseFloat(resultCli7.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: R$ {parseFloat(resultCli6.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: R$ {parseFloat(resultCli6.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {parseFloat(resultCli5.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {parseFloat(resultCli5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                     </div>
@@ -2512,23 +2514,23 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts'>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {parseFloat(resultProd.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {parseFloat(resultProd.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {parseFloat(resultProd1.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {parseFloat(resultProd1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {parseFloat(resultProd3.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {parseFloat(resultProd3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {parseFloat(resultProd2.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {parseFloat(resultProd2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Desconto: {parseFloat(resultProd4.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Desconto: {parseFloat(resultProd4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                     </div>
@@ -2594,19 +2596,19 @@ export const ResumoFaturamento = () => {
                     <div className='dashboardTexts' >
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(resultGru.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(resultGru.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {parseFloat(resultGru1.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {parseFloat(resultGru1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {parseFloat(resultGru2.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {parseFloat(resultGru2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {parseFloat(resultGru3.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {parseFloat(resultGru3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                     </div>
@@ -2664,23 +2666,23 @@ export const ResumoFaturamento = () => {
                 <div>
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(resultFor.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(resultFor.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {parseFloat(resultFor1.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {parseFloat(resultFor1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {parseFloat(resultFor2.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {parseFloat(resultFor2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {parseFloat(resultFor3.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {parseFloat(resultFor3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Sub.Total: {parseFloat(resultFor4.toFixed(2)).toLocaleString('pt-BR')}
+                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Sub.Total: {parseFloat(resultFor4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                     </div>
@@ -2745,15 +2747,15 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts'>
 
-                        <h2 className='prices' > <p className='Gtext' > Venda Total:  R$ {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR')} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Venda Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > Lucro V.Total:  R$ {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Lucro V.Total: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > Liquido Total: R$ {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > Liquido Total: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > NF-e Total:  R$ {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR')} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > NF-e Total:  {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </h2>
 
-                        <h2 className='prices' > <p className='Gtext' > NFC-e Total: R$ {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR')} </p> </h2>
+                        <h2 className='prices' > <p className='Gtext' > NFC-e Total: {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </h2>
                     </div>
 
                     <RF.Dashboard>

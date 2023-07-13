@@ -77,7 +77,7 @@ export const VendasCaixa = ({ close }) => {
         fetchData();
     }, []);
 
-    const totais = [];
+    const [totais, setTotais] = useState([]);
 
     function acharDescricaoPgto(descricao) {
         for (let i = 0; i < totais.length; i++) {
@@ -186,6 +186,7 @@ export const VendasCaixa = ({ close }) => {
                         <select onChange={filtroCaixa}>
                             <option value="todos">TODOS</option>
                             {caixa.map((cx) => {
+
                                 return (
                                     <option value={cx.id}>{cx.nome}</option>
                                 )
@@ -215,7 +216,7 @@ export const VendasCaixa = ({ close }) => {
                                             <div>
                                                 <label>{cx.nome}:</label>
                                             </div>
-                                            <div>
+                                            <div className="alinharValor" >
                                                 <label >{(cx.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
                                             </div>
                                         </div>
@@ -224,7 +225,7 @@ export const VendasCaixa = ({ close }) => {
                             </div>
                         ) : null}
                         <div className={filtro === "todos" ? "caixa-pgto" : "pgto-caixa"}>
-                            
+
                             <h3 onClick={() => setSubGrafico('')} >TOTAL POR TIPO PGTO.:</h3>
                             {filtro === "todos" ? (
                                 Array.isArray(totais) && totais.map((pgto) => {
@@ -234,8 +235,8 @@ export const VendasCaixa = ({ close }) => {
                                             <div>
                                                 <label>{pgto.descricao}:</label>
                                             </div>
-                                            <div>
-                                                <label className="alinharValor" >{parseFloat(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
+                                            <div className="alinharValor" >
+                                                <label>{parseFloat(pgto.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
                                             </div>
                                         </div>
                                     )
@@ -281,6 +282,10 @@ export const VendasCaixa = ({ close }) => {
                                                 <Chart chartType="BarChart" data={graficosBarra} options={opcao} />
                                             </div>
                                         )}
+                                    </div>
+                                ) : total === 0 ? (
+                                    <div>
+                                        <img className="caixa" src='/images/caixaOffline.png' />
                                     </div>
                                 ) : (
                                     <div>

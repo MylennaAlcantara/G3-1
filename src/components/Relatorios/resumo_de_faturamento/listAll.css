@@ -653,7 +653,7 @@ table tr:nth-child(odd) {
     height: 25px;
     border-width: 1px;
     border-bottom: none;
-    border-right-color: gray;
+    border-right: none;
     border-color: gray;
     cursor: pointer;
     width: 50px;
