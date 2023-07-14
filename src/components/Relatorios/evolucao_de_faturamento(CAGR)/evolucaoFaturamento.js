@@ -344,9 +344,9 @@ export const EvolucaoFaturamento = () => {
 
                             <table id='table'>
                                 <tr>
-                                    <th>Id. Filial</th>
+                                    <th>Id. Produto</th>
 
-                                    <th>Filial</th>
+                                    <th>Produto</th>
 
                                     <th> Venda ( Ano Anterior ) </th>
 
@@ -371,23 +371,86 @@ export const EvolucaoFaturamento = () => {
             ) : aba === 'prodQTD' ? (
                 <>
                     <LB.DataGeral>
-                        <div>3</div>
+                        <div className='dashboardLine'>
+                            <label>Dashboards</label>
+
+                            <button className='dashboardBtn' ><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
+                        </div>
+
+                        <div className='table-responsive'>
+
+                            <table id='table'>
+                                <tr>
+                                    <th>Id. Produto</th>
+
+                                    <th>Produto</th>
+
+                                    <th>Filial</th>
+
+                                    <th> QTD ( Ano Anterior ) </th>
+
+                                    <th> CUSTO ( Ano Anterior ) </th>
+
+                                    <th> QTD ( Ano Escolhido ) </th>
+
+                                    <th> CUSTO ( Ano Escolhido ) </th>
+
+                                    <th>Quantidade Total</th>
+
+                                </tr>
+                            </table>
+                        </div>
                     </LB.DataGeral>
                 </>
             ) : aba === 'grupo' ? (
                 <>
                     <LB.DataGeral>
-                        <div>4</div>
+                        <div className='dashboardLine'>
+                            <label>Dashboards</label>
+
+                            <button className='dashboardBtn' ><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
+                        </div>
+
+                        <div className='table-responsive'>
+
+                            <table id='table'>
+                                <tr>
+                                    <th>Id. Grupo</th>
+
+                                    <th>Desc. Grupo</th>
+
+                                    <th> Venda ( Ano Anterior ) </th>
+
+                                    <th> Venda ( Ano Escolhido ) </th>
+
+                                    <th> Lucro ( Ano Anterior ) </th>
+
+                                    <th> Lucro ( Ano Escolhido ) </th>
+
+                                    <th>CAGR de Venda</th>
+
+                                    <th>CARG de Lucro</th>
+
+                                    <th>meses seguintes</th>
+
+                                </tr>
+                            </table>
+                        </div>
+
                     </LB.DataGeral>
                 </>
             ) : aba === 'fornecedor' ? (
                 <>
                     <LB.DataGeral>
-                        <div>5</div>
+                        <div className="dashboardBtn" >
+                            <label>Dashboards</label>
+                        </div>
                     </LB.DataGeral>
                 </>
             ) : null}
-
+/
         </C.Container>
     )
 

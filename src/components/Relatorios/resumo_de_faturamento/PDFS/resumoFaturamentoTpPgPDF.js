@@ -1,7 +1,7 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, user) {
+export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, empresa, user) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
     const nfe = () => {
@@ -29,24 +29,31 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         }
     }
 
-    //const vendedor = dadosVendedor.map((data) => {
-        //return[
-            //{text: data.idFilial, fontSize: 8 },
-            //{text: data.idVendedor, fontSize: 8 },
-           // {text: data.vendedor, fontSize: 8 },
-           // {text: data.qtdVendas, fontSize: 8 },
-           // {text: data.vlTotalNfe.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlTotalNfce.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlVendaTotal.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlTotalCancelamento.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlTotalComissao.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlCustoTotal.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlLucroVenda.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.vlLucroLiquido.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.plucroLiquido.toFixed(2).replace('.', ','), fontSize: 8 },
-           // {text: data.percentual.toFixed(2).replace('.', ','), fontSize: 8 },
-        //]
-   // } )
+    const Filial = () => {
+        if (valorFilial.length === 0) {
+            return (
+                "TODAS"
+            )
+        } else {
+            return valorFilial
+        }
+    }
+
+    const Top = () => {
+        if (valorIdTop.length === 0) {
+            return (
+                "TODAS"
+            )
+        } else {
+            return valorIdTop
+        }
+    }
+
+    const tpPg = dadosLeitura.map((data) => {
+        return[
+            {text: data.id_filial, fontSize: 8 },
+        ]
+   } )
 
     const dataAtual = new Date().toLocaleString();
 
@@ -70,34 +77,44 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
     const content = [
         {
             table: {
-                widths: ['*', 150],
+                widths: ['*', '*', '*'],
                 body: [
                     [
-                        { text: 'Filial: ' + (valorFilial.toString()), bold: true, fontSize: 8 },                        
-                        { text: 'T.OP: ' + (valorIdTop.toString()), bold: true, fontSize: 8 },
-                    ],
-                    [
+                        { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
                         { text: 'Período: ' + (dataIni).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFin).substr(0, 10).split('-').reverse().join('/'), bold: true, fontSize: 8 },
-                        { text: '', fontSize: 8},
+                        { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
+
                     ],
                     [
-                        { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
+                        { text: 'Usuario: ' + (Array.isArray(user) && user.map(user => user.id)) + ' - ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia))  , bold: true, fontSize: 8 },
+                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
                         { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
                     ],
                     [
                         { text: '', fontSize: 8 },
-                        { text: '', fontSize: 8},
+                        { text: '', fontSize: 8 },
+                        { text: '', fontSize: 8 },
                     ],
+
                 ]
             },
             layout: 'headerLineOnly',
         },
         {   table: {
             headerRows: 1,
-            widths: [30,40,50,40,40,40,40,40,40,40,40,40,45,40,40,45],
+            widths: [30,45,45,55,53,45,45,70,50,60],
                 body: [
                     [
-
+                        { text: 'ID Filial', fillColor: '#E0E7ED', fontSize: 6.5 },
+                        { text: 'Boleto', fillColor: '#E0E7ED', fontSize: 6.5 },
+                        { text: 'Dinheiro', fillColor: '#E0E7ED', fontSize: 6.5 },
+                        { text: 'Cartão de Credito', fillColor: '#E0E7ED', fontSize: 6.5},
+                        { text: 'Cartão de Debito', fillColor: '#E0E7ED', fontSize: 7},
+                        { text: 'Cheque', fillColor: '#E0E7ED', fontSize: 7},
+                        { text: 'Pix', fillColor: '#E0E7ED', fontSize: 7},
+                        { text: 'Duplicata Mercantil', fillColor: '#E0E7ED', fontSize: 7},
+                        { text: 'Outros', fillColor: '#E0E7ED', fontSize: 7},
+                        { text: 'Cancelamento Total', fillColor: '#E0E7ED', fontSize: 7}
                     ],
                    // ...vendedor
                 ],
