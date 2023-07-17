@@ -1,5 +1,6 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import styled from 'styled-components';
 
 export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, empresa, user) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -50,10 +51,22 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
     }
 
     const tpPg = dadosLeitura.map((data) => {
-        return[
-            {text: data.id_filial, fontSize: 8 },
+        return [
+            { text: data.id_filial, fontSize: 8 },
+            { text: parseFloat(data.boleto_bancario).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.dinheiro).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.cartao_de_credito).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.cartao_de_debito).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.cheque).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.pix).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.duplicata_mercantil).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.outros).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.cancelamento_total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN', 0.00), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.sem_pagamento).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.desconto_total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
         ]
-   } )
+    })
 
     const dataAtual = new Date().toLocaleString();
 
@@ -86,7 +99,7 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
 
                     ],
                     [
-                        { text: 'Usuario: ' + (Array.isArray(user) && user.map(user => user.id)) + ' - ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia))  , bold: true, fontSize: 8 },
+                        { text: 'Usuario: ' + (Array.isArray(user) && user.map(user => user.id)) + ' - ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)), bold: true, fontSize: 8 },
                         { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
                         { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
                     ],
@@ -100,28 +113,32 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
             },
             layout: 'headerLineOnly',
         },
-        {   table: {
-            headerRows: 1,
-            widths: [30,45,45,55,53,45,45,70,50,60],
+        {
+            table: {
+                headerRows: 1,
+                widths: [25, 50, 50, 55, 53, 45, 50, 70, 50, 65, 60, 55, 70],
                 body: [
                     [
                         { text: 'ID Filial', fillColor: '#E0E7ED', fontSize: 6.5 },
                         { text: 'Boleto', fillColor: '#E0E7ED', fontSize: 6.5 },
                         { text: 'Dinheiro', fillColor: '#E0E7ED', fontSize: 6.5 },
-                        { text: 'Cartão de Credito', fillColor: '#E0E7ED', fontSize: 6.5},
-                        { text: 'Cartão de Debito', fillColor: '#E0E7ED', fontSize: 7},
-                        { text: 'Cheque', fillColor: '#E0E7ED', fontSize: 7},
-                        { text: 'Pix', fillColor: '#E0E7ED', fontSize: 7},
-                        { text: 'Duplicata Mercantil', fillColor: '#E0E7ED', fontSize: 7},
-                        { text: 'Outros', fillColor: '#E0E7ED', fontSize: 7},
-                        { text: 'Cancelamento Total', fillColor: '#E0E7ED', fontSize: 7}
+                        { text: 'Cartão de Credito', fillColor: '#E0E7ED', fontSize: 6.5 },
+                        { text: 'Cartão de Debito', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Cheque', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Pix', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Duplicata Mercantil', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Outros', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Cancelamento Total', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Sem Pagamento', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Desconto Total', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Total', fillColor: '#E0E7ED', fontSize: 7, alignment: 'center'},
                     ],
-                   // ...vendedor
+                    ...tpPg
                 ],
             },
 
         },
-        
+
     ]
 
     const footer = (currentPage, pageCount) => {
