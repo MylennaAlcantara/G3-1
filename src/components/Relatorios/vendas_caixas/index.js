@@ -51,6 +51,7 @@ export const VendasCaixa = ({ close }) => {
             }
             setTotalCaixas(resultados);
         }
+        pgtoSomado();
     }
 
     useEffect(() => {
@@ -78,8 +79,24 @@ export const VendasCaixa = ({ close }) => {
     }, []);
 
     const [totais, setTotais] = useState([]);
+    
+    function pgtoSomado(){
+        const somaValores = {};
+        
+        tipoPgto.forEach((valor) => {
+            if (somaValores[valor.descricao]) {
+            somaValores[valor.descricao] += valor.total;
+            } else {
+            somaValores[valor.descricao] = valor.total;
+            }
+        });
+    
+        const somaValoresArray = Object.entries(somaValores).map(([descricao, total]) => ({ descricao, total }));
+        setTipoPgto(somaValoresArray);
 
-    function acharDescricaoPgto(descricao) {
+    }
+
+    /*function acharDescricaoPgto(descricao) {
         for (let i = 0; i < totais.length; i++) {
             if (totais[i].descricao === descricao) {
                 return i;
@@ -95,7 +112,7 @@ export const VendasCaixa = ({ close }) => {
         } else {
             totais.push({ descricao: pgto.descricao, total: pgto.total });
         }
-    });
+    });*/
 
     const [pagamentoCaixa, setPagamentoCaixa] = useState();
     const [show, setShowElement] = useState(false);
@@ -228,7 +245,7 @@ export const VendasCaixa = ({ close }) => {
 
                             <h3 onClick={() => setSubGrafico('')} >TOTAL POR TIPO PGTO.:</h3>
                             {filtro === "todos" ? (
-                                Array.isArray(totais) && totais.map((pgto) => {
+                                Array.isArray(tipoPgto) && tipoPgto.map((pgto) => {
 
                                     return (
                                         <div className="pgto">
