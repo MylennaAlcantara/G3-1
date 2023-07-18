@@ -26,7 +26,7 @@ export const ResumoFaturamento = () => {
     }
 
     const imprimirTpPg = () => {
-        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, keys, empresa, user)
+        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, empresa, user)
     }
 
     const imprimirProduto = () => {
@@ -1660,6 +1660,8 @@ export const ResumoFaturamento = () => {
                                     <label>Dashboards</label> <label>( Totais abaixo da lista! )</label>
 
                                     <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                                
+                                    <button className='dashboardBtn' onClick={imprimirTpPg}> <img className='grafico' src='/images/printer.png' />Imprimir</button>
                                 </div>
                                 <div className='table-responsive'>
                                     <table id='table'>
