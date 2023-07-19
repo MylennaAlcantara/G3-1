@@ -6,6 +6,7 @@ import Chart from 'react-google-charts';
 import * as C from '../../cadastro/cadastro'
 import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
+import { resumoFaturamentoRegiaoPDF } from './PDFS/resumoFaturamentoRegiaoPDF';
 import { resumoFaturamentoVendedorPDF } from './PDFS/resumoFaturamentoPDF'
 import { resumoFaturamentoTpPgPDF } from './PDFS/resumoFaturamentoTpPgPDF';
 import { resumoFaturamentoProdutoPDF } from './PDFS/resumoFaturamentoProdutoPDF';
@@ -20,6 +21,10 @@ import { useNavigate } from 'react-router-dom';
 Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
+
+    const imprimirRegiao = () => {
+        resumoFaturamentoRegiaoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosRegiao, empresa, user)
+    }
 
     const imprimirVendedor = () => {
         resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosVendedor, empresa, user)
@@ -136,8 +141,6 @@ export const ResumoFaturamento = () => {
     const valoresA = valor.filter(function (a) {
         return !this[JSON.stringify(a)] && (this[JSON.stringify(a)] = true);
     }, Object.create(null))
-
-    console.log(valoresA)
 
     const valorFilial = valor.map((test) => ( //Pega o numero do código(Filial) para a API
         (test.id)
@@ -1279,6 +1282,7 @@ export const ResumoFaturamento = () => {
 
                                     <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
+                                    <button className='dashboardBtn' onClick={imprimirRegiao} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                                 </div>
 
                                 <div className='table-responsive'>
