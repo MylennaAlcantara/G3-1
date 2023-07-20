@@ -1126,6 +1126,8 @@ export const ResumoFaturamento = () => {
 
     const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false)
 
+    console.log(dadosRegiao)
+
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
