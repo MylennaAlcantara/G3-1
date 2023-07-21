@@ -12,6 +12,7 @@ import { resumoFaturamentoTpPgPDF } from './PDFS/resumoFaturamentoTpPgPDF';
 import { resumoFaturamentoProdutoPDF } from './PDFS/resumoFaturamentoProdutoPDF';
 import { resumoFaturamentoGrupoPDF } from './PDFS/resumoFaturamentoGrupoPDF';
 import { resumoFaturamentoFornecedorPDF } from './PDFS/resumoFaturamentoFornecedorPDF';
+import { resumoFaturamentoFilialPDF } from './PDFS/resumoFaturamentoFilialPDF';
 
 import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as RF from "../resumo_de_faturamento/resumoFaturamento"
@@ -24,6 +25,10 @@ export const ResumoFaturamento = () => {
 
     const imprimirRegiao = () => {
         resumoFaturamentoRegiaoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosRegiao, empresa, user)
+    }
+
+    const imprimirFilial = () => {
+        resumoFaturamentoFilialPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dados, empresa, user)
     }
 
     const imprimirVendedor = () => {
@@ -1126,7 +1131,7 @@ export const ResumoFaturamento = () => {
 
     const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false)
 
-    console.log(dadosRegiao)
+    console.log(dados)
 
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1370,6 +1375,9 @@ export const ResumoFaturamento = () => {
                                     <label>Dashboards</label> <label>( Totais abaixo da lista! )</label>
 
                                     <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                
+                                    <button className='dashboardBtn' onClick={imprimirFilial} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+
                                 </div>
 
                                 <div className='table-responsive' >

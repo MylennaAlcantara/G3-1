@@ -469,7 +469,6 @@ export const PicoDeFaturamento = () => {
                                             )
                                         })}
 
-
                                     </table>
                                 </div>
                             </div>
