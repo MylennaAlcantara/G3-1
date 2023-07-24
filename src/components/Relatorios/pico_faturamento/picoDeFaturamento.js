@@ -564,6 +564,8 @@ export const PicoDeFaturamento = () => {
                                     <label>Dashboards</label>
 
                                     <button className='dashboardBtn' onClick={() => setOpenAbrirHora(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                    
+                                    <button className='dashboardBtn' > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
                                 </div>
 
@@ -629,6 +631,8 @@ export const PicoDeFaturamento = () => {
 
                                     <button className='dashboardBtn' onClick={() => setOpenAbrirSemana(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
+                                    <button className='dashboardBtn' > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+
                                 </div>
 
                                 <div className="table-responsive" >
@@ -692,6 +696,8 @@ export const PicoDeFaturamento = () => {
                                     <label>Dashboards</label>
 
                                     <button className='dashboardBtn' onClick={() => setOpenAbrirMes(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                    
+                                    <button className='dashboardBtn' > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
                                 </div>
 
@@ -757,6 +763,8 @@ export const PicoDeFaturamento = () => {
                                     <label>Dashboards</label>
 
                                     <button className='dashboardBtn' onClick={() => setOpenAbrirAno(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                    
+                                    <button className='dashboardBtn' > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
                                 </div>
 

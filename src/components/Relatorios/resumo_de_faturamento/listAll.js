@@ -13,6 +13,7 @@ import { resumoFaturamentoProdutoPDF } from './PDFS/resumoFaturamentoProdutoPDF'
 import { resumoFaturamentoGrupoPDF } from './PDFS/resumoFaturamentoGrupoPDF';
 import { resumoFaturamentoFornecedorPDF } from './PDFS/resumoFaturamentoFornecedorPDF';
 import { resumoFaturamentoFilialPDF } from './PDFS/resumoFaturamentoFilialPDF';
+import { resumoFaturamentoClientePDF } from './PDFS/resumoFaturamentoClientePDF';
 
 import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as RF from "../resumo_de_faturamento/resumoFaturamento"
@@ -33,6 +34,10 @@ export const ResumoFaturamento = () => {
 
     const imprimirVendedor = () => {
         resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosVendedor, empresa, user)
+    }
+
+    const imprimirCliente = () => {
+        resumoFaturamentoClientePDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosCliente, empresa, user)
     }
 
     const imprimirTpPg = () => {
@@ -1131,7 +1136,7 @@ export const ResumoFaturamento = () => {
 
     const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false)
 
-    console.log(dados)
+    console.log(dadosCliente)
 
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1588,6 +1593,7 @@ export const ResumoFaturamento = () => {
 
                                 <button className='dashboardBtn' onClick={openDashboardCliente}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
+                                <button className='dashboardBtn' onClick={imprimirCliente} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
