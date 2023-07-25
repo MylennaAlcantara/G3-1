@@ -1,7 +1,7 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-export function picoFaturamentoHoraPDF (dataFinal, dataInicial, NFE, NFCE, valorFilial, valorIdTop, hora, empresa, user){
+export function picoFaturamentoSemanaPDF (dataFinal, dataInicial, NFE, NFCE, valorFilial, valorIdTop , semana, empresa, user){
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
     const nfe = () => {
@@ -52,7 +52,7 @@ export function picoFaturamentoHoraPDF (dataFinal, dataInicial, NFE, NFCE, valor
 
     const header = [
         {
-            text: 'Pico de Faturamento por Hora',
+            text: 'Pico de Faturamento por Dia da Semana',
             style: 'subheader',
             fontSize: 15,
             bold: true,
@@ -66,18 +66,6 @@ export function picoFaturamentoHoraPDF (dataFinal, dataInicial, NFE, NFCE, valor
         }
 
     ];
-
-    const footer = (currentPage, pageCount) => {
-        return [
-            {
-                text: 'Página ' + currentPage + ' de ' + pageCount,
-                fontSize: 8,
-                margin: [0, 10, 0, 0],
-                bold: true,
-                alignment: 'center',
-            }
-        ]
-    }
 
     const content = [
         {
@@ -111,7 +99,7 @@ export function picoFaturamentoHoraPDF (dataFinal, dataInicial, NFE, NFCE, valor
                 widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
                 body: [
                     [
-                        { text: 'Hora', fillColor: '#E0E7ED', fontSize: 6.5 },
+                        { text: 'Dia', fillColor: '#E0E7ED', fontSize: 6.5 },
                         { text: 'Qtd. NF-e', fillColor: '#E0E7ED', fontSize: 6.5 },
                         { text: 'Vlr. Total NF-e', fillColor: '#E0E7ED', fontSize: 6.5 },
                         { text: 'Qtd. NFC-e', fillColor: '#E0E7ED', fontSize: 7 },
@@ -124,6 +112,18 @@ export function picoFaturamentoHoraPDF (dataFinal, dataInicial, NFE, NFCE, valor
             },
         },
     ]
+
+    const footer = (currentPage, pageCount) => {
+        return [
+            {
+                text: 'Página ' + currentPage + ' de ' + pageCount,
+                fontSize: 8,
+                margin: [0, 10, 0, 0],
+                bold: true,
+                alignment: 'center',
+            }
+        ]
+    }
 
     const docDefinitios = {
         pageSize: 'A4',

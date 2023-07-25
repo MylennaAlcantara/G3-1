@@ -10,6 +10,9 @@ import './picoDeFaturamento.css'
 import { data } from "jquery";
 import Modal from 'react-modal';
 import Chart from 'react-google-charts';
+import { picoFaturamentoHoraPDF } from "./PDFS/picoFaturamentoHoraPDF";
+import { picoFaturamentoSemanaPDF } from "./PDFS/picoFaturamentoSemanaPDF";
+import { picoDeFaturamentoMesPDF } from "./PDFS/picoFaturamentoMesPDF";
 
 Modal.setAppElement("#root")
 
@@ -30,6 +33,18 @@ export const PicoDeFaturamento = () => {
             },
         },
     };
+
+    const imprimirHora = () => {
+        picoFaturamentoHoraPDF(dataFinal, dataInicial, NFE, NFCE, valorFilial, valorIdTop, hora, empresa, user)
+    }
+
+    const imprimirSemana = () => {
+        picoFaturamentoSemanaPDF(dataFinal, dataInicial, NFE, NFCE, valorFilial, valorIdTop, semana, empresa, user)
+    }
+
+    const imprimirMes = () => {
+        picoDeFaturamentoMesPDF(dataFinal, dataInicial, NFE, NFCE, valorFilial, valorIdTop, mes, empresa, user)
+    }
 
     const [hora, setHora] = useState([]);
     const [semana, setSemana] = useState([]);
@@ -552,7 +567,7 @@ export const PicoDeFaturamento = () => {
                 <>
                     <LB.DataGeral>
                         {hora.length === 0 && showElement === true ? (
-
+                            
                             <div className='c' >
                                 <Loading />
                             </div>
@@ -565,7 +580,7 @@ export const PicoDeFaturamento = () => {
 
                                     <button className='dashboardBtn' onClick={() => setOpenAbrirHora(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
                                     
-                                    <button className='dashboardBtn' > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                    <button className='dashboardBtn' onClick={imprimirHora} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
                                 </div>
 
@@ -631,7 +646,7 @@ export const PicoDeFaturamento = () => {
 
                                     <button className='dashboardBtn' onClick={() => setOpenAbrirSemana(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
-                                    <button className='dashboardBtn' > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                    <button className='dashboardBtn' onClick={imprimirSemana} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
                                 </div>
 
