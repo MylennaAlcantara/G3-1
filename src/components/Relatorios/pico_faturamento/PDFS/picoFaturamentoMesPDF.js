@@ -50,4 +50,102 @@ export function picoDeFaturamentoMesPDF (dataFinal, dataInicial, NFE, NFCE, valo
 
     const dataAtual = new Date().toLocaleString();
 
+    const Mês = mes.map((data) => {
+        return [
+            { text: data.dia, fontSize: 8 },
+            { text: parseFloat(data.qtd_nfe).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.vlr_total_nfe).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.qtd_nfce).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.vlr_total_nfce).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.qtd_vendas).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.vlr_total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.tiket_medio).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
+        ]
+    })
+
+    const header = [
+        {
+            text: 'Pico de Faturamento por Mês',
+            style: 'subheader',
+            fontSize: 15,
+            bold: true,
+            alignment: 'left',
+            margin: [0, 0, 0, 0],
+        },
+        {
+            text: [dataAtual],
+            alignment: 'right',
+            fontSize: 9,
+        }
+
+    ];
+
+    const content = [
+        {
+            table: {
+                widths: ['*', '*', '*'],
+                body: [
+                    [
+                        { text: 'Filial: ' + (Filial()), bold: true, fontSize: 8 },
+                        { text: 'Período: ' + (dataInicial).substr(0, 10).split('-').reverse().join('/') + ' Á ' + (dataFinal).substr(0, 10).split('-').reverse().join('/'), bold: true, fontSize: 8 },
+                        { text: 'NF-e: ' + (nfe()), bold: true, fontSize: 8 },
+
+                    ],
+                    [
+                        { text: 'Usuario: ' + (Array.isArray(user) && user.map(user => user.id)) + ' - ' + (Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)), bold: true, fontSize: 8 },
+                        { text: 'T.OP: ' + (Top()), bold: true, fontSize: 8 },
+                        { text: 'NFC-e: ' + (nfce()), bold: true, fontSize: 8 },
+                    ],
+                    [
+                        { text: '', fontSize: 8 },
+                        { text: '', fontSize: 8 },
+                        { text: '', fontSize: 8 },
+                    ],
+
+                ]
+            },
+            layout: 'headerLineOnly',
+        },
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
+                body: [
+                    [
+                        { text: 'Dia', fillColor: '#E0E7ED', fontSize: 6.5 },
+                        { text: 'Qtd. NF-e', fillColor: '#E0E7ED', fontSize: 6.5 },
+                        { text: 'Vlr. Total NF-e', fillColor: '#E0E7ED', fontSize: 6.5 },
+                        { text: 'Qtd. NFC-e', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Vlr Total NFC-e', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Qtd. Vendas', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Vlr. Total', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Tiket Médio', fillColor: '#E0E7ED', fontSize: 7 },
+                    ],
+                    ...Mês
+                ],
+            },
+        },
+    ]
+
+
+    const footer = (currentPage, pageCount) => {
+        return [
+            {
+                text: 'Página ' + currentPage + ' de ' + pageCount,
+                fontSize: 8,
+                margin: [0, 10, 0, 0],
+                bold: true,
+                alignment: 'center',
+            }
+        ]
+    }
+
+    const docDefinitios = {
+        pageSize: 'A4',
+        pageMargins: [15, 15, 15, 40],
+        content: [header, content],
+        footer: footer,
+    }
+    pdfMake.createPdf(docDefinitios).open();
+
 }

@@ -13,6 +13,7 @@ import Chart from 'react-google-charts';
 import { picoFaturamentoHoraPDF } from "./PDFS/picoFaturamentoHoraPDF";
 import { picoFaturamentoSemanaPDF } from "./PDFS/picoFaturamentoSemanaPDF";
 import { picoDeFaturamentoMesPDF } from "./PDFS/picoFaturamentoMesPDF";
+import { picoDeFaturamentoAnoPDF } from "./PDFS/picoFaturamentoAnoPDF";
 
 Modal.setAppElement("#root")
 
@@ -46,6 +47,10 @@ export const PicoDeFaturamento = () => {
         picoDeFaturamentoMesPDF(dataFinal, dataInicial, NFE, NFCE, valorFilial, valorIdTop, mes, empresa, user)
     }
 
+    const imprimirAno = () => {
+        picoDeFaturamentoAnoPDF(dataFinal, dataInicial, NFE, NFCE, valorFilial, valorIdTop, ano, empresa, user)
+    }
+
     const [hora, setHora] = useState([]);
     const [semana, setSemana] = useState([]);
     const [mes, setMes] = useState([]);
@@ -59,7 +64,7 @@ export const PicoDeFaturamento = () => {
         });
         if (res.status === 200) {
             res.json().then(data => {
-                if(data.length === 0){
+                if (data.length === 0) {
                     showElement(false);
                     alert('Consulta Finalizada');
                 }
@@ -120,79 +125,79 @@ export const PicoDeFaturamento = () => {
 
     const dataDiv = dataInicial && dataInicial.split("-")
 
-    function voltar15Dias(){
-        if (dataDiv[2] >= 15 && dataDiv[1] === '01' ){
-            setDataInicial(dataDiv[0] + "-01-01" )
-            setDataFinal(dataDiv[0] + "-01-15" )
-        }else if (dataDiv[2] < 15 && dataDiv[1] === '01' ){
-            setDataInicial((parseFloat(dataDiv[0]) - 1 ).toString() + "-12-15" );
-            setDataFinal((parseFloat(dataDiv[0]) - 1 ).toString() + "-12-31" );
-        }else if (dataDiv[2] >= 14 && dataDiv[1] === '02' ){
-            setDataInicial(dataDiv[0] + "-02-01" );
-            setDataFinal(dataDiv[0] + "-02-14" );
-        }else if (dataDiv[2] < 14 && dataDiv[1] === '02' ){
-            setDataInicial(dataDiv[0] + "-01-15" );
-            setDataFinal(dataDiv[0] + "-01-31" );
-        }else if (dataDiv[2] >= 15 && dataDiv[1] === '03' ){
-            setDataInicial(dataDiv[0] + "-03-01" );
-            setDataFinal(dataDiv[0] + "-03-15" );
-        }else if (dataDiv[2] < 15 && dataDiv[1] === '03' ){
-            setDataInicial(dataDiv[0] + "-02-14" );
-            setDataFinal(dataDiv[0] + "-02-28" );
-        }else if (dataDiv[2] >= 15 && dataDiv[1] === '04' ){
-            setDataInicial(dataDiv[0] + "-04-01" );
-            setDataFinal(dataDiv[0] + "-04-15" );
-        }else if (dataDiv[2] < 15 && dataDiv[1] === '04' ){
-            setDataInicial(dataDiv[0] + "-03-15" );
-            setDataFinal(dataDiv[0] + "-03-31" );
-        }else if (dataDiv[2] >= 16 && dataDiv[1] === '05' ){
-            setDataInicial(dataDiv[0] + "-05-01" );
-            setDataFinal(dataDiv[0] + "-05-16" );
-        }else if (dataDiv[2] < 15 && dataDiv[1] === '05' ){
-            setDataInicial(dataDiv[0] + "-04-15" );
-            setDataFinal(dataDiv[0] + "-04-30" );
-        }else if (dataDiv[2] >= 15 && dataDiv[1] === '06' ){
-            setDataInicial(dataDiv[0] + "-06-01" );
-            setDataFinal(dataDiv[0] + "-06-15" );
-        }else if (dataDiv[2] < 15 && dataDiv[1] === '06'){
-            setDataInicial(dataDiv[0] + "-05-16" );
-            setDataFinal(dataDiv[0] + "-05-31" );
-        }else if (dataDiv[2] >= 16 && dataDiv[1] === '07' ){
-            setDataInicial(dataDiv[0] + "-07-01" );
-            setDataFinal(dataDiv[0] + "-07-16" );
-        }else if (dataDiv[2] < 16 && dataDiv[1] === '07' ){
-            setDataInicial(dataDiv[0] + "-06-15" );
-            setDataFinal(dataDiv[0] + "-06-30" );
-        }else if (dataDiv[2] >= 16 && dataDiv[1] === '08' ){
-            setDataInicial(dataDiv[0] + "-08-01" );
-            setDataFinal(dataDiv[0] + "-08-16" );
-        }else if (dataDiv[2] < 16 && dataDiv[1] === '08' ){
-            setDataInicial(dataDiv[0] + "-07-16" );
-            setDataFinal(dataDiv[0] + "-07-31" );
-        }else if (dataDiv[2] >= 15 && dataDiv[1] === '09' ){
-            setDataInicial(dataDiv[0] + "-09-01" );
-            setDataFinal(dataDiv[0] + "-09-15" );
-        }else if (dataDiv[2] < 15 && dataDiv[1] === '09' ){
-            setDataInicial(dataDiv[0] + "-08-16" );
-            setDataFinal(dataDiv[0] + "-08-31" );
-        }else if (dataDiv[2] >= 16 && dataDiv[1] === '10' ){
-            setDataInicial(dataDiv[0] + "-10-01" );
-            setDataFinal(dataDiv[0] + "-10-16" );
-        }else if (dataDiv[2] < 16 && dataDiv[1] === '10' ){
-            setDataInicial(dataDiv[0] + "-09-15" );
-            setDataFinal(dataDiv[0] + "-09-30" );
-        }else if (dataDiv[2] >= 15 && dataDiv[1] === '11' ){
-            setDataInicial(dataDiv[0] + "-11-01" );
-            setDataFinal(dataDiv[0] + "-11-15" );
-        }else if (dataDiv[2] < 15 && dataDiv[1] === '11' ){
-            setDataInicial(dataDiv[0] + "-10-16" );
-            setDataFinal(dataDiv[0] + "-10-31" );
-        }else if (dataDiv[2] >= 16 && dataDiv[1] === '12' ){
-            setDataInicial(dataDiv[0] + "-12-01" );
-            setDataFinal(dataDiv[0] + "-12-16" );
-        }else if (dataDiv[2] < 16 && dataDiv[1] === '12' ){
-            setDataInicial(dataDiv[0] + "-11-15" );
-            setDataFinal(dataDiv[0] + "-11-30" );
+    function voltar15Dias() {
+        if (dataDiv[2] >= 15 && dataDiv[1] === '01') {
+            setDataInicial(dataDiv[0] + "-01-01")
+            setDataFinal(dataDiv[0] + "-01-15")
+        } else if (dataDiv[2] < 15 && dataDiv[1] === '01') {
+            setDataInicial((parseFloat(dataDiv[0]) - 1).toString() + "-12-15");
+            setDataFinal((parseFloat(dataDiv[0]) - 1).toString() + "-12-31");
+        } else if (dataDiv[2] >= 14 && dataDiv[1] === '02') {
+            setDataInicial(dataDiv[0] + "-02-01");
+            setDataFinal(dataDiv[0] + "-02-14");
+        } else if (dataDiv[2] < 14 && dataDiv[1] === '02') {
+            setDataInicial(dataDiv[0] + "-01-15");
+            setDataFinal(dataDiv[0] + "-01-31");
+        } else if (dataDiv[2] >= 15 && dataDiv[1] === '03') {
+            setDataInicial(dataDiv[0] + "-03-01");
+            setDataFinal(dataDiv[0] + "-03-15");
+        } else if (dataDiv[2] < 15 && dataDiv[1] === '03') {
+            setDataInicial(dataDiv[0] + "-02-14");
+            setDataFinal(dataDiv[0] + "-02-28");
+        } else if (dataDiv[2] >= 15 && dataDiv[1] === '04') {
+            setDataInicial(dataDiv[0] + "-04-01");
+            setDataFinal(dataDiv[0] + "-04-15");
+        } else if (dataDiv[2] < 15 && dataDiv[1] === '04') {
+            setDataInicial(dataDiv[0] + "-03-15");
+            setDataFinal(dataDiv[0] + "-03-31");
+        } else if (dataDiv[2] >= 16 && dataDiv[1] === '05') {
+            setDataInicial(dataDiv[0] + "-05-01");
+            setDataFinal(dataDiv[0] + "-05-16");
+        } else if (dataDiv[2] < 15 && dataDiv[1] === '05') {
+            setDataInicial(dataDiv[0] + "-04-15");
+            setDataFinal(dataDiv[0] + "-04-30");
+        } else if (dataDiv[2] >= 15 && dataDiv[1] === '06') {
+            setDataInicial(dataDiv[0] + "-06-01");
+            setDataFinal(dataDiv[0] + "-06-15");
+        } else if (dataDiv[2] < 15 && dataDiv[1] === '06') {
+            setDataInicial(dataDiv[0] + "-05-16");
+            setDataFinal(dataDiv[0] + "-05-31");
+        } else if (dataDiv[2] >= 16 && dataDiv[1] === '07') {
+            setDataInicial(dataDiv[0] + "-07-01");
+            setDataFinal(dataDiv[0] + "-07-16");
+        } else if (dataDiv[2] < 16 && dataDiv[1] === '07') {
+            setDataInicial(dataDiv[0] + "-06-15");
+            setDataFinal(dataDiv[0] + "-06-30");
+        } else if (dataDiv[2] >= 16 && dataDiv[1] === '08') {
+            setDataInicial(dataDiv[0] + "-08-01");
+            setDataFinal(dataDiv[0] + "-08-16");
+        } else if (dataDiv[2] < 16 && dataDiv[1] === '08') {
+            setDataInicial(dataDiv[0] + "-07-16");
+            setDataFinal(dataDiv[0] + "-07-31");
+        } else if (dataDiv[2] >= 15 && dataDiv[1] === '09') {
+            setDataInicial(dataDiv[0] + "-09-01");
+            setDataFinal(dataDiv[0] + "-09-15");
+        } else if (dataDiv[2] < 15 && dataDiv[1] === '09') {
+            setDataInicial(dataDiv[0] + "-08-16");
+            setDataFinal(dataDiv[0] + "-08-31");
+        } else if (dataDiv[2] >= 16 && dataDiv[1] === '10') {
+            setDataInicial(dataDiv[0] + "-10-01");
+            setDataFinal(dataDiv[0] + "-10-16");
+        } else if (dataDiv[2] < 16 && dataDiv[1] === '10') {
+            setDataInicial(dataDiv[0] + "-09-15");
+            setDataFinal(dataDiv[0] + "-09-30");
+        } else if (dataDiv[2] >= 15 && dataDiv[1] === '11') {
+            setDataInicial(dataDiv[0] + "-11-01");
+            setDataFinal(dataDiv[0] + "-11-15");
+        } else if (dataDiv[2] < 15 && dataDiv[1] === '11') {
+            setDataInicial(dataDiv[0] + "-10-16");
+            setDataFinal(dataDiv[0] + "-10-31");
+        } else if (dataDiv[2] >= 16 && dataDiv[1] === '12') {
+            setDataInicial(dataDiv[0] + "-12-01");
+            setDataFinal(dataDiv[0] + "-12-16");
+        } else if (dataDiv[2] < 16 && dataDiv[1] === '12') {
+            setDataInicial(dataDiv[0] + "-11-15");
+            setDataFinal(dataDiv[0] + "-11-30");
         }
     }
 
@@ -234,7 +239,7 @@ export const PicoDeFaturamento = () => {
             setDataInicial(dataDiv[0] + "-11-01");
             setDataFinal(dataDiv[0] + "-11-30");
         }
-    } 
+    }
 
     function passarMes() {
         if (dataDiv[1] === '01') {
@@ -427,6 +432,8 @@ export const PicoDeFaturamento = () => {
         }
     }
 
+    console.log(hora)
+
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
@@ -567,7 +574,7 @@ export const PicoDeFaturamento = () => {
                 <>
                     <LB.DataGeral>
                         {hora.length === 0 && showElement === true ? (
-                            
+
                             <div className='c' >
                                 <Loading />
                             </div>
@@ -579,7 +586,7 @@ export const PicoDeFaturamento = () => {
                                     <label>Dashboards</label>
 
                                     <button className='dashboardBtn' onClick={() => setOpenAbrirHora(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
-                                    
+
                                     <button className='dashboardBtn' onClick={imprimirHora} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
                                 </div>
@@ -671,6 +678,22 @@ export const PicoDeFaturamento = () => {
                                         </tr>
 
                                         {semana.map((item) => {
+                                            if (item.dia === 'SUNDAY') {
+                                                item.dia = 'DOMINGO'
+                                            } else if (item.dia === 'MONDAY') {
+                                                item.dia = 'SEGUNDA'
+                                            } else if (item.dia === 'TUESDAY') {
+                                                item.dia = 'TERÇA'
+                                            } else if (item.dia === 'WEDNESDAY') {
+                                                item.dia = 'QUARTA'
+                                            } else if (item.dia === 'THURSDAY') {
+                                                item.dia = 'QUINTA'
+                                            } else if (item.dia === 'FRIDAY') {
+                                                item.dia = 'SEXTA'
+                                            } else if (item.dia === 'SATURDAY') {
+                                                item.dia = 'SABADO'
+                                            }
+
                                             return (
                                                 <tr>
                                                     <td>{item.dia}</td>
@@ -711,8 +734,8 @@ export const PicoDeFaturamento = () => {
                                     <label>Dashboards</label>
 
                                     <button className='dashboardBtn' onClick={() => setOpenAbrirMes(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
-                                    
-                                    <button className='dashboardBtn' > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+
+                                    <button className='dashboardBtn' onClick={imprimirMes} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
                                 </div>
 
@@ -778,7 +801,7 @@ export const PicoDeFaturamento = () => {
                                     <label>Dashboards</label>
 
                                     <button className='dashboardBtn' onClick={() => setOpenAbrirAno(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
-                                    
+
                                     <button className='dashboardBtn' > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
                                 </div>

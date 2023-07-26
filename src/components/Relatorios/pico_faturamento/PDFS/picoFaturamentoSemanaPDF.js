@@ -48,6 +48,35 @@ export function picoFaturamentoSemanaPDF (dataFinal, dataInicial, NFE, NFCE, val
         }
     }
 
+    const Semanas = semana.map((data) => {
+        if(data.dia === 'SUNDAY' ){
+            data.dia = 'DOMINGO'
+        }else if (data.dia === 'MONDAY'){
+            data.dia = 'SEGUNDA'
+        }else if (data.dia === 'TUESDAY'){
+            data.dia = 'TERÇA'
+        }else if (data.dia === 'WEDNESDAY'){
+            data.dia = 'QUARTA'
+        }else if (data.dia === 'THURSDAY'){
+            data.dia = 'QUINTA'
+        }else if (data.dia === 'FRIDAY'){
+            data.dia = 'SEXTA'
+        }else if (data.dia === 'SATURDAY'){
+            data.dia = 'SABADO'
+        }
+
+        return [
+            { text: data.dia, fontSize: 8 },
+            { text: parseFloat(data.qtd_nfe).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.vlr_total_nfe).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.qtd_nfce).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.vlr_total_nfce).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.qtd_vendas).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.vlr_total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.tiket_medio).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
+        ]
+    })
+
     const dataAtual = new Date().toLocaleString();
 
     const header = [
@@ -108,6 +137,7 @@ export function picoFaturamentoSemanaPDF (dataFinal, dataInicial, NFE, NFCE, val
                         { text: 'Vlr. Total', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Tiket Médio', fillColor: '#E0E7ED', fontSize: 7 },
                     ],
+                    ...Semanas
                 ],
             },
         },
