@@ -11,10 +11,14 @@ export const CurvaABC = () => {
 
     const [abasTopo, setAbasTopo] = useState('filial');
 
+    const [aba, setAba] = useState('produtos')
+
     return (
         <C.Container>
             <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header><h3>Curva ABC (Faturamento)</h3></C.Header>
+
+            <span></span>
 
             <LB.Filtros>
                 <div className="FTFilterTop" >
@@ -138,6 +142,16 @@ export const CurvaABC = () => {
                     <button className='CD' >Classificação</button>
                 </div>
             </LB.Navegacao>
+
+            {aba === "produtos" ? (
+                <>
+                    <LB.CData>
+
+                    </LB.CData>
+                </>
+            ) : aba === "classificação" ? (
+                <></>
+            ) : null}
 
         </C.Container>
     )
