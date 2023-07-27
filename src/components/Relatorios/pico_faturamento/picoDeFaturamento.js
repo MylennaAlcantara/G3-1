@@ -412,8 +412,6 @@ export const PicoDeFaturamento = () => {
         }
     }
 
-    //const lastDay = new Date(dataInicial.toLocaleString().getFullYear(), dataInicial.toLocaleString().getMonth() + 1, 0);
-
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------Pico Ano---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -432,7 +430,7 @@ export const PicoDeFaturamento = () => {
         }
     }
 
-    console.log(hora)
+    console.log(ano)
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -802,7 +800,7 @@ export const PicoDeFaturamento = () => {
 
                                     <button className='dashboardBtn' onClick={() => setOpenAbrirAno(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
-                                    <button className='dashboardBtn' > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                    <button className='dashboardBtn' onClick={imprimirAno} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
                                 </div>
 
@@ -826,6 +824,32 @@ export const PicoDeFaturamento = () => {
                                             <th>Tiket Médio</th>
                                         </tr>
                                         {ano.map((item) => {
+                                            if(item.mes === 'JANUARY' ){
+                                                item.mes = 'JANEIRO'
+                                            }else if(item.mes === 'FEBRUARY'){
+                                                item.mes = 'FEVEREIRO'
+                                            }else if(item.mes === 'MARCH'){
+                                                item.mes = 'MARÇO'
+                                            }else if(item.mes === 'APRIL'){
+                                                item.mes = 'ABRIL'
+                                            }else if(item.mes === 'MAY'){
+                                                item.mes = 'MAIO'
+                                            }else if(item.mes === 'JUNE'){
+                                                item.mes = 'JUNHO'
+                                            }else if(item.mes === 'JULY'){
+                                                item.mes = 'JULHO'
+                                            }else if(item.mes === 'AUGUST'){
+                                                item.mes = 'AGOSTO'
+                                            }else if(item.mes === 'SEPTEMBER'){
+                                                item.mes = 'SETEMBRO'
+                                            }else if(item.mes === 'OCTOBER'){
+                                                item.mes = 'OUTUBRO'
+                                            }else if(item.mes === 'NOVEMBER'){
+                                                item.mes = 'NOVEMBRO'
+                                            }else if(item.mes === 'DECEMBER'){
+                                                item.mes = 'DEZEMBRO'
+                                            }
+
                                             return (
                                                 <tr>
                                                     <td>{item.mes}</td>

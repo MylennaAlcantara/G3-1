@@ -4,6 +4,14 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 export function picoFaturamentoSemanaPDF (dataFinal, dataInicial, NFE, NFCE, valorFilial, valorIdTop , semana, empresa, user){
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+    const QuantidadeNFE = semana.reduce((a, b) => a + b.qtd_nfe, 0);
+    const QuantidadeNFCE = semana.reduce((a, b) => a + b.qtd_nfe, 0);
+    const ValorNFE = semana.reduce((a, b) => a + b.vlr_total_nfe, 0);
+    const ValorNFCE = semana.reduce((a, b) => a + b.vlr_total_nfce, 0);
+    const QuantidadeVenda = semana.reduce((a, b) => a + b.qtd_vendas, 0);
+    const ValorTotal = semana.reduce((a, b) => a + b.vlr_total, 0);
+    const TiketMedio = semana.reduce((a, b) => a + b.tiket_medio, 0);
+
     const nfe = () => {
         if (NFE === true) {
             return (
@@ -141,6 +149,35 @@ export function picoFaturamentoSemanaPDF (dataFinal, dataInicial, NFE, NFCE, val
                 ],
             },
         },
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*'],
+                body: [
+                    [
+                        { text: 'Totais', alignment: 'center', fillColor: '#E0E7ED', bold: true, },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*', '*', '*', '*', '*' ,'*', '*'],
+                body: [
+                    [
+                        { text: 'Qtd. NF-e: ' + parseFloat(QuantidadeNFE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Vlr. NF-e: ' + parseFloat(ValorNFE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Qtd. NFC-e : ' + parseFloat(QuantidadeNFCE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Vlr. NFC-e: ' + parseFloat(ValorNFCE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Qtd. Vendas : ' + (parseFloat(QuantidadeVenda.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
+                        { text: 'Vlr. Total : ' + (parseFloat(ValorTotal.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
+                        { text: 'Tiket Médio : ' + (parseFloat(TiketMedio.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
+                    ],
+                ],
+                layout: 'lightHorizontalLines'
+            },
+        }
     ]
 
     const footer = (currentPage, pageCount) => {

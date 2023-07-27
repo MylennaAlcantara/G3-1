@@ -4,6 +4,14 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 export function picoDeFaturamentoMesPDF (dataFinal, dataInicial, NFE, NFCE, valorFilial, valorIdTop, mes, empresa, user){
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+    const QuantidadeNFE = mes.reduce((a, b) => a + b.qtd_nfe, 0);
+    const QuantidadeNFCE = mes.reduce((a, b) => a + b.qtd_nfe, 0);
+    const ValorNFE = mes.reduce((a, b) => a + b.vlr_total_nfe, 0);
+    const ValorNFCE = mes.reduce((a, b) => a + b.vlr_total_nfce, 0);
+    const QuantidadeVenda = mes.reduce((a, b) => a + b.qtd_vendas, 0);
+    const ValorTotal = mes.reduce((a, b) => a + b.vlr_total, 0);
+    const TiketMedio = mes.reduce((a, b) => a + b.tiket_medio, 0);
+
     const nfe = () => {
         if (NFE === true) {
             return (
@@ -125,6 +133,35 @@ export function picoDeFaturamentoMesPDF (dataFinal, dataInicial, NFE, NFCE, valo
                 ],
             },
         },
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*'],
+                body: [
+                    [
+                        { text: 'Totais', alignment: 'center', fillColor: '#E0E7ED', bold: true, },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*', '*', '*', '*', '*' ,'*', '*'],
+                body: [
+                    [
+                        { text: 'Qtd. NF-e: ' + parseFloat(QuantidadeNFE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Vlr. NF-e: ' + parseFloat(ValorNFE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Qtd. NFC-e : ' + parseFloat(QuantidadeNFCE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Vlr. NFC-e: ' + parseFloat(ValorNFCE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Qtd. Vendas : ' + (parseFloat(QuantidadeVenda.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
+                        { text: 'Vlr. Total : ' + (parseFloat(ValorTotal.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
+                        { text: 'Tiket Médio : ' + (parseFloat(TiketMedio.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
+                    ],
+                ],
+                layout: 'lightHorizontalLines'
+            },
+        }
     ]
 
 
