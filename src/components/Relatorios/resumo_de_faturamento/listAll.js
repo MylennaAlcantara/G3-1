@@ -364,11 +364,11 @@ export const ResumoFaturamento = () => {
         setDataFornecedor();
     }
 
-    function onChangeDataIni(e) { //Pega os valores da Data Inicial 
+    function onChangeDataIni(e) { 
         setDataIni(e.currentTarget.value)
     }
 
-    function onChangeDataFin(e) { //Pega os Valores da Data Final
+    function onChangeDataFin(e) { 
         setDataFin(e.currentTarget.value)
     }
 
@@ -1388,7 +1388,6 @@ export const ResumoFaturamento = () => {
                                 <div className='table-responsive' >
                                     <table>
                                         <thead>
-
 
                                             <tr>
                                                 <th>Id.Filial</th>
