@@ -6,11 +6,14 @@ import Chart from 'react-google-charts';
 import * as C from '../../cadastro/cadastro'
 import { Top } from '../../modais/modal_top';
 import { Loading } from '../../loading';
+import { resumoFaturamentoRegiaoPDF } from './PDFS/resumoFaturamentoRegiaoPDF';
 import { resumoFaturamentoVendedorPDF } from './PDFS/resumoFaturamentoPDF'
 import { resumoFaturamentoTpPgPDF } from './PDFS/resumoFaturamentoTpPgPDF';
 import { resumoFaturamentoProdutoPDF } from './PDFS/resumoFaturamentoProdutoPDF';
 import { resumoFaturamentoGrupoPDF } from './PDFS/resumoFaturamentoGrupoPDF';
 import { resumoFaturamentoFornecedorPDF } from './PDFS/resumoFaturamentoFornecedorPDF';
+import { resumoFaturamentoFilialPDF } from './PDFS/resumoFaturamentoFilialPDF';
+import { resumoFaturamentoClientePDF } from './PDFS/resumoFaturamentoClientePDF';
 
 import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as RF from "../resumo_de_faturamento/resumoFaturamento"
@@ -21,8 +24,20 @@ Modal.setAppElement("#root")
 
 export const ResumoFaturamento = () => {
 
+    const imprimirRegiao = () => {
+        resumoFaturamentoRegiaoPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosRegiao, empresa, user)
+    }
+
+    const imprimirFilial = () => {
+        resumoFaturamentoFilialPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dados, empresa, user)
+    }
+
     const imprimirVendedor = () => {
         resumoFaturamentoVendedorPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosVendedor, empresa, user)
+    }
+
+    const imprimirCliente = () => {
+        resumoFaturamentoClientePDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosCliente, empresa, user)
     }
 
     const imprimirTpPg = () => {
@@ -136,8 +151,6 @@ export const ResumoFaturamento = () => {
     const valoresA = valor.filter(function (a) {
         return !this[JSON.stringify(a)] && (this[JSON.stringify(a)] = true);
     }, Object.create(null))
-
-    console.log(valoresA)
 
     const valorFilial = valor.map((test) => ( //Pega o numero do código(Filial) para a API
         (test.id)
@@ -351,11 +364,11 @@ export const ResumoFaturamento = () => {
         setDataFornecedor();
     }
 
-    function onChangeDataIni(e) { //Pega os valores da Data Inicial 
+    function onChangeDataIni(e) { 
         setDataIni(e.currentTarget.value)
     }
 
-    function onChangeDataFin(e) { //Pega os Valores da Data Final
+    function onChangeDataFin(e) { 
         setDataFin(e.currentTarget.value)
     }
 
@@ -1123,6 +1136,8 @@ export const ResumoFaturamento = () => {
 
     const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false)
 
+    console.log(dadosCliente)
+
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
@@ -1279,6 +1294,7 @@ export const ResumoFaturamento = () => {
 
                                     <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
+                                    <button className='dashboardBtn' onClick={imprimirRegiao} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                                 </div>
 
                                 <div className='table-responsive'>
@@ -1364,12 +1380,14 @@ export const ResumoFaturamento = () => {
                                     <label>Dashboards</label> <label>( Totais abaixo da lista! )</label>
 
                                     <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                
+                                    <button className='dashboardBtn' onClick={imprimirFilial} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+
                                 </div>
 
                                 <div className='table-responsive' >
                                     <table>
                                         <thead>
-
 
                                             <tr>
                                                 <th>Id.Filial</th>
@@ -1574,6 +1592,7 @@ export const ResumoFaturamento = () => {
 
                                 <button className='dashboardBtn' onClick={openDashboardCliente}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
+                                <button className='dashboardBtn' onClick={imprimirCliente} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>

@@ -37,6 +37,7 @@ import { RamoAtividade } from './components/modais/modal_ramo_atividade';
 import { Pgt } from './components/modais/modal_pgt';
 import { EvolucaoFaturamento } from './components/Relatorios/evolucao_de_faturamento(CAGR)/evolucaoFaturamento'
 import { CurvaABC } from './components/Relatorios/curva__abc/curvaABC'
+import {ComissaoVendedor} from './components/Relatorios/comissao_por_vendedor/comissaoPorVendedor';
 
 function App() {    
   const navigate = useNavigate();
@@ -188,6 +189,7 @@ function App() {
             <Route path = '/picoDeFaturamento' element = {token ? (<><NavBar setCadastro={setCadastro} cadastro={cadastro} setModal={setModal} modal={modal} minimizado={minimizado} setMinimizado={setMinimizado}/><PicoDeFaturamento/></>) : <Login/>}/>
             <Route path = '/evolucaoDeFaturamento' element = {token ? (<><NavBar setCadastro={setCadastro} cadastro={cadastro} setModal={setModal} modal={modal} minimizado={minimizado} setMinimizado={setMinimizado}/><EvolucaoFaturamento/></>) : <Login/>}/>
             <Route path = '/curvaABC' element = {token ? (<><NavBar setCadastro={setCadastro} cadastro={cadastro} setModal={setModal} modal={modal} minimizado={minimizado} setMinimizado={setMinimizado}/><CurvaABC/></>) : <Login/>}/>
+            <Route path = '/ComissaoVendedor' element = {token ? (<><NavBar setCadastro={setCadastro} cadastro={cadastro} setModal={setModal} modal={modal} minimizado={minimizado} setMinimizado={setMinimizado}/><ComissaoVendedor/></>) : <Login/>}/>
           </Routes>
           {/* Renderização dos modais */}
             {modal.setor ? <Setor close={()=> setModal({...modal, setor: false})} cadastro={cadastro} setMinimizado={setMinimizado} minimizado={minimizado} setModal={setModal} modal={modal}/> : null}

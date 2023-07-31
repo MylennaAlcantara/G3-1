@@ -50,6 +50,15 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         }
     }
 
+    const Boleto = dadosLeitura.reduce((a, b) => a + b.boleto_bancario, 0);
+    const Dinheiro = dadosLeitura.reduce((a, b) => a + b.dinheiro, 0);
+    const CartaoC = dadosLeitura.reduce((a, b) => a + b.cartao_de_credito, 0);
+    const CartaoD = dadosLeitura.reduce((a, b) => a + b.cartao_de_debito, 0 );
+    const Cheque =  dadosLeitura.reduce((a, b) => a + b.cheque, 0 );
+    const Pix = dadosLeitura.reduce((a, b) => a + b.pix, 0 );
+    const DuplicataMercantil = dadosLeitura.reduce((a, b) => a + b.duplicata_mercantil, 0 );
+    const Total = dadosLeitura.reduce((a, b) => a + b.total, 0 );
+
     const tpPg = dadosLeitura.map((data) => {
         return [
             { text: data.id_filial, fontSize: 8 },
@@ -138,7 +147,36 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
             },
 
         },
-
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*'],
+                body: [
+                    [
+                        { text: 'Totais', alignment: 'center', fillColor: '#E0E7ED', bold: true, },
+                    ],
+                ],
+            },
+        },
+        {
+            table: {
+                headerRows: 1,
+                widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
+                body: [
+                    [
+                        { text: 'Boleto: ' + parseFloat(Boleto.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Dinheiro: ' + parseFloat(Dinheiro.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Cartão de Credito: ' + parseFloat(CartaoC.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Cartão de Debito: ' + parseFloat(CartaoD.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Cheque : ' + (parseFloat(Cheque.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
+                        { text: 'Pix : ' + (parseFloat(Pix.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
+                        { text: 'Duplicata Mercantil: ' + parseFloat(DuplicataMercantil.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Total: ' + parseFloat(Total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                    ],
+                ],
+                layout: 'lightHorizontalLines'
+            },
+        }
     ]
 
     const footer = (currentPage, pageCount) => {
