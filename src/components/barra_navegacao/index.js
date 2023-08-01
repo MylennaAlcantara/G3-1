@@ -18,6 +18,7 @@ import { Grupo } from "../modais/modais_tela_produtos/modal_icms";
 import { Top } from "../modais/modal_top";
 import { PerfilMovimentacao } from "../modais/modal_perfil_mov";
 import { VendasCaixa } from "../Relatorios/vendas_caixas";
+import { Caixa } from "../caixa";
 
 export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setModal, modal}) => {
     const navigate = useNavigate();
@@ -36,6 +37,8 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
     const [opAuxiliar, setOpAuxiliar] = useState(false);
 
     const [vendas, setVendas] = useState(false);
+
+    const [caixa, setCaixa] = useState(false);
 
     function abrirBarra (){
         setAberto(!aberto);
@@ -194,6 +197,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                             <div className="gaveta" onClick={() => {navigate('/picoDeFaturamento'); fecharOp()} }>Pico de Faturamento</div>
                         </>
                     ) : null}
+                    <div onClick={()=> setCaixa(true)}><img src="/images/ponto-de-venda.png"/>Caixa</div>
                     {sincronizando === true ? (
                         <div className="sincronizando">
                             Sincronizando<div className="loader"/>
@@ -212,6 +216,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
             {opProdutos ? <OpProdutos close={()=> setOpProdutos(false)} setOpProdutos={setOpProdutos} setMinimizado={setMinimizado} minimizado={minimizado} modal={modal} setModal={setModal} cadastro={cadastro} setCadastro={setCadastro}/> : null}
             {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar} setMinimizado={setMinimizado} minimizado={minimizado} modal={modal} setModal={setModal} cadastro={cadastro} setCadastro={setCadastro}/> : null}
             {vendas ? <VendasCaixa close={()=> setVendas(false)}/> : null}
+            {caixa ? <Caixa /> : null}
         </C.Container>
     )
 }
