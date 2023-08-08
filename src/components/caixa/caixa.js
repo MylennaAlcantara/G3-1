@@ -29,6 +29,14 @@ export const AreaInserir = styled.div`
     .espaco2{
         background-color: white;
         border-radius: 10px;
+        box-shadow: 3px 3px 8px black;
+        display: flex;
+        aling-items: center;
+        justify-content: center;
+        label{
+            font-size: 36px;
+            color: #000051;
+        }
     }
 
     .campo{
@@ -39,11 +47,21 @@ export const AreaInserir = styled.div`
         background-color: white;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: start;
         justify-content: center;
+        box-shadow: 3px 3px 8px black;
         label{
             font-weight: bold;
-            font-size: 18px;
+            font-size: 16px;
+        }
+        input{
+            box-shadow: none;
+            width: 90%;
+            height: 80%;
+            text-align: center;
+            color: #000051;
+            font-weight: bold;
+            font-size: 36px;
         }
     }
 
@@ -53,7 +71,15 @@ export const ListaItens = styled.div`
     background-color: white;
     width: 90%;
     height: 50%;
+    border: 1px solid grey;
     border-radius: 10px;
+    table{
+        border-collapse: collapse;
+        width: 100%;
+    }
+    tr{
+        border-bottom: 1px solid black;
+    }
 `
 export const InformacaoFinal = styled.div`
     width: 90%;
@@ -68,6 +94,38 @@ export const InformacaoFinal = styled.div`
         border: 1px solid black;
         border-radius: 10px;
         background-color: white;
+        box-shadow: 3px 3px 8px black;
+        display: flex;
+        .dados-operador{
+            height: 100%;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            aling-items: center;
+            justify-content: center;
+            div{
+                margin: 0 auto;
+                width: 90%;
+                display: flex;
+                aling-items: center;
+                justify-content: start;
+                label{
+                    margin: 0 auto;
+                    font-weight: bold;
+                }
+            }
+        }
+        .dados-cliente{
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            label{
+                margin-right: auto;
+                font-size: 12px;
+            }
+        }
     }
     .total{
         height: 100%;
@@ -75,6 +133,24 @@ export const InformacaoFinal = styled.div`
         border: 1px solid black;
         border-radius: 10px;
         background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        box-shadow: 3px 3px 8px black;
+        label{
+            font-weight: bold;
+            font-size: 16px;
+        }
+        input{
+            box-shadow: none;
+            width: 90%;
+            height: 80%;
+            color: #000051;
+            font-weight: bold;
+            font-size: 36px;
+            text-align: center;
+        }
     }
     .desc-acresc{
         height: 100%;
@@ -89,6 +165,23 @@ export const InformacaoFinal = styled.div`
             height: 45%;
             width: 100%;
             background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            justify-content: center;
+            box-shadow: 3px 3px 8px black;
+            label{
+                font-weight: bold;
+                font-size: 12px;
+            }
+            input{
+                box-shadow: none;
+                width: 90%;
+                height: 80%;
+                color: green;
+                text-align: right;
+                font-weight: bold;
+            }
         }
         .acresc{
             border: 1px solid black;
@@ -96,6 +189,64 @@ export const InformacaoFinal = styled.div`
             height: 45%;
             width: 100%;
             background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            justify-content: center;
+            box-shadow: 3px 3px 8px black;
+            label{
+                font-weight: bold;
+                font-size: 12px;
+            }
+            input{
+                box-shadow: none;
+                width: 90%;
+                height: 80%;
+                color: red;
+                text-align: right;
+                font-weight: bold;
+            }
+        }
+    }
+`
+export const CampoAtalhos = styled.div`
+    width: 90%;
+    height: 8%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    box-shadow: 3px 3px 8px black;
+    img{
+        height: 25px;
+        width: 25px;
+    }
+    .ajuda{
+        margin: 0 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        label{
+            font-weight: bold;
+            font-size: 14px;
+            color: black;
+        }
+    }
+    label{
+        margin: auto;
+        font-weight: bold;
+        font-size: 36px;
+        color: #000051;
+    }
+    .atalhos{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        aling-items: center;
+        justify-content: start;
+        label{
+            font-size: 12px;
         }
     }
 `
