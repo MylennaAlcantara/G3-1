@@ -151,13 +151,10 @@ export const Caixa = () => {
         document.getElementById('codigo').focus(); 
     },[0])
 
-    function valorTotalItem (){
-        setTotalItem((parseFloat(quantidade).toFixed(4)*parseFloat(produtoBipado.valor_VENDA).toFixed(2)).toFixed(2));
-    }
-
     useEffect(()=>{
-        valorTotalItem();
-    }, [produtoBipado]);
+        var objDiv = document.getElementById("lista");
+        objDiv.scrollTop = document.getElementById("lista").scrollHeight;
+    }, [listaProdutos])
 
     document.onkeydown = atalhos;
 
@@ -172,13 +169,13 @@ export const Caixa = () => {
                 ID_ECF_PRODUTO: data.id,
                 ID_ECF_VENDA_CABECALHO: "",
                 CFOP: data.cfop,
-                ITEM: listaProdutos.length+1,
+                ITEM: listaProdutos.length,
                 QUANTIDADE: quantidade,
                 VALOR_UNITARIO: data.valor_VENDA,
                 VALOR_CUSTO_UNITARIO: data.valor_CUSTO,
                 SUB_TOTAL: data.valor_VENDA,
-                TOTAL_FINAL: totalItem,
-                BASE_ICMS: totalItem,
+                TOTAL_FINAL: (parseFloat(quantidade).toFixed(4)*parseFloat(data.valor_VENDA).toFixed(2)).toFixed(2),
+                BASE_ICMS: (parseFloat(quantidade).toFixed(4)*parseFloat(data.valor_VENDA).toFixed(2)).toFixed(2),
                 TAXA_ICMS: data.icms_ALIQUOTA,
                 ICMS: data.cst_ICMS,
                 TAXA_DESCONTO: 0.00,
@@ -222,16 +219,18 @@ export const Caixa = () => {
                 CODIGO_INTEGRACAO_PROMOCAO: "",
                 VALIDOU_PROMOCAO: ""
             }]);
-            await limparCampos();
+            document.getElementById("codigo").select();
+            setTotalItem((parseFloat(quantidade).toFixed(4)*parseFloat(data.valor_VENDA).toFixed(2)).toFixed(2));
+            limparCampos(data);
         }
     }
-
-    async function limparCampos(){
+    
+    function limparCampos(data){
         setCodigoBarra("");
         setQuantidade("1,0000");
-        setTotalItem("0,00");
-        setProdutoBipado({});
+        setMensagemAreaInserir(quantidade+" * "+data.descricao);
     }
+
 
     return (
         <CX.Container>
@@ -258,14 +257,16 @@ export const Caixa = () => {
                     <label>{mensagemAreaInserir}</label>
                 </div>
             </CX.AreaInserir>
-            <CX.ListaItens>
+            <CX.ListaItens id="lista">
                 <table>
                     <thead>
                         <tr>
+                            <th>ITEM</th>
                             <th>CÓDIGO</th>
                             <th>GTIN</th>
                             <th>DESCRIÇÃO</th>
                             <th>VALOR UNITÁRIO</th>
+                            <th>QUANTIDADE</th>
                             <th>VALOR TOTAL</th>
                         </tr>
                     </thead>
@@ -273,10 +274,12 @@ export const Caixa = () => {
                         {listaProdutos.map((produto, index)=>{
                             return(
                                 <tr key={index}>
+                                    <td>{produto.ITEM}</td>
                                     <td>{produto.ID_ECF_PRODUTO}</td>
                                     <td>{produto.GTIN}</td>
                                     <td>{produto.DESCRICAO_PRODUTO}</td>
                                     <td>{produto.VALOR_UNITARIO}</td>
+                                    <td>{produto.QUANTIDADE}</td>
                                     <td>{produto.TOTAL_FINAL}</td>
                                 </tr>
                             )

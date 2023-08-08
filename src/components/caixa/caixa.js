@@ -73,11 +73,17 @@ export const ListaItens = styled.div`
     height: 50%;
     border: 1px solid grey;
     border-radius: 10px;
+    overflow: auto;
     table{
         border-collapse: collapse;
         width: 100%;
     }
     tr{
+        border-bottom: 1px solid black;
+    }
+    thead{
+        position: sticky;
+        top: 0;
         border-bottom: 1px solid black;
     }
 `
