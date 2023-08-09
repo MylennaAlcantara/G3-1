@@ -1,0 +1,14 @@
+.consutBtn {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height: 25px;
+    border-width: 1px;
+    border-bottom: none;
+    border-color: gray;
+    border-top-color: gray;
+}
+
+.consultVendBtn {
+    width: 150px;
+    margin: 2px;
+}
