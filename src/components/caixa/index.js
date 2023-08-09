@@ -75,6 +75,8 @@ export const Caixa = () => {
     const [codigoBarra, setCodigoBarra] = useState("");
     const [quantidade, setQuantidade] = useState("1,0000");
     const [totalItem, setTotalItem] = useState("0,00");
+    const [totalVenda, setTotalVenda] = useState("0,00");
+    const [listaCancelados, setListaCancelados] = useState([]);
 
     // Função para reconhecer caso tenha colocado um numero + * para inserir na quantidade o valor
     const handleInputChange = (e) => {
@@ -120,9 +122,13 @@ export const Caixa = () => {
         }else if(e.keyCode === 118){
             e.preventDefault();
             setAtalho(7);
+            // F7 atalho
         }else if(e.keyCode === 119){
             e.preventDefault();
             setAtalho(8);
+            const Item = listaProdutos.filter((item)=> item.ITEM == listaProdutos.length-1);
+            listaCancelados.push(Item[0].ITEM);
+            setTotalVenda("R$" + (totalVenda.replace("R$","").replace(",",'.') - parseFloat(Item[0].TOTAL_FINAL).toFixed(2)));
             // F8 atalho
         }else if(e.keyCode === 120){
             e.preventDefault();
@@ -149,12 +155,30 @@ export const Caixa = () => {
 
     useEffect(()=>{
         document.getElementById('codigo').focus(); 
-    },[0])
+        setListaProdutos(listaProdutos)
+    },[0]);
 
     useEffect(()=>{
         var objDiv = document.getElementById("lista");
         objDiv.scrollTop = document.getElementById("lista").scrollHeight;
-    }, [listaProdutos])
+    }, [listaProdutos]);
+
+    function somarTotal() {
+        let total = 0;
+    
+        for (let i = 0; i < listaProdutos.length; i++) {
+            const valorTotalProduto = parseFloat(listaProdutos[i].TOTAL_FINAL);
+            if (!isNaN(valorTotalProduto)) {
+                total += valorTotalProduto;
+            }
+        }        
+    
+        setTotalVenda("R$"+total.toFixed(2).replace(".",","));
+    }
+
+    useEffect(()=>{
+        somarTotal();
+    },[listaProdutos]);
 
     document.onkeydown = atalhos;
 
@@ -273,14 +297,15 @@ export const Caixa = () => {
                     <tbody>
                         {listaProdutos.map((produto, index)=>{
                             return(
-                                <tr key={index}>
+                                <tr key={index}
+                                    style={{backgroundColor: listaCancelados.find((item)=> item == produto.ITEM) ? "grey" : "white"}}>
                                     <td>{produto.ITEM}</td>
-                                    <td>{produto.ID_ECF_PRODUTO}</td>
-                                    <td>{produto.GTIN}</td>
-                                    <td>{produto.DESCRICAO_PRODUTO}</td>
-                                    <td>{produto.VALOR_UNITARIO}</td>
-                                    <td>{produto.QUANTIDADE}</td>
-                                    <td>{produto.TOTAL_FINAL}</td>
+                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.ID_ECF_PRODUTO}</td>
+                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.GTIN}</td>
+                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.DESCRICAO_PRODUTO}</td>
+                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.VALOR_UNITARIO}</td>
+                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.QUANTIDADE}</td>
+                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.TOTAL_FINAL}</td>
                                 </tr>
                             )
                         })}
@@ -312,7 +337,7 @@ export const Caixa = () => {
                 </div>
                 <div className="total">
                     <label>SUBTOTAL:</label>
-                    <input/>
+                    <input value={totalVenda} readOnly/>
                 </div>
                 <div className="desc-acresc">
                     <div className="desc">
@@ -326,7 +351,7 @@ export const Caixa = () => {
                 </div>
                 <div className="total">
                     <label>TOTAL:</label>
-                    <input/>
+                    <input value={totalVenda.replace(".",",")} readOnly/>
                 </div>
             </CX.InformacaoFinal>
             <CX.CampoAtalhos>
@@ -392,7 +417,7 @@ export const Caixa = () => {
                 )}
             </CX.CampoAtalhos>
             {atalho == 4 || atalho==5 ? <DescontoAcrescimo atalho={atalho} setAtalho={setAtalho}/> : null}
-            {atalho == 6 ? <ConsultaProduto setAtalho={setAtalho}/> : null}
+            {atalho == 7 ? <ConsultaProduto setAtalho={setAtalho} quantidade={quantidade} limparCampos={limparCampos} listaProdutos={listaProdutos} setListaProdutos={setListaProdutos}/> : null}
             {atalho == "home" ? <EfetuarPagamento setAtalho={setAtalho}/> : null}
         </CX.Container>
     )
