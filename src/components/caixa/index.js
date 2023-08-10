@@ -14,61 +14,6 @@ export const Caixa = () => {
 
     const [produtoBipado, setProdutoBipado] = useState({});
     const [listaProdutos, setListaProdutos] = useState([
-        {
-            ID: "",
-            ID_ECF_PRODUTO: "",
-            ID_ECF_VENDA_CABECALHO: "",
-            CFOP: "",
-            ITEM: "",
-            QUANTIDADE: "",
-            VALOR_UNITARIO: "",
-            VALOR_CUSTO_UNITARIO: "",
-            SUB_TOTAL: "",
-            TOTAL_FINAL: "",
-            BASE_ICMS: "",
-            TAXA_ICMS: "",
-            ICMS: "",
-            TAXA_DESCONTO: "",
-            DESCONTO: "",
-            TAXA_ISSQN: "",
-            ISSQN: "", 
-            TAXA_PIS: "",
-            PIS: "", 
-            TAXA_COFINS: "",
-            COFINS: "",
-            TAXA_ACRESCIMO: "",
-            ACRESCIMO: "",
-            ACRESCIMO_RATEIO: "",
-            DESCONTO_RATEIO: "",
-            TOTALIZADOR_PARCIAL: "",
-            CST: "",
-            CANCELADO: "",
-            MOVIMENTA_ESTOQUE: "",
-            HASH_TRIPA: "",
-            SERIE_ECF: "",
-            COO: "",
-            CCF: "",
-            GTIN: "",
-            ID_ECF_CAIXA: "", 
-            COMISSAO: "",
-            CST_PIS: "",
-            CST_COFINS: "",
-            CST_IPI: "",
-            CST_ICMS: "",
-            ORIGEM: "",
-            DESCRICAO_PRODUTO: "",
-            UNIDADE_PRODUTO: "",
-            NCM: "",
-            CEST: "",
-            PROMOCAO: "",
-            QTD_DEVOLVIDA: "",
-            ID_CUPOM_CREDITO: "",
-            BC_PIS_COFINS: "",
-            ID_PROMOCAO_DETALHE: "",
-            TIPO_PROMOCAO: "",
-            CODIGO_INTEGRACAO_PROMOCAO: "",
-            VALIDOU_PROMOCAO: ""
-        }
     ]);
 
     //campos de codigo e quantidade para inserir produto
@@ -77,6 +22,70 @@ export const Caixa = () => {
     const [totalItem, setTotalItem] = useState("0,00");
     const [totalVenda, setTotalVenda] = useState("0,00");
     const [listaCancelados, setListaCancelados] = useState([]);
+
+    //Cabeçalho da venda
+    const [cabecalho, setCabecalho] = useState(
+    {
+        ID: "",
+        ID_ECF_DAV: 0,
+        id_pre_venda: 0,
+        ID_CLIENTE: 0,
+        ID_ECF_FUNCIONARIO: 0,
+        CPF_CNPJ_ENTREGADOR: 0,
+        ID_ECF_MOVIMENTO: 2000,
+        id_ecf_empresa: 1,
+        CFOP: 5102,
+        COO: 0,
+        CCF: 0,
+        DATA_VENDA: "", // somente data
+        HORA_VENDA: "", // somente hora:min:sec
+        VALOR_VENDA: "",
+        TAXA_DESCONTO: 0.00,
+        TAXA_DESCONTO_ITENS: 0.00,
+        DESCONTO: 0.00,
+        DESCONTO_CABECALHO: 0.00,
+        TAXA_ACRESCIMO: 0.00,
+        ACRESCIMO: 0.00,
+        VALOR_FINAL: "",
+        VALOR_RECEBIDO: "",
+        TROCO: "",
+        VALOR_CANCELADO: null,
+        SINCRONIZADO: "S",
+        TOTAL_PRODUTOS: "",
+        TOTAL_DOCUMENTO: "",
+        BASE_ICMS: "", // soma de todos os itens
+        ICMS: "", // soma de todos os itens
+        ICMS_OUTRAS: "", // somas de todos os itens
+        ISSQN: null,
+        PIS: "",  // somas de todos os itens
+        COFINS: "", // somas de todos os itens
+        ACRESCIMO_ITENS: null,
+        DESCONTO_ITENS: 0.00,
+        TAXA_DESCONTO_TOTAL: null,
+        STATUS_VENDA: "F",
+        NOME_CLIENTE: null,
+        CPF_CNPJ_CLIENTE: null,
+        CUPOM_CANCELADO: "N",
+        HASH_TRIPA: null,
+        CAIXA: null,
+        HASH_INCREMENTO: null,
+        SERIE_ECF: null,
+        ID_ECF_CAIXA: 1,
+        ID_PEDIDO_GC: null,
+        VERSAO_NFCE: 4.00,
+        NUMERO_LOTE: "",
+        CHAVE_NFCE: "",
+        NUMERO_NFCE: "",
+        SERIE_NFCE: "",
+        DATA_HORA_CANCELAMENTO: null,
+        STATUS_NFCE: "",
+        PROTOCOLO_DE_AUTORIZACAO: "",
+        PROTOCOLO_DE_CANCELAMENTO: null,
+        TIPO_AMBIENTE: null,
+        ID_TIPO_PAGAMENTO_ESCOLHIDO: null,
+        NFE_DEVOLUCAO: null,
+        id_pedido_ifood: null
+    });
 
     // Função para reconhecer caso tenha colocado um numero + * para inserir na quantidade o valor
     const handleInputChange = (e) => {
@@ -126,9 +135,69 @@ export const Caixa = () => {
         }else if(e.keyCode === 119){
             e.preventDefault();
             setAtalho(8);
-            const Item = listaProdutos.filter((item)=> item.ITEM == listaProdutos.length-1);
-            listaCancelados.push(Item[0].ITEM);
-            setTotalVenda("R$" + (totalVenda.replace("R$","").replace(",",'.') - parseFloat(Item[0].TOTAL_FINAL).toFixed(2)));
+            const Item = listaProdutos.filter((item)=> item.ITEM == listaProdutos.length);
+            if(Item[0].CANCELADO === "N"){
+                listaProdutos.pop();
+                listaProdutos.push({
+                    ID: Item[0].ID,
+                    ID_ECF_PRODUTO: Item[0].ID_ECF_PRODUTO,
+                    ID_ECF_VENDA_CABECALHO: Item[0].ID_ECF_VENDA_CABECALHO,
+                    CFOP: Item[0].CFOP,
+                    ITEM: Item[0].ITEM,
+                    QUANTIDADE: quantidade,
+                    VALOR_UNITARIO: Item[0].VALOR_UNITARIO,
+                    VALOR_CUSTO_UNITARIO: Item[0].VALOR_CUSTO_UNITARIO,
+                    SUB_TOTAL: Item[0].SUB_TOTAL,
+                    TOTAL_FINAL: Item[0].TOTAL_FINAL,
+                    BASE_ICMS: Item[0].BASE_ICMS,
+                    TAXA_ICMS: Item[0].TAXA_ICMS,
+                    ICMS: Item[0].ICMS,
+                    TAXA_DESCONTO: Item[0].TAXA_DESCONTO,
+                    DESCONTO: Item[0].DESCONTO,
+                    TAXA_ISSQN: Item[0].TAXA_ISSQN,
+                    ISSQN: Item[0].ISSQN, 
+                    TAXA_PIS: Item[0].TAXA_PIS,
+                    PIS: Item[0].PIS, 
+                    TAXA_COFINS: Item[0].TAXA_COFINS,
+                    COFINS: Item[0].COFINS,
+                    TAXA_ACRESCIMO: Item[0].TAXA_ACRESCIMO,
+                    ACRESCIMO: Item[0].ACRESCIMO,
+                    ACRESCIMO_RATEIO: Item[0].ACRESCIMO_RATEIO,
+                    DESCONTO_RATEIO: Item[0].DESCONTO_RATEIO,
+                    TOTALIZADOR_PARCIAL: Item[0].TOTALIZADOR_PARCIAL,
+                    CST: Item[0].CST,
+                    CANCELADO: 'S',
+                    MOVIMENTA_ESTOQUE: Item[0].MOVIMENTA_ESTOQUE,
+                    HASH_TRIPA: Item[0].HASH_TRIPA,
+                    SERIE_ECF: Item[0].SERIE_ECF,
+                    COO: Item[0].COO,
+                    CCF: Item[0].CCF,
+                    GTIN: Item[0].GTIN,
+                    ID_ECF_CAIXA: Item[0].ID_ECF_CAIXA, 
+                    COMISSAO: Item[0].COMISSAO,
+                    CST_PIS: Item[0].CST_PIS,
+                    CST_COFINS: Item[0].CST_COFINS,
+                    CST_IPI: Item[0].CST_IPI,
+                    CST_ICMS: Item[0].CST_ICMS,
+                    ORIGEM: Item[0].ORIGEM,
+                    DESCRICAO_PRODUTO: Item[0].DESCRICAO_PRODUTO,
+                    UNIDADE_PRODUTO: Item[0].UNIDADE_PRODUTO,
+                    NCM: Item[0].NCM,
+                    CEST: Item[0].CEST,
+                    PROMOCAO: Item[0].PROMOCAO,
+                    QTD_DEVOLVIDA: Item[0].QTD_DEVOLVIDA,
+                    ID_CUPOM_CREDITO: Item[0].ID_CUPOM_CREDITO,
+                    BC_PIS_COFINS: Item[0].BC_PIS_COFINS,
+                    ID_PROMOCAO_DETALHE: Item[0].ID_PROMOCAO_DETALHE,
+                    TIPO_PROMOCAO: Item[0].TIPO_PROMOCAO,
+                    CODIGO_INTEGRACAO_PROMOCAO: Item[0].CODIGO_INTEGRACAO_PROMOCAO,
+                    VALIDOU_PROMOCAO: Item[0].VALIDOU_PROMOCAO
+                });
+                listaCancelados.push(Item[0].ITEM);
+                setTotalVenda("R$" + (parseFloat(totalVenda.replace("R$","").replace(",",'.')).toFixed(2) - parseFloat(Item[0].TOTAL_FINAL).toFixed(2)));
+            }else{
+                alert("Item já foi cancelado")
+            }
             // F8 atalho
         }else if(e.keyCode === 120){
             e.preventDefault();
@@ -137,6 +206,7 @@ export const Caixa = () => {
         }else if(e.keyCode === 121){
             e.preventDefault();
             setAtalho(10);
+            cancelarVenda();
             // F10 atalho
         }else if(e.keyCode === 122){
             e.preventDefault();
@@ -168,7 +238,7 @@ export const Caixa = () => {
     
         for (let i = 0; i < listaProdutos.length; i++) {
             const valorTotalProduto = parseFloat(listaProdutos[i].TOTAL_FINAL);
-            if (!isNaN(valorTotalProduto)) {
+            if (!isNaN(valorTotalProduto) && listaProdutos[i].CANCELADO === "N") {
                 total += valorTotalProduto;
             }
         }        
@@ -193,7 +263,7 @@ export const Caixa = () => {
                 ID_ECF_PRODUTO: data.id,
                 ID_ECF_VENDA_CABECALHO: "",
                 CFOP: data.cfop,
-                ITEM: listaProdutos.length,
+                ITEM: listaProdutos.length+1,
                 QUANTIDADE: quantidade,
                 VALOR_UNITARIO: data.valor_VENDA,
                 VALOR_CUSTO_UNITARIO: data.valor_CUSTO,
@@ -216,7 +286,7 @@ export const Caixa = () => {
                 DESCONTO_RATEIO: 0.00,
                 TOTALIZADOR_PARCIAL: data.totalizador_PARCIAL,
                 CST: "",
-                CANCELADO: false,
+                CANCELADO: "N",
                 MOVIMENTA_ESTOQUE: true,
                 HASH_TRIPA: data.hash,
                 SERIE_ECF: 1,
@@ -255,6 +325,16 @@ export const Caixa = () => {
         setMensagemAreaInserir(quantidade+" * "+data.descricao);
     }
 
+    function cancelarVenda(){
+        setCodigoBarra("");
+        setQuantidade("1,0000");
+        setMensagemAreaInserir("PASSE UM PRODUTO");
+        setListaCancelados([]);
+        setListaProdutos([]);
+        setTotalVenda("R$ 0,00");
+        setTotalItem("0,00");
+        setProdutoBipado({});
+    }
 
     return (
         <CX.Container>
@@ -287,7 +367,6 @@ export const Caixa = () => {
                         <tr>
                             <th>ITEM</th>
                             <th>CÓDIGO</th>
-                            <th>GTIN</th>
                             <th>DESCRIÇÃO</th>
                             <th>VALOR UNITÁRIO</th>
                             <th>QUANTIDADE</th>
@@ -298,14 +377,13 @@ export const Caixa = () => {
                         {listaProdutos.map((produto, index)=>{
                             return(
                                 <tr key={index}
-                                    style={{backgroundColor: listaCancelados.find((item)=> item == produto.ITEM) ? "grey" : "white"}}>
+                                    style={{backgroundColor: produto.CANCELADO === "S" ? "grey" : "white"}}>
                                     <td>{produto.ITEM}</td>
-                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.ID_ECF_PRODUTO}</td>
-                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.GTIN}</td>
-                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.DESCRICAO_PRODUTO}</td>
-                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.VALOR_UNITARIO}</td>
-                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.QUANTIDADE}</td>
-                                    <td style={{textDecoration: listaCancelados.find((item)=> item == produto.ITEM) ? "line-through" : ""}}>{produto.TOTAL_FINAL}</td>
+                                    <td style={{textDecoration: produto.CANCELADO === "S" ? "line-through" : ""}}>{produto.GTIN}</td>
+                                    <td style={{textDecoration: produto.CANCELADO === "S" ? "line-through" : ""}}>{produto.DESCRICAO_PRODUTO}</td>
+                                    <td style={{textDecoration: produto.CANCELADO === "S" ? "line-through" : ""}}>{produto.VALOR_UNITARIO}</td>
+                                    <td style={{textDecoration: produto.CANCELADO === "S" ? "line-through" : ""}}>{produto.QUANTIDADE}</td>
+                                    <td style={{textDecoration: produto.CANCELADO === "S" ? "line-through" : ""}}>{produto.TOTAL_FINAL}</td>
                                 </tr>
                             )
                         })}
@@ -337,7 +415,7 @@ export const Caixa = () => {
                 </div>
                 <div className="total">
                     <label>SUBTOTAL:</label>
-                    <input value={totalVenda} readOnly/>
+                    <input value={totalVenda.replace(".",",")} readOnly/>
                 </div>
                 <div className="desc-acresc">
                     <div className="desc">
