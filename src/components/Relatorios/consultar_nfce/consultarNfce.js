@@ -6,6 +6,8 @@ import './style.css'
 export const ConsultarNFCE = () => {
 
     const [aba, setAba] = useState('Filial')
+    const [abaVendas, setAbaVendas] = useState('Lista')
+    const [abaIPL, setAbaIPL] = useState('Itens')
 
     return (
         <C.Container>
@@ -73,7 +75,7 @@ export const ConsultarNFCE = () => {
                                                 <th></th>
                                                 <th >Ativo</th>
                                                 <th >Código</th>
-                                                <th>Razão Social</th>
+                                                <th >Razão Social</th>
                                                 <th >Nome Fantasia</th>
                                                 <th >Documento</th>
                                             </tr>
@@ -193,22 +195,61 @@ export const ConsultarNFCE = () => {
                 </div>
             </LB.Navegacao>
 
-            <LB.DataGeral>
+            <LB.DataGeral2>
                 <div className='dashboardLine'>
-                    <button className='consultVendBtn' >Lista</button>
-                    <button className='consultVendBtn' >Agrupado por status</button>
-                    <button className='consultVendBtn' >Agrupado por produto</button>
+                    <button className='consultVendBtn' onClick={() => setAbaVendas('Filial')} >Lista</button>
+                    <button className='consultVendBtn' onClick={() => setAbaVendas('Status')} >Agrupado por status</button>
+                    <button className='consultVendBtn' onClick={() => setAbaVendas('Produto')} >Agrupado por produto</button>
                 </div>
+
+                {abaVendas === 'Lista' ? (
+                    <>
+                        <input className="ipt" />
+                    </>
+                ) : abaVendas === 'Status' ? (
+                    <>
+
+                    </>
+                ) : abaVendas === 'Produto' ? (
+                    <>
+                        <input className="ipt" />
+                    </>
+                ) : null}
+
 
                 <div className='table-responsive'>
 
                     <table id='table'>
                         <tr>
-                            
+
                         </tr>
                     </table>
                 </div>
-            </LB.DataGeral>
+            </LB.DataGeral2>
+
+            <LB.Navegacao>
+                <div>
+                    <button >Itens</button>
+                    <button >Pagamentos</button>
+                    <button >Log(Alteração de Vendedor)</button>
+                </div>
+            </LB.Navegacao>
+
+            <LB.DataGeral2>
+                {abaIPL === 'Itens' ? (
+                    <>
+                        <input className="ipt" />
+                    </>
+                ) : abaIPL === 'Pagamentos' ? (
+                    <>
+
+                    </>
+                ) : abaIPL === 'Log' ? (
+                    <>
+
+                    </>
+                ) : null}
+            </LB.DataGeral2>
 
         </C.Container>
     )

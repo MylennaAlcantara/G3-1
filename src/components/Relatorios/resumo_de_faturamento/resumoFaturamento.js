@@ -259,6 +259,57 @@ export const DataGeral = styled.div`
 
       
 `
+
+export const DataGeral2 = styled.div`
+    width: 95%;
+    height: 30%;
+    border-style: solid;
+    border-width: 1px;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    .table-responsive{
+        overflow: auto;
+        height: 70%;
+        width: 100%;
+    }
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    thead{
+        position: sticky;
+        top:0;
+    }
+    th{    
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;    
+        background-color: #ffffff;
+        border: 1px solid grey;
+        white-space: nowrap;
+    }
+    td{
+        border: 1px solid grey;
+        white-space: nowrap;
+    }
+    table tr:nth-child(even){
+        background-color: #ffffe6;
+    }
+    table tr:nth-child(odd){
+        background-color: #f0f0f0;   
+    }
+    #table tr td{
+        cursor: pointer;
+    }
+    #table tr:hover td{
+        background-color: #87CEFA;
+    }
+
+      
+`
+
 export const Dashboard = styled.div`
 margin-top: 10px;
 display: flex;
