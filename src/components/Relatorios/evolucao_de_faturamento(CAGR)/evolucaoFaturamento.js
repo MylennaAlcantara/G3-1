@@ -451,7 +451,6 @@ export const EvolucaoFaturamento = () => {
 /
         </C.Container>
     )
-
 }
 
 export default EvolucaoFaturamento;
