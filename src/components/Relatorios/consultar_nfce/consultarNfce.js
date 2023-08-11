@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import * as C from "../../cadastro/cadastro"
 import * as LB from "../resumo_de_faturamento/resumoFaturamento"
+import * as CS from "./consulta"
 import './style.css'
 
 export const ConsultarNFCE = () => {
@@ -8,6 +9,9 @@ export const ConsultarNFCE = () => {
     const [aba, setAba] = useState('Filial')
     const [abaVendas, setAbaVendas] = useState('Lista')
     const [abaIPL, setAbaIPL] = useState('Itens')
+
+    const [dataInicial, setDataInicial] = useState()
+    const [dataFinal, setDataFinal] = useState() 
 
     return (
         <C.Container>
@@ -189,13 +193,13 @@ export const ConsultarNFCE = () => {
 
             </LB.Filtros>
 
-            <LB.Navegacao>
+            <CS.Navegacao>
                 <div>
                     <button >Vendas</button>
                 </div>
-            </LB.Navegacao>
+            </CS.Navegacao>
 
-            <LB.DataGeral2>
+            <CS.DataGeral>
                 <div className='dashboardLine'>
                     <button className='consultVendBtn' onClick={() => setAbaVendas('Filial')} >Lista</button>
                     <button className='consultVendBtn' onClick={() => setAbaVendas('Status')} >Agrupado por status</button>
@@ -225,17 +229,17 @@ export const ConsultarNFCE = () => {
                         </tr>
                     </table>
                 </div>
-            </LB.DataGeral2>
+            </CS.DataGeral>
 
-            <LB.Navegacao>
+            <CS.Navegacao>
                 <div>
                     <button >Itens</button>
                     <button >Pagamentos</button>
                     <button >Log(Alteração de Vendedor)</button>
                 </div>
-            </LB.Navegacao>
+            </CS.Navegacao>
 
-            <LB.DataGeral2>
+            <CS.DataGeral>
                 {abaIPL === 'Itens' ? (
                     <>
                         <input className="ipt" />
@@ -249,7 +253,7 @@ export const ConsultarNFCE = () => {
 
                     </>
                 ) : null}
-            </LB.DataGeral2>
+            </CS.DataGeral>
 
         </C.Container>
     )
