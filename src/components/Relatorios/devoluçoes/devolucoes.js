@@ -10,7 +10,7 @@ export const Devolucao = () => {
     return (
         <M.Modal>
             <C.Container>
-                <C.Header>Relatórios de Devoluções</C.Header>
+                <C.Header><h3>Relatórios de Devoluções</h3></C.Header>
 
                 <CV.Filtros>
                     <fieldset>
@@ -25,7 +25,9 @@ export const Devolucao = () => {
 
                     {aba === 'Produto' ? (
                         <>
-                            <input /> <img src="/images/LUPA.png" />
+                            <div>
+                                <input  /> <img src="/images/LUPA.png" />
+                            </div>
                         </>
                     ) : null}
                 </CV.Filtros>
