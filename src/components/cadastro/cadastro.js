@@ -29,13 +29,12 @@ export const Container = styled.div`
     }
     @media (max-width: 425px){
         width: 95%;
-        height: 93%;
+        height: 80%;
         position: relative;
         display: block;
         align-items: end;
         justify-content: space-between;
-        overflow: auto;
-        margin-bottom: 0px;
+        margin: auto;
     }
 `;
 

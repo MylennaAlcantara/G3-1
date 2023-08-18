@@ -436,7 +436,7 @@ export const Caixa = () => {
                 {!atalhoVisivel ? (
                     <>
                     <div className="ajuda">
-                        <img src="/images/interrogacao.png"/>
+                        <img alt="" src="/images/interrogacao.png"/>
                         <label> [F1] Atalhos</label>
                     </div>
                     <label>{mensagemCampoAtalho}</label>
@@ -444,59 +444,59 @@ export const Caixa = () => {
                 ): (
                     <div className="atalhos">
                         <div className="ajuda">
-                            <img src="/images/interrogacao.png"/>
+                            <img alt="" src="/images/interrogacao.png"/>
                             <label>[F1] Menu Ajuda</label>
                         </div>
                         <div className="ajuda">
-                            <img src="/images/menu.png"/>
+                            <img alt="" src="/images/menu.png"/>
                             <label>[F2] Menu Principal</label>
                         </div>
                         <div className="ajuda">
-                            <img src="/images/cliente_caixa.png"/>
+                            <img alt="" src="/images/cliente_caixa.png"/>
                             <label>[F3] Carregar Cliente</label>
                         </div>
                         <div className="ajuda">
-                            <img src="/images/acrescimo.png"/>
+                            <img alt="" src="/images/acrescimo.png"/>
                             <label>[F4] Acréscimo</label>
                         </div>
                         <div className="ajuda">
-                            <img src="/images/desconto.png"/>
+                            <img alt="" src="/images/desconto.png"/>
                             <label>[F5] Desconto</label>
                         </div>
                         <div className="ajuda">
-                            <img src="/images/lupa_caixa.png"/>
+                            <img alt="" src="/images/lupa_caixa.png"/>
                             <label>[F6] Buscar Preço</label>
                         </div>
                         <div className="ajuda">
-                            <img src="/images/lupa_caixa.png"/>
+                            <img alt="" src="/images/lupa_caixa.png"/>
                             <label>[F7] Buscar Produto</label>
                         </div>
                         <div className="ajuda">
-                            <img src="/images/cancelar_item.png"/>
+                            <img alt="" src="/images/cancelar_item.png"/>
                             <label>[F8] Cancelar Útimo Item</label>
                         </div>
                         <div className="ajuda">
-                            <img src="/images/op_item.png"/>
+                            <img alt="" src="/images/op_item.png"/>
                             <label>[F9] Opções do Item</label>
                         </div>
                         <div className="ajuda">
-                            <img src="/images/venda_cancelar.png"/>
+                            <img alt="" src="/images/venda_cancelar.png"/>
                             <label>[F10] Cancelar Nota</label>
                         </div>
                         <div className="ajuda">
-                            <img src="/images/vendedor_caixa.png"/>
+                            <img alt="" src="/images/vendedor_caixa.png"/>
                             <label>[F11] Identificar Vendedor</label>
                         </div>
                         <div className="ajuda">
-                            <img src="/images/voltar.png"/>
+                            <img alt="" src="/images/voltar.png"/>
                             <label>[F12] Sair</label>
                         </div>
                     </div>
                 )}
             </CX.CampoAtalhos>
-            {atalho == 4 || atalho==5 ? <DescontoAcrescimo atalho={atalho} setAtalho={setAtalho}/> : null}
-            {atalho == 7 ? <ConsultaProduto setAtalho={setAtalho} quantidade={quantidade} limparCampos={limparCampos} listaProdutos={listaProdutos} setListaProdutos={setListaProdutos}/> : null}
-            {atalho == "home" ? <EfetuarPagamento setAtalho={setAtalho}/> : null}
+            {atalho === 4 || atalho===5 ? <DescontoAcrescimo atalho={atalho} setAtalho={setAtalho}/> : null}
+            {atalho === 7 ? <ConsultaProduto setAtalho={setAtalho} quantidade={quantidade} limparCampos={limparCampos} listaProdutos={listaProdutos} setListaProdutos={setListaProdutos}/> : null}
+            {atalho === "home" ? <EfetuarPagamento setAtalho={setAtalho}/> : null}
         </CX.Container>
     )
 }
