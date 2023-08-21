@@ -189,26 +189,27 @@ export const VendasCaixa = ({ close }) => {
         }
     }
 
-    async function filtroFilial(e) {
+    function filtroFilial(e) {
         setFiltroF(e.target.value);
         const filialEscolhida = totalCaixas.filter((filial) => parseInt(e.target.value) === parseInt(filial.id_empresa));
         setTotalCaixasFiltrado(filialEscolhida);
         let somaTotalFilial = 0;
         filialEscolhida.map((cx)=> somaTotalFilial += cx.total);
         setTotalFilial(somaTotalFilial);
-        if(e.target.value !== "todos"){
-            let somaPgto = [];
-            totalCaixas.map((cx)=> {
-                tipoPgto.forEach((item) => {
+        let somaPgto = [];
+        filialEscolhida.map((cx)=> {
+                console.log(cx)
+                tipoPgto.map((item) => {
+                    //console.log(item);
                     if (parseInt(item.idCaixa) === parseInt(cx.idCaixa)) {
                         somaPgto.push(item);
                     }
                 });
             })
-            setTipoPgtoFilial(somaPgto);
-        }
+        setTipoPgtoFilial(somaPgto);
     }
-
+//console.log(totalCaixasFiltrado)
+//console.log(tipoPgtoFilial)
     /*const graficosCaixa = [
         ["Element", "Valor Total", { role: "style" }],
         ...totalCaixas.map(item => [item.nome, item.total, ''])
