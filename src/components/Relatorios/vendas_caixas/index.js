@@ -194,22 +194,19 @@ export const VendasCaixa = ({ close }) => {
         const filialEscolhida = totalCaixas.filter((filial) => parseInt(e.target.value) === parseInt(filial.id_empresa));
         setTotalCaixasFiltrado(filialEscolhida);
         let somaTotalFilial = 0;
-        filialEscolhida.map((cx)=> somaTotalFilial += cx.total);
+        filialEscolhida.map((cx) => somaTotalFilial += cx.total);
         setTotalFilial(somaTotalFilial);
         let somaPgto = [];
-        filialEscolhida.map((cx)=> {
-                console.log(cx)
-                tipoPgto.map((item) => {
-                    //console.log(item);
-                    if (parseInt(item.idCaixa) === parseInt(cx.idCaixa)) {
-                        somaPgto.push(item);
-                    }
-                });
-            })
+        filialEscolhida.map((cx) => {
+            tipoPgto.map((item) => {
+                if (parseInt(item.idCaixa) === parseInt(cx.idCaixa)) {
+                    somaPgto.push(item);
+                }
+            });
+        })
         setTipoPgtoFilial(somaPgto);
     }
-//console.log(totalCaixasFiltrado)
-//console.log(tipoPgtoFilial)
+
     /*const graficosCaixa = [
         ["Element", "Valor Total", { role: "style" }],
         ...totalCaixas.map(item => [item.nome, item.total, ''])
@@ -299,7 +296,7 @@ export const VendasCaixa = ({ close }) => {
                             <label>TOTAL:</label>
                             {filtroF === "todos" ? (
                                 <label>{parseFloat(total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", " ").replace("NaN", "0,00")}</label>
-                            ):(
+                            ) : (
                                 <label>{parseFloat(totalFilial).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", " ").replace("NaN", "0,00")}</label>
                             )}
                         </div>
@@ -308,24 +305,24 @@ export const VendasCaixa = ({ close }) => {
 
                                 <div className={filtro === "todos" ? "caixa-pgto" : "pgto-caixa"}>
                                     <h3>CAIXAS:</h3>
-                                    {idFilial.map((id)=>{
-                                        if(id !== null){
-                                            return(
+                                    {idFilial.map((id) => {
+                                        if (id !== null) {
+                                            return (
                                                 <div style={{ width: "100%", display: "flex", flexDirection: "column", lignItems: "start", justifyContent: "start" }}>
                                                     <h4 style={{ marginRight: "auto" }}>Filial {id}:</h4>
                                                     {totalCaixas.map((item, index) => {
                                                         if (item.id_empresa === id) {
                                                             //if (item.id_empresa === item.id_empresa && item.total != null) {
-                                                                return (
-                                                                    <div className="pgto">
-                                                                        <div style={{ width: "60%", display: "flex", alignItems: "start", justifyContent: "start" }}>
-                                                                            <label style={{ marginLeft: "10px" }}>{item.nome}:</label>
-                                                                        </div>
-                                                                        <div style={{ width: "40%", display: "flex", justifyContent: "end", alignItems: "end" }}>
-                                                                            <label style={{ marginRight: "10px" }}>{parseFloat(item.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
-                                                                        </div>
+                                                            return (
+                                                                <div className="pgto">
+                                                                    <div style={{ width: "60%", display: "flex", alignItems: "start", justifyContent: "start" }}>
+                                                                        <label style={{ marginLeft: "10px" }}>{item.nome}:</label>
                                                                     </div>
-                                                                )
+                                                                    <div style={{ width: "40%", display: "flex", justifyContent: "end", alignItems: "end" }}>
+                                                                        <label style={{ marginRight: "10px" }}>{parseFloat(item.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
+                                                                    </div>
+                                                                </div>
+                                                            )
                                                             //}
                                                         }
                                                     })}
@@ -333,7 +330,7 @@ export const VendasCaixa = ({ close }) => {
                                             )
                                         }
                                     })}
-                                    
+
                                 </div>
                             ) : (
                                 <div className={filtro === "todos" ? "caixa-pgto" : "pgto-caixa"}>
