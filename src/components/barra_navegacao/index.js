@@ -19,6 +19,7 @@ import { Top } from "../modais/modal_top";
 import { PerfilMovimentacao } from "../modais/modal_perfil_mov";
 import { VendasCaixa } from "../Relatorios/vendas_caixas";
 import { Caixa } from "../caixa";
+import { Coletor } from "../coletor";
 
 export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setModal, modal}) => {
     const navigate = useNavigate();
@@ -39,6 +40,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
     const [vendas, setVendas] = useState(false);
 
     const [caixa, setCaixa] = useState(false);
+    const [coletor, setColetor] = useState(false);
 
     function abrirBarra (){
         setAberto(!aberto);
@@ -122,7 +124,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
             {aberto ? (
                 <C.Barra>
                     {nivel.cadastro_acessivel ? (
-                        <div onClick={() =>setCadastros(!cadastros)}><img src="/images/cadastro.png"/>Cadastros</div>
+                        <div onClick={() =>setCadastros(!cadastros)}><img alt="" src="/images/cadastro.png"/>Cadastros</div>
                     ) : null}
                     {cadastros && nivel.cadastro_acessivel ? (
                         <>
@@ -133,7 +135,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                                     <div className="gaveta" onClick={()=> {setOpfuncionario(!opFuncionario); setOpProdutos(false); setOpAuxiliar(false);}} style={{backgroundColor: funcionario ? '#064a8b' : '', border: "none"}}>
                                         Funcionários
                                     </div>
-                                    <img src="/images/seta.png" className="seta" onClick={()=> setFuncionario(!funcionario)}/>
+                                    <img alt="" src="/images/seta.png" className="seta" onClick={()=> setFuncionario(!funcionario)}/>
                                     </>
                                 </div>
                             ) : null}
@@ -147,7 +149,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                                                 <div className="gaveta" onClick={()=> {setOpProdutos(!opProdutos); setOpfuncionario(false); setOpAuxiliar(false);}} style={{backgroundColor: produtos ? '#064a8b' : '', border: "none"}}>
                                                     Produtos
                                                 </div>
-                                            <img src="/images/seta.png" className="seta" onClick={()=> setProdutos(!produtos)}/>
+                                            <img alt="" src="/images/seta.png" className="seta" onClick={()=> setProdutos(!produtos)}/>
                                         </div>
                                     ) : null}
                                     {produtos === false ? (
@@ -156,7 +158,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                                                 <div className="gaveta" onClick={()=> {setOpAuxiliar(!opAuxiliar); setOpProdutos(false); setOpfuncionario(false)}} style={{backgroundColor: tabelaAuxiliar ? '#064a8b' : '', border: "none"}}>
                                                     Tabelas Auxiliares
                                                 </div>
-                                                <img src="/images/seta.png" className="seta" onClick={()=> setTabelaAuxiliar(!tabelaAuxiliar)}/>
+                                                <img alt="" src="/images/seta.png" className="seta" onClick={()=> setTabelaAuxiliar(!tabelaAuxiliar)}/>
                                             </div>
                                             {tabelaAuxiliar ? (
                                                 <>
@@ -188,8 +190,8 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                             )}
                         </>
                     ) : null}
-                    {nivel.cadastro_dav_acessivel ? <div onClick={()=> {navigate('/consultar'); fecharOp()}}><img src="/images/ponto-de-venda.png"/>Rotina</div> : null}
-                    <div onClick={() =>{setRelatorio(!relatorio)}}><img src="/images/relatorio.png"/>Relatórios</div>
+                    {nivel.cadastro_dav_acessivel ? <div onClick={()=> {navigate('/consultar'); fecharOp()}}><img alt="" src="/images/ponto-de-venda.png"/>Rotina</div> : null}
+                    <div onClick={() =>{setRelatorio(!relatorio)}}><img alt="" src="/images/relatorio.png"/>Relatórios</div>
                     {relatorio ? (
                         <>
                             <div className="gaveta" onClick={()=> {navigate('/resumoDeFaturamento'); fecharOp()}} >Resumo de Faturamento</div>
@@ -197,7 +199,8 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                             <div className="gaveta" onClick={() => {navigate('/picoDeFaturamento'); fecharOp()} }>Pico de Faturamento</div>
                         </>
                     ) : null}
-                    <div onClick={()=> setCaixa(true)}><img src="/images/ponto-de-venda.png"/>Caixa</div>
+                    <div onClick={()=> setColetor(true)}>Coletor</div>
+                    <div onClick={()=> setCaixa(true)}><img alt="" src="/images/ponto-de-venda.png"/>Caixa</div>
                     {sincronizando === true ? (
                         <div className="sincronizando">
                             Sincronizando<div className="loader"/>
@@ -211,12 +214,13 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                     <button onClick={sair}>Sair</button>
                 </C.Barra>
             ) : null}
-            <button className="menu" onClick={abrirBarra} style={{left: aberto === false ? '0' : null}}><img src="/images/seta.png"/></button>
+            <button className="menu" onClick={abrirBarra} style={{left: aberto === false ? '0' : null}}><img alt="" src="/images/seta.png"/></button>
             {opFuncionario ? <OpFuncionarios close={()=> setOpfuncionario(false)} setOpfuncionario={setOpfuncionario} setMinimizado={setMinimizado} minimizado={minimizado} modal={modal} setModal={setModal} cadastro={cadastro} setCadastro={setCadastro}/> : null}
             {opProdutos ? <OpProdutos close={()=> setOpProdutos(false)} setOpProdutos={setOpProdutos} setMinimizado={setMinimizado} minimizado={minimizado} modal={modal} setModal={setModal} cadastro={cadastro} setCadastro={setCadastro}/> : null}
             {opAuxiliar ? <OpAuxiliar close={()=> setOpAuxiliar(false)} setOpAuxiliar={setOpAuxiliar} setMinimizado={setMinimizado} minimizado={minimizado} modal={modal} setModal={setModal} cadastro={cadastro} setCadastro={setCadastro}/> : null}
             {vendas ? <VendasCaixa close={()=> setVendas(false)}/> : null}
             {caixa ? <Caixa /> : null}
+            {coletor ? <Coletor close={()=> setColetor(false)}/> : null}
         </C.Container>
     )
 }
