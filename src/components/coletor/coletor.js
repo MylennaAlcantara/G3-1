@@ -63,6 +63,10 @@ export const Content = styled.div`
     }
     @media(max-width: 460px){
         
+        img{
+            width: 30px;
+            height: 30px;
+        }
         #reader{
             width: 95%;
             margin-left: auto;

@@ -6,6 +6,7 @@ import Quagga from 'quagga';
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/Auth/authContext";
+import { ExitStatus } from "typescript";
 
 
 export const Coletor = ({ close }) => {
@@ -16,6 +17,8 @@ export const Coletor = ({ close }) => {
     const ano = data.getFullYear();
     const dataAtual = String(ano + '-' + mes + '-' + dia);
     const [novo, setNovo] = useState(false);
+    const [adicionado, setAdicionado] = useState(false);
+    const [produtoEncontrado, setProdutoEncontrado] = useState(false);
     const [lista, setLista] = useState([]);
     const [cabecalho, setCabecalho] = useState({
         id: "",
@@ -27,7 +30,7 @@ export const Coletor = ({ close }) => {
         id_contagem: cabecalho.id,
         gtin: "",
         descricao_produto: "",
-        quantidade_contada: ""
+        quantidade: ""
     })
 
 
@@ -48,25 +51,41 @@ export const Coletor = ({ close }) => {
         }
     }
 
-    function salvarDetalhe(){
-        fetch("http://10.0.1.107:8091/coletor/detalheSalvar",{
-            method: "POST",
-            headers: {"content-type": "application/json"},
-            body: JSON.stringify({
-                id: 0,
-                id_contagem: cabecalho.id,
-                gtin: detalhe.gtin,
-                descricao_produto: detalhe.descricao_produto,
-                quantidade_contada: detalhe.quantidade_contada
-            })
-        })
-        .then(response => {
-            if(response.status === 201){
-                setLista([...lista, detalhe]);
-            }else{
-                console.log("não foi possivel salvar no banco")
+    async function salvarDetalhe(){
+        buscarProduto().then(()=>{
+            if(produtoEncontrado){
+                fetch("http://10.0.1.107:8091/coletor/detalheSalvar",{
+                    method: "POST",
+                    headers: {"content-type": "application/json"},
+                    body: JSON.stringify({
+                        id: 0,
+                        id_contagem: cabecalho.id,
+                        gtin: detalhe.gtin,
+                        descricao_produto: detalhe.descricao_produto,
+                        quantidade: detalhe.quantidade
+                    })
+                })
+                .then(response => {
+                    if(response.status === 201 || response.status === 200){
+                        setLista([...lista, detalhe]);
+                        setAdicionado(true);
+                    }else{
+                        console.log("não foi possivel salvar no banco")
+                    }
+                })
             }
         })
+    }
+
+    async function buscarProduto (){
+        const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${detalhe.gtin}`)
+        const data = await response.json();
+        if(response.status === 200 || response.status === 201){
+            setDetalhe({...detalhe, descricao_produto: data.descricaopdv});
+            setProdutoEncontrado(true);
+        }else{
+            alert("Produto não encontrado")
+        }
     }
 
     /*useEffect(() => {
@@ -109,10 +128,7 @@ export const Coletor = ({ close }) => {
         );
     }, [])*/
 
-    const [scanResult, setScanResult] = useState(null);
-
     function scanner(){
-        setScanResult(null);
         const scanner = new Html5QrcodeScanner('reader', {
             qrbox: {
                 width: 250,
@@ -121,13 +137,11 @@ export const Coletor = ({ close }) => {
             fps: 5,
         });
 
-        let isScanning = true;
-
         scanner.render(success, error);
 
-        function success(result) {
+        async function success(result) {
             //scanner.clear();
-            setScanResult(result);
+            setDetalhe({...detalhe, gtin: result});
             document.getElementById("quantidade").focus();
         }
 
@@ -135,6 +149,7 @@ export const Coletor = ({ close }) => {
             console.warn(err);
         }
     }
+
     useEffect(() => {
         if(novo === true){
             scanner();
@@ -162,17 +177,19 @@ export const Coletor = ({ close }) => {
                     {novo ? (
                         <>
                             <div id="reader"/>        
-                            <div className="produto-add">
-                                <label>NOME DO PRODUTO * QUANTIDADE</label>
-                            </div>
+                            {adicionado && (
+                                <div className="produto-add">
+                                    <label>{detalhe.descricao_produto} * {detalhe.quantidade}</label>
+                                </div>
+                            )}
                             <div className="campos-add">
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <label>Código: </label>
-                                    <input value={scanResult} />
+                                    <input value={detalhe.gtin} onChange={(e)=> setDetalhe({...detalhe, gtin: e.target.value})} onFocus={()=> {setAdicionado(false)}}/>
                                 </div>
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <label>Quantidade: </label>
-                                    <input id="quantidade" value={detalhe.quantidade_contada} onChange={(e)=> setDetalhe({...detalhe, quantidade_contada: e.target.value})} style={{ width: "60px" }} />
+                                    <input type="number" id="quantidade" value={detalhe.quantidade} onChange={(e)=> setDetalhe({...detalhe, quantidade: e.target.value})} onFocus={buscarProduto} style={{ width: "60px" }} />
                                     <img alt="" src="/images/add.png" onClick={salvarDetalhe}/>
                                 </div>
                             </div>
@@ -192,7 +209,7 @@ export const Coletor = ({ close }) => {
                                                 <tr key={index}>
                                                     <td>{item.gtin}</td>
                                                     <td>{item.descricao_produto}</td>
-                                                    <td>{item.quantidade_contada}</td>
+                                                    <td>{item.quantidade}</td>
                                                     <td><img alt="" src="/images/lixeira.png" /> <img alt="" src="/images/editar.png" /></td>
                                                 </tr>
                                             )
