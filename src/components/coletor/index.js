@@ -35,7 +35,6 @@ export const Coletor = ({ close }) => {
 
 
     function salvarCabecalho(){
-        setNovo(true)
         if(cabecalho.descricao){
             fetch("http://10.0.1.107:8091/coletor/cabecalhoSalvar",{
                 method: "POST",
@@ -75,6 +74,7 @@ export const Coletor = ({ close }) => {
                 })
             }
         })
+        scanner();
     }
 
     async function buscarProduto (){
@@ -140,9 +140,10 @@ export const Coletor = ({ close }) => {
         scanner.render(success, error);
 
         async function success(result) {
-            //scanner.clear();
-            setDetalhe({...detalhe, gtin: result});
-            document.getElementById("quantidade").focus();
+            setDetalhe({...detalhe, gtin: result, quantidade: ""});
+            scanner.clear();
+            //document.getElementById("quantidade").focus();
+            //document.getElementById("quantidade").select();
         }
 
         function error(err) {
@@ -150,11 +151,11 @@ export const Coletor = ({ close }) => {
         }
     }
 
-    useEffect(() => {
+    /*useEffect(() => {
         if(novo === true){
             scanner();
         }
-    }, [novo === true])
+    }, [novo === true])*/
     return (
         <M.Modal>
             <C.Container>

@@ -30,9 +30,11 @@ export const Content = styled.div`
 
     }
     .campo-lista{
+        height: 30%; 
         width: 90%;
         height: auto;
         margin: auto;
+        overflow: auto;
         table{
             border-collapse: collapse;
             width: 100%;
@@ -69,6 +71,7 @@ export const Content = styled.div`
         }
         #reader{
             width: 95%;
+            margin-top: 10%;
             margin-left: auto;
             margin-right: auto;
             height: 250px;
