@@ -18,7 +18,7 @@ export const Coletor = ({ close }) => {
     const dataAtual = String(ano + '-' + mes + '-' + dia);
     const [novo, setNovo] = useState(false);
     const [adicionado, setAdicionado] = useState(false);
-    const [produtoEncontrado, setProdutoEncontrado] = useState(false);
+    const [produtoEncontrado, setProdutoEncontrado] = useState(null);
     const [lista, setLista] = useState([]);
     const [cabecalho, setCabecalho] = useState({
         id: "",
@@ -51,6 +51,7 @@ export const Coletor = ({ close }) => {
     }
 
     async function salvarDetalhe(){
+        console.log(produtoEncontrado)
         buscarProduto().then(()=>{
             if(produtoEncontrado){
                 fetch("http://10.0.1.107:8091/coletor/detalheSalvar",{
@@ -78,13 +79,12 @@ export const Coletor = ({ close }) => {
     }
 
     async function buscarProduto (){
-        const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${detalhe.gtin}`)
+        setProdutoEncontrado(false);
+        const response =  await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${detalhe.gtin}`)
         const data = await response.json();
         if(response.status === 200 || response.status === 201){
             setDetalhe({...detalhe, descricao_produto: data.descricaopdv});
             setProdutoEncontrado(true);
-        }else{
-            alert("Produto não encontrado")
         }
     }
 
@@ -178,11 +178,15 @@ export const Coletor = ({ close }) => {
                     {novo ? (
                         <>
                             <div id="reader"/>        
-                            {adicionado && (
+                            {adicionado && produtoEncontrado === true ? (
                                 <div className="produto-add">
                                     <label>{detalhe.descricao_produto} * {detalhe.quantidade}</label>
                                 </div>
-                            )}
+                            ) : produtoEncontrado === false ? (
+                                <div className="produto-add" style={{color: "red"}}>
+                                    <label>PRODUTO NÃO ENCONTRADO</label>
+                                </div>
+                            ): null}
                             <div className="campos-add">
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <label>Código: </label>
