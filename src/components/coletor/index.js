@@ -2,23 +2,24 @@ import React, { useEffect, useState } from "react";
 import * as C from "../cadastro/cadastro";
 import * as M from "../modais/modal/modal";
 import * as CO from "./coletor";
-import Quagga from 'quagga';
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/Auth/authContext";
-import { ExitStatus } from "typescript";
 
 
 export const Coletor = ({ close }) => {
-    const {dataMask} = useContext(AuthContext);
+    const { dataMask } = useContext(AuthContext);
     const data = new Date();
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth() + 1).padStart(2, '0');
     const ano = data.getFullYear();
     const dataAtual = String(ano + '-' + mes + '-' + dia);
+
     const [novo, setNovo] = useState(false);
     const [adicionado, setAdicionado] = useState(false);
     const [produtoEncontrado, setProdutoEncontrado] = useState(null);
+    const [editar, setEditar] = useState(false);
+
     const [lista, setLista] = useState([]);
     const [cabecalho, setCabecalho] = useState({
         id: "",
@@ -30,46 +31,67 @@ export const Coletor = ({ close }) => {
         id_contagem: cabecalho.id,
         gtin: "",
         descricao_produto: "",
-        quantidade: ""
-    })
+        quantidade: "",
+        item: ""
+    });
+    const [detalheEditando, setDetalheEditando] = useState({
+        id: "",
+        id_contagem: cabecalho.id,
+        gtin: "",
+        descricao_produto: "",
+        quantidade: "",
+        item: ""
+    });
 
 
-    function salvarCabecalho(){
-        if(cabecalho.descricao){
-            fetch("http://10.0.1.107:8091/coletor/cabecalhoSalvar",{
+    // Função que salva o cabeçalho no banco caso tenha descrição
+    function salvarCabecalho() {
+        if (cabecalho.descricao) {
+            fetch("http://10.0.1.107:8091/coletor/cabecalhoSalvar", {
                 method: "POST",
-                headers: {"content-type": "application/json"},
+                headers: { "content-type": "application/json" },
                 body: JSON.stringify({
                     id: 0,
                     descricao: cabecalho.descricao,
                     data_contagem: cabecalho.data_contagem
                 })
             })
-            .then(response => response.json()) 
-            .then(json => {setCabecalho(json); setNovo(true);});
+                .then(response => response.json())
+                .then(json => { setCabecalho(json); setNovo(true); });
         }
     }
 
-    async function salvarDetalhe(){
-        console.log(produtoEncontrado)
-        buscarProduto().then(()=>{
-            if(produtoEncontrado){
-                fetch("http://10.0.1.107:8091/coletor/detalheSalvar",{
+    const [item, setItem] = useState(0);
+
+    // Função que salva um produto caso a busca no banco encontre um produto
+    async function salvarDetalhe() {
+        buscarProduto().then(() => {
+            if (produtoEncontrado) {
+                fetch("http://10.0.1.107:8091/coletor/detalheSalvar", {
                     method: "POST",
-                    headers: {"content-type": "application/json"},
+                    headers: { "content-type": "application/json" },
                     body: JSON.stringify({
                         id: 0,
                         id_contagem: cabecalho.id,
                         gtin: detalhe.gtin,
                         descricao_produto: detalhe.descricao_produto,
-                        quantidade: detalhe.quantidade
+                        quantidade: detalhe.quantidade,
+                        item: item+1
                     })
-                })
-                .then(response => {
-                    if(response.status === 201 || response.status === 200){
-                        setLista([...lista, detalhe]);
+                }).then(response => {
+                    if (response.status === 201 || response.status === 200) {
                         setAdicionado(true);
-                    }else{
+                        //setDetalhe({...detalhe, item: item});
+                        setLista([...lista, {
+                            id_contagem: cabecalho.id,
+                            gtin: detalhe.gtin,
+                            descricao_produto: detalhe.descricao_produto,
+                            quantidade: detalhe.quantidade,
+                            item: item+1
+                        }]);
+                        
+                        setItem(item+1)
+                    } else {
                         console.log("não foi possivel salvar no banco")
                     }
                 })
@@ -78,57 +100,18 @@ export const Coletor = ({ close }) => {
         scanner();
     }
 
-    async function buscarProduto (){
+    async function buscarProduto() {
         setProdutoEncontrado(false);
-        const response =  await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${detalhe.gtin}`)
+        const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${detalhe.gtin}`)
         const data = await response.json();
-        if(response.status === 200 || response.status === 201){
-            setDetalhe({...detalhe, descricao_produto: data.descricaopdv});
+        if (response.status === 200 || response.status === 201) {
+            setDetalhe({ ...detalhe, descricao_produto: data.descricaopdv});
             setProdutoEncontrado(true);
         }
     }
 
-    /*useEffect(() => {
-        Quagga.init({
-            inputStream: {
-                name: "Live",
-                type: "LiveStream",
-                target: document.getElementById('reader'),
-                constraints: {
-                    width: 200,
-                    height: 350
-                },
-            },
-            decoder: {
-                readers: [
-                    "code_128_reader",
-                    "ean_reader",
-                    "ean_8_reader",
-                    "code_39_reader",
-                    "code_39_vin_reader",
-                    "codabar_reader",
-                    "upc_reader",
-                    "upc_e_reader",
-                    "i2of5_reader"
-                ]
-            }
-        }, function (err) {
-            if (err) {
-                console.log(err);
-                return
-            }
-            //alert("Initialization finished. Ready to start");
-            Quagga.start();
-        },
-        Quagga.onDetected((data) => {
-            var code = data.codeResult.code;
-            document.getElementById('input').value = code;
-            Quagga.stop();
-        })
-        );
-    }, [])*/
-
-    function scanner(){
+    //Função para iniciar o scanner, ao iniciar quando encontrar um codigo ele irá pegar o codigo e fechar o scanner
+    function scanner() {
         const scanner = new Html5QrcodeScanner('reader', {
             qrbox: {
                 width: 250,
@@ -140,10 +123,8 @@ export const Coletor = ({ close }) => {
         scanner.render(success, error);
 
         async function success(result) {
-            setDetalhe({...detalhe, gtin: result, quantidade: ""});
+            setDetalhe({ ...detalhe, gtin: result, quantidade: "" });
             scanner.clear();
-            //document.getElementById("quantidade").focus();
-            //document.getElementById("quantidade").select();
         }
 
         function error(err) {
@@ -151,11 +132,44 @@ export const Coletor = ({ close }) => {
         }
     }
 
-    /*useEffect(() => {
-        if(novo === true){
-            scanner();
-        }
-    }, [novo === true])*/
+    //Função para cancelar o item na lista e no banco
+    async function cancelarItem (item, index){
+        var novaLista = lista.filter((item, i)=> i !== index);
+
+        //Função para procurar o item na tabela do banco e excluir, caso excluido no banco, ele remove da lista tambem
+        fetch(`http://10.0.1.107:8091/coletor/deletarItem/${item.item}/${item.id_contagem}`,{
+            method: "DELETE"
+        })
+        .then((resp)=> {
+            if(resp.status === 200 || resp.status === 201){
+                setLista(novaLista);
+            }
+        })
+    }
+
+    //Função para editar o item na lista e no banco
+    function editarItem(item, index){
+        setEditar(true);
+        setDetalheEditando(item);
+        lista.splice(item.item, 1, detalhe);
+
+    }
+
+    async function editarDetalhe(){
+        //Função para procurar o item na tabela do banco e editar, caso editado no banco, ele edita da lista tambem
+        fetch(`http://10.0.1.107:8091/coletor/deletarItem/${item.item}/${item.id_contagem}`,{
+            method: "PUT",
+            headers: {"content-type": "application/json"},
+            body: JSON.stringify(detalheEditando)
+        })
+        .then((resp)=> {
+            if(resp.status === 200 || resp.status === 201){
+                lista.splice(item.item, 1, detalheEditando);
+                setEditar(false);
+            }
+        })
+    }
+
     return (
         <M.Modal>
             <C.Container>
@@ -167,41 +181,42 @@ export const Coletor = ({ close }) => {
                 </C.Header>
                 <CO.Content>
                     <div className="cabecalho">
-                        <label style={{fontWeight: "bold"}}>Código:</label>
-                        <label style={{marginLeft: "5px", fontWeight: "bold"}}>{cabecalho.id ? cabecalho.id : ""}</label>
-                        <label style={{margin: "0px 10px",fontWeight: "bold"}}>Descrição:</label>
-                        <input value={cabecalho.descricao ? cabecalho.descricao : ""} onChange={(e)=> setCabecalho({...cabecalho, descricao: e.target.value})}/>
-                        <label style={{fontWeight: "bold"}}>Data:</label>
-                        <label style={{margin: "0px 10px"}}>{cabecalho.data_contagem ? dataMask(cabecalho.data_contagem) : ""} </label>
-                        { !novo && <button onClick={salvarCabecalho}>Criar</button>}
+                        <label style={{ fontWeight: "bold" }}>Código:</label>
+                        <label style={{ marginLeft: "5px", fontWeight: "bold" }}>{cabecalho.id ? cabecalho.id : ""}</label>
+                        <label style={{ margin: "0px 10px", fontWeight: "bold" }}>Descrição:</label>
+                        <input value={cabecalho.descricao ? cabecalho.descricao : ""} onChange={(e) => setCabecalho({ ...cabecalho, descricao: e.target.value })} />
+                        <label style={{ fontWeight: "bold" }}>Data:</label>
+                        <label style={{ margin: "0px 10px" }}>{cabecalho.data_contagem ? dataMask(cabecalho.data_contagem) : ""} </label>
+                        {!novo && <button onClick={salvarCabecalho}>Criar</button>}
                     </div>
                     {novo ? (
                         <>
-                            <div id="reader"/>        
+                            <div id="reader" />
                             {adicionado && produtoEncontrado === true ? (
                                 <div className="produto-add">
                                     <label>{detalhe.descricao_produto} * {detalhe.quantidade}</label>
                                 </div>
                             ) : produtoEncontrado === false ? (
-                                <div className="produto-add" style={{color: "red"}}>
+                                <div className="produto-add" style={{ color: "red" }}>
                                     <label>PRODUTO NÃO ENCONTRADO</label>
                                 </div>
-                            ): null}
+                            ) : null}
                             <div className="campos-add">
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <label>Código: </label>
-                                    <input value={detalhe.gtin} onChange={(e)=> setDetalhe({...detalhe, gtin: e.target.value})} onFocus={()=> {setAdicionado(false)}}/>
+                                    <input value={detalhe.gtin} onChange={(e) => setDetalhe({ ...detalhe, gtin: e.target.value })} onFocus={() => { setAdicionado(false) }} />
                                 </div>
                                 <div style={{ display: "flex", alignItems: "center" }}>
                                     <label>Quantidade: </label>
-                                    <input type="number" id="quantidade" value={detalhe.quantidade} onChange={(e)=> setDetalhe({...detalhe, quantidade: e.target.value})} onFocus={buscarProduto} style={{ width: "60px" }} />
-                                    <img alt="" src="/images/add.png" onClick={salvarDetalhe}/>
+                                    <input type="number" id="quantidade" value={detalhe.quantidade} onChange={(e) => setDetalhe({ ...detalhe, quantidade: e.target.value })} onFocus={buscarProduto} style={{ width: "60px" }} />
+                                    <img alt="" src="/images/add.png" onClick={salvarDetalhe} />
                                 </div>
                             </div>
                             <div className="campo-lista">
                                 <table>
                                     <thead>
                                         <tr>
+                                            <th>Item</th>
                                             <th>Código</th>
                                             <th>Descrição</th>
                                             <th style={{ width: "100px" }}>Quantidade</th>
@@ -209,21 +224,44 @@ export const Coletor = ({ close }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {lista.map((item, index)=>{
-                                            return(
-                                                <tr key={index}>
+                                        {lista.map((item, index) => {
+                                            return (
+                                                <tr key={index+1}>
+                                                    <td>{index+1}</td>
                                                     <td>{item.gtin}</td>
                                                     <td>{item.descricao_produto}</td>
                                                     <td>{item.quantidade}</td>
-                                                    <td><img alt="" src="/images/lixeira.png" /> <img alt="" src="/images/editar.png" /></td>
+                                                    <td><img alt="" src="/images/lixeira.png" onClick={cancelarItem.bind(this, item, index)}/> <img alt="" src="/images/editar.png"  onClick={editarItem.bind(this, item, index)}/></td>
                                                 </tr>
                                             )
                                         })}
                                     </tbody>
                                 </table>
-                            </div>                       
+                            </div>
+                            {editar ? (
+                                <M.Modal>
+                                    <CO.Editar>
+                                        <C.Header>
+                                            <h4>Editando Item {detalheEditando.item}</h4>
+                                            <div className="buttons">
+                                                <button className="close" onClick={()=> setEditar(false)}>X</button>
+                                            </div>
+                                        </C.Header>
+                                        <h3>{detalheEditando.descricao_produto}</h3>
+                                        <div className="editar">
+                                            <label style={{fontWeight: "bold"}}>Gtin: </label>
+                                            <label style={{marginLeft: "5px"}}>{detalheEditando.gtin}</label>
+                                        </div>
+                                        <div className="editar">
+                                            <label>Quantidade: </label>
+                                            <input type="number" value={detalheEditando.quantidade} onChange={(e)=> setDetalheEditando({...detalheEditando, quantidade: e.target.value})}  style={{ width: "60px" }} />
+                                            <img alt="" src="/images/add.png" onClick={editarDetalhe} />
+                                        </div>
+                                    </CO.Editar>
+                                </M.Modal>
+                            ): null}
                         </>
-                    ): null}
+                    ) : null}
                 </CO.Content>
             </C.Container>
         </M.Modal>

@@ -8,6 +8,9 @@ export const Content = styled.div`
         width: 20px;
         height: 20px;
     }
+    img:hover{
+        cursor: pointer;
+    }
     .cabecalho{
         width: 90%;
         height: 5%;
@@ -32,7 +35,6 @@ export const Content = styled.div`
     .campo-lista{
         height: 30%; 
         width: 90%;
-        height: auto;
         margin: auto;
         overflow: auto;
         table{
@@ -96,6 +98,32 @@ export const Content = styled.div`
             flex-wrap: wrap;
             align-items: center;
             justify-content: start;
+        }
+    }
+`
+
+export const Editar = styled.div`
+    width: 300px;
+    height: 200px;
+    position: absolute;
+    background-color: white;
+    border-radius: 12px;
+    img{
+        width: 20px;
+        height: 20px; 
+    }
+    img:hover{
+        cursor: pointer;
+    }
+    .editar{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    @media(max-width: 460px){
+        img{
+            width: 30px;
+            height: 30px; 
         }
     }
 `
