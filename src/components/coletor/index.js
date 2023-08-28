@@ -76,7 +76,7 @@ export const Coletor = ({ close }) => {
                         gtin: detalhe.gtin,
                         descricao_produto: detalhe.descricao_produto,
                         quantidade: detalhe.quantidade,
-                        item: item+1
+                        item: item + 1
                     })
                 }).then(response => {
                     if (response.status === 201 || response.status === 200) {
@@ -87,10 +87,10 @@ export const Coletor = ({ close }) => {
                             gtin: detalhe.gtin,
                             descricao_produto: detalhe.descricao_produto,
                             quantidade: detalhe.quantidade,
-                            item: item+1
+                            item: item + 1
                         }]);
-                        
-                        setItem(item+1)
+
+                        setItem(item + 1)
                     } else {
                         console.log("não foi possivel salvar no banco")
                     }
@@ -105,7 +105,7 @@ export const Coletor = ({ close }) => {
         const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${detalhe.gtin}`)
         const data = await response.json();
         if (response.status === 200 || response.status === 201) {
-            setDetalhe({ ...detalhe, descricao_produto: data.descricaopdv});
+            setDetalhe({ ...detalhe, descricao_produto: data.descricaopdv });
             setProdutoEncontrado(true);
         }
     }
@@ -133,38 +133,36 @@ export const Coletor = ({ close }) => {
     }
 
     //Função para cancelar o item na lista e no banco
-    async function cancelarItem (item, index){
-        var novaLista = lista.filter((item, i)=> i !== index);
+    async function cancelarItem(item, index) {
+        var novaLista = lista.filter((item, i) => i !== index);
 
         //Função para procurar o item na tabela do banco e excluir, caso excluido no banco, ele remove da lista tambem
-        fetch(`http://10.0.1.107:8091/coletor/deletarItem/${item.item}/${item.id_contagem}`,{
+        fetch(`http://10.0.1.107:8091/coletor/deletarItem/${item.item}/${item.id_contagem}`, {
             method: "DELETE"
         })
-        .then((resp)=> {
-            if(resp.status === 200 || resp.status === 201){
-                setLista(novaLista);
-            }
-        })
+            .then((resp) => {
+                if (resp.status === 200 || resp.status === 201) {
+                    setLista(novaLista);
+                }
+            })
     }
 
     //Função para editar o item na lista e no banco
-    function editarItem(item, index){
+    function editarItem(item, index) {
         setEditar(true);
         setDetalheEditando(item);
-        lista.splice(item.item, 1, detalhe);
-
     }
 
-    async function editarDetalhe(){
+    async function editarDetalhe() {
         //Função para procurar o item na tabela do banco e editar, caso editado no banco, ele edita da lista tambem
-        fetch(`http://10.0.1.107:8091/coletor/deletarItem/${item.item}/${item.id_contagem}`,{
-            method: "PUT",
-            headers: {"content-type": "application/json"},
-            body: JSON.stringify(detalheEditando)
-        })
-        .then((resp)=> {
-            if(resp.status === 200 || resp.status === 201){
-                lista.splice(item.item, 1, detalheEditando);
+        fetch(`http://10.0.1.107:8091/coletor/editarItem/${parseInt(detalheEditando.item)}/${parseInt(detalheEditando.id_contagem)}/${parseFloat(detalheEditando.quantidade)}`, {
+            method: "PUT"
+        }).then((resp) => {
+            if (resp.status === 200 || resp.status === 201) {
+                const itemEncontrado = lista.find((item) => item.item === detalheEditando.item);
+                if (itemEncontrado) {
+                    itemEncontrado.quantidade = detalheEditando.quantidade;
+                }
                 setEditar(false);
             }
         })
@@ -226,12 +224,12 @@ export const Coletor = ({ close }) => {
                                     <tbody>
                                         {lista.map((item, index) => {
                                             return (
-                                                <tr key={index+1}>
-                                                    <td>{index+1}</td>
+                                                <tr key={index + 1}>
+                                                    <td>{index + 1}</td>
                                                     <td>{item.gtin}</td>
                                                     <td>{item.descricao_produto}</td>
                                                     <td>{item.quantidade}</td>
-                                                    <td><img alt="" src="/images/lixeira.png" onClick={cancelarItem.bind(this, item, index)}/> <img alt="" src="/images/editar.png"  onClick={editarItem.bind(this, item, index)}/></td>
+                                                    <td><img alt="" src="/images/lixeira.png" onClick={cancelarItem.bind(this, item, index)} /> <img alt="" src="/images/editar.png" onClick={editarItem.bind(this, item, index)} /></td>
                                                 </tr>
                                             )
                                         })}
@@ -244,22 +242,22 @@ export const Coletor = ({ close }) => {
                                         <C.Header>
                                             <h4>Editando Item {detalheEditando.item}</h4>
                                             <div className="buttons">
-                                                <button className="close" onClick={()=> setEditar(false)}>X</button>
+                                                <button className="close" onClick={() => setEditar(false)}>X</button>
                                             </div>
                                         </C.Header>
                                         <h3>{detalheEditando.descricao_produto}</h3>
                                         <div className="editar">
-                                            <label style={{fontWeight: "bold"}}>Gtin: </label>
-                                            <label style={{marginLeft: "5px"}}>{detalheEditando.gtin}</label>
+                                            <label style={{ fontWeight: "bold" }}>Gtin: </label>
+                                            <label style={{ marginLeft: "5px" }}>{detalheEditando.gtin}</label>
                                         </div>
                                         <div className="editar">
                                             <label>Quantidade: </label>
-                                            <input type="number" value={detalheEditando.quantidade} onChange={(e)=> setDetalheEditando({...detalheEditando, quantidade: e.target.value})}  style={{ width: "60px" }} />
+                                            <input type="number" value={detalheEditando.quantidade} onChange={(e) => setDetalheEditando({ ...detalheEditando, quantidade: e.target.value })} style={{ width: "60px" }} />
                                             <img alt="" src="/images/add.png" onClick={editarDetalhe} />
                                         </div>
                                     </CO.Editar>
                                 </M.Modal>
-                            ): null}
+                            ) : null}
                         </>
                     ) : null}
                 </CO.Content>
