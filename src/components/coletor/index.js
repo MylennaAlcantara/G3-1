@@ -5,10 +5,14 @@ import * as CO from "./coletor";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/Auth/authContext";
+import { ListaContagem } from "./listaContagem";
 
 
 export const Coletor = ({ close }) => {
     const { dataMask } = useContext(AuthContext);
+    const [ip, setIp] = useState();
+    const [listagem, setListagem] = useState(true);
+
     const data = new Date();
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth() + 1).padStart(2, '0');
@@ -24,7 +28,7 @@ export const Coletor = ({ close }) => {
     const [cabecalho, setCabecalho] = useState({
         id: "",
         descricao: "",
-        data_contagem: dataAtual
+        data_contagem: ""
     });
     const [detalhe, setDetalhe] = useState({
         id: "",
@@ -43,6 +47,15 @@ export const Coletor = ({ close }) => {
         item: ""
     });
 
+    useEffect(() => {
+        async function pegarIp() {
+            fetch("http://10.0.1.107:8091/coletor/ip")
+                .then(response => response.text())
+                .then(data => setIp(data))
+                .catch(error => console.log(error));
+        }
+        pegarIp();
+    }, [])
 
     // Função que salva o cabeçalho no banco caso tenha descrição
     function salvarCabecalho() {
@@ -53,7 +66,11 @@ export const Coletor = ({ close }) => {
                 body: JSON.stringify({
                     id: 0,
                     descricao: cabecalho.descricao,
-                    data_contagem: cabecalho.data_contagem
+                    data_contagem: dataAtual,
+                    aberto: 1,
+                    finalizada: 0,
+                    data_finalizada: null,
+                    ip_aberto: ip
                 })
             })
                 .then(response => response.json())
@@ -65,6 +82,7 @@ export const Coletor = ({ close }) => {
 
     // Função que salva um produto caso a busca no banco encontre um produto
     async function salvarDetalhe() {
+        document.getElementById("codigo").focus();
         buscarProduto().then(() => {
             if (produtoEncontrado) {
                 fetch("http://10.0.1.107:8091/coletor/detalheSalvar", {
@@ -89,7 +107,7 @@ export const Coletor = ({ close }) => {
                             quantidade: detalhe.quantidade,
                             item: item + 1
                         }]);
-
+                        document.getElementById("codigo").focus();
                         setItem(item + 1)
                     } else {
                         console.log("não foi possivel salvar no banco")
@@ -147,12 +165,13 @@ export const Coletor = ({ close }) => {
             })
     }
 
-    //Função para editar o item na lista e no banco
+    //Função para abrir a tela de edição do item
     function editarItem(item, index) {
         setEditar(true);
         setDetalheEditando(item);
     }
 
+    //Função para editar o item na lista e no banco
     async function editarDetalhe() {
         //Função para procurar o item na tabela do banco e editar, caso editado no banco, ele edita da lista tambem
         fetch(`http://10.0.1.107:8091/coletor/editarItem/${parseInt(detalheEditando.item)}/${parseInt(detalheEditando.id_contagem)}/${parseFloat(detalheEditando.quantidade)}`, {
@@ -168,99 +187,229 @@ export const Coletor = ({ close }) => {
         })
     }
 
+    // Atalhos na tecla Enter
+    function enterCodigo(e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            document.getElementById("quantidade").select();
+        }
+    }
+    function enterQuantidade(e) {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            salvarDetalhe();
+        }
+    }
+
+    function novaContagem() {
+        setListagem(false);
+        setDetalhe({});
+        setCabecalho({});
+        setNovo(false);
+        setLista([]);
+        setItem(0);
+    }
+
+    function voltar() {
+        setListagem(true);
+        setItem(0);
+        setDetalhe({});
+        setCabecalho({});
+        setNovo(false);
+        setLista([]);
+        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null`, {
+            method: "PUT"
+        })
+    }
+
+    function finalizar() {
+        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/1/${dataAtual}`, {
+            method: "PUT"
+        })
+        setListagem(true);
+        setItem(0);
+        setDetalhe({});
+        setCabecalho({});
+        setNovo(false);
+        setLista([]);
+    }
+
+    async function abrir() {
+        fetch(`http://10.0.1.107:8091/coletor/cabecalho/${cabecalho.id}`)
+            .then((resp) => resp.json())
+            .then((data) => {
+                if (data.aberto == 0) {
+                    fetchDetalhes(cabecalho).then(() => {
+                        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null`, { // id/aberto/finalizada/data_finalizada
+                            method: "PUT"
+                        }).then((resp) => {
+                            if (resp.status === 201 || resp.status === 200) {
+                                setCabecalho({
+                                    id: cabecalho.id,
+                                    descricao: cabecalho.descricao,
+                                    data_contagem: cabecalho.data_contagem,
+                                    aberto: cabecalho.aberto,
+                                    ip_aberto: ip
+                                });
+                                setListagem(false);
+                                setNovo(true);
+                            }
+                        })
+                    })
+                } else {
+                    if (data.ip_aberto == ip) {
+                        fetchDetalhes(cabecalho).then(() => {
+                            fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null`, { // id/aberto/finalizada/data_finalizada
+                                method: "PUT"
+                            }).then((resp) => {
+                                if (resp.status === 201 || resp.status === 200) {
+                                    setCabecalho({
+                                        id: cabecalho.id,
+                                        descricao: cabecalho.descricao,
+                                        data_contagem: cabecalho.data_contagem,
+                                        aberto: cabecalho.aberto,
+                                        ip_aberto: ip
+                                    });
+                                    setListagem(false);
+                                    setNovo(true);
+                                }
+                            })
+                        })
+                    } else {
+                        alert("Contagem aberta no ip: " + data.ip_aberto);
+                    }
+                }
+            });
+    }
+
+    async function fetchDetalhes() {
+        fetch(`http://10.0.1.107:8091/coletor/detalhe/${cabecalho.id}`)
+            .then((resp) => resp.json())
+            .then((data) => {
+                setLista(data);
+                data.map((i) => {
+                    if (i.item > item) {
+                        setItem(i.item);
+                    }
+                });
+            })
+    }
+
+
+
     return (
         <M.Modal>
             <C.Container>
                 <C.Header>
                     <h3>Coletor</h3>
-                    <div className="buttons">
-                        <button className="close" onClick={close}>X</button>
-                    </div>
                 </C.Header>
-                <CO.Content>
-                    <div className="cabecalho">
-                        <label style={{ fontWeight: "bold" }}>Código:</label>
-                        <label style={{ marginLeft: "5px", fontWeight: "bold" }}>{cabecalho.id ? cabecalho.id : ""}</label>
-                        <label style={{ margin: "0px 10px", fontWeight: "bold" }}>Descrição:</label>
-                        <input value={cabecalho.descricao ? cabecalho.descricao : ""} onChange={(e) => setCabecalho({ ...cabecalho, descricao: e.target.value })} />
-                        <label style={{ fontWeight: "bold" }}>Data:</label>
-                        <label style={{ margin: "0px 10px" }}>{cabecalho.data_contagem ? dataMask(cabecalho.data_contagem) : ""} </label>
-                        {!novo && <button onClick={salvarCabecalho}>Criar</button>}
-                    </div>
-                    {novo ? (
-                        <>
-                            <div id="reader" />
-                            {adicionado && produtoEncontrado === true ? (
-                                <div className="produto-add">
-                                    <label>{detalhe.descricao_produto} * {detalhe.quantidade}</label>
+                {listagem ? (
+                    <ListaContagem setCabecalho={setCabecalho} abrir={abrir} />
+                ) : (
+                    <CO.Content>
+                        <div className="cabecalho">
+                            <label style={{ fontWeight: "bold" }}>Código:</label>
+                            <label style={{ marginLeft: "5px", fontWeight: "bold" }}>{cabecalho.id ? cabecalho.id : ""}</label>
+                            <label style={{ margin: "0px 10px", fontWeight: "bold" }}>Descrição:</label>
+                            {novo ? (
+                                <input value={cabecalho.descricao ? cabecalho.descricao : ""} style={{ backgroundColor: "#f0f0f0" }} readOnly />
+                            ) : (
+                                <input value={cabecalho.descricao ? cabecalho.descricao : ""} onChange={(e) => setCabecalho({ ...cabecalho, descricao: e.target.value })} />
+                            )}
+                            <label style={{ fontWeight: "bold" }}>Data:</label>
+                            <label style={{ margin: "0px 10px" }}>{cabecalho.data_contagem ? dataMask(cabecalho.data_contagem) : ""} </label>
+                            {!novo && <button onClick={salvarCabecalho}><img alt="" src="/images/add.png"/>Criar</button>}
+                        </div>
+                        {novo ? (
+                            <>
+                                <div id="reader" />
+                                {adicionado && produtoEncontrado === true ? (
+                                    <div className="produto-add">
+                                        <label>{detalhe.descricao_produto} * {detalhe.quantidade}</label>
+                                    </div>
+                                ) : null}
+                                {produtoEncontrado === false ? (
+                                    <div className="produto-add" style={{ color: "red" }}>
+                                        <label>PRODUTO NÃO ENCONTRADO</label>
+                                    </div>
+                                ) : null}
+                                <div className="campos-add">
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <label>Código: </label>
+                                        <input id="codigo" value={detalhe.gtin} onChange={(e) => setDetalhe({ ...detalhe, gtin: e.target.value })} onFocus={() => { setAdicionado(false); document.getElementById("codigo").select() }} onKeyDown={enterCodigo} />
+                                    </div>
+                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                        <label>Quantidade: </label>
+                                        <input type="number" id="quantidade" value={detalhe.quantidade} onChange={(e) => setDetalhe({ ...detalhe, quantidade: e.target.value })} onFocus={buscarProduto} style={{ width: "60px" }} onKeyDown={enterQuantidade} />
+                                        <img alt="" src="/images/add.png" onClick={salvarDetalhe} />
+                                    </div>
                                 </div>
-                            ) : produtoEncontrado === false ? (
-                                <div className="produto-add" style={{ color: "red" }}>
-                                    <label>PRODUTO NÃO ENCONTRADO</label>
+                                <div className="campo-lista">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Código</th>
+                                                <th>Descrição</th>
+                                                <th style={{ width: "100px" }}>Quantidade</th>
+                                                <th style={{ width: "100px" }}>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {lista.map((item, index) => {
+                                                return (
+                                                    <tr key={index + 1}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{item.gtin}</td>
+                                                        <td>{item.descricao_produto}</td>
+                                                        <td>{item.quantidade}</td>
+                                                        <td><img alt="" src="/images/lixeira.png" onClick={cancelarItem.bind(this, item, index)} /> <img alt="" src="/images/editar.png" onClick={editarItem.bind(this, item, index)} /></td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </table>
                                 </div>
-                            ) : null}
-                            <div className="campos-add">
-                                <div style={{ display: "flex", alignItems: "center" }}>
-                                    <label>Código: </label>
-                                    <input value={detalhe.gtin} onChange={(e) => setDetalhe({ ...detalhe, gtin: e.target.value })} onFocus={() => { setAdicionado(false) }} />
-                                </div>
-                                <div style={{ display: "flex", alignItems: "center" }}>
-                                    <label>Quantidade: </label>
-                                    <input type="number" id="quantidade" value={detalhe.quantidade} onChange={(e) => setDetalhe({ ...detalhe, quantidade: e.target.value })} onFocus={buscarProduto} style={{ width: "60px" }} />
-                                    <img alt="" src="/images/add.png" onClick={salvarDetalhe} />
-                                </div>
-                            </div>
-                            <div className="campo-lista">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Código</th>
-                                            <th>Descrição</th>
-                                            <th style={{ width: "100px" }}>Quantidade</th>
-                                            <th style={{ width: "80px" }}>Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {lista.map((item, index) => {
-                                            return (
-                                                <tr key={index + 1}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{item.gtin}</td>
-                                                    <td>{item.descricao_produto}</td>
-                                                    <td>{item.quantidade}</td>
-                                                    <td><img alt="" src="/images/lixeira.png" onClick={cancelarItem.bind(this, item, index)} /> <img alt="" src="/images/editar.png" onClick={editarItem.bind(this, item, index)} /></td>
-                                                </tr>
-                                            )
-                                        })}
-                                    </tbody>
-                                </table>
-                            </div>
-                            {editar ? (
-                                <M.Modal>
-                                    <CO.Editar>
-                                        <C.Header>
-                                            <h4>Editando Item {detalheEditando.item}</h4>
-                                            <div className="buttons">
-                                                <button className="close" onClick={() => setEditar(false)}>X</button>
+                                {editar ? (
+                                    <M.Modal>
+                                        <CO.Editar>
+                                            <C.Header>
+                                                <h4>Editando Item {detalheEditando.item}</h4>
+                                                <div className="buttons">
+                                                    <button className="close" onClick={() => setEditar(false)}>X</button>
+                                                </div>
+                                            </C.Header>
+                                            <h3>{detalheEditando.descricao_produto}</h3>
+                                            <div className="editar">
+                                                <label style={{ fontWeight: "bold" }}>Gtin: </label>
+                                                <label style={{ marginLeft: "5px" }}>{detalheEditando.gtin}</label>
                                             </div>
-                                        </C.Header>
-                                        <h3>{detalheEditando.descricao_produto}</h3>
-                                        <div className="editar">
-                                            <label style={{ fontWeight: "bold" }}>Gtin: </label>
-                                            <label style={{ marginLeft: "5px" }}>{detalheEditando.gtin}</label>
-                                        </div>
-                                        <div className="editar">
-                                            <label>Quantidade: </label>
-                                            <input type="number" value={detalheEditando.quantidade} onChange={(e) => setDetalheEditando({ ...detalheEditando, quantidade: e.target.value })} style={{ width: "60px" }} />
-                                            <img alt="" src="/images/add.png" onClick={editarDetalhe} />
-                                        </div>
-                                    </CO.Editar>
-                                </M.Modal>
-                            ) : null}
-                        </>
-                    ) : null}
-                </CO.Content>
+                                            <div className="editar">
+                                                <label>Quantidade: </label>
+                                                <input type="number" value={detalheEditando.quantidade} onChange={(e) => setDetalheEditando({ ...detalheEditando, quantidade: e.target.value })} style={{ width: "60px" }} />
+                                                <img alt="" src="/images/add.png" onClick={editarDetalhe} />
+                                            </div>
+                                        </CO.Editar>
+                                    </M.Modal>
+                                ) : null}
+                            </>
+                        ) : null}
+                    </CO.Content>
+                )}
+                <C.Footer>
+                    {listagem ? (
+                        <div className="buttons">
+                            <button onClick={novaContagem}><img alt="" src="/images/add.png" />Novo</button>
+                            <button onClick={abrir}><img alt="" src="/images/abrir.png" />Abrir</button>
+                            <button onClick={close}><img alt="" src="/images/voltar.png" />Voltar</button>
+                        </div>
+                    ) : (
+                        <div className="buttons">
+                            <button onClick={finalizar}><img alt="" src="/images/check.png" />Finalizar</button>
+                            <button onClick={voltar}><img alt="" src="/images/voltar.png" />Voltar</button>
+                        </div>
+                    )}
+                </C.Footer>
             </C.Container>
         </M.Modal>
     )

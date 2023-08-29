@@ -7,14 +7,22 @@ export const Content = styled.div`
     img{
         width: 20px;
         height: 20px;
+        margin: 5px;
     }
     img:hover{
         cursor: pointer;
     }
+    button{
+        width: 80px;
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     .cabecalho{
         width: 90%;
         height: 5%;
-        margin: auto;
+        margin: 5px auto;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -70,6 +78,14 @@ export const Content = styled.div`
         img{
             width: 30px;
             height: 30px;
+        }
+        button{
+            width: auto;
+            padding-right: 2px;
+            img{
+                width: 20px;
+                height: 20px;
+            }
         }
         #reader{
             width: 95%;
