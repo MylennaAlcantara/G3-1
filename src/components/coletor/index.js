@@ -118,14 +118,14 @@ export const Coletor = ({ close }) => {
     }
 
     async function buscarProduto() {
-        if(!auto){
+        if (!auto) {
             localStorage.setItem("codigo", detalhe.gtin);
         }
         const codigo = localStorage.getItem("codigo");
         try {
             const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${codigo}`);
             const data = await response.json();
-            
+
             if (response.status === 200 || response.status === 201) {
                 //setDetalhe({...detalhe, descricao_produto: data.descricaopdv, gtin: data.gtin});
                 setDetalhe((prevDetalhe) => {
@@ -141,7 +141,7 @@ export const Coletor = ({ close }) => {
             alert("caiu aqui")
         }
     }
-
+    const [estadoAuto, setEstadoAuto] = useState(false);
 
     //Função para iniciar o scanner, ao iniciar quando encontrar um codigo ele irá pegar o codigo e fechar o scanner
     function scanner() {
@@ -156,12 +156,12 @@ export const Coletor = ({ close }) => {
 
         scanner.render(success, error);
 
-        async function success(result) { 
-            setDetalhe({ ...detalhe, gtin: result, quantidade: "" });
+        async function success(result) {
             scanner.clear();
             localStorage.setItem("codigo", result);
-            if(auto){
-                salvarDetalhe(); 
+            if (auto) {
+                await buscarProduto();
+                setEstadoAuto(!estadoAuto)
             }
         }
 
@@ -169,7 +169,9 @@ export const Coletor = ({ close }) => {
             //console.warn(err);
         }
     }
-
+    useEffect(() => {
+        salvarDetalhe();
+    }, [estadoAuto])
 
     //Função para cancelar o item na lista e no banco
     async function cancelarItem(item, index) {
@@ -337,7 +339,7 @@ export const Coletor = ({ close }) => {
                             )}
                             <label style={{ fontWeight: "bold" }}>Data:</label>
                             <label style={{ margin: "0px 10px" }}>{cabecalho.data_contagem ? dataMask(cabecalho.data_contagem) : ""} </label>
-                            {!novo && <button onClick={salvarCabecalho}><img alt="" src="/images/add.png"/>Criar</button>}
+                            {!novo && <button onClick={salvarCabecalho}><img alt="" src="/images/add.png" />Criar</button>}
                         </div>
                         {novo ? (
                             <>
@@ -355,7 +357,7 @@ export const Coletor = ({ close }) => {
                                 <div className="campos-add">
                                     <div style={{ display: "flex", alignItems: "start", margin: "20px" }}>
                                         <label>Contagem</label>
-                                        <img alt="" src="/images/botao.png" onClick={()=> {setAuto(!auto); setDetalhe({...detalhe, quantidade: 1})}} className={auto ? "auto" : ""} style={{margin: "auto 5px 0px 5px"}}/>
+                                        <img alt="" src="/images/botao.png" onClick={() => { setAuto(!auto); setDetalhe({ ...detalhe, quantidade: 1 }) }} className={auto ? "auto" : ""} style={{ margin: "auto 5px 0px 5px" }} />
                                         <label>Auto</label>
                                     </div>
                                     <div style={{ display: "flex", alignItems: "center" }}>
@@ -365,12 +367,12 @@ export const Coletor = ({ close }) => {
                                     <div style={{ display: "flex", alignItems: "center" }}>
                                         <label>Quantidade: </label>
                                         {auto ? (
-                                            <input type="number" id="quantidade" value={detalhe.quantidade} style={{ width: "60px", backgroundColor: "#f0f0f0" }} readOnly/>
+                                            <input type="number" id="quantidade" value={detalhe.quantidade} style={{ width: "60px", backgroundColor: "#f0f0f0" }} readOnly />
                                         ) : (
                                             <input type="number" id="quantidade" value={detalhe.quantidade} onChange={(e) => setDetalhe({ ...detalhe, quantidade: e.target.value })} onFocus={buscarProduto} style={{ width: "60px" }} onKeyDown={enterQuantidade} />
                                         )}
                                         <img alt="+" src="/images/add.png" onClick={salvarDetalhe} />
-                                        <img alt="camera" src="" onClick={scanner} />
+                                        <img alt="camera" src="/images/camera.png" onClick={scanner} />
                                     </div>
                                 </div>
                                 <div className="campo-lista">
