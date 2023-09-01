@@ -10,6 +10,7 @@ export const ListaContagem = ({ setCabecalho, abrir }) => {
     const [itemSelecionado, setItemSelecionado] = useState(null);
 
     async function fetchContagensPendentes() {
+        setCabecalho([]);
         fetch("http://10.0.1.107:8091/coletor/cabecalho")
             .then((resp) => resp.json())
             .then((data) => {
@@ -39,6 +40,7 @@ export const ListaContagem = ({ setCabecalho, abrir }) => {
                 </div>
             ) : (
                 <div className="table-responsive">
+                    <img alt="lupa" src="/images/LUPA.png" onClick={fetchContagensPendentes}/>
                     <table>
                         <thead>
                             <tr>

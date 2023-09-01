@@ -8,7 +8,18 @@ export const Content = styled.div`
         width: 95%;
         height: auto;
         margin: auto;
-        background-color: yellow;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: start;
+        img{
+            width: 20px;
+            height: 20px;
+            margin-bottom: 5px;
+        }
+        img:hover{
+            cursor: pointer;
+        }
         table{
             border-collapse: collapse;
             width: 100%;

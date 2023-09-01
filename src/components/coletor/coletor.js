@@ -38,6 +38,9 @@ export const Content = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        .auto{
+            transform: scaleX(-1);
+        }
 
     }
     .campo-lista{
@@ -103,9 +106,13 @@ export const Content = styled.div`
             }
         }
         .campos-add{
+            height: 150px;
             display: flex;
             flex-wrap: wrap;
             width: 100%;
+            .auto{
+                transform: scaleX(-1);
+            }
         }    
         .cabecalho{
             width: 90%;

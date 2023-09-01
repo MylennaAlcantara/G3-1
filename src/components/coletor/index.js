@@ -21,8 +21,10 @@ export const Coletor = ({ close }) => {
 
     const [novo, setNovo] = useState(false);
     const [adicionado, setAdicionado] = useState(false);
-    const [produtoEncontrado, setProdutoEncontrado] = useState(null);
+    //const [produtoEncontrado, setProdutoEncontrado] = useState(false);
+    const produtoEncontrado = localStorage.getItem("produtoEncontrado");
     const [editar, setEditar] = useState(false);
+    const [auto, setAuto] = useState(false);
 
     const [lista, setLista] = useState([]);
     const [cabecalho, setCabecalho] = useState({
@@ -79,57 +81,71 @@ export const Coletor = ({ close }) => {
     }
 
     const [item, setItem] = useState(0);
-
     // Função que salva um produto caso a busca no banco encontre um produto
     async function salvarDetalhe() {
-        document.getElementById("codigo").focus();
-        buscarProduto().then(() => {
-            if (produtoEncontrado) {
-                fetch("http://10.0.1.107:8091/coletor/detalheSalvar", {
-                    method: "POST",
-                    headers: { "content-type": "application/json" },
-                    body: JSON.stringify({
-                        id: 0,
+        await buscarProduto();
+        if (produtoEncontrado) {
+            fetch("http://10.0.1.107:8091/coletor/detalheSalvar", {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({
+                    id: 0,
+                    id_contagem: cabecalho.id,
+                    gtin: detalhe.gtin,
+                    descricao_produto: detalhe.descricao_produto,
+                    quantidade: detalhe.quantidade,
+                    item: item + 1
+                })
+            }).then(response => {
+                if (response.status === 201 || response.status === 200) {
+                    setAdicionado(true);
+                    setLista([...lista, {
                         id_contagem: cabecalho.id,
                         gtin: detalhe.gtin,
                         descricao_produto: detalhe.descricao_produto,
                         quantidade: detalhe.quantidade,
                         item: item + 1
-                    })
-                }).then(response => {
-                    if (response.status === 201 || response.status === 200) {
-                        setAdicionado(true);
-                        //setDetalhe({...detalhe, item: item});
-                        setLista([...lista, {
-                            id_contagem: cabecalho.id,
-                            gtin: detalhe.gtin,
-                            descricao_produto: detalhe.descricao_produto,
-                            quantidade: detalhe.quantidade,
-                            item: item + 1
-                        }]);
-                        document.getElementById("codigo").focus();
-                        setItem(item + 1)
-                    } else {
-                        console.log("não foi possivel salvar no banco")
-                    }
-                })
-            }
-        })
+                    }]);
+                    document.getElementById("codigo").focus();
+                    document.getElementById("codigo").select();
+                    setItem(item + 1);
+                } else {
+                    console.log("não foi possivel salvar no banco")
+                }
+            })
+        }
         scanner();
     }
 
     async function buscarProduto() {
-        setProdutoEncontrado(false);
-        const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${detalhe.gtin}`)
-        const data = await response.json();
-        if (response.status === 200 || response.status === 201) {
-            setDetalhe({ ...detalhe, descricao_produto: data.descricaopdv });
-            setProdutoEncontrado(true);
+        if(!auto){
+            localStorage.setItem("codigo", detalhe.gtin);
+        }
+        const codigo = localStorage.getItem("codigo");
+        try {
+            const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${codigo}`);
+            const data = await response.json();
+            
+            if (response.status === 200 || response.status === 201) {
+                //setDetalhe({...detalhe, descricao_produto: data.descricaopdv, gtin: data.gtin});
+                setDetalhe((prevDetalhe) => {
+                    return { ...prevDetalhe, descricao_produto: data.descricaopdv, gtin: data.gtin };
+                });
+                localStorage.setItem("produtoEncontrado", true);
+            } else {
+                localStorage.setItem("produtoEncontrado", false);
+            }
+        } catch (error) {
+            console.error("Erro ao buscar o produto:", error);
+            localStorage.setItem("produtoEncontrado", false);
+            alert("caiu aqui")
         }
     }
 
+
     //Função para iniciar o scanner, ao iniciar quando encontrar um codigo ele irá pegar o codigo e fechar o scanner
     function scanner() {
+        localStorage.removeItem("codigo");
         const scanner = new Html5QrcodeScanner('reader', {
             qrbox: {
                 width: 250,
@@ -140,15 +156,20 @@ export const Coletor = ({ close }) => {
 
         scanner.render(success, error);
 
-        async function success(result) {
+        async function success(result) { 
             setDetalhe({ ...detalhe, gtin: result, quantidade: "" });
             scanner.clear();
+            localStorage.setItem("codigo", result);
+            if(auto){
+                salvarDetalhe(); 
+            }
         }
 
         function error(err) {
-            console.warn(err);
+            //console.warn(err);
         }
     }
+
 
     //Função para cancelar o item na lista e no banco
     async function cancelarItem(item, index) {
@@ -295,8 +316,6 @@ export const Coletor = ({ close }) => {
             })
     }
 
-
-
     return (
         <M.Modal>
             <C.Container>
@@ -334,14 +353,24 @@ export const Coletor = ({ close }) => {
                                     </div>
                                 ) : null}
                                 <div className="campos-add">
+                                    <div style={{ display: "flex", alignItems: "start", margin: "20px" }}>
+                                        <label>Contagem</label>
+                                        <img alt="" src="/images/botao.png" onClick={()=> {setAuto(!auto); setDetalhe({...detalhe, quantidade: 1})}} className={auto ? "auto" : ""} style={{margin: "auto 5px 0px 5px"}}/>
+                                        <label>Auto</label>
+                                    </div>
                                     <div style={{ display: "flex", alignItems: "center" }}>
                                         <label>Código: </label>
-                                        <input id="codigo" value={detalhe.gtin} onChange={(e) => setDetalhe({ ...detalhe, gtin: e.target.value })} onFocus={() => { setAdicionado(false); document.getElementById("codigo").select() }} onKeyDown={enterCodigo} />
+                                        <input id="codigo" value={detalhe.gtin} onChange={(e) => setDetalhe({ ...detalhe, gtin: e.target.value })} onFocus={() => setAdicionado(false)} onKeyDown={enterCodigo} />
                                     </div>
                                     <div style={{ display: "flex", alignItems: "center" }}>
                                         <label>Quantidade: </label>
-                                        <input type="number" id="quantidade" value={detalhe.quantidade} onChange={(e) => setDetalhe({ ...detalhe, quantidade: e.target.value })} onFocus={buscarProduto} style={{ width: "60px" }} onKeyDown={enterQuantidade} />
-                                        <img alt="" src="/images/add.png" onClick={salvarDetalhe} />
+                                        {auto ? (
+                                            <input type="number" id="quantidade" value={detalhe.quantidade} style={{ width: "60px", backgroundColor: "#f0f0f0" }} readOnly/>
+                                        ) : (
+                                            <input type="number" id="quantidade" value={detalhe.quantidade} onChange={(e) => setDetalhe({ ...detalhe, quantidade: e.target.value })} onFocus={buscarProduto} style={{ width: "60px" }} onKeyDown={enterQuantidade} />
+                                        )}
+                                        <img alt="+" src="/images/add.png" onClick={salvarDetalhe} />
+                                        <img alt="camera" src="" onClick={scanner} />
                                     </div>
                                 </div>
                                 <div className="campo-lista">
