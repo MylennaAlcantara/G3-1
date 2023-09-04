@@ -30,7 +30,10 @@ export const Coletor = ({ close }) => {
     const [cabecalho, setCabecalho] = useState({
         id: "",
         descricao: "",
-        data_contagem: ""
+        data_contagem: "",
+        id_usuario_insercao: "",
+        id_usuario_edicao: "",
+        excluido: 0
     });
     const [detalhe, setDetalhe] = useState({
         id: "",
@@ -38,7 +41,8 @@ export const Coletor = ({ close }) => {
         gtin: "",
         descricao_produto: "",
         quantidade: "",
-        item: ""
+        item: "",
+        qtd_estoque: ""
     });
     const [detalheEditando, setDetalheEditando] = useState({
         id: "",
@@ -46,7 +50,8 @@ export const Coletor = ({ close }) => {
         gtin: "",
         descricao_produto: "",
         quantidade: "",
-        item: ""
+        item: "",
+        qtd_estoque: ""
     });
 
     useEffect(() => {
@@ -72,7 +77,10 @@ export const Coletor = ({ close }) => {
                     aberto: 1,
                     finalizada: 0,
                     data_finalizada: null,
-                    ip_aberto: ip
+                    ip_aberto: ip,
+                    id_usuario_insercao: parseInt(localStorage.getItem("id")),
+                    id_usuario_edicao: null,
+                    excluido: 0
                 })
             })
                 .then(response => response.json())
@@ -93,8 +101,9 @@ export const Coletor = ({ close }) => {
                     id_contagem: cabecalho.id,
                     gtin: detalhe.gtin,
                     descricao_produto: detalhe.descricao_produto,
-                    quantidade: detalhe.quantidade,
-                    item: item + 1
+                    quantidade: parseFloat(detalhe.quantidade).toFixed(4).replace(",", "."),
+                    item: item + 1,
+                    qtd_estoque: parseFloat(detalhe.qtd_estoque).toFixed(4).replace(",", ".")
                 })
             }).then(response => {
                 if (response.status === 201 || response.status === 200) {
@@ -104,7 +113,8 @@ export const Coletor = ({ close }) => {
                         gtin: detalhe.gtin,
                         descricao_produto: detalhe.descricao_produto,
                         quantidade: detalhe.quantidade,
-                        item: item + 1
+                        item: item + 1,
+                        qtd_estoque: detalhe.qtd_estoque
                     }]);
                     document.getElementById("codigo").focus();
                     document.getElementById("codigo").select();
@@ -122,14 +132,15 @@ export const Coletor = ({ close }) => {
             localStorage.setItem("codigo", detalhe.gtin);
         }
         const codigo = localStorage.getItem("codigo");
+        const tipoSistema = localStorage.getItem("tipoSistema");
         try {
-            const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${codigo}`);
+            const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${tipoSistema}/${codigo}`);
             const data = await response.json();
 
             if (response.status === 200 || response.status === 201) {
                 //setDetalhe({...detalhe, descricao_produto: data.descricaopdv, gtin: data.gtin});
                 setDetalhe((prevDetalhe) => {
-                    return { ...prevDetalhe, descricao_produto: data.descricaopdv, gtin: data.gtin };
+                    return { ...prevDetalhe, descricao_produto: data.descricaopdv, gtin: data.gtin, qtd_estoque: data.qtd_estoque };
                 });
                 localStorage.setItem("produtoEncontrado", true);
             } else {
@@ -138,7 +149,6 @@ export const Coletor = ({ close }) => {
         } catch (error) {
             console.error("Erro ao buscar o produto:", error);
             localStorage.setItem("produtoEncontrado", false);
-            alert("caiu aqui")
         }
     }
     const [estadoAuto, setEstadoAuto] = useState(false);
@@ -203,7 +213,7 @@ export const Coletor = ({ close }) => {
             if (resp.status === 200 || resp.status === 201) {
                 const itemEncontrado = lista.find((item) => item.item === detalheEditando.item);
                 if (itemEncontrado) {
-                    itemEncontrado.quantidade = detalheEditando.quantidade;
+                    itemEncontrado.quantidade = parseFloat(detalheEditando.quantidade).toFixed(4).replace(",", ".");
                 }
                 setEditar(false);
             }
@@ -234,19 +244,21 @@ export const Coletor = ({ close }) => {
     }
 
     function voltar() {
+        const usuario = localStorage.getItem("id");
         setListagem(true);
         setItem(0);
         setDetalhe({});
         setCabecalho({});
         setNovo(false);
         setLista([]);
-        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null`, {
+        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null${usuario}/0`, {
             method: "PUT"
         })
     }
 
     function finalizar() {
-        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/1/${dataAtual}`, {
+        const usuario = localStorage.getItem("id");
+        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/1/${dataAtual}/${usuario}/0`, {
             method: "PUT"
         })
         setListagem(true);
@@ -263,7 +275,7 @@ export const Coletor = ({ close }) => {
             .then((data) => {
                 if (data.aberto == 0) {
                     fetchDetalhes(cabecalho).then(() => {
-                        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null`, { // id/aberto/finalizada/data_finalizada
+                        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null/${cabecalho.id_usuario_insercao}/0`, { // id/aberto/finalizada/data_finalizada
                             method: "PUT"
                         }).then((resp) => {
                             if (resp.status === 201 || resp.status === 200) {
@@ -282,7 +294,7 @@ export const Coletor = ({ close }) => {
                 } else {
                     if (data.ip_aberto == ip) {
                         fetchDetalhes(cabecalho).then(() => {
-                            fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null`, { // id/aberto/finalizada/data_finalizada
+                            fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null/${cabecalho.id_usuario_insercao}/0`, { // id/aberto/finalizada/data_finalizada
                                 method: "PUT"
                             }).then((resp) => {
                                 if (resp.status === 201 || resp.status === 200) {
@@ -383,6 +395,7 @@ export const Coletor = ({ close }) => {
                                                 <th>Código</th>
                                                 <th>Descrição</th>
                                                 <th style={{ width: "100px" }}>Quantidade</th>
+                                                <th>Estoque atual</th>
                                                 <th style={{ width: "100px" }}>Ações</th>
                                             </tr>
                                         </thead>
@@ -393,7 +406,8 @@ export const Coletor = ({ close }) => {
                                                         <td>{index + 1}</td>
                                                         <td>{item.gtin}</td>
                                                         <td>{item.descricao_produto}</td>
-                                                        <td>{item.quantidade}</td>
+                                                        <td>{parseFloat(item.quantidade).toFixed(4).replace(".", ",")}</td>
+                                                        <td>{parseFloat(item.qtd_estoque).toFixed(4).replace(".", ",")}</td>
                                                         <td><img alt="" src="/images/lixeira.png" onClick={cancelarItem.bind(this, item, index)} /> <img alt="" src="/images/editar.png" onClick={editarItem.bind(this, item, index)} /></td>
                                                     </tr>
                                                 )

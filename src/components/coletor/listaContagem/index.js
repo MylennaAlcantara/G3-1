@@ -28,7 +28,9 @@ export const ListaContagem = ({ setCabecalho, abrir }) => {
             id: item.id,
             descricao: item.descricao,
             data_contagem: item.data_contagem,
-            aberto: item.aberto
+            aberto: item.aberto,
+            id_usuario_insercao: item.id_usuario_insercao,
+            id_usuario_edicao: item.id_usuario_edicao
         });
     }
 
@@ -47,6 +49,7 @@ export const ListaContagem = ({ setCabecalho, abrir }) => {
                                 <th>Id</th>
                                 <th>Descrição</th>
                                 <th>Data Inicio</th>
+                                <th>Usuario</th>
                                 <th>Aberta</th>
                                 <th>Finalizada</th>
                             </tr>
@@ -61,6 +64,7 @@ export const ListaContagem = ({ setCabecalho, abrir }) => {
                                         <td>{item.id}</td>
                                         <td>{item.descricao}</td>
                                         <td>{dataMask(item.data_contagem)}</td>
+                                        <td>{item.id_usuario_insercao}</td>
                                         <td>{item.aberto == 0 ? "Não" : "Sim"}</td>
                                         <td>Não</td>
                                     </tr>

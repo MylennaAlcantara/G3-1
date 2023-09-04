@@ -47,6 +47,7 @@ export const AuthProvider = ({children}) => {
                         localStorage.setItem('id', user.id);
                         localStorage.setItem('filial', company);
                         localStorage.setItem('nivel', user.nivelAcesso.id);
+                        localStorage.setItem('tipoSistema', "plusplus");
                         autenticar();
                     }else{
                     alert("Matricula e senha incorreta!");
