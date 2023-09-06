@@ -9,7 +9,7 @@ import { ListaContagem } from "./listaContagem";
 
 
 export const Coletor = ({ close }) => {
-    const { dataMask } = useContext(AuthContext);
+    const { dataMask, user } = useContext(AuthContext);
     const [ip, setIp] = useState();
     const [listagem, setListagem] = useState(true);
 
@@ -120,7 +120,10 @@ export const Coletor = ({ close }) => {
                     document.getElementById("codigo").select();
                     setItem(item + 1);
                     const itensIguais = lista.filter((item)=> item.gtin == detalhe.gtin);
-                    if(itensIguais.length > 0){
+                    const ultimoItem = lista[lista.length-1];
+                    if(itensIguais.length < 50 && ultimoItem.gtin !=detalhe.gtin){
+                        agrupar();
+                    }else if(itensIguais.length >= 50 ){
                         agrupar();
                     }
                     setAdicionado(true);
@@ -373,9 +376,9 @@ export const Coletor = ({ close }) => {
                             ) : (
                                 <input value={cabecalho.descricao ? cabecalho.descricao : ""} onChange={(e) => setCabecalho({ ...cabecalho, descricao: e.target.value })} />
                             )}
-                            <label style={{ fontWeight: "bold" }}>Data:</label>
-                            <label style={{ margin: "0px 10px" }}>{cabecalho.data_contagem ? dataMask(cabecalho.data_contagem) : ""} </label>
+                            <label style={{ fontWeight: "bold" }}>Data: <label style={{fontWeight: "normal"}}>{cabecalho.data_contagem ? dataMask(cabecalho.data_contagem) : ""}</label></label>
                             {!novo && <button onClick={salvarCabecalho}><img alt="" src="/images/add.png" />Criar</button>}
+                            <label style={{fontWeight: "bold", marginLeft: 10}}>Usuario: <label style={{fontWeight: "normal"}}>{user.map(user => user.id + " - " + user.nome )}</label></label>
                         </div>
                         {novo ? (
                             <>
