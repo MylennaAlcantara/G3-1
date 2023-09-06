@@ -21,7 +21,8 @@ export const Coletor = ({ close }) => {
 
     const [novo, setNovo] = useState(false);
     const [adicionado, setAdicionado] = useState(false);
-    const produtoEncontrado = localStorage.getItem("produtoEncontrado");
+    const [produtoEncontrado,setProdutoEncontrado] = useState(null);
+    //const produtoEncontrado = localStorage.getItem("produtoEncontrado");
     const [editar, setEditar] = useState(false);
     const [auto, setAuto] = useState(false);
 
@@ -122,11 +123,13 @@ export const Coletor = ({ close }) => {
                     if(itensIguais.length > 0){
                         agrupar();
                     }
+                    setAdicionado(true);
                 } else {
                     console.log("não foi possivel salvar no banco");
                 }
             })
         }
+        localStorage.removeItem("codigo");
         scanner();
     }
 
@@ -141,17 +144,25 @@ export const Coletor = ({ close }) => {
             const data = await response.json();
 
             if (response.status === 200 || response.status === 201) {
-                //setDetalhe({...detalhe, descricao_produto: data.descricaopdv, gtin: data.gtin});
                 setDetalhe((prevDetalhe) => {
                     return { ...prevDetalhe, descricao_produto: data.descricaopdv, gtin: data.gtin, qtd_estoque: data.qtd_estoque };
                 });
-                localStorage.setItem("produtoEncontrado", true);
+                //localStorage.setItem("produtoEncontrado", true);
+                setProdutoEncontrado(true);
             } else {
-                localStorage.setItem("produtoEncontrado", false);
+                //localStorage.setItem("produtoEncontrado", false);
+                setDetalhe((prevDetalhe) => {
+                    return { ...prevDetalhe, descricao_produto: "", gtin: codigo, qtd_estoque: "" };
+                });
+                setProdutoEncontrado(false);
             }
         } catch (error) {
             console.error("Erro ao buscar o produto:", error);
-            localStorage.setItem("produtoEncontrado", false);
+            //localStorage.setItem("produtoEncontrado", false);
+            setDetalhe((prevDetalhe) => {
+                return { ...prevDetalhe, descricao_produto: "", gtin: codigo, qtd_estoque: "" };
+            });
+            setProdutoEncontrado(false);
         }
     }
 
@@ -176,6 +187,8 @@ export const Coletor = ({ close }) => {
             if (auto) {
                 await buscarProduto();
                 setEstadoAuto(!estadoAuto)
+            }else{
+                setDetalhe({...detalhe, gtin: result});
             }
         }
 
@@ -367,7 +380,7 @@ export const Coletor = ({ close }) => {
                         {novo ? (
                             <>
                                 <div id="reader" />
-                                {adicionado === true ? (
+                                {produtoEncontrado === true && adicionado === true ? (
                                     <div className="produto-add">
                                         <label>{detalhe.descricao_produto} * {detalhe.quantidade}</label>
                                     </div>
@@ -376,7 +389,7 @@ export const Coletor = ({ close }) => {
                                     <div className="produto-add" style={{ color: "red" }}>
                                         <label>PRODUTO NÃO ENCONTRADO</label>
                                     </div>
-                                ) : null}
+                                ):null}
                                 <div className="campos-add">
                                     <div style={{ display: "flex", alignItems: "start", margin: "20px" }}>
                                         <label>Contagem</label>
