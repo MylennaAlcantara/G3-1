@@ -21,7 +21,6 @@ export const Coletor = ({ close }) => {
 
     const [novo, setNovo] = useState(false);
     const [adicionado, setAdicionado] = useState(false);
-    //const [produtoEncontrado, setProdutoEncontrado] = useState(false);
     const produtoEncontrado = localStorage.getItem("produtoEncontrado");
     const [editar, setEditar] = useState(false);
     const [auto, setAuto] = useState(false);
@@ -119,8 +118,12 @@ export const Coletor = ({ close }) => {
                     document.getElementById("codigo").focus();
                     document.getElementById("codigo").select();
                     setItem(item + 1);
+                    const itensIguais = lista.filter((item)=> item.gtin == detalhe.gtin);
+                    if(itensIguais.length > 0){
+                        agrupar();
+                    }
                 } else {
-                    console.log("não foi possivel salvar no banco")
+                    console.log("não foi possivel salvar no banco");
                 }
             })
         }
@@ -151,6 +154,7 @@ export const Coletor = ({ close }) => {
             localStorage.setItem("produtoEncontrado", false);
         }
     }
+
     const [estadoAuto, setEstadoAuto] = useState(false);
 
     //Função para iniciar o scanner, ao iniciar quando encontrar um codigo ele irá pegar o codigo e fechar o scanner
@@ -181,7 +185,7 @@ export const Coletor = ({ close }) => {
     }
     useEffect(() => {
         salvarDetalhe();
-    }, [estadoAuto])
+    }, [estadoAuto]);
 
     //Função para cancelar o item na lista e no banco
     async function cancelarItem(item, index) {
@@ -219,6 +223,11 @@ export const Coletor = ({ close }) => {
             }
         })
     }
+    
+    async function agrupar (){
+        await fetch(`http://10.0.1.107:8091/coletor/detalhe/ajustaContagem/${cabecalho.id}`);
+        await fetchDetalhes();
+    }
 
     // Atalhos na tecla Enter
     function enterCodigo(e) {
@@ -243,15 +252,16 @@ export const Coletor = ({ close }) => {
         setItem(0);
     }
 
-    function voltar() {
+    async function voltar() {
         const usuario = localStorage.getItem("id");
+        await agrupar();
         setListagem(true);
         setItem(0);
         setDetalhe({});
         setCabecalho({});
         setNovo(false);
         setLista([]);
-        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null${usuario}/0`, {
+        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null/${usuario}/0`, {
             method: "PUT"
         })
     }
@@ -315,6 +325,7 @@ export const Coletor = ({ close }) => {
                     }
                 }
             });
+            await agrupar();
     }
 
     async function fetchDetalhes() {
@@ -356,7 +367,7 @@ export const Coletor = ({ close }) => {
                         {novo ? (
                             <>
                                 <div id="reader" />
-                                {adicionado && produtoEncontrado === true ? (
+                                {adicionado === true ? (
                                     <div className="produto-add">
                                         <label>{detalhe.descricao_produto} * {detalhe.quantidade}</label>
                                     </div>
