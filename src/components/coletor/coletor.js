@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Content = styled.div`
     width: 100%;
-    height: 90%;
+    height: 80%;
     overflow: auto;
     img{
         width: 20px;
@@ -96,9 +96,10 @@ export const Content = styled.div`
             margin-top: 10%;
             margin-left: auto;
             margin-right: auto;
-            height: 250px;
             display: flex;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
         .produto-add{
             label{
@@ -149,5 +150,25 @@ export const Editar = styled.div`
             width: 30px;
             height: 30px; 
         }
+    }
+`
+
+export const NaviBar = styled.div`
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    button{
+        background-color: #f0f0f0;
+        height: 30px;
+        border-radius: 5px 5px 0 0;
+        border: 1px solid gray;
+        border-bottom: none;
+        padding: 0 5px;
+    }
+    button:hover{
+        cursor: pointer;
+        background-color: white;
     }
 `

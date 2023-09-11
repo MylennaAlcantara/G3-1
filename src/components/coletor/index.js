@@ -6,6 +6,7 @@ import { Html5QrcodeScanner } from "html5-qrcode";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/Auth/authContext";
 import { ListaContagem } from "./listaContagem";
+import { BuscaPreco } from "./buscaPreco";
 
 
 export const Coletor = ({ close }) => {
@@ -22,10 +23,11 @@ export const Coletor = ({ close }) => {
     const [novo, setNovo] = useState(false);
     const [adicionado, setAdicionado] = useState(false);
     const [produtoEncontrado,setProdutoEncontrado] = useState(null);
-    //const produtoEncontrado = localStorage.getItem("produtoEncontrado");
+    const [mensagem, setMensagem] = useState("Abra a câmera para ler o codigo!");
     const [editar, setEditar] = useState(false);
     const [auto, setAuto] = useState(false);
 
+    const [aba, setAba] = useState("balanco");
     const [lista, setLista] = useState([]);
     const [cabecalho, setCabecalho] = useState({
         id: "",
@@ -157,6 +159,7 @@ export const Coletor = ({ close }) => {
                 setDetalhe((prevDetalhe) => {
                     return { ...prevDetalhe, descricao_produto: "", gtin: codigo, qtd_estoque: "" };
                 });
+                setMensagem("PRODUTO NÃO ENCONTRADO!");
                 setProdutoEncontrado(false);
             }
         } catch (error) {
@@ -165,6 +168,7 @@ export const Coletor = ({ close }) => {
             setDetalhe((prevDetalhe) => {
                 return { ...prevDetalhe, descricao_produto: "", gtin: codigo, qtd_estoque: "" };
             });
+            setMensagem("PRODUTO NÃO ENCONTRADO!");
             setProdutoEncontrado(false);
         }
     }
@@ -187,6 +191,7 @@ export const Coletor = ({ close }) => {
         async function success(result) {
             scanner.clear();
             localStorage.setItem("codigo", result);
+            window.navigator.vibrate(200)
             if (auto) {
                 await buscarProduto();
                 setEstadoAuto(!estadoAuto)
@@ -362,125 +367,135 @@ export const Coletor = ({ close }) => {
             <C.Container>
                 <C.Header>
                     <h3>Coletor</h3>
+                    <button onClick={close} className="close">X</button>
                 </C.Header>
-                {listagem ? (
-                    <ListaContagem setCabecalho={setCabecalho} abrir={abrir} />
-                ) : (
-                    <CO.Content>
-                        <div className="cabecalho">
-                            <label style={{ fontWeight: "bold" }}>Código:</label>
-                            <label style={{ marginLeft: "5px", fontWeight: "bold" }}>{cabecalho.id ? cabecalho.id : ""}</label>
-                            <label style={{ margin: "0px 10px", fontWeight: "bold" }}>Descrição:</label>
+                <CO.NaviBar>
+                    <button onClick={()=> setAba("balanco")} style={{backgroundColor: aba === "balanco" ? "white" : ""}}>Balanço</button>
+                    <button onClick={()=> setAba("preco")} style={{backgroundColor: aba === "preco" ? "white" : ""}}>Busca preço</button>
+                </CO.NaviBar>
+                {aba === "balanco" ? (
+                    listagem ? (
+                        <ListaContagem setCabecalho={setCabecalho} abrir={abrir} />
+                    ) : (
+                        <CO.Content>
+                            <div className="cabecalho">
+                                <label style={{ fontWeight: "bold" }}>Código:</label>
+                                <label style={{ marginLeft: "5px", fontWeight: "bold" }}>{cabecalho.id ? cabecalho.id : ""}</label>
+                                <label style={{ margin: "0px 10px", fontWeight: "bold" }}>Descrição:</label>
+                                {novo ? (
+                                    <input value={cabecalho.descricao ? cabecalho.descricao : ""} style={{ backgroundColor: "#f0f0f0" }} readOnly />
+                                ) : (
+                                    <input value={cabecalho.descricao ? cabecalho.descricao : ""} onChange={(e) => setCabecalho({ ...cabecalho, descricao: e.target.value })} />
+                                )}
+                                <label style={{ fontWeight: "bold" }}>Data: <label style={{fontWeight: "normal"}}>{cabecalho.data_contagem ? dataMask(cabecalho.data_contagem) : ""}</label></label>
+                                {!novo && <button onClick={salvarCabecalho}><img alt="" src="/images/add.png" />Criar</button>}
+                                <label style={{fontWeight: "bold", marginLeft: 10}}>Usuario: <label style={{fontWeight: "normal"}}>{user.map(user => user.id + " - " + user.nome )}</label></label>
+                            </div>
                             {novo ? (
-                                <input value={cabecalho.descricao ? cabecalho.descricao : ""} style={{ backgroundColor: "#f0f0f0" }} readOnly />
-                            ) : (
-                                <input value={cabecalho.descricao ? cabecalho.descricao : ""} onChange={(e) => setCabecalho({ ...cabecalho, descricao: e.target.value })} />
-                            )}
-                            <label style={{ fontWeight: "bold" }}>Data: <label style={{fontWeight: "normal"}}>{cabecalho.data_contagem ? dataMask(cabecalho.data_contagem) : ""}</label></label>
-                            {!novo && <button onClick={salvarCabecalho}><img alt="" src="/images/add.png" />Criar</button>}
-                            <label style={{fontWeight: "bold", marginLeft: 10}}>Usuario: <label style={{fontWeight: "normal"}}>{user.map(user => user.id + " - " + user.nome )}</label></label>
-                        </div>
-                        {novo ? (
-                            <>
-                                <div id="reader" />
-                                {produtoEncontrado === true && adicionado === true ? (
-                                    <div className="produto-add">
-                                        <label>{detalhe.descricao_produto} * {detalhe.quantidade}</label>
+                                <>
+                                    <div id="reader" />
+                                    {produtoEncontrado === true && adicionado === true ? (
+                                        <div className="produto-add">
+                                            <label>{detalhe.descricao_produto} * {detalhe.quantidade}</label>
+                                        </div>
+                                    ) : null}
+                                    {produtoEncontrado === false ? (
+                                        <div className="produto-add" style={{ color: "red" }}>
+                                            <label>{mensagem}</label>
+                                        </div>
+                                    ):null}
+                                    <div className="campos-add">
+                                        <div style={{ display: "flex", alignItems: "start", margin: "20px" }}>
+                                            <label>Contagem</label>
+                                            <img alt="" src="/images/botao.png" onClick={() => { setAuto(!auto); setDetalhe({ ...detalhe, quantidade: 1 }) }} className={auto ? "auto" : ""} style={{ margin: "auto 5px 0px 5px" }} />
+                                            <label>Auto</label>
+                                        </div>
+                                        <div style={{ display: "flex", alignItems: "center" }}>
+                                            <label>Código: </label>
+                                            <input id="codigo" value={detalhe.gtin} onChange={(e) => setDetalhe({ ...detalhe, gtin: e.target.value })} onFocus={() => setAdicionado(false)} onKeyDown={enterCodigo} />
+                                        </div>
+                                        <div style={{ display: "flex", alignItems: "center" }}>
+                                            <label>Quantidade: </label>
+                                            {auto ? (
+                                                <input type="number" id="quantidade" value={detalhe.quantidade} style={{ width: "60px", backgroundColor: "#f0f0f0" }} readOnly />
+                                            ) : (
+                                                <input type="number" id="quantidade" value={detalhe.quantidade} onChange={(e) => setDetalhe({ ...detalhe, quantidade: e.target.value })} onFocus={buscarProduto} style={{ width: "60px" }} onKeyDown={enterQuantidade} />
+                                            )}
+                                            <img alt="+" src="/images/add.png" onClick={salvarDetalhe} />
+                                            <img alt="camera" src="/images/camera.png" onClick={scanner} />
+                                        </div>
                                     </div>
-                                ) : null}
-                                {produtoEncontrado === false ? (
-                                    <div className="produto-add" style={{ color: "red" }}>
-                                        <label>PRODUTO NÃO ENCONTRADO</label>
+                                    <div className="campo-lista">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Código</th>
+                                                    <th>Descrição</th>
+                                                    <th style={{ width: "100px" }}>Quantidade</th>
+                                                    <th>Estoque atual</th>
+                                                    <th style={{ width: "100px" }}>Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {lista.map((item, index) => {
+                                                    return (
+                                                        <tr key={index + 1}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{item.gtin}</td>
+                                                            <td>{item.descricao_produto}</td>
+                                                            <td>{parseFloat(item.quantidade).toFixed(4).replace(".", ",")}</td>
+                                                            <td>{parseFloat(item.qtd_estoque).toFixed(4).replace(".", ",")}</td>
+                                                            <td><img alt="" src="/images/lixeira.png" onClick={cancelarItem.bind(this, item, index)} /> <img alt="" src="/images/editar.png" onClick={editarItem.bind(this, item, index)} /></td>
+                                                        </tr>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
                                     </div>
-                                ):null}
-                                <div className="campos-add">
-                                    <div style={{ display: "flex", alignItems: "start", margin: "20px" }}>
-                                        <label>Contagem</label>
-                                        <img alt="" src="/images/botao.png" onClick={() => { setAuto(!auto); setDetalhe({ ...detalhe, quantidade: 1 }) }} className={auto ? "auto" : ""} style={{ margin: "auto 5px 0px 5px" }} />
-                                        <label>Auto</label>
-                                    </div>
-                                    <div style={{ display: "flex", alignItems: "center" }}>
-                                        <label>Código: </label>
-                                        <input id="codigo" value={detalhe.gtin} onChange={(e) => setDetalhe({ ...detalhe, gtin: e.target.value })} onFocus={() => setAdicionado(false)} onKeyDown={enterCodigo} />
-                                    </div>
-                                    <div style={{ display: "flex", alignItems: "center" }}>
-                                        <label>Quantidade: </label>
-                                        {auto ? (
-                                            <input type="number" id="quantidade" value={detalhe.quantidade} style={{ width: "60px", backgroundColor: "#f0f0f0" }} readOnly />
-                                        ) : (
-                                            <input type="number" id="quantidade" value={detalhe.quantidade} onChange={(e) => setDetalhe({ ...detalhe, quantidade: e.target.value })} onFocus={buscarProduto} style={{ width: "60px" }} onKeyDown={enterQuantidade} />
-                                        )}
-                                        <img alt="+" src="/images/add.png" onClick={salvarDetalhe} />
-                                        <img alt="camera" src="/images/camera.png" onClick={scanner} />
-                                    </div>
-                                </div>
-                                <div className="campo-lista">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>Item</th>
-                                                <th>Código</th>
-                                                <th>Descrição</th>
-                                                <th style={{ width: "100px" }}>Quantidade</th>
-                                                <th>Estoque atual</th>
-                                                <th style={{ width: "100px" }}>Ações</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {lista.map((item, index) => {
-                                                return (
-                                                    <tr key={index + 1}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{item.gtin}</td>
-                                                        <td>{item.descricao_produto}</td>
-                                                        <td>{parseFloat(item.quantidade).toFixed(4).replace(".", ",")}</td>
-                                                        <td>{parseFloat(item.qtd_estoque).toFixed(4).replace(".", ",")}</td>
-                                                        <td><img alt="" src="/images/lixeira.png" onClick={cancelarItem.bind(this, item, index)} /> <img alt="" src="/images/editar.png" onClick={editarItem.bind(this, item, index)} /></td>
-                                                    </tr>
-                                                )
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                {editar ? (
-                                    <M.Modal>
-                                        <CO.Editar>
-                                            <C.Header>
-                                                <h4>Editando Item {detalheEditando.item}</h4>
-                                                <div className="buttons">
-                                                    <button className="close" onClick={() => setEditar(false)}>X</button>
+                                    {editar ? (
+                                        <M.Modal>
+                                            <CO.Editar>
+                                                <C.Header>
+                                                    <h4>Editando Item {detalheEditando.item}</h4>
+                                                    <div className="buttons">
+                                                        <button className="close" onClick={() => setEditar(false)}>X</button>
+                                                    </div>
+                                                </C.Header>
+                                                <h3>{detalheEditando.descricao_produto}</h3>
+                                                <div className="editar">
+                                                    <label style={{ fontWeight: "bold" }}>Gtin: </label>
+                                                    <label style={{ marginLeft: "5px" }}>{detalheEditando.gtin}</label>
                                                 </div>
-                                            </C.Header>
-                                            <h3>{detalheEditando.descricao_produto}</h3>
-                                            <div className="editar">
-                                                <label style={{ fontWeight: "bold" }}>Gtin: </label>
-                                                <label style={{ marginLeft: "5px" }}>{detalheEditando.gtin}</label>
-                                            </div>
-                                            <div className="editar">
-                                                <label>Quantidade: </label>
-                                                <input type="number" value={detalheEditando.quantidade} onChange={(e) => setDetalheEditando({ ...detalheEditando, quantidade: e.target.value })} style={{ width: "60px" }} />
-                                                <img alt="" src="/images/add.png" onClick={editarDetalhe} />
-                                            </div>
-                                        </CO.Editar>
-                                    </M.Modal>
-                                ) : null}
-                            </>
-                        ) : null}
-                    </CO.Content>
+                                                <div className="editar">
+                                                    <label>Quantidade: </label>
+                                                    <input type="number" value={detalheEditando.quantidade} onChange={(e) => setDetalheEditando({ ...detalheEditando, quantidade: e.target.value })} style={{ width: "60px" }} />
+                                                    <img alt="" src="/images/add.png" onClick={editarDetalhe} />
+                                                </div>
+                                            </CO.Editar>
+                                        </M.Modal>
+                                    ) : null}
+                                </>
+                            ) : null}
+                        </CO.Content>
+                    )
+                ):(
+                    <BuscaPreco/>
                 )}
+
                 <C.Footer>
-                    {listagem ? (
+                    {listagem && aba === "balanco" ? (
                         <div className="buttons">
                             <button onClick={novaContagem}><img alt="" src="/images/add.png" />Novo</button>
                             <button onClick={abrir}><img alt="" src="/images/abrir.png" />Abrir</button>
                             <button onClick={close}><img alt="" src="/images/voltar.png" />Voltar</button>
                         </div>
-                    ) : (
+                    ) : aba === "balanco" ? (
                         <div className="buttons">
                             <button onClick={finalizar}><img alt="" src="/images/check.png" />Finalizar</button>
                             <button onClick={voltar}><img alt="" src="/images/voltar.png" />Voltar</button>
                         </div>
-                    )}
+                    ) : null}
                 </C.Footer>
             </C.Container>
         </M.Modal>

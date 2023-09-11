@@ -2,24 +2,26 @@ import styled from "styled-components";
 
 export const Content = styled.div`
     width: 100%;
-    height: 85%;
-    margin-top: 10px;
+    height: 80%;
+    border-top: 1px solid grey;
+    img{
+        width: 20px;
+        height: 20px;
+        margin: 5px auto 5px 0;
+    }
+    img:hover{
+        cursor: pointer;
+    }
     .table-responsive{
-        width: 95%;
+        width: 90%;
         height: auto;
         margin: auto;
         display: flex;
         flex-direction: column;
-        align-items: end;
+        align-items: start;
         justify-content: start;
-        img{
-            width: 20px;
-            height: 20px;
-            margin-bottom: 5px;
-        }
-        img:hover{
-            cursor: pointer;
-        }
+        overflow: auto;
+
         table{
             border-collapse: collapse;
             width: 100%;

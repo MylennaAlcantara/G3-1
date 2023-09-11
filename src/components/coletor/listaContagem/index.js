@@ -41,8 +41,9 @@ export const ListaContagem = ({ setCabecalho, abrir }) => {
                     <Loading />
                 </div>
             ) : (
+                <>
+                <img alt="lupa" src="/images/LUPA.png" onClick={fetchContagensPendentes}/>
                 <div className="table-responsive">
-                    <img alt="lupa" src="/images/LUPA.png" onClick={fetchContagensPendentes}/>
                     <table>
                         <thead>
                             <tr>
@@ -73,6 +74,7 @@ export const ListaContagem = ({ setCabecalho, abrir }) => {
                         </tbody>
                     </table>
                 </div>
+                </>
             )}
         </L.Content>
     )
