@@ -26,6 +26,7 @@ export const Coletor = ({ close }) => {
     const [mensagem, setMensagem] = useState("Abra a câmera para ler o codigo!");
     const [editar, setEditar] = useState(false);
     const [auto, setAuto] = useState(false);
+    const [excluido, setExcluido] = useState(false);
 
     const [aba, setAba] = useState("balanco");
     const [lista, setLista] = useState([]);
@@ -282,14 +283,24 @@ export const Coletor = ({ close }) => {
         setCabecalho({});
         setNovo(false);
         setLista([]);
-        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null/${usuario}/0`, {
+        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
             method: "PUT"
         })
     }
 
+    async function excluir(){
+        const usuario = localStorage.getItem("id");
+        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
+            method: "PUT"
+        })
+    }
+    useEffect(()=>{
+        excluir();
+    },[excluido])
+
     function finalizar() {
         const usuario = localStorage.getItem("id");
-        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/1/${dataAtual}/${usuario}/0`, {
+        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/1/${dataAtual}/${usuario}/${excluido ? 1 : 0}`, {
             method: "PUT"
         })
         setListagem(true);
@@ -367,7 +378,9 @@ export const Coletor = ({ close }) => {
             <C.Container>
                 <C.Header>
                     <h3>Coletor</h3>
-                    <button onClick={close} className="close">X</button>
+                    <div className="buttons">
+                        <button className="close" onClick={close}>X</button>
+                    </div>
                 </C.Header>
                 <CO.NaviBar>
                     <button onClick={()=> setAba("balanco")} style={{backgroundColor: aba === "balanco" ? "white" : ""}}>Balanço</button>
@@ -390,6 +403,8 @@ export const Coletor = ({ close }) => {
                                 <label style={{ fontWeight: "bold" }}>Data: <label style={{fontWeight: "normal"}}>{cabecalho.data_contagem ? dataMask(cabecalho.data_contagem) : ""}</label></label>
                                 {!novo && <button onClick={salvarCabecalho}><img alt="" src="/images/add.png" />Criar</button>}
                                 <label style={{fontWeight: "bold", marginLeft: 10}}>Usuario: <label style={{fontWeight: "normal"}}>{user.map(user => user.id + " - " + user.nome )}</label></label>
+                                {novo && <input type="checkbox" onChange={(e)=> setExcluido(e.target.checked)} checked={excluido}/> }
+                                {novo && <label>Excluir</label>}
                             </div>
                             {novo ? (
                                 <>
