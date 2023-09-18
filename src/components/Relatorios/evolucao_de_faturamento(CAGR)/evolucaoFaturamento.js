@@ -299,9 +299,7 @@ export const EvolucaoFaturamento = () => {
                             <label>Dashboards</label>
 
                             <button className='dashboardBtn' ><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
-
                         </div>
-
 
                         <div className='table-responsive'>
 
@@ -453,7 +451,6 @@ export const EvolucaoFaturamento = () => {
 /
         </C.Container>
     )
-
 }
 
 export default EvolucaoFaturamento;
