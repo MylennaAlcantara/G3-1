@@ -429,8 +429,13 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
     function NextAdd(e) {
         if (e.keyCode === 13) {
             e.preventDefault();
-            validarQtd();
-            zerarInput();
+            if(document.getElementById("Total").value !== "" && document.getElementById("quantidade").value !== "" && document.getElementById("valorUnit").value !== "" && document.getElementById("add-item").value !== "" && document.getElementById("add-item2").value !== ""){
+                validarQtd();
+                zerarInput();
+            }else{
+                alert("Preencha todas as infomações antes de adicionar o produto!");
+                zerarInput();
+            }
         }
     }
     function NextPoduto(e) {
