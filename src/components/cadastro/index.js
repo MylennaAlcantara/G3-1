@@ -752,7 +752,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                             value={String(descontoValor).replace('.', ',').replace('NaN', '')} />
                     </div>
                     <div className="desconto">
-                        <label>Total item: </label>
+                        <label>Total: </label>
                         <input
                             type="text"
                             name="valor_total"
@@ -761,7 +761,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                             style={{ outline: 0, color: "black" }}
                             disabled
                             required />
-                        <label>Subtotal</label>
+                        <label>Subtotal:</label>
                         <input
                             name='subtotal'
                             id="subtotal"
@@ -784,7 +784,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                             readOnly
                             required />
                     </div>
-                    {showButton ? <button onSubmit={validarQtd}>Adicionar</button> : null}
+                    {showButton ? <button onSubmit={validarQtd}><img alt="" src="/images/add.png"/>Adicionar</button> : null}
 
                 </form>
             </C.Add>

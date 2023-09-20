@@ -1,4 +1,4 @@
-import styled from 'styled-components'; 
+import styled from 'styled-components';
 
 export const Container = styled.div`
     margin: auto;
@@ -35,6 +35,7 @@ export const Container = styled.div`
         align-items: end;
         justify-content: space-between;
         margin: auto;
+        overflow: auto;
     }
 `;
 
@@ -212,8 +213,8 @@ export const Info = styled.div`
        margin: 0 10px ;
     }
 
-    @media (max-width: 425px){
-        height: 45vh;
+    @media (max-width: 460px){
+        height: 50%;
             form{
                 display: block;
                 margin-left: 0;
@@ -241,12 +242,15 @@ export const Info = styled.div`
             
         
         .information{
+            label{
+                margin-right: auto;
+            }
             .cpf{
                 height: 24px;
                 border: none;
                 background-color: #D9D9D9;
                 box-shadow: 0 3px 5px gray;
-                width: 50%;
+                width: 95%;
             }
             div{
                 width: 100%;
@@ -308,7 +312,7 @@ export const Info = styled.div`
     }
 `;
 export const Add = styled.div`
-    height: 8vh;
+    height: 8%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -351,29 +355,38 @@ export const Add = styled.div`
     }
 
     @media (max-width: 1440px){
-        height: 15vh;
+        height: 15%;
     }
-    @media (max-width: 425px){
-        height: 40vh;
+    @media (max-width: 460px){
+        height: 40%;
         form{
             display: block;
             align-items: end;
         }
         div{
-            width: 40vw;
+            label{
+                margin-right: auto;
+            }
+            width: 50%;
             justify-content: end;
+            align-items: center;
         }
         .desconto{
             display: flex;
             width: 85%;
         }        
         button{
-            margin-top: 5px;;
+            margin: 10px auto;
             width: 117px;
             height: 33px;
             display: flex;
             justify-content: center;
             align-items: center;
+            img{
+                height: 20px;
+                width: 20px;
+                margin-right: 5px;
+            }
         }
     }
 `
@@ -446,8 +459,8 @@ export const Display = styled.div`
     @media (max-width: 1920px){
         height: 90vw;   
     }
-    @media (max-width: 425px){
-        height: 20%;
+    @media (max-width: 460px){
+        height: 40%;
         width: 100%;
         .table-response{
             overflow-x: auto;

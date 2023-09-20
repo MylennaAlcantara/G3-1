@@ -56,7 +56,7 @@ export const ListaContagem = ({ setCabecalho, abrir }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cabecalhos.map((item, index) => {
+                            {Array.isArray(cabecalhos) && cabecalhos.map((item, index) => {
                                 return (
                                     <tr key={item.id}
                                         onClick={selecionado.bind(this, item, index)}

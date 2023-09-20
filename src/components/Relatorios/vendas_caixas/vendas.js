@@ -103,6 +103,10 @@ export const Totais = styled.div`
         .total{
             height: 50px;
         }
+        .pgto-caixa,
+        .caixa-pgto{
+            height: 200px;
+        }
     }
 `
 export const Graficos = styled.div`

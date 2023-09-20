@@ -27,10 +27,15 @@ export const Container = styled.div`
         height: 80vh;
         width: 95vw;   
     }
-    @media (max-width: 425px){
-        height: 93%;
+    @media (max-width: 460px){
         width: 95%;
-        margin-bottom: 0px;
+        height: 80%;
+        position: relative;
+        display: block;
+        align-items: end;
+        justify-content: space-between;
+        margin: auto;
+        overflow: auto;
     }
 `;
 
@@ -161,15 +166,17 @@ export const Rotinas = styled.div`
     .white{
         background-color: white;
     }
-    
+    @media (max-width: 460px){
+        height: 60%;
+    }
 `;
 
 export const Footer = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    position: sticky;
-    bottom: 0;
+    //position: sticky;
+    //bottom: 0;
     .yellow{
         height: 20px;
         width: 20px;
