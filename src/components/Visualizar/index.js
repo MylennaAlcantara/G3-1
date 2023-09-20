@@ -6,7 +6,7 @@ import { rotinaPDF } from "../Relatorios/rotinaPDF";
 
 export const Visualizar = ({ codRotina }) => {
     const navigate = useNavigate();
-    const { user, empresa } = useContext(AuthContext);
+    const { user, empresa, dataMask } = useContext(AuthContext);
     const [rotinas, setRotinas] = useState({ pre_venda_detalhe: [] });
     const [emitente, setEmitente] = useState([]);
     const [top, setTop] = useState([]);
@@ -85,7 +85,7 @@ export const Visualizar = ({ codRotina }) => {
         if (codRotina === undefined) {
             console.log('Nenhuma rotina selecionada');
         } else {
-            rotinaPDF(rotinas, vendedor, parceiro, tipoPagamento, emitente, horaImpressao);
+            rotinaPDF(rotinas, vendedor, parceiro, tipoPagamento, emitente, horaImpressao, dataMask);
         }
     }
 
@@ -315,8 +315,8 @@ export const Visualizar = ({ codRotina }) => {
                     </div>
                 </form>
                 <div className="buttons">
-                    <button onClick={imprimir}><img src="/images/printer.png" />Imprimir</button>
-                    <button className="Voltar" onClick={voltar}><img src="/images/voltar.png" />Voltar</button>
+                    <button onClick={imprimir}><img alt="imprimir" src="/images/printer.png" />Imprimir</button>
+                    <button className="Voltar" onClick={voltar}><img alt="voltar" src="/images/voltar.png" />Voltar</button>
                 </div>
             </C.Footer>
         </C.Container>

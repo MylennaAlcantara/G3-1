@@ -12,7 +12,7 @@ import { rotinaPDF } from "../Relatorios/rotinaPDF";
 
 export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMinimizado }) => {
     const navigate = useNavigate();
-    const { autenticar, user, empresa, company, cnpjMask } = useContext(AuthContext);
+    const { autenticar, user, empresa, company, cnpjMask, dataMask } = useContext(AuthContext);
 
     const [rotinas, setRotinas] = useState({});
     const [emitente, setEmitente] = useState([]);
@@ -633,7 +633,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         if (codRotina === undefined) {
             console.log('Nenhuma rotina selecionada');
         } else {
-            rotinaPDF(rotinas, vendedor, parceiro, tipoPagamento, emitente, horaImpressao);
+            rotinaPDF(rotinas, vendedor, parceiro, tipoPagamento, emitente, horaImpressao, dataMask);
         }
     }
 
@@ -1013,10 +1013,10 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                     </div>
                 </form>
                 <div className="buttons">
-                    <button className="liberar" id="submit" onClick={handleSubmit}><img src="/images/salvar.png" />Liberar</button>
-                    <button onClick={imprimir}><img src="/images/printer.png" />Imprimir</button>
-                    <button className="Excluir" onClick={excluir}><img src="/images/lixeira.png" />Excluir</button>
-                    <button className="Voltar" onClick={Voltar}><img src="/images/voltar.png" />Voltar</button>
+                    <button className="liberar" id="submit" onClick={handleSubmit}><img alt="salvar" src="/images/salvar.png" />Liberar</button>
+                    <button onClick={imprimir}><img alt="imprimir" src="/images/printer.png" />Imprimir</button>
+                    <button className="Excluir" onClick={excluir}><img alt="excluir" src="/images/lixeira.png" />Excluir</button>
+                    <button className="Voltar" onClick={Voltar}><img alt="voltar" src="/images/voltar.png" />Voltar</button>
                 </div>
             </C.Footer>
             {isModalPartner ? (

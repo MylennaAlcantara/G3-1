@@ -2,7 +2,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
 
-export function rotinaPDF (rotina, vendedor, parceiro, tipoPagamento, emitente, horaImpressao){
+export function rotinaPDF (rotina, vendedor, parceiro, tipoPagamento, emitente, horaImpressao, dataMask){
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     const descricaoParceiro = parceiro.filter((idParceiro) => {
         if(rotina.id_cliente === idParceiro.id){
@@ -64,7 +64,7 @@ export function rotinaPDF (rotina, vendedor, parceiro, tipoPagamento, emitente, 
                     ],
                     [
                         {text: descricaoEmitente.map((item) => item.nome_fantasia )+ ' Telefone: 81 99999-9999', fontSize: 10,},
-                        {text: 'Emissão: '+ rotina.dataEmissao, fontSize: 10},
+                        {text: 'Emissão: '+ dataMask(rotina.dataEmissao), fontSize: 10},
                     ],
                     [
                         {text: descricaoEmitente.map((item) => item.razao_social ), fontSize: 10},

@@ -704,7 +704,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                         {dataSelectTop.editar_preco_rotina === true && tipoVenda === 'V' ? (
                             <input
                                 className="add-item"
-                                value={numero2}
+                                value={parseFloat(numero2).toFixed(2).replace(".",",")}
                                 name="valor_unitario"
                                 onChange={(e) => setNumero2(e.target.value)}
                                 onBlur={changeHandler}
@@ -854,9 +854,9 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
             </C.Footer>
             <C.Footer>
                 <div className="buttons">
-                    <button className="liberar" id="submit" onClick={handleSubmit}><img src="/images/salvar.png" />Liberar</button>
-                    <button className="Excluir"><img src="/images/lixeira.png" />Excluir</button>
-                    <button className="Voltar" onClick={Voltar}><img src="/images/voltar.png" />Voltar</button>
+                    <button className="liberar" id="submit" onClick={handleSubmit}><img alt="salvar" src="/images/salvar.png" />Liberar</button>
+                    <button className="Excluir"><img alt="excluir" src="/images/lixeira.png" />Excluir</button>
+                    <button className="Voltar" onClick={Voltar}><img alt="voltar" src="/images/voltar.png" />Voltar</button>
                 </div>
             </C.Footer>
             {isModalPartner ? (

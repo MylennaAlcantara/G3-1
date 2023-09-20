@@ -111,6 +111,8 @@ export const Rotinas = styled.div`
     align-items: start;
     justify-content: start;
     border: 1px solid black;
+    border-left: none;
+    border-right: none;
     height: 80%;
     width: 100%;
     overflow-x: auto;
@@ -118,6 +120,8 @@ export const Rotinas = styled.div`
         border-collapse: collapse;
         width: 100%;
         border: 1px solid grey;
+        border-left: none;
+        border-right: none;
     }
     thead{
         position: sticky;

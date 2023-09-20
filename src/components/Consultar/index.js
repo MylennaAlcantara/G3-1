@@ -94,7 +94,7 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
     });
 
     //selecionar a rotina atraves da seta para baixo e para cima
-    const [selectIndex, setSelectIndex] = useState(1);
+    const [selectIndex, setSelectIndex] = useState(0);
     const tableRef = useRef(null);
 
     const handleKeyDown = (e) => {
@@ -148,7 +148,9 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
             alert('Rotina esta bloqueada!')
         } else if (rotina.id === codigoRotina && rotina.situacao === 'E') {
             alert('Rotina já emitida!')
-        } else {
+        } else if (rotina.id === codigoRotina && rotina.situacao === 'F'){
+            abrirRotina();
+        }else {
             navigate(`/editarRotina/${codigoRotina}`);
         }
     }
@@ -179,7 +181,7 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
         const tipoPagamento = await responseTipoPagamento.json();
         const responseEmitente = await fetch('http://8b38091fc43d.sn.mynetname.net:2005/emitente/all');
         const Emitente = await responseEmitente.json();
-        rotinaPDF(rotina, vendedor, parceiro, tipoPagamento, Emitente, horaImpressao);
+        rotinaPDF(rotina, vendedor, parceiro, tipoPagamento, Emitente, horaImpressao, dataMask);
         console.log(rotina);
     }
 
@@ -269,7 +271,7 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
                         </div>
                     </div>
                 ) : (
-                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
+                    <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
                         <thead>
                             <tr>
                                 <th>Código</th>
@@ -312,10 +314,10 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
                     <label>Para exibir atalhos pressione [Alt]</label>
                         </div>*/}
                 <div className="botoes">
-                    <button onClick={Novo}><img src="/images/add.png" />Novo</button>
-                    <button onClick={abrirEditar}><img src="/images/abrir.png" />Abrir</button>
-                    <button onClick={imprimir}><img src="/images/printer.png" />Imprimir</button>
-                    <button onClick={() => navigate('/home')}><img src="/images/voltar.png" />Fechar</button>
+                    <button onClick={Novo}><img alt="novo" src="/images/add.png" />Novo</button>
+                    <button onClick={abrirEditar}><img alt="abrir" src="/images/abrir.png" />Abrir</button>
+                    <button onClick={imprimir}><img alt="imprimir" src="/images/printer.png" />Imprimir</button>
+                    <button onClick={() => navigate('/home')}><img alt="voltar" src="/images/voltar.png" />Fechar</button>
                 </div>
                 <div className="indice">
                     <div>
