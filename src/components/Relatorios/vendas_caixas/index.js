@@ -470,13 +470,22 @@ export const VendasCaixa = ({ close }) => {
                                             paddingTop: "20px",
                                         }}
                                     />
-                                    {filtro === "todos" ? (
+                                    {filtro === "todos" && filtroF === "todos" ? (
                                         <Pie data={totalTipoPgto} dataKey="total" nameKey="descricao" cx="50%" cy="50%"
                                             outerRadius={80} fill="#8884d8" activeIndex={activeIndex}
                                             activeShape={renderActiveShape}
                                             onMouseEnter={onPieEnter}
                                         >
                                             {totalTipoPgto && totalTipoPgto.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                            ))}
+                                        </Pie>
+                                    ) : filtro === "todos" && filtroF !== "todos" ? (
+                                        <Pie data={tipoPgtoFilial} dataKey="total" nameKey="descricao" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#82ca9d"
+                                            activeIndex={activeIndex}
+                                            activeShape={renderActiveShape}
+                                            onMouseEnter={onPieEnter} >
+                                            {tipoPgtoFilial && tipoPgtoFilial.map((entry, index) => (
                                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                             ))}
                                         </Pie>
