@@ -14,7 +14,7 @@ export const Visualizar = ({ codRotina }) => {
     const [parceiro, setParceiro] = useState([]);
     const [tipoPagamento, setTipoPagamento] = useState([]);
 
-    const descontoTotal = rotinas.pre_venda_detalhe.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.desconto)), 0);
+    //const descontoTotal = rotinas.pre_venda_detalhe.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.desconto)), 0);
     const totalItens = rotinas.pre_venda_detalhe.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.quantidade)), 0);
 
     useEffect(() => {
@@ -266,6 +266,7 @@ export const Visualizar = ({ codRotina }) => {
                                 <th>Valor Unid.</th>
                                 <th>Subtotal</th>
                                 <th>Desc. R$</th>
+                                <th>Valor total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -281,6 +282,7 @@ export const Visualizar = ({ codRotina }) => {
                                         <td>{String(list.valor_unitario).replace('.', ',')}</td>
                                         <td>{parseFloat(list.subtotal).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')}</td>
                                         <td>{parseFloat(list.desconto).toFixed(2).replace('.', ',')}</td>
+                                        <td>{parseFloat(list.valor_total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')}</td>
                                     </tr>
                                 )
                             })}
@@ -309,7 +311,7 @@ export const Visualizar = ({ codRotina }) => {
                     </div>
                     <div>
                         <label>descontoValor Total(R$): </label>
-                        <input value={parseFloat(descontoTotal).toFixed(2).replace('NaN', '').replace('.', ',')} placeholder="0,000000" style={{ outline: 0 }} disabled readOnly />
+                        <input value={parseFloat(rotinas.desconto).toFixed(2).replace('NaN', '').replace('.', ',')} placeholder="0,000000" style={{ outline: 0 }} disabled readOnly />
                     </div>
                 </form>
                 <div className="buttons">

@@ -131,8 +131,9 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
 
     const valorTotal = String(total).replace(',', '.');
 
-    const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal).replace(",", ".")), 0);
+    const subTotalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal)), 0);
     const descontoTotal = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.desconto).replace(",", ".")), 0);
+    const totalVenda = subTotalVenda - descontoTotal;
 
     //Atualização da lista de itens
     const changeHandler = (e) => {
@@ -267,6 +268,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
         const quantidade = await document.getElementById('quantidade').value;
         const preco = await document.getElementById('valorUnit').value;
         const subtotal = await document.getElementById('subtotal').value;
+        const total = await document.getElementById('Total').value;
         const desconto = await document.getElementById("add-item2").value;
         const descPer = await document.getElementById("add-item").value;
         setDataSelectItem({
@@ -512,11 +514,11 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                         id_funcionario: dataIdSelectSaler,
                         id_tipo_pagamento: dataIdSelectPgt,
                         situacao: dataSelectTop.rotina_movimenta_estoque_real ? 'F' : 'P',
-                        descontoValor: String(descontoValor).replace(",", "."),
+                        desconto: String(descontoTotal).replace(",", "."),
                         dataEmissao: String(dataEmissao),
                         hora_emissao: String(horaEmissao),
                         total: parseFloat(totalVenda).toFixed(2),
-                        subtotal: parseFloat(totalVenda).toFixed(2),
+                        subtotal: parseFloat(subTotalVenda).toFixed(2),
                         valor_extenso: '',
                         observacao_pre_venda: '',
                         tipo_venda: tipoVenda,
@@ -750,7 +752,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                             type="text"
                             name="valor_total"
                             id="Total"
-                            value={String(total).replace('.', ',').replace('NaN', '')}
+                            value={String(subtotal).replace('.', ',').replace('NaN', '')}
                             style={{ outline: 0, color: "black" }}
                             disabled
                             required />
@@ -758,7 +760,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                         <input
                             name='subtotal'
                             id="subtotal"
-                            value={String(subtotal).replace('.', ',').replace('NaN', '')}
+                            value={String(total).replace('.', ',').replace('NaN', '')}
                             style={{ outline: 0, color: "black" }}
                             disabled
                             required />
@@ -795,6 +797,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                                 <th>Valor Unid.</th>
                                 <th>Subtotal</th>
                                 <th>Desc. R$</th>
+                                <th>Valor total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -810,6 +813,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                                         <td>{String(list.valor_unitario).replace('.', ',')}</td>
                                         <td>{parseFloat(list.subtotal).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')}</td>
                                         <td>{parseFloat(list.desconto).toFixed(2).replace('.', ',')}</td>
+                                        <td>{parseFloat(list.valor_total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')}</td>
                                         <img src="/images/lixeira.png" className="button-excluir" onClick={Deletar.bind(this, list, index)} />
                                     </tr>
                                 )
@@ -831,7 +835,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                     </div>
                     <div>
                         <label>Subtotal da Rotina: </label>
-                        <input value={parseFloat(totalVenda).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')} style={{ outline: 0, color: "black" }} disabled />
+                        <input value={parseFloat(subTotalVenda).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')} style={{ outline: 0, color: "black" }} disabled />
                     </div>
                     <div>
                         <label>Total da Rotina: </label>

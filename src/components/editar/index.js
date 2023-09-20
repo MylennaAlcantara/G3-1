@@ -143,7 +143,6 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
     const [listItens, setListItens] = useState(JSON.parse(localStorage.getItem("lista")) || []);
 
     const totalItens = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.quantidade)), 0);
-    const descontoTotal = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.desconto)), 0);
 
     const tamanho = listItens.length;
     const [counter, setCounter] = useState(0);
@@ -354,7 +353,9 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         setDescontoPorcen(calcularPorcentagem());
     }, [numero1, numero2, descontoValor, total, descontoPorcen]);
 
-    const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal)), 0);
+    const subTotalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal)), 0);
+    const descontoTotal = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.desconto)), 0);
+    const totalVenda = subTotalVenda - descontoTotal;
 
     // Funções para abrir o modal de cada campo apertando F2
     function keyProduto(event) {
@@ -559,13 +560,13 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                             nome_cliente: nomeParceiro,
                             id_funcionario: idVendedor,
                             id_tipo_pagamento: idPgto,
-                            situacao: 'P',
-                            descontoValor: '',
+                            situacao:  liberaEstoqueReal ? 'F' : 'P',
+                            desconto:  String(descontoTotal).replace(",", "."),
                             dataEdicao: String(dataEdicao),
                             dataEmissao: String(dataEmissao),
                             hora_emissao: String(horaEmissao),
-                            total: totalVenda,
-                            subtotal: totalVenda,
+                            total: parseFloat(totalVenda).toFixed(2),
+                            subtotal: parseFloat(subTotalVenda).toFixed(2),
                             valor_extenso: '',
                             observacao_pre_venda: '',
                             tipo_venda: tipoVenda,
@@ -690,10 +691,12 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
     });
     const [liberaEstoque, setLiberaEstoque] = useState();
     const [tipoMovimentacao, setTipoMovimentacao] = useState();
+    const [liberaEstoqueReal, setLiberaEstoqueReal] = useState();
     useEffect(() => {
         descricaoTop.map((tp) => {
             setLiberaEstoque(tp.libera_itens_estoque_indisponivel);
             setTipoMovimentacao(tp.tipo_movimentacao);
+            setLiberaEstoqueReal(tp.rotina_movimenta_estoque_real);
         }, [])
     })
 
@@ -909,7 +912,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                             type="text"
                             name="valor_total"
                             id="Total"
-                            value={String(total).replace('.', ',').replace('NaN', '')}
+                            value={String(subtotal).replace('.', ',').replace('NaN', '')}
                             style={{ outline: 0 }}
                             disabled
                             readOnly
@@ -918,7 +921,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                         <input
                             name='subtotal'
                             id="subtotal"
-                            value={String(subtotal).replace('.', ',').replace('NaN', '')}
+                            value={String(total).replace('.', ',').replace('NaN', '')}
                             style={{ outline: 0 }}
                             disabled
                             readOnly
@@ -942,7 +945,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                 </form>
             </C.Add>
             <C.Display>
-                <div className="ttable-responsive">
+                <div className="table-responsive">
                     <table className="table" >
                         <thead>
                             <tr>
@@ -955,6 +958,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                                 <th>Valor Unid.</th>
                                 <th>Subtotal</th>
                                 <th>Desc. R$</th>
+                                <th>Valor total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -970,6 +974,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                                         <td>{String(list.valor_unitario).replace('.', ',')}</td>
                                         <td>{parseFloat(list.subtotal).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')}</td>
                                         <td>{parseFloat(list.desconto).toFixed(2).replace('.', ',')}</td>
+                                        <td>{parseFloat(list.valor_total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')}</td>
                                         <img src="/images/lixeira.png" className="button-excluir" onClick={Deletar.bind(this, list, index)} />
                                     </tr>
                                 )
@@ -991,7 +996,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                     </div>
                     <div>
                         <label>Subtotal da Rotina: </label>
-                        <input value={parseFloat(totalVenda).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')} readOnly />
+                        <input value={parseFloat(subTotalVenda).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')} readOnly />
                     </div>
                     <div>
                         <label>Total da Rotina: </label>
@@ -999,7 +1004,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                     </div>
                     <div>
                         <label>descontoValor Total(R$): </label>
-                        <input value={descontoTotal.toFixed(2).replace('NaN', '').replace('.', ',')} placeholder="0,000000" style={{ outline: 0 }} disabled readOnly />
+                        <input value={parseFloat(descontoTotal).toFixed(2).replace('NaN', '').replace('.', ',')} placeholder="0,000000" style={{ outline: 0 }} disabled readOnly />
                     </div>
                 </form>
                 <div className="buttons">
