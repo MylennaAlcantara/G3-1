@@ -459,6 +459,11 @@ export const Footer = styled.div`
     justify-content: flex-end;
     position: sticky;
     bottom: 0;
+    label{
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;
+    }
     form{
         
         display: flex;
@@ -472,11 +477,6 @@ export const Footer = styled.div`
             background-color: #F0F0F0;
             margin: 3px;
             box-shadow: 0 5px 5px #ABADB3;
-        }
-        label{
-            font-size: 15px;
-            font-weight: bold;
-            color: #373435;
         }
     }
    .buttons{

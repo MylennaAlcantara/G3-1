@@ -96,13 +96,45 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
     const [dataIdSelectPgt, setDataIdSelectPgt] = useState(dadosRotina.pgto.id || '');
 
     const [promocao, setPromocao] = useState([]);
-
-
-    //Atualização da lista de itens
     const [listItens, setListItens] = useState(JSON.parse(localStorage.getItem("lista")) || []);
 
     const [counter, setCounter] = useState(listItens.length + 1);
+    
+    const [tipoVenda, setTipoVenda] = useState('V');
 
+    const totalItens = listItens.length;
+    const totalQtd = listItens.reduce((acumulador, objeto) => {
+        if (objeto.id_produto === dataSelectItem.id_produto) {
+            return acumulador + parseFloat(objeto.quantidade.replace(',', '.'));
+        }
+        return acumulador;
+    }, 0);
+    const [descontoValor, setDescontoValor] = useState('0.00');
+    const [descontoPorcen, setDescontoPorcen] = useState('0,00');
+    const [cor, setCor] = useState('');
+    const [showButton, setShowButton] = useState(false);
+    const [token, setToken] = useState();
+
+    const [numero1, setNumero1] = useState("1.000");
+    const [numero2, setNumero2] = useState('');
+    const [total, setTotal] = useState(0);
+    const [subtotal, setSubtotal] = useState(0);
+
+    const valor1 = String(numero1).replace(",", ".");
+    const valor2 = String(numero2).replace(",", ".");
+
+    //Constante utilizada para exibir o valor com duas casas decimais no valor unitario
+    const valorUnitario = String(dataSelectItem.valor_unitario).replace(".", ",").replace("NaN", " ").replace("undefined", " ");
+
+    //Constante utilizada para converter de virgula para ponto para realizar o calculo de total e subtotal
+    const valorUnita = String(valorUnitario).replace(",", ".");
+
+    const valorTotal = String(total).replace(',', '.');
+
+    const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal).replace(",", ".")), 0);
+    const descontoTotal = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.desconto).replace(",", ".")), 0);
+
+    //Atualização da lista de itens
     const changeHandler = (e) => {
         setDataSelectItem({ ...dataSelectItem, [e.target?.name]: (e.target?.value).replace(',', '.'), item: counter });
     }
@@ -133,13 +165,6 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
     }
 
     //valida se a quantidade inserida no item é valida, se é maior que a quantidade disponivel ou se esta vazio
-    const totalQtd = listItens.reduce((acumulador, objeto) => {
-        if (objeto.id_produto === dataSelectItem.id_produto) {
-            return acumulador + parseFloat(objeto.quantidade.replace(',', '.'));
-        }
-        return acumulador;
-    }, 0)
-
     const validarQtd = () => {
         const soma = parseFloat(numero1.replace(",", ".")) + parseFloat(totalQtd);
         console.log('soma: ' + soma, 'top: ' + dataSelectTop)
@@ -158,10 +183,6 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
     }
 
     //Calcular total da rotina
-    const [descontoValor, setDescontoValor] = useState('0.00');
-    const [descontoPorcen, setDescontoPorcen] = useState('0,00');
-    const [acrescimo, setAcrescimo] = useState();
-
     function valorDescontoPer(e) {
         setDescontoPorcen((e.target.value).replace(",", "."));
         setDataSelectItem({ ...dataSelectItem, [e.target?.name]: e.target?.value, item: counter });
@@ -193,26 +214,11 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
         setDataSelectItem({ ...dataSelectItem, [e.target?.name]: e.target?.value, item: counter });
     }
 
-    // Calcular o valor de quantidade vezes o valor para o total 
-    const [numero1, setNumero1] = useState("1.000");
-    const [numero2, setNumero2] = useState('');
-    const [total, setTotal] = useState(0);
-    const [subtotal, setSubtotal] = useState(0);
-
-    const valor1 = String(numero1).replace(",", ".");
-    const valor2 = String(numero2).replace(",", ".");
-
-    //Constante utilizada para exibir o valor com duas casas decimais no valor unitario
-    const valorUnitario = String(dataSelectItem.valor_unitario).replace(".", ",").replace("NaN", " ").replace("undefined", " ");
-
-    //Constante utilizada para converter de virgula para ponto para realizar o calculo de total e subtotal
-    const valorUnita = String(valorUnitario).replace(",", ".");
-
-    const valorTotal = String(total).replace(',', '.');
-
     const valorUnidade = () => {
         setNumero2(parseFloat(dataSelectItem.valor_unitario).toFixed(2).replace(".", ",").replace("NaN", " ").replace("undefined", " "))
     }
+
+    // Calcular o valor de quantidade vezes o valor para o total 
     const calcular = () => {
         if (dataSelectTop.editar_preco_rotina === true) {
             return parseFloat(parseFloat(valor1) * parseFloat(valor2)).toFixed(2).replace("NaN", " ")//.replace(".", ",");
@@ -269,8 +275,8 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
             valor_total: String(total).replace(",", "."),
             subtotal: (subtotal).replace(",", "."),
             quantidade: quantidade,
-            desconto: desconto.replace(",","."),
-            descontoPorcen: descPer.replace(",",".")
+            desconto: desconto.replace(",", "."),
+            descontoPorcen: descPer.replace(",", ".")
         })
     }
     const validarValor = (e) => {
@@ -306,10 +312,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
         setSubtotal(calcularSubtotal());
         pegarDados();
         setDescontoPorcen(calcularPorcentagem())
-        //validarValor();
     }, [numero1, numero2, descontoValor, total, descontoPorcen]);
-
-    const totalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal).replace(",", ".")), 0);
 
     // Funções para abrir o modal de cada campo apertando F2
     function onKeyUp(event) {
@@ -481,7 +484,6 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
 
 
     //Checar varejo ou atacado
-    const [tipoVenda, setTipoVenda] = useState('V');
 
     const validarTipoVenda = () => {
         if (document.getElementById('varejo').value === 'varejo') {
@@ -495,7 +497,6 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
     }
 
     //envio para a api das informações armazenadas
-    const [cor, setCor] = useState('');
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && listItens.length > 0) {
@@ -510,8 +511,8 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                         nome_cliente: dataSelectPartner,
                         id_funcionario: dataIdSelectSaler,
                         id_tipo_pagamento: dataIdSelectPgt,
-                        situacao: 'P',
-                        descontoValor: '',
+                        situacao: dataSelectTop.rotina_movimenta_estoque_real ? 'F' : 'P',
+                        descontoValor: String(descontoValor).replace(",", "."),
                         dataEmissao: String(dataEmissao),
                         hora_emissao: String(horaEmissao),
                         total: parseFloat(totalVenda).toFixed(2),
@@ -544,8 +545,6 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
         localStorage.removeItem("lista");
     }
 
-
-    const [token, setToken] = useState();
     useEffect(() => {
         const logged = localStorage.getItem('token');
         if (logged) {
@@ -570,8 +569,6 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
 
     }
 
-    const [showButton, setShowButton] = useState(false);
-
     useEffect(() => {
         const handleResize = () => {
             setShowButton(window.innerWidth <= 440);
@@ -591,7 +588,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
         localStorage.setItem("dadosRotina", JSON.stringify(dadosRotina));
         localStorage.setItem("lista", JSON.stringify(listItens));
     }
-    
+
     return (
 
         <C.Container>
@@ -608,7 +605,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                     <form>
                         <div className="codigo">
                             <label>Código da rotina: </label>
-                            <input className="cod" style={{outline: 0, color: "black"}} disabled/>
+                            <input className="cod" style={{ outline: 0, color: "black" }} disabled />
                         </div>
                         <div id="checkbox">
                             <div className="atacado-varejo">
@@ -633,23 +630,23 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                         <div>
                             <label>Emitente: </label>
                             <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} onDoubleClick={() => setIsModalEmitente(true)} value={dataIdSelectEmitente} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} required />
-                            <input name="emitente" className="option" value={dataSelectEmitente} style={{outline: 0, color: "black"}} disabled/>
+                            <input name="emitente" className="option" value={dataSelectEmitente} style={{ outline: 0 }} disabled />
                         </div>
                         <div>
                             <label>T.O.P: </label>
                             <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} onDoubleClick={() => setIsModalTop(true)} value={dataSelectTop.id_top} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} required />
-                            <input name="top" className="option" value={dataSelectTop.descricao}  style={{outline: 0, color: "black"}} disabled/>
+                            <input name="top" className="option" value={dataSelectTop.descricao} style={{ outline: 0 }} disabled />
                         </div>
                         <div>
                             <label>Vendedor: </label>
                             <input name="cod_vendedor" className="f1" id="vendedor" onKeyDown={NextParceiro} onKeyUp={keySaler} onDoubleClick={() => setIsModalSaler(true)} value={dataIdSelectSaler} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} required />
-                            <input name="vendedor" className="option" value={dataSelectSaler}  style={{outline: 0, color: "black"}} disabled/>
+                            <input name="vendedor" className="option" value={dataSelectSaler} style={{ outline: 0 }} disabled />
                         </div>
                         <div>
                             <label>Parceiro: </label>
                             <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} onDoubleClick={() => setIsModalPartner(true)} value={dataIdSelectPartner} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} required />
                             <div className="div-partner">
-                                <input name="partner" className="partner" value={dataSelectPartner}  style={{outline: 0, color: "black"}} disabled/>
+                                <input name="partner" className="partner" value={dataSelectPartner} style={{ outline: 0 }} disabled />
                                 <label>CPF/CNPJ: </label>
                                 <input className="cpf" />
                             </div>
@@ -657,7 +654,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                         <div>
                             <label>Tipo pgto: </label>
                             <input className="f1" id="pgto" onKeyUp={keyPgt} onKeyDown={NextPoduto} onDoubleClick={() => setIsModalPgt(true)} value={dataIdSelectPgt} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} required />
-                            <input id="option_pgto" className="option" value={dataSelectPgt}  style={{outline: 0, color: "black"}} disabled/>
+                            <input id="option_pgto" className="option" value={dataSelectPgt} style={{ outline: 0 }} disabled />
                         </div>
                     </form>
                 </div>
@@ -744,7 +741,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                             onKeyDown={NextAdd}
                             onChange={valorDesconto}
                             onFocus={changeHandler}
-                            onBlur={()=>setDescontoPorcen(calcularPorcentagem())}
+                            onBlur={() => setDescontoPorcen(calcularPorcentagem())}
                             value={String(descontoValor).replace('.', ',').replace('NaN', '')} />
                     </div>
                     <div className="desconto">
@@ -753,16 +750,16 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                             type="text"
                             name="valor_total"
                             id="Total"
-                            value={String(total).replace('.', ',').replace('NaN', '')} 
-                            style={{outline: 0, color: "black"}} 
+                            value={String(total).replace('.', ',').replace('NaN', '')}
+                            style={{ outline: 0, color: "black" }}
                             disabled
                             required />
                         <label>Subtotal</label>
                         <input
                             name='subtotal'
                             id="subtotal"
-                            value={String(subtotal).replace('.', ',').replace('NaN', '')} 
-                            style={{outline: 0, color: "black"}} 
+                            value={String(subtotal).replace('.', ',').replace('NaN', '')}
+                            style={{ outline: 0, color: "black" }}
                             disabled
                             required />
                         <br />
@@ -774,8 +771,8 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                             className="descrição"
                             type="text"
                             value={dataSelectItem.descricao_produto}
-                            name="descricao_produto" 
-                            style={{outline: 0, color: "black"}} 
+                            name="descricao_produto"
+                            style={{ outline: 0, color: "black" }}
                             disabled
                             readOnly
                             required />
@@ -822,27 +819,27 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                 </div>
             </C.Display>
             <C.Footer style={{ position: "relative" }}>
+                <label className="total-itens">{totalItens > 1 ? totalItens + " itens" : totalItens + " item"}</label>
                 <form>
                     <div>
                         <label>Pré-descontoValor:</label>
-                        <input placeholder="0,000000" />
+                        <input placeholder="0,000000" style={{ outline: 0 }} disabled readOnly />
                     </div>
                     <div>
                         <label>Acrésc. Total(R$): </label>
-                        <input placeholder="0,000000" />
+                        <input placeholder="0,000000" style={{ outline: 0 }} disabled readOnly />
                     </div>
-                    <label className="total-itens"></label>
                     <div>
                         <label>Subtotal da Rotina: </label>
-                        <input value={parseFloat(totalVenda).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')}  style={{outline: 0, color: "black"}} disabled/>
+                        <input value={parseFloat(totalVenda).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')} style={{ outline: 0, color: "black" }} disabled />
                     </div>
                     <div>
                         <label>Total da Rotina: </label>
-                        <input value={parseFloat(totalVenda).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')}  style={{outline: 0, color: "black"}} disabled/>
+                        <input value={parseFloat(totalVenda).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')} style={{ outline: 0, color: "black" }} disabled />
                     </div>
                     <div>
                         <label>descontoValor Total(R$): </label>
-                        <input placeholder="0,000000" />
+                        <input value={descontoTotal.toFixed(2).replace('NaN', '').replace('.', ',')} placeholder="0,000000" style={{ outline: 0 }} disabled readOnly />
                     </div>
                 </form>
             </C.Footer>
