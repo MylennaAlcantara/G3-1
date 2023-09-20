@@ -118,10 +118,18 @@ export const Info = styled.div`
         margin: 0 15px;
         background-color: #339afe;
         align-content: center;
-        
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        label{
+            margin: auto;
+        }
     }
     .checkbox-box{
         box-shadow: none;
+        height: auto;
+        margin: 0 5px;
     }
     .radio{
         margin: 0 10px;
@@ -374,7 +382,7 @@ export const Display = styled.div`
     background-color: #f0f0f0;
     display: flex;
     align-items: start;
-    justify-content: center;
+    justify-content: start;
     border: 1px solid black;
     height: 20vh;
     width: 100%;
@@ -420,11 +428,6 @@ export const Display = styled.div`
     .ativo{
         background-color: blue;
         color: white;
-    }
-    div{
-        display: flex;
-        flex-grow: 1;
-        border: solid 1px gray;
     }
     .button-excluir{
         height: 20px;

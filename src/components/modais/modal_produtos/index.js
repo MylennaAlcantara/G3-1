@@ -12,58 +12,52 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
     // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
     const [carregado, setCarregado] = useState(false);
 
-    useEffect(() => {
-        async function fetchData (){
-            if(emitenteAlterado === true && tipoPgtoAlterado === true){
-                console.log("passou 1");
-                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
-                const data = await response.json();
-                setItens(data.content);
-                if( response.status === 200){
-                    setCarregado(true);
-                }
-            }else if(emitenteAlterado === true && tipoPgtoAlterado === false){
-                console.log("passou 2");
-                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${rotinas.id_tipo_pagamento}?size=50`);
-                const data = await response.json();
-                setItens(data.content);
-                if( response.status === 200){
-                    setCarregado(true);
-                }
-            }else if(emitenteAlterado === false && tipoPgtoAlterado === true){
-                console.log("passou 3");
-                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${rotinas.id_empresa}/payment/${dataIdSelectPgt}?size=50`);
-                const data = await response.json();
-                setItens(data.content);
-                if( response.status === 200){
-                    setCarregado(true);
-                }
-            }else if(emitenteAlterado === false && tipoPgtoAlterado === false){
-                console.log("passou 4");
-                const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${rotinas.id_empresa}/payment/${rotinas.id_tipo_pagamento}?size=50`);
-                const data = await response.json();
-                setItens(data.content);
-                if( response.status === 200){
-                    setCarregado(true);
-                }
-            }else if(dataIdSelectEmitente && dataIdSelectPgt){
-                console.log("passou 5");
-                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);
-                const data = await response.json();
-                setItens(data.content);
-                if( response.status === 200){
-                    setCarregado(true);
-                }
-            }else{
-                console.log("passou 6");
-                const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/1/payment/1?size=50`);
-                const data = await response.json();
-                setItens(data.content);
-                if( response.status === 200){
-                    setCarregado(true);
-                }
+    async function fetchData (){
+        if(emitenteAlterado === true && tipoPgtoAlterado === true){
+            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
+            const data = await response.json();
+            setItens(data.content);
+            if( response.status === 200){
+                setCarregado(true);
+            }
+        }else if(emitenteAlterado === true && tipoPgtoAlterado === false){
+            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${rotinas.id_tipo_pagamento}?size=50`);
+            const data = await response.json();
+            setItens(data.content);
+            if( response.status === 200){
+                setCarregado(true);
+            }
+        }else if(emitenteAlterado === false && tipoPgtoAlterado === true){
+            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${rotinas.id_empresa}/payment/${dataIdSelectPgt}?size=50`);
+            const data = await response.json();
+            setItens(data.content);
+            if( response.status === 200){
+                setCarregado(true);
+            }
+        }else if(emitenteAlterado === false && tipoPgtoAlterado === false){
+            const response = await fetch (`http://10.0.1.10:8092/produtos/general/company/${rotinas.id_empresa}/payment/${rotinas.id_tipo_pagamento}?size=50`);
+            const data = await response.json();
+            setItens(data.content);
+            if( response.status === 200){
+                setCarregado(true);
+            }
+        }else if(dataIdSelectEmitente && dataIdSelectPgt){
+            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);
+            const data = await response.json();
+            setItens(data.content);
+            if( response.status === 200){
+                setCarregado(true);
+            }
+        }else{
+            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/1/payment/1?size=50`);
+            const data = await response.json();
+            setItens(data.content);
+            if( response.status === 200){
+                setCarregado(true);
             }
         }
+    }
+    useEffect(() => {
         fetchData();
         document.getElementById('search').focus();
     }, []);
@@ -99,7 +93,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
             });
             onClose();
             focoQtd();
-            }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque <= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
+            }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && itens[selectIndex].qtd_estoque <= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
                 alert('Produto com estoque indisponivel');
             }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false)  && (dataSelectTop.tipo_movimentacao === 'E' || tipoMovimentacao === 'E')){
                 setDataSelectItem({
@@ -122,7 +116,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                 });
                 onClose();
                 focoQtd();
-            }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque >= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
+            }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && itens[selectIndex].qtd_estoque >= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
                 setDataSelectItem({
                     id_produto: item.id,
                     gtin_produto: item.gtin,
@@ -184,12 +178,12 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
     
     const [filtroEscolhido, setFiltroEscolhido] = useState('C');
 
-    const resultado = Array.isArray(itens) && itens.filter((item) => {
+    /*const resultado = Array.isArray(itens) && itens.filter((item) => {
         if(filtroEscolhido === 'C'){
             return String(item.id).toLowerCase().includes(busca);
         }else if(filtroEscolhido === 'D')
             return item.descricaoPdv.toLowerCase().includes(busca);
-    });
+    });*/
 
     const select = document.getElementById('opções');
 
@@ -198,6 +192,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
             setFiltroEscolhido('C');
         }else if(select.value === '2'){
             setFiltroEscolhido('D');
+        }else if(select.value === '3'){
+            setFiltroEscolhido('G');
         }
     }
 
@@ -213,91 +209,128 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
             }
             setSelectIndex(selectIndex-1);
             setInfoItem({
-                qtd_estoque: resultado[selectIndex-1].qtd_estoque,
-                qtd_estoque_reservado: resultado[selectIndex-1].qtd_estoque_reservado,
-                qtd_estoque_di: resultado[selectIndex-1].qtd_estoque_di
+                qtd_estoque: itens[selectIndex-1].qtd_estoque,
+                qtd_estoque_reservado: itens[selectIndex-1].qtd_estoque_reservado,
+                qtd_estoque_di: itens[selectIndex-1].qtd_estoque_di
             })
-            validarPromocao(resultado[selectIndex+1]);
+            validarPromocao(itens[selectIndex+1]);
         }else if (e.keyCode === 40){
             e.preventDefault();
-            if(selectIndex === null || selectIndex === resultado.length -1 ){
+            if(selectIndex === null || selectIndex === itens.length -1 ){
                 return;
             }
             setSelectIndex(selectIndex + 1);
             setInfoItem({
-                qtd_estoque: resultado[selectIndex+1].qtd_estoque,
-                qtd_estoque_reservado: resultado[selectIndex-1].qtd_estoque_reservado,
-                qtd_estoque_di: resultado[selectIndex-1].qtd_estoque_di
+                qtd_estoque: itens[selectIndex+1].qtd_estoque,
+                qtd_estoque_reservado: itens[selectIndex-1].qtd_estoque_reservado,
+                qtd_estoque_di: itens[selectIndex-1].qtd_estoque_di
             });
-            validarPromocao(resultado[selectIndex+1]);
+            validarPromocao(itens[selectIndex+1]);
         }else if (e.keyCode === 13){
             e.preventDefault();
             if(selectIndex !== null){
                 if(dataSelectTop.libera_itens_estoque_indisponivel === true || liberaEstoque === true ){
                     setDataSelectItem({
-                    id_produto: resultado[selectIndex].id,
-                    gtin_produto: resultado[selectIndex].gtin,
-                    valor_unitario: resultado[selectIndex].valor_venda,
-                    descricao_produto: resultado[selectIndex].descricaoPdv,
-                    unidade_produto: resultado[selectIndex].unidade_produto_nome,
+                    id_produto: itens[selectIndex].id,
+                    gtin_produto: itens[selectIndex].gtin,
+                    valor_unitario: itens[selectIndex].valor_venda,
+                    descricao_produto: itens[selectIndex].descricaoPdv,
+                    unidade_produto: itens[selectIndex].unidade_produto_nome,
                     valor_icms_st: 0,
                     acrescimo: 0,
                     desconto: 0,
-                    ncm: resultado[selectIndex].ncm,
-                    ncmEx: resultado[selectIndex].ncmex,
+                    ncm: itens[selectIndex].ncm,
+                    ncmEx: itens[selectIndex].ncmex,
                     subtotal: '',
-                    qtd_estoque: resultado[selectIndex].qtd_estoque,
+                    qtd_estoque: itens[selectIndex].qtd_estoque,
                     quantidade: 1,
-                    preco_atacado: resultado[selectIndex].preco_atacado,
-                    qtd_atacado: resultado[selectIndex].qtd_atacado
+                    preco_atacado: itens[selectIndex].preco_atacado,
+                    qtd_atacado: itens[selectIndex].qtd_atacado
                 });
                     onClose();
                     focoQtd();
-                }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque <= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
+                }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && itens[selectIndex].qtd_estoque <= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
                     alert('Produto com estoque indisponivel');
                 }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false)  && (dataSelectTop.tipo_movimentacao === 'E' || tipoMovimentacao === 'E')){
                     setDataSelectItem({
-                        id_produto: resultado[selectIndex].id,
-                        gtin_produto: resultado[selectIndex].gtin,
-                        valor_unitario: resultado[selectIndex].valor_venda,
-                        descricao_produto: resultado[selectIndex].descricaoPdv,
-                        unidade_produto: resultado[selectIndex].unidade_produto_nome,
+                        id_produto: itens[selectIndex].id,
+                        gtin_produto: itens[selectIndex].gtin,
+                        valor_unitario: itens[selectIndex].valor_venda,
+                        descricao_produto: itens[selectIndex].descricaoPdv,
+                        unidade_produto: itens[selectIndex].unidade_produto_nome,
                         valor_icms_st: 0,
                         acrescimo: 0,
                         desconto: 0,
-                        ncm: resultado[selectIndex].ncm,
-                        ncmEx: resultado[selectIndex].ncmex,
+                        ncm: itens[selectIndex].ncm,
+                        ncmEx: itens[selectIndex].ncmex,
                         subtotal: '',
-                        qtd_estoque: resultado[selectIndex].qtd_estoque,
+                        qtd_estoque: itens[selectIndex].qtd_estoque,
                         quantidade: 1,
-                        preco_atacado: resultado[selectIndex].preco_atacado,
-                        qtd_atacado: resultado[selectIndex].qtd_atacado
+                        preco_atacado: itens[selectIndex].preco_atacado,
+                        qtd_atacado: itens[selectIndex].qtd_atacado
                     });
                     onClose();
                     focoQtd();
-                }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && resultado[selectIndex].qtd_estoque >= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
+                }else if((dataSelectTop.libera_itens_estoque_indisponivel === false || liberaEstoque === false) && itens[selectIndex].qtd_estoque >= 0 && (dataSelectTop.tipo_movimentacao === 'S' || tipoMovimentacao === 'S')){
                     setDataSelectItem({
-                        id_produto: resultado[selectIndex].id,
-                        gtin_produto: resultado[selectIndex].gtin,
-                        valor_unitario: resultado[selectIndex].valor_venda,
-                        descricao_produto: resultado[selectIndex].descricaoPdv,
-                        unidade_produto: resultado[selectIndex].unidade_produto_nome,
+                        id_produto: itens[selectIndex].id,
+                        gtin_produto: itens[selectIndex].gtin,
+                        valor_unitario: itens[selectIndex].valor_venda,
+                        descricao_produto: itens[selectIndex].descricaoPdv,
+                        unidade_produto: itens[selectIndex].unidade_produto_nome,
                         valor_icms_st: 0,
                         acrescimo: 0,
                         desconto: 0,
-                        ncm: resultado[selectIndex].ncm,
-                        ncmEx: resultado[selectIndex].ncmex,
+                        ncm: itens[selectIndex].ncm,
+                        ncmEx: itens[selectIndex].ncmex,
                         subtotal: '',
-                        qtd_estoque: resultado[selectIndex].qtd_estoque,
+                        qtd_estoque: itens[selectIndex].qtd_estoque,
                         quantidade: 1,
-                        preco_atacado: resultado[selectIndex].preco_atacado,
-                        qtd_atacado: resultado[selectIndex].qtd_atacado
+                        preco_atacado: itens[selectIndex].preco_atacado,
+                        qtd_atacado: itens[selectIndex].qtd_atacado
                     });
                     onClose();
                     focoQtd();
                 }
+            }else{
+                pesquisarProduto();
             }
         }
+    }
+
+    async function pesquisarProduto(){
+        setCarregado(false);
+        if(filtroEscolhido === "C" && busca !== ""){
+            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/${busca}`);
+            const data = await response.json();
+            setItens([data]);
+            if( response.status === 200){
+                setCarregado(true);
+            }else if(response.status === 400){
+                setCarregado(true);
+                setItens([]);
+            }
+        }else if(filtroEscolhido === "D" && busca !== ""){
+            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/contains/${busca}`);
+            const data = await response.json();
+            setItens(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }
+        }else if(filtroEscolhido === "G" && busca != ""){
+            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/gtin/${busca}`);
+            const data = await response.json();
+            setItens(data);
+            if( response.status === 200){
+                setCarregado(true);
+            }else if(response.status === 400){
+                setCarregado(true);
+                setItens([]);
+            }
+        }else{
+            fetchData();
+        }
+        setSelectIndex(0);
     }
     
     return (
@@ -313,10 +346,11 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                         <select id="opções" onChange={FiltroCod}>
                             <option id="codigo" value="1" >Código</option>
                             <option id="descricao" value="2" >Descrição</option>
+                            <option id="gtin" value="3" >Gtin</option>
                         </select>
                     </div>
                     <label>Buscar: </label>
-                    <input className="search" id="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                    <input className="search" id="search" placeholder="Buscar" value={busca} onChange={e => {setBusca(e.target.value); setSelectIndex(null)}} onKeyDown={handleKeyDown}/>
                 </C.Filtro>
                 {itens.length === 0 && carregado === false ? (
                     <div className="load">
@@ -355,7 +389,8 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                         </thead>
                             <tbody>
                                 { 
-                                resultado.slice(0, 8).map( (item, index) => {
+                                //itens.slice(0, 8).map( (item, index) => {
+                                    Array.isArray(itens) && itens.map( (item, index) => {
                                     return(
                                         <tr 
                                             id="produto" 

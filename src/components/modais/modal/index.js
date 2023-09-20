@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import * as C from '../modal/modal';
 import "../../cadastro/index.js";
 import { Loading } from "../../loading/index";
+import { AuthContext } from "../../../contexts/Auth/authContext";
 
 
 export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPartner, setDataIdSelectPartner, setParceiroAlterado, dadosRotina, setDadosRotina }) => {
-
+    const {dataMask, cnpjMask, cepMask} = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [selectPartner, setSelectPartner] = useState();
     const [selectIdPartner, setSelectIdPartner] = useState();
@@ -198,12 +199,12 @@ export const Modal = ({ onClose = () => {}, focoCampoSeguinte, setDataSelectPart
                                             onDoubleClick={Selected.bind(this, user)}
                                             style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
                                                 <td>{user.id}</td>
-                                                <td>{user.data_cadastro}</td>
+                                                <td>{dataMask(user.data_cadastro)}</td>
                                                 <td>{user.nome}</td>
                                                 <td>{user.nome_fantasia}</td>
-                                                <td>{user.cpf_cnpj}</td>
+                                                <td>{cnpjMask(user.cpf_cnpj)}</td>
                                                 <td>{user.endereco}</td>
-                                                <td>{user.cep}</td>
+                                                <td>{cepMask(user.cep)}</td>
                                                 <td>{user.municipio}</td>
                                                 <td>{user.telefone}</td>
                                                 <td>{user.celular}</td>

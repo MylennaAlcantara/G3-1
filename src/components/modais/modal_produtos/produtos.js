@@ -26,11 +26,14 @@ export const Filtro = styled.div`
 `;
 
 export const ListItens = styled.div`
-    margin: 5px 0;
+    margin: 5px;
+    margin-bottom: auto;
+    overflow: auto;
+    height: 80%;
     div{
         display: flex;
         flex-grow: 1;
-        border: solid 1px gray
+        border: solid 1px gray;
     }    
     @media (max-width: 425px){
 
@@ -63,6 +66,10 @@ export const ContainerProdutos = styled.div`
         border-collapse: collapse;
         width: 100%;
         border: 1px solid grey;
+    }
+    thead{
+        position: sticky;
+        top: 0;
     }
     th{    
         font-size: 15px;
