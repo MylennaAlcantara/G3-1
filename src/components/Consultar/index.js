@@ -171,18 +171,23 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
     }, []);
 
     const imprimir = async () => {
-        const responseRotina = await fetch(`http://8b38091fc43d.sn.mynetname.net:2004/preVenda/${codigoRotina}`); //http://10.0.1.10:8091/preVenda/id
-        const rotina = await responseRotina.json();
-        const responseVendedor = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/user/all');
-        const vendedor = await responseVendedor.json();
-        const responseParceiro = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/clientes');
-        const parceiro = await responseParceiro.json();
-        const responseTipoPagamento = await fetch('http://8b38091fc43d.sn.mynetname.net:2004/tipoPagamento/all');
-        const tipoPagamento = await responseTipoPagamento.json();
-        const responseEmitente = await fetch('http://8b38091fc43d.sn.mynetname.net:2005/emitente/all');
-        const Emitente = await responseEmitente.json();
+        const [responseRotina, responseVendedor, responseParceiro, responseTipoPagamento, responseEmitente] = await Promise.all([
+            fetch(`http://8b38091fc43d.sn.mynetname.net:2004/preVenda/${codigoRotina}`),
+            fetch('http://8b38091fc43d.sn.mynetname.net:2003/user/all'),
+            fetch('http://8b38091fc43d.sn.mynetname.net:2003/clientes'),
+            fetch('http://8b38091fc43d.sn.mynetname.net:2004/tipoPagamento/all'),
+            fetch('http://8b38091fc43d.sn.mynetname.net:2005/emitente/all')
+        ]);
+
+        const [rotina, vendedor, parceiro, tipoPagamento, Emitente] = await Promise.all([
+            responseRotina.json(),
+            responseVendedor.json(),
+            responseParceiro.json(),
+            responseTipoPagamento.json(),
+            responseEmitente.json()
+        ]);
+
         rotinaPDF(rotina, vendedor, parceiro, tipoPagamento, Emitente, horaImpressao, dataMask);
-        console.log(rotina);
     }
 
     function comparar(a, b) {

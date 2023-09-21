@@ -40,25 +40,30 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
 
     useEffect(() => {
         async function fetchData() {
-            const responseRotina = await fetch(`http://8b38091fc43d.sn.mynetname.net:2004/preVenda/${codRotina}`); //http://10.0.1.10:8091/preVenda/id
-            const rotina = await responseRotina.json();
+            const [responseRotina, responseEmitente, responseTop, responseVendedor, responseParceiro, responseTipoPagamento] = await Promise.all([
+                fetch(`http://8b38091fc43d.sn.mynetname.net:2004/preVenda/${codRotina}`),
+                fetch('http://8b38091fc43d.sn.mynetname.net:2005/emitente/all'),
+                fetch('http://8b38091fc43d.sn.mynetname.net:2004/top/all'),
+                fetch('http://8b38091fc43d.sn.mynetname.net:2003/user/all'),
+                fetch('http://8b38091fc43d.sn.mynetname.net:2003/clientes'),
+                fetch('http://8b38091fc43d.sn.mynetname.net:2004/tipoPagamento/all')
+            ]);
+            const [rotina, Emitente, top, vendedor, parceiro, tipoPagamento] = await Promise.all([
+                responseRotina.json(),
+                responseEmitente.json(),
+                responseTop.json(),
+                responseVendedor.json(),
+                responseParceiro.json(),
+                responseTipoPagamento.json()
+            ]);
+
             setRotinas(rotina);
             setTipoVenda(rotina.tipo_venda);
-            setListItens(rotina.pre_venda_detalhe)
-            const responseEmitente = await fetch('http://8b38091fc43d.sn.mynetname.net:2005/emitente/all');
-            const Emitente = await responseEmitente.json();
+            setListItens(rotina.pre_venda_detalhe);
             setEmitente(Emitente);
-            const responseTop = await fetch('http://8b38091fc43d.sn.mynetname.net:2004/top/all');
-            const top = await responseTop.json();
             setTop(top);
-            const responseVendedor = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/user/all');
-            const vendedor = await responseVendedor.json();
             setVendedor(vendedor);
-            const responseParceiro = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/clientes');
-            const parceiro = await responseParceiro.json();
             setParceiro(parceiro);
-            const responseTipoPagamento = await fetch('http://8b38091fc43d.sn.mynetname.net:2004/tipoPagamento/all');
-            const tipoPagamento = await responseTipoPagamento.json();
             setTipoPagamento(tipoPagamento);
         }
         fetchData();
