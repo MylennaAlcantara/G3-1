@@ -14,6 +14,7 @@ import { resumoFaturamentoGrupoPDF } from './PDFS/resumoFaturamentoGrupoPDF';
 import { resumoFaturamentoFornecedorPDF } from './PDFS/resumoFaturamentoFornecedorPDF';
 import { resumoFaturamentoFilialPDF } from './PDFS/resumoFaturamentoFilialPDF';
 import { resumoFaturamentoClientePDF } from './PDFS/resumoFaturamentoClientePDF';
+import { Bar, BarChart, Brush, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ReferenceLine, ResponsiveContainer, Sector, Tooltip, XAxis, YAxis } from "recharts";
 
 import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as RF from "../resumo_de_faturamento/resumoFaturamento"
@@ -124,6 +125,7 @@ export const ResumoFaturamento = () => {
             left: '50%',
             right: 'auto',
             bottom: 'auto',
+            paddingTop: 0,
             transform: 'translate(-50%, -50%)',
             width: '75%',
             height: '80%',
@@ -364,11 +366,11 @@ export const ResumoFaturamento = () => {
         setDataFornecedor();
     }
 
-    function onChangeDataIni(e) { 
+    function onChangeDataIni(e) {
         setDataIni(e.currentTarget.value)
     }
 
-    function onChangeDataFin(e) { 
+    function onChangeDataFin(e) {
         setDataFin(e.currentTarget.value)
     }
 
@@ -486,14 +488,14 @@ export const ResumoFaturamento = () => {
         title: "Valores NF-e / NFC-e",
         is3D: true,
         backgroundColor: "#ffff",
-        colors: ["#bc1b9c", "#1b7abc"]
+        colors: ["#bc1b9c", "#1b7abc"],
     };
 
     const barOptions = { //Configuração do Quinto Gráfico de Região 
         title: "Valores Totais Região .",
         //backgroundColor: '#d3d3d3',
         width: "95%",
-        height: "95%",
+        height: "100%",
         bar: { groupWidth: "95%", },
         legend: { position: "none" },
     };
@@ -522,7 +524,7 @@ export const ResumoFaturamento = () => {
         ...dadosRegiao.map(item => [item.regiao, item.vlVendaTotal, item.vlLucroVenda])
     ];
 
-    const optionsRegiao = {
+    /*const optionsRegiao = {
         chart: {
             title: "Regiões",
             subtitle: "Comparativo",
@@ -541,6 +543,18 @@ export const ResumoFaturamento = () => {
             },
         },
         colors: ["#F7C64F", "#bc1b2b"],
+    }*/
+
+    const optionsRegiao = {
+        title: "Regiões",
+        subtitle: "Comparativo",
+        hAxis: {
+            title: "Valores",
+            minValue: 0,
+        },
+        bars: "horizontal",
+        colors: ["#F7C64F", "#bc1b2b"],
+        legend: "top"
     }
 
     //-------------------------------------------------------------Dashboard Filial----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -600,7 +614,7 @@ export const ResumoFaturamento = () => {
         ...dados.map(item => [item.filial, item.vlVendaTotal, item.vlLucroVenda])
     ]
 
-    const filialOptions = {
+    /*const filialOptions = {
         chart: {
             title: "Filiais",
             subtitle: "Comparativo",
@@ -616,6 +630,17 @@ export const ResumoFaturamento = () => {
             },
         },
         colors: ["#f6d001", "#b2bb1c"]
+    }*/
+    const filialOptions = {
+        title: "Filiais",
+        subtitle: "Comparativo",
+        hAxis: {
+            title: "Valores",
+            minValue: 0,
+        },
+        bars: "horizontal",
+        colors: ["#F7C64F", "#bc1b2b"],
+        legend: "top"
     }
 
     //------------------------------------------------------------------Dashboard Vendedor----------------------------------------------------------------------------------------------------------------------------------------------------  
@@ -675,7 +700,7 @@ export const ResumoFaturamento = () => {
         ...dadosVendedor.map(item => [item.vendedor, item.vlVendaTotal, item.vlLucroVenda])
     ];
 
-    const optionsVendedor = {
+    /*const optionsVendedor = {
         chart: {
             title: "Dez Primeiros Vendedores",
             subtitle: "Comparativo",
@@ -693,6 +718,23 @@ export const ResumoFaturamento = () => {
                 0: { side: "right" },
             },
         },
+    }*/
+
+    const optionsVendedor = {
+        title: "Dez Primeiros Vendedores",
+        subtitle: "Comparativo",
+        hAxis: {
+            title: "Valores",
+            minValue: 0,
+            gridlines: { count: 10 }
+        },
+        bars: "horizontal",
+        legend: "top",
+        explorer: {
+            actions: ['dragToZoom', 'rightClickToReset'],
+            axis: 'horizontal', // Você pode definir para 'both' se quiser zoom em ambos os eixos
+            maxZoomIn: 20.0, // Defina o valor máximo de zoom (ajuste conforme necessário)
+        }
     }
 
     //---------------------------------------------------------------Dashboard Cliente------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -747,7 +789,7 @@ export const ResumoFaturamento = () => {
         ["Desconto", resultCli5, "#57ffe8", null],
     ];
 
-    const optionsCli0 = { //Configuração do Quarto Gráfico de Cliente 
+    /*const optionsCli0 = { //Configuração do Quarto Gráfico de Cliente 
         chart: {
             title: "Valores Gerais",
             subtitle: "Comparativo",
@@ -779,7 +821,23 @@ export const ResumoFaturamento = () => {
                 0: { side: "right" },
             },
         },
-    };
+    };*/
+    const optionsCli0 = {
+        title: "Valores Gerais",
+        subtitle: "Comparativo",
+        hAxis: {
+            title: "Valores",
+            minValue: 0,
+            gridlines: { count: 10 }
+        },
+        bars: "horizontal",
+        legend: "top",
+        explorer: {
+            actions: ['dragToZoom', 'rightClickToReset'],
+            axis: 'horizontal', // Você pode definir para 'both' se quiser zoom em ambos os eixos
+            maxZoomIn: 20.0, // Defina o valor máximo de zoom (ajuste conforme necessário)
+        }
+    }
 
     const dataCli0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Cliente
         ["Valores em R$", "Liquido", "Venda"],
@@ -844,6 +902,8 @@ export const ResumoFaturamento = () => {
     const optionsTpPg = { //Configuração do Terceiro Gráfico de Cliente
         title: "Valores",
         is3D: true,
+        width: "100%",
+        height: "100%",
     };
 
     const dataTipoPagamentoPizza = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Tipo de Pagamento
@@ -920,7 +980,7 @@ export const ResumoFaturamento = () => {
         ["Sub Total", resultProd3, "#ff6ad8", null],
     ];
 
-    const optionsProd0 = { //Configuração do Quarto Gráfico de Produto
+    /*const optionsProd0 = { //Configuração do Quarto Gráfico de Produto
         chart: {
             title: "Primeiros 10 Produtos",
             subtitle: "Comparativo",
@@ -941,7 +1001,24 @@ export const ResumoFaturamento = () => {
                 0: { side: "right" },
             },
         },
-    };
+    };*/
+    const optionsProd0 = {
+        title: "Primeiros 10 Produtos",
+        subtitle: "Comparativo",
+        hAxis: {
+            title: "Valores",
+            minValue: 0,
+            gridlines: { count: 10 }
+        },
+        bars: "horizontal",
+        legend: "top",
+        explorer: {
+            actions: ['dragToZoom', 'rightClickToReset'],
+            axis: 'horizontal', // Você pode definir para 'both' se quiser zoom em ambos os eixos
+            maxZoomIn: 100.0, // Defina o valor máximo de zoom (ajuste conforme necessário)
+        },
+        colors: ["#f6d001", "#1b7abc"],
+    }
 
     const [produtoDetalhado, setProdutoDetalhado] = useState()
 
@@ -1136,7 +1213,7 @@ export const ResumoFaturamento = () => {
 
     const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false)
 
-    console.log(dadosCliente)
+
 
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1165,7 +1242,7 @@ export const ResumoFaturamento = () => {
                                         <option>Região</option>
                                     </select>
                                     <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
-                                    <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
+                                    <img alt='' src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
                                     <button onClick={() => setValor([])} >Limpar</button>
                                 </div>
 
@@ -1186,7 +1263,7 @@ export const ResumoFaturamento = () => {
                                             return (
 
                                                 <tr>
-                                                    <td><img src='/images/lixeira.png' onClick={() => deleteById(item.id)} /></td>
+                                                    <td><img alt='' src='/images/lixeira.png' onClick={() => deleteById(item.id)} /></td>
                                                     <td>{item.id}</td>
                                                     <td>{item.nome_fantasia}</td>
                                                     <td>{item.razao_social}</td>
@@ -1202,7 +1279,7 @@ export const ResumoFaturamento = () => {
                             <div className='filial-top'>
                                 <div>
                                     <input placeholder='Buscar pela Descrição...' onChange={(e) => setQuery1(e.target.value)} />
-                                    <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
+                                    <img alt='' src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
                                     <button onClick={() => setValorTop([])} >Limpar</button>
                                 </div>
 
@@ -1219,7 +1296,7 @@ export const ResumoFaturamento = () => {
 
                                             return (
                                                 <tr>
-                                                    <img src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
+                                                    <img alt='' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
                                                     <td>{item.id}</td>
                                                     <td>{item.descricao}</td>
                                                 </tr>
@@ -1253,8 +1330,8 @@ export const ResumoFaturamento = () => {
                         </div>
                     </div>
                     <div>
-                        <button className='setaE' onClick={voltarMeses} ><img className='close' src='/images/setaEsquerda.png' /></button>
-                        <button className='setaD' onClick={passarMeses} ><img className='close' src='/images/setaDireita.png' /></button>
+                        <button className='setaE' onClick={voltarMeses} ><img alt='' className='close' src='/images/setaEsquerda.png' /></button>
+                        <button className='setaD' onClick={passarMeses} ><img alt='' className='close' src='/images/setaDireita.png' /></button>
                         <div className='checks' >
                             <input type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
                             <input type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
@@ -1292,9 +1369,9 @@ export const ResumoFaturamento = () => {
                                 <div className='dashboardLine'>
                                     <label>Dashboards</label>
 
-                                    <button className='dashboardBtn' onClick={openDashboardRegiao}><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                                    <button className='dashboardBtn' onClick={openDashboardRegiao}><img alt='' className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
-                                    <button className='dashboardBtn' onClick={imprimirRegiao} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                    <button className='dashboardBtn' onClick={imprimirRegiao} > <img alt='' className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                                 </div>
 
                                 <div className='table-responsive'>
@@ -1379,9 +1456,9 @@ export const ResumoFaturamento = () => {
                                 <div className='dashboardLine'>
                                     <label>Dashboards</label> <label>( Totais abaixo da lista! )</label>
 
-                                    <button className='dashboardBtn' onClick={openDashboardFilial}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
-                                
-                                    <button className='dashboardBtn' onClick={imprimirFilial} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                    <button className='dashboardBtn' onClick={openDashboardFilial}> <img alt='' className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+
+                                    <button className='dashboardBtn' onClick={imprimirFilial} > <img alt='' className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
                                 </div>
 
@@ -1475,9 +1552,50 @@ export const ResumoFaturamento = () => {
                     </RF.DataGeral>
 
                     <div className='row' >
-                        <div className='item-bottom' >Méd.Itens/Cup: {MedItensCup.toFixed(2).replace('.', ',')}</div> <div className='item-bottom' >Vlr.Total NF-e: {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR')}</div> <div className='item-bottom' >Vlr.Total NFC-e: {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR')}</div> <div className='item-bottom' >Vlr.Venda Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR')}</div> <div className='item-bottom' >Vlr.Total Credito: {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR')} </div>
-                        <div className='item-bottom' >Vlr.Total Líquido: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR')} </div> <div className='item-bottom' >Vlr.Custo Total: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR')} </div> <div className='item-bottom' >Vlr.Lucro Venda: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR')} </div> <div className='item-bottom' >Vlr.Lucro Líquido: {parseFloat(lLiquido.toFixed(2)).toLocaleString('pt-BR')} </div> <div className='item-bottom' >% Margem: {((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',').replace('NaN', '0,00')} </div>
-                        <div>% Markup: {((resultFi1 - resultFi) / resultFi * 100).toFixed(2).replace('.', ',').replace("NaN", "0,00")} </div>
+                        <div className='item-bottom' >
+                            <label>Méd.Itens/Cup:</label>
+                            <label>{MedItensCup.toFixed(2).replace('.', ',')}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Vlr.Total NF-e:</label>
+                            <label>{parseFloat(String(resultFi3).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Vlr.Total NFC-e: </label>
+                            <label>{parseFloat(String(resultFi4).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Vlr.Venda Total: </label>
+                            <label>{parseFloat(String(resultFi1).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Vlr.Total Credito: </label>
+                            <label>{parseFloat(String(resultFi5).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Vlr.Total Líquido: </label>
+                            <label>{parseFloat(String(resultFi6).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Vlr.Custo Total: </label>
+                            <label>{parseFloat(String(resultFi).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Vlr.Lucro Venda: </label>
+                            <label>{parseFloat(String(resultFi2).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Vlr.Lucro Líquido: </label>
+                            <label>{parseFloat(String(lLiquido).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>% Margem:</label>
+                            <label>{((resultFi2 / resultFi1) * 100).toFixed(2).replace('.', ',').replace('NaN', '0,00')}</label>
+                        </div>
+                        <div className='item-bottom' style={{ borderRight: "none" }}>
+                            <label>% Markup: </label>
+                            <label>{((resultFi1 - resultFi) / resultFi * 100).toFixed(2).replace('.', ',').replace("NaN", "0,00")}</label>
+                        </div>
                     </div>
                 </>
             ) : aba === "vendedor" ? (
@@ -1493,9 +1611,9 @@ export const ResumoFaturamento = () => {
                             <div className='dashboardLine'>
                                 <label>Dashboards</label>
 
-                                <button className='dashboardBtn' onClick={openDashboardVendedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                <button className='dashboardBtn' onClick={openDashboardVendedor}> <img alt='' className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
-                                <button className='dashboardBtn' onClick={imprimirVendedor} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirVendedor} > <img alt='' className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table>
@@ -1543,31 +1661,31 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat.vendedor}</td>
 
-                                            <td>{parseFloat(dat.qtdVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            <td>{parseFloat(String(dat.qtdVendas).replace(null, "0,00")).toLocaleString('pt-BR')}</td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat.vlTotalNfe).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat.vlTotalNfce).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat.vlVendaTotal).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalCancelamento.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat.vlTotalCancelamento).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalDesconto.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat.vlTotalDesconto).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalCredito.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat.vlTotalCredito).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat.vlTotalComissao.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat.vlTotalComissao).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat((dat.vlCustoTotal).toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat.vlCustoTotal).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat((dat.vlLucroVenda).toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat.vlLucroVenda).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat((dat.vlLucroLiquido).toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat.vlLucroLiquido).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td> {(dat.plucroLiquido).toFixed(2).replace('.', ',')} % </td>
+                                            <td> {parseFloat(String(dat.plucroLiquido).replace(null, "0,00")).toFixed(2).replace('.', ',')} % </td>
 
-                                            <td>{(dat.percentual).toFixed(2).replace('.', ',')} %</td>
+                                            <td>{parseFloat(String(dat.percentual).replace(null, "0,00")).toFixed(2).replace('.', ',')} %</td>
                                         </tr>
 
                                     ))}
@@ -1590,9 +1708,9 @@ export const ResumoFaturamento = () => {
                             <div className='dashboardLine'>
                                 <label>Dashboards</label>
 
-                                <button className='dashboardBtn' onClick={openDashboardCliente}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                <button className='dashboardBtn' onClick={openDashboardCliente}> <img alt='' className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
 
-                                <button className='dashboardBtn' onClick={imprimirCliente} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirCliente} > <img alt='' className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
@@ -1637,27 +1755,27 @@ export const ResumoFaturamento = () => {
 
                                             <td>{dat1.cliente}</td>
 
-                                            <td>{parseFloat(dat1.qtdVendas).toLocaleString('pt-BR')}</td>
+                                            <td>{parseFloat(String(dat1.qtdVendas).replace(null, "0,00")).toLocaleString('pt-BR')}</td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat1.vlTotalNfe).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat1.vlTotalNfce.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat1.vlTotalNfce).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat1.vlVendaTotal).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat1.vlTotalDesconto.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat1.vlTotalDesconto).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat1.vlTotalCredito.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat1.vlTotalCredito).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat1.vlCustoTotal).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat1.vlLucroVenda).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat1.vlLucroLiquido.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat1.vlLucroLiquido).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
 
-                                            <td>{dat1.plucroLiquido.toFixed(2).replace('.', ',')} %</td>
+                                            <td>{String(dat1.plucroLiquido).replace('.', ',').replace(null, "0,00")} %</td>
 
-                                            <td>{(dat1.percentual).toFixed(3).replace('.', ',')} % </td>
+                                            <td>{parseFloat(String(dat1.percentual).replace(null, "0,00")).toFixed(3).replace('.', ',')} % </td>
 
                                         </tr>
                                     ))}
@@ -1678,9 +1796,9 @@ export const ResumoFaturamento = () => {
                                 <div className='dashboardLine'>
                                     <label>Dashboards</label> <label>( Totais abaixo da lista! )</label>
 
-                                    <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
-                                
-                                    <button className='dashboardBtn' onClick={imprimirTpPg}> <img className='grafico' src='/images/printer.png' />Imprimir</button>
+                                    <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img alt='' className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
+                                    <button className='dashboardBtn' onClick={imprimirTpPg}> <img alt='' className='grafico' src='/images/printer.png' />Imprimir</button>
                                 </div>
                                 <div className='table-responsive'>
                                     <table id='table'>
@@ -1688,7 +1806,7 @@ export const ResumoFaturamento = () => {
                                             <tr>
                                                 {keys.map((nomes) => {
                                                     return (
-                                                        <th>{(nomes).replace('_', ' ').toUpperCase()}</th>
+                                                        <th>{(nomes).replace('_', ' ').replace('_', ' ').replace('_', ' ').toUpperCase()}</th>
                                                     );
                                                 })}
                                             </tr>
@@ -1700,7 +1818,7 @@ export const ResumoFaturamento = () => {
                                                 }
 
                                                 return (
-                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
                                                 );
                                             })}
                                         </tr>
@@ -1712,7 +1830,7 @@ export const ResumoFaturamento = () => {
                                                 }
 
                                                 return (
-                                                    <td> <p className='alinharValor' >{parseFloat(item.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
+                                                    <td> <p className='alinharValor' >{parseFloat(item).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
                                                 );
                                             })}
                                         </tr>
@@ -1725,7 +1843,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> <p className='alinharValor' > {parseFloat(item.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                    <td> <p className='alinharValor' > {parseFloat(item).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1739,7 +1857,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> <p className='alinharValor' >{parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
+                                                    <td> <p className='alinharValor' >{parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
 
                                                 );
                                             })}
@@ -1753,7 +1871,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1767,7 +1885,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1781,7 +1899,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1795,7 +1913,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1809,7 +1927,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 );
                                             })}
@@ -1823,7 +1941,7 @@ export const ResumoFaturamento = () => {
 
                                                 return (
 
-                                                    <td> <p className='alinharValor' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
+                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
 
                                                 );
                                             })}
@@ -1836,16 +1954,46 @@ export const ResumoFaturamento = () => {
                     </RF.DataGeral>
 
                     <div className='row' >
-                        <div className='item-bottom' >Boleto: {parseFloat(resultTpPg5.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div className='item-bottom' >Dinheiro: {parseFloat(resultTpPg.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div className='item-bottom' >Cartão de Credito: {parseFloat(resultTpPg2.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div className='item-bottom' >Cartão de Debito: {parseFloat(resultTpPg3.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div className='item-bottom' >Cheque: {parseFloat(resultTpPg4.toFixed(2).replace('.', ',').replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div className='item-bottom' >Pix: {parseFloat(resultTpPg13.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div className='item-bottom' >Cancelamento Total: {parseFloat(resultTpPg7.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div className='item-bottom' >Duplicata Mercanvil: {parseFloat(DPMercantil.toFixed(2).replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
-                        <div className='item-bottom' >Desconto Total: {parseFloat(resultTpPg8.toFixed(2).replace('NaN', '0,00'))}</div>
-                        <div className='item-bottom' >Total: {parseFloat(resultTpPg1.toFixed(2).replace('.', ',').replace('NaN', '0,00')).toLocaleString('pt-BR')}</div>
+                        <div className='item-bottom' >
+                            <label>Boleto: </label>
+                            <label>{parseFloat(String(resultTpPg5).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Dinheiro:</label>
+                            <label>{parseFloat(String(resultTpPg).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Cartão de Credito: </label>
+                            <label>{parseFloat(String(resultTpPg2).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Cartão de Debito: </label>
+                            <label>{parseFloat(String(resultTpPg3).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Cheque: </label>
+                            <label>{parseFloat(String(resultTpPg4).replace('.', ',').replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Pix: </label>
+                            <label>{parseFloat(String(resultTpPg13).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Cancelamento Total: </label>
+                            <label>{parseFloat(String(resultTpPg7).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Duplicata Mercanvil: </label>
+                            <label>{parseFloat(String(DPMercantil).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' >
+                            <label>Desconto Total: </label>
+                            <label>{parseFloat(String(resultTpPg8).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
+                        <div className='item-bottom' style={{ borderRight: "none" }}>
+                            <label>Total: </label>
+                            <label>{parseFloat(String(resultTpPg1).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                        </div>
                     </div>
                 </>
             ) : aba === "produto" ? (
@@ -1861,9 +2009,9 @@ export const ResumoFaturamento = () => {
                             <div className='dashboardLine'>
                                 <label>Dashboards</label>
 
-                                <button className='dashboardBtn' onClick={openDashboardProdutos}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                                <button className='dashboardBtn' onClick={openDashboardProdutos}> <img alt='' className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
-                                <button className='dashboardBtn' onClick={imprimirProduto} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirProduto} > <img alt='' className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
@@ -1907,19 +2055,19 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat2.produto} </td>
 
-                                                <td><p className='alinharValor' >{parseFloat(dat2.qtd_total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                <td><p className='alinharValor' >{parseFloat(dat2.qtd_total).toLocaleString('pt-br', { style: 'decimal', minimumFractionDigits: 3 })} </p></td>
 
-                                                <td> {parseFloat(dat2.sub_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td> {parseFloat(String(dat2.sub_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </td>
 
-                                                <td> {parseFloat((dat2.p_desconto).toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td> {parseFloat((String(dat2.p_desconto).replace(null, "0,00"))).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat2.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(String(dat2.vlr_desconto_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat2.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(String(dat2.vlr_venda_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat2.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(String(dat2.vlr_custo_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat2.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(String(dat2.vlr_lucro_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
                                                 <td> {dat2.p_markup.toFixed(2).replace('.', ',')} % </td>
 
@@ -1947,9 +2095,9 @@ export const ResumoFaturamento = () => {
                             <div className='dashboardLine'>
                                 <label>Dashboards</label>
 
-                                <button className='dashboardBtn' onClick={openDashboardGrupo}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                                <button className='dashboardBtn' onClick={openDashboardGrupo}> <img alt='' className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
-                                <button className='dashboardBtn' onClick={imprimirGrupo} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirGrupo} > <img alt='' className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
@@ -1994,25 +2142,25 @@ export const ResumoFaturamento = () => {
 
                                                 <td> {dat3.grupo} </td>
 
-                                                <td> {parseFloat(dat3.qtd_total.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td> {parseFloat(String(dat3.qtd_total).replace(null, "0,00")).toLocaleString('pt-br', { style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3 })} </td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat3.sub_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(String(dat3.sub_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td> {parseFloat(dat3.p_desconto.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td> {parseFloat(String(dat3.p_desconto).replace(null, "0,00")).toLocaleString('pt-br', { style: 'decimal', minimumFractionDigits: 2 })} </td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(String(dat3.vlr_desconto_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(String(dat3.vlr_venda_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(String(dat3.vlr_custo_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td><p className='alinharValor' > {parseFloat(dat3.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                                <td><p className='alinharValor' > {parseFloat(String(dat3.vlr_lucro_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                                <td> {parseFloat(dat3.p_markup.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td> {parseFloat(String(dat3.p_markup).replace(null, "0,00")).toLocaleString('pt-br', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })} </td>
 
-                                                <td> {parseFloat(dat3.p_margem.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td> {parseFloat(String(dat3.p_margem).replace(null, "0,00")).toLocaleString('pt-br', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })} </td>
 
-                                                <td> {parseFloat(dat3.percentual.toFixed(2)).toLocaleString('pt-BR')} </td>
+                                                <td> {parseFloat(String(dat3.percentual).replace(null, "0,00")).toLocaleString('pt-br', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })} </td>
                                             </tr>
 
                                         );
@@ -2036,9 +2184,9 @@ export const ResumoFaturamento = () => {
                             <div className='dashboardLine'>
                                 <label>Dashboards</label>
 
-                                <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                                <button className='dashboardBtn' onClick={openDashboardFornecedor}> <img alt='' className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
-                                <button className='dashboardBtn' onClick={imprimirFornecedor}> <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirFornecedor}> <img alt='' className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className='table-responsive'>
                                 <table id='table'>
@@ -2080,25 +2228,25 @@ export const ResumoFaturamento = () => {
 
                                             <td> {dat.fornecedor} </td>
 
-                                            <td> {parseFloat(dat.qtd_total).toLocaleString('pt-BR')} </td>
+                                            <td> {parseFloat(String(dat.qtd_total).replace(null, "0,00")).toLocaleString('pt-br', { style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3 })} </td>
 
-                                            <td><p className='alinharValor' > {parseFloat(dat.sub_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                            <td><p className='alinharValor' > {parseFloat(String(dat.sub_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                            <td> {parseFloat((dat.p_desconto).toFixed(3)).toLocaleString('pt-BR')} </td>
+                                            <td> {parseFloat(String(dat.p_desconto).replace(null, "0,00")).toLocaleString('pt-br', { style: 'decimal', minimumFractionDigits: 3, maximumFractionDigits: 3 })} </td>
 
-                                            <td><p className='alinharValor' > {parseFloat(dat.vlr_desconto_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                            <td><p className='alinharValor' > {parseFloat(String(dat.vlr_desconto_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                            <td><p className='alinharValor' >{parseFloat(dat.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                            <td><p className='alinharValor' >{parseFloat(String(dat.vlr_venda_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                            <td><p className='alinharValor' > {parseFloat(dat.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                            <td><p className='alinharValor' > {parseFloat(String(dat.vlr_custo_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                            <td><p className='alinharValor' > {parseFloat(dat.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
+                                            <td><p className='alinharValor' > {parseFloat(String(dat.vlr_lucro_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
 
-                                            <td> {dat.p_markup.toFixed(2).replace('.', ',')} </td>
+                                            <td> {parseFloat(String(dat.p_markup).replace(null, "0,00")).toLocaleString('pt-br', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })} </td>
 
-                                            <td> {dat.p_margem.toFixed(2).replace('.', ',')} </td>
+                                            <td> {parseFloat(String(dat.p_margem).replace(null, "0,00")).toLocaleString('pt-br', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })} </td>
 
-                                            <td> {(dat.percentual).toFixed(2).replace('.', ',')} </td>
+                                            <td> {parseFloat(String(dat.percentual).replace(null, "0,00")).toLocaleString('pt-br', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })} </td>
 
                                         </tr>
                                     ))}
@@ -2111,240 +2259,309 @@ export const ResumoFaturamento = () => {
             ) : null}
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardRegiao} onRequestClose={closeDashboardRegiao} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles}>
+                <div style={{ position: "sticky", top: "0px", backgroundColor: "rgb(110, 194, 250)" }}>
+                    <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img alt='' className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Região <button className='filialBTN' onClick={() => setDsRegiaoDetalhada(true)}><img alt='' className='close' src='/images/regiao.png' />Cada Região</button></h1>
+                </div>
 
-                <button onClick={closeDashboardRegiao} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                <div className='dashboardTexts'>
 
-                <h1>Dados Região <button className='filialBTN' onClick={() => setDsRegiaoDetalhada(true)}><img className='close' src='/images/regiao.png' />Cada Região</button></h1>
-
-                <div>
-
-                    <div className='dashboardTexts'>
-
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: {parseFloat(result2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: {parseFloat(result.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: {parseFloat(result1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(result3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(result4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
+                    <div className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: {parseFloat(result2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
 
-                    <RF.Dashboard>
-                        <div className='grafico-reg' > <Chart chartType='Bar' width='100%' height='95%' data={chartRegiao} options={optionsRegiao} /> </div>
-                    </RF.Dashboard>
+                    <div className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: {parseFloat(result.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
 
-                    <Modal className='dashboardCadaFilial' shouldCloseOnEsc={false} isOpen={dsRegiaoDetalhada} onRequestClose={() => setDsRegiaoDetalhada(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
+                    <div className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: {parseFloat(result1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
 
-                        <div className='topo-content' >
-                            <button className='closeBtnMenor' onClick={() => setDsRegiaoDetalhada(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+                    <div className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(result3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
 
-                            <h1>Cada Região</h1>
-                        </div>
-
-                        <RF.Dashboard0>
-                            {dadosRegiao.map((data) => {
-                                const chartRe = [
-                                    [
-                                        "Element",
-                                        "Valor",
-                                        { role: "style" },
-                                        {
-                                            sourceColumn: 0,
-                                            role: "annotation",
-                                            type: "string",
-                                            calc: "stringify",
-                                        },
-                                    ],
-                                    ["Lucro", data.vlLucroTotal, "#f6d001", null],
-                                    ["Custo", data.vlCustoTotal, "#bc1b2b", null],
-                                    ["Venda Total", data.vlVendaTotal, "#F7C64F", null],
-                                    ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
-                                    ["NFC-e", data.vlTotalNfce, "#0854b2", null],
-                                ]
-
-                                const optionsRe = {
-                                    title: data.regiao,
-                                    width: "100%",
-                                    height: "95%",
-                                    bar: { groupWidth: "95%", },
-                                    legend: { position: "none" }
-                                }
-
-                                return (
-                                    <div className='grafico' ><Chart chartType='BarChart' data={chartRe} options={optionsRe} /></div>
-                                )
-
-                            })}
-                        </RF.Dashboard0>
-
-                    </Modal>
+                    <div className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(result4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
 
                 </div>
+                <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
+                    <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                        <BarChart
+                            data={dadosRegiao}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="regiao" />
+                            <YAxis />
+                            <Tooltip />
+                            <ReferenceLine y={0} stroke="#000" />
+                            <Brush dataKey="regiao" height={30} stroke="#8884d8" />
+                            <Bar dataKey="vlVendaTotal" fill="#8884d8" >
+                                {dadosRegiao.map((data, i) => (
+
+                                    <Cell key={`cell-${i}`} fill={'#064A8B'} />
+                                ))}
+                            </Bar>
+                            <Bar dataKey="vlLucroVenda" fill="#8884d8" >
+                                {dadosRegiao.map((data, i) => (
+
+                                    <Cell key={`cell-${i}`} fill={'#00C49F'} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+                {/*<RF.Dashboard>
+                            <Chart
+                                width={"100%"}
+                                height={"95%"}
+                                chartType="BarChart"
+                                data={chartRegiao}
+                                options={optionsRegiao}/>
+                    </RF.Dashboard>*/}
+
+                <Modal className='dashboardCadaFilial' shouldCloseOnEsc={false} isOpen={dsRegiaoDetalhada} onRequestClose={() => setDsRegiaoDetalhada(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
+
+                    <div className='topo-content' >
+                        <button className='closeBtnMenor' onClick={() => setDsRegiaoDetalhada(false)}><img alt='' className='close' src='/images/voltar.png' />Voltar</button>
+
+                        <h1>Cada Região</h1>
+                    </div>
+
+                    {dadosRegiao.map((data) => {
+                        const chartRe = [
+                            [
+                                "Element",
+                                "Valor",
+                                { role: "style" },
+                                {
+                                    sourceColumn: 0,
+                                    role: "annotation",
+                                    type: "string",
+                                    calc: "stringify",
+                                },
+                            ],
+                            ["Lucro", data.vlLucroTotal, "#f6d001", null],
+                            ["Custo", data.vlCustoTotal, "#bc1b2b", null],
+                            ["Venda Total", data.vlVendaTotal, "#F7C64F", null],
+                            ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                            ["NFC-e", data.vlTotalNfce, "#0854b2", null],
+                        ]
+
+                        const optionsRe = {
+                            title: data.regiao,
+                            width: "100%",
+                            height: "95%",
+                            bar: { groupWidth: "95%", },
+                            legend: { position: "none" }
+                        }
+
+                        return (
+                            <RF.DashboardGrafico><Chart chartType='BarChart' data={chartRe} options={optionsRe} /></RF.DashboardGrafico>
+                        )
+
+                    })}
+
+                </Modal>
             </Modal>
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardFilial} onRequestClose={closeDashboardFilial} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
+                <div style={{ position: "sticky", top: "0px", backgroundColor: "rgb(110, 194, 250)" }}>
+                    <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img alt='' className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Filial<button onClick={() => setGraficosCadaFilial(true)} className='filialBTN' > <img alt='' className='close' src='/images/filiais.png' /> Cada Filial</button></h1>
+                </div>
+                <div className='dashboardTexts' >
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: {parseFloat(String(resultFi2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                <button onClick={closeDashboardFilial} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: {parseFloat(String(resultFi).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                <h1>Dados Filial<button onClick={() => setGraficosCadaFilial(true)} className='filialBTN' > <img className='close' src='/images/filiais.png' /> Cada Filial</button></h1>
+                    <h2 className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: {parseFloat(String(resultFi1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                <div>
-                    <div className='dashboardTexts' >
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(String(resultFi3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: {parseFloat(resultFi.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(String(resultFi4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: {parseFloat(String(resultFi5).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: {parseFloat(String(resultFi6).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
+                </div>
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
+                    <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                        <BarChart
+                            data={dados}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="filial" />
+                            <YAxis />
+                            <Tooltip />
+                            <ReferenceLine y={0} stroke="#000" />
+                            <Brush dataKey="filial" height={30} stroke="#8884d8" />
+                            <Bar dataKey="vlVendaTotal" fill="#8884d8" >
+                                {dados.map((data, i) => (
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: R$ {parseFloat(resultFi5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                                    <Cell key={`cell-${i}`} fill={'#064A8B'} />
+                                ))}
+                            </Bar>
+                            <Bar dataKey="vlLucroVenda" fill="#8884d8" >
+                                {dados.map((data, i) => (
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: R$ {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                                    <Cell key={`cell-${i}`} fill={'#00C49F'} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+                {/*<RF.Dashboard>
+                        <Chart width='100%' height='95%' chartType='BarChart' data={chartFilial} options={filialOptions} />
+                    </RF.Dashboard>*/}
+
+                <Modal isOpen={graficosCadaFilial} onRequestClose={() => setGraficosCadaFilial(false)} className='dashboardCadaFilial' overlayClassName='none'>
+
+                    <div className='topo-content' >
+                        <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img alt='' className='close' src='/images/voltar.png' />Voltar</button>
+
+                        <h1>Cada Filial</h1>
+
+                        <input className='srch' type='search' name='search-fili' id='search-fili' placeholder='Buscar por Filial...' onChange={(e) => setQueryFi(e.target.value)} />
                     </div>
 
-                    <RF.Dashboard>
-                        <div className='justSize' ><Chart width='98%' height='96%' chartType='Bar' data={chartFilial} options={filialOptions} /></div>
-                    </RF.Dashboard>
+                    {dados.filter(dat => dat.filial.toLowerCase().includes(queryFi)).map((data) => {
+                        const ChartFi = [
+                            [
+                                "Element",
+                                "Valor",
+                                { role: "style" },
+                                {
+                                    sourceColumn: 0,
+                                    role: "annotation",
+                                    type: "string",
+                                    calc: "stringify",
+                                },
+                            ],
+                            ["Lucro", data.vlLucroVenda, "#f6d002", null],
+                            ["Custo", data.vlCustoTotal, "#ad1b27", null],
+                            ["Total Venda", data.vlVendaTotal, "#b2bb1c", null],
+                            ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
+                            ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
+                            ["Credito", data.vlTotalCredito, "#ff6ad8", null],
+                            ["Liquido", data.vlTotalLiquido, "#ffaf56", null],
+                        ]
 
-                    <Modal isOpen={graficosCadaFilial} onRequestClose={() => setGraficosCadaFilial(false)} className='dashboardCadaFilial' overlayClassName='none'>
+                        const optionsFili = {
+                            title: data.filial,
+                            width: "100%",
+                            height: "95%",
+                            bar: { groupWidth: "95%", },
+                            legend: { position: "none" }
+                        }
 
-                        <div className='topo-content' >
-                            <button className='closeBtnMenor' onClick={() => setGraficosCadaFilial(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+                        return (
+                            <RF.DashboardGrafico><Chart chartType='BarChart' data={ChartFi} options={optionsFili} /></RF.DashboardGrafico>
+                        )
+                    })}
 
-                            <h1>Cada Filial</h1>
-
-                            <input className='srch' type='search' name='search-fili' id='search-fili' placeholder='Buscar por Filial...' onChange={(e) => setQueryFi(e.target.value)} />
-                        </div>
-
-                        <RF.Dashboard0>
-                            {dados.filter(dat => dat.filial.toLowerCase().includes(queryFi)).map((data) => {
-                                const ChartFi = [
-                                    [
-                                        "Element",
-                                        "Valor",
-                                        { role: "style" },
-                                        {
-                                            sourceColumn: 0,
-                                            role: "annotation",
-                                            type: "string",
-                                            calc: "stringify",
-                                        },
-                                    ],
-                                    ["Lucro", data.vlLucroVenda, "#f6d002", null],
-                                    ["Custo", data.vlCustoTotal, "#ad1b27", null],
-                                    ["Total Venda", data.vlVendaTotal, "#b2bb1c", null],
-                                    ["NF-e", data.vlTotalNfe, "#bc1b9c", null],
-                                    ["NFC-e", data.vlTotalNfce, "#1b7abc", null],
-                                    ["Credito", data.vlTotalCredito, "#ff6ad8", null],
-                                    ["Liquido", data.vlTotalLiquido, "#ffaf56", null],
-                                ]
-
-                                const optionsFili = {
-                                    title: data.filial,
-                                    width: "100%",
-                                    height: "95%",
-                                    bar: { groupWidth: "95%", },
-                                    legend: { position: "none" }
-                                }
-
-                                return (
-                                    <div className='grafico'><Chart chartType='BarChart' data={ChartFi} options={optionsFili} /></div>
-                                )
-                            })}
-                        </RF.Dashboard0>
-
-                    </Modal>
-
-                </div>
+                </Modal>
 
             </Modal>
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardVendedor} onRequestClose={closeDashboardVendedor} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
-
-                <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                <h1>Dados Vendedor<button onClick={() => setOpenIndivualVend(true)} className='filialBTN' > <img className='close' src='/images/vendedor.png' /> Cada Vendedor</button></h1>
+                <div style={{ position: "sticky", top: "0px", backgroundColor: "rgb(110, 194, 250)" }}>
+                    <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img alt='' className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Vendedor<button onClick={() => setOpenIndivualVend(true)} className='filialBTN' > <img alt='' className='close' src='/images/vendedor.png' /> Cada Vendedor</button></h1>
+                </div>
 
                 <div>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: R$ {parseFloat((resultVen2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: {parseFloat(String(resultVen2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {parseFloat((resultVen)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Custo: {parseFloat(String(resultVen).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Total: R$ {parseFloat(resultVen1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Total: {parseFloat(String(resultVen1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {parseFloat(resultVen3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(String(resultVen3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(resultVen4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(String(resultVen4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: R$ {parseFloat(resultVen5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoRosa.png' /> Credito: {parseFloat(String(resultVen5).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: R$ {parseFloat(resultVen6.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: {parseFloat(String(resultVen6).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: R$ {parseFloat(resultVen7.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: {parseFloat(String(resultVen7).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoCinza.png' /> Desconto: R$ {parseFloat(resultVen8.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoCinza.png' /> Desconto: {parseFloat(String(resultVen8).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
                     </div>
 
                 </div>
+                <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
+                    <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                        <BarChart
+                            data={dadosVendedor}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="vendedor" />
+                            <YAxis />
+                            <Tooltip />
+                            <ReferenceLine y={0} stroke="#000" />
+                            <Brush dataKey="vendedor" height={30} stroke="#8884d8" />
+                            <Bar dataKey="vlVendaTotal" fill="#8884d8" >
+                                {dadosVendedor.map((data, i) => (
 
-                <RF.Dashboard>
-                    <div className='justSize' ><Chart chartType='Bar' width="100%" height="2000px" data={chartDataVend} options={optionsVendedor} className='grafico' /></div>
-                </RF.Dashboard>
+                                    <Cell key={`cell-${i}`} fill={'#064A8B'} />
+                                ))}
+                            </Bar>
+                            <Bar dataKey="vlLucroVenda" fill="#8884d8" >
+                                {dadosVendedor.map((data, i) => (
+
+                                    <Cell key={`cell-${i}`} fill={'#00C49F'} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+                {/*<RF.Dashboard>
+                    <Chart chartType='BarChart' width="100%" height="100%" data={chartDataVend} options={optionsVendedor}/>
+                </RF.Dashboard>*/}
 
                 <Modal isOpen={openIndividualVend} shouldCloseOnEsc={false} onRequestClose={() => setOpenIndivualVend(false)} contentLabel='dashboard' shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardCadaFilial' >
 
                     <div className='topo-content' >
-                        <button className='closeBtnMenor' onClick={() => setOpenIndivualVend(false)}><img className='close' src='/images/voltar.png' />Voltar</button>
+                        <button className='closeBtnMenor' onClick={() => setOpenIndivualVend(false)}><img alt='' className='close' src='/images/voltar.png' />Voltar</button>
 
                         <h1>Cada Vendedor</h1>
 
@@ -2385,44 +2602,44 @@ export const ResumoFaturamento = () => {
             </Modal>
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardCliente} onRequestClose={closeDashboardCliente} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
-
-                <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                <h1>Dados Cliente <button className='filialBTN' onClick={() => setIsOpenDashboardClienteAll(true)}><img className='close' src='/images/cliente.png' />Cada Cliente</button> </h1>
+                <div style={{ position: "sticky", top: "0px", backgroundColor: "rgb(110, 194, 250)" }}>
+                    <button onClick={closeDashboardCliente} className='closeBtn'>  Fechar<img alt='' className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Cliente <button className='filialBTN' onClick={() => setIsOpenDashboardClienteAll(true)}><img alt='' className='close' src='/images/cliente.png' />Cada Cliente</button> </h1>
+                </div>
 
                 <div>
 
                     <div className='dashboardTexts' >
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: R$ {parseFloat(resultCli1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: {parseFloat(String(resultCli1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Custo: R$ {parseFloat(resultCli4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Custo: {parseFloat(String(resultCli4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: R$ {parseFloat(resultCli.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: {parseFloat(String(resultCli).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: R$ {parseFloat(resultCli2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(String(resultCli2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: R$ {parseFloat(resultCli3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(String(resultCli3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Credito: {parseFloat(resultCli7.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoRosa.png' /> Credito: {parseFloat(String(resultCli7).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: R$ {parseFloat(resultCli6.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: {parseFloat(String(resultCli6).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                         <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {parseFloat(resultCli5.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                            <img alt='' className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {parseFloat(String(resultCli5).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                         </h2>
 
                     </div>
@@ -2430,7 +2647,7 @@ export const ResumoFaturamento = () => {
                     <Modal isOpen={dashboardClienteAll} onRequestClose={() => setIsOpenDashboardClienteAll(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardCadaFilial' >
 
                         <div className='topo-content' >
-                            <button className='closeBtnMenor' onClick={() => setIsOpenDashboardClienteAll(false)} ><img className='close' src='/images/voltar.png' />Voltar</button>
+                            <button className='closeBtnMenor' onClick={() => setIsOpenDashboardClienteAll(false)} ><img alt='' className='close' src='/images/voltar.png' />Voltar</button>
 
                             <h1>Cada Cliente</h1>
 
@@ -2472,16 +2689,16 @@ export const ResumoFaturamento = () => {
                 </div>
 
                 <RF.Dashboard>
-                    <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataCli0} options={optionsCli0} /></div>
+                    <Chart chartType="BarChart" width="100%" height="200%" data={dataCli0} options={optionsCli0} />
                 </RF.Dashboard>
 
             </Modal>
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardTipoDePagamento} onRequestClose={closeDashboardTipoDePagamento} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" style={customStyles} >
-
-                <button onClick={closeDashboardTipoDePagamento} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                <h1>Dados Tipo Pagamento</h1>
+                <div style={{ position: "sticky", top: "0px", backgroundColor: "rgb(110, 194, 250)", zIndex: 1 }}>
+                    <button onClick={closeDashboardTipoDePagamento} className='closeBtn'>  Fechar<img alt='' className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Tipo Pagamento</h1>
+                </div>
 
                 <div>
                     <RF.A>
@@ -2509,69 +2726,93 @@ export const ResumoFaturamento = () => {
                             </div>
                         </table>
                     </RF.A>
-
-                    <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="ColumnChart" width="100%" height="95%" data={dataTpPg} /> </div>
-                        <div className="graficoLongo" ><Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} /> </div>
-                        <div className="grafico" ><Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="100%" height="95%" /> </div>
-                    </RF.Dashboard>
-
                 </div>
+                <RF.Dashboard style={{ border: "none", backgroundColor: "transparent", height: "40%" }}>
+                    <div className="grafico" ><Chart chartType="ColumnChart" width="95%" height="95%" data={dataTpPg} /> </div>
+                    <div className="graficoLongo" ><Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} /> </div>
+                    <div className="grafico" ><Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="95%" height="95%" /> </div>
+                </RF.Dashboard>
 
-                <RF.Dashboard>
-                    <div className='graficoLongoB' ><Chart chartType="Bar" width="90%" height="230px" data={dataTpPg0} options={optionsCli0} /></div>
+
+
+                <RF.Dashboard style={{ border: "none", backgroundColor: "transparent", height: "50%" }}>
+                    <div className='graficoLongoB' ><Chart chartType="BarChart" width="90%" height="230px" data={dataTpPg0} options={optionsCli0} /></div>
                     <div className='graficoLongoA' > <Chart chartType="ColumnChart" width="350px" height="230px" data={dataTpPgVale} /></div>
                 </RF.Dashboard>
 
             </Modal>
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles}>
+                <div style={{ position: "sticky", top: "0px", backgroundColor: "rgb(110, 194, 250)", zIndex: 1 }}>
+                    <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img alt='' className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Produtos<button onClick={openDashboardProdutosDetalhados} className='filialBTN' > <img alt='' className='close' src='/images/produto.png' /> Cada Produto</button></h1>
+                </div>
 
-                <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                <div className='dashboardTexts'>
 
-                <h1>Dados Produtos<button onClick={openDashboardProdutosDetalhados} className='filialBTN' > <img className='close' src='/images/produto.png' /> Cada Produto</button></h1>
+                    <h2 className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {parseFloat(String(resultProd).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                <div>
-                    <div className='dashboardTexts'>
+                    <h2 className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {parseFloat(String(resultProd1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {parseFloat(resultProd.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                    <h2 className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {parseFloat(String(resultProd3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {parseFloat(resultProd1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                    <h2 className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoCinza.png' /> Custo: {parseFloat(String(resultProd2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {parseFloat(resultProd3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                    <h2 className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Desconto: {parseFloat(String(resultProd4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoCinza.png' /> Custo: {parseFloat(resultProd2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                </div>
+                <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
+                    <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                        <BarChart
+                            data={dadosProduto}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="produto" />
+                            <YAxis />
+                            <Tooltip />
+                            <ReferenceLine y={0} stroke="#000" />
+                            <Brush dataKey="produto" height={30} stroke="#8884d8" />
+                            <Bar dataKey="vlr_venda_total" fill="#8884d8" >
+                                {dadosProduto.map((data, i) => (
 
-                        <h2 className='prices'>
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Desconto: {parseFloat(resultProd4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                                    <Cell key={`cell-${i}`} fill={'#064A8B'} />
+                                ))}
+                            </Bar>
+                            <Bar dataKey="vlr_lucro_total" fill="#8884d8" >
+                                {dadosProduto.map((data, i) => (
 
-                    </div>
-
-                    <RF.Dashboard>
+                                    <Cell key={`cell-${i}`} fill={'#00C49F'} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                    {/*
+                    <RF.Dashboard style={{height: "400px"}}>
                         <div className='next' >
                             <button onClick={abp1} >1-90</button> <button onClick={abp2} >91-181</button> <button onClick={abp3} >182-272</button> <button onClick={abp4} >273-363</button> <button onClick={abp5} >364-454</button>
                             <button onClick={abp6} >455-545</button> <button onClick={abp7} >546-636</button> <button onClick={abp8} >637-727</button> <button onClick={abp9} >728-818</button> <button onClick={abp10} >819-909</button>
                             <button onClick={abp11} >910-1000</button>
                         </div>
 
-                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataProd0} options={optionsProd0} className='grafico' /></div>
+                        <Chart chartType="BarChart" width="100%" height="200%" data={dataProd0} options={optionsProd0}/>
                     </RF.Dashboard>
-
+                    */}
                 </div>
 
                 <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardCadaFilial'>
 
                     <div className='topo-content' >
-                        <button className='closeBtnMenor' onClick={closeDashboardProdutosDetalhados} ><img className='close' src='/images/voltar.png' />Voltar</button>
+                        <button className='closeBtnMenor' onClick={closeDashboardProdutosDetalhados} ><img alt='' className='close' src='/images/voltar.png' />Voltar</button>
 
                         <h1>Cada Produto</h1>
 
@@ -2608,42 +2849,64 @@ export const ResumoFaturamento = () => {
             </Modal>
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupo} onRequestClose={closeDashboardGrupo} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles} >
+                <div style={{ position: "sticky", top: "0px", backgroundColor: "rgb(110, 194, 250)", zIndex: 1 }}>
+                    <button onClick={closeDashboardGrupo} className='closeBtn'>  Fechar<img alt='' className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Grupo <button onClick={openDashboardGrupoDetalhado} className='filialBTN' > <img alt='' className='close' src='/images/grupo.png' /> Cada Grupo</button> </h1>
+                </div>
 
-                <button onClick={closeDashboardGrupo} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                <div className='dashboardTexts' >
 
-                <h1>Dados Grupo <button onClick={openDashboardGrupoDetalhado} className='filialBTN' > <img className='close' src='/images/grupo.png' /> Cada Grupo</button> </h1>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(String(resultGru).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                <div>
-                    <div className='dashboardTexts' >
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {parseFloat(String(resultGru1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(resultGru.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {parseFloat(String(resultGru2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {parseFloat(resultGru1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {parseFloat(resultGru2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {parseFloat(resultGru3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                    </div>
-
-                    <RF.Dashboard>
-                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataGru0} options={optionsGru0} /></div>
-                    </RF.Dashboard>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {parseFloat(String(resultGru3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
                 </div>
+                <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
+                    <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                        <BarChart
+                            data={dadosGrupo}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="grupo" />
+                            <YAxis />
+                            <Tooltip />
+                            <ReferenceLine y={0} stroke="#000" />
+                            <Brush dataKey="grupo" height={30} stroke="#8884d8" />
+                            <Bar dataKey="vlr_venda_total" fill="#8884d8" >
+                                {dadosGrupo.map((data, i) => (
+
+                                    <Cell key={`cell-${i}`} fill={'#064A8B'} />
+                                ))}
+                            </Bar>
+                            <Bar dataKey="vlr_lucro_total" fill="#8884d8" >
+                                {dadosGrupo.map((data, i) => (
+
+                                    <Cell key={`cell-${i}`} fill={'#00C49F'} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+                {/*<RF.Dashboard>
+                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataGru0} options={optionsGru0} /></div>
+                    </RF.Dashboard>*/}
 
                 <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardCadaFilial' >
 
                     <div className='topo-content' >
-                        <button className='closeBtnMenor' onClick={closeDashboardGrupoDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
+                        <button className='closeBtnMenor' onClick={closeDashboardGrupoDetalhado}><img alt='' className='close' src='/images/voltar.png' />Voltar</button>
 
                         <h1>Cada Grupo</h1>
 
@@ -2679,45 +2942,66 @@ export const ResumoFaturamento = () => {
             </Modal>
 
             <Modal isOpen={dashboardFornecedor} onRequestClose={closeDashboardFornecedor} shouldCloseOnOverlayClick={false} style={customStyles} overlayClassName="null"  >
+                <div style={{ position: "sticky", top: "0px", backgroundColor: "rgb(110, 194, 250)", zIndex: 1 }}>
+                    <button onClick={closeDashboardFornecedor} className='closeBtn'>  Fechar<img alt='' className='close' src='/images/voltar.png' /> </button>
+                    <h1>Dados Fornecedor<button onClick={openDashboardFornecedorDetalhado} className='filialBTN' > <img alt='' className='close' src='/images/fornecedor.png' /> Cada Fornecedor</button></h1>
+                </div>
+                <div className='dashboardTexts' >
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(String(resultFor).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                <button onClick={closeDashboardFornecedor} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {parseFloat(String(resultFor1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                <h1>Dados Fornecedor<button onClick={openDashboardFornecedorDetalhado} className='filialBTN' > <img className='close' src='/images/fornecedor.png' /> Cada Fornecedor</button></h1>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {parseFloat(String(resultFor2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                <div>
-                    <div className='dashboardTexts' >
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(resultFor.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {parseFloat(String(resultFor3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {parseFloat(resultFor1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {parseFloat(resultFor2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {parseFloat(resultFor3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img className='cifrões' src='/images/cifraoVerde.jpg' /> Sub.Total: {parseFloat(resultFor4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                    </div>
-
-                    <RF.Dashboard>
-                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataFor0} options={optionsFor0} /></div>
-                    </RF.Dashboard>
+                    <h2 className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Sub.Total: {parseFloat(String(resultFor4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </h2>
 
                 </div>
+                <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
+                    <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                        <BarChart
+                            data={dadosFornecedor}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="fornecedor" />
+                            <YAxis />
+                            <Tooltip />
+                            <ReferenceLine y={0} stroke="#000" />
+                            <Brush dataKey="fornecedor" height={30} stroke="#8884d8" />
+                            <Bar dataKey="vlr_venda_total" fill="#8884d8" >
+                                {dadosFornecedor.map((data, i) => (
+
+                                    <Cell key={`cell-${i}`} fill={'#064A8B'} />
+                                ))}
+                            </Bar>
+                            <Bar dataKey="vlr_lucro_total" fill="#8884d8" >
+                                {dadosFornecedor.map((data, i) => (
+
+                                    <Cell key={`cell-${i}`} fill={'#00C49F'} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+                {/*<RF.Dashboard>
+                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataFor0} options={optionsFor0} /></div>
+                    </RF.Dashboard>*/}
 
                 <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardCadaFilial' overlayClassName="dashboard-overlay"  >
 
                     <div className='topo-content' >
-                        <button className='closeBtnMenor' onClick={closeDashboardFornecedorDetalhado}><img className='close' src='/images/voltar.png' />Voltar</button>
+                        <button className='closeBtnMenor' onClick={closeDashboardFornecedorDetalhado}><img alt='' className='close' src='/images/voltar.png' />Voltar</button>
 
                         <h1>Cada Fornecedor</h1>
 
@@ -2756,15 +3040,15 @@ export const ResumoFaturamento = () => {
             <C.Footer >
 
                 <div className='buttons'>
-                    <button onClick={openDashboardGeral}> <img src='/images/grafico.png' /> Graf. Gerais</button>
-                    <button onClick={() => navigate('/home')}> <img src='/images/voltar.png' /> Voltar</button>
+                    <button onClick={openDashboardGeral}> <img alt='' src='/images/grafico.png' /> Graf. Gerais</button>
+                    <button onClick={() => navigate('/home')}> <img alt='' src='/images/voltar.png' /> Voltar</button>
                 </div>
 
                 <Modal isOpen={dashboardGeral} onRequestClose={closeDashboardGeral} shouldCloseOnEsc={false} shouldCloseOnOverlayClick={false} style={customStyles} overlayClassName="none" >
-
-                    <button onClick={closeDashboardGeral} className='closeBtn'>  Fechar<img className='close' src='/images/voltar.png' /> </button>
-
-                    <h1>Dashboard Geral</h1>
+                    <div style={{ position: "sticky", top: "0px", backgroundColor: "rgb(110, 194, 250)", zIndex: 1 }}>
+                        <button onClick={closeDashboardGeral} className='closeBtn'>  Fechar<img alt='' className='close' src='/images/voltar.png' /> </button>
+                        <h1>Dashboard Geral</h1>
+                    </div>
 
                     <div className='dashboardTexts'>
 
@@ -2780,21 +3064,21 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barData} options={barOptions} /></div>
+                        <div className="grafico" ><Chart chartType="BarChart" data={barData} options={barOptions}  width="95%" height="95%" /></div>
                         <div className="graficoLongo" ><Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} /></div>
-                        <div className="graficoLongo" ><Chart chartType="BarChart" data={barDataVen} options={barOptionsVen} /></div>
+                        <div className="graficoLongo" ><Chart chartType="BarChart" data={barDataVen} options={barOptionsVen}  width="95%" height="95%" /></div>
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataCli} options={barOptionsCli} /></div>
+                        <div className="grafico" ><Chart chartType="BarChart" data={barDataCli} options={barOptionsCli}  width="95%" height="95%" /></div>
                         <div className="graficoLongo" ><Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} /></div>
-                        <div className="grafico" ><Chart chartType="PieChart" data={dataNfs} options={options2} width="100%" height="95%" /></div>
+                        <div className="grafico" ><Chart chartType="PieChart" data={dataNfs} options={options2} width="95%" height="95%" /></div>
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataPro} options={barOptionsPro} /></div>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataGru} options={barOptionsGru} /></div>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataFor} options={barOptionsFor} /></div>
+                        <div className="grafico" ><Chart chartType="BarChart" data={barDataPro} options={barOptionsPro}  width="95%" height="95%" /></div>
+                        <div className="grafico" ><Chart chartType="BarChart" data={barDataGru} options={barOptionsGru}  width="95%" height="95%" /></div>
+                        <div className="grafico" ><Chart chartType="BarChart" data={barDataFor} options={barOptionsFor}  width="95%" height="95%" /></div>
                     </RF.Dashboard>
 
                 </Modal>

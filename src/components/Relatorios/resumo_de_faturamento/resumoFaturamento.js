@@ -146,11 +146,14 @@ export const Data = styled.div`
     @media (max-width: 800px) {
         overflow-x: auto;
     }
-    @media (max-width: 420px) {
+    @media (max-width: 460px) {
         margin-top: 5%;
         width: 97%;
         margin-left: 0px;
         height: 23vh;
+        input{
+            width: auto;
+        }
         .data{
             overflow-x: auto;
         }
@@ -159,6 +162,7 @@ export const Data = styled.div`
 export const Navegacao = styled.div`
     margin: auto;
     margin-bottom: 0;
+    margin-top: 0;
     display: flex;
     justify-content: start;
     width: 95%;
@@ -256,57 +260,118 @@ export const DataGeral = styled.div`
     #table tr:hover td{
         background-color: #87CEFA;
     }
-
-      
+    @media(max-width: 460px){    
+        .table-responsive{
+            overflow: auto;
+            height: 60%;
+            width: 100%;
+        }
+    }
 `
 export const Dashboard = styled.div`
-margin-top: 10px;
-display: flex;
-.next{
+    margin-top: 10px;
     display: flex;
-    flex-direction: column;
-    margin: 2px;
-    button{
+    width: 100%;
+    height: 40%;
+    overflow: auto;
+    display: flex;
+    .next{
+        display: flex;
+        flex-direction: column;
         margin: 2px;
-        width: 100px;
+        button{
+            margin: 2px;
+            width: 100px;
+        }
     }
-}
-justify-content: space-between;
-.grafico-reg{
+    .grafico{
+        width: 400px;
+        height: 210px;
+        border: 1px solid black;
+        border-radius: 8px;
+        align-items: center;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: space-between;
+    }
+    .graficoLongo {
+        align-items: center;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: space-between;
+        width: 400px;
+        height: 210px;
+        margin-right: 10px;
+        border: 1px solid black;
+        border-radius: 8px;
+    }
+    
+    .graficoLongoB {
+        align-items: center;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: space-between;
+        width: 65%;
+        height: 90%;
+        margin-right: 10px;
+        border-style: solid;
+        border-radius: 8px;
+        border-width: 1px;
+    }
+    
+    .graficoLongoA {
+        align-items: center;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: space-between;
+        width: 360px;
+        height: 90%;
+        margin-right: 10px;
+        border-style: solid;
+        border-radius: 8px;
+        border-width: 1px;
+    }
+    justify-content: start;
+    align-items: center;
+    @media(max-width: 460px){
+        height: 200px;
+        .graficoLongoB{
+            width: 400px;
+        }
+        .graficoLongo{
+            width: 400px;
+        }
+        .grafico{
+            width: 400px;
+        }
+    }
+    @media(max-width: 1500px){
+    }
+`
+export const DashboardGrafico = styled.div`
+    margin: 10px auto 10px auto;
+    display: flex;
+    width: 40%;
     overflow: auto;
     background-color: #ffffff;
     display: flex;
-    width: 80%;
-    height: 400px;
-    margin-right: 10px;
-    border-style: solid;
+    height: 20%;
+    border: 1px solid black;
     border-radius: 8px;
-    border-width: 1px;
-}
-.grafico {
-    align-items: center;
-    background-color: #ffffff;
-    display: flex;
+    .next{
+        display: flex;
+        flex-direction: column;
+        margin: 2px;
+        button{
+            margin: 2px;
+            width: 100px;
+        }
+    }
     justify-content: space-between;
-    width: 310px;
-    height: 210px;
-    margin-right: 10px;
-    border-style: solid;
-    border-radius: 8px;
-    border-width: 1px;
-}
-@media(max-width: 420px){
-    display: grid;
-    .grafico{
-        margin: 10px;
+    @media(max-width: 460px){
+        width: 100%;
+        height: 20vh;
     }
-}
-@media(min-width: 1500px){
-    .grafico{
-        width: 32%;
-        height: 310px;    
-    }
-}
 `
 export const DashboardMenor = styled.div`
 height: 45%;
@@ -336,37 +401,33 @@ margin: 50px;
 }
 `
 export const Dashboard0 = styled.div`
-display: flex;
-margin: 10px;
-flex-wrap: wrap;
-align-items: center;
-justify-content: center;
-.grafico {
-    background-color: #ffffff;
-    align-items: center;
     display: flex;
-    justify-content: space-around;
-    width: 32%;
-    height: 95%;
-    margin: 10px;
-    border-style: solid;
-    border-radius: 8px;
-    border-width: 1px;
-}
-@media(max-width: 420px){
-    justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
-    display: grid;
-    .grafico{
-        width: 300px;
+    justify-content: center;
+    height: 100%;
+    .grafico {
+        background-color: #ffffff;
+        align-items: center;
+        display: flex;
+        justify-content: space-around;
+        width: 32%;
+        height: 20%;
+        margin: 10px;
+        border-style: solid;
+        border-radius: 8px;
+        border-width: 1px;
     }
-}
-@media(min-width: 1500px){
-    .grafico{
-        width: 45%;
-        height: 310px;
+    @media(max-width: 420px){
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        .grafico{
+            margin: 5px auto 0px auto;
+            width: 90%;
+            height: 150px;
+        }
     }
-}
 `
 export const LinhaTotais = styled.div`
 overflow: auto;
