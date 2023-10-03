@@ -268,6 +268,46 @@ export const DataGeral = styled.div`
         }
     }
 `
+export const Dashboards = styled.div `
+    width: 100%; 
+    height: 75%; 
+    display: flex; 
+    flexWrap: wrap;
+    .graficos-tipo-pgto{
+        display: flex;
+        border: 1px solid black;
+        background-color: white;
+        height: 100%;
+        width: 50%;
+        overflow: none;
+        margin-top: 10px; 
+        margin-right: auto;
+        border-radius: 8px;
+    }
+    .grafico-maior{
+        width: 50%;
+        height: 100%;
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 8px;
+        margin: 0px auto;
+    }
+    @media(max-width: 460px){
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        .graficos-tipo-pgto{
+            width: 100%;
+        }
+        #grafico-barra{
+            height: 40%;
+        }
+        .grafico-maior{
+            width: 100%;
+            margin: 5px auto;
+        }
+    }
+`
 export const Dashboard = styled.div`
     margin-top: 10px;
     display: flex;
@@ -275,15 +315,8 @@ export const Dashboard = styled.div`
     height: 40%;
     overflow: auto;
     display: flex;
-    .next{
-        display: flex;
-        flex-direction: column;
-        margin: 2px;
-        button{
-            margin: 2px;
-            width: 100px;
-        }
-    }
+    justify-content: start;
+    align-items: center;
     .grafico{
         width: 400px;
         height: 210px;
@@ -294,58 +327,14 @@ export const Dashboard = styled.div`
         display: flex;
         justify-content: space-between;
     }
-    .graficoLongo {
-        align-items: center;
-        background-color: #ffffff;
-        display: flex;
-        justify-content: space-between;
-        width: 400px;
-        height: 210px;
-        margin-right: 10px;
-        border: 1px solid black;
-        border-radius: 8px;
-    }
-    
-    .graficoLongoB {
-        align-items: center;
-        background-color: #ffffff;
-        display: flex;
-        justify-content: space-between;
-        width: 65%;
-        height: 90%;
-        margin-right: 10px;
-        border-style: solid;
-        border-radius: 8px;
-        border-width: 1px;
-    }
-    
-    .graficoLongoA {
-        align-items: center;
-        background-color: #ffffff;
-        display: flex;
-        justify-content: space-between;
-        width: 360px;
-        height: 90%;
-        margin-right: 10px;
-        border-style: solid;
-        border-radius: 8px;
-        border-width: 1px;
-    }
-    justify-content: start;
-    align-items: center;
     @media(max-width: 460px){
-        height: 200px;
-        .graficoLongoB{
-            width: 400px;
-        }
-        .graficoLongo{
-            width: 400px;
-        }
+        height: 100%;
+        flex-direction: column;
+        overflow: none;
         .grafico{
-            width: 400px;
+            width: 100%;
+            margin: 5px auto;
         }
-    }
-    @media(max-width: 1500px){
     }
 `
 export const DashboardGrafico = styled.div`
@@ -454,24 +443,14 @@ div{
     }
 }
 `
-export const A = styled.div`
-overflow-x: auto;
-.ajuste{
+export const ValoresTipoPagamento = styled.div`
     display: flex;
-}
-.labels{
-    border-style: solid;
-    border-left: transparent;
-    border-bottom: transparent;
-    height: 35px;
-    margin-right: 5px;
-    border-top: transparent;
-    border-width: 1px;
+    overflow-x: auto;
+    border: 1px solid black;
+    border-right: none;
+    border-radius: 8px;
     font-weight: bold;
     font-size: 15px;
-    background-color: #ffffff;
-    width: 300px;
-}
 `
 export const CData = styled.div`
     width: 95%;

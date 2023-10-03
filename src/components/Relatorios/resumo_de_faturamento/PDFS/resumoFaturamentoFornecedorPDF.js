@@ -60,15 +60,15 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
 
     const fornecedor = dadosFornecedor.map((data) => {
         return [
-            { text: data.id_fornecedor, fontSize: 8 },
+            { text: data.id_fornecedor, alignment: 'center', fontSize: 8 },
             { text: data.fornecedor, fontSize: 8 },
-            { text: parseFloat(data.qtd_total).toLocaleString('pt-BR'), fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.vlr_custo_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.vlr_venda_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.vlr_lucro_total.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.p_markup.toFixed(2)).toLocaleString('pt-BR'), alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.p_margem.toFixed(2)).toLocaleString('pt-BR'), alignment: 'right', fontSize: 8 },
-            { text: parseFloat(data.percentual.toFixed(2).toLocaleString('pt-BR')), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(String(data.qtd_total).replace(null, "0,00")).toLocaleString('pt-BR', {style: "decimal", minimumFractionDigits: 3, maximumFractionDigits: 3}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(String(data.vlr_custo_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(String(data.vlr_venda_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(String(data.vlr_lucro_total).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(String(data.p_markup).replace(null, "0,00")).toLocaleString('pt-BR',{style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2}), alignment: 'center', fontSize: 8 },
+            { text: parseFloat(String(data.p_margem).replace(null, "0,00")).toLocaleString('pt-BR',{style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2}), alignment: 'center', fontSize: 8 },
+            { text: parseFloat(String(data.percentual).replace(null, "0,00")).toLocaleString('pt-BR',{style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2}), alignment: 'center', fontSize: 8 },
         ]
     })
 
@@ -118,7 +118,7 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
         {
             table: {
                 headerRows: 1,
-                widths: [30, 150, 30, 55, 55, 55, 35, 40, 45],
+                widths: [40, 150, 40, '*', '*', '*', 35, 35, 35],
                 body: [
                     [
                         { text: 'Id. Fornecedor', fillColor: '#E0E7ED', fontSize: 7 },
@@ -127,9 +127,9 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
                         { text: 'Vlr. Custo', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Vlr. Venda', fillColor: '#E0E7ED', fontSize: 7 },
                         { text: 'Vlr. Lucro', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Markup(%)', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Margem(%)', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Percentual(%)', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Markup %', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Margem %', fillColor: '#E0E7ED', fontSize: 7 },
+                        { text: 'Percent. %', fillColor: '#E0E7ED', fontSize: 7 },
                     ],
                     ...fornecedor
                 ],
@@ -154,13 +154,13 @@ export function resumoFaturamentoFornecedorPDF(valorFilial, valorIdTop, dataIni,
                 widths: ['*', '*', '*', '*', '*', '*', '*'],
                 body: [
                     [
-                        { text: 'Qtd.Total: ' + parseFloat(qtdTotal).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true },
-                        { text: 'Custo: ' + parseFloat(Custo.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true },
-                        { text: 'Venda: ' + parseFloat(Venda.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true },
-                        { text: 'Lucro: ' + parseFloat(Lucro.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true },
-                        { text: 'Markup: ' + parseFloat(Markup.toFixed(2)).toLocaleString('pt-BR') + '%', fontSize: 8, alignment: 'center', bold: true },
-                        { text: 'Margem: ' + parseFloat(Margem.toFixed(2)).toLocaleString('pt-BR') + '%', fontSize: 8, alignment: 'center', bold: true },
-                        { text: 'Percentual: ' + parseFloat(Percentual.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Qtd.Total: ' + parseFloat(String(qtdTotal).replace(null, "0,00")).toLocaleString('pt-BR', {style: "decimal", minimumFractionDigits: 3, maximumFractionDigits: 3}), fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Custo: ' + parseFloat(String(Custo).replace(null, "0,00")).toLocaleString('pt-BR', {style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2}), fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Venda: ' + parseFloat(String(Venda).replace(null, "0,00")).toLocaleString('pt-BR', {style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2}), fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Lucro: ' + parseFloat(String(Lucro).replace(null, "0,00")).toLocaleString('pt-BR', {style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2}), fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Markup: ' + parseFloat(String(Markup).replace(null, "0,00")).toLocaleString('pt-BR', {style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2}) + '%', fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Margem: ' + parseFloat(String(Margem).replace(null, "0,00")).toLocaleString('pt-BR', {style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2}) + '%', fontSize: 8, alignment: 'center', bold: true },
+                        { text: 'Percentual: ' + parseFloat(String(Percentual).replace(null, "0,00")).toLocaleString('pt-BR', {style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2})+ '%', fontSize: 8, alignment: 'center', bold: true },
                     ]
                 ]
             }

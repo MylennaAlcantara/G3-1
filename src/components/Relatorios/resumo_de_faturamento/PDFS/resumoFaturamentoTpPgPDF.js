@@ -2,7 +2,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import styled from 'styled-components';
 
-export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, empresa, user) {
+export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, keys, dadosTipoPagamento, empresa, user) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
     const nfe = () => {
@@ -95,7 +95,33 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         }
 
     ];
+    const listaBody = [];
+    for(const tp of keys){
+        listaBody.push({ text: String(tp).toUpperCase(), fillColor: '#E0E7ED', fontSize: 7 })
+    }
 
+    const listaBody2 = [];
+    dadosTipoPagamento.map((tipo) => {
+        listaBody2.push(
+            Object.values(tipo).map((pgto) => {
+                return(
+                    {
+                        text: parseFloat(String(pgto)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }),
+                        fontSize: 7,
+                    }
+                )
+            })
+        )
+    });
+    
+    const body = [];
+    body.push(listaBody);
+    for(let i of listaBody2){
+        body.push(i);
+    }
+console.log(body)
+console.log(listaBody)
+console.log(listaBody2)
     const content = [
         {
             table: {
@@ -125,25 +151,7 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         {
             table: {
                 headerRows: 1,
-                widths: [25, 50, 50, 55, 53, 45, 50, 70, 50, 65, 60, 55, 70],
-                body: [
-                    [
-                        { text: 'ID Filial', fillColor: '#E0E7ED', fontSize: 6.5 },
-                        { text: 'Boleto', fillColor: '#E0E7ED', fontSize: 6.5 },
-                        { text: 'Dinheiro', fillColor: '#E0E7ED', fontSize: 6.5 },
-                        { text: 'Cartão de Credito', fillColor: '#E0E7ED', fontSize: 6.5 },
-                        { text: 'Cartão de Debito', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Cheque', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Pix', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Duplicata Mercantil', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Outros', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Cancelamento Total', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Sem Pagamento', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Desconto Total', fillColor: '#E0E7ED', fontSize: 7 },
-                        { text: 'Total', fillColor: '#E0E7ED', fontSize: 7, alignment: 'center'},
-                    ],
-                    ...tpPg
-                ],
+                body: body
             },
 
         },

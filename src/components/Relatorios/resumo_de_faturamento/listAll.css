@@ -325,17 +325,10 @@ h1 {
     align-items: center;
 }
 
-h2 {
-    border-style: solid;
-    border-width: 1px;
-    margin-top: 3px;
-    margin-left: 10px;
-    font-size: 18px;
-}
-
 .prices {
     background-color: white;
     font-size: 12px;
+    font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -755,6 +748,7 @@ span {
 }
 
 .item-bottom{
+    background-color: white;
     padding: 0 5px;
     display: flex;
     flex-direction: column;

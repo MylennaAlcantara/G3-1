@@ -66,13 +66,13 @@ export function resumoFaturamentoRegiaoPDF(valorFilial, valorIdTop, dataIni, dat
             { text: data.idRegiao, fontSize: 8 },
             { text: data.regiao, fontSize: 8 },
             { text: data.qtdVendas, fontSize: 8 },
-            { text: data.vlMedioVendas.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
-            { text: data.vlTotalNfe.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
-            { text: data.vlTotalNfce.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
-            { text: data.vlLucroVenda.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
-            { text: data.vlCustoTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
-            { text: data.markup.toFixed(2).toLocaleString('pt-BR'), alignment: 'right', fontSize: 8 },
-            { text: data.margem.toFixed(2).toLocaleString('pt-BR'), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(String(data.vlMedioVendas).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(String(data.vlTotalNfe).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(String(data.vlTotalNfce).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(String(data.vlLucroVenda).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(String(data.vlCustoTotal).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(String(data.markup).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 2 }), alignment: 'right', fontSize: 8 },
+            { text: parseFloat(String(data.margem).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 2 }), alignment: 'right', fontSize: 8 },
         ]
     })
 
@@ -158,13 +158,13 @@ export function resumoFaturamentoRegiaoPDF(valorFilial, valorIdTop, dataIni, dat
                 body: [
                     [
                         { text: 'Qtd. Total: ' + parseFloat(Quantidade), fontSize: 8 },
-                        { text: 'Custo: ' + parseFloat(Custo.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                        { text: 'Media Venda: ' + parseFloat(MedioVendas.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                        { text: 'Lucro: ' + parseFloat(Lucro.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                        { text: 'Total NFe: ' + (parseFloat(totalNFE.toFixed(2)).toLocaleString('pt-BR') + '%'), fontSize: 8 },
-                        { text: 'Total NFCe: ' + (parseFloat(totalNFCE.toFixed(2)).toLocaleString('pt-BR') + '%'), fontSize: 8 },
-                        { text: 'Markup: ' + parseFloat(Markup.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                        { text: 'Margem: ' + parseFloat(Margem.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Custo: ' + parseFloat(String(Custo).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 2 }), fontSize: 8 },
+                        { text: 'Media Venda: ' + parseFloat(String(MedioVendas).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 2 }), fontSize: 8 },
+                        { text: 'Lucro: ' + parseFloat(String(Lucro).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 2 }), fontSize: 8 },
+                        { text: 'Total NFe: ' + (parseFloat(String(totalNFE).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 2 })), fontSize: 8 },
+                        { text: 'Total NFCe: ' + (parseFloat(String(totalNFCE).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 2 })), fontSize: 8 },
+                        { text: 'Markup: ' + parseFloat(String(Markup).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })+ '%', fontSize: 8 },
+                        { text: 'Margem: ' + parseFloat(String(Margem).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2 })+ '%', fontSize: 8 },
                     ],
                 ],
                 layout: 'lightHorizontalLines'

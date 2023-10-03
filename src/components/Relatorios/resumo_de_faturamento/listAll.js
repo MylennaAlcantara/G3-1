@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useReducer } from 'react';
+import React, { useState, useContext } from 'react';
 import './listAll.css'
 import Modal from 'react-modal'
 import { Emitente } from '../../modais/modal_emitente';
@@ -14,14 +14,61 @@ import { resumoFaturamentoGrupoPDF } from './PDFS/resumoFaturamentoGrupoPDF';
 import { resumoFaturamentoFornecedorPDF } from './PDFS/resumoFaturamentoFornecedorPDF';
 import { resumoFaturamentoFilialPDF } from './PDFS/resumoFaturamentoFilialPDF';
 import { resumoFaturamentoClientePDF } from './PDFS/resumoFaturamentoClientePDF';
-import { Bar, BarChart, Brush, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ReferenceLine, ResponsiveContainer, Sector, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Brush, CartesianGrid, Cell, Legend, Pie, PieChart, ReferenceLine, ResponsiveContainer, Sector, Tooltip, XAxis, YAxis } from "recharts";
 
 import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as RF from "../resumo_de_faturamento/resumoFaturamento"
 
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 Modal.setAppElement("#root")
+
+const renderActiveShape = (props) => {
+    const RADIAN = Math.PI / 180;
+    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
+    const sin = Math.sin(-RADIAN * midAngle);
+    const cos = Math.cos(-RADIAN * midAngle);
+    const sx = cx + (outerRadius + 10) * cos;
+    const sy = cy + (outerRadius + 10) * sin;
+    const mx = cx + (outerRadius + 30) * cos;
+    const my = cy + (outerRadius + 30) * sin;
+    const ex = mx + (cos >= 0 ? 1 : -1) * 1;
+    const ey = my;
+    const textAnchor = cos >= 0 ? 'start' : 'end';
+
+    return (
+        <g>
+            <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+                {payload.name}
+            </text>
+            <Sector
+                cx={cx}
+                cy={cy}
+                innerRadius={innerRadius}
+                outerRadius={outerRadius}
+                startAngle={startAngle}
+                endAngle={endAngle}
+                fill={fill}
+            />
+            <Sector
+                cx={cx}
+                cy={cy}
+                startAngle={startAngle}
+                endAngle={endAngle}
+                innerRadius={outerRadius + 6}
+                outerRadius={outerRadius + 10}
+                fill={fill}
+            />
+            <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
+            <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+            <text x={ex + (cos >= 0 ? 1 : -1) * 1} y={ey} textAnchor={textAnchor} fill="#333">{`${(value).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", " ").replace("NaN", "0,00")}`}</text>
+            <text x={ex + (cos >= 0 ? 1 : -1) * 1} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
+                {`(${(percent * 100).toFixed(2)}%)`}
+            </text>
+        </g>
+    );
+};
 
 export const ResumoFaturamento = () => {
 
@@ -42,7 +89,7 @@ export const ResumoFaturamento = () => {
     }
 
     const imprimirTpPg = () => {
-        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, empresa, user)
+        resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, keys, dadosTipoPagamento, empresa, user)
     }
 
     const imprimirProduto = () => {
@@ -100,16 +147,7 @@ export const ResumoFaturamento = () => {
     const [dados, setDados] = useState([]); //Pega Dados de Filial
     const [dadosRegiao, setDadosRegiao] = useState([]); //Pega dados de Região
     const [dadosCliente, setDadosCliente] = useState([]); //Pega dados de Cliente 
-    const [dadosTipoPagamento, setDadosTipoPagamento] = useState([]);
-    const [dadosTipoPagamento1, setDadosTipoPagamento1] = useState([]);
-    const [dadosTipoPagamento2, setDadosTipoPagamento2] = useState([]);
-    const [dadosTipoPagamento3, setDadosTipoPagamento3] = useState([]);
-    const [dadosTipoPagamento4, setDadosTipoPagamento4] = useState([]);
-    const [dadosTipoPagamento5, setDadosTipoPagamento5] = useState([]);
-    const [dadosTipoPagamento6, setDadosTipoPagamento6] = useState([]);
-    const [dadosTipoPagamento7, setDadosTipoPagamento7] = useState([]);
-    const [dadosTipoPagamento8, setDadosTipoPagamento8] = useState([]);
-    const [dadosTipoPagamento9, setDadosTipoPagamento9] = useState([]);
+    const [dadosTipoPagamento, setDadosTipoPagamento] = useState([{}]);
     const [dadosVendedor, setDadosVendedor] = useState([]); //Pega dados de Vendedor 
     const [dadosProduto, setDadosProduto] = useState([]); //Pega dados de Produtos
     const [dadosGrupo, setDadosGrupo] = useState([]); //Pega dados de Grupo
@@ -118,6 +156,39 @@ export const ResumoFaturamento = () => {
     const [checkNFE, setCheckNFE] = useState(true); //Ve se o checkbox(NF-e) esta marcado (Por padrão ja vem marcado)
     const [checkNFCE, setCheckNFCE] = useState(true); //Ve se o checkbox(NFC-e) esta marcado (Por padrão ja vem marcado)
     const [checkTOP, setCheckTOP] = useState(true); //Ve se o Checkbox(Incluir T.OP. Salvas) esta marcado (Por padrão ja vem marcado)
+
+    const COLORS = ['#064A8B', '#00C49F', '#00A5DD', '#8884d8'];
+
+    const [activeIndex, setActiveIndex] = useState(0);
+   
+    const somarValores = (dados) => {
+        return dados.reduce((resultado, objeto) => {
+          for (const chave in objeto) {
+            if (resultado.hasOwnProperty(chave)) {
+              resultado[chave] += objeto[chave];
+            } else {
+              resultado[chave] = objeto[chave];
+            }
+          }
+          return resultado;
+        }, {});
+    };
+
+    const totalTipoPagamento = somarValores(dadosTipoPagamento);
+    const chartDataTipoPagamento = Object.keys(totalTipoPagamento).map(key => {
+        if(key != "id_filial" && key != "total"){
+            return(
+                {
+                    nome: key,
+                    valor: totalTipoPagamento[key]
+                }
+            )
+        }
+    });
+
+    const onPieEnter = (_, index) => {
+        setActiveIndex(index);
+    };
 
     const customStyles = { //Estilo Do Modal de Graficos 
         content: {
@@ -179,19 +250,6 @@ export const ResumoFaturamento = () => {
         "idTop": valorIdTop.toString()
     }
 
-    const [dataSelectEmitente, setDataSelectEmitente] = useState();
-    const [dataIdSelectEmitente, setDataIdSelectEmitente] = useState();
-    const [dataSelectDataEmitente, setDataSelectDadosEmitente] = useState({
-        fantasia: "",
-        doc: "",
-        municipio: "",
-    });
-
-    const [dataSelectTop, setDataSelectTop] = useState({
-        id_top: "",
-        descricao: "",
-    })
-
     async function setDataFilial() { //Envia o JSON para a api e pega os dados de Filial
         const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFilial", {
             method: "POST",
@@ -239,7 +297,7 @@ export const ResumoFaturamento = () => {
             res.json().then(data => {
                 if (data.length === 0) {
                     setShowElement(false)
-                    setDaDosKeys([])
+                    setKeys([])
                     setDadosTipoPagamento([])
                     setDadosLeitura([])
                     alert('Consulta Finalizada')
@@ -250,14 +308,14 @@ export const ResumoFaturamento = () => {
             });
         } else {
             setShowElement(false)
-            setDaDosKeys([])
+            setKeys([])
             setDadosTipoPagamento([])
             setDadosLeitura([])
             alert('Consulta Finalizada')
         }
     }
 
-    const [keys, setDaDosKeys] = useState([]) //Usado para escrever o nome dos labels 
+    const [keys, setKeys] = useState([]) //Usado para escrever o nome dos labels 
     const [dadosLeitura, setDadosLeitura] = useState([]) //Dados em Geral (Tipo de Pagamento)
 
     async function setDataTipoPagamento() { //Envia o JSON para a api e pega os dados de Tipo de Pagamento
@@ -268,18 +326,11 @@ export const ResumoFaturamento = () => {
         });
         if (res.status === 200) {
             res.json().then(data => {
-                setDadosTipoPagamento(Object.values(data[0]));
-                data[1] && setDadosTipoPagamento1(Object.values(data[1]));
-                data[2] && setDadosTipoPagamento2(Object.values(data[2]));
-                data[3] && setDadosTipoPagamento3(Object.values(data[3]));
-                data[4] && setDadosTipoPagamento4(Object.values(data[4]));
-                data[5] && setDadosTipoPagamento5(Object.values(data[5]));
-                data[6] && setDadosTipoPagamento6(Object.values(data[6]));
-                data[7] && setDadosTipoPagamento7(Object.values(data[7]));
-                data[8] && setDadosTipoPagamento8(Object.values(data[8]));
-                data[9] && setDadosTipoPagamento9(Object.values(data[9]));
-                setDaDosKeys(Object.keys(data[0]));
-                setDadosLeitura(data);
+                if(data[0].total){
+                    setDadosTipoPagamento(data);
+                    setKeys(Object.keys(data[0]));
+                    setDadosLeitura(data);
+                }
             });
         }
     }
@@ -337,15 +388,6 @@ export const ResumoFaturamento = () => {
     }
 
     const handleSetData = () => { //Envia o JSON para todas as APIS ao mesmo tempo 
-        setDadosTipoPagamento1([])
-        setDadosTipoPagamento2([])
-        setDadosTipoPagamento3([])
-        setDadosTipoPagamento4([])
-        setDadosTipoPagamento5([])
-        setDadosTipoPagamento6([])
-        setDadosTipoPagamento7([])
-        setDadosTipoPagamento8([])
-        setDadosTipoPagamento9([])
         setDados([]);
         setDadosCliente([]);
         setDadosFornecedor([]);
@@ -354,7 +396,7 @@ export const ResumoFaturamento = () => {
         setDadosRegiao([]);
         setDadosVendedor([]);
         setDadosLeitura([]);
-        setDaDosKeys([]);
+        setKeys([]);
         show();
         setDataCliente();
         setDataFilial();
@@ -491,72 +533,6 @@ export const ResumoFaturamento = () => {
         colors: ["#bc1b9c", "#1b7abc"],
     };
 
-    const barOptions = { //Configuração do Quinto Gráfico de Região 
-        title: "Valores Totais Região .",
-        //backgroundColor: '#d3d3d3',
-        width: "95%",
-        height: "100%",
-        bar: { groupWidth: "95%", },
-        legend: { position: "none" },
-    };
-
-    const barData = [ // Dados, Cores e Nomes Utilizados no Quinto Gráfico de Região
-        [
-            "Element",
-            "Valor",
-            { role: "style" },
-            {
-                sourceColumn: 0,
-                role: "annotation",
-                type: "string",
-                calc: "stringify",
-            },
-        ],
-        ["Valor Lucro", result2, "#F7C64F", null],
-        ["Valor Custo", result, "#bc1b2b", null],
-        ["Valor Total ", result1, "#39E055", null],
-        ["Valor  Nf-e", result3, "#8226ED", null],
-        ["Valor NFC-e", result4, "#2686ED", null],
-    ];
-
-    const chartRegiao = [
-        ["Valores em R$", "Venda", "Lucro"],
-        ...dadosRegiao.map(item => [item.regiao, item.vlVendaTotal, item.vlLucroVenda])
-    ];
-
-    /*const optionsRegiao = {
-        chart: {
-            title: "Regiões",
-            subtitle: "Comparativo",
-        },
-        hAxis: {
-            title: "Ok",
-            minValue: 0,
-        },
-        vAxis: {
-            title: "Valores",
-        },
-        bars: "horizontal",
-        axes: {
-            y: {
-                0: { side: "right" },
-            },
-        },
-        colors: ["#F7C64F", "#bc1b2b"],
-    }*/
-
-    const optionsRegiao = {
-        title: "Regiões",
-        subtitle: "Comparativo",
-        hAxis: {
-            title: "Valores",
-            minValue: 0,
-        },
-        bars: "horizontal",
-        colors: ["#F7C64F", "#bc1b2b"],
-        legend: "top"
-    }
-
     //-------------------------------------------------------------Dashboard Filial----------------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardFilial, setIsOpenDashboardFilial] = useState(false);//Estado do Modal 
@@ -580,69 +556,6 @@ export const ResumoFaturamento = () => {
     const resultFi5 = dados.reduce((a, b) => a + b.vlTotalCredito, 0) //Dados Totais somados de Total Credito(Filial)
     const resultFi6 = dados.reduce((a, b) => a + b.vlTotalLiquido, 0) //Dados Totais somados de Total Liquido(Filial)
 
-    const barOptionsFi = { //Configuração do Segundo Gráfico de Filial
-        title: "Valores Totais Filial.",
-        width: "95%",
-        height: "95%",
-        bar: { groupWidth: "95%" },
-        legend: { position: "none" },
-    };
-
-    const barDataFi = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Filial
-        [
-            "Element",
-            "Valor",
-            { role: "style" },
-            {
-                sourceColumn: 0,
-                role: "annotation",
-                type: "string",
-                calc: "stringify",
-            },
-        ],
-        ["Valor Lucro", resultFi2, "#f6d001", null],
-        ["Valor Custo", resultFi, "#b87333", null],
-        ["Valor Total ", resultFi1, "#b2bb1c", null],
-        ["Valor  Nf-e", resultFi3, "#8226ED", null],
-        ["Valor NFC-e", resultFi4, "#2686ED", null],
-        ["Valor Credito", resultFi5, "#ff6ad8", null],
-        ["Valor Liquido", resultFi6, "#ffaf56", null]
-    ];
-
-    const chartFilial = [
-        ["Valores em R$", "Venda", "Lucro"],
-        ...dados.map(item => [item.filial, item.vlVendaTotal, item.vlLucroVenda])
-    ]
-
-    /*const filialOptions = {
-        chart: {
-            title: "Filiais",
-            subtitle: "Comparativo",
-        },
-        hAxis: {
-            title: "Ok",
-            minValue: 0,
-        },
-        bars: "horizontal",
-        axes: {
-            y: {
-                0: { side: "right" },
-            },
-        },
-        colors: ["#f6d001", "#b2bb1c"]
-    }*/
-    const filialOptions = {
-        title: "Filiais",
-        subtitle: "Comparativo",
-        hAxis: {
-            title: "Valores",
-            minValue: 0,
-        },
-        bars: "horizontal",
-        colors: ["#F7C64F", "#bc1b2b"],
-        legend: "top"
-    }
-
     //------------------------------------------------------------------Dashboard Vendedor----------------------------------------------------------------------------------------------------------------------------------------------------  
 
     const [dashboardVendedor, setIsOpenDashboardVendedor] = useState(false);//Estado do Modal
@@ -663,79 +576,6 @@ export const ResumoFaturamento = () => {
     const resultVen6 = dadosVendedor.reduce((a, b) => a + b.vlTotalCancelamento, 0) //Dados Totais somados de Total Cancelamento (Vendedor)
     const resultVen7 = dadosVendedor.reduce((a, b) => a + b.vlTotalComissao, 0) //Dados Totais somados de Total Comissão (Vendedor)
     const resultVen8 = dadosVendedor.reduce((a, b) => a + b.vlTotalDesconto, 0) //Dados Totais somados de Total Desconto (Vendedor)
-
-    const barOptionsVen = { //Configuração do Quarto Gráfico de Filial
-        title: "Valores Totais Vendedor.",
-        width: "100%",
-        height: "95%",
-        bar: { groupWidth: "95%" },
-        legend: { position: "none" },
-    };
-
-    const barDataVen = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Vendedor
-        [
-            "Element",
-            "Valor",
-            { role: "style" },
-            {
-                sourceColumn: 0,
-                role: "annotation",
-                type: "string",
-                calc: "stringify",
-            },
-        ],
-        ["Lucro", resultVen2, "#f6d001", null],
-        ["Custo", resultVen, "#bc1b2b", null],
-        ["Total ", resultVen1, "#b2bb1c", null],
-        ["Nf-e", resultVen3, "#8226ED", null],
-        ["NFC-e", resultVen4, "#2686ED", null],
-        ["Credito", resultVen5, "#ff6ad8", null],
-        ["Cancelamento", resultVen6, "#ffaf56", null],
-        ["Comissão", resultVen7, "#57ffe8", null],
-        ["Desconto", resultVen8, "#727272", null]
-    ];
-
-    const chartDataVend = [
-        ["Valores em R$", "Venda", "Lucro"],
-        ...dadosVendedor.map(item => [item.vendedor, item.vlVendaTotal, item.vlLucroVenda])
-    ];
-
-    /*const optionsVendedor = {
-        chart: {
-            title: "Dez Primeiros Vendedores",
-            subtitle: "Comparativo",
-        },
-        hAxis: {
-            title: "Value",
-            minValue: 0,
-        },
-        vAxis: {
-            title: "Valores",
-        },
-        bars: "horizontal",
-        axes: {
-            y: {
-                0: { side: "right" },
-            },
-        },
-    }*/
-
-    const optionsVendedor = {
-        title: "Dez Primeiros Vendedores",
-        subtitle: "Comparativo",
-        hAxis: {
-            title: "Valores",
-            minValue: 0,
-            gridlines: { count: 10 }
-        },
-        bars: "horizontal",
-        legend: "top",
-        explorer: {
-            actions: ['dragToZoom', 'rightClickToReset'],
-            axis: 'horizontal', // Você pode definir para 'both' se quiser zoom em ambos os eixos
-            maxZoomIn: 20.0, // Defina o valor máximo de zoom (ajuste conforme necessário)
-        }
-    }
 
     //---------------------------------------------------------------Dashboard Cliente------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -759,91 +599,6 @@ export const ResumoFaturamento = () => {
     const resultCli6 = dadosCliente.reduce((a, b) => a + b.vlLucroLiquido, 0) //Dados Totais somados de Lucro Liquido (Cliente)
     const resultCli7 = dadosCliente.reduce((a, b) => a + b.vlTotalCredito, 0) //Dados Totais somados de Total Credito (Cliente)
 
-    const barOptionsCli = { //Configuração do Segundo Gráfico de Cliente
-        title: "Valores Totais Cliente.",
-        width: "100%",
-        height: "95%",
-        bar: { groupWidth: "95%" },
-        legend: { position: "none" },
-    };
-
-    const barDataCli = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Cliente
-        [
-            "Element",
-            "Valor",
-            { role: "style" },
-            {
-                sourceColumn: 0,
-                role: "annotation",
-                type: "string",
-                calc: "stringify",
-            },
-        ],
-        ["Lucro", resultCli1, "#f6d001", null],
-        ["Custo", resultCli4, "#bc1b2b", null],
-        ["Total ", resultCli, "#39E055", null],
-        ["NF-e", resultCli2, "#8226ED", null],
-        ["NFC-e", resultCli3, "#2686ED", null],
-        ["Credito", resultCli7, "#ff6ad8", null],
-        ["Liquido", resultCli6, "#ffaf56", null],
-        ["Desconto", resultCli5, "#57ffe8", null],
-    ];
-
-    /*const optionsCli0 = { //Configuração do Quarto Gráfico de Cliente 
-        chart: {
-            title: "Valores Gerais",
-            subtitle: "Comparativo",
-        },
-        hAxis: {
-            title: "GGG",
-            minValue: 0,
-        },
-        chartArea: {
-            width: '100%'
-        },
-        vAxis: {
-            title: "Valores",
-        },
-        bars: "horizontal",
-        annotations: {
-            textStyle: {
-                fontName: 'Times-Roman',
-                fontSize: 8,
-                bold: true,
-                italic: true,
-                color: '#871b47',
-                auraColor: '#d799ae',
-                opacity: 0.8
-            }
-        },
-        axes: {
-            y: {
-                0: { side: "right" },
-            },
-        },
-    };*/
-    const optionsCli0 = {
-        title: "Valores Gerais",
-        subtitle: "Comparativo",
-        hAxis: {
-            title: "Valores",
-            minValue: 0,
-            gridlines: { count: 10 }
-        },
-        bars: "horizontal",
-        legend: "top",
-        explorer: {
-            actions: ['dragToZoom', 'rightClickToReset'],
-            axis: 'horizontal', // Você pode definir para 'both' se quiser zoom em ambos os eixos
-            maxZoomIn: 20.0, // Defina o valor máximo de zoom (ajuste conforme necessário)
-        }
-    }
-
-    const dataCli0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Cliente
-        ["Valores em R$", "Liquido", "Venda"],
-        ...dadosCliente.map(item => [item.cliente, item.vlLucroLiquido, item.vlVendaTotal])
-    ];
-
     //------------------------------------------------------------------Dashboard Tipo de Pagamento-----------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardTipoDePagamento, setIsOpenDashboardTipoDePagamento] = useState(false) //Estado do Modal
@@ -855,79 +610,6 @@ export const ResumoFaturamento = () => {
     function closeDashboardTipoDePagamento() { //Função para Fechar o Modal de Gráficos de Tipo de Pagamento
         setIsOpenDashboardTipoDePagamento(false)
     }
-
-    const resultTpPg = dadosLeitura.reduce((a, b) => a + b.dinheiro, 0) //Dados Totais somados de Dinheiro (Tipo de Pagamento)
-    const resultTpPg1 = dadosLeitura.reduce((a, b) => a + b.total, 0)  //Dados Totais somados de Total (Tipo de Pagamento)
-    const resultTpPg2 = dadosLeitura.reduce((a, b) => a + b.cartao_de_credito, 0) //Dados Totais somados de Cartão de Credito (Tipo de Pagamento)
-    const resultTpPg3 = dadosLeitura.reduce((a, b) => a + b.cartao_de_debito, 0) //Dados Totais somados de Cartão de Credito (Tipo de Pagamento)
-    const resultTpPg4 = dadosLeitura.reduce((a, b) => a + b.cheque, 0) //Dados Totais somados de Cheque (Tipo de Pagamento)
-    const resultTpPg5 = dadosLeitura.reduce((a, b) => a + b.boleto_bancario, 0) //Dados Totais somados de Boleto (Tipo de Pagamento)
-    const resultTpPg6 = dadosLeitura.reduce((a, b) => a + b.credito_loja, 0) //Dados Totais somados de Credito Loja (Tipo de Pagamento)
-    const resultTpPg7 = dadosLeitura.reduce((a, b) => a + b.cancelamento_total, 0) //Dados Totais somados de Cancelamento Total (Tipo de Pagamento)
-    const resultTpPg8 = dadosLeitura.reduce((a, b) => a + b.desconto_total, 0) //Dados Totais somados de Desconto Total (Tipo de Pagamento)
-    const DPMercantil = dadosLeitura.reduce((a, b) => a + b.duplicata_mercantil, 0)
-
-    const resultTpPg9 = dadosLeitura.reduce((a, b) => a + b.vale_alimentacao, 0) //Dados Totais somados de Vale Alimentação (Tipo de Pagamento)
-    const resultTpPg10 = dadosLeitura.reduce((a, b) => a + b.vale_combustivel, 0) //Dados Totais somados de Vale Combustivel (Tipo de Pagamento)
-    const resultTpPg11 = dadosLeitura.reduce((a, b) => a + b.vale_presente, 0) //Dados Totais somados de Vale Presente (Tipo de Pagamento)
-    const resultTpPg12 = dadosLeitura.reduce((a, b) => a + b.vale_refeicao, 0) //Dados Totais somados de Vale Refeição (Tipo de Pagamento)
-    const resultTpPg13 = dadosLeitura.reduce((a, b) => a + b.pix, 0) //Dados Totais somados de Pix (Tipo de Pagamento)
-
-    const dataTpPg = [ //Dados, Cores e Nomes Utilizados no Primeiro Gráfico de Tipo de Pagamento
-        ["Element", "Valor", { role: "style" }],
-        ["Credito Loja", resultTpPg6, "#ff6ad8"],
-        ["Cancelamento", resultTpPg7, "#ffaf56"],
-        ["Desconto", resultTpPg8, "#ffaf56"],
-    ];
-
-    const barOptionsTpPg = { //Configuração do Segundo Gráfico de Tipo de Pagamento
-        title: "Pagamentos",
-        width: "100%",
-        height: "95%",
-        bar: { groupWidth: "95%" },
-        legend: { position: "none" },
-    };
-
-    const dataTipoPagamento = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Tipo de Pagamento
-        ["Element", "Valor", { role: "style" }],
-        ["Boleto", resultTpPg5, "#1f80ed"],
-        ["Cheque", resultTpPg4, "#d24159"],
-        ["C.Credito", resultTpPg2, "#9bf967"],
-        ["C.Debito", resultTpPg3, "#f98b68"],
-        ["Dinheiro", resultTpPg, "#ffe670"],
-        ["Pix", resultTpPg13, "32b6aa"],
-        ["Total", resultTpPg1, "#b2bb1c"],
-    ];
-
-    const optionsTpPg = { //Configuração do Terceiro Gráfico de Cliente
-        title: "Valores",
-        is3D: true,
-        width: "100%",
-        height: "100%",
-    };
-
-    const dataTipoPagamentoPizza = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Tipo de Pagamento
-        ["Element", "Valor", { role: "style" }],
-        ["Boleto", resultTpPg5, "#1f80ed"],
-        ["Cheque", resultTpPg4, "#d24159"],
-        ["C.Credito", resultTpPg2, "#a6dce8"],
-        ["C.Debito", resultTpPg3, "#f98b68"],
-        ["Dinheiro", resultTpPg, "#ffe670"],
-    ];
-
-    const dataTpPg0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Tipo de Pagamento
-        ["Valores em R$", "Dinheiro/Credito", "Total/Debito"],
-        ["Dinheiro , Total", resultTpPg, resultTpPg1],
-        ["Credito , Debito", resultTpPg2, resultTpPg3],
-    ];
-
-    const dataTpPgVale = [ //Dados, Cores e Nomes Utilizados no Quinto Gráfico de Tipo de Pagamento
-        ["Element", "Valor", { role: "style" }],
-        ["Alimentação", resultTpPg9, "#D44A26"],
-        ["Combustivel", resultTpPg10, "#D40B0B"],
-        ["Presente", resultTpPg11, "#D44A26"],
-        ["Refeição", resultTpPg12, "#D40B0B"],
-    ];
 
     //------------------------------------------------------------------Dashboard Produtos--------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -954,83 +636,6 @@ export const ResumoFaturamento = () => {
     const resultProd3 = dadosProduto.reduce((a, b) => a + b.sub_total, 0) //Dados Totais somados de Sub Total
     const resultProd4 = dadosProduto.reduce((a, b) => a + b.vlr_desconto_total, 0) //Dados Totais somados de Desconto Total
 
-    const barOptionsPro = { //Configuração do Terceiro Gráfico de Produto
-        title: "Valores Totais Tipo de Pagamento .",
-        width: "100%",
-        height: "95%",
-        bar: { groupWidth: "95%" },
-        legend: { position: "none" },
-    };
-
-    const barDataPro = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Produto
-        [
-            "Element",
-            "Valor",
-            { role: "style" },
-            {
-                sourceColumn: 0,
-                role: "annotation",
-                type: "string",
-                calc: "stringify",
-            },
-        ],
-        ["Lucro", resultProd1, "#1b7abc", null],
-        ["Custo", resultProd2, "#727272", null],
-        ["Venda", resultProd, "#f6d001", null],
-        ["Sub Total", resultProd3, "#ff6ad8", null],
-    ];
-
-    /*const optionsProd0 = { //Configuração do Quarto Gráfico de Produto
-        chart: {
-            title: "Primeiros 10 Produtos",
-            subtitle: "Comparativo",
-        },
-        hAxis: {
-            title: "GGG",
-            minValue: 0,
-        },
-        vAxis: {
-            title: "Valores",
-        },
-        bars: "horizontal",
-
-        colors: ["#f6d001", "#1b7abc"],
-
-        axes: {
-            y: {
-                0: { side: "right" },
-            },
-        },
-    };*/
-    const optionsProd0 = {
-        title: "Primeiros 10 Produtos",
-        subtitle: "Comparativo",
-        hAxis: {
-            title: "Valores",
-            minValue: 0,
-            gridlines: { count: 10 }
-        },
-        bars: "horizontal",
-        legend: "top",
-        explorer: {
-            actions: ['dragToZoom', 'rightClickToReset'],
-            axis: 'horizontal', // Você pode definir para 'both' se quiser zoom em ambos os eixos
-            maxZoomIn: 100.0, // Defina o valor máximo de zoom (ajuste conforme necessário)
-        },
-        colors: ["#f6d001", "#1b7abc"],
-    }
-
-    const [produtoDetalhado, setProdutoDetalhado] = useState()
-
-    function abp1() { setProdutoDetalhado(dadosProduto.slice(0, 90)) }; function abp2() { setProdutoDetalhado(dadosProduto.slice(91, 181)) }; function abp3() { setProdutoDetalhado(dadosProduto.slice(182, 272)) }; function abp4() { setProdutoDetalhado(dadosProduto.slice(273, 363)) }; function abp5() { setProdutoDetalhado(dadosProduto.slice(364, 454)) };
-    function abp6() { setProdutoDetalhado(dadosProduto.slice(455, 545)) }; function abp7() { setProdutoDetalhado(dadosProduto.slice(546, 636)) }; function abp8() { setProdutoDetalhado(dadosProduto.slice(637, 727)) }; function abp9() { setProdutoDetalhado(dadosProduto.slice(728, 818)) }; function abp10() { setProdutoDetalhado(dadosProduto.slice(819, 909)) };
-    function abp11() { setProdutoDetalhado(dadosProduto.slice(910, 1000)) };
-
-    const dataProd0 = produtoDetalhado && [
-        ["Valores em R$", "Venda", "Lucro"],
-        ...produtoDetalhado.map(item => [item.produto, item.vlr_venda_total, item.vlr_lucro_total])
-    ]
-
     //------------------------------------------------------------------------Dashboard Grupo-----------------------------------------------------------------------------------------------------------------------------------------------------
 
     const [dashboardGrupo, setIsOpenDashboardGrupo] = useState(false); //Estado do Modal
@@ -1050,67 +655,10 @@ export const ResumoFaturamento = () => {
         setIsOpenDashboardGrupo(false);
     }
 
-    const dadosGrupoDetalhado = dadosGrupo.slice(0, 10) //Constante com os 10 primeiros Grupos
-
     const resultGru = dadosGrupo.reduce((a, b) => a + b.vlr_venda_total, 0); //Dados Totais somados de Venda Total
     const resultGru1 = dadosGrupo.reduce((a, b) => a + b.vlr_lucro_total, 0); //Dados Totais somados de Lucro Total
     const resultGru2 = dadosGrupo.reduce((a, b) => a + b.sub_total, 0); //Dados Totais somados de Sub.Total
     const resultGru3 = dadosGrupo.reduce((a, b) => a + b.vlr_desconto_total, 0); //Dados Totais somados de Desconto Total
-
-    const barOptionsGru = { //Configuração do Segundo Gráfico de Grupo
-        title: "Valores Totais Grupos.",
-        width: "100%",
-        height: '23vh',
-        bar: { groupWidth: "95%" },
-        legend: { position: "none" },
-    };
-
-    const barDataGru = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Grupo
-        [
-            "Element",
-            "Valor",
-            { role: "style" },
-            {
-                sourceColumn: 0,
-                role: "annotation",
-                type: "string",
-                calc: "stringify",
-            },
-        ],
-        ["Venda", resultGru, "#bc1b2b", null],
-        ["Lucro", resultGru1, "#ffaf56", null],
-        ["Sub Total", resultGru2, "#f6d001", null],
-        ["Desconto Total", resultGru3, "#1b7abc", null],
-    ];
-
-    const optionsGru0 = { //Configuração do Quarto Gráfico de Grupo
-        chart: {
-            title: "Grupos",
-            subtitle: "Comparativo",
-        },
-        hAxis: {
-            title: "GGG",
-            minValue: 0,
-        },
-        vAxis: {
-            title: "Valores",
-        },
-        bars: "horizontal",
-
-        colors: ["#bc1b2b", "#ffaf56"],
-
-        axes: {
-            y: {
-                0: { side: "right" },
-            },
-        },
-    };
-
-    const dataGru0 = [ //Dados, Cores e Nomes Utilizados no Quarto Gráfico de Grupo
-        ["Valores em R$", "Venda", "Lucro"],
-        ...dadosGrupo.map(item => [item.grupo, item.vlr_venda_total, item.vlr_lucro_total])
-
-    ];
 
     //------------------------------------------------------------------Dashboard Fornecedor------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1137,60 +685,6 @@ export const ResumoFaturamento = () => {
     const resultFor3 = dadosFornecedor.reduce((a, b) => a + b.vlr_desconto_total, 0) //Dados Totais somados de Desconto Total (Fornecedor)
     const resultFor4 = dadosFornecedor.reduce((a, b) => a + b.sub_total, 0) //Dados Totais somados de Sub.Total (Fornecedor)
 
-    const barOptionsFor = { //Configuração do Segundo Gráfico de Fornecedor
-        title: "Valores Totais Fornecedor .",
-        width: "100%",
-        height: "95%",
-        bar: { groupWidth: "95%" },
-        legend: { position: "none" },
-    };
-
-    const barDataFor = [ //Dados, Cores e Nomes Utilizados no Segundo Gráfico de Fornecedor
-        [
-            "Element",
-            "Valor",
-            { role: "style" },
-            {
-                sourceColumn: 0,
-                role: "annotation",
-                type: "string",
-                calc: "stringify",
-            },
-        ],
-        ["Lucro", resultFor1, "#57ffe8", null],
-        ["Custo", resultFor2, "#727272", null],
-        ["Venda", resultFor, "#bc1b2b", null],
-        ["Desconto", resultFor3, "#ff6ad8", null],
-    ];
-
-    const optionsFor0 = { //Configuração do Terceiro Gráfico de Fornecedor
-        chart: {
-            title: "Primeiros 10 Fornecedores",
-            subtitle: "Comparativo",
-        },
-        hAxis: {
-            title: "GGG",
-            minValue: 0,
-        },
-        vAxis: {
-            title: "Valores",
-        },
-        bars: "horizontal",
-
-        colors: ["#bc1b2b", "#57ffe8"],
-
-        axes: {
-            y: {
-                0: { side: "right" },
-            },
-        },
-    };
-
-    const dataFor0 = [ //Dados, Cores e Nomes Utilizados no Terceiro Gráfico de Fornecedor
-        ["Valores em R$", "Venda", "Lucro"],
-        ...dadosFornecedor.slice(0, 90).map(item => [item.fornecedor, item.vlr_venda_total, item.vlr_lucro_total])
-    ];
-
     //------------------------------------------------------------------Dashboard Geral--------------------------------------------------------------------------------------------------------------------------------------------------------
 
     const dataNfs = [
@@ -1211,9 +705,24 @@ export const ResumoFaturamento = () => {
         })
     }
 
-    const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false)
+    const [dsRegiaoDetalhada, setDsRegiaoDetalhada] = useState(false);
 
+    function organizarKeys(a, b){
+        if(a == "id_filial"){
+            return -1;
+        }
+        if(a == "total"){
+            return 1;
+        }
+        return 0;
+    }
 
+    function organizarValores(a, b){
+        if(Object.key(a) == "id_filial"){
+            return -1;
+        }
+        return 0;
+    }
 
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1379,29 +888,17 @@ export const ResumoFaturamento = () => {
                                     <table id='table'>
                                         <tr>
                                             <th>Id.Região</th>
-
                                             <th>Região</th>
-
                                             <th>Id. Filial</th>
-
                                             <th>Qtd. Vendas</th>
-
                                             <th>Vlr.Médio Venda</th>
-
                                             <th>Vlr. Total NF-e</th>
-
                                             <th>Vlr. Total NFC-e</th>
-
                                             <th>Vlr. Venda Total</th>
-
                                             <th>Vlr. Custo Total</th>
-
                                             <th>Vlr. Lucro Venda</th>
-
                                             <th>Margem</th>
-
                                             <th>Markup %</th>
-
                                         </tr>
                                         {dadosRegiao.map((f1) => {
 
@@ -1411,29 +908,17 @@ export const ResumoFaturamento = () => {
 
                                             return (
                                                 <tr key={f1.idFilial}>
-
                                                     <td>{f1.idRegiao}</td>
-
                                                     <td>{f1.regiao}</td>
-
                                                     <td>{ordenado.map(ok => ok + ',')}</td>
-
                                                     <td>{parseFloat(f1.qtdVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
-
                                                     <td><p className='alinharValor' >{parseFloat(f1.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-
                                                     <td><p className='alinharValor' >{parseFloat(f1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-
                                                     <td><p className='alinharValor' >{parseFloat(f1.vlTotalNfce).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-
                                                     <td><p className='alinharValor' >{parseFloat(f1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-
                                                     <td><p className='alinharValor' >{parseFloat(f1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-
                                                     <td><p className='alinharValor' >{parseFloat(f1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-
                                                     <td>{parseFloat(f1.margem.toFixed(2)).toLocaleString('pt-BR')} % </td>
-
                                                     <td>{parseFloat(f1.markup.toFixed(2)).toLocaleString('pt-BR')}</td>
                                                 </tr>
                                             );
@@ -1795,158 +1280,35 @@ export const ResumoFaturamento = () => {
                             <>
                                 <div className='dashboardLine'>
                                     <label>Dashboards</label> <label>( Totais abaixo da lista! )</label>
-
                                     <button className='dashboardBtn' onClick={openDashboardTipoDePagamento}> <img alt='' className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
-
                                     <button className='dashboardBtn' onClick={imprimirTpPg}> <img alt='' className='grafico' src='/images/printer.png' />Imprimir</button>
                                 </div>
                                 <div className='table-responsive'>
                                     <table id='table'>
                                         <thead>
                                             <tr>
-                                                {keys.map((nomes) => {
+                                                {keys.sort(organizarKeys).map((nomes, index) => {
                                                     return (
-                                                        <th>{(nomes).replace('_', ' ').replace('_', ' ').replace('_', ' ').toUpperCase()}</th>
+                                                        <th key={index}>{(nomes).replace('_', ' ').replace('_', ' ').replace('_', ' ').toUpperCase()}</th>
                                                     );
                                                 })}
                                             </tr>
                                         </thead>
-                                        <tr>
-                                            {dadosTipoPagamento.map((f5) => {
-                                                if (f5 === null || f5 === 0) {
-                                                    f5 = 0.00;
-                                                }
-
-                                                return (
-                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
-                                                );
+                                        <tbody>
+                                            {dadosTipoPagamento.map((pagamento, indx)=>{
+                                                return(
+                                                    <tr key={indx}>
+                                                        {
+                                                            Object.values(pagamento).map((pgto, index) => {
+                                                                return (
+                                                                    <td key={index}>{pagamento.id_filial == pgto ? pgto : parseFloat(String(pgto).replace(null, "0,00")).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                                )
+                                                            })
+                                                        }
+                                                    </tr>
+                                                )
                                             })}
-                                        </tr>
-
-                                        <tr>
-                                            {dadosTipoPagamento1.map((item) => {
-                                                if (item === null || item === 0) {
-                                                    item = 0.00;
-                                                }
-
-                                                return (
-                                                    <td> <p className='alinharValor' >{parseFloat(item).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
-                                                );
-                                            })}
-                                        </tr>
-
-                                        <tr>
-                                            {dadosTipoPagamento2.map((item) => {
-                                                if (item === null || item === 0) {
-                                                    item = 0.00;
-                                                }
-
-                                                return (
-
-                                                    <td> <p className='alinharValor' > {parseFloat(item).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
-
-                                                );
-                                            })}
-                                        </tr>
-
-                                        <tr>
-                                            {dadosTipoPagamento3.map((f5) => {
-                                                if (f5 === null || f5 === 0) {
-                                                    f5 = 0.00;
-                                                }
-
-                                                return (
-
-                                                    <td> <p className='alinharValor' >{parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
-
-                                                );
-                                            })}
-                                        </tr>
-
-                                        <tr>
-                                            {dadosTipoPagamento4.map((f5) => {
-                                                if (f5 === null || f5 === 0) {
-                                                    f5 = 0.00;
-                                                }
-
-                                                return (
-
-                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
-
-                                                );
-                                            })}
-                                        </tr>
-
-                                        <tr>
-                                            {dadosTipoPagamento5.map((f5) => {
-                                                if (f5 === null || f5 === 0) {
-                                                    f5 = 0.00;
-                                                }
-
-                                                return (
-
-                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
-
-                                                );
-                                            })}
-                                        </tr>
-
-                                        <tr>
-                                            {dadosTipoPagamento6.map((f5) => {
-                                                if (f5 === null || f5 === 0) {
-                                                    f5 = 0.00;
-                                                }
-
-                                                return (
-
-                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
-
-                                                );
-                                            })}
-                                        </tr>
-
-                                        <tr>
-                                            {dadosTipoPagamento7.map((f5) => {
-                                                if (f5 === null || f5 === 0) {
-                                                    f5 = 0.00;
-                                                }
-
-                                                return (
-
-                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
-
-                                                );
-                                            })}
-                                        </tr>
-
-                                        <tr>
-                                            {dadosTipoPagamento8.map((f5) => {
-                                                if (f5 === null || f5 === 0) {
-                                                    f5 = 0.00;
-                                                }
-
-                                                return (
-
-                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p></td>
-
-                                                );
-                                            })}
-                                        </tr>
-
-                                        <tr>
-                                            {dadosTipoPagamento9.map((f5) => {
-                                                if (f5 === null || f5 === 0) {
-                                                    f5 = 0.00;
-                                                }
-
-                                                return (
-
-                                                    <td> <p className='alinharValor' > {parseFloat(f5).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p> </td>
-
-                                                );
-                                            })}
-                                        </tr>
-
+                                        </tbody>
                                     </table>
                                 </div>
                             </>
@@ -1954,46 +1316,16 @@ export const ResumoFaturamento = () => {
                     </RF.DataGeral>
 
                     <div className='row' >
-                        <div className='item-bottom' >
-                            <label>Boleto: </label>
-                            <label>{parseFloat(String(resultTpPg5).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
-                        </div>
-                        <div className='item-bottom' >
-                            <label>Dinheiro:</label>
-                            <label>{parseFloat(String(resultTpPg).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
-                        </div>
-                        <div className='item-bottom' >
-                            <label>Cartão de Credito: </label>
-                            <label>{parseFloat(String(resultTpPg2).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
-                        </div>
-                        <div className='item-bottom' >
-                            <label>Cartão de Debito: </label>
-                            <label>{parseFloat(String(resultTpPg3).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
-                        </div>
-                        <div className='item-bottom' >
-                            <label>Cheque: </label>
-                            <label>{parseFloat(String(resultTpPg4).replace('.', ',').replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
-                        </div>
-                        <div className='item-bottom' >
-                            <label>Pix: </label>
-                            <label>{parseFloat(String(resultTpPg13).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
-                        </div>
-                        <div className='item-bottom' >
-                            <label>Cancelamento Total: </label>
-                            <label>{parseFloat(String(resultTpPg7).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
-                        </div>
-                        <div className='item-bottom' >
-                            <label>Duplicata Mercanvil: </label>
-                            <label>{parseFloat(String(DPMercantil).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
-                        </div>
-                        <div className='item-bottom' >
-                            <label>Desconto Total: </label>
-                            <label>{parseFloat(String(resultTpPg8).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
-                        </div>
-                        <div className='item-bottom' style={{ borderRight: "none" }}>
-                            <label>Total: </label>
-                            <label>{parseFloat(String(resultTpPg1).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
-                        </div>
+                        {keys.map((key) => {
+                            if(key != "id_filial"){
+                                return (
+                                    <div className='item-bottom' key={key}>
+                                        <label>{key.replace('_', ' ').replace('_', ' ').replace('_', ' ').toUpperCase()}: </label>
+                                        <label>{parseFloat(String(totalTipoPagamento[key]).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                                    </div>
+                                )
+                            }
+                        })}
                     </div>
                 </>
             ) : aba === "produto" ? (
@@ -2313,14 +1645,6 @@ export const ResumoFaturamento = () => {
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
-                {/*<RF.Dashboard>
-                            <Chart
-                                width={"100%"}
-                                height={"95%"}
-                                chartType="BarChart"
-                                data={chartRegiao}
-                                options={optionsRegiao}/>
-                    </RF.Dashboard>*/}
 
                 <Modal className='dashboardCadaFilial' shouldCloseOnEsc={false} isOpen={dsRegiaoDetalhada} onRequestClose={() => setDsRegiaoDetalhada(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
 
@@ -2373,33 +1697,33 @@ export const ResumoFaturamento = () => {
                     <h1>Dados Filial<button onClick={() => setGraficosCadaFilial(true)} className='filialBTN' > <img alt='' className='close' src='/images/filiais.png' /> Cada Filial</button></h1>
                 </div>
                 <div className='dashboardTexts' >
-                    <h2 className='prices' >
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: {parseFloat(String(resultFi2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
+                    </div>
 
-                    <h2 className='prices' >
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: {parseFloat(String(resultFi).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
+                    </div>
 
-                    <h2 className='prices'>
+                    <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: {parseFloat(String(resultFi1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
+                    </div>
 
-                    <h2 className='prices' >
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(String(resultFi3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
+                    </div>
 
-                    <h2 className='prices' >
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(String(resultFi4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
+                    </div>
 
-                    <h2 className='prices' >
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: {parseFloat(String(resultFi5).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
+                    </div>
 
-                    <h2 className='prices' >
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: {parseFloat(String(resultFi6).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
+                    </div>
                 </div>
 
                 <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
@@ -2428,9 +1752,6 @@ export const ResumoFaturamento = () => {
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
-                {/*<RF.Dashboard>
-                        <Chart width='100%' height='95%' chartType='BarChart' data={chartFilial} options={filialOptions} />
-                    </RF.Dashboard>*/}
 
                 <Modal isOpen={graficosCadaFilial} onRequestClose={() => setGraficosCadaFilial(false)} className='dashboardCadaFilial' overlayClassName='none'>
 
@@ -2487,46 +1808,42 @@ export const ResumoFaturamento = () => {
                     <h1>Dados Vendedor<button onClick={() => setOpenIndivualVend(true)} className='filialBTN' > <img alt='' className='close' src='/images/vendedor.png' /> Cada Vendedor</button></h1>
                 </div>
 
-                <div>
-
-                    <div className='dashboardTexts' >
-                        <h2 className='prices' >
-                            <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: {parseFloat(String(resultVen2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Custo: {parseFloat(String(resultVen).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices'>
-                            <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Total: {parseFloat(String(resultVen1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(String(resultVen3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(String(resultVen4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img alt='' className='cifrões' src='/images/cifraoRosa.png' /> Credito: {parseFloat(String(resultVen5).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img alt='' className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: {parseFloat(String(resultVen6).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img alt='' className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: {parseFloat(String(resultVen7).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
-                            <img alt='' className='cifrões' src='/images/cifraoCinza.png' /> Desconto: {parseFloat(String(resultVen8).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
+                <div className='dashboardTexts' >
+                    <div className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: {parseFloat(String(resultVen2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
 
+                    <div className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Custo: {parseFloat(String(resultVen).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
+
+                    <div className='prices'>
+                        <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Total: {parseFloat(String(resultVen1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
+
+                    <div className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(String(resultVen3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
+
+                    <div className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(String(resultVen4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
+
+                    <div className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoRosa.png' /> Credito: {parseFloat(String(resultVen5).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
+
+                    <div className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: {parseFloat(String(resultVen6).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
+
+                    <div className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: {parseFloat(String(resultVen7).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
+
+                    <div className='prices' >
+                        <img alt='' className='cifrões' src='/images/cifraoCinza.png' /> Desconto: {parseFloat(String(resultVen8).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                    </div>
                 </div>
                 <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
                     <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
@@ -2554,9 +1871,6 @@ export const ResumoFaturamento = () => {
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
-                {/*<RF.Dashboard>
-                    <Chart chartType='BarChart' width="100%" height="100%" data={chartDataVend} options={optionsVendedor}/>
-                </RF.Dashboard>*/}
 
                 <Modal isOpen={openIndividualVend} shouldCloseOnEsc={false} onRequestClose={() => setOpenIndivualVend(false)} contentLabel='dashboard' shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardCadaFilial' >
 
@@ -2608,40 +1922,31 @@ export const ResumoFaturamento = () => {
                 </div>
 
                 <div>
-
                     <div className='dashboardTexts' >
-                        <h2 className='prices' >
+                        <div className='prices' >
                             <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro Venda: {parseFloat(String(resultCli1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
+                        </div>
+                        <div className='prices' >
                             <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Custo: {parseFloat(String(resultCli4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices'>
+                        </div>
+                        <div className='prices'>
                             <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Venda Total: {parseFloat(String(resultCli).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
+                        </div>
+                        <div className='prices' >
                             <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(String(resultCli2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
+                        </div>
+                        <div className='prices' >
                             <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(String(resultCli3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
+                        </div>
+                        <div className='prices' >
                             <img alt='' className='cifrões' src='/images/cifraoRosa.png' /> Credito: {parseFloat(String(resultCli7).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
+                        </div>
+                        <div className='prices' >
                             <img alt='' className='cifrões' src='/images/cifraoLaranja.png' /> Lucro Liqudido: {parseFloat(String(resultCli6).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
-                        <h2 className='prices' >
+                        </div>
+                        <div className='prices' >
                             <img alt='' className='cifrões' src='/images/cifraoAzulClaro.png' /> Desconto {parseFloat(String(resultCli5).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                        </h2>
-
+                        </div>
                     </div>
 
                     <Modal isOpen={dashboardClienteAll} onRequestClose={() => setIsOpenDashboardClienteAll(false)} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" className='dashboardCadaFilial' >
@@ -2688,9 +1993,32 @@ export const ResumoFaturamento = () => {
 
                 </div>
 
-                <RF.Dashboard>
-                    <Chart chartType="BarChart" width="100%" height="200%" data={dataCli0} options={optionsCli0} />
-                </RF.Dashboard>
+                <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
+                    <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                        <BarChart
+                            data={dadosCliente}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="fornecedor" />
+                            <YAxis />
+                            <Tooltip />
+                            <ReferenceLine y={0} stroke="#000" />
+                            <Brush dataKey="cliente" height={30} stroke="#8884d8" />
+                            <Bar dataKey="vlVendaTotal" fill="#8884d8" >
+                                {dadosCliente.map((data, i) => (
+
+                                    <Cell key={`cell-${i}`} fill={'#00A5DD'} />
+                                ))}
+                            </Bar>
+                            <Bar dataKey="vlLucroVenda" fill="#8884d8" >
+                                {dadosCliente.map((data, i) => (
+
+                                    <Cell key={`cell-${i}`} fill={'#8884d8'} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
 
             </Modal>
 
@@ -2700,46 +2028,63 @@ export const ResumoFaturamento = () => {
                     <h1>Dados Tipo Pagamento</h1>
                 </div>
 
-                <div>
-                    <RF.A>
-                        <table className='pricesTpPg' >
-                            <thead>
-                                <div className='ajuste' >
-                                    {keys.map((nomes) => {
-                                        return (
-                                            <div className='labels' >{(nomes).replace('_', ' ').toUpperCase()}:</div>
-                                        );
-                                    })}
-                                </div>
-                            </thead>
-                            <div className='ajuste' >
-                                {dadosTipoPagamento.map((f5) => {
-
-                                    if (f5 === null || f5 === 0) {
-                                        f5 = 0.00;
-                                    }
-
-                                    return (
-                                        <div className='labels' > {parseFloat(f5.toFixed(2)).toLocaleString('pt-BR')} </div>
-                                    );
-                                })}
-                            </div>
-                        </table>
-                    </RF.A>
-                </div>
-                <RF.Dashboard style={{ border: "none", backgroundColor: "transparent", height: "40%" }}>
-                    <div className="grafico" ><Chart chartType="ColumnChart" width="95%" height="95%" data={dataTpPg} /> </div>
-                    <div className="graficoLongo" ><Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} /> </div>
-                    <div className="grafico" ><Chart chartType="PieChart" data={dataTipoPagamentoPizza} options={optionsTpPg} width="95%" height="95%" /> </div>
-                </RF.Dashboard>
-
-
-
-                <RF.Dashboard style={{ border: "none", backgroundColor: "transparent", height: "50%" }}>
-                    <div className='graficoLongoB' ><Chart chartType="BarChart" width="90%" height="230px" data={dataTpPg0} options={optionsCli0} /></div>
-                    <div className='graficoLongoA' > <Chart chartType="ColumnChart" width="350px" height="230px" data={dataTpPgVale} /></div>
-                </RF.Dashboard>
-
+                <RF.ValoresTipoPagamento>
+                        {keys.map((key) => {
+                            if(key != "id_filial"){
+                                return (
+                                    <div className='item-bottom' key={key}>
+                                        <label>{key.replace('_', ' ').replace('_', ' ').replace('_', ' ').toUpperCase()}: </label>
+                                        <label>{parseFloat(String(totalTipoPagamento[key]).replace('NaN', '0,00')).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</label>
+                                    </div>
+                                )
+                            }
+                        })}
+                </RF.ValoresTipoPagamento>
+                <RF.Dashboards>
+                    <div className='graficos-tipo-pgto' id='grafico-barra'>
+                        <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                            <BarChart
+                                data={chartDataTipoPagamento}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <YAxis />
+                                <Tooltip />
+                                <ReferenceLine y={0} stroke="#000" />
+                                <Brush dataKey="nome" height={30} stroke="#8884d8" />
+                                <XAxis dataKey="nome" />
+                                <Bar dataKey="valor" fill="#8884d8" >
+                                    {Array.isArray(chartDataTipoPagamento) && chartDataTipoPagamento.map((data, i) => (
+                                        <Cell key={`cell-${i}`} fill={'#064A8B'} />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                    <div className='graficos-tipo-pgto'>
+                        <ResponsiveContainer style={{ height: "100%", width: "100%"}}>
+                            <PieChart>
+                                <Tooltip />
+                                <Legend
+                                    verticalAlign="top"
+                                    layout="horizontal"
+                                    align="top"
+                                    wrapperStyle={{
+                                        paddingTop: "20px",
+                                    }}
+                                />
+                                    <Pie data={chartDataTipoPagamento} dataKey="valor" nameKey="nome" cx="50%" cy="50%"
+                                        outerRadius={80} fill="#8884d8" activeIndex={activeIndex}
+                                        activeShape={renderActiveShape}
+                                        onMouseEnter={onPieEnter}
+                                    >
+                                        {Array.isArray(chartDataTipoPagamento) &&  chartDataTipoPagamento.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+                </RF.Dashboards>
             </Modal>
 
             <Modal shouldCloseOnEsc={false} isOpen={dashboardProdutos} onRequestClose={closeDashboardProdutos} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" style={customStyles}>
@@ -2749,27 +2094,21 @@ export const ResumoFaturamento = () => {
                 </div>
 
                 <div className='dashboardTexts'>
-
-                    <h2 className='prices'>
+                    <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {parseFloat(String(resultProd).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
-                    <h2 className='prices'>
+                    </div>
+                    <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> Lucro: {parseFloat(String(resultProd1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
-                    <h2 className='prices'>
+                    </div>
+                    <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoRosa.png' /> Sub Total: {parseFloat(String(resultProd3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
-                    <h2 className='prices'>
+                    </div>
+                    <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoCinza.png' /> Custo: {parseFloat(String(resultProd2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
-                    <h2 className='prices'>
+                    </div>
+                    <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Desconto: {parseFloat(String(resultProd4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
+                    </div>
                 </div>
                 <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
                     <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
@@ -2796,17 +2135,6 @@ export const ResumoFaturamento = () => {
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
-                    {/*
-                    <RF.Dashboard style={{height: "400px"}}>
-                        <div className='next' >
-                            <button onClick={abp1} >1-90</button> <button onClick={abp2} >91-181</button> <button onClick={abp3} >182-272</button> <button onClick={abp4} >273-363</button> <button onClick={abp5} >364-454</button>
-                            <button onClick={abp6} >455-545</button> <button onClick={abp7} >546-636</button> <button onClick={abp8} >637-727</button> <button onClick={abp9} >728-818</button> <button onClick={abp10} >819-909</button>
-                            <button onClick={abp11} >910-1000</button>
-                        </div>
-
-                        <Chart chartType="BarChart" width="100%" height="200%" data={dataProd0} options={optionsProd0}/>
-                    </RF.Dashboard>
-                    */}
                 </div>
 
                 <Modal isOpen={dashboardProdutosDetalhado} onRequestClose={closeDashboardProdutosDetalhados} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardCadaFilial'>
@@ -2855,23 +2183,18 @@ export const ResumoFaturamento = () => {
                 </div>
 
                 <div className='dashboardTexts' >
-
-                    <h2 className='prices' >
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(String(resultGru).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
-                    <h2 className='prices' >
+                    </div>
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoLaranja.png' /> Valor Lucro: {parseFloat(String(resultGru1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
-                    <h2 className='prices' >
+                    </div>
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' /> Sub Total: {parseFloat(String(resultGru2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
-                    <h2 className='prices' >
+                    </div>
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> Desconto Total: {parseFloat(String(resultGru3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
+                    </div>
                 </div>
                 <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
                     <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
@@ -2899,9 +2222,6 @@ export const ResumoFaturamento = () => {
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
-                {/*<RF.Dashboard>
-                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataGru0} options={optionsGru0} /></div>
-                    </RF.Dashboard>*/}
 
                 <Modal shouldCloseOnEsc={false} isOpen={dashboardGrupoDetalhado} onRequestClose={closeDashboardGrupoDetalhado} shouldCloseOnOverlayClick={false} contentLabel="dashboard" overlayClassName="dashboard-overlay" className='dashboardCadaFilial' >
 
@@ -2947,26 +2267,21 @@ export const ResumoFaturamento = () => {
                     <h1>Dados Fornecedor<button onClick={openDashboardFornecedorDetalhado} className='filialBTN' > <img alt='' className='close' src='/images/fornecedor.png' /> Cada Fornecedor</button></h1>
                 </div>
                 <div className='dashboardTexts' >
-                    <h2 className='prices' >
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Valor Venda: {parseFloat(String(resultFor).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
-                    <h2 className='prices' >
+                    </div>
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoAzulClaro.png' /> Valor Lucro: {parseFloat(String(resultFor1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
-                    <h2 className='prices' >
+                    </div>
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> Valor Custo: {parseFloat(String(resultFor2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
-                    <h2 className='prices' >
+                    </div>
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> Valor Desconto: {parseFloat(String(resultFor3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
-                    <h2 className='prices' >
+                    </div>
+                    <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Sub.Total: {parseFloat(String(resultFor4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                    </h2>
-
+                    </div>
                 </div>
                 <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
                     <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
@@ -2994,9 +2309,6 @@ export const ResumoFaturamento = () => {
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
-                {/*<RF.Dashboard>
-                        <div className='justSize' ><Chart chartType="Bar" width="100%" height="2000px" data={dataFor0} options={optionsFor0} /></div>
-                    </RF.Dashboard>*/}
 
                 <Modal isOpen={dashboardFornecedorDetalhado} onRequestClose={closeDashboardFornecedorDetalhado} shouldCloseOnOverlayClick={false} className='dashboardCadaFilial' overlayClassName="dashboard-overlay"  >
 
@@ -3052,41 +2364,208 @@ export const ResumoFaturamento = () => {
 
                     <div className='dashboardTexts'>
 
-                        <h2 className='prices' > <p className='Gtext' > Venda Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </h2>
+                        <div className='prices' > <p className='Gtext' > Venda Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </div>
 
-                        <h2 className='prices' > <p className='Gtext' > Lucro V.Total: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </h2>
+                        <div className='prices' > <p className='Gtext' > Lucro V.Total: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </div>
 
-                        <h2 className='prices' > <p className='Gtext' > Liquido Total: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </h2>
+                        <div className='prices' > <p className='Gtext' > Liquido Total: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </div>
 
-                        <h2 className='prices' > <p className='Gtext' > NF-e Total:  {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </h2>
+                        <div className='prices' > <p className='Gtext' > NF-e Total:  {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </div>
 
-                        <h2 className='prices' > <p className='Gtext' > NFC-e Total: {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </h2>
+                        <div className='prices' > <p className='Gtext' > NFC-e Total: {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </div>
                     </div>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barData} options={barOptions}  width="95%" height="95%" /></div>
-                        <div className="graficoLongo" ><Chart chartType="BarChart" data={barDataFi} options={barOptionsFi} /></div>
-                        <div className="graficoLongo" ><Chart chartType="BarChart" data={barDataVen} options={barOptionsVen}  width="95%" height="95%" /></div>
+                        <div className="grafico" >
+                            <ResponsiveContainer style={{ height: "100%", width: "100%"}}>
+                                <BarChart
+                                    data={dadosRegiao}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="regiao" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <ReferenceLine y={0} stroke="#000" />
+                                    <Brush dataKey="regiao" height={30} stroke="#8884d8" />
+                                    <Bar dataKey="vlVendaTotal" fill="#8884d8" >
+                                        {dadosRegiao.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#064A8B'} />
+                                        ))}
+                                    </Bar>
+                                    <Bar dataKey="vlLucroVenda" fill="#8884d8" >
+                                        {dadosRegiao.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#00C49F'} />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                        <div className='grafico'>
+                            <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                                <BarChart
+                                    data={dados}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="filial" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <ReferenceLine y={0} stroke="#000" />
+                                    <Brush dataKey="filial" height={30} stroke="#8884d8" />
+                                    <Bar dataKey="vlVendaTotal" fill="#8884d8" >
+                                        {dados.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#00A5DD'} />
+                                        ))}
+                                    </Bar>
+                                    <Bar dataKey="vlLucroVenda" fill="#8884d8" >
+                                        {dados.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#8884d8'} />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                        <div className='grafico'>
+                            <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                                <BarChart
+                                    data={dadosVendedor}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="vendedor" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <ReferenceLine y={0} stroke="#000" />
+                                    <Brush dataKey="vendedor" height={30} stroke="#8884d8" />
+                                    <Bar dataKey="vlVendaTotal" fill="#8884d8" >
+                                        {dadosVendedor.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#064A8B'} />
+                                        ))}
+                                    </Bar>
+                                    <Bar dataKey="vlLucroVenda" fill="#8884d8" >
+                                        {dadosVendedor.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#00C49F'} />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
                     </RF.Dashboard>
 
                     <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataCli} options={barOptionsCli}  width="95%" height="95%" /></div>
-                        <div className="graficoLongo" ><Chart chartType="BarChart" data={dataTipoPagamento} options={barOptionsTpPg} /></div>
+                        <div className='grafico'>
+                            <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                                <BarChart
+                                    data={dadosCliente}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="cliente" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <ReferenceLine y={0} stroke="#000" />
+                                    <Brush dataKey="vendedor" height={30} stroke="#8884d8" />
+                                    <Bar dataKey="vlVendaTotal" fill="#8884d8" >
+                                        {dadosCliente.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#00A5DD'} />
+                                        ))}
+                                    </Bar>
+                                    <Bar dataKey="vlLucroVenda" fill="#8884d8" >
+                                        {dadosCliente.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#8884d8'} />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                        <div className='grafico'>
+                            <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                                <BarChart
+                                    data={chartDataTipoPagamento}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="nome" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <ReferenceLine y={0} stroke="#000" />
+                                    <Brush dataKey="nome" height={30} stroke="#8884d8" />
+                                    <Bar dataKey="valor" fill="#8884d8" >
+                                        {Array.isArray(chartDataTipoPagamento) &&  chartDataTipoPagamento.map((data, i) => (
+                                            <Cell key={`cell-${i}`} fill={'#064A8B'} />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
                         <div className="grafico" ><Chart chartType="PieChart" data={dataNfs} options={options2} width="95%" height="95%" /></div>
                     </RF.Dashboard>
 
-                    <RF.Dashboard>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataPro} options={barOptionsPro}  width="95%" height="95%" /></div>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataGru} options={barOptionsGru}  width="95%" height="95%" /></div>
-                        <div className="grafico" ><Chart chartType="BarChart" data={barDataFor} options={barOptionsFor}  width="95%" height="95%" /></div>
-                    </RF.Dashboard>
+                    <RF.Dashboards style={{height: "40%"}}>
+                        <div className='grafico-maior'>
+                            <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                                <BarChart
+                                    data={dadosProduto}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="produto" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <ReferenceLine y={0} stroke="#000" />
+                                    <Brush dataKey="produto" height={30} stroke="#8884d8" />
+                                    <Bar dataKey="vlr_venda_total" fill="#8884d8" >
+                                        {dadosProduto.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#064A8B'} />
+                                        ))}
+                                    </Bar>
+                                    <Bar dataKey="vlr_lucro_total" fill="#8884d8" >
+                                        {dadosProduto.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#00C49F'} />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                        <div className='grafico-maior'>
+                            <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
+                                <BarChart
+                                    data={dadosFornecedor}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="fornecedor" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <ReferenceLine y={0} stroke="#000" />
+                                    <Brush dataKey="fornecedor" height={30} stroke="#8884d8" />
+                                    <Bar dataKey="vlr_venda_total" fill="#8884d8" >
+                                        {dadosFornecedor.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#00A5DD'} />
+                                        ))}
+                                    </Bar>
+                                    <Bar dataKey="vlr_lucro_total" fill="#8884d8" >
+                                        {dadosFornecedor.map((data, i) => (
+
+                                            <Cell key={`cell-${i}`} fill={'#8884d8'} />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </RF.Dashboards>
 
                 </Modal>
 
             </C.Footer>
 
-            {isModalTop ? <Top onClose={() => setIsModalTop(false)} setDataSelectTop={setDataSelectTop} setValorTop={setValorTop} valorTop={valorTop} /> : null}
-            {isModalFilial ? <Emitente onClose={() => setIsModalFilial(false)} setDataSelectEmitente={setDataSelectEmitente} setDataIdSelectEmitente={setDataIdSelectEmitente} setDataSelectDadosEmitente={setDataSelectDadosEmitente} setValor={setValor} valor={valor} /> : null}
+            {isModalTop ? <Top onClose={() => setIsModalTop(false)} setValorTop={setValorTop} valorTop={valorTop} /> : null}
+            {isModalFilial ? <Emitente onClose={() => setIsModalFilial(false)} setValor={setValor} valor={valor} /> : null}
         </C.Container>
 
     );
