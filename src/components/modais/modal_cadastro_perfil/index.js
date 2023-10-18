@@ -7,7 +7,7 @@ export const CadastroPerfil = ({close, minimizado, setMinimizado, minimizar, set
 
     async function salvar (){
         try{
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/perfilRegra/",{
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/perfilRegra/",{
                 method: "POST",    
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({

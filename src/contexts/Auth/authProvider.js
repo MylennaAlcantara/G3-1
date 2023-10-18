@@ -15,7 +15,7 @@ export const AuthProvider = ({children}) => {
     const senha = MD5(password).toString();
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/all`);// http://10.0.1.10:8099/user/all
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/user/all`);// http://10.0.1.10:8099/user/all
             const data = await response.json();
             setUsuario(data);
             console.log('executado')
@@ -30,7 +30,7 @@ export const AuthProvider = ({children}) => {
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
+            const response = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+"/emitente/all");
             const data = await response.json();
             setFiliais(data);
         }
@@ -61,11 +61,11 @@ export const AuthProvider = ({children}) => {
         const filial = localStorage.getItem('filial');
         const nivel = localStorage.getItem('nivel')
         if(id, filial){
-            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/all`);
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/user/all`);
             const data = await response.json();
-            const resposta = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
+            const resposta = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+"/emitente/all");
             const dados = await resposta.json();
-            const responseNivel = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/nivel/${nivel}`);
+            const responseNivel = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/nivel/${nivel}`);
             const dadosNivel = await responseNivel.json();
             const logado = data.filter(user => user.id === parseFloat(id));
             const empresa = dados.filter(filiais => filiais.nome_fantasia === filial);

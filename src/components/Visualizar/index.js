@@ -21,12 +21,12 @@ export const Visualizar = ({ codRotina }) => {
     useEffect(() => {
         async function fetchData() {
             const [responseRotina, responseEmitente, responseTop, responseVendedor, responseParceiro, responseTipoPagamento] = await Promise.all([
-                fetch(`http://8b38091fc43d.sn.mynetname.net:2004/preVenda/${codRotina}`),
-                fetch('http://8b38091fc43d.sn.mynetname.net:2005/emitente/all'),
-                fetch('http://8b38091fc43d.sn.mynetname.net:2004/top/all'),
-                fetch('http://8b38091fc43d.sn.mynetname.net:2003/user/all'),
-                fetch('http://8b38091fc43d.sn.mynetname.net:2003/clientes'),
-                fetch('http://8b38091fc43d.sn.mynetname.net:2004/tipoPagamento/all')
+                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+`/preVenda/${codRotina}`),
+                fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+'/emitente/all'),
+                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+'/top/all'),
+                fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/user/all'),
+                fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/clientes'),
+                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+'/tipoPagamento/all')
             ]);
             const [rotina, Emitente, top, vendedor, parceiro, tipoPagamento] = await Promise.all([
                 responseRotina.json(),

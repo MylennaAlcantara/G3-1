@@ -17,7 +17,7 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
+            const response = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+"/emitente/all");
             const data = await response.json();
             setUsers(data);
             if( response.status === 200){

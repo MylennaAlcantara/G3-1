@@ -15,7 +15,7 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
 
     useEffect(()=> {
         async function fetchData (){
-            const response = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/setorFuncionario/all');
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/setorFuncionario/all');
             const data = await response.json();
             setSetores(data);
             if( response.status === 200){
@@ -53,7 +53,7 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
     }
 
     const abrirEditar = async () => {
-        const responseSetor = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/setorFuncionario/${setorSelecionado}`);
+        const responseSetor = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/setorFuncionario/${setorSelecionado}`);
         const setor = await responseSetor.json();
         if(setorSelecionado === undefined || setorSelecionado === null){
             console.log('nenhum setor selecionado');

@@ -19,7 +19,7 @@ export const ConsultarFuncionario = () => {
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/all");
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/user/all");
             const data = await response.json();
             setUsers(data);
             if( response.status === 200){
@@ -27,12 +27,12 @@ export const ConsultarFuncionario = () => {
             }
         }
         async function fetchDataEmpresas (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/emitente/all");
+            const response = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+"/emitente/all");
             const data = await response.json();
             setEmpresas(data);
         }
         async function fetchDataSetores (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/setorFuncionario/all");
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/setorFuncionario/all");
             const data = await response.json();
             setSetores(data);
         }
@@ -142,7 +142,7 @@ export const ConsultarFuncionario = () => {
 
     const abrirEditar = async() => {
         if(nivel.cadastro_funcionario_editar){
-            const responseFuncionario = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/${codigoFuncionario}`);
+            const responseFuncionario = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/user/${codigoFuncionario}`);
             const cliente = await responseFuncionario.json();
             if(codigoFuncionario === undefined){
                 console.log('nenhum cliente selecionado')

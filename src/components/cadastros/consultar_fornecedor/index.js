@@ -22,7 +22,7 @@ export const ConsultarFornecedor = () => {
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/all");
+            const response = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+"/fornecedor/all");
             const data = await response.json();
             setUsers(data);
             if( response.status === 200){
@@ -82,7 +82,7 @@ export const ConsultarFornecedor = () => {
     const [codigoFornecedor, setCodigoFornecedor] = useState();
     const abrirEditar = async() => {
         if(nivel.cadastro_fornecedor_editar){
-            const responseFornecedor = await fetch(`http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/${codigoFornecedor}`);
+            const responseFornecedor = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/fornecedor/${codigoFornecedor}`);
             const fornecedor = await responseFornecedor.json();
             if(codigoFornecedor === undefined || codigoFornecedor === null){
                 console.log('nenhum fornecedor selecionado')

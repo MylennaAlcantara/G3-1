@@ -10,7 +10,7 @@ export const EditarSetor = ({close, dadosSetor, minimizado, setMinimizado, minim
 
     async function salvar (){
         try{
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/setorFuncionario/edit",{
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+"/setorFuncionario/edit",{
                 method: "PUT",    
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -29,7 +29,7 @@ export const EditarSetor = ({close, dadosSetor, minimizado, setMinimizado, minim
     }
 
     async function excluir (){
-        fetch(`http://8b38091fc43d.sn.mynetname.net:2003/setorFuncionario/delete`, {
+        fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+`/setorFuncionario/delete`, {
             method: 'DELETE',    
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({

@@ -57,7 +57,7 @@ export const PicoDeFaturamento = () => {
     const [ano, setAno] = useState([]);
 
     async function setDataHora() {
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2006/picoHora", {
+        const res = await fetch(process.env.REACT_APP_LINK_PICO+"/picoHora", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
@@ -74,7 +74,7 @@ export const PicoDeFaturamento = () => {
     }
 
     async function setDataSemana() {
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2006/picoSemana", {
+        const res = await fetch(process.env.REACT_APP_LINK_PICO+"/picoSemana", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
@@ -87,7 +87,7 @@ export const PicoDeFaturamento = () => {
     }
 
     async function setDataMes() {
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2006/picoMes", {
+        const res = await fetch(process.env.REACT_APP_LINK_PICO+"/picoMes", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
@@ -100,7 +100,7 @@ export const PicoDeFaturamento = () => {
     }
 
     async function setDataAno() {
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2006/picoAno", {
+        const res = await fetch(process.env.REACT_APP_LINK_PICO+"/picoAno", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),

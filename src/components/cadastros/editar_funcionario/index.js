@@ -17,7 +17,7 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
 
     useEffect(() => {
         async function fetchDataFuncionario (){
-            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/user/${codigoFuncionario}`);
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+`/user/${codigoFuncionario}`);
             const data = await response.json();
             setDadosFuncionario({
                 id: data.id,
@@ -170,7 +170,7 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
 
     const salvar = async () => {
         try{
-            const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/edit",{
+            const res = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/user/edit",{
                 method: "PUT",
                 headers:{"Content-Type": "application/json"},
                 body: JSON.stringify(dadosFuncionario)

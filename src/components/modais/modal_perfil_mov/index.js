@@ -13,7 +13,7 @@ export const PerfilMovimentacao = ({close, setDadosTop, dadosTop, minimizado, se
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/perfilMov/all");
+            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+"/perfilMov/all");
             const data = await response.json();
             setPerfil(data);
             if( response.status === 200){

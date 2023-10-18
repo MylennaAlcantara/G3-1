@@ -18,7 +18,7 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/top/all");//http://localhost:5000/tops
+            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+"/top/all");//http://localhost:5000/tops
             const data = await response.json();
             setTop(data);
             if( response.status === 200){

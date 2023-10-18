@@ -15,7 +15,7 @@ export const Saler = ({onClose = () =>{setIsModalFuncionario(false)},setIsModalF
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/all");
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/user/all");
             const data = await response.json();
             setUsers(data);
             if( response.status === 200){

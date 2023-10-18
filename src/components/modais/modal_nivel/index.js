@@ -15,7 +15,7 @@ export const Nivel = ({setNivel, close, cadastro, minimizado, setMinimizado, set
 
     useEffect(()=> {
         async function fetchData (){
-            const response = await fetch('http://8b38091fc43d.sn.mynetname.net:2003/nivel/all');
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/nivel/all');
             const data = await response.json();
             setNiveis(data);
             if( response.status === 200){
@@ -52,7 +52,7 @@ export const Nivel = ({setNivel, close, cadastro, minimizado, setMinimizado, set
     }
 
     const abrirEditar = async () => {
-        const responseNivel = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/nivel/${nivelSelecionado}`);
+        const responseNivel = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/nivel/${nivelSelecionado}`);
         const nivel = await responseNivel.json();
         if(nivelSelecionado === undefined || nivelSelecionado === null){
             console.log('nenhum nivel selecionado');

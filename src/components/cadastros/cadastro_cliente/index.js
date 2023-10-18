@@ -117,7 +117,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
             setEstados(data);
         }
         async function fetchDataFuncionario (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/all");
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/user/all");
             const data = await response.json();
             setFuncionario(data);
         }
@@ -183,7 +183,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
     const salvar = async () => {
         if(dadosCliente.cod_municipio && dadosCliente.nome && dadosCliente.cep && dadosCliente.endereco && dadosCliente.bairro && dadosCliente.filial){
             try{
-                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
+                const res = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/clientes",{
                     method: "POST",
                     headers:{"Content-Type": "application/json"},
                     body: JSON.stringify(dadosCliente)
@@ -197,7 +197,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
             }
         }else if(dadosCliente.nome && dadosCliente.cod_municipio && isChecked){
             try{
-                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
+                const res = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/clientes",{
                     method: "POST",
                     headers:{"Content-Type": "application/json"},
                     body: JSON.stringify(dadosCliente)

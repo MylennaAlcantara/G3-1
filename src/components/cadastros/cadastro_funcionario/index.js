@@ -121,7 +121,7 @@ export const CadastroFuncionario = ({minimizado, setMinimizado}) => {
     const salvar = async () => {
         if(dadosFuncionario.nome && dadosFuncionario.data_admissao && dadosFuncionario.setorFuncionario.id && dadosFuncionario.filial.id){
             try{
-                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/save",{
+                const res = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/user/save",{
                     method: "POST",
                     headers:{"Content-Type": "application/json"},
                     body: JSON.stringify(dadosFuncionario)

@@ -29,12 +29,12 @@ export const GrupoIcms = ({close, minimizado, setMinimizado}) => {
             setRegraIcms(data);
         }
         async function fetchTop(){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/top/all");
+            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+"/top/all");
             const data = await response.json();
             setTops(data);
         }
         async function fetchPerfil(){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/perfilRegra/all");
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+"/perfilRegra/all");
             const data = await response.json();
             setPerfil(data);
         }

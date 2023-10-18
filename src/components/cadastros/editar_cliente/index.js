@@ -119,12 +119,12 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
             setEstados(data);
         }
         async function fetchDataFuncionario (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/user/all");
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/user/all");
             const data = await response.json();
             setFuncionario(data);
         }
         async function fetchDataCliente (){
-            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/clientes/${codCliente}`);
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/clientes/${codCliente}`);
             const data = await response.json();
             setDadosCliente({
                 id: data.id,
@@ -226,7 +226,7 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
 
     const salvar = async () => {
         try{
-            const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes",{
+            const res = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/clientes",{
                 method: "PUT",
                 headers:{"Content-Type": "application/json"},
                 body: JSON.stringify(dadosCliente)

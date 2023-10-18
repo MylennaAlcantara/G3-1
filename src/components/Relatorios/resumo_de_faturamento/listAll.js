@@ -251,7 +251,7 @@ export const ResumoFaturamento = () => {
     }
 
     async function setDataFilial() { //Envia o JSON para a api e pega os dados de Filial
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFilial", {
+        const res = await fetch(process.env.REACT_APP_LINK_RESUMO_FATURAMENTO+"/resFatPorFilial", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
@@ -264,7 +264,7 @@ export const ResumoFaturamento = () => {
     }
 
     async function setDataCliente() {//Envia o JSON para a api e pega os dados de Cliente
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorCliente", {
+        const res = await fetch(process.env.REACT_APP_LINK_RESUMO_FATURAMENTO+"/resFatPorCliente", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
@@ -288,7 +288,7 @@ export const ResumoFaturamento = () => {
     }
 
     async function setDataRegiao() {//Envia o JSON para a api e pega os dados de Região
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorRegiao", {
+        const res = await fetch(process.env.REACT_APP_LINK_RESUMO_FATURAMENTO+"/resFatPorRegiao", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
@@ -319,7 +319,7 @@ export const ResumoFaturamento = () => {
     const [dadosLeitura, setDadosLeitura] = useState([]) //Dados em Geral (Tipo de Pagamento)
 
     async function setDataTipoPagamento() { //Envia o JSON para a api e pega os dados de Tipo de Pagamento
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorTipoPagamento", {
+        const res = await fetch(process.env.REACT_APP_LINK_RESUMO_FATURAMENTO+"/resFatPorTipoPagamento", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
@@ -336,7 +336,7 @@ export const ResumoFaturamento = () => {
     }
 
     async function setDataVendedor() { //Envia o JSON para a api e pega os dados de Vendedor
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorVendedor", {
+        const res = await fetch(process.env.REACT_APP_LINK_RESUMO_FATURAMENTO+"/resFatPorVendedor", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
@@ -349,7 +349,7 @@ export const ResumoFaturamento = () => {
     }
 
     async function setDataProduto() { //Envia o JSON para a api e pega os dados de Produto
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorProduto", {
+        const res = await fetch(process.env.REACT_APP_LINK_RESUMO_FATURAMENTO+"/resFatPorProduto", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
@@ -362,7 +362,7 @@ export const ResumoFaturamento = () => {
     }
 
     async function setDataGrupo() { //Envia o JSON para a api e pega os dados de Grupo
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorGrupo", {
+        const res = await fetch(process.env.REACT_APP_LINK_RESUMO_FATURAMENTO+"/resFatPorGrupo", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
@@ -375,7 +375,7 @@ export const ResumoFaturamento = () => {
     }
 
     async function setDataFornecedor() { //Envia o JSON para a api e pega os dados de Fornecedor
-        const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2002/resFatPorFornecedor", {
+        const res = await fetch(process.env.REACT_APP_LINK_RESUMO_FATURAMENTO+"/resFatPorFornecedor", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),

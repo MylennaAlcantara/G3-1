@@ -17,7 +17,7 @@ export const CounsultarProduto = () =>{
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/0/payment/0?size=50`);
+            const response = await fetch (process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/produtos/general/company/0/payment/0?size=50`);
             const data = await response.json();
             setItens(data.content);
             if( response.status === 200){

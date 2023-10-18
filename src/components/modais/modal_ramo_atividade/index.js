@@ -14,7 +14,7 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/ramoAtividade/all");
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/ramoAtividade/all");
             const data = await response.json();
             setRamos(data);
             if( response.status === 200){

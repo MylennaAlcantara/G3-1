@@ -11,7 +11,7 @@ export const PisCofins = ({close, minimizado, setMinimizado}) => {
     
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/perfilRegra/all");
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+"/perfilRegra/all");
             const data = await response.json();
             setPerfil(data);
         }

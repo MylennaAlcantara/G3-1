@@ -18,7 +18,7 @@ export const ConsultarCliente = ({setCliente}) => {
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/clientes");
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/clientes");
             const data = await response.json();
             setUsers(data);
             if( response.status === 200){
@@ -79,7 +79,7 @@ export const ConsultarCliente = ({setCliente}) => {
     }
     const abrirEditar = async() => {
         if(nivel.cadastro_cliente_editar){
-            const responseCliente = await fetch(`http://8b38091fc43d.sn.mynetname.net:2003/clientes/${codigoCliente}`); //http://10.0.1.10:8091/preVenda/id
+            const responseCliente = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/clientes/${codigoCliente}`); //http://10.0.1.10:8091/preVenda/id
             const cliente = await responseCliente.json();
             if(codigoCliente === undefined){
                 console.log('nenhum cliente selecionado')

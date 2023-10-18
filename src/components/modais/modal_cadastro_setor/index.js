@@ -8,7 +8,7 @@ export const CadastroSetor = ({close, minimizado, setMinimizado, minimizar, setM
 
     async function salvar (){
         try{
-            const response = await fetch("http://8b38091fc43d.sn.mynetname.net:2003/setorFuncionario/save",{
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+"/setorFuncionario/save",{
                 method: "POST",    
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({

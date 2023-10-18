@@ -22,7 +22,7 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
             setEstados(data);
         }
         async function fetchDataFornecedor (){
-            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/${codigoFornecedor}`);
+            const response = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/fornecedor/${codigoFornecedor}`);
             const data = await response.json();
             setDadosFornecedor({
                 id: data.id,
@@ -173,7 +173,7 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
     const salvar = async () => {
         if(dadosFornecedor.numero_documento && dadosFornecedor.razao_social && dadosFornecedor.cep && dadosFornecedor.endereco && dadosFornecedor.bairro && dadosFornecedor.numero && dadosFornecedor.codigo_municipio && dadosFornecedor.municipio && dadosFornecedor.id_comprador){
             try{
-                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2005/fornecedor/edit", {
+                const res = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+"/fornecedor/edit", {
                     method: "PUT",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(dadosFornecedor)

@@ -92,7 +92,7 @@ export const EditarTop = ({close, minimizado, setMinimizado, minimizar, setMinim
 
     useEffect(()=> {
         async function fetchData (){
-            const response = await fetch(`http://8b38091fc43d.sn.mynetname.net:2004/top/${top}`);
+            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+`/top/${top}`);
             const data = await response.json();
             setDadosTop({
                 id: data.id,
@@ -252,7 +252,7 @@ export const EditarTop = ({close, minimizado, setMinimizado, minimizar, setMinim
     const salvar = async () => {
         if(dadosTop.descricao && dadosTop.perfilMovimentacao.id){
             try{
-                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/top/edit",{
+                const res = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+"/top/edit",{
                     method: "PUT",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(dadosTop),
@@ -274,7 +274,7 @@ export const EditarTop = ({close, minimizado, setMinimizado, minimizar, setMinim
     const excluir = async () => {
         if(dadosTop.descricao && dadosTop.perfilMovimentacao.id){
             try{
-                const res = await fetch("http://8b38091fc43d.sn.mynetname.net:2004/top/edit",{
+                const res = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+"/top/edit",{
                     method: "PUT",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({

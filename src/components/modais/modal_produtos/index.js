@@ -14,21 +14,21 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
 
     async function fetchData (){
         if(emitenteAlterado === true && tipoPgtoAlterado === true){
-            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
+            const response = await fetch (process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);//http://10.0.1.10:8092/produtos/general/company/1/payment/1?size=50
             const data = await response.json();
             setItens(data.content);
             if( response.status === 200){
                 setCarregado(true);
             }
         }else if(emitenteAlterado === true && tipoPgtoAlterado === false){
-            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${rotinas.id_tipo_pagamento}?size=50`);
+            const response = await fetch (process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/produtos/general/company/${dataIdSelectEmitente}/payment/${rotinas.id_tipo_pagamento}?size=50`);
             const data = await response.json();
             setItens(data.content);
             if( response.status === 200){
                 setCarregado(true);
             }
         }else if(emitenteAlterado === false && tipoPgtoAlterado === true){
-            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${rotinas.id_empresa}/payment/${dataIdSelectPgt}?size=50`);
+            const response = await fetch (process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/produtos/general/company/${rotinas.id_empresa}/payment/${dataIdSelectPgt}?size=50`);
             const data = await response.json();
             setItens(data.content);
             if( response.status === 200){
@@ -42,14 +42,14 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                 setCarregado(true);
             }
         }else if(dataIdSelectEmitente && dataIdSelectPgt){
-            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);
+            const response = await fetch (process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/produtos/general/company/${dataIdSelectEmitente}/payment/${dataIdSelectPgt}?size=50`);
             const data = await response.json();
             setItens(data.content);
             if( response.status === 200){
                 setCarregado(true);
             }
         }else{
-            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/general/company/1/payment/1?size=50`);
+            const response = await fetch (process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/produtos/general/company/1/payment/1?size=50`);
             const data = await response.json();
             setItens(data.content);
             if( response.status === 200){
@@ -63,7 +63,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
     }, []);
 
     const validarPromocao = async(item) => {
-        const promocao = await fetch(`http://8b38091fc43d.sn.mynetname.net:2005/promocaoProduto/${item.id}/${dataIdSelectEmitente}`)
+        const promocao = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/promocaoProduto/${item.id}/${dataIdSelectEmitente}`)
         const data = await promocao.json();
         setPromocao(data);
     }
@@ -301,7 +301,7 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
     async function pesquisarProduto(){
         setCarregado(false);
         if(filtroEscolhido === "C" && busca !== ""){
-            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/${busca}`);
+            const response = await fetch (process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/produtos/${busca}`);
             const data = await response.json();
             setItens([data]);
             if( response.status === 200){
@@ -311,14 +311,14 @@ export const Produtos = ({onClose = () => {}, focoQtd, setDataSelectItem, listIt
                 setItens([]);
             }
         }else if(filtroEscolhido === "D" && busca !== ""){
-            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/contains/${busca}`);
+            const response = await fetch (process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/produtos/contains/${busca}`);
             const data = await response.json();
             setItens(data);
             if( response.status === 200){
                 setCarregado(true);
             }
         }else if(filtroEscolhido === "G" && busca != ""){
-            const response = await fetch (`http://8b38091fc43d.sn.mynetname.net:2005/produtos/gtin/${busca}`);
+            const response = await fetch (process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/produtos/gtin/${busca}`);
             const data = await response.json();
             setItens(data);
             if( response.status === 200){

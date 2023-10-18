@@ -41,12 +41,12 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
     useEffect(() => {
         async function fetchData() {
             const [responseRotina, responseEmitente, responseTop, responseVendedor, responseParceiro, responseTipoPagamento] = await Promise.all([
-                fetch(`http://8b38091fc43d.sn.mynetname.net:2004/preVenda/${codRotina}`),
-                fetch('http://8b38091fc43d.sn.mynetname.net:2005/emitente/all'),
-                fetch('http://8b38091fc43d.sn.mynetname.net:2004/top/all'),
-                fetch('http://8b38091fc43d.sn.mynetname.net:2003/user/all'),
-                fetch('http://8b38091fc43d.sn.mynetname.net:2003/clientes'),
-                fetch('http://8b38091fc43d.sn.mynetname.net:2004/tipoPagamento/all')
+                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+`/preVenda/${codRotina}`),
+                fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+'/emitente/all'),
+                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+'/top/all'),
+                fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+'/user/all'),
+                fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+'/clientes'),
+                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+'/tipoPagamento/all')
             ]);
             const [rotina, Emitente, top, vendedor, parceiro, tipoPagamento] = await Promise.all([
                 responseRotina.json(),
@@ -560,7 +560,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
 
             if (document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && listItens.length > 0) {
                 try {
-                    const res = await fetch(`http://8b38091fc43d.sn.mynetname.net:2004/preVenda/${codRotina}`, { //http://10.0.1.10:8091/preVenda
+                    const res = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+`/preVenda/${codRotina}`, { //http://10.0.1.10:8091/preVenda
                         method: "PUT",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -628,7 +628,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         localStorage.removeItem('rotina');
     }
     const excluir = () => {
-        fetch(`http://8b38091fc43d.sn.mynetname.net:2004/preVenda/delete/${codRotina}/${user[0].id}`, {
+        fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+`/preVenda/delete/${codRotina}/${user[0].id}`, {
             method: 'DELETE',
         }).catch(err => console.log(err))
         navigate('/consultar');
