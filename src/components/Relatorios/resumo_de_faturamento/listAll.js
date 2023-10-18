@@ -718,12 +718,15 @@ export const ResumoFaturamento = () => {
     }
 
     function organizarValores(a, b){
-        if(Object.key(a) == "id_filial"){
+        let id_filial = dadosTipoPagamento.find((pg)=> pg.id_filial);
+        
+        if(a === id_filial){
             return -1;
+        }else{
+            return 0;
         }
-        return 0;
     }
-
+ 
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
@@ -1298,11 +1301,14 @@ export const ResumoFaturamento = () => {
                                             {dadosTipoPagamento.map((pagamento, indx)=>{
                                                 return(
                                                     <tr key={indx}>
+                                                        <td>{pagamento.id_filial}</td>
                                                         {
                                                             Object.values(pagamento).map((pgto, index) => {
-                                                                return (
-                                                                    <td key={index}>{pagamento.id_filial == pgto ? pgto : parseFloat(String(pgto).replace(null, "0,00")).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-                                                                )
+                                                                if(pagamento.id_filial != pgto){
+                                                                    return (
+                                                                        <td key={index}>{parseFloat(String(pgto).replace(null, "0,00")).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                                    )
+                                                                }
                                                             })
                                                         }
                                                     </tr>

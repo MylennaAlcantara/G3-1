@@ -257,8 +257,8 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
                         <Loading style={{ margin: "auto" }} />
                     </div>
                 ) : rotinas.length === 0 && carregado ? (
-                    <div className="table-responsive">
-                        <table className="table" ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                    <div style={{width: "100%"}}>
+                        <table id="table" ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
                             <thead>
                                 <tr>
                                     <th>Código</th>

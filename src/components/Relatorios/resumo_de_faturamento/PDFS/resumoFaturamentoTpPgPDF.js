@@ -5,6 +5,28 @@ import styled from 'styled-components';
 export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataFin, checkNFE, checkNFCE, dadosLeitura, keys, dadosTipoPagamento, empresa, user) {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+    const somarValores = (dados) => {
+        return dados.reduce((resultado, objeto) => {
+          for (const chave in objeto) {
+            if (resultado.hasOwnProperty(chave)) {
+              resultado[chave] += objeto[chave];
+            } else {
+              resultado[chave] = objeto[chave];
+            }
+          }
+          return resultado;
+        }, {});
+    };
+
+    const listaBody = [];
+    const listaBody2 = [];
+    const body = [];
+    const widths = [];
+    const totalTipoPagamento = somarValores(dadosTipoPagamento);
+    const totais = [];
+    const widthsTotais = [];
+    
+
     const nfe = () => {
         if (checkNFE === true) {
             return (
@@ -50,33 +72,6 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         }
     }
 
-    const Boleto = dadosLeitura.reduce((a, b) => a + b.boleto_bancario, 0);
-    const Dinheiro = dadosLeitura.reduce((a, b) => a + b.dinheiro, 0);
-    const CartaoC = dadosLeitura.reduce((a, b) => a + b.cartao_de_credito, 0);
-    const CartaoD = dadosLeitura.reduce((a, b) => a + b.cartao_de_debito, 0 );
-    const Cheque =  dadosLeitura.reduce((a, b) => a + b.cheque, 0 );
-    const Pix = dadosLeitura.reduce((a, b) => a + b.pix, 0 );
-    const DuplicataMercantil = dadosLeitura.reduce((a, b) => a + b.duplicata_mercantil, 0 );
-    const Total = dadosLeitura.reduce((a, b) => a + b.total, 0 );
-
-    const tpPg = dadosLeitura.map((data) => {
-        return [
-            { text: data.id_filial, fontSize: 8 },
-            { text: parseFloat(data.boleto_bancario).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.dinheiro).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.cartao_de_credito).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.cartao_de_debito).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.cheque).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.pix).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.duplicata_mercantil).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.outros).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.cancelamento_total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN', 0.00), fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.sem_pagamento).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.desconto_total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
-        ]
-    })
-
     const dataAtual = new Date().toLocaleString();
 
     const header = [
@@ -95,33 +90,80 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         }
 
     ];
-    const listaBody = [];
+    
     for(const tp of keys){
-        listaBody.push({ text: String(tp).toUpperCase(), fillColor: '#E0E7ED', fontSize: 7 })
+        if(dadosTipoPagamento[0][tp] > 0){
+            listaBody.push({ text: String(tp).toUpperCase(), fillColor: '#E0E7ED', fontSize: 8, bold: true,  })
+        }
     }
 
-    const listaBody2 = [];
+    const chartDataTipoPagamento = Object.keys(totalTipoPagamento).map(key => {
+        if(key != "id_filial"){
+            return(
+                {
+                    nome: key,
+                    valor: totalTipoPagamento[key]
+                }
+            )
+        }
+    });
+
+    chartDataTipoPagamento.map((tp)=>{
+        if(tp != undefined && tp != null){
+            if(tp.valor != 0){
+                totais.push({ text: String(tp.nome).toUpperCase() +": " + parseFloat(String(tp.valor)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }), fontSize: 8 })
+            }
+        }
+    })
+
+    function organizarKeys(a, b){
+        if(a == "id_filial"){
+            return -1;
+        }
+        if(a == "total"){
+            return 1;
+        }
+        return 0;
+    }
+
     dadosTipoPagamento.map((tipo) => {
-        listaBody2.push(
-            Object.values(tipo).map((pgto) => {
-                return(
+        const linha = new Array();
+        Object.values(tipo).map((pgto, index) => {
+            if(pgto != 0){
+                linha.push(
                     {
-                        text: parseFloat(String(pgto)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }),
+                        text: linha.length == 0 ? pgto : pgto == null ? "0,00": parseFloat(String(pgto)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }),
                         fontSize: 7,
                     }
                 )
-            })
-        )
+            }
+        })
+        if(linha.length < listaBody.length){
+            for(let i = linha.length; i < listaBody.length; i++){
+                linha.push(
+                    {
+                        text: "0,00",
+                        fontSize: 7,
+                    }
+                )
+            }
+        }
+        listaBody2.push(linha.sort(organizarKeys));
     });
     
-    const body = [];
     body.push(listaBody);
     for(let i of listaBody2){
         body.push(i);
     }
-console.log(body)
-console.log(listaBody)
-console.log(listaBody2)
+    
+    listaBody.map((item)=>{
+        widths.push("*")
+    });
+
+    totais.map((item)=>{
+        widthsTotais.push("*")
+    })
+
     const content = [
         {
             table: {
@@ -151,6 +193,7 @@ console.log(listaBody2)
         {
             table: {
                 headerRows: 1,
+                widths: widths,
                 body: body
             },
 
@@ -169,19 +212,8 @@ console.log(listaBody2)
         {
             table: {
                 headerRows: 1,
-                widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
-                body: [
-                    [
-                        { text: 'Boleto: ' + parseFloat(Boleto.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                        { text: 'Dinheiro: ' + parseFloat(Dinheiro.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                        { text: 'Cartão de Credito: ' + parseFloat(CartaoC.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                        { text: 'Cartão de Debito: ' + parseFloat(CartaoD.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                        { text: 'Cheque : ' + (parseFloat(Cheque.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
-                        { text: 'Pix : ' + (parseFloat(Pix.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
-                        { text: 'Duplicata Mercantil: ' + parseFloat(DuplicataMercantil.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                        { text: 'Total: ' + parseFloat(Total.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                    ],
-                ],
+                widths: widthsTotais,
+                body: [totais],
                 layout: 'lightHorizontalLines'
             },
         }
