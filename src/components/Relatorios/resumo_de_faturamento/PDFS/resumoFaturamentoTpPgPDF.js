@@ -7,14 +7,14 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
 
     const somarValores = (dados) => {
         return dados.reduce((resultado, objeto) => {
-          for (const chave in objeto) {
-            if (resultado.hasOwnProperty(chave)) {
-              resultado[chave] += objeto[chave];
-            } else {
-              resultado[chave] = objeto[chave];
+            for (const chave in objeto) {
+                if (resultado.hasOwnProperty(chave)) {
+                    resultado[chave] += objeto[chave];
+                } else {
+                    resultado[chave] = objeto[chave];
+                }
             }
-          }
-          return resultado;
+            return resultado;
         }, {});
     };
 
@@ -25,7 +25,7 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
     const totalTipoPagamento = somarValores(dadosTipoPagamento);
     const totais = [];
     const widthsTotais = [];
-    
+
 
     const nfe = () => {
         if (checkNFE === true) {
@@ -90,16 +90,16 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         }
 
     ];
-    
-    for(const tp of keys){
-        if(dadosTipoPagamento[0][tp] > 0){
-            listaBody.push({ text: String(tp).toUpperCase(), fillColor: '#E0E7ED', fontSize: 8, bold: true,  })
+
+    for (const tp of keys) {
+        if (dadosTipoPagamento[0][tp] > 0) {
+            listaBody.push({ text: String(tp).toUpperCase(), fillColor: '#E0E7ED', fontSize: 8, bold: true, })
         }
     }
 
     const chartDataTipoPagamento = Object.keys(totalTipoPagamento).map(key => {
-        if(key != "id_filial"){
-            return(
+        if (key != "id_filial") {
+            return (
                 {
                     nome: key,
                     valor: totalTipoPagamento[key]
@@ -108,59 +108,71 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         }
     });
 
-    chartDataTipoPagamento.map((tp)=>{
-        if(tp != undefined && tp != null){
-            if(tp.valor != 0){
-                totais.push({ text: String(tp.nome).toUpperCase() +": " + parseFloat(String(tp.valor)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }), fontSize: 8 })
+    chartDataTipoPagamento.map((tp) => {
+        if (tp != undefined && tp != null) {
+            if (tp.valor != 0) {
+                totais.push({ text: String(tp.nome).toUpperCase() + ": " + parseFloat(String(tp.valor)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }), fontSize: 8 })
             }
         }
     })
 
-    function organizarKeys(a, b){
-        if(a == "id_filial"){
-            return -1;
+    function organizarKeys(a, b) {
+        if (a.text === 'ID_FILIAL') {
+            return -1; // 'ID_FILIAL' vem primeiro
+        } else if (b.text === 'ID_FILIAL') {
+            return 1; // 'ID_FILIAL' vem primeiro
+        } else if (a.text === 'TOTAL') {
+            return 1; // 'TOTAL' vem por último
+        } else if (b.text === 'TOTAL') {
+            return -1; // 'TOTAL' vem por último
+        } else {
+            return 0; // Mantém a ordem atual para outros itens
         }
-        if(a == "total"){
-            return 1;
-        }
-        return 0;
     }
 
-    dadosTipoPagamento.map((tipo) => {
-        const linha = new Array();
-        Object.values(tipo).map((pgto, index) => {
-            if(pgto != 0){
-                linha.push(
-                    {
-                        text: linha.length == 0 ? pgto : pgto == null ? "0,00": parseFloat(String(pgto)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }),
-                        fontSize: 7,
-                    }
-                )
-            }
-        })
-        if(linha.length < listaBody.length){
-            for(let i = linha.length; i < listaBody.length; i++){
-                linha.push(
-                    {
-                        text: "0,00",
-                        fontSize: 7,
-                    }
-                )
-            }
-        }
-        listaBody2.push(linha.sort(organizarKeys));
+    const dadosFiltrados = dadosTipoPagamento.map((item) => {
+        const filteredItem = {};
+        listaBody.forEach((bodyItem) => {
+            const propertyName = String(bodyItem.text).toLowerCase();
+            filteredItem[propertyName] = item[propertyName];
+        });
+        return filteredItem;
     });
-    
-    body.push(listaBody);
-    for(let i of listaBody2){
+
+    dadosFiltrados.map((tipo) => {
+        const linha = new Array();
+        const propriedadesDesejadas = listaBody.sort(organizarKeys).map((propriedade) => propriedade.text.toLowerCase());
+
+        const objetoOrdenado = {};
+
+        propriedadesDesejadas.forEach((propriedade) => {
+            if (tipo.hasOwnProperty(propriedade)) {
+                objetoOrdenado[propriedade] = tipo[propriedade];
+            }
+        });
+
+        Object.values(objetoOrdenado).map((pgto, index) => {
+            linha.push(
+                {
+                    text: linha.length == 0 ? pgto : pgto == null ? "0,00" : parseFloat(String(pgto)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }),
+                    fontSize: 7,
+                }
+            )
+        })
+
+        listaBody2.push(linha);
+    });
+
+    body.push(listaBody.sort(organizarKeys));
+    for (let i of listaBody2) {
         body.push(i);
     }
-    
-    listaBody.map((item)=>{
+
+    listaBody.map((item) => {
         widths.push("*")
     });
 
-    totais.map((item)=>{
+    totais.map((item) => {
         widthsTotais.push("*")
     })
 
