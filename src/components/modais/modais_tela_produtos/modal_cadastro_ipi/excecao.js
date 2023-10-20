@@ -83,7 +83,7 @@ export const ExcecaoIpi = ({close, minimizado, setMinimizado, minimizar, setMini
             setPerfis(data);
         }
         async function fetchDataTops (){
-            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+"/top/all");
+            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+"/top/all");
             const data = await response.json();
             setTops(data);
         }

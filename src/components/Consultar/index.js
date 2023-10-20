@@ -14,20 +14,20 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
     const [carregado, setCarregado] = useState(false);
 
     async function fetchDataRotina() {
-        const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+`/preVenda/${busca}`);
-        const data = await response.json();
-        setRotinas([data]);
-        if (response.status === 200) {
+        fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+`/preVenda/${busca}`)
+        .then((response)=> response.json())
+        .then((data)=>{
+            setRotinas([data]);
             setCarregado(true);
-        }
+        })
     }
     async function fetchData() {
-        const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+'/preVenda/ofMonth');
-        const data = await response.json();
-        setRotinas(data);
-        if (response.status === 200) {
+        fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+'/preVenda/ofMonth')
+        .then((response)=> response.json())
+        .then((data)=>{
+            setRotinas(data);
             setCarregado(true);
-        }
+        })
     }
     useEffect(() => {
         fetchData();
@@ -140,7 +140,7 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
         navigate(`/rotina/${codigoRotina}`);
     }
     const abrirEditar = async () => {
-        const responseRotina = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+`/preVenda/${codigoRotina}`); //http://10.0.1.10:8091/preVenda/id
+        const responseRotina = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+`/preVenda/${codigoRotina}`); //http://10.0.1.10:8091/preVenda/id
         const rotina = await responseRotina.json();
         if (codigoRotina === undefined) {
             console.log('nenhuma rotina selecionada')
@@ -172,10 +172,10 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
 
     const imprimir = async () => {
         const [responseRotina, responseVendedor, responseParceiro, responseTipoPagamento, responseEmitente] = await Promise.all([
-            fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+`/preVenda/${codigoRotina}`),
+            fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+`/preVenda/${codigoRotina}`),
             fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/user/all'),
             fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/clientes'),
-            fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+'/tipoPagamento/all'),
+            fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+'/tipoPagamento/all'),
             fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+'/emitente/all')
         ]);
 

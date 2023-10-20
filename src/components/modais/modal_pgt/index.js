@@ -17,7 +17,7 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+"/tipoPagamento/all");
+            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+"/tipoPagamento/all");
             const data = await response.json();
             setPgto(data);
             if( response.status === 200){

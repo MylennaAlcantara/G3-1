@@ -21,12 +21,12 @@ export const Visualizar = ({ codRotina }) => {
     useEffect(() => {
         async function fetchData() {
             const [responseRotina, responseEmitente, responseTop, responseVendedor, responseParceiro, responseTipoPagamento] = await Promise.all([
-                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+`/preVenda/${codRotina}`),
+                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+`/preVenda/${codRotina}`),
                 fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+'/emitente/all'),
-                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+'/top/all'),
+                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+'/top/all'),
                 fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/user/all'),
                 fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/clientes'),
-                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+'/tipoPagamento/all')
+                fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+'/tipoPagamento/all')
             ]);
             const [rotina, Emitente, top, vendedor, parceiro, tipoPagamento] = await Promise.all([
                 responseRotina.json(),

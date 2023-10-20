@@ -29,7 +29,7 @@ export const GrupoIcms = ({close, minimizado, setMinimizado}) => {
             setRegraIcms(data);
         }
         async function fetchTop(){
-            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+"/top/all");
+            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+"/top/all");
             const data = await response.json();
             setTops(data);
         }

@@ -716,16 +716,6 @@ export const ResumoFaturamento = () => {
         }
         return 0;
     }
-
-    function organizarValores(a, b){
-        let id_filial = dadosTipoPagamento.find((pg)=> pg.id_filial);
-        
-        if(a === id_filial){
-            return -1;
-        }else{
-            return 0;
-        }
-    }
  
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 

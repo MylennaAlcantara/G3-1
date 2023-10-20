@@ -57,59 +57,59 @@ export const PicoDeFaturamento = () => {
     const [ano, setAno] = useState([]);
 
     async function setDataHora() {
-        const res = await fetch(process.env.REACT_APP_LINK_PICO+"/picoHora", {
+        fetch(process.env.REACT_APP_LINK_PICO+"/picoHora", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
-        });
-        if (res.status === 200) {
+        })
+        .then((res)=>{
+            setShowElement(false);
             res.json().then(data => {
-                if (data.length === 0) {
-                    showElement(false);
-                    alert('Consulta Finalizada');
-                }
                 setHora(data);
             })
-        }
+        })
     }
 
     async function setDataSemana() {
-        const res = await fetch(process.env.REACT_APP_LINK_PICO+"/picoSemana", {
+        fetch(process.env.REACT_APP_LINK_PICO+"/picoSemana", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
-        });
-        if (res.status === 200) {
+        })
+        .then((res)=>{
+            setShowElement(false);
             res.json().then(data => {
                 setSemana(data);
             })
-        }
+        })
     }
 
     async function setDataMes() {
-        const res = await fetch(process.env.REACT_APP_LINK_PICO+"/picoMes", {
+        fetch(process.env.REACT_APP_LINK_PICO+"/picoMes", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
-        });
-        if (res.status === 200) {
+        })
+        .then((res)=>{
+            setShowElement(false);
             res.json().then(data => {
                 setMes(data);
             })
-        }
+        })
     }
 
     async function setDataAno() {
-        const res = await fetch(process.env.REACT_APP_LINK_PICO+"/picoAno", {
+        fetch(process.env.REACT_APP_LINK_PICO+"/picoAno", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
-        });
-        if (res.status === 200) {
+        })
+        .then((res)=>{
             res.json().then(data => {
+                setShowElement(false);
                 setAno(data);
             })
-        }
+        })
     }
 
     const [busca, setBusca] = useState([]);
@@ -315,8 +315,6 @@ export const PicoDeFaturamento = () => {
 
     const [showElement, setShowElement] = useState(false)
 
-    const show = () => setShowElement(true)
-
     const valorIdTop = valorTop.map((test) => (
         (test.id)
     ))
@@ -339,7 +337,7 @@ export const PicoDeFaturamento = () => {
         setSemana([]);
         setMes([]);
         setAno([]);
-        show();
+        setShowElement(true);
         setDataHora();
         setDataSemana();
         setDataMes();
@@ -430,7 +428,7 @@ export const PicoDeFaturamento = () => {
         }
     }
 
-    console.log(ano)
+    console.log(showElement)
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

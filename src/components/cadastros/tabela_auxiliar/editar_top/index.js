@@ -92,7 +92,7 @@ export const EditarTop = ({close, minimizado, setMinimizado, minimizar, setMinim
 
     useEffect(()=> {
         async function fetchData (){
-            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+`/top/${top}`);
+            const response = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+`/top/${top}`);
             const data = await response.json();
             setDadosTop({
                 id: data.id,

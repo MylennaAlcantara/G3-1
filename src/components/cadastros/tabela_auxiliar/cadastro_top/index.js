@@ -199,7 +199,7 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
     const salvar = async () => {
         if(dadosTop.descricao && dadosTop.perfilMovimentacao.id){
             try{
-                const res = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP+"/top/save",{
+                const res = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+"/top/save",{
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify(dadosTop),
