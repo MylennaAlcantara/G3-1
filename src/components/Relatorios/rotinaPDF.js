@@ -47,7 +47,7 @@ export function rotinaPDF (rotina, vendedor, parceiro, tipoPagamento, emitente, 
             {text: '', fontSize: 10 },
             {text: rotina.descricao_produto, fontSize: 10 }, 
             {text: parseFloat(rotina.valor_unitario).toFixed(2).replace('.',','), fontSize: 10 },
-            {text: parseFloat(rotina.valor_total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN',''), fontSize: 10 },
+            {text: parseFloat(rotina.valor_total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}).replace('NaN',''), fontSize: 10, alignment: 'right' },
         ]
     })
     
@@ -118,7 +118,7 @@ export function rotinaPDF (rotina, vendedor, parceiro, tipoPagamento, emitente, 
         },
         {   table: {
             headerRows: 1,
-            widths: [50,50,50,'*',50,50,],
+            widths: [30,50,50,'*',50,80,],
                 body: [
                     [
                         {text: 'Quant.', style: 'tableHeader', fontSize: 10},
@@ -126,7 +126,7 @@ export function rotinaPDF (rotina, vendedor, parceiro, tipoPagamento, emitente, 
                         {text: 'Ref.', style: 'tableHeader', fontSize: 10},
                         {text: 'Produto', style: 'tableHeader', fontSize: 10},
                         {text: 'Preço', style: 'tableHeader', fontSize: 10},
-                        {text: 'Total', style: 'tableHeader', fontSize: 10},
+                        {text: 'Total', style: 'tableHeader', fontSize: 10, alignment: 'center'},
                     ],
                     ...produtos
                 ]
