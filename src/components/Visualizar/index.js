@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext";
 import * as C from "../cadastro/cadastro";
 import { rotinaPDF } from "../Relatorios/rotinaPDF";
-import { Loading } from "../loading";
 
 export const Visualizar = ({ codRotina }) => {
     const navigate = useNavigate();
@@ -182,7 +181,7 @@ export const Visualizar = ({ codRotina }) => {
                 {/*<fieldset><legend>Observação</legend>Observação</fieldset>*/}
             </C.Info>
 
-            <C.Header>
+            <C.Header style={{ position: "relative" }}>
                 <h4>Produtos</h4>
             </C.Header>
             <C.Add>
@@ -295,7 +294,7 @@ export const Visualizar = ({ codRotina }) => {
                     </table>
                 </div>
             </C.Display>
-            <C.Footer>
+            <C.Footer style={{ position: "relative" }}>
                 <label className="total-itens">{totalItens > 1 ? totalItens + " itens" : totalItens + " item"}</label>
                 <form>
                     <div>
@@ -319,6 +318,8 @@ export const Visualizar = ({ codRotina }) => {
                         <input value={parseFloat(rotinas.desconto).toFixed(2).replace('NaN', '').replace('.', ',')} placeholder="0,000000" style={{ outline: 0 }} disabled readOnly />
                     </div>
                 </form>
+            </C.Footer>
+            <C.Footer>
                 <div className="buttons">
                     <button onClick={imprimir}><img alt="imprimir" src="/images/printer.png" />Imprimir</button>
                     <button className="Voltar" onClick={voltar}><img alt="voltar" src="/images/voltar.png" />Voltar</button>

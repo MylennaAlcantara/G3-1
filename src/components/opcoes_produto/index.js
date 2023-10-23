@@ -25,7 +25,7 @@ export const OpProdutos = ({setOpProdutos, close, modal, setModal, cadastro, set
                 </CO.Opcoes>
                 <C.Footer>
                     <div className="buttons">
-                        <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
+                        <button onClick={close}><img alt="voltar" src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </C.Footer>
             </C.Container>

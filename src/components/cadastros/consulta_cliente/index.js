@@ -11,7 +11,7 @@ export const ConsultarCliente = ({setCliente}) => {
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('nome');
     const navigate = useNavigate();
-    const {user, empresa, nivel, cnpjMask, dataMask, cepMask} = useContext(AuthContext);
+    const {user, empresa, nivel, cnpjMask, dataMask} = useContext(AuthContext);
 
     // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
     const [carregado, setCarregado] = useState(false);

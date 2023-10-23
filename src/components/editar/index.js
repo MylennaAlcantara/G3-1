@@ -44,8 +44,8 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                 fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+`/preVenda/${codRotina}`),
                 fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+'/emitente/all'),
                 fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+'/top/all'),
-                fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+'/user/all'),
-                fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+'/clientes'),
+                fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/user/all'),
+                fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/clientes'),
                 fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+'/tipoPagamento/all')
             ]);
             const [rotina, Emitente, top, vendedor, parceiro, tipoPagamento] = await Promise.all([
@@ -833,7 +833,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                 {/*<fieldset><legend>Observação</legend>Observação</fieldset>*/}
             </C.Info>
 
-            <C.Header>
+            <C.Header style={{ position: "relative" }}>
                 <h4>Produtos</h4>
             </C.Header>
             <C.Add>
@@ -993,7 +993,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                     </table>
                 </div>
             </C.Display>
-            <C.Footer>
+            <C.Footer style={{ position: "relative" }}>
                 <label className="total-itens">{totalItens > 1 ? totalItens + " itens" : totalItens + " item"}</label>
                 <form>
                     <div>
@@ -1017,6 +1017,8 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                         <input value={parseFloat(descontoTotal).toFixed(2).replace('NaN', '').replace('.', ',')} placeholder="0,000000" style={{ outline: 0 }} disabled readOnly />
                     </div>
                 </form>
+            </C.Footer>
+            <C.Footer>
                 <div className="buttons">
                     <button className="liberar" id="submit" onClick={handleSubmit}><img alt="salvar" src="/images/salvar.png" />Liberar</button>
                     <button onClick={imprimir}><img alt="imprimir" src="/images/printer.png" />Imprimir</button>

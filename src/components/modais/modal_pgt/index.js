@@ -226,9 +226,9 @@ export const Pgt = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectPgt, set
             {cadastro && cadastro.pgto ? (
                 <M.Footer>
                     <div className="buttons">
-                        <button onClick={()=> setCadastrar(true)}><img src="/images/add.png"/>Novo</button>
-                        <button><img src="/images/abrir.png"/>Abrir</button>
-                        <button onClick={onClose}><img src="/images/voltar.png"/>Fechar</button>
+                        <button onClick={()=> setCadastrar(true)}><img alt="" src="/images/add.png"/>Novo</button>
+                        <button><img alt="" src="/images/abrir.png"/>Abrir</button>
+                        <button onClick={onClose}><img alt="" src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </M.Footer>
             ) : null}

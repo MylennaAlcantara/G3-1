@@ -143,13 +143,13 @@ export const CadastroIpi = ({close, minimizado, setMinimizado, minimizar, setMin
                             </table>
                         </div>
                     </fieldset>
-                        <img src="/images/add.png" onClick={()=> setExcecao(true)}/>    
+                        <img alt="" src="/images/add.png" onClick={()=> setExcecao(true)}/>    
                     </div>
                 </CI.Excecoes>
                 <C.Footer>
                     <div className="buttons">
-                        <button><img src="/images/salvar.png"/>Salvar</button>
-                        <button onClick={close}><img src="/images/voltar.png"/>Cancelar</button>
+                        <button><img alt="" src="/images/salvar.png"/>Salvar</button>
+                        <button onClick={close}><img alt="" src="/images/voltar.png"/>Cancelar</button>
                     </div>
                 </C.Footer>
                 {excecao ? <ExcecaoIpi close={()=> setExcecao(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}

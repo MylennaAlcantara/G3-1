@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as C from "./login.js";
-import { MD5 } from "crypto-js";
 import { AuthContext } from "../../contexts/Auth/authContext.js";
 
 export const Login = () => {

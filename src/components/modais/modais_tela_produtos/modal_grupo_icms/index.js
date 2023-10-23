@@ -174,9 +174,9 @@ export const GrupoIcms = ({close, minimizado, setMinimizado}) => {
                                     </tbody>
                                 </table>
                             </div>
-                            <img src="/images/add.png"/>
-                            <img src="/images/salvar.png"/>
-                            <img src="/images/lixeira.png"/>
+                            <img alt="" src="/images/add.png"/>
+                            <img alt="" src="/images/salvar.png"/>
+                            <img alt="" src="/images/lixeira.png"/>
                         </fieldset>
                         <fieldset className="fieldset">
                         <legend>Regras ({regraIcms.length})</legend>
@@ -221,7 +221,7 @@ export const GrupoIcms = ({close, minimizado, setMinimizado}) => {
                                     </tbody>
                                 </table>
                             </div>
-                            <img src="/images/add.png"/>
+                            <img alt="" src="/images/add.png"/>
                         </fieldset>
                     </GI.GrupoRegra>
                     <GI.DadosRegra>
@@ -365,9 +365,9 @@ export const GrupoIcms = ({close, minimizado, setMinimizado}) => {
                         </div>
                     <C.Footer>
                         <div className="buttons">
-                            <button><img src="/images/salvar.png"/>Salvar</button>
-                            <button><img src="/images/lixeira.png"/>Excluir</button>
-                            <button><img src="/images/voltar.png"/>Fechar</button>
+                            <button><img alt="" src="/images/salvar.png"/>Salvar</button>
+                            <button><img alt="" src="/images/lixeira.png"/>Excluir</button>
+                            <button><img alt="" src="/images/voltar.png"/>Fechar</button>
                         </div>
                     </C.Footer>
                     </GI.DadosRegra>

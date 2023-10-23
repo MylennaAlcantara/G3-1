@@ -20,7 +20,6 @@ import { AuthContext } from "../../../contexts/Auth/authContext"
 import * as RF from "../resumo_de_faturamento/resumoFaturamento"
 
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
 Modal.setAppElement("#root")
 
@@ -140,7 +139,7 @@ export const ResumoFaturamento = () => {
     const ano = data.getFullYear();
     const dataAtual = ano + '-' + mes + '-' + dia;
 
-    const [filter, setFilter] = useState(""); //Pega Valor da opção selecionada ("VENDA", "TODOS", "ORÇAMENTO")
+    const [filter, setFilter] = useState("TODOS"); //Pega Valor da opção selecionada ("VENDA", "TODOS", "ORÇAMENTO")
     const [dataIni, setDataIni] = useState(dataAtual); //Pega Data inicial 
     const [dataFin, setDataFin] = useState(dataAtual); //Pega Data Final
 
@@ -176,7 +175,7 @@ export const ResumoFaturamento = () => {
 
     const totalTipoPagamento = somarValores(dadosTipoPagamento);
     const chartDataTipoPagamento = Object.keys(totalTipoPagamento).map(key => {
-        if(key != "id_filial" && key != "total"){
+        if(key !== "id_filial" && key !== "total"){
             return(
                 {
                     nome: key,

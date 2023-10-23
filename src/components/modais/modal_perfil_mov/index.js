@@ -161,9 +161,9 @@ export const PerfilMovimentacao = ({close, setDadosTop, dadosTop, minimizado, se
                 )}
                 <C.Footer>
                     <div className="buttons">
-                        <button onClick={()=>setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>
-                        <button><img src="/images/abrir.png"/>Abrir</button>
-                        <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
+                        <button onClick={()=>setModalCadastro(true)}> <img alt="" src="/images/add.png"/> Novo</button>
+                        <button><img alt="" src="/images/abrir.png"/>Abrir</button>
+                        <button onClick={close}><img alt="" src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
             </M.Container>

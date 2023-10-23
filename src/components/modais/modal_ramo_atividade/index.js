@@ -158,11 +158,11 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
                 )}
                 <C.Footer>
                     <div className="buttons">
-                        <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>
+                        <button onClick={()=> setModalCadastro(true)}><img alt="adicionar" src="/images/add.png"/> Novo</button>
                         {cadastro && cadastro.ramo ? (
-                            <button><img src="/images/abrir.png"/>Abrir</button>
+                            <button><img alt="abrir" src="/images/abrir.png"/>Abrir</button>
                         ): null}
-                        <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
+                        <button onClick={close}><img alt="voltar" src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
                 {modalCadastro ? <CadastroRamo close={()=> setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}

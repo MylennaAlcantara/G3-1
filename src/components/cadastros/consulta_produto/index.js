@@ -157,9 +157,9 @@ export const CounsultarProduto = () =>{
             
             <C.Footer>
                 <div className="buttons">
-                    <button onClick={novo}><img src="/images/add.png"/>Novo</button>
-                    <button><img src="/images/abrir.png"/>Abrir</button>
-                    <button onClick={()=> navigate('/home')}><img src="/images/voltar.png"/>Fechar</button>
+                    <button onClick={novo}><img alt="adicionar" src="/images/add.png"/>Novo</button>
+                    <button><img alt="abrir" src="/images/abrir.png"/>Abrir</button>
+                    <button onClick={()=> navigate('/home')}><img alt="fechar" src="/images/voltar.png"/>Fechar</button>
                 </div>
             </C.Footer>
         </C.Container>

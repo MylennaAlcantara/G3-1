@@ -175,12 +175,12 @@ export const CadastroProduto = () => {
                         <div>
                             <label>NCM / SH:</label>
                             <input/>
-                            <img src="/images/LUPA.png" onClick={()=> setIsModalNcm(true)}/>
+                            <img alt="lupa" src="/images/LUPA.png" onClick={()=> setIsModalNcm(true)}/>
                         </div>
                         <div>
                             <label>CEST:</label>
                             <input/>
-                            <img src="/images/LUPA.png" onClick={()=> setIsModalCest(true)}/>
+                            <img alt="lupa" src="/images/LUPA.png" onClick={()=> setIsModalCest(true)}/>
                         </div>
                     </div>
                     <div className="campos">
@@ -201,7 +201,7 @@ export const CadastroProduto = () => {
                         <div>
                             <label>Família: </label>
                             <input/>
-                            <img src="/images/LUPA.png" onClick={modalFamilia}/>
+                            <img alt="lupa" src="/images/LUPA.png" onClick={modalFamilia}/>
                         </div>
                         <div>
                             <label>Perfil: </label>
@@ -329,7 +329,7 @@ export const CadastroProduto = () => {
                                     <option>2 - UN</option>
                                     <option>3 - PC</option>
                                 </select>
-                                <img src="/images/add.png"/>
+                                <img alt="adicionar" src="/images/add.png"/>
                                 <label>Qtd. p/ caixa: </label>
                                 <input/>
                             </div>
@@ -465,7 +465,7 @@ export const CadastroProduto = () => {
                             <div>
                                 <label>Cód. Enquadramento IPI: </label>
                                 <input className="codigo"/>
-                                <img src="/images/LUPA.png"/>
+                                <img alt="lupa" src="/images/LUPA.png"/>
                             </div>
                             <div className="bc-icms">
                                 <div>
@@ -621,7 +621,7 @@ export const CadastroProduto = () => {
                                     <label>à</label>
                                     <input type="date"/>
                                 </div>
-                                <button className="gerar-mov"><img src="/images/add.png"/>Gerar Mov.</button>
+                                <button className="gerar-mov"><img alt="adicionar" src="/images/add.png"/>Gerar Mov.</button>
                             </div>
                             <label> * Tipo Mov.: (E: Entrada / S: Saída / R-E: Remessa-Entrada / R-S: Remessa-Saída)</label>
                         </div>
@@ -661,7 +661,7 @@ export const CadastroProduto = () => {
                             <div id="foto"></div>
                             <div>
                                 <input placeholder="Selecione uma foto"/>
-                                <img src="/images/LUPA.png"/>
+                                <img alt="" src="/images/LUPA.png"/>
                             </div>
                         </div>*/}
                         <div className="div-fornecedor">
@@ -753,8 +753,8 @@ export const CadastroProduto = () => {
             )}
             <C.Footer>
                 <div className="buttons">
-                    <button><img src="/images/salvar.png"/>Salvar</button>
-                    <button onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
+                    <button><img alt="salvar" src="/images/salvar.png"/>Salvar</button>
+                    <button onClick={voltar}><img alt="voltar" src="/images/voltar.png"/>Voltar</button>
                 </div>
             </C.Footer>
             {isModalFamilia ? <Familia close={()=> setIsModalFamilia(false)}/> : null}

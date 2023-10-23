@@ -52,8 +52,7 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
                 idRegimeTributario: data.idRegimeTributario,
                 id_comprador: data.id_comprador,
                 nome_comprador: data.nome_comprador,
-                senha_cotacao: data.senha_cotacao,
-                ativo: data.ativo
+                senha_cotacao: data.senha_cotacao
             })
         }
         fetchData();
@@ -120,7 +119,7 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
         e.preventDefault();
         if(e.keyCode === 113){
             setIsModalMunicipio(true);
-        }else if(e.keyCode != 113){
+        }else if(e.keyCode !== 113){
             e.preventDefault();
         }
     }
@@ -128,7 +127,7 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
         e.preventDefault();
         if(e.keyCode === 113){
             setIsModalPaises(true);
-        }else if(e.keyCode != 113){
+        }else if(e.keyCode !== 113){
             e.preventDefault();
         }
     }
@@ -136,7 +135,7 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
         e.preventDefault();
         if(e.keyCode === 113){
             setIsModalFuncionario(true);
-        }else if(e.keyCode != 113){
+        }else if(e.keyCode !== 113){
             e.preventDefault();
         }
     }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Familia } from "../modais/modais_tela_produtos/modal_familia/index";
 import { Ipi } from "../modais/modais_tela_produtos/modal_ipi";

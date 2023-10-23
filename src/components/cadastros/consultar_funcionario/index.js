@@ -73,7 +73,7 @@ export const ConsultarFuncionario = () => {
     }
 
     const resultado5 = users.filter(item=>{
-        if(setorEscolhido != "0"){
+        if(setorEscolhido !== "0"){
             return item.setorFuncionario.id === Number(setorEscolhido)
         }else if(setorEscolhido === "0"){
             return users;
@@ -87,14 +87,14 @@ export const ConsultarFuncionario = () => {
         }
     })
     const resultado3 = resultado4.filter(item=> {
-        if(filialEscolhido != '0' && item.filial != null ){
+        if(filialEscolhido !== '0' && item.filial !== null ){
             return item.filial.id === Number(filialEscolhido);
         }else if(filialEscolhido=== "0"){
             return resultado4;
         }
     })
     const resultado2 = resultado3.filter(item=> {
-        if(statusEscolhido != "todos"){
+        if(statusEscolhido !== "todos"){
             return item.ativo === statusEscolhido;
         }else if(statusEscolhido === "todos"){
             return resultado3;

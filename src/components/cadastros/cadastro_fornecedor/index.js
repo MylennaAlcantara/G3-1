@@ -42,7 +42,6 @@ export const CadastrarFornecedor = ({minimizado, setMinimizado}) => {
         fax: "",
         email: "",
         data_cadastro: "",
-        ativo: "",
         numero_documento: "",
         nome_fantasia: "",
         excluido: "",
@@ -82,7 +81,7 @@ export const CadastrarFornecedor = ({minimizado, setMinimizado}) => {
         e.preventDefault();
         if(e.keyCode === 113){
             setIsModalMunicipio(true);
-        }else if(e.keyCode != 113){
+        }else if(e.keyCode !== 113){
             e.preventDefault();
         }
     }
@@ -90,7 +89,7 @@ export const CadastrarFornecedor = ({minimizado, setMinimizado}) => {
         e.preventDefault();
         if(e.keyCode === 113){
             setIsModalPaises(true);
-        }else if(e.keyCode != 113){
+        }else if(e.keyCode !== 113){
             e.preventDefault();
         }
     }
@@ -98,7 +97,7 @@ export const CadastrarFornecedor = ({minimizado, setMinimizado}) => {
         e.preventDefault();
         if(e.keyCode === 113){
             setIsModalFuncionario(true);
-        }else if(e.keyCode != 113){
+        }else if(e.keyCode !== 113){
             e.preventDefault();
         }
     }

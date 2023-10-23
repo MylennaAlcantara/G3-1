@@ -50,7 +50,7 @@ export const ConsultaProduto = ({setAtalho,limparCampos, listaProdutos, setLista
             setLinhaSelecionada(linhaSelecionada-1);
         }else if(e.keyCode === 123){
             e.preventDefault();
-            if(linhaSelecionada != null){
+            if(linhaSelecionada !== null){
                 setListaProdutos([
                     ...listaProdutos,
                     {
@@ -133,8 +133,8 @@ export const ConsultaProduto = ({setAtalho,limparCampos, listaProdutos, setLista
     return (
         <CP.Container>
             <CP.Header>
-                <h1><img src="/images/caixas.png"/> Produtos</h1>
-                <img src="/images/logo.png"/>
+                <h1><img alt="caixas" src="/images/caixas.png"/> Produtos</h1>
+                <img alt="logo" src="/images/logo.png"/>
             </CP.Header>
             <CP.Tabela>
                 <table ref={tableRef} onKeyDown={importaProduto} tabIndex={0}>
@@ -164,7 +164,7 @@ export const ConsultaProduto = ({setAtalho,limparCampos, listaProdutos, setLista
             </CP.Tabela>
             <CP.Pesquisar>
                 <input id="search" value={buscaProduto} onChange={(e)=> setBuscaProduto(e.target.value)} onKeyDown={importaProduto}/>
-                <img src="/images/LUPA.png" onClick={pesquisarProduto}/>
+                <img alt="lupa" src="/images/LUPA.png" onClick={pesquisarProduto}/>
                 <label>[F12] Importa</label>
             </CP.Pesquisar>
         </CP.Container>

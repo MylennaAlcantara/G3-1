@@ -224,9 +224,9 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
             {cadastro && cadastro.top ? (
                 <Footer>
                     <div className="buttons">
-                        <button onClick={()=> setModalCadastro(true)}><img src="/images/add.png"/>Novo</button>
-                        <button onClick={()=> setModalEditar(true)}><img src="/images/abrir.png"/>Abrir</button>
-                        <button onClick={onClose}><img src="/images/voltar.png"/>Fechar</button>
+                        <button onClick={()=> setModalCadastro(true)}><img alt="adicionar" src="/images/add.png"/>Novo</button>
+                        <button onClick={()=> setModalEditar(true)}><img alt="abrir" src="/images/abrir.png"/>Abrir</button>
+                        <button onClick={onClose}><img alt="voltar" src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </Footer>
             ) : null}

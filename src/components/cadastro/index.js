@@ -8,7 +8,7 @@ import { Emitente } from "../modais/modal_emitente/index.js";
 import { Top } from "../modais/modal_top/index";
 import { Pgt } from "../modais/modal_pgt/index";
 import { Produtos } from "../modais/modal_produtos/index.js";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext.js";
 
 
