@@ -283,7 +283,7 @@ export const VendasCaixa = ({ close }) => {
                             })}
                         </select>
                     </div>
-                    <div>
+                    <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                         < label> Data Venda: </label>
                         <input type="date" value={dataInicial} onChange={(e) => setDataInicial(e.target.value)} /> Á
                         <input type="date" value={dataFinal} onChange={(e) => setDataFinal(e.target.value)} />
