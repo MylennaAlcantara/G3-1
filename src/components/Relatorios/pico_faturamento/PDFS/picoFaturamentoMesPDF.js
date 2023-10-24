@@ -61,11 +61,11 @@ export function picoDeFaturamentoMesPDF (dataFinal, dataInicial, NFE, NFCE, valo
     const Mês = mes.map((data) => {
         return [
             { text: data.dia, fontSize: 8 },
-            { text: parseFloat(data.qtd_nfe).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.qtd_nfe.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8, alignment: 'right' },
             { text: parseFloat(data.vlr_total_nfe).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.qtd_nfce).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.qtd_nfce.toFixed(2)).toLocaleString('pt-BR') , fontSize: 8, alignment: 'right' },
             { text: parseFloat(data.vlr_total_nfce).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
-            { text: parseFloat(data.qtd_vendas).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
+            { text: parseFloat(data.qtd_vendas.toFixed(2)).toLocaleString('pt-BR') , fontSize: 8, alignment: 'right' },
             { text: parseFloat(data.vlr_total).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8, alignment: 'right' },
             { text: parseFloat(data.tiket_medio).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) , fontSize: 8, alignment: 'right' },
         ]
@@ -117,7 +117,7 @@ export function picoDeFaturamentoMesPDF (dataFinal, dataInicial, NFE, NFCE, valo
         {
             table: {
                 headerRows: 1,
-                widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
+                widths: [20, '*', '*', '*', '*', '*', '*', '*'],
                 body: [
                     [
                         { text: 'Dia', fillColor: '#E0E7ED', fontSize: 6.5 },
@@ -151,12 +151,12 @@ export function picoDeFaturamentoMesPDF (dataFinal, dataInicial, NFE, NFCE, valo
                 body: [
                     [
                         { text: 'Qtd. NF-e: ' + parseFloat(QuantidadeNFE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                        { text: 'Vlr. NF-e: ' + parseFloat(ValorNFE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Vlr. NF-e: ' + parseFloat(ValorNFE).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8 },
                         { text: 'Qtd. NFC-e : ' + parseFloat(QuantidadeNFCE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
-                        { text: 'Vlr. NFC-e: ' + parseFloat(ValorNFCE.toFixed(2)).toLocaleString('pt-BR'), fontSize: 8 },
+                        { text: 'Vlr. NFC-e: ' + parseFloat(ValorNFCE).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}), fontSize: 8 },
                         { text: 'Qtd. Vendas : ' + (parseFloat(QuantidadeVenda.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
-                        { text: 'Vlr. Total : ' + (parseFloat(ValorTotal.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
-                        { text: 'Tiket Médio : ' + (parseFloat(TiketMedio.toFixed(2)).toLocaleString('pt-BR')), fontSize: 8 },
+                        { text: 'Vlr. Total : ' + (parseFloat(ValorTotal).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})), fontSize: 8 },
+                        { text: 'Tiket Médio : ' + (parseFloat(TiketMedio).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})), fontSize: 8 },
                     ],
                 ],
                 layout: 'lightHorizontalLines'
