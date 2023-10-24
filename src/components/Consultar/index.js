@@ -112,11 +112,17 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
             setSelectIndex(selectIndex + 1);
         } else if (e.keyCode === 13) {
             e.preventDefault();
-            if (filtroSelecionado === "numero" && busca !== "") {
-                fetchDataRotina();
-            } else {
-                console.log("entrou3")
-                fetchData();
+            if(rotinas.length > 0){
+                console.log(rotinas[selectIndex])
+                selecionado(selectIndex, rotinas[selectIndex]);
+                abrirRotina();
+            }else{
+                if (filtroSelecionado === "numero" && busca !== "") {
+                    fetchDataRotina();
+                } else {
+                    console.log("entrou3")
+                    fetchData();
+                }
             }
         }
     };

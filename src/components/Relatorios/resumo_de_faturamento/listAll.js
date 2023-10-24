@@ -746,7 +746,7 @@ export const ResumoFaturamento = () => {
                                 <button onClick={() => setValor([])} >Limpar</button>
                             </div>
 
-                            <div>
+                            <div className='table-responsive'>
                                 <table id='table' >
                                     <thead>
                                         <tr>
@@ -783,7 +783,7 @@ export const ResumoFaturamento = () => {
                                 <button onClick={() => setValorTop([])} >Limpar</button>
                             </div>
 
-                            <div>
+                            <div className='table-responsive'>
                                 <table id='table'>
                                     <thead>
                                         <tr>

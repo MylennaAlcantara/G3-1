@@ -42,7 +42,9 @@ export const ListaContagem = ({ setCabecalho, abrir }) => {
                 </div>
             ) : (
                 <>
-                <img alt="lupa" src="/images/LUPA.png" onClick={fetchContagensPendentes}/>
+                <div style={{width: "90%", display: "flex", flexDirection: "row-reverse", margin: "auto"}}>
+                    <img style={{marginRight: "0px"}} alt="lupa" src="/images/LUPA.png" onClick={fetchContagensPendentes}/>
+                </div>
                 <div className="table-responsive">
                     <table>
                         <thead>
@@ -50,7 +52,7 @@ export const ListaContagem = ({ setCabecalho, abrir }) => {
                                 <th>Id</th>
                                 <th>Descrição</th>
                                 <th>Data Inicio</th>
-                                <th>Usuario</th>
+                                <th>Usuário</th>
                                 <th>Aberta</th>
                                 <th>Finalizada</th>
                             </tr>

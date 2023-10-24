@@ -916,8 +916,8 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                             onBlur={() => setDescontoPorcen(calcularPorcentagem())}
                             value={String(descontoValor).replace('.', ',').replace('NaN', '')} />
                     </div>
-                    <div>
-                        <label>Total item: </label>
+                    <div className="desconto">
+                        <label>Total: </label>
                         <input
                             type="text"
                             name="valor_total"
@@ -951,7 +951,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
                             readOnly
                             required />
                     </div>
-                    {showButton ? <button onSubmit={validarQtd}>Adicionar</button> : null}
+                    {showButton ? <button onSubmit={validarQtd}><img alt="" src="/images/add.png"/>Adicionar</button> : null}
                 </form>
             </C.Add>
             <C.Display>

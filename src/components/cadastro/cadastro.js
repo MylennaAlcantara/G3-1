@@ -214,7 +214,7 @@ export const Info = styled.div`
     }
 
     @media (max-width: 460px){
-        height: 50%;
+        height: auto;
             form{
                 display: block;
                 margin-left: 0;
@@ -358,7 +358,7 @@ export const Add = styled.div`
         height: 15%;
     }
     @media (max-width: 460px){
-        height: 40%;
+        height: auto;
         form{
             display: block;
             align-items: end;

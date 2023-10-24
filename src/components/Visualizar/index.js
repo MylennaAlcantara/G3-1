@@ -210,7 +210,7 @@ export const Visualizar = ({ codRotina }) => {
                             id="valorUnit" readOnly />
                         <datalist></datalist>
                     </div>
-                    <div>
+                    <div className="desconto">
                         <label>Desc.: </label>
                         <input
                             id="add-item"
@@ -225,8 +225,8 @@ export const Visualizar = ({ codRotina }) => {
                             placeholder="R$ 0,000000"
                             type='text' readOnly />
                     </div>
-                    <div>
-                        <label>Total do item: </label>
+                    <div className="desconto">
+                        <label>Total: </label>
                         <input
                             type="text"
                             name="valor_total"
