@@ -42,5 +42,6 @@
 }
 
 .search-button-content{
-    margin-left: 70%;
+    margin-left: auto;
+    margin-right: 5px;
 }

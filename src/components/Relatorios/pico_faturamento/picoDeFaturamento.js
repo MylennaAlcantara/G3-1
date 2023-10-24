@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, PureComponent } from "react";
 import { Emitente } from "../../modais/modal_emitente";
 import { Top } from "../../modais/modal_top";
 import * as C from "../../cadastro/cadastro"
@@ -7,17 +7,82 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../../contexts/Auth/authContext";
 import * as LB from "../resumo_de_faturamento/resumoFaturamento";
 import './picoDeFaturamento.css'
-import { data } from "jquery";
 import Modal from 'react-modal';
-import Chart from 'react-google-charts';
 import { picoFaturamentoHoraPDF } from "./PDFS/picoFaturamentoHoraPDF";
 import { picoFaturamentoSemanaPDF } from "./PDFS/picoFaturamentoSemanaPDF";
 import { picoDeFaturamentoMesPDF } from "./PDFS/picoFaturamentoMesPDF";
 import { picoDeFaturamentoAnoPDF } from "./PDFS/picoFaturamentoAnoPDF";
+import { Brush, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 Modal.setAppElement("#root")
 
 export const PicoDeFaturamento = () => {
+    const { user, empresa, cnpjMask } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const [hora, setHora] = useState([]);
+    const [semana, setSemana] = useState([]);
+    const [mes, setMes] = useState([]);
+    const [ano, setAno] = useState([]);
+    const [busca, setBusca] = useState([]);
+
+    const [abrirHora, setOpenAbrirHora] = useState(false);
+    const [abrirSemana, setOpenAbrirSemana] = useState(false);
+    const [abrirMes, setOpenAbrirMes] = useState(false);
+    const [abrirAno, setOpenAbrirAno] = useState(false);
+
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mesAtu = String(data.getMonth() + 1).padStart(2, '0');
+    const anoAtu = data.getFullYear();
+    const dataAtual = anoAtu + '-' + mesAtu + '-' + dia;
+
+    const [dataInicial, setDataInicial] = useState(dataAtual);
+    const [dataFinal, setDataFinal] = useState(dataAtual);
+
+    const dataDiv = dataInicial && dataInicial.split("-");
+
+    const [NFE, setDataNFE] = useState(true);
+    const [NFCE, setDataNFCE] = useState(true);
+
+    const [isModalFilial, setIsModalFilial] = useState(false);
+    const [isModalTop, setIsModalTop] = useState(false);
+
+    const [abaFilial, setAbaFilial] = useState(true);
+
+    const [valor, setValor] = useState([]);
+    const valoresA = valor.filter(function (a) {
+        return !this[JSON.stringify(a)] && (this[JSON.stringify(a)] = true);
+    }, Object.create(null));
+
+    const [valorTop, setValorTop] = useState([]);
+    const valoresB = valorTop.filter(function (b) {
+        return !this[JSON.stringify(b)] && (this[JSON.stringify(b)] = true);
+    }, Object.create(null));
+
+    const [aba, setAba] = useState('Hora');
+
+    const [showElement, setShowElement] = useState(false);
+    const [pesquisou, setPesquisou] = useState(false);
+
+    const valorIdTop = valoresB.map((test) => (
+        (test.id)
+    ))
+
+    const valorFilial = valoresA.map((test) => (
+        (test.id)
+    ))
+
+    const objs = {
+        "dataInicial": dataInicial,
+        "dataFinal": dataFinal,
+        "incluir_nfce": NFCE,
+        "incluir_nfe": NFE,
+        "id_filial": valorIdTop.toString(),
+        "id_top": valorFilial.toString(),
+    }
+
+    const [query, setQuery] = useState([]);
 
     const customStyles = {
         content: {
@@ -51,79 +116,73 @@ export const PicoDeFaturamento = () => {
         picoDeFaturamentoAnoPDF(dataFinal, dataInicial, NFE, NFCE, valorFilial, valorIdTop, ano, empresa, user)
     }
 
-    const [hora, setHora] = useState([]);
-    const [semana, setSemana] = useState([]);
-    const [mes, setMes] = useState([]);
-    const [ano, setAno] = useState([]);
-
     async function setDataHora() {
-        fetch(process.env.REACT_APP_LINK_PICO+"/picoHora", {
+        fetch(process.env.REACT_APP_LINK_PICO + "/picoHora", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
         })
-        .then((res)=>{
-            setShowElement(false);
-            res.json().then(data => {
-                setHora(data);
+            .then((res) => {
+                setShowElement(false);
+                res.json().then(data => {
+                    setHora(data);
+                })
             })
-        })
+            .catch((err) => {
+                setShowElement(false);
+            })
     }
 
     async function setDataSemana() {
-        fetch(process.env.REACT_APP_LINK_PICO+"/picoSemana", {
+        fetch(process.env.REACT_APP_LINK_PICO + "/picoSemana", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
         })
-        .then((res)=>{
-            setShowElement(false);
-            res.json().then(data => {
-                setSemana(data);
+            .then((res) => {
+                setShowElement(false);
+                res.json().then(data => {
+                    setSemana(data);
+                })
             })
-        })
+            .catch((err) => {
+                setShowElement(false);
+            })
     }
 
     async function setDataMes() {
-        fetch(process.env.REACT_APP_LINK_PICO+"/picoMes", {
+        fetch(process.env.REACT_APP_LINK_PICO + "/picoMes", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
         })
-        .then((res)=>{
-            setShowElement(false);
-            res.json().then(data => {
-                setMes(data);
+            .then((res) => {
+                setShowElement(false);
+                res.json().then(data => {
+                    setMes(data);
+                })
             })
-        })
+            .catch((err) => {
+                setShowElement(false);
+            })
     }
 
     async function setDataAno() {
-        fetch(process.env.REACT_APP_LINK_PICO+"/picoAno", {
+        fetch(process.env.REACT_APP_LINK_PICO + "/picoAno", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(objs),
         })
-        .then((res)=>{
-            res.json().then(data => {
-                setShowElement(false);
-                setAno(data);
+            .then((res) => {
+                res.json().then(data => {
+                    setShowElement(false);
+                    setAno(data);
+                })
             })
-        })
+            .catch((err) => {
+                setShowElement(false);
+            })
     }
-
-    const [busca, setBusca] = useState([]);
-
-    const data = new Date();
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mesAtu = String(data.getMonth() + 1).padStart(2, '0');
-    const anoAtu = data.getFullYear();
-    const dataAtual = anoAtu + '-' + mesAtu + '-' + dia;
-
-    const [dataInicial, setDataInicial] = useState(dataAtual);
-    const [dataFinal, setDataFinal] = useState(dataAtual);
-
-    const dataDiv = dataInicial && dataInicial.split("-")
 
     function voltar15Dias() {
         if (dataDiv[2] >= 15 && dataDiv[1] === '01') {
@@ -289,12 +348,6 @@ export const PicoDeFaturamento = () => {
         setDataFinal(e.currentTarget.value);
     }
 
-    const { user, empresa, cnpjMask } = useContext(AuthContext);
-    const navigate = useNavigate();
-
-    const [NFE, setDataNFE] = useState(true);
-    const [NFCE, setDataNFCE] = useState(true);
-
     const nfeCheck = (e) => {
         setDataNFE(e.currentTarget.checked)
     }
@@ -303,41 +356,13 @@ export const PicoDeFaturamento = () => {
         setDataNFCE(e.currentTarget.checked)
     }
 
-    const [isModalFilial, setIsModalFilial] = useState(false);
-    const [isModalTop, setIsModalTop] = useState(false);
-
-    const [abaFilial, setAbaFilial] = useState(true);
-
-    const [valor, setValor] = useState([])
-    const [valorTop, setValorTop] = useState([])
-
-    const [aba, setAba] = useState('Hora');
-
-    const [showElement, setShowElement] = useState(false)
-
-    const valorIdTop = valorTop.map((test) => (
-        (test.id)
-    ))
-
-    const valorFilial = valor.map((test) => (
-        (test.id)
-    ))
-
-    const objs = {
-        "dataInicial": dataInicial,
-        "dataFinal": dataFinal,
-        "incluir_nfce": NFCE,
-        "incluir_nfe": NFE,
-        "id_filial": valorIdTop.toString(),
-        "id_top": valorFilial.toString(),
-    }
-
     const start = () => {
         setHora([]);
         setSemana([]);
         setMes([]);
         setAno([]);
         setShowElement(true);
+        setPesquisou(true);
         setDataHora();
         setDataSemana();
         setDataMes();
@@ -356,81 +381,31 @@ export const PicoDeFaturamento = () => {
         })
     }
 
-    const [query, setQuery] = useState([])
+    class CustomizedLabel extends PureComponent {
+        render() {
+            const { x, y, stroke, value } = this.props;
 
-    //---------------------------------------------------------------------------------------------------------Pico Hora----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    const [abrirHora, setOpenAbrirHora] = useState(false);
-
-    const picoHora = [
-        ["Horas", "Vlr.Total NF-e", "Vlr.Total NFC-e", "Vlr.Total"],
-        ...hora.map(item => [item.hora, item.vlr_total_nfe, item.vlr_total_nfce, item.vlr_total])
-    ]
-
-    const optionsPicoHora = {
-        chart: {
-            title: "Pico comparativos por horas.",
-            subtitle: "Valores em R$",
-        },
-    };
-
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------   
-
-    //---------------------------------------------------------------------------------------------------------Pico Semana--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    const [abrirSemana, setOpenAbrirSemana] = useState(false);
-
-    const picoSemana = [
-        ["Dia da semana", "Vlr.Total NF-e", "Vlr.Total NFC-e", "Vlr.Total"],
-        ...semana.map(item => [item.dia, item.vlr_total_nfe, item.vlr_total_nfce, item.vlr_total])
-    ]
-
-    const optionsPicoSemana = {
-        chart: {
-            title: "Pico comparativos por semana",
-            subtitle: "Valores em R$",
+            return (
+                <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle">
+                    {value}
+                </text>
+            );
         }
     }
 
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    class CustomizedAxisTick extends PureComponent {
+        render() {
+            const { x, y, stroke, payload } = this.props;
 
-    //---------------------------------------------------------------------------------------------------------Pico Mês----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    const [abrirMes, setOpenAbrirMes] = useState(false);
-
-    const picoMes = [
-        ["Dias do Mês", "Vlr.Total NF-e", "Vlr.Total NFC-e", "Vlr.Total"],
-        ...mes.map(item => [item.dia, item.vlr_total_nfe, item.vlr_total_nfce, item.vlr_total])
-    ]
-
-    const optionsPicoMes = {
-        chart: {
-            title: "Comparativos por dias do mês",
-            subtitle: "Valores em R$",
+            return (
+                <g transform={`translate(${x},${y})`}>
+                    <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-35)">
+                        {payload.value}
+                    </text>
+                </g>
+            );
         }
     }
-
-    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    //---------------------------------------------------------------------------------------------------------Pico Ano---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    const [abrirAno, setOpenAbrirAno] = useState(false);
-
-    const picoAno = [
-        ["Meses do Ano", "Vlr.Total NF-e", "Vlr.Total NFC-e", "Vlr.Total"],
-        ...ano.map(item => [item.mes, item.vlr_total_nfe, item.vlr_total_nfce, item.vlr_total])
-    ]
-
-    const optionsPicoAno = {
-        chart: {
-            title: "Comparativos meses do ano",
-            subtitle: "Valores em R$",
-        }
-    }
-
-    console.log(showElement)
-
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return (
         <C.Container>
@@ -439,27 +414,26 @@ export const PicoDeFaturamento = () => {
 
             <span>Atenção: Digite ou selecione uma data antes apertar nos Botões</span>
 
+            <LB.NavBarFiltro>
+                <button className='topFilialBtn' style={{ backgroundColor: abaFilial === true ? "#8CB9DF" : "", borderBottom: abaFilial === true ? "none" : "" }} onClick={() => setAbaFilial(true)} >Filial</button>
+                <button className='topsBtn' style={{ backgroundColor: abaFilial === false ? "#8CB9DF" : "", borderBottom: abaFilial === false ? "none" : "" }} onClick={() => setAbaFilial(false)} >Tops</button>
+            </LB.NavBarFiltro>
             <LB.Filtros>
-                <div className='FTFilterTop' >
-                    <div className='btns'>
-                        <button className='topFilialBtn' style={{ backgroundColor: abaFilial === true ? "#8CB9DF" : "", borderBottom: abaFilial === true ? "none" : "" }} onClick={() => setAbaFilial(true)} >Filial</button>
-                        <button className='topsBtn' style={{ backgroundColor: abaFilial === false ? "#8CB9DF" : "", borderBottom: abaFilial === false ? "none" : "" }} onClick={() => setAbaFilial(false)} >Tops</button>
-                    </div>
-                    <LB.FilialTop>
-                        {abaFilial ? (
-                            <div className='filial-top'>
-                                <div>
-                                    <select>
-                                        <option>Filial</option>
-                                        <option>Região</option>
-                                    </select>
-                                    <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
-                                    <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
-                                    <button onClick={() => setValor([])} >Limpar</button>
-                                </div>
-                                <div className='table-responsive'>
-                                    <table id='table'>
-
+                <LB.FilialTop>
+                    {abaFilial ? (
+                        <div className='filial-top'>
+                            <div>
+                                <select>
+                                    <option>Filial</option>
+                                    <option>Região</option>
+                                </select>
+                                <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
+                                <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
+                                <button onClick={() => setValor([])} >Limpar</button>
+                            </div>
+                            <div className='table-responsive'>
+                                <table id='table'>
+                                    <thead>
                                         <tr>
                                             <th></th>
                                             <th >Código</th>
@@ -468,62 +442,56 @@ export const PicoDeFaturamento = () => {
                                             <th >Documento</th>
                                             <th >Município</th>
                                         </tr>
-
-                                        {valor.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
+                                    </thead>
+                                    <tbody>
+                                        {valoresA.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
                                             return (
-                                                <tr>
+                                                <tr key={item.id}>
                                                     <img className="del" src="/images/lixeira.png" onClick={() => deleteById(item.id)} />
-
                                                     <td>{item.id}</td>
-
                                                     <td>{item.nome_fantasia}</td>
-
                                                     <td>{item.razao_social}</td>
-
                                                     <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
-
                                                     <td>{item.municipio}</td>
                                                 </tr>
                                             )
                                         })}
-
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
-                        ) : (
-                            <div className='filial-top'>
-                                <div>
-                                    <input placeholder='Buscar pela Descrição...' onChange={(e) => setBusca(e.target.value)} />
-                                    <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
-                                    <button onClick={() => setValorTop([])} >Limpar</button>
-                                </div>
-                                <div className='table-responsive'>
-                                    <table id='table'>
-                                        <thead>
+                        </div>
+                    ) : (
+                        <div className='filial-top'>
+                            <div>
+                                <input placeholder='Buscar pela Descrição...' onChange={(e) => setBusca(e.target.value)} />
+                                <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
+                                <button onClick={() => setValorTop([])} >Limpar</button>
+                            </div>
+                            <div className='table-responsive'>
+                                <table id='table'>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th >Código</th>
+                                            <th >Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    {valoresB.filter(dat => dat.descricao.toLowerCase().includes(busca)).map((item) => {
+
+                                        return (
                                             <tr>
-                                                <th></th>
-                                                <th >Código</th>
-                                                <th >Descrição</th>
+                                                <img className='del' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
+                                                <td>{item.id}</td>
+                                                <td>{item.descricao}</td>
                                             </tr>
-                                        </thead>
-                                        {valorTop.filter(dat => dat.descricao.toLowerCase().includes(busca)).map((item) => {
+                                        )
 
-                                            return (
-                                                <tr>
-                                                    <img className='del' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
-                                                    <td>{item.id}</td>
-                                                    <td>{item.descricao}</td>
-                                                </tr>
-                                            )
-
-                                        })}
-                                    </table>
-                                </div>
+                                    })}
+                                </table>
                             </div>
-                        )}
-                    </LB.FilialTop>
-                </div>
-
+                        </div>
+                    )}
+                </LB.FilialTop>
                 <LB.Data>
                     <div>
                         <div className="data" >
@@ -543,9 +511,9 @@ export const PicoDeFaturamento = () => {
 
                     </div>
 
-                    <div>
-                        <button onClick={voltarMes} className="setaE" ><img src="/images/setaEsquerda.png" /></button>
-                        <button onClick={passarMes} className="setaD" ><img src="/images/setaDireita.png" /></button>
+                    <div style={{display: "flex", alignItems: "center"}}>
+                        <button onClick={voltarMes} className="seta" ><img src="/images/setaEsquerda.png" /></button>
+                        <button onClick={passarMes} className="seta" ><img src="/images/setaDireita.png" /></button>
                         <input type="checkbox" checked={NFE} onChange={nfeCheck} /><label>NF-e</label>
                         <input type="checkbox" checked={NFCE} onChange={nfceCheck} /><label>NFC-e</label>
                     </div>
@@ -554,9 +522,7 @@ export const PicoDeFaturamento = () => {
                         <button className="buttons-config" onClick={start} > <img src="/images/check.png" /> Pesquisar</button>
                     </div>
                 </LB.Data>
-
             </LB.Filtros>
-
             <LB.Navegacao>
                 <div>
                     <button className="CE" style={{ backgroundColor: aba === "Hora" ? "#8CB9DF" : "", borderBottom: aba === 'Hora' ? "none" : "" }} onClick={() => setAba('Hora')} >Hora/Dia</button>
@@ -565,114 +531,87 @@ export const PicoDeFaturamento = () => {
                     <button className="CD" style={{ backgroundColor: aba === "Ano" ? "#8CB9DF" : "", borderBottom: aba === 'Ano' ? "none" : "" }} onClick={() => setAba('Ano')} >Mês/Ano</button>
                 </div>
             </LB.Navegacao>
-
             {aba === 'Hora' ? (
-                <>
-                    <LB.DataGeral>
-                        {hora.length === 0 && showElement === true ? (
-
-                            <div className='c' >
-                                <Loading />
+                <LB.DataGeral>
+                    {hora.length === 0 && showElement === true ? (
+                        <div className='c' >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label>
+                                <button className='dashboardBtn' onClick={() => setOpenAbrirHora(true)} > <img alt="" className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirHora} > <img alt="" className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
-
-                        ) : (
-                            <>
-                                <div className='dashboardLine'>
-
-                                    <label>Dashboards</label>
-
-                                    <button className='dashboardBtn' onClick={() => setOpenAbrirHora(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
-
-                                    <button className='dashboardBtn' onClick={imprimirHora} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
-
-                                </div>
-
-                                <div className='table-responsive' >
-                                    <table>
+                            <div className='table-responsive' >
+                                <table>
+                                    <thead>
                                         <tr>
                                             <th>Hora</th>
-
                                             <th>Qtd. NF-e</th>
-
                                             <th>Vlr. Total NF-e</th>
-
                                             <th>Qtd. NFC-e</th>
-
                                             <th>Vlr. Total NFC-e</th>
-
                                             <th>Qtd. Vendas</th>
-
                                             <th>Vlr. Total</th>
-
                                             <th>Tiket Médio</th>
                                         </tr>
-
-                                        {hora.map((item) => {
-                                            return (
-                                                <tr>
-                                                    <td>{item.hora}</td>
-
-                                                    <td>{item.qtd_nfe.toLocaleString("pt-BR")}</td>
-
-                                                    <td>{item.vlr_total_nfe.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
-                                                    <td>{item.qtd_nfce.toLocaleString("pt-BR")}</td>
-
-                                                    <td>{item.vlr_total_nfce.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
-                                                    <td>{item.qtd_vendas.toLocaleString("pt-BR")}</td>
-
-                                                    <td>{item.vlr_total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
-                                                    <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-                                                </tr>
-                                            )
-                                        })}
-                                    </table>
-                                </div>
-                            </>
-                        )}
-                    </LB.DataGeral>
-                </>
-            ) : aba === 'Semana' ? (
-                <>
-                    <LB.DataGeral>
-                        {semana.length === 0 && showElement === true ? (
-                            <div className="c" >
-                                <Loading />
+                                    </thead>
+                                    {hora.length !== 0 && showElement === false &&
+                                        <tbody>
+                                            {hora.map((item) => {
+                                                return (
+                                                    <tr>
+                                                        <td>{item.hora}</td>
+                                                        <td>{item.qtd_nfe.toLocaleString("pt-BR")}</td>
+                                                        <td>{item.vlr_total_nfe.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                        <td>{item.qtd_nfce.toLocaleString("pt-BR")}</td>
+                                                        <td>{item.vlr_total_nfce.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                        <td>{item.qtd_vendas.toLocaleString("pt-BR")}</td>
+                                                        <td>{item.vlr_total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                        <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    }
+                                </table>
+                                {hora.length === 0 && showElement === false && pesquisou === true &&
+                                    <h1 style={{ color: "red", marginTop: "auto" }}>Não foram encontrado dados!</h1>
+                                }
                             </div>
-                        ) : (
-                            <>
-                                <div className='dashboardLine'>
-
-                                    <label>Dashboards</label>
-
-                                    <button className='dashboardBtn' onClick={() => setOpenAbrirSemana(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
-
-                                    <button className='dashboardBtn' onClick={imprimirSemana} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
-
-                                </div>
-
-                                <div className="table-responsive" >
-                                    <table>
+                        </>
+                    )}
+                </LB.DataGeral>
+            ) : aba === 'Semana' ? (
+                <LB.DataGeral>
+                    {semana.length === 0 && showElement === true ? (
+                        <div className="c" >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label>
+                                <button className='dashboardBtn' onClick={() => setOpenAbrirSemana(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirSemana} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                            </div>
+                            <div className="table-responsive" >
+                                <table>
+                                    <thead>
                                         <tr>
                                             <th>Dia</th>
-
                                             <th>Qtd. NF-e</th>
-
                                             <th>Vlr. Total NF-e</th>
-
                                             <th>Qtd. NFC-e</th>
-
                                             <th>Vlr. Total NFC-e</th>
-
                                             <th>Qtd. Vendas</th>
-
                                             <th>Vlr. Total</th>
-
                                             <th>Tiket Médio</th>
                                         </tr>
-
+                                    </thead>
+                                    <tbody>
                                         {semana.map((item) => {
                                             if (item.dia === 'SUNDAY') {
                                                 item.dia = 'DOMINGO'
@@ -693,235 +632,270 @@ export const PicoDeFaturamento = () => {
                                             return (
                                                 <tr>
                                                     <td>{item.dia}</td>
-
                                                     <td>{item.qtd_nfe.toLocaleString("pt-BR")}</td>
-
                                                     <td>{item.vlr_total_nfe.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
                                                     <td>{item.qtd_nfce.toLocaleString("pt-BR")}</td>
-
                                                     <td>{item.vlr_total_nfce.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
                                                     <td>{item.qtd_vendas.toLocaleString("pt-BR")}</td>
-
                                                     <td>{item.vlr_total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
                                                     <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
                                                 </tr>
                                             )
                                         })}
-                                    </table>
-                                </div>
-                            </>
-                        )}
-                    </LB.DataGeral>
-                </>
-            ) : aba === 'Mes' ? (
-                <>
-                    <LB.DataGeral>
-                        {mes.length === 0 && showElement === true ? (
-                            <div className="c" >
-                                <Loading />
+                                    </tbody>
+                                </table>
+                                {hora.length === 0 && showElement === false &&
+                                    <h1 style={{ color: "red", marginTop: "auto" }}>Não foram encontrado dados!</h1>
+                                }
                             </div>
-                        ) : (
-                            <>
-                                <div className='dashboardLine'>
-
-                                    <label>Dashboards</label>
-
-                                    <button className='dashboardBtn' onClick={() => setOpenAbrirMes(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
-
-                                    <button className='dashboardBtn' onClick={imprimirMes} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
-
-                                </div>
-
-                                <div className="table-responsive" >
-                                    <table>
+                        </>
+                    )}
+                </LB.DataGeral>
+            ) : aba === 'Mes' ? (
+                <LB.DataGeral>
+                    {mes.length === 0 && showElement === true ? (
+                        <div className="c" >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label>
+                                <button className='dashboardBtn' onClick={() => setOpenAbrirMes(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirMes} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                            </div>
+                            <div className="table-responsive" >
+                                <table>
+                                    <thead>
                                         <tr>
                                             <th>Dia</th>
-
                                             <th>Qtd. NF-e</th>
-
                                             <th>Vlr. Total NF-e</th>
-
                                             <th>Qtd. NFC-e</th>
-
                                             <th>Vlr. Total NFC-e</th>
-
                                             <th>Qtd. Vendas</th>
-
                                             <th>Vlr. Total</th>
-
                                             <th>Tiket Médio</th>
                                         </tr>
-
+                                    </thead>
+                                    <tbody>
                                         {mes.map((item) => {
                                             return (
                                                 <tr>
                                                     <td>{item.dia}</td>
-
                                                     <td>{item.qtd_nfe.toLocaleString("pt-BR")}</td>
-
                                                     <td>{item.vlr_total_nfe.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
                                                     <td>{item.qtd_nfce.toLocaleString("pt-BR")}</td>
-
                                                     <td>{item.vlr_total_nfce.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
                                                     <td>{item.qtd_vendas.toLocaleString("pt-BR")}</td>
-
                                                     <td>{item.vlr_total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
                                                     <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
                                                 </tr>
                                             )
                                         })}
-                                    </table>
-                                </div>
-                            </>
-                        )}
-                    </LB.DataGeral>
-                </>
+                                    </tbody>
+                                </table>
+                                {hora.length === 0 && showElement === false &&
+                                    <h1 style={{ color: "red", marginTop: "auto" }}>Não foram encontrado dados!</h1>
+                                }
+                            </div>
+                        </>
+                    )}
+                </LB.DataGeral>
             ) : aba === 'Ano' ? (
-                <>
-                    <LB.DataGeral>
-                        {ano.length === 0 && showElement === true ? (
-                            <div className="c" >
-                                <Loading />
+                <LB.DataGeral>
+                    {ano.length === 0 && showElement === true ? (
+                        <div className="c" >
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label>
+                                <button className='dashboardBtn' onClick={() => setOpenAbrirAno(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirAno} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
 
-                        ) : (
-                            <>
-                                <div className='dashboardLine'>
-
-                                    <label>Dashboards</label>
-
-                                    <button className='dashboardBtn' onClick={() => setOpenAbrirAno(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
-
-                                    <button className='dashboardBtn' onClick={imprimirAno} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
-
-                                </div>
-
-                                <div className="table-responsive" >
-                                    <table>
+                            <div className="table-responsive" >
+                                <table>
+                                    <thead>
                                         <tr>
                                             <th>Mês</th>
-
                                             <th>Qtd. NF-e</th>
-
                                             <th>Vlr. Total NF-e</th>
-
                                             <th>Qtd. NFC-e</th>
-
                                             <th>Vlr. Total NFC-e</th>
-
                                             <th>Qtd. Vendas</th>
-
                                             <th>Vlr. Total</th>
-
                                             <th>Tiket Médio</th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
                                         {ano.map((item) => {
-                                            if(item.mes === 'JANUARY' ){
+                                            if (item.mes === 'JANUARY') {
                                                 item.mes = 'JANEIRO'
-                                            }else if(item.mes === 'FEBRUARY'){
+                                            } else if (item.mes === 'FEBRUARY') {
                                                 item.mes = 'FEVEREIRO'
-                                            }else if(item.mes === 'MARCH'){
+                                            } else if (item.mes === 'MARCH') {
                                                 item.mes = 'MARÇO'
-                                            }else if(item.mes === 'APRIL'){
+                                            } else if (item.mes === 'APRIL') {
                                                 item.mes = 'ABRIL'
-                                            }else if(item.mes === 'MAY'){
+                                            } else if (item.mes === 'MAY') {
                                                 item.mes = 'MAIO'
-                                            }else if(item.mes === 'JUNE'){
+                                            } else if (item.mes === 'JUNE') {
                                                 item.mes = 'JUNHO'
-                                            }else if(item.mes === 'JULY'){
+                                            } else if (item.mes === 'JULY') {
                                                 item.mes = 'JULHO'
-                                            }else if(item.mes === 'AUGUST'){
+                                            } else if (item.mes === 'AUGUST') {
                                                 item.mes = 'AGOSTO'
-                                            }else if(item.mes === 'SEPTEMBER'){
+                                            } else if (item.mes === 'SEPTEMBER') {
                                                 item.mes = 'SETEMBRO'
-                                            }else if(item.mes === 'OCTOBER'){
+                                            } else if (item.mes === 'OCTOBER') {
                                                 item.mes = 'OUTUBRO'
-                                            }else if(item.mes === 'NOVEMBER'){
+                                            } else if (item.mes === 'NOVEMBER') {
                                                 item.mes = 'NOVEMBRO'
-                                            }else if(item.mes === 'DECEMBER'){
+                                            } else if (item.mes === 'DECEMBER') {
                                                 item.mes = 'DEZEMBRO'
                                             }
 
                                             return (
                                                 <tr>
                                                     <td>{item.mes}</td>
-
                                                     <td>{item.qtd_nfe.toLocaleString("pt-Br")}</td>
-
                                                     <td>{item.vlr_total_nfe.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
                                                     <td>{item.qtd_nfce.toLocaleString("pt-BR")}</td>
-
                                                     <td>{item.vlr_total_nfce.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
                                                     <td>{item.qtd_vendas.toLocaleString("pt-BR")}</td>
-
                                                     <td>{item.vlr_total.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-
                                                     <td>{item.tiket_medio.toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
                                                 </tr>
                                             )
                                         })}
-
-                                    </table>
-                                </div>
-                            </>
-                        )}
-                    </LB.DataGeral>
-                </>
+                                    </tbody>
+                                </table>
+                                {hora.length === 0 && showElement === false &&
+                                    <h1 style={{ color: "red", marginTop: "auto" }}>Não foram encontrado dados!</h1>
+                                }
+                            </div>
+                        </>
+                    )}
+                </LB.DataGeral>
             ) : null}
 
             <Modal isOpen={abrirHora} onRequestClose={() => setOpenAbrirHora(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
-
                 <button onClick={() => setOpenAbrirHora(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
-
                 <h1>Pico por Hora</h1>
-
-                <LB.Dashboard>
-                    <div className="justSize" ><Chart chartType="Line" width="100%" height="95%" data={picoHora} options={optionsPicoHora} /></div>
-                </LB.Dashboard>
-
+                <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart
+                            width={500}
+                            height={300}
+                            data={hora}
+                            margin={{
+                                top: 20,
+                                right: 10,
+                                left: 0,
+                                bottom: 10,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="hora" height={60} tick={<CustomizedAxisTick />} />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="vlr_total_nfe" stroke="#8884d8" label={<CustomizedLabel />} />
+                            <Line type="monotone" dataKey="vlr_total_nfce" stroke="#82ca9d" label={<CustomizedLabel />} />
+                            <Brush />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
             </Modal>
 
             <Modal isOpen={abrirSemana} onRequestClose={() => setOpenAbrirSemana(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
                 <button onClick={() => setOpenAbrirSemana(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
-
                 <h1>Pico por dia da Semana</h1>
-
-                <LB.Dashboard>
-                    <div className="justSize" ><Chart chartType="Line" width="100%" height="95%" data={picoSemana} options={optionsPicoSemana} /></div>
-                </LB.Dashboard>
-
+                <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart
+                            width={500}
+                            height={300}
+                            data={semana}
+                            margin={{
+                                top: 20,
+                                right: 10,
+                                left: 0,
+                                bottom: 10,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="dia" height={60} tick={<CustomizedAxisTick />} />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="vlr_total_nfe" stroke="#8884d8" label={<CustomizedLabel />} />
+                            <Line type="monotone" dataKey="vlr_total_nfce" stroke="#82ca9d" label={<CustomizedLabel />} />
+                            <Brush />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
             </Modal>
 
             <Modal isOpen={abrirMes} onRequestClose={() => setOpenAbrirMes(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnEsc={false} overlayClassName="dashboard-overlay" >
-
                 <button onClick={() => setOpenAbrirMes(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
-
                 <h1>Pico por dias do Mês</h1>
-
-                <LB.Dashboard>
-                    <div className="justSize" ><Chart chartType="Line" width="100%" height="95%" data={picoMes} options={optionsPicoMes} /></div>
-                </LB.Dashboard>
-
+                <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart
+                            width={500}
+                            height={300}
+                            data={mes}
+                            margin={{
+                                top: 20,
+                                right: 10,
+                                left: 0,
+                                bottom: 10,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="dia" height={60} tick={<CustomizedAxisTick />} />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="vlr_total_nfe" stroke="#8884d8" label={<CustomizedLabel />} />
+                            <Line type="monotone" dataKey="vlr_total_nfce" stroke="#82ca9d" label={<CustomizedLabel />} />
+                            <Brush />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
             </Modal>
 
             <Modal isOpen={abrirAno} onRequestClose={() => setOpenAbrirAno(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnEsc={false} overlayClassName="dashboard-overlay" >
-
                 <button onClick={() => setOpenAbrirAno(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
-
                 <h1>Pico por meses do ano</h1>
-
-                <LB.Dashboard>
-                    <div className="justSize" ><Chart chartType="Line" width="100%" height="95%" data={picoAno} options={optionsPicoAno} /></div>
-                </LB.Dashboard>
-
+                <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart
+                            width={500}
+                            height={300}
+                            data={ano}
+                            margin={{
+                                top: 20,
+                                right: 10,
+                                left: 0,
+                                bottom: 10,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="mes" height={60} tick={<CustomizedAxisTick />} />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="vlr_total_nfe" stroke="#8884d8" label={<CustomizedLabel />} />
+                            <Line type="monotone" dataKey="vlr_total_nfce" stroke="#82ca9d" label={<CustomizedLabel />} />
+                            <Brush />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
             </Modal>
 
             <C.Footer>

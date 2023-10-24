@@ -727,89 +727,87 @@ export const ResumoFaturamento = () => {
 
             <span>Atenção: Ao selecionar NF-e, é importante destacar as T.OP.´s que serão tomadas em consideração na consulta, consultando sem nenhuma T.OP.(consulta geral), poderá vir ENTRADAS </span>
 
+            <RF.NavBarFiltro>
+                <button className='topFilialBtn' style={{ backgroundColor: filial === true ? "#8CB9DF" : "", borderBottom: filial === true ? "none" : "" }} onClick={() => setFilial(true)} >Filial</button>
+                <button className='topsBtn' style={{ backgroundColor: filial === false ? "#8CB9DF" : "", borderBottom: filial === false ? "none" : "" }} onClick={() => setFilial(false)} >Tops</button>
+            </RF.NavBarFiltro>
             <RF.Filtros>
-                <div className='FTFilterTop' >
-                    <div className='btns'>
-                        <button className='topFilialBtn' style={{ backgroundColor: filial === true ? "#8CB9DF" : "", borderBottom: filial === true ? "none" : "" }} onClick={() => setFilial(true)} >Filial</button>
-                        <button className='topsBtn' style={{ backgroundColor: filial === false ? "#8CB9DF" : "", borderBottom: filial === false ? "none" : "" }} onClick={() => setFilial(false)} >Tops</button>
-                    </div>
-                    <RF.FilialTop>
-                        {filial ? (
-                            <div className='filial-top'>
+                <RF.FilialTop>
+                    {filial ? (
+                        <div className='filial-top'>
 
-                                <div >
-                                    <select>
-                                        <option>Filial</option>
-                                        <option>Região</option>
-                                    </select>
-                                    <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
-                                    <img alt='' src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
-                                    <button onClick={() => setValor([])} >Limpar</button>
-                                </div>
-
-                                <div>
-                                    <table id='table' >
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th >Código</th>
-                                                <th >Fantasia</th>
-                                                <th>Razão Social</th>
-                                                <th >Documento</th>
-                                                <th >Município</th>
-                                            </tr>
-                                        </thead>
-                                        {valoresA.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
-
-                                            return (
-
-                                                <tr>
-                                                    <td><img alt='' src='/images/lixeira.png' onClick={() => deleteById(item.id)} /></td>
-                                                    <td>{item.id}</td>
-                                                    <td>{item.nome_fantasia}</td>
-                                                    <td>{item.razao_social}</td>
-                                                    <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
-                                                    <td>{item.municipio}</td>
-                                                </tr>
-                                            )
-                                        })}
-                                    </table>
-                                </div>
+                            <div >
+                                <select>
+                                    <option>Filial</option>
+                                    <option>Região</option>
+                                </select>
+                                <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
+                                <img alt='' src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
+                                <button onClick={() => setValor([])} >Limpar</button>
                             </div>
-                        ) : (
-                            <div className='filial-top'>
-                                <div>
-                                    <input placeholder='Buscar pela Descrição...' onChange={(e) => setQuery1(e.target.value)} />
-                                    <img alt='' src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
-                                    <button onClick={() => setValorTop([])} >Limpar</button>
-                                </div>
 
-                                <div>
-                                    <table id='table'>
-                                        <thead>
+                            <div>
+                                <table id='table' >
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th >Código</th>
+                                            <th >Fantasia</th>
+                                            <th>Razão Social</th>
+                                            <th >Documento</th>
+                                            <th >Município</th>
+                                        </tr>
+                                    </thead>
+                                    {valoresA.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
+
+                                        return (
+
                                             <tr>
-                                                <th></th>
-                                                <th >Código</th>
-                                                <th >Descrição</th>
+                                                <td><img alt='' src='/images/lixeira.png' onClick={() => deleteById(item.id)} /></td>
+                                                <td>{item.id}</td>
+                                                <td>{item.nome_fantasia}</td>
+                                                <td>{item.razao_social}</td>
+                                                <td>{item.cnpj.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1/$2').replace(/(\d{4})(\d)/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1')}</td>
+                                                <td>{item.municipio}</td>
                                             </tr>
-                                        </thead>
-                                        {valoresB.filter(dat => dat.descricao.toLowerCase().includes(query1)).map((item) => {
-
-                                            return (
-                                                <tr>
-                                                    <img alt='' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
-                                                    <td>{item.id}</td>
-                                                    <td>{item.descricao}</td>
-                                                </tr>
-                                            )
-
-                                        })}
-                                    </table>
-                                </div>
+                                        )
+                                    })}
+                                </table>
                             </div>
-                        )}
-                    </RF.FilialTop>
-                </div>
+                        </div>
+                    ) : (
+                        <div className='filial-top'>
+                            <div>
+                                <input placeholder='Buscar pela Descrição...' onChange={(e) => setQuery1(e.target.value)} />
+                                <img alt='' src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
+                                <button onClick={() => setValorTop([])} >Limpar</button>
+                            </div>
+
+                            <div>
+                                <table id='table'>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th >Código</th>
+                                            <th >Descrição</th>
+                                        </tr>
+                                    </thead>
+                                    {valoresB.filter(dat => dat.descricao.toLowerCase().includes(query1)).map((item) => {
+
+                                        return (
+                                            <tr key={item.id}>
+                                                <img alt='' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
+                                                <td>{item.id}</td>
+                                                <td>{item.descricao}</td>
+                                            </tr>
+                                        )
+
+                                    })}
+                                </table>
+                            </div>
+                        </div>
+                    )}
+                </RF.FilialTop>
                 <RF.Data>
                     <div>
                         <div className="data" >
@@ -830,18 +828,15 @@ export const ResumoFaturamento = () => {
                             </select>
                         </div>
                     </div>
-                    <div>
-                        <button className='setaE' onClick={voltarMeses} ><img alt='' className='close' src='/images/setaEsquerda.png' /></button>
-                        <button className='setaD' onClick={passarMeses} ><img alt='' className='close' src='/images/setaDireita.png' /></button>
-                        <div className='checks' >
-                            <input type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} /><label>Incluir T.OP. Salvas</label>
-                            <input type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} /><label>NF-e</label>
-                            <input type="checkbox" value="false" id='NFCE' checked={checkNFCE} onChange={handleChecked01} /><label>NFC-e</label>
-                        </div>
+                    <div style={{flexWrap: "wrap"}}>
+                        <button className='seta' onClick={voltarMeses} ><img alt='' className='close' src='/images/setaEsquerda.png' /></button>
+                        <button className='seta' onClick={passarMeses} ><img alt='' className='close' src='/images/setaDireita.png' /></button>
+                        <label><input type="checkbox" value="false" id='TOP' checked={checkTOP} onChange={handleChecked02} />Incluir T.OP. Salvas</label>
+                        <label><input type="checkbox" value="false" id='NFE' checked={checkNFE} onChange={handleChecked} />NF-e</label>
+                        <label><input type="checkbox" value="false" id='NFCE' checked={checkNFCE} onChange={handleChecked01} />NFC-e</label>
                     </div>
-
-                    <div className='botao-pesquisar'>
-                        <button onClick={handleSetData} >Pesquisar</button>
+                    <div className='search-button-content'>
+                        <button className="buttons-config" onClick={handleSetData} >Pesquisar</button>
                     </div>
                 </RF.Data>
             </RF.Filtros>
@@ -1592,27 +1587,21 @@ export const ResumoFaturamento = () => {
                 </div>
 
                 <div className='dashboardTexts'>
-
                     <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: {parseFloat(result2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: {parseFloat(result.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: {parseFloat(result1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(result3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(result4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                 </div>
                 <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
                     <ResponsiveContainer style={{ height: "100%", width: "100%" }}>
@@ -1695,27 +1684,21 @@ export const ResumoFaturamento = () => {
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' />  Valor de Lucro: {parseFloat(String(resultFi2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Valor de Custo: {parseFloat(String(resultFi).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Valor Total: {parseFloat(String(resultFi1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(String(resultFi3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(String(resultFi4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoRosa.png' /> Valor Credito: {parseFloat(String(resultFi5).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoLaranja.png' /> Valor Liquido: {parseFloat(String(resultFi6).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
@@ -1802,40 +1785,31 @@ export const ResumoFaturamento = () => {
                     <button onClick={closeDashboardVendedor} className='closeBtn'>  Fechar<img alt='' className='close' src='/images/voltar.png' /> </button>
                     <h1>Dados Vendedor<button onClick={() => setOpenIndivualVend(true)} className='filialBTN' > <img alt='' className='close' src='/images/vendedor.png' /> Cada Vendedor</button></h1>
                 </div>
-
                 <div className='dashboardTexts' >
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' /> Lucro: {parseFloat(String(resultVen2).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoVermelho.png' /> Custo: {parseFloat(String(resultVen).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoVerde.jpg' /> Total: {parseFloat(String(resultVen1).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoRoxo.png' /> NF-e: {parseFloat(String(resultVen3).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoAzul.png' /> NFC-e: {parseFloat(String(resultVen4).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoRosa.png' /> Credito: {parseFloat(String(resultVen5).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoLaranja.png' /> Cancelamento: {parseFloat(String(resultVen6).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoAzulClaro.png' /> Comissão: {parseFloat(String(resultVen7).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
-
                     <div className='prices' >
                         <img alt='' className='cifrões' src='/images/cifraoCinza.png' /> Desconto: {parseFloat(String(resultVen8).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
                     </div>
@@ -2087,7 +2061,6 @@ export const ResumoFaturamento = () => {
                     <button onClick={closeDashboardProdutos} className='closeBtn'>  Fechar<img alt='' className='close' src='/images/voltar.png' /> </button>
                     <h1>Dados Produtos<button onClick={openDashboardProdutosDetalhados} className='filialBTN' > <img alt='' className='close' src='/images/produto.png' /> Cada Produto</button></h1>
                 </div>
-
                 <div className='dashboardTexts'>
                     <div className='prices'>
                         <img alt='' className='cifrões' src='/images/cifraoAmarelo.png' /> Valor venda: {parseFloat(String(resultProd).replace(null, "0,00")).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}

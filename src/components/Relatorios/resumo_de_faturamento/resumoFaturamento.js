@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Filtros = styled.div`
     width: 95%;
     height: 25%;
-    margin: auto;
+    margin: 0 auto auto auto;
     display: flex;
     img{
         height: 20px;
@@ -13,13 +13,25 @@ export const Filtros = styled.div`
     button{
         height: 24px;
     }
-    @media(max-width: 420px){
-        display: grid;
+    @media(max-width: 460px){
+        height: 50vh;
+        flex-direction: column;
     }
 
 `
+export const NavBarFiltro = styled.div`
+    display: flex;
+    aling-items: end;
+    justify-content: start;
+    margin-left: 21px;
+
+    @media(max-width: 460px){
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+`
 export const FilialTop = styled.div`
-    width: 100%;
+    width: 50%;
     height: 100%;
     border-radius: 10px;
     border-top-left-radius: 0;
@@ -29,7 +41,6 @@ export const FilialTop = styled.div`
         display: flex;
         width: 100%;
         height: 100%;
-        display: flex;
         flex-direction: column;
     }
     input{
@@ -45,8 +56,12 @@ export const FilialTop = styled.div`
         cursor: pointer;
     }
     .table-responsive{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
         overflow: auto;
-        width: 100%;
+        width: 98%;
+        height: 80%;
     }
     .tr{
         margin-top: auto;
@@ -83,7 +98,18 @@ export const FilialTop = styled.div`
     #table tr:hover td{
         background-color: #87CEFA;
     }
-
+    @media(max-width: 460px){
+        width: 100%;
+        height: 50%;
+        .table-responsive{
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            overflow: auto;
+            width: 98%;
+            height: 75%;
+        }
+    }
 `
 export const Data = styled.div`
     width: 50%;
@@ -126,10 +152,14 @@ export const Data = styled.div`
         font-size: 13px;
         display: flex;
         flex-direction: column;
-        margin-left: 8px;
+        margin-left: 8px;        
     }
     div{
         display: flex;
+        .seta{
+            width: 45px;
+            margin-left: 6px;
+        }
     }
     .botao-pesquisar{
         width: 90%;
@@ -146,16 +176,17 @@ export const Data = styled.div`
     @media (max-width: 800px) {
         overflow-x: auto;
     }
-    @media (max-width: 460px) {
-        margin-top: 5%;
-        width: 97%;
+    @media(max-width: 460px){
+        margin-top: 10px;
         margin-left: 0px;
-        height: 23vh;
+        width: 100%;
+        height: 50%;
         input{
             width: auto;
         }
         .data{
             overflow-x: auto;
+            margin: 10px auto 0 auto;
         }
     }
 `
@@ -198,8 +229,8 @@ export const Navegacao = styled.div`
         height: 33px;
         border-bottom: none;
     }
-    @media (max-width: 420px) {
-        margin-top: 60%;
+    @media (max-width: 460px) {
+        margin-top: 10px;
         div{
             width: 90%;
         }

@@ -34,13 +34,6 @@ button:hover {
     align-items: center;
 }
 
-.FTFilterTop {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    margin-top: -23px;
-}
-
 .graficos10 {
     display: flex;
     flex-direction: column;
@@ -232,18 +225,6 @@ label {
     align-self: center;
 }
 
-.setaE{
-    margin-top: 10px;
-    width: 45px;
-    margin-left: 6px;
-}
-
-.setaD{
-    margin-top: 10px;
-    width: 45px;
-    margin-right: 10px;
-}
-
 .graficoB {
     border-radius: 8px;
     left: 20px;
@@ -294,10 +275,6 @@ label {
     width: 26vw;
     height: 210px;
     margin-right: 20px;
-}
-
-.btns {
-    display: flex;
 }
 
 .test1 {
@@ -876,12 +853,6 @@ span {
 @media(max-width: 460px) {
     span {
         font-size: 11px;
-    }
-
-    .FTFilterTop {
-        height: 23vh;
-        width: 97%;
-        margin-top: 0px;
     }
 
     label {
