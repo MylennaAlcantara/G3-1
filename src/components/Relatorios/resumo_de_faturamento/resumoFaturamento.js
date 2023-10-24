@@ -20,13 +20,16 @@ export const Filtros = styled.div`
 
 `
 export const NavBarFiltro = styled.div`
+    margin: auto;
+    margin-bottom: 0;
+    margin-top: 0;
     display: flex;
-    aling-items: end;
     justify-content: start;
-    margin-left: 21px;
+    width: 95%;
+    border: none;
+    background-color: white;
 
     @media(max-width: 460px){
-        margin-left: 10px;
         margin-top: 10px;
     }
 `
