@@ -715,6 +715,16 @@ export const ResumoFaturamento = () => {
         }
         return 0;
     }
+
+    function organizarTotais(a, b){
+        if(a === "total"){
+            return 1;
+        }else if( b === "total"){
+            return -1;
+        }else{
+            return 0;
+        }
+    }
  
     //------------------------------------------------------------------VISUAL-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -854,68 +864,66 @@ export const ResumoFaturamento = () => {
             </RF.Navegacao>
 
             {aba === "regiao" ? (
-                <>
-                    <RF.DataGeral>
-                        {dadosRegiao.length === 0 && showElement === true ? (
-                            <div className='c'>
-                                <Loading />
+                <RF.DataGeral>
+                    {dadosRegiao.length === 0 && showElement === true ? (
+                        <div className='c'>
+                            <Loading />
+                        </div>
+                    ) : (
+                        <>
+                            <div className='dashboardLine'>
+                                <label>Dashboards</label>
+
+                                <button className='dashboardBtn' onClick={openDashboardRegiao}><img alt='' className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+
+                                <button className='dashboardBtn' onClick={imprimirRegiao} > <img alt='' className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
-                        ) : (
-                            <>
-                                <div className='dashboardLine'>
-                                    <label>Dashboards</label>
 
-                                    <button className='dashboardBtn' onClick={openDashboardRegiao}><img alt='' className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                            <div className='table-responsive'>
 
-                                    <button className='dashboardBtn' onClick={imprimirRegiao} > <img alt='' className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
-                                </div>
+                                <table id='table'>
+                                    <tr>
+                                        <th>Id.Região</th>
+                                        <th>Região</th>
+                                        <th>Id. Filial</th>
+                                        <th>Qtd. Vendas</th>
+                                        <th>Vlr.Médio Venda</th>
+                                        <th>Vlr. Total NF-e</th>
+                                        <th>Vlr. Total NFC-e</th>
+                                        <th>Vlr. Venda Total</th>
+                                        <th>Vlr. Custo Total</th>
+                                        <th>Vlr. Lucro Venda</th>
+                                        <th>Margem</th>
+                                        <th>Markup %</th>
+                                    </tr>
+                                    {dadosRegiao.map((f1) => {
 
-                                <div className='table-responsive'>
+                                        const ordenado = f1.idFilial.split(',').sort(function (a, b) {
+                                            return a - b;
+                                        })
 
-                                    <table id='table'>
-                                        <tr>
-                                            <th>Id.Região</th>
-                                            <th>Região</th>
-                                            <th>Id. Filial</th>
-                                            <th>Qtd. Vendas</th>
-                                            <th>Vlr.Médio Venda</th>
-                                            <th>Vlr. Total NF-e</th>
-                                            <th>Vlr. Total NFC-e</th>
-                                            <th>Vlr. Venda Total</th>
-                                            <th>Vlr. Custo Total</th>
-                                            <th>Vlr. Lucro Venda</th>
-                                            <th>Margem</th>
-                                            <th>Markup %</th>
-                                        </tr>
-                                        {dadosRegiao.map((f1) => {
-
-                                            const ordenado = f1.idFilial.split(',').sort(function (a, b) {
-                                                return a - b;
-                                            })
-
-                                            return (
-                                                <tr key={f1.idFilial}>
-                                                    <td>{f1.idRegiao}</td>
-                                                    <td>{f1.regiao}</td>
-                                                    <td>{ordenado.map(ok => ok + ',')}</td>
-                                                    <td>{parseFloat(f1.qtdVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
-                                                    <td><p className='alinharValor' >{parseFloat(f1.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-                                                    <td><p className='alinharValor' >{parseFloat(f1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-                                                    <td><p className='alinharValor' >{parseFloat(f1.vlTotalNfce).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-                                                    <td><p className='alinharValor' >{parseFloat(f1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-                                                    <td><p className='alinharValor' >{parseFloat(f1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-                                                    <td><p className='alinharValor' >{parseFloat(f1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
-                                                    <td>{parseFloat(f1.margem.toFixed(2)).toLocaleString('pt-BR')} % </td>
-                                                    <td>{parseFloat(f1.markup.toFixed(2)).toLocaleString('pt-BR')}</td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </table>
-                                </div>
-                            </>
-                        )}
-                    </RF.DataGeral>
-                </>
+                                        return (
+                                            <tr key={f1.idFilial}>
+                                                <td>{f1.idRegiao}</td>
+                                                <td>{f1.regiao}</td>
+                                                <td>{ordenado.map(ok => ok + ',')}</td>
+                                                <td>{parseFloat(f1.qtdVendas.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                                <td><p className='alinharValor' >{parseFloat(f1.vlMedioVendas.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                                <td><p className='alinharValor' >{parseFloat(f1.vlTotalNfe.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                                <td><p className='alinharValor' >{parseFloat(f1.vlTotalNfce).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                                <td><p className='alinharValor' >{parseFloat(f1.vlVendaTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                                <td><p className='alinharValor' >{parseFloat(f1.vlCustoTotal.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                                <td><p className='alinharValor' >{parseFloat(f1.vlLucroVenda.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p></td>
+                                                <td>{parseFloat(f1.margem.toFixed(2)).toLocaleString('pt-BR')} % </td>
+                                                <td>{parseFloat(f1.markup.toFixed(2)).toLocaleString('pt-BR')}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                </table>
+                            </div>
+                        </>
+                    )}
+                </RF.DataGeral>
             ) : aba === "filial" ? (
                 <>
                     <RF.DataGeral>
@@ -1022,7 +1030,6 @@ export const ResumoFaturamento = () => {
                             </>
                         )}
                     </RF.DataGeral>
-
                     <div className='row' >
                         <div className='item-bottom' >
                             <label>Méd.Itens/Cup:</label>
@@ -1285,14 +1292,11 @@ export const ResumoFaturamento = () => {
                                             {dadosTipoPagamento.map((pagamento, indx)=>{
                                                 return(
                                                     <tr key={indx}>
-                                                        <td>{pagamento.id_filial}</td>
                                                         {
-                                                            Object.values(pagamento).map((pgto, index) => {
-                                                                if(pagamento.id_filial != pgto){
-                                                                    return (
-                                                                        <td key={index}>{parseFloat(String(pgto).replace(null, "0,00")).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
-                                                                    )
-                                                                }
+                                                            keys.sort(organizarKeys).map((key, index)=>{
+                                                                return(
+                                                                    <td key={index}>{index === 0 ? pagamento[key] : parseFloat(String(pagamento[key]).replace(null, "0,00")).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' })}</td>
+                                                                )
                                                             })
                                                         }
                                                     </tr>
@@ -1304,9 +1308,8 @@ export const ResumoFaturamento = () => {
                             </>
                         )}
                     </RF.DataGeral>
-
                     <div className='row' >
-                        {keys.map((key) => {
+                        {keys.sort(organizarTotais).map((key) => {
                             if(key != "id_filial"){
                                 return (
                                     <div className='item-bottom' key={key}>
@@ -2331,15 +2334,10 @@ export const ResumoFaturamento = () => {
                     </div>
 
                     <div className='dashboardTexts'>
-
                         <div className='prices' > <p className='Gtext' > Venda Total: {parseFloat(resultFi1.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </div>
-
                         <div className='prices' > <p className='Gtext' > Lucro V.Total: {parseFloat(resultFi2.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </div>
-
                         <div className='prices' > <p className='Gtext' > Liquido Total: {parseFloat(resultFi6.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </div>
-
                         <div className='prices' > <p className='Gtext' > NF-e Total:  {parseFloat(resultFi3.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </div>
-
                         <div className='prices' > <p className='Gtext' > NFC-e Total: {parseFloat(resultFi4.toFixed(2)).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} </p> </div>
                     </div>
 
