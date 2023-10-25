@@ -93,7 +93,7 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
 
     for (const tp of keys) {
         if (dadosTipoPagamento[0][tp] > 0) {
-            listaBody.push({ text: String(tp).toUpperCase(), fillColor: '#E0E7ED', fontSize: 8, bold: true, })
+            listaBody.push({ text: String(tp).toUpperCase(), fontSize: 8, bold: true, marginTop: 10 })
         }
     }
 
@@ -108,7 +108,7 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         }
     });
 
-    chartDataTipoPagamento.map((tp) => {
+    chartDataTipoPagamento.sort(organizarTotais).map((tp) => {
         if (tp != undefined && tp != null) {
             if (tp.valor != 0) {
                 totais.push({ text: String(tp.nome).toUpperCase() + ": " + parseFloat(String(tp.valor)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }), fontSize: 8 })
@@ -118,15 +118,25 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
 
     function organizarKeys(a, b) {
         if (a.text === 'ID_FILIAL') {
-            return -1; // 'ID_FILIAL' vem primeiro
+            return -1;
         } else if (b.text === 'ID_FILIAL') {
-            return 1; // 'ID_FILIAL' vem primeiro
+            return 1;
         } else if (a.text === 'TOTAL') {
-            return 1; // 'TOTAL' vem por último
+            return 1;
         } else if (b.text === 'TOTAL') {
-            return -1; // 'TOTAL' vem por último
+            return -1;
         } else {
-            return 0; // Mantém a ordem atual para outros itens
+            return 0;
+        }
+    }
+
+    function organizarTotais(a,b){
+        if(a.nome === "total"){
+            return 1;
+        }else if(b.nome === "total"){
+            return -1;
+        }else{
+            return 0;
         }
     }
 
@@ -154,7 +164,8 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         Object.values(objetoOrdenado).map((pgto, index) => {
             linha.push(
                 {
-                    text: linha.length == 0 ? pgto : pgto == null ? "0,00" : parseFloat(String(pgto)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }),
+                    text: linha.length === 0 ? pgto : pgto == null ? "0,00" : parseFloat(String(pgto)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL'}),
+                    fillColor: listaBody2.length % 2 === 0 ? '#ffffe6' : '#f0f0f0',
                     fontSize: 7,
                 }
             )
@@ -168,15 +179,47 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         body.push(i);
     }
 
-    listaBody.map((item) => {
-        widths.push("*")
-    });
+    const maxColumns = 7; 
+    const tables = [];
+    const tabelaTotal = [];
 
-    totais.map((item) => {
-        widthsTotais.push("*")
-    })
+    for (let i = 0; i < body[0].length; i += maxColumns) {
+        const header = body[0].slice(i, i + maxColumns);
+        const rows = body.slice(1).map(row => row.slice(i, i + maxColumns));
+        header.slice(i, i + maxColumns).map((h)=>{
+            widths.push("*")
+        })
+        
+        const table = {
+            table: {
+            headerRows: 1,
+            widths: widths,
+            body: [header, ...rows],
+            },
+            layout: 'lightHorizontalLines',
+        };
 
-    const content = [
+        tables.push(table);
+    }
+
+    for (let i = 0; i < totais.length; i += maxColumns) {
+        const header = totais.slice(i, i + maxColumns);
+        header.slice(i, i + maxColumns).map((h)=>{
+            widthsTotais.push("*")
+        })
+        
+        const table = {
+            table: {
+            headerRows: 1,
+            widths: widthsTotais,
+            body: [header],
+            },
+        };
+
+        tabelaTotal.push(table);
+    }
+
+    const content1 = [
         {
             table: {
                 widths: ['*', '*', '*'],
@@ -201,15 +244,10 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
                 ]
             },
             layout: 'headerLineOnly',
-        },
-        {
-            table: {
-                headerRows: 1,
-                widths: widths,
-                body: body
-            },
+        }
+    ]
 
-        },
+    const content2 = [
         {
             table: {
                 headerRows: 1,
@@ -221,14 +259,6 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
                 ],
             },
         },
-        {
-            table: {
-                headerRows: 1,
-                widths: widthsTotais,
-                body: [totais],
-                layout: 'lightHorizontalLines'
-            },
-        }
     ]
 
     const footer = (currentPage, pageCount) => {
@@ -247,7 +277,7 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
         pageSize: 'A4',
         pageOrientation: 'LANDSCAPE',
         pageMargins: [15, 15, 15, 40],
-        content: [header, content],
+        content: [header, content1, tables, content2, tabelaTotal],
         footer: footer,
     }
     pdfMake.createPdf(docDefinitios).open();
