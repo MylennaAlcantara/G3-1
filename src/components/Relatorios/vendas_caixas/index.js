@@ -1,10 +1,8 @@
-import React, { useState, useEffect, PureComponent } from "react";
+import React, { useState, useEffect } from "react";
 import * as C from "../../cadastro/cadastro";
 import * as M from "../../modais/modal/modal";
 import * as V from "./vendas";
-import { Loading } from "../../loading";
-import Chart from 'react-google-charts';
-import { Bar, BarChart, Brush, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ReferenceLine, ResponsiveContainer, Sector, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, Brush, CartesianGrid, Cell, Legend, Pie, PieChart, ReferenceLine, Sector, Tooltip, XAxis, YAxis } from "recharts";
 
 const renderActiveShape = (props) => {
     const RADIAN = Math.PI / 180;
@@ -207,39 +205,6 @@ export const VendasCaixa = ({ close }) => {
         setTipoPgtoFilial(somaPgto);
     }
 
-    /*const graficosCaixa = [
-        ["Element", "Valor Total", { role: "style" }],
-        ...totalCaixas.map(item => [item.nome, item.total, ''])
-    ]
-
-    const graficosPGTOCaixasTotal = totalTipoPgto && [
-        ["Element", ""],
-        ...totalTipoPgto.map(item => [item.descricao, item.total])
-    ]
-
-    const graficosTipoPagamento = pagamentoCaixa && [
-        ["Tipos de pagamento", ""],
-        ...pagamentoCaixa.map(item => [item.descricao, item.total])
-    ]
-
-    const optionsPizza = {
-        title: "Total Tipo Pagamento",
-        is3D: true,
-    }
-
-    const [subGrafico, setSubGrafico] = useState('pizza');
-
-    const graficosBarra = pagamentoCaixa && [
-        ["Element", "Valor", { role: "style" }, { sourceColumn: 0, role: "annotation", type: "string", calc: "stringify", },],
-        ...pagamentoCaixa.map(item => [item.descricao, item.total, '', null])
-    ]
-
-    const opcao = {
-        title: "Tipos de Pagamento",
-        bar: { groupWidth: "95%" },
-        legend: { position: "none" },
-    };*/
-
     const COLORS = ['#064A8B', '#00C49F', '#00A5DD', '#8884d8'];
 
 
@@ -403,39 +368,6 @@ export const VendasCaixa = ({ close }) => {
                         </div>
                     </V.Totais>
                     <V.Graficos>
-                        {/*totalTipoPgto.length === 0 && show === true ? (
-                            <div>
-                                <Loading />
-                            </div>
-                        ) : (
-                            <>
-                                {filtro === 'todos' ? (
-                                    <div>
-                                        <div className="A" >
-                                            <Chart width="100%" height="95%" chartType="ColumnChart" data={graficosCaixa} />
-                                        </div>
-
-                                        {subGrafico === 'pizza' ? (
-                                            <div onDoubleClick={() => setSubGrafico('')} >
-                                                <Chart chartType="PieChart" data={graficosPGTOCaixasTotal} options={optionsPizza} />
-                                            </div>
-                                        ) : (
-                                            <div className="A" onDoubleClick={() => setSubGrafico('pizza')} >
-                                                <Chart chartType="BarChart" data={graficosBarra} options={opcao} />
-                                            </div>
-                                        )}
-                                    </div>
-                                ) : total === 0 ? (
-                                    <div>
-                                        <img className="caixa" src='/images/caixaOffline.png' />
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <Chart chartType="PieChart" height="300px" data={graficosTipoPagamento} options={optionsPizza} />
-                                    </div>
-                                )}
-                            </>
-                        )*/}
                         {total == null || total == 0 ? (
                             <div style={{ color: "red", fontWeight: "bold" }}>Não foram encontradas vendas!</div>
                         ) : (

@@ -45,7 +45,7 @@ export const ConsultarNFCE = () => {
 
                                     <input placeholder='Buscar...' />
 
-                                    <img src='/images/LUPA.png' />
+                                    <img alt="" src='/images/LUPA.png' />
                                 </div>
 
                                 <div>
@@ -69,7 +69,7 @@ export const ConsultarNFCE = () => {
                                 <div>
                                     <input placeholder='Buscar...' />
 
-                                    <img src='/images/LUPA.png' />
+                                    <img alt="" src='/images/LUPA.png' />
                                 </div>
 
                                 <div>
@@ -93,7 +93,7 @@ export const ConsultarNFCE = () => {
                                 <div>
                                     <input placeholder="Buscar..." />
 
-                                    <img src="/images/LUPA.png" />
+                                    <img alt="" src="/images/LUPA.png" />
                                 </div>
 
                                 <div>
@@ -116,7 +116,7 @@ export const ConsultarNFCE = () => {
                                 <div>
                                     <input placeholder="Buscar..." />
 
-                                    <img src="/images/LUPA.png" />
+                                    <img alt="" src="/images/LUPA.png" />
                                 </div>
 
                                 <div>
@@ -136,7 +136,7 @@ export const ConsultarNFCE = () => {
                                 <div>
                                     <input placeholder="Buscar..." />
 
-                                    <img src="/images/LUPA.png" />
+                                    <img alt="" src="/images/LUPA.png" />
                                 </div>
 
                                 <div>

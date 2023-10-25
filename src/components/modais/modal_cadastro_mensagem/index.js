@@ -30,9 +30,9 @@ export const CadastroMensagem = ({close}) => {
                 </Content>
                 <M.Footer>
                     <div className="buttons">
-                        <button><img src="/images/salvar.png"/>Salvar</button>
-                        <button><img src="/images/lixeira.png"/>Excluir</button>
-                        <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
+                        <button><img alt="" src="/images/salvar.png"/>Salvar</button>
+                        <button><img alt="" src="/images/lixeira.png"/>Excluir</button>
+                        <button onClick={close}><img alt="" src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </M.Footer>
             </M.Container>

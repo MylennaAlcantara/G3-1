@@ -159,7 +159,7 @@ export const EvolucaoFaturamento = () => {
 
                                     <input placeholder='Buscar...' />
 
-                                    <img src='/images/LUPA.png' />
+                                    <img alt="" src='/images/LUPA.png' />
                                 </div>
 
                                 <div>
@@ -183,7 +183,7 @@ export const EvolucaoFaturamento = () => {
                                 <div>
                                     <input placeholder='Buscar...' />
 
-                                    <img src='/images/LUPA.png' />
+                                    <img alt="" src='/images/LUPA.png' />
                                 </div>
 
                                 <div>
@@ -204,7 +204,7 @@ export const EvolucaoFaturamento = () => {
                                 <div>
                                     <input placeholder='Buscar...' />
 
-                                    <img src='/images/LUPA.png' />
+                                    <img alt="" src='/images/LUPA.png' />
                                 </div>
 
                                 <div>
@@ -225,7 +225,7 @@ export const EvolucaoFaturamento = () => {
                                 <div>
                                     <input placeholder='Buscar...' />
 
-                                    <img src='/images/LUPA.png' />
+                                    <img alt="" src='/images/LUPA.png' />
                                 </div>
 
                                 <div>
@@ -264,8 +264,8 @@ export const EvolucaoFaturamento = () => {
                     </div>
 
                     <div>
-                        <button className='setaE' onClick={voltarMeses} ><img className='close' src='/images/setaEsquerda.png' /></button>
-                        <button className='setaD' onClick={passarMeses} ><img className='close' src='/images/setaDireita.png' /></button>
+                        <button className='setaE' onClick={voltarMeses} ><img alt="" className='close' src='/images/setaEsquerda.png' /></button>
+                        <button className='setaD' onClick={passarMeses} ><img alt="" className='close' src='/images/setaDireita.png' /></button>
                         <div className='checks' >
                             <input type="checkbox" value="false" id='TOP' checked={checkTOP} /><label>Incluir T.OP. Salvas</label>
                             <input type="checkbox" value="false" id='NFE' checked={checkNFE} /><label>NF-e</label>
@@ -298,7 +298,7 @@ export const EvolucaoFaturamento = () => {
                         <div className='dashboardLine'>
                             <label>Dashboards</label>
 
-                            <button className='dashboardBtn' ><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                            <button className='dashboardBtn' ><img alt="" className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
                         </div>
 
                         <div className='table-responsive'>
@@ -334,7 +334,7 @@ export const EvolucaoFaturamento = () => {
                         <div className='dashboardLine'>
                             <label>Dashboards</label>
 
-                            <button className='dashboardBtn' ><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                            <button className='dashboardBtn' ><img alt="" className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
                         </div>
 
@@ -372,7 +372,7 @@ export const EvolucaoFaturamento = () => {
                         <div className='dashboardLine'>
                             <label>Dashboards</label>
 
-                            <button className='dashboardBtn' ><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                            <button className='dashboardBtn' ><img alt="" className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
                         </div>
 
@@ -407,7 +407,7 @@ export const EvolucaoFaturamento = () => {
                         <div className='dashboardLine'>
                             <label>Dashboards</label>
 
-                            <button className='dashboardBtn' ><img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
+                            <button className='dashboardBtn' ><img alt="" className='grafico' src="/images/grafico.png" /> <p>Gráficos</p></button>
 
                         </div>
 

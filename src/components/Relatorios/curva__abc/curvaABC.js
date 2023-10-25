@@ -32,7 +32,7 @@ export const CurvaABC = () => {
     return (
         <C.Container>
 
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
+            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header><h3>Curva ABC (Faturamento)</h3></C.Header>
 
             <span></span>
@@ -56,7 +56,7 @@ export const CurvaABC = () => {
 
                                     <input placeholder='Buscar...' />
 
-                                    <img src='/images/LUPA.png' />
+                                    <img alt="" src='/images/LUPA.png' />
                                 </div>
 
                                 <div>
@@ -80,7 +80,7 @@ export const CurvaABC = () => {
                                 <div>
                                     <input placeholder='Buscar...' />
 
-                                    <img src='/images/LUPA.png' />
+                                    <img alt="" src='/images/LUPA.png' />
                                 </div>
 
                                 <div>
@@ -101,7 +101,7 @@ export const CurvaABC = () => {
                                 <div>
                                     <input placeholder='Buscar...' />
 
-                                    <img src='/images/LUPA.png' />
+                                    <img alt="" src='/images/LUPA.png' />
                                 </div>
 
                                 <div>
@@ -136,8 +136,8 @@ export const CurvaABC = () => {
                     </div>
 
                     <div>
-                        <button className='setaE'  ><img className='close' src='/images/setaEsquerda.png' /></button>
-                        <button className='setaD' ><img className='close' src='/images/setaDireita.png' /></button>
+                        <button className='setaE'  ><img alt="" className='close' src='/images/setaEsquerda.png' /></button>
+                        <button className='setaD' ><img alt="" className='close' src='/images/setaDireita.png' /></button>
                         <div className='checks' >
                             <input type="checkbox" checked={checkTOP} value="false" id='TOP' /><label>Incluir T.OP. Salvas</label>
                             <input type="checkbox" checked={checkNFE} value="false" id='NFE' /><label>NF-e</label>
@@ -173,7 +173,7 @@ export const CurvaABC = () => {
 
                             <input className="ipt" placeholder="Buscar..."  />
 
-                            <button className='dashboardBtn' > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                            <button className='dashboardBtn' > <img alt="" className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
                         </div>
 

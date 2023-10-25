@@ -2126,8 +2126,8 @@ export const EditarNivel = ({close, minimizar, setMinimizar, minimizado, setMini
                 )}
                 <C.Footer>
                     <div className="buttons">
-                        <button><img src="/images/salvar.png"/>Salvar</button>
-                        <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
+                        <button><img alt="" src="/images/salvar.png"/>Salvar</button>
+                        <button onClick={close}><img alt="" src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </C.Footer>
             </C.Container>

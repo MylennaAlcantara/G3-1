@@ -409,7 +409,7 @@ export const PicoDeFaturamento = () => {
 
     return (
         <C.Container>
-            <C.NaviBar>Usuario: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
+            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header><h3>Pico de Faturamento</h3></C.Header>
 
             <span>Atenção: Digite ou selecione uma data antes apertar nos Botões</span>
@@ -428,7 +428,7 @@ export const PicoDeFaturamento = () => {
                                     <option>Região</option>
                                 </select>
                                 <input placeholder='Buscar...' onChange={(e) => setQuery(e.target.value)} />
-                                <img src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
+                                <img alt="" src='/images/LUPA.png' onClick={() => setIsModalFilial(true)} />
                                 <button onClick={() => setValor([])} >Limpar</button>
                             </div>
                             <div className='table-responsive'>
@@ -447,7 +447,7 @@ export const PicoDeFaturamento = () => {
                                         {valoresA.filter(dat => dat.nome_fantasia.toLowerCase().includes(query)).map((item) => {
                                             return (
                                                 <tr key={item.id}>
-                                                    <img className="del" src="/images/lixeira.png" onClick={() => deleteById(item.id)} />
+                                                    <img alt="" className="del" src="/images/lixeira.png" onClick={() => deleteById(item.id)} />
                                                     <td>{item.id}</td>
                                                     <td>{item.nome_fantasia}</td>
                                                     <td>{item.razao_social}</td>
@@ -464,7 +464,7 @@ export const PicoDeFaturamento = () => {
                         <div className='filial-top'>
                             <div>
                                 <input placeholder='Buscar pela Descrição...' onChange={(e) => setBusca(e.target.value)} />
-                                <img src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
+                                <img alt="" src='/images/LUPA.png' onClick={() => setIsModalTop(true)} />
                                 <button onClick={() => setValorTop([])} >Limpar</button>
                             </div>
                             <div className='table-responsive'>
@@ -480,7 +480,7 @@ export const PicoDeFaturamento = () => {
 
                                         return (
                                             <tr>
-                                                <img className='del' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
+                                                <img alt="" className='del' src='/images/lixeira.png' onClick={() => deleteByIdTop(item.id)} />
                                                 <td>{item.id}</td>
                                                 <td>{item.descricao}</td>
                                             </tr>
@@ -505,21 +505,21 @@ export const PicoDeFaturamento = () => {
                         </div>
 
                         <div className="data" >
-                            <label><img src="/images/calendario.png" /></label>
+                            <label><img alt="" src="/images/calendario.png" /></label>
                             <button onClick={voltar15Dias} >Voltar 15 dias.</button>
                         </div>
 
                     </div>
 
                     <div style={{display: "flex", alignItems: "center"}}>
-                        <button onClick={voltarMes} className="seta" ><img src="/images/setaEsquerda.png" /></button>
-                        <button onClick={passarMes} className="seta" ><img src="/images/setaDireita.png" /></button>
+                        <button onClick={voltarMes} className="seta" ><img alt="" src="/images/setaEsquerda.png" /></button>
+                        <button onClick={passarMes} className="seta" ><img alt="" src="/images/setaDireita.png" /></button>
                         <input type="checkbox" checked={NFE} onChange={nfeCheck} /><label>NF-e</label>
                         <input type="checkbox" checked={NFCE} onChange={nfceCheck} /><label>NFC-e</label>
                     </div>
 
                     <div className="search-button-content" >
-                        <button className="buttons-config" onClick={start} > <img src="/images/check.png" /> Pesquisar</button>
+                        <button className="buttons-config" onClick={start} > <img alt="" src="/images/check.png" /> Pesquisar</button>
                     </div>
                 </LB.Data>
             </LB.Filtros>
@@ -594,8 +594,8 @@ export const PicoDeFaturamento = () => {
                         <>
                             <div className='dashboardLine'>
                                 <label>Dashboards</label>
-                                <button className='dashboardBtn' onClick={() => setOpenAbrirSemana(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
-                                <button className='dashboardBtn' onClick={imprimirSemana} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={() => setOpenAbrirSemana(true)} > <img alt="" className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirSemana} > <img alt="" className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className="table-responsive" >
                                 <table>
@@ -661,8 +661,8 @@ export const PicoDeFaturamento = () => {
                         <>
                             <div className='dashboardLine'>
                                 <label>Dashboards</label>
-                                <button className='dashboardBtn' onClick={() => setOpenAbrirMes(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
-                                <button className='dashboardBtn' onClick={imprimirMes} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={() => setOpenAbrirMes(true)} > <img alt="" className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirMes} > <img alt="" className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
                             <div className="table-responsive" >
                                 <table>
@@ -712,8 +712,8 @@ export const PicoDeFaturamento = () => {
                         <>
                             <div className='dashboardLine'>
                                 <label>Dashboards</label>
-                                <button className='dashboardBtn' onClick={() => setOpenAbrirAno(true)} > <img className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
-                                <button className='dashboardBtn' onClick={imprimirAno} > <img className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
+                                <button className='dashboardBtn' onClick={() => setOpenAbrirAno(true)} > <img alt="" className='grafico' src="/images/grafico.png" /> <p>Gráficos</p> </button>
+                                <button className='dashboardBtn' onClick={imprimirAno} > <img alt="" className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
                             </div>
 
                             <div className="table-responsive" >
@@ -783,7 +783,7 @@ export const PicoDeFaturamento = () => {
             ) : null}
 
             <Modal isOpen={abrirHora} onRequestClose={() => setOpenAbrirHora(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
-                <button onClick={() => setOpenAbrirHora(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
+                <button onClick={() => setOpenAbrirHora(false)} className="closeBtn" >Fechar<img alt="" className="close" src="/images/voltar.png" /></button>
                 <h1>Pico por Hora</h1>
                 <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
                     <ResponsiveContainer width="100%" height="100%">
@@ -812,7 +812,7 @@ export const PicoDeFaturamento = () => {
             </Modal>
 
             <Modal isOpen={abrirSemana} onRequestClose={() => setOpenAbrirSemana(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnOverlayClick={false} overlayClassName="dashboard-overlay" >
-                <button onClick={() => setOpenAbrirSemana(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
+                <button onClick={() => setOpenAbrirSemana(false)} className="closeBtn" >Fechar<img alt="" className="close" src="/images/voltar.png" /></button>
                 <h1>Pico por dia da Semana</h1>
                 <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
                     <ResponsiveContainer width="100%" height="100%">
@@ -841,7 +841,7 @@ export const PicoDeFaturamento = () => {
             </Modal>
 
             <Modal isOpen={abrirMes} onRequestClose={() => setOpenAbrirMes(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnEsc={false} overlayClassName="dashboard-overlay" >
-                <button onClick={() => setOpenAbrirMes(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
+                <button onClick={() => setOpenAbrirMes(false)} className="closeBtn" >Fechar<img alt="" className="close" src="/images/voltar.png" /></button>
                 <h1>Pico por dias do Mês</h1>
                 <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
                     <ResponsiveContainer width="100%" height="100%">
@@ -870,7 +870,7 @@ export const PicoDeFaturamento = () => {
             </Modal>
 
             <Modal isOpen={abrirAno} onRequestClose={() => setOpenAbrirAno(false)} style={customStyles} contentLabel="dashboard" shouldCloseOnEsc={false} overlayClassName="dashboard-overlay" >
-                <button onClick={() => setOpenAbrirAno(false)} className="closeBtn" >Fechar<img className="close" src="/images/voltar.png" /></button>
+                <button onClick={() => setOpenAbrirAno(false)} className="closeBtn" >Fechar<img alt="" className="close" src="/images/voltar.png" /></button>
                 <h1>Pico por meses do ano</h1>
                 <div style={{ marginTop: "10px", width: "100%", height: "70%", backgroundColor: "white", border: "1px solid black", borderRadius: "8px" }}>
                     <ResponsiveContainer width="100%" height="100%">
@@ -900,7 +900,7 @@ export const PicoDeFaturamento = () => {
 
             <C.Footer>
                 <div className="buttons" >
-                    <button onClick={() => navigate('/home')}> <img src='/images/voltar.png' />Voltar</button>
+                    <button onClick={() => navigate('/home')}> <img alt="" src='/images/voltar.png' />Voltar</button>
                 </div>
             </C.Footer>
 
