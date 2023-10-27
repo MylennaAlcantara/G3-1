@@ -43,7 +43,8 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
             rotina_movimenta_estoque_deposito_interno: top.rotina_movimenta_estoque_deposito_interno,
             libera_editar_nome_do_consumidor_final: top.libera_editar_nome_do_consumidor_final,
             editar_preco_rotina: top.editar_preco_rotina,
-            tipo_edicao_preco_rotina: top.tipo_edicao_preco_rotina
+            tipo_edicao_preco_rotina: top.tipo_edicao_preco_rotina,
+            index_preco_vinculado: top.index_preco_vinculado
         });
         setDadosRotina && setDadosRotina({
             ...dadosRotina,
@@ -119,7 +120,8 @@ export const Top = ({onClose = () =>{}, focoCampoSeguinte, setDataSelectTop, set
                     rotina_movimenta_estoque_deposito_interno: resultado[selectIndex].rotina_movimenta_estoque_deposito_interno,
                     libera_editar_nome_do_consumidor_final: resultado[selectIndex].libera_editar_nome_do_consumidor_final,
                     editar_preco_rotina: resultado[selectIndex].editar_preco_rotina,
-                    tipo_edicao_preco_rotina: resultado[selectIndex].tipo_edicao_preco_rotina
+                    tipo_edicao_preco_rotina: resultado[selectIndex].tipo_edicao_preco_rotina,
+                    index_preco_vinculado: resultado[selectIndex].index_preco_vinculado
                 });
                 setDadosRotina && setDadosRotina({
                     ...dadosRotina,

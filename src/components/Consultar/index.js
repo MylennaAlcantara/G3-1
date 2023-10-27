@@ -140,6 +140,9 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
 
     //Função dos botões
     const Novo = () => {
+        localStorage.removeItem("dadosRotina");
+        localStorage.removeItem("rotina");
+        localStorage.removeItem("lista");
         navigate("/rotina");
     }
     const abrirRotina = () => {

@@ -72,7 +72,8 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
         rotina_movimenta_estoque_deposito_interno: '',
         libera_editar_nome_do_consumidor_final: '',
         editar_preco_rotina: '',
-        tipo_edicao_preco_rotina: ''
+        tipo_edicao_preco_rotina: '',
+        index_preco_vinculado: ''
     });
     const [dataSelectSaler, setDataSelectSaler] = useState(dadosRotina.vendedor.descricao || '');
     const [dataSelectPgt, setDataSelectPgt] = useState(dadosRotina.pgto.descricao || '');
@@ -132,7 +133,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
     const valorTotal = String(total).replace(',', '.');
 
     const subTotalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal)), 0);
-    const descontoTotal = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.desconto).replace(",", ".")), 0);
+    const descontoTotal = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.desconto.replace(",", "."))), 0);
     const totalVenda = subTotalVenda - descontoTotal;
 
     //Atualização da lista de itens
@@ -318,15 +319,17 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
 
     // Funções para abrir o modal de cada campo apertando F2
     function onKeyUp(event) {
-        if (event.keyCode === 113) {
+        event.preventDefault();
+        if (event.keyCode === 112) {
+            event.preventDefault();
             setIsModalEmitente(true);
         }
     }
     function keyProduto(event) {
-        if (event.keyCode === 113 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value && document.getElementById('top').value && document.getElementById('parceiro').value) {
+        if (event.keyCode === 112 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value && document.getElementById('top').value && document.getElementById('parceiro').value) {
             setIsModalProdutos(true);
             zerarInput();
-        } else if (event.keyCode != 113) {
+        } else if (event.keyCode != 112) {
             event.preventDefault();
         }
         else {
@@ -335,25 +338,28 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
         }
     }
     function keyTop(event) {
-        if (event.keyCode === 113) {
+        if (event.keyCode === 112) {
             setIsModalTop(true);
         }
     }
     function keySaler(event) {
-        if (event.keyCode === 113) {
+        if (event.keyCode === 112) {
             setIsModalSaler(true);
         }
     }
     function keyPartner(event) {
-        if (event.keyCode === 113) {
+        if (event.keyCode === 112) {
             setIsModalPartner(true);
         }
     }
     function keyPgt(event) {
-        if (event.keyCode === 113) {
+        if (event.keyCode === 112) {
             setIsModalPgt(true);
         }
     }
+
+    // Bloqueia o F1 padrão do site
+    document.onkeydown = function f1(e){ if(e.keyCode === 112)e.preventDefault() }
 
     //Funções para mudar de campo ao apertar enter
     function NextValorUnit(e) {
@@ -429,12 +435,17 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
     function NextAdd(e) {
         if (e.keyCode === 13) {
             e.preventDefault();
-            if(document.getElementById("Total").value !== "" && document.getElementById("quantidade").value !== "" && document.getElementById("valorUnit").value !== "" && document.getElementById("add-item").value !== "" && document.getElementById("add-item2").value !== ""){
-                validarQtd();
+            if(dataSelectTop.index_preco_vinculado !== 3 && document.getElementById("Total").value <= "0,00"){
+                alert("Não pode ser adicionado sem preço de venda!");
                 zerarInput();
             }else{
-                alert("Preencha todas as infomações antes de adicionar o produto!");
-                zerarInput();
+                if(document.getElementById("Total").value !== "" && document.getElementById("quantidade").value !== "" && document.getElementById("valorUnit").value !== "" && document.getElementById("add-item").value !== "" && document.getElementById("add-item2").value !== ""){
+                    validarQtd();
+                    zerarInput();
+                }else{
+                    alert("Preencha todas as infomações antes de adicionar o produto!");
+                    zerarInput();
+                }
             }
         }
     }
@@ -636,7 +647,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                     <form action="POST" id="information" className="information" onSubmit={handleSubmit}>
                         <div>
                             <label>Emitente: </label>
-                            <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} onDoubleClick={() => setIsModalEmitente(true)} value={dataIdSelectEmitente} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} required />
+                            <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} onDoubleClick={() => setIsModalEmitente(true)} value={dataIdSelectEmitente} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} autoFocus required />
                             <input name="emitente" className="option" value={dataSelectEmitente} style={{ outline: 0 }} disabled />
                         </div>
                         <div>

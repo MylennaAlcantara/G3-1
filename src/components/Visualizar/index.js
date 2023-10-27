@@ -65,7 +65,7 @@ export const Visualizar = ({ codRotina }) => {
             return pagamento.descricao;
         }
     });
-    console.log(rotinas.pre_venda_detalhe)
+
     const [horaImpressao, setHoraImpressao] = useState('');
 
     const data = new Date();
@@ -140,7 +140,7 @@ export const Visualizar = ({ codRotina }) => {
                     <form id="information" className="information">
                         <div>
                             <label>Emitente: </label>
-                            <input name="id_empresa" className="f1" id="emitente" value={rotinas.id_empresa} readOnly />
+                            <input name="id_empresa" className="f1" id="emitente" value={rotinas.id_empresa} disabled  readOnly />
                             {razaoSocial.map((item) => {
                                 return <input name="emitente" className="option" value={item.razao_social} style={{ outline: 0 }} disabled readOnly />
                             })}
@@ -148,30 +148,30 @@ export const Visualizar = ({ codRotina }) => {
                         </div>
                         <div>
                             <label>T.O.P: </label>
-                            <input name="cod_top" className="f1" id="top" value={rotinas.id_top} readOnly />
+                            <input name="cod_top" className="f1" id="top" value={rotinas.id_top} disabled  readOnly />
                             {descricaoTop.map((item) => {
                                 return <input name="top" className="option" value={item.descricao} style={{ outline: 0 }} disabled readOnly />
                             })}
                         </div>
                         <div>
                             <label>Vendedor: </label>
-                            <input name="cod_vendedor" className="f1" id="vendedor" value={rotinas.id_funcionario} readOnly />
+                            <input name="cod_vendedor" className="f1" id="vendedor" value={rotinas.id_funcionario} disabled  readOnly />
                             {descricaoVendedor.map((item) => {
                                 return <input name="vendedor" className="option" value={item.nome} style={{ outline: 0 }} disabled readOnly />
                             })}
                         </div>
                         <div>
                             <label>Parceiro: </label>
-                            <input className="f1" name="cod_partner" id="parceiro" value={rotinas.id_cliente} readOnly />
+                            <input className="f1" name="cod_partner" id="parceiro" value={rotinas.id_cliente} disabled  readOnly />
                             <div className="div-partner">
                                 <input name="partner" className="partner" value={rotinas.nome_cliente} style={{ outline: 0 }} disabled readOnly />
                                 <label>CPF/CNPJ: </label>
-                                <input className="cpf" />
+                                <input className="cpf"  disabled readOnly />
                             </div>
                         </div>
                         <div>
                             <label>Tipo pgto: </label>
-                            <input className="f1" id="pgto" value={rotinas.id_tipo_pagamento} readOnly />
+                            <input className="f1" id="pgto" value={rotinas.id_tipo_pagamento} disabled  readOnly />
                             {descricaoPagamento.map((item) => {
                                 return <input id="option_pgto" className="option" value={item.descricao} style={{ outline: 0 }} disabled readOnly />
                             })}
@@ -191,7 +191,7 @@ export const Visualizar = ({ codRotina }) => {
                         <input
                             id="produto"
                             type="text"
-                            name="id_produto" readOnly />
+                            name="id_produto" disabled  readOnly />
                     </div>
                     <div>
                         <label>Qtd: </label>
@@ -199,7 +199,7 @@ export const Visualizar = ({ codRotina }) => {
                             placeholder="1,000"
                             name="quantidade"
                             type="text"
-                            id="quantidade" readOnly />
+                            id="quantidade" disabled  readOnly />
                     </div>
                     <div>
                         <label>Vl. Unit.: </label>
@@ -207,7 +207,7 @@ export const Visualizar = ({ codRotina }) => {
                             className="add-item"
                             name="valor_unitario"
                             type="text"
-                            id="valorUnit" readOnly />
+                            id="valorUnit" disabled  readOnly />
                         <datalist></datalist>
                     </div>
                     <div className="desconto">
@@ -217,13 +217,13 @@ export const Visualizar = ({ codRotina }) => {
                             name="descontoPorcen"
                             className="add-item"
                             placeholder="0,000000%"
-                            type="text" readOnly />% / R$
+                            type="text" disabled  readOnly />% / R$
                         <input
                             id="add-item2"
                             name="desconto"
                             className="add-item"
                             placeholder="R$ 0,000000"
-                            type='text' readOnly />
+                            type='text' disabled  readOnly />
                     </div>
                     <div className="desconto">
                         <label>Total: </label>
@@ -307,11 +307,11 @@ export const Visualizar = ({ codRotina }) => {
                     </div>
                     <div>
                         <label>Subtotal da Rotina: </label>
-                        <input value={parseFloat(rotinas.subtotal).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')} readOnly />
+                        <input value={parseFloat(rotinas.subtotal).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')} disabled  readOnly />
                     </div>
                     <div>
                         <label>Total da Rotina: </label>
-                        <input value={parseFloat(rotinas.total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')} readOnly />
+                        <input value={parseFloat(rotinas.total).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace('NaN', '')} disabled  readOnly />
                     </div>
                     <div>
                         <label>descontoValor Total(R$): </label>
