@@ -12,35 +12,25 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
     const navigate = useNavigate();
     const {user, empresa, cnpjMask} = useContext(AuthContext);
     const idFuncionario = Array.isArray(user) && user.map((user) => user.id)
-    
-    //Pegar hora do computador
-
-    const data = new Date();
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth()+ 1).padStart(2, '0') ;
-    const ano = data.getFullYear();
-    const dataAtual = String(ano + '-' + mes + '-' + dia);
-
-    useEffect(()=>{
-        async function setarHoraData(){
-            setDadosCliente({
-                ...dadosCliente,
-                data_cadastro: String(dataAtual),
-                data_insercao: String(dataAtual)
-            });
-        } 
-        setarHoraData();
-    },[])
-
     const [funcionario, setFuncionario] = useState([]);
     const [estados, setEstados] = useState([]);
 
     //Dados da parte de documentos
     const selectFuncionario = document.getElementById('option-funcionario');
-    function handleDocumentoChange(event) {
-        setDadosCliente({...dadosCliente, tipo_pessoa: event.target.value});
-    }
 
+    //estados dos modais
+    const [isModalPerfil, setIsModalPerfil] = useState(false);
+    const [isModalRamo, setIsModalRamo] = useState(false);
+    const [isModalMunicipio, setIsModalMunicipio] = useState(false);
+    const [isModalEmpresa, setIsModalEmpresa] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
+    const [cor, setCor] = useState('');
+    const [corFisica, setCorFisica] = useState('');
+    const [corObrigatorios, setCorObrigatorios] = useState('');
+    const [corSimplificado, setCorSimplificado] = useState('');
+    const [aba, setAba] = useState('dados-gerais');
+    const [abaHistorico, setAbaHistorico] = useState('limite');
+    const [abaVendas, setAbaVendas] = useState('nfe');
     const [dadosCliente, setDadosCliente] = useState(JSON.parse(localStorage.getItem('dadosCliente')) || {
         municipal: "",
         rg: "",
@@ -76,39 +66,60 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
         cod_municipio: "",
     })
 
-    //estados dos modais
-    const [isModalPerfil, setIsModalPerfil] = useState(false);
-    const [isModalRamo, setIsModalRamo] = useState(false);
-    const [isModalMunicipio, setIsModalMunicipio] = useState(false);
-    const [isModalEmpresa, setIsModalEmpresa] = useState(false);
+    //Pegar hora do computador
+
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth()+ 1).padStart(2, '0') ;
+    const ano = data.getFullYear();
+    const dataAtual = String(ano + '-' + mes + '-' + dia);
+
+    useEffect(()=>{
+        async function setarHoraData(){
+            setDadosCliente({
+                ...dadosCliente,
+                data_cadastro: String(dataAtual),
+                data_insercao: String(dataAtual)
+            });
+        } 
+        setarHoraData();
+    },[])
+
+    function handleDocumentoChange(event) {
+        setDadosCliente({...dadosCliente, tipo_pessoa: event.target.value});
+    }
 
     //Função para abrir o modal com F2
     function keyPerfil (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalPerfil(true);
         }
     }    
     function keyRamo (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalRamo(true);
         }
     }    
     function keyMunicipio (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalMunicipio(true);
-        }else if(e.keyCode != 113){
+        }else if(e.keyCode != 112){
             e.preventDefault();
         }
     }
     function keyEmpresa (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalEmpresa(true);
         }
     }
+
+    // Bloqueia o F1 padrão do site
+    document.onkeydown = function f1(e){ if(e.keyCode === 112)e.preventDefault() }
+
 
     useEffect(() => {
         async function fetchData (){
@@ -141,16 +152,9 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
         });
     }
 
-    const [isChecked, setIsChecked] = useState(false);
-
     const handleCheckSimplificado = () => {
         setIsChecked(!isChecked);
     }
-
-    const [cor, setCor] = useState('');
-    const [corFisica, setCorFisica] = useState('');
-    const [corObrigatorios, setCorObrigatorios] = useState('');
-    const [corSimplificado, setCorSimplificado] = useState('');
 
     const validarDocumento = () => {
         if(dadosCliente.tipo_pessoa === 'J'){
@@ -217,8 +221,6 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
             alert('Preencha os campos a cima!');
         }
     }
-    
-    const [aba, setAba] = useState('dados-gerais');
 
     function dadosGerais (){
         setAba('dados-gerais');
@@ -233,8 +235,6 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
         setAba('historico');
     }
 
-    const [abaHistorico, setAbaHistorico] = useState('limite');
-
     function limite (){
         setAbaHistorico('limite');
     }
@@ -244,8 +244,6 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
     function vendas (){
         setAbaHistorico('vendas');
     }
-
-    const [abaVendas, setAbaVendas] = useState('nfe');
 
     function nfe (){
         setAbaVendas('nfe');
@@ -295,11 +293,11 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
                     <CC.DadosCliente>
                         <div>
                             <label>Código: </label>
-                            <input readOnly/>
+                            <input style={{ outline: 0, color: "black" }} disabled readOnly/>
                         </div>
                         <div>
                             <label>Data: </label>
-                            <input readOnly/>
+                            <input style={{ outline: 0, color: "black" }} disabled readOnly/>
                         </div>
                         <div className="checkbox">
                             <div>
@@ -329,16 +327,16 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
                                     {dadosCliente.tipo_pessoa === "J" ? (
                                         <input className="input-documentos" value={dadosCliente.cpf_cnpj} onChange={(e)=> setDadosCliente({...dadosCliente, cpf_cnpj: e.target.value})}  style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                     ) : (
-                                        <input className="input-documentos" style={{backgroundColor: cor}} readOnly/>
+                                        <input className="input-documentos" style={{backgroundColor: cor, outline: 0, color: "black" }} disabled readOnly/>
                                     )}
-                                    <img src="/images/LUPA.png" onClick={pesquisarCnpj}/>
+                                    <img alt="" src="/images/LUPA.png" onClick={pesquisarCnpj}/>
                                 </div>
                                 <div>
                                     <label>Inscr. Municipal: </label>
                                     {dadosCliente.tipo_pessoa === "J" ? (
                                         <input className="input-documentos" value={dadosCliente.municipal} onChange={(e)=> setDadosCliente({...dadosCliente, municipal: e.target.value})}/>
                                     ) : (
-                                        <input className="input-documentos" style={{backgroundColor: cor}} readOnly/>
+                                        <input className="input-documentos" style={{backgroundColor: cor, outline: 0, color: "black" }} disabled readOnly/>
                                     )}
                                 </div>
                             </div>
@@ -356,7 +354,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
                                     {dadosCliente.tipo_pessoa === "F" ? (
                                         <input className="input-documentos" value={dadosCliente.cpf_cnpj} onChange={(e)=> setDadosCliente({...dadosCliente, cpf_cnpj: e.target.value})}  style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
                                     ) : (
-                                        <input className="input-documentos" style={{backgroundColor: corFisica}} readOnly/>
+                                        <input className="input-documentos"  style={{backgroundColor: corFisica, outline: 0, color: "black" }} disabled readOnly/>
                                     )}
                                 </div>
                                 <div>
@@ -364,7 +362,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
                                     {dadosCliente.tipo_pessoa === "F" ? (
                                         <input className="input-documentos" value={dadosCliente.rg} onChange={(e)=> setDadosCliente({...dadosCliente, rg: e.target.value})}/>
                                     ) : (
-                                        <input className="input-documentos" style={{backgroundColor: corFisica}} readOnly/>
+                                        <input className="input-documentos" style={{backgroundColor: corFisica, outline: 0, color: "black" }} disabled readOnly/>
                                     )}
                                 </div>
                                 <div>
@@ -372,7 +370,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
                                     {dadosCliente.tipo_pessoa === "F" ? (
                                         <input className="input-documentos" value={dadosCliente.orgao} onChange={(e)=> setDadosCliente({...dadosCliente, orgao: e.target.value})}/>
                                     ) : (
-                                        <input className="input-documentos" style={{backgroundColor: corFisica}} readOnly/>
+                                        <input className="input-documentos" style={{backgroundColor: corFisica, outline: 0, color: "black" }} disabled readOnly/>
                                     )}
                                 </div>
                             </div>
@@ -400,7 +398,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
                             <div className="div-input">
                                 <label>CEP: </label>
                                 <input className="codigo" value={dadosCliente.cep} onChange={(e) => setDadosCliente({...dadosCliente, cep: e.target.value})} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
-                                <img src="/images/LUPA.png" onClick={pesquisarCep}/>
+                                <img alt="" src="/images/LUPA.png" onClick={pesquisarCep}/>
                                 <label>Complemento: </label>
                                 <input className="complemento" value={dadosCliente.complemento} onChange={(e)=> setDadosCliente({...dadosCliente, complemento: e.target.value})}/>
                             </div>
@@ -416,7 +414,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
                             <div className="div-input">
                                 <label>Municipio: </label>
                                 <input className="codigo" id="codigoMunicipio" value={dadosCliente.cod_municipio} onDoubleClick={pesquisarMuni} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
-                                <img src="/images/add.png" onClick={pesquisarMuni}/>
+                                <img alt="" src="/images/add.png" onClick={pesquisarMuni}/>
                                 <input className="municipio" id="municipio" value={dadosCliente.municipio} readOnly/>
                                 <label>UF: </label>
                                 <select className="codigo" id="option" onChange={(e)=> setDadosCliente({...dadosCliente, estado: e.target.value})}>
@@ -700,8 +698,8 @@ export const CadastroCliente = ({ minimizado, setMinimizado}) => {
                 </CC.Foto>*/} 
             <C.Footer>
                 <div className="buttons">
-                    <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
-                    <button onClick={cancelar}><img src="/images/voltar.png"/>Cancelar</button>
+                    <button onClick={salvar}><img alt="" src="/images/salvar.png"/>Salvar</button>
+                    <button onClick={cancelar}><img alt="" src="/images/voltar.png"/>Cancelar</button>
                 </div>
             </C.Footer>
             {isModalPerfil ? <PerfilCliente close={()=> setIsModalPerfil(false)} setDadosCliente={setDadosCliente} dadosCliente={dadosCliente}/> : null}

@@ -37,7 +37,7 @@ export const AuthProvider = ({children}) => {
             fetchData();
     }, []);
 
-    const handleLogin = async () => {
+    const handleLogin = async () => { 
         if(matricula && senha && company){
             var login = usuario.filter(user => user.matricula === matricula && user.senha === senha);
             console.log(login)
@@ -101,7 +101,7 @@ export const AuthProvider = ({children}) => {
         var mes  = value.split("-")[1];
         var dia  = value.split("-")[2];
       
-        return ("0"+dia).slice(-2) + '-' + ("0"+mes).slice(-2) + '-' + ano;
+        return ("0"+dia).slice(-2) + '/' + ("0"+mes).slice(-2) + '/' + ano;
     }
 
     function cepMask (value){

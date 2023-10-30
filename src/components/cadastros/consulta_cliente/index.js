@@ -7,14 +7,35 @@ import { AuthContext } from "../../../contexts/Auth/authContext";
 import { Loading } from "../../loading";
 
 export const ConsultarCliente = ({setCliente}) => {
+    const navigate = useNavigate();
+    const {user, empresa, nivel, cnpjMask, dataMask, cepMask} = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('nome');
-    const navigate = useNavigate();
-    const {user, empresa, nivel, cnpjMask, dataMask} = useContext(AuthContext);
 
     // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
     const [carregado, setCarregado] = useState(false);
+
+    const resultado = Array.isArray(users) && users.filter((user) => {
+        if(filtro === 'codigo'){
+            return String(user.id).toLowerCase().includes(busca);
+        }else if(filtro === 'municipio'){
+            return user.municipio.toLowerCase().includes(busca);
+        }else if(filtro === 'cpf'){
+            return String(user.cpf_cnpj).toLowerCase().includes(busca);
+        }else if(filtro === 'nome'){
+            return user.nome.toLowerCase().includes(busca);
+        }else if(filtro === 'nome_fantasia'){
+            return user.nome_fantasia.toLowerCase().includes(busca);
+        }else if(filtro === 'rg'){
+            return String(user.rg).toLowerCase().includes(busca);
+        }
+    });
+
+    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
+    const [selectIndex, setSelectIndex] = useState(0);
+    const tableRef = useRef(null);
+    const [codigoCliente, setCodigoCliente] = useState();
 
     useEffect(() => {
         async function fetchData (){
@@ -34,26 +55,6 @@ export const ConsultarCliente = ({setCliente}) => {
         setFiltro(e.target.value);
     };
 
-    const resultado = Array.isArray(users) && users.filter((user) => {
-        if(filtro === 'codigo'){
-            return String(user.id).toLowerCase().includes(busca);
-        }else if(filtro === 'municipio'){
-            return user.municipio.toLowerCase().includes(busca);
-        }else if(filtro === 'cpf'){
-            return String(user.cpf_cnpj).toLowerCase().includes(busca);
-        }else if(filtro === 'nome'){
-            return user.nome.toLowerCase().includes(busca);
-        }else if(filtro === 'nome_fantasia'){
-            return user.nome_fantasia.toLowerCase().includes(busca);
-        }else if(filtro === 'rg'){
-            return String(user.rg).toLowerCase().includes(busca);
-        }
-    });
-
-    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
-    const [selectIndex, setSelectIndex] = useState(1);
-    const tableRef = useRef(null);
-
     const handleKeyDown = (e) => {
         if(e.keyCode === 38){
             e.preventDefault();
@@ -70,7 +71,6 @@ export const ConsultarCliente = ({setCliente}) => {
         }
     };
 
-    const [codigoCliente, setCodigoCliente] = useState();
     const selecionado = (user, index) => {
         setCliente(user.id);
         setCodigoCliente(user.id);
@@ -189,7 +189,7 @@ export const ConsultarCliente = ({setCliente}) => {
                                             <td>{user.nome_fantasia}</td>
                                             <td>{cnpjMask(user.cpf_cnpj)}</td>
                                             <td>{user.endereco}</td>
-                                            <td>{user.cep}</td>
+                                            <td>{cepMask(user.cep)}</td>
                                             <td>{user.municipio}</td>
                                             <td>{user.telefone}</td>
                                             <td>{user.celular}</td>
