@@ -291,7 +291,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         }
     }
 
-    const condição = () => {
+    const condicao = () => {
         if (descontoPorcen === '0,00' || descontoPorcen === 0 || descontoPorcen === ' ') {
             return descontoValor
         } else if (descontoPorcen <= 100 && descontoValor < total) {
