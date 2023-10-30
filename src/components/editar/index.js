@@ -154,6 +154,56 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
     const tamanho = listItens.length;
     const [counter, setCounter] = useState(0);
 
+    //Calcular total da rotina
+    const [descontoValor, setDescontoValor] = useState('0.00');
+    const [descontoPorcen, setDescontoPorcen] = useState('0,00');
+
+    // Calcular o valor de quantidade vezes o valor para o total 
+    const [numero1, setNumero1] = useState("1.000");
+    const [numero2, setNumero2] = useState('');
+    const [total, setTotal] = useState(0);
+    const [subtotal, setSubtotal] = useState(0);
+
+    const valor1 = String(numero1).replace(",", ".");
+    const valor2 = String(numero2).replace(",", ".");
+    const valorDesc = String(descontoValor).replace(",", ".");
+
+    const valorTotal = String(total).replace(',', '.');
+
+    const subTotalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal)), 0);
+    const descontoTotal = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.desconto)), 0);
+    const totalVenda = subTotalVenda - descontoTotal;
+    const [tipoVenda, setTipoVenda] = useState("");
+    const [cor, setCor] = useState('');
+    const [showButton, setShowButton] = useState(false);
+    const [liberaEstoque, setLiberaEstoque] = useState();
+    const [tipoMovimentacao, setTipoMovimentacao] = useState();
+    const [liberaEstoqueReal, setLiberaEstoqueReal] = useState();
+
+    //Pegar hora do computador
+    const [dataEdicao, setDataEdicao] = useState('');
+    const [horaImpressao, setHoraImpressao] = useState('');
+
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    const dataAtual = String(ano + '-' + mes + '-' + dia);
+
+    const hora = data.getHours();
+    const minuto = data.getMinutes();
+    const segundo = data.getSeconds();
+    const horaAtual = String(hora + ':' + minuto + ':' + segundo);
+
+    useEffect(() => {
+        async function setarHoraData() {
+            setDataEdicao(String(dataAtual));
+            setHoraImpressao(String(horaAtual));
+        }
+        setarHoraData();
+    }, [])
+
+
     const changeHandler = (e) => {
         setCounter(tamanho + 1);
         const idTop = document.getElementById('top').value;
@@ -210,11 +260,6 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         }
     }
 
-    //Calcular total da rotina
-    const [descontoValor, setDescontoValor] = useState('0.00');
-    const [descontoPorcen, setDescontoPorcen] = useState('0,00');
-    const [acrescimo, setAcrescimo] = useState();
-
     function valorDescontoPer(e) {
         setDescontoPorcen((e.target.value).replace(",", "."));
         setDataSelectItem({ ...dataSelectItem, [e.target?.name]: (e.target?.value).replace(",","."), item: counter });
@@ -245,25 +290,6 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         valorUnidade();
         setDataSelectItem({ ...dataSelectItem, [e.target?.name]: (e.target?.value).replace(",","."), item: counter });
     }
-
-    // Calcular o valor de quantidade vezes o valor para o total 
-    const [numero1, setNumero1] = useState("1.000");
-    const [numero2, setNumero2] = useState('');
-    const [total, setTotal] = useState(0);
-    const [subtotal, setSubtotal] = useState(0);
-
-    const valor1 = String(numero1).replace(",", ".");
-    const valor2 = String(numero2).replace(",", ".");
-    const valorDesc = String(descontoValor).replace(",", ".");
-    const valorPer = String(descontoPorcen).replace(',', '.');
-
-    //Constante utilizada para exibir o valor com duas casas decimais no valor unitario
-    const valorUnitario = String(dataSelectItem.valor_unitario).replace(".", ",").replace("NaN", " ").replace("undefined", " ");
-
-    //Constante utilizada para converter de virgula para ponto para realizar o calculo de total e subtotal
-    const valorUnita = String(valorUnitario).replace(",", ".");
-
-    const valorTotal = String(total).replace(',', '.');
 
     const valorUnidade = () => {
         setNumero2(parseFloat(dataSelectItem.valor_unitario).toFixed(2).replace(",", ".").replace("NaN", " ").replace("undefined", " "))
@@ -332,9 +358,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
             if (promocao[0].aplicarNaPreVenda === true) {
                 if (String(numero1).replace(',', '.') >= promocao[0].qtdMinima) {
                     setNumero2(promocao[0].precoPromocional);
-                    console.log("passou 1");
                 } else {
-                    console.log("passou 2");
                     setNumero2(dataSelectItem.valor_unitario);
                 }
             }
@@ -342,28 +366,21 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
             if (dataSelectItem.qtd_atacado != 0) {
                 if (String(numero1).replace(',', '.') >= dataSelectItem.qtd_atacado && tipoVenda === 'A') {
                     setNumero2(dataSelectItem.preco_atacado);
-                    console.log("passou 3");
                 } else if (String(numero1).replace(',', '.') < dataSelectItem.qtd_atacado) {
                     setNumero2(dataSelectItem.valor_unitario);
-                    console.log("passou 4");
                 }
             } else {
                 setNumero2(dataSelectItem.valor_unitario);
-                console.log("passou 5");
             }
         }
     }
     useEffect(() => {
         setTotal(calcular());
-        setDescontoValor(condição());
+        setDescontoValor(condicao());
         setSubtotal(calcularSubtotal());
         pegarDados();
         setDescontoPorcen(calcularPorcentagem());
     }, [numero1, numero2, descontoValor, total]);
-
-    const subTotalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal)), 0);
-    const descontoTotal = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.desconto)), 0);
-    const totalVenda = subTotalVenda - descontoTotal;
 
     // Funções para abrir o modal de cada campo apertando F2
     function keyProduto(event) {
@@ -520,32 +537,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         }
     }
 
-    //Pegar hora do computador
-    const [dataEdicao, setDataEdicao] = useState('');
-    const [horaImpressao, setHoraImpressao] = useState('');
-
-    const data = new Date();
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth() + 1).padStart(2, '0');
-    const ano = data.getFullYear();
-    const dataAtual = String(ano + '-' + mes + '-' + dia);
-
-    const hora = data.getHours();
-    const minuto = data.getMinutes();
-    const segundo = data.getSeconds();
-    const horaAtual = String(hora + ':' + minuto + ':' + segundo);
-
-    useEffect(() => {
-        async function setarHoraData() {
-            setDataEdicao(String(dataAtual));
-            setHoraImpressao(String(horaAtual));
-        }
-        setarHoraData();
-    }, [])
-
-
     //Checar varejo ou atacado
-    const [tipoVenda, setTipoVenda] = useState("");
 
     const validarTipoVenda = () => {
         if (document.getElementById('varejo').value === 'varejo') {
@@ -559,7 +551,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
     }
 
     //envio para a api das informações armazenadas
-    const [cor, setCor] = useState('');
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (emitenteAlterado === true || vendedorAlterado === true || tipoPgtoAlterado === true || parceiroAlterado === true || topAlterada === true || itensAlterados === true) {
@@ -570,8 +562,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
             const idParceiro = document.getElementById('parceiro').value;
             const idPgto = document.getElementById('pgto').value;
             const nomeParceiro = document.getElementById('nome-Parceiro').value;
-            console.log("emit: " + idEmitente, "top: " + idTop, "vende: " + idVendedor, "parcei: " + idParceiro, "pgto: " + idPgto, "nome par: " + nomeParceiro)
-
+            
             if (document.getElementById('emitente').value && document.getElementById('top').value && document.getElementById('vendedor').value && document.getElementById('parceiro').value && document.getElementById('pgto').value && listItens.length > 0) {
                 try {
                     const res = await fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+`/preVenda/${codRotina}`, { //http://10.0.1.10:8091/preVenda
@@ -613,11 +604,9 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
             alert('Não pode salvar sem produtos!');
         } else {
             navigate('/consultar');
-            console.log('não alterou!')
         }
 
     }
-    const [showButton, setShowButton] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -713,9 +702,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
             return pagamento.descricao;
         }
     });
-    const [liberaEstoque, setLiberaEstoque] = useState();
-    const [tipoMovimentacao, setTipoMovimentacao] = useState();
-    const [liberaEstoqueReal, setLiberaEstoqueReal] = useState();
+
     useEffect(() => {
         descricaoTop.map((tp) => {
             setLiberaEstoque(tp.libera_itens_estoque_indisponivel);

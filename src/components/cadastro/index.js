@@ -170,7 +170,6 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
     //valida se a quantidade inserida no item é valida, se é maior que a quantidade disponivel ou se esta vazio
     const validarQtd = () => {
         const soma = parseFloat(numero1.replace(",", ".")) + parseFloat(totalQtd);
-        console.log('soma: ' + soma, 'top: ' + dataSelectTop)
         if (dataSelectItem.qtd_estoque < dataSelectItem.quantidade && dataSelectTop.tipo_movimentacao === 'S') {
             alert('Quantidade inserida maior que o estoque disponivel!');
             console.log("quantidade inserida: " + dataSelectItem.quantidade);
@@ -288,9 +287,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
             if (promocao[0].aplicarNaPreVenda === true) {
                 if (String(numero1).replace(',', '.') >= promocao[0].qtdMinima) {
                     setNumero2((promocao[0].precoPromocional).replace(",","."));
-                    console.log("passou 1");
                 } else {
-                    console.log("passou 2");
                     setNumero2((dataSelectItem.valor_unitario).replace(",","."));
                 }
             }
@@ -298,14 +295,11 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
             if (dataSelectItem.qtd_atacado != 0) {
                 if (String(numero1).replace(',', '.') >= dataSelectItem.qtd_atacado && tipoVenda === 'A') {
                     setNumero2((dataSelectItem.preco_atacado).replace(",","."));
-                    console.log("passou 3");
                 } else if (String(numero1).replace(',', '.') < dataSelectItem.qtd_atacado) {
                     setNumero2(String(dataSelectItem.valor_unitario).replace(",","."));
-                    console.log("passou 4");
                 }
             } else {
                 setNumero2((dataSelectItem.valor_unitario).replace(",","."));
-                console.log("passou 5");
             }
         }
     }

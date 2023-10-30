@@ -12,6 +12,49 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
 
     // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
     const [carregado, setCarregado] = useState(false);
+    
+    //Filtro busca por: Top / id vendedor / codigo / cliente / data
+    const [busca, setBusca] = useState('');
+    const [filtroSelecionado, setFiltroSelecionado] = useState('cliente');
+
+    //Filtro da situação das rotinas
+    const select = document.getElementById('opções');
+    const selectFilial = document.getElementById('filial');
+    const [filtroEscolhido, setFiltroEscolhido] = useState('T');
+    const [filialEscolhida, setFilialEscolhida] = useState('1')
+
+    const resultado3 = Array.isArray(rotinas) && rotinas.filter((rotina) => rotina.id_empresa == selectFilial.value)
+
+    const resultado2 = Array.isArray(resultado3) && resultado3.filter((rotina) => {
+        if (filtroEscolhido === 'P') {
+            return rotina.situacao === 'P';
+        } else if (filtroEscolhido === 'B') {
+            return rotina.situacao === 'B';
+        } else if (filtroEscolhido === 'T') {
+            return rotina.situacao;
+        } else if (filtroEscolhido === 'E') {
+            return rotina.situacao === 'E'
+        } else if (filtroEscolhido === 'A') {
+            return rotina.situacao != 'E';
+        }
+    });
+    
+    const [codigoRotina, setCodigoRotina] = useState();    
+    
+    const [horaImpressao, setHoraImpressao] = useState('');
+
+    const data = new Date();
+    const hora = data.getHours();
+    const minuto = data.getMinutes();
+    const segundo = data.getSeconds();
+    const horaAtual = String(hora + ':' + minuto + ':' + segundo);
+
+    useEffect(() => {
+        async function setarHoraData() {
+            setHoraImpressao(String(horaAtual));
+        }
+        setarHoraData();
+    }, []);
 
     async function fetchDataRotina() {
         fetch(process.env.REACT_APP_LINK_ROTINA_TIPO_PGTO_TOP_PERFIL_MOVIMENTACAO+`/preVenda/${busca}`)
@@ -35,15 +78,6 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
         document.getElementById('search').focus();
     }, [])
 
-    //Filtro busca por: Top / id vendedor / codigo / cliente / data
-    const [busca, setBusca] = useState('');
-    const [filtroSelecionado, setFiltroSelecionado] = useState('cliente');
-
-    //Filtro da situação das rotinas
-    const select = document.getElementById('opções');
-    const selectFilial = document.getElementById('filial');
-    const [filtroEscolhido, setFiltroEscolhido] = useState('T');
-    const [filialEscolhida, setFilialEscolhida] = useState('1')
 
     function FiltroSituacao() {
         if (select.value === '1') {
@@ -58,22 +92,6 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
             setFiltroEscolhido('B');
         }
     }
-
-    const resultado3 = Array.isArray(rotinas) && rotinas.filter((rotina) => rotina.id_empresa == selectFilial.value)
-
-    const resultado2 = Array.isArray(resultado3) && resultado3.filter((rotina) => {
-        if (filtroEscolhido === 'P') {
-            return rotina.situacao === 'P';
-        } else if (filtroEscolhido === 'B') {
-            return rotina.situacao === 'B';
-        } else if (filtroEscolhido === 'T') {
-            return rotina.situacao;
-        } else if (filtroEscolhido === 'E') {
-            return rotina.situacao === 'E'
-        } else if (filtroEscolhido === 'A') {
-            return rotina.situacao != 'E';
-        }
-    });
 
     function handleFiltroChange(event) {
         setFiltroSelecionado(event.target.value);
@@ -113,14 +131,12 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
         } else if (e.keyCode === 13) {
             e.preventDefault();
             if(rotinas.length > 0){
-                console.log(rotinas[selectIndex])
                 selecionado(selectIndex, rotinas[selectIndex]);
                 abrirRotina();
             }else{
                 if (filtroSelecionado === "numero" && busca !== "") {
                     fetchDataRotina();
                 } else {
-                    console.log("entrou3")
                     fetchData();
                 }
             }
@@ -128,7 +144,6 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
     };
 
     //Selecionar rotina para abrir para visualizar
-    const [codigoRotina, setCodigoRotina] = useState();
     const selecionado = (index, item) => {
         setCodigoRotina(item.id);
         localStorage.setItem('rotina', item.id);
@@ -163,21 +178,6 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
             navigate(`/editarRotina/${codigoRotina}`);
         }
     }
-
-    const [horaImpressao, setHoraImpressao] = useState('');
-
-    const data = new Date();
-    const hora = data.getHours();
-    const minuto = data.getMinutes();
-    const segundo = data.getSeconds();
-    const horaAtual = String(hora + ':' + minuto + ':' + segundo);
-
-    useEffect(() => {
-        async function setarHoraData() {
-            setHoraImpressao(String(horaAtual));
-        }
-        setarHoraData();
-    }, []);
 
     const imprimir = async () => {
         const [responseRotina, responseVendedor, responseParceiro, responseTipoPagamento, responseEmitente] = await Promise.all([
