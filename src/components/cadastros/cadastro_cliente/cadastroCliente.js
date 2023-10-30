@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const DadosCliente = styled.div`
+    padding: 10px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -12,6 +13,7 @@ export const DadosCliente = styled.div`
             margin-right: 5px;
             display: flex;
             align-items: center;
+            text-align: left;
         }
     }
     input{
@@ -132,12 +134,13 @@ export const Informacao = styled.div`
         cursor: pointer;
     }
     .div-input{
+        display: flex;
         align-items: center;
         select{
             margin-right: 5px;
         }
     }
-    @media(max-width: 425px){
+    @media(max-width: 460px){
         overflow: auto;
         width: 100%;
         display: flex;
@@ -159,7 +162,7 @@ export const Informacao = styled.div`
             width: 20%;
         }
         .div-input{
-            width: 100%;
+            width: 90%;
             diplay: flex;
             flex-wrap: wrap;
         }
@@ -237,6 +240,7 @@ export const DadosAdicionais = styled.div`
             width: 90%;
         }
         fieldset{
+            padding-bottom: 10px;
             width: 90%;
             table{
                 border-collapse: collapse;
