@@ -134,7 +134,8 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         descontoPorcen: '',
         qtd_estoque: '',
         quantidade: '',
-        id_top: top.id_top
+        id_top: top.id_top,
+        valor_unitario: String('').replace(",", ".")
     });
 
     /*Estado do id dos elementos selecionados no modal */
@@ -180,6 +181,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         setDescontoValor(0);
         setDescontoPorcen(0);
         setNumero1("1.000");
+        setNumero2((dataSelectItem.valor_unitario).replace(",","."));
         document.getElementById('produto').focus();
     }
 
@@ -215,22 +217,22 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
 
     function valorDescontoPer(e) {
         setDescontoPorcen((e.target.value).replace(",", "."));
-        setDataSelectItem({ ...dataSelectItem, [e.target?.name]: e.target?.value, item: counter });
+        setDataSelectItem({ ...dataSelectItem, [e.target?.name]: (e.target?.value).replace(",","."), item: counter });
     }
     function valorDesconto(e) {
         if (numero1 === '1,000' || numero1 === '1.000') {
             setDescontoValor((e.target.value).replace(",", "."));
-            setDataSelectItem({ ...dataSelectItem, [e.target?.name]: e.target?.value, item: counter });
+            setDataSelectItem({ ...dataSelectItem, [e.target?.name]: (e.target?.value).replace(",","."), item: counter });
             setDescontoPorcen(calcularPorcentagem());
         } else {
             setDescontoValor((e.target.value).replace(",", "."));
-            setDataSelectItem({ ...dataSelectItem, [e.target?.name]: e.target?.value, item: counter });
+            setDataSelectItem({ ...dataSelectItem, [e.target?.name]: (e.target?.value).replace(",","."), item: counter });
             setDescontoPorcen(calcularPorcentagem());
         }
     }
     function qtdEstoque(e) {
         setNumero1((e.target.value).replace(",", "."));
-        setDataSelectItem({ ...dataSelectItem, [e.target?.name]: e.target?.value, item: counter });
+        setDataSelectItem({ ...dataSelectItem, [e.target?.name]: (e.target?.value).replace(",","."), item: counter });
     }
 
     function handlePorcenBlur() {
@@ -241,7 +243,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         const valor = parseFloat(numero1).toFixed(3).replace("NaN", " ")//.replace(".", ",");
         setNumero1(valor);
         valorUnidade();
-        setDataSelectItem({ ...dataSelectItem, [e.target?.name]: e.target?.value, item: counter });
+        setDataSelectItem({ ...dataSelectItem, [e.target?.name]: (e.target?.value).replace(",","."), item: counter });
     }
 
     // Calcular o valor de quantidade vezes o valor para o total 
@@ -264,7 +266,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
     const valorTotal = String(total).replace(',', '.');
 
     const valorUnidade = () => {
-        setNumero2(parseFloat(dataSelectItem.valor_unitario).toFixed(2).replace(".", ",").replace("NaN", " ").replace("undefined", " "))
+        setNumero2(parseFloat(dataSelectItem.valor_unitario).toFixed(2).replace(",", ".").replace("NaN", " ").replace("undefined", " "))
     }
     const calcular = () => {
         if (dataSelectTop.editar_preco_rotina === true) {
@@ -317,7 +319,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         const descPer = await document.getElementById("add-item").value;
         setDataSelectItem({
             ...dataSelectItem,
-            valor_unitario: preco,
+            valor_unitario: String(preco).replace(",","."),
             valor_total: String(total).replace(",", "."),
             subtotal: (subtotal).replace(",", "."),
             quantidade: quantidade,
@@ -357,7 +359,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         setSubtotal(calcularSubtotal());
         pegarDados();
         setDescontoPorcen(calcularPorcentagem());
-    }, [numero1, numero2, descontoValor, total, descontoPorcen]);
+    }, [numero1, numero2, descontoValor, total]);
 
     const subTotalVenda = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.subtotal)), 0);
     const descontoTotal = listItens.reduce((acumulador, objeto) => acumulador + parseFloat((objeto.desconto)), 0);
@@ -430,6 +432,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
     }
     function NextAddItem2(e) {
         if (e.keyCode === 13) {
+            setDescontoValor(condicao());
             e.preventDefault();
             document.getElementById('add-item2').focus();
         }
@@ -473,12 +476,14 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
     }
     function NextAdd(e) {
         if (e.keyCode === 13) {
+            setDescontoPorcen(calcularPorcentagem());
             e.preventDefault();
             if(dataSelectTop.index_preco_vinculado !== 3 && document.getElementById("Total").value <= "0,00"){
                 alert("Não pode ser adicionado sem preço de venda!");
                 zerarInput();
             }else{
                 if(document.getElementById("Total").value !== "" && document.getElementById("quantidade").value !== "" && document.getElementById("valorUnit").value !== "" && document.getElementById("add-item").value !== "" && document.getElementById("add-item2").value !== ""){
+                    setDescontoPorcen(calcularPorcentagem());
                     validarQtd();
                     zerarInput();
                 }else{
