@@ -39,10 +39,14 @@ export const ConsultarCliente = ({setCliente}) => {
 
     useEffect(() => {
         async function fetchData (){
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/clientes");
-            const data = await response.json();
-            setUsers(data);
-            if( response.status === 200){
+            try{
+                const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/clientes");
+                const data = await response.json();
+                setUsers(data);
+                if( response.status === 200){
+                    setCarregado(true);
+                }
+            }catch{
                 setCarregado(true);
             }
         }
@@ -68,6 +72,12 @@ export const ConsultarCliente = ({setCliente}) => {
                 return;
             }
             setSelectIndex(selectIndex + 1);
+        }else if(e.keyCode === 13){
+            e.preventDefault();
+            if(resultado.length > 0){
+                selecionado(resultado[selectIndex], selectIndex);
+                abrirEditar();
+            }
         }
     };
 
@@ -79,12 +89,12 @@ export const ConsultarCliente = ({setCliente}) => {
     }
     const abrirEditar = async() => {
         if(nivel.cadastro_cliente_editar){
-            const responseCliente = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/clientes/${codigoCliente}`); //http://10.0.1.10:8091/preVenda/id
-            const cliente = await responseCliente.json();
+            //const responseCliente = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/clientes/${codigoCliente}`); //http://10.0.1.10:8091/preVenda/id
+            //const cliente = await responseCliente.json();
             if(codigoCliente === undefined){
                 console.log('nenhum cliente selecionado')
             }else{
-            navigate(`/editarCliente/${codigoCliente}`);
+                navigate(`/editarCliente/${codigoCliente}`);
             }
         }else{
             alert('Nivel de acesso negado!');
@@ -132,7 +142,7 @@ export const ConsultarCliente = ({setCliente}) => {
                         <input type="radio" className="checkbox-search"/>
                         <label>Geral</label>
                     </div>
-                    <input className="search" id="search" onChange={e => setBusca(e.target.value)}/>
+                    <input className="search" id="search" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown} autoFocus/>
                 </div>                    
             </M.Filtro>
             <CCL.Lista>
@@ -140,7 +150,7 @@ export const ConsultarCliente = ({setCliente}) => {
                     <Loading/>
                 ) : users.length === 0 && carregado ? (
                     <div className="table-responsive">
-                        <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
+                        <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
                             <thead>
                                 <tr>
                                     <th>Código</th>
@@ -163,7 +173,7 @@ export const ConsultarCliente = ({setCliente}) => {
                     </div>
                 ) : (
                     <div className="table-responsive">
-                        <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tableRef={0}>
+                        <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
                             <thead>
                                 <tr>
                                     <th>Código</th>
@@ -182,7 +192,10 @@ export const ConsultarCliente = ({setCliente}) => {
                             <tbody>
                                 {Array.isArray(resultado) && resultado.map( (user, index) => {
                                     return(
-                                        <tr key={user.id} onClick={selecionado.bind(this, user, index)} style={{background: index === selectIndex ? '#87CEFA' : ''}}>
+                                        <tr key={user.id} 
+                                            onClick={selecionado.bind(this, user, index)} 
+                                            onDoubleClick={abrirEditar}
+                                            style={{background: index === selectIndex ? '#87CEFA' : ''}}>
                                             <td>{user.id}</td>
                                             <td>{dataMask(user.data_cadastro)}</td>
                                             <td>{user.nome}</td>

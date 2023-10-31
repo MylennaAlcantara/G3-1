@@ -108,8 +108,8 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
                 if(selectIndex !== null){
                     setSelectEmitente(resultado[selectIndex].razao_social);
                     setSelectIdEmitente(resultado[selectIndex].id);
-                    setDataSelectEmitente(resultado[selectIndex].razao_social);
-                    setDataIdSelectEmitente(resultado[selectIndex].id);
+                    setDataSelectEmitente && setDataSelectEmitente(resultado[selectIndex].razao_social);
+                    setDataIdSelectEmitente && setDataIdSelectEmitente(resultado[selectIndex].id);
                     setValor && setValor([...valor, resultado[selectIndex]]);
                     setDataSelectDadosEmitente && setDataSelectDadosEmitente({
                         fantasia: resultado[selectIndex].nome_fantasia,
