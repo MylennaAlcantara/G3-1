@@ -8,38 +8,33 @@ import { PerfilCliente } from "../../modais/modal_perfil_cliente/index";
 import { RamoAtividade } from "../../modais/modal_ramo_atividade/index";
 import * as CC from "../cadastro_cliente/cadastroCliente";
 
-export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
+export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
     const navigate = useNavigate();
-    const {user, empresa, cnpjMask, dataMask, cepMask} = useContext(AuthContext);
+    const { user, empresa, cnpjMask, dataMask, cepMask } = useContext(AuthContext);
     const idFuncionario = Array.isArray(user) && user.map((user) => user.id)
-    
+    const [funcionario, setFuncionario] = useState([]);
+    const [estados, setEstados] = useState([]);
+
     //Pegar hora do computador
 
     const data = new Date();
     const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth()+ 1).padStart(2, '0') ;
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
     const ano = data.getFullYear();
     const dataAtual = String(ano + '-' + mes + '-' + dia);
 
-    useEffect(()=>{
-        async function setarHoraData(){
+    useEffect(() => {
+        async function setarHoraData() {
             setDadosCliente({
                 ...dadosCliente,
                 data_edicao: String(dataAtual)
             });
-        } 
+        }
         setarHoraData();
-    },[])
-
-    const [funcionario, setFuncionario] = useState([]);
-    const [estados, setEstados] = useState([]);
+    }, [])
 
     //Dados da parte de documentos
     const selectFuncionario = document.getElementById('option-funcionario');
-    function handleDocumentoChange(event) {
-        setDadosCliente({...dadosCliente, tipo_pessoa: event.target.value});
-    }
-
     const [dadosCliente, setDadosCliente] = useState(JSON.parse(localStorage.getItem('dadosCliente')) || {
         id: "",
         municipal: "",
@@ -76,7 +71,6 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
         estado: "",
         cod_municipio: "",
     })
-    console.log(dadosCliente)
 
     //estados dos modais
     const [isModalPerfil, setIsModalPerfil] = useState(false);
@@ -84,47 +78,63 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
     const [isModalMunicipio, setIsModalMunicipio] = useState(false);
     const [isModalEmpresa, setIsModalEmpresa] = useState(false);
 
-    //Função para abrir o modal com F2
-    function keyPerfil (e){
+    const [isChecked, setIsChecked] = useState(false);
+    const [cor, setCor] = useState('');
+    const [corFisica, setCorFisica] = useState('');
+    const [corObrigatorios, setCorObrigatorios] = useState('');
+    const [corSimplificado, setCorSimplificado] = useState('');
+    const [aba, setAba] = useState('dados-gerais');
+    const [abaHistorico, setAbaHistorico] = useState('limite');
+    const [abaVendas, setAbaVendas] = useState('nfe');
+
+    function handleDocumentoChange(event) {
+        setDadosCliente({ ...dadosCliente, tipo_pessoa: event.target.value });
+    }
+
+    //Função para abrir o modal com F1
+    function keyPerfil(e) {
         e.preventDefault();
-        if(e.keyCode === 113){
+        if (e.keyCode === 112) {
             setIsModalPerfil(true);
         }
-    }    
-    function keyRamo (e){
+    }
+    function keyRamo(e) {
         e.preventDefault();
-        if(e.keyCode === 113){
+        if (e.keyCode === 112) {
             setIsModalRamo(true);
         }
-    }    
-    function keyMunicipio (e){
+    }
+    function keyMunicipio(e) {
         e.preventDefault();
-        if(e.keyCode === 113){
+        if (e.keyCode === 112) {
             setIsModalMunicipio(true);
-        }else if(e.keyCode != 113){
+        } else if (e.keyCode != 112) {
             e.preventDefault();
         }
     }
-    function keyEmpresa (e){
+    function keyEmpresa(e) {
         e.preventDefault();
-        if(e.keyCode === 113){
+        if (e.keyCode === 112) {
             setIsModalEmpresa(true);
         }
     }
 
+    // Bloqueia o F1 padrão do site
+    document.onkeydown = function f1(e) { if (e.keyCode === 112) e.preventDefault() }
+
     useEffect(() => {
-        async function fetchData (){
+        async function fetchData() {
             const response = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados");
             const data = await response.json();
             setEstados(data);
         }
-        async function fetchDataFuncionario (){
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/user/all");
+        async function fetchDataFuncionario() {
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL + "/user/all");
             const data = await response.json();
             setFuncionario(data);
         }
-        async function fetchDataCliente (){
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/clientes/${codCliente}`);
+        async function fetchDataCliente() {
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL + `/clientes/${codCliente}`);
             const data = await response.json();
             setDadosCliente({
                 id: data.id,
@@ -164,20 +174,20 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                 cod_municipio: data.cod_municipio,
             })
         }
-            fetchDataCliente();
-            fetchDataFuncionario();
-            fetchData();
-            validarDocumento();
+        fetchDataCliente();
+        fetchDataFuncionario();
+        fetchData();
+        validarDocumento();
     }, []);
 
-    function pesquisarMuni(){
+    function pesquisarMuni() {
         setIsModalMunicipio(true);
     }
-    async function pesquisarCep () {
+    async function pesquisarCep() {
         const response = await fetch(`https://viacep.com.br/ws/${dadosCliente.cep}/json/`);
         const data = await response.json();
         setDadosCliente({
-            ...dadosCliente, 
+            ...dadosCliente,
             endereco: data.logradouro,
             bairro: data.bairro,
             cod_municipio: data.ibge,
@@ -185,29 +195,22 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
         });
     }
 
-    const [isChecked, setIsChecked] = useState(false);
-
     const handleCheckSimplificado = () => {
         setIsChecked(!isChecked);
     }
 
-    const [cor, setCor] = useState('');
-    const [corFisica, setCorFisica] = useState('');
-    const [corObrigatorios, setCorObrigatorios] = useState('');
-    const [corSimplificado, setCorSimplificado] = useState('');
-
     const validarDocumento = () => {
-        if(dadosCliente.tipo_pessoa === 'J'){
+        if (dadosCliente.tipo_pessoa === 'J') {
             setCorFisica('#F0F0F0');
-        }else if (dadosCliente.tipo_pessoa === 'F'){
+        } else if (dadosCliente.tipo_pessoa === 'F') {
             setCor('#F0F0F0');
         }
     }
 
-    async function pesquisarCnpj (){
+    async function pesquisarCnpj() {
         const response = await fetch(`https://publica.cnpj.ws/cnpj/${dadosCliente.cpf_cnpj}`)
         const data = await response.json();
-        data.estabelecimento.inscricoes_estaduais.map((dado)=> setDadosCliente({...dadosCliente, inscricao_estadual: dado.inscricao_estadual}))        
+        data.estabelecimento.inscricoes_estaduais.map((dado) => setDadosCliente({ ...dadosCliente, inscricao_estadual: dado.inscricao_estadual }))
         setDadosCliente({
             ...dadosCliente,
             nome: data.razao_social,
@@ -225,54 +228,48 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
     }
 
     const salvar = async () => {
-        try{
-            const res = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/clientes",{
+        try {
+            const res = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL + "/clientes", {
                 method: "PUT",
-                headers:{"Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(dadosCliente)
             });
-            if(res.status === 200){
+            if (res.status === 200) {
                 alert('Editado com sucesso!');
                 navigate('/clientes');
             }
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
-    
-    const [aba, setAba] = useState('dados-gerais');
 
-    function dadosGerais (){
+    function dadosGerais() {
         setAba('dados-gerais');
     }
-    function dadosAdicionais (){
+    function dadosAdicionais() {
         setAba('dados-adicionais');
     }
-    function foto (){
+    function foto() {
         setAba('foto');
     }
-    function historico (){
+    function historico() {
         setAba('historico');
     }
 
-    const [abaHistorico, setAbaHistorico] = useState('limite');
-
-    function limite (){
+    function limite() {
         setAbaHistorico('limite');
     }
-    function cupom (){
+    function cupom() {
         setAbaHistorico('cupom');
     }
-    function vendas (){
+    function vendas() {
         setAbaHistorico('vendas');
     }
 
-    const [abaVendas, setAbaVendas] = useState('nfe');
-
-    function nfe (){
+    function nfe() {
         setAbaVendas('nfe');
     }
-    function pgto (){
+    function pgto() {
         setAbaVendas('pgto');
     }
 
@@ -281,59 +278,59 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
         localStorage.removeItem("dadosCliente");
     }
     const comparar = (a, b) => {
-        if(a.sigla < b.sigla ){
+        if (a.sigla < b.sigla) {
             return -1;
-        }else if(a.sigla > b.sigla){
+        } else if (a.sigla > b.sigla) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
 
-    function minimizar (){
-        setMinimizado({...minimizado, editarCliente: true})
+    function minimizar() {
+        setMinimizado({ ...minimizado, editarCliente: true })
         navigate("/home");
         localStorage.setItem("dadosCliente", JSON.stringify(dadosCliente));
     }
 
     return (
         <C.Container>
-            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
+            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Cadastrar Cliente</h3>
                 <div className="buttons">
-                    <button className="minimizar" onClick={minimizar}><div className="linha"/></button>
+                    <button className="minimizar" onClick={minimizar}><div className="linha" /></button>
                     <button className="close" onClick={cancelar}>X</button>
                 </div>
             </C.Header>
             <CC.Navegacao>
-                <div onClick={dadosGerais} style={{backgroundColor: aba === "dados-gerais" ? "white" : "", borderBottom: aba === "dados-gerais" ? "0" : ""}}>Dados Gerais</div>
-                <div onClick={dadosAdicionais} style={{backgroundColor: aba === "dados-adicionais" ? "white" : "", borderBottom: aba === "dados-adicionais" ? "0" : ""}}>Dados Adicionais</div>
+                <div onClick={dadosGerais} style={{ backgroundColor: aba === "dados-gerais" ? "white" : "", borderBottom: aba === "dados-gerais" ? "0" : "" }}>Dados Gerais</div>
+                <div onClick={dadosAdicionais} style={{ backgroundColor: aba === "dados-adicionais" ? "white" : "", borderBottom: aba === "dados-adicionais" ? "0" : "" }}>Dados Adicionais</div>
                 {/*<div onClick={foto} style={{backgroundColor: aba === "foto" ? "white" : "", borderBottom: aba === "foto" ? "0" : ""}}>Fotos</div>*/}
-                <div onClick={historico} style={{backgroundColor: aba === "historico" ? "white" : "", borderBottom: aba === "historico" ? "0" : ""}}>Historico</div>
+                <div onClick={historico} style={{ backgroundColor: aba === "historico" ? "white" : "", borderBottom: aba === "historico" ? "0" : "" }}>Histórico</div>
             </CC.Navegacao>
             {aba === 'dados-gerais' ? (
                 <CC.DadosGerais>
                     <CC.DadosCliente>
                         <div>
                             <label>Código: </label>
-                            <input value={dadosCliente.id} readOnly/>
+                            <input id="codigo" value={dadosCliente.id} style={{ outline: 0, color: "black" }} disabled readOnly />
                         </div>
                         <div>
                             <label>Data: </label>
-                            <input value={dataMask(dadosCliente.data_cadastro)} readOnly/>
+                            <input id="codigo" value={dataMask(dadosCliente.data_cadastro)} style={{ outline: 0, color: "black" }} disabled readOnly />
                         </div>
                         <div className="checkbox">
                             <div>
-                                <input className="checkbox" type='checkbox'/>
+                                <input className="checkbox" type='checkbox' />
                                 <label>SPC</label>
                             </div>
                             <div>
-                                <input className="checkbox" type='checkbox'/>
+                                <input className="checkbox" type='checkbox' />
                                 <label>DESATIVADO</label>
                             </div>
                             <div>
-                                <input className="checkbox" type='checkbox' checked={isChecked} onChange={handleCheckSimplificado}/>
+                                <input className="checkbox" type='checkbox' checked={isChecked} onChange={handleCheckSimplificado} />
                                 <label>Cliente Simplificado</label>
                             </div>
                         </div>
@@ -343,67 +340,67 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                             <legend>Documentos</legend>
                             <div className="cnpj-cpf">
                                 <div>
-                                    <input name="documento" type='radio' value="J" id="juridica"  checked={dadosCliente.tipo_pessoa === 'J'} onChange={handleDocumentoChange} onClick={validarDocumento}/>
+                                    <input name="documento" type='radio' value="J" id="juridica" checked={dadosCliente.tipo_pessoa === 'J'} onChange={handleDocumentoChange} onClick={validarDocumento} />
                                     <label>Pessoa Jurídica</label>
                                 </div>
                                 <div>
                                     <label>CNPJ: </label>
                                     {dadosCliente.tipo_pessoa === "J" ? (
-                                        <input className="input-documentos" value={cnpjMask(dadosCliente.cpf_cnpj)} onChange={(e)=> setDadosCliente({...dadosCliente, cpf_cnpj: e.target.value})}  style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
+                                        <input className="input-documentos" value={cnpjMask(dadosCliente.cpf_cnpj)} onChange={(e) => setDadosCliente({ ...dadosCliente, cpf_cnpj: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
                                     ) : (
-                                        <input className="input-documentos" style={{backgroundColor: cor}} readOnly/>
+                                        <input className="input-documentos" style={{ backgroundColor: cor }} readOnly />
                                     )}
-                                    <img src="/images/LUPA.png" onClick={pesquisarCnpj}/>
+                                    <img src="/images/LUPA.png" onClick={pesquisarCnpj} style={{ margin: "auto 0" }} />
                                 </div>
                                 <div>
                                     <label>Inscr. Municipal: </label>
                                     {dadosCliente.tipo_pessoa === "J" ? (
-                                        <input className="input-documentos" value={dadosCliente.municipal} onChange={(e)=> setDadosCliente({...dadosCliente, municipal: e.target.value})}/>
+                                        <input className="input-documentos" value={dadosCliente.municipal} onChange={(e) => setDadosCliente({ ...dadosCliente, municipal: e.target.value })} />
                                     ) : (
-                                        <input className="input-documentos" style={{backgroundColor: cor}} readOnly/>
+                                        <input className="input-documentos" style={{ backgroundColor: cor }} readOnly />
                                     )}
                                 </div>
                             </div>
                             <div className="cnpj-cpf">
                                 <div>
                                     {dadosCliente.tipo_pessoa === "F" ? (
-                                        <input name="documento" type='radio' value="F" id="fisica"  checked={dadosCliente.tipo_pessoa === 'F'} onChange={handleDocumentoChange} onClick={validarDocumento} />
+                                        <input name="documento" type='radio' value="F" id="fisica" checked={dadosCliente.tipo_pessoa === 'F'} onChange={handleDocumentoChange} onClick={validarDocumento} />
                                     ) : (
-                                        <input name="documento" type='radio' value="F" id="fisica"  checked={dadosCliente.tipo_pessoa === 'F'} onChange={handleDocumentoChange} onClick={validarDocumento}/>
+                                        <input name="documento" type='radio' value="F" id="fisica" checked={dadosCliente.tipo_pessoa === 'F'} onChange={handleDocumentoChange} onClick={validarDocumento} />
                                     )}
                                     <label>Pessoa Física</label>
                                 </div>
                                 <div>
                                     <label>CPF: </label>
                                     {dadosCliente.tipo_pessoa === "F" ? (
-                                        <input className="input-documentos" value={cnpjMask(dadosCliente.cpf_cnpj)} onChange={(e)=> setDadosCliente({...dadosCliente, cpf_cnpj: e.target.value})}  style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
+                                        <input className="input-documentos" value={cnpjMask(dadosCliente.cpf_cnpj)} onChange={(e) => setDadosCliente({ ...dadosCliente, cpf_cnpj: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
                                     ) : (
-                                        <input className="input-documentos" style={{backgroundColor: corFisica}} readOnly/>
+                                        <input className="input-documentos" style={{ backgroundColor: corFisica }} readOnly />
                                     )}
                                 </div>
                                 <div>
                                     <label>RG: </label>
                                     {dadosCliente.tipo_pessoa === "F" ? (
-                                        <input className="input-documentos" value={dadosCliente.rg} onChange={(e)=> setDadosCliente({...dadosCliente, rg: e.target.value})}/>
+                                        <input className="input-documentos" value={dadosCliente.rg} onChange={(e) => setDadosCliente({ ...dadosCliente, rg: e.target.value })} />
                                     ) : (
-                                        <input className="input-documentos" style={{backgroundColor: corFisica}} readOnly/>
+                                        <input className="input-documentos" style={{ backgroundColor: corFisica }} readOnly />
                                     )}
                                 </div>
                                 <div>
                                     <label>Orgão: </label>
                                     {dadosCliente.tipo_pessoa === "F" ? (
-                                        <input className="input-documentos" value={dadosCliente.orgao} onChange={(e)=> setDadosCliente({...dadosCliente, orgao: e.target.value})}/>
+                                        <input className="input-documentos" value={dadosCliente.orgao} onChange={(e) => setDadosCliente({ ...dadosCliente, orgao: e.target.value })} />
                                     ) : (
-                                        <input className="input-documentos" style={{backgroundColor: corFisica}} readOnly/>
+                                        <input className="input-documentos" style={{ backgroundColor: corFisica }} readOnly />
                                     )}
                                 </div>
                             </div>
                             <div className="cnpj-cpf">
                                 <div>
                                     <label>Ins. Estadual: </label>
-                                    <input className="input-documentos" value={dadosCliente.estadual} onChange={(e)=> setDadosCliente({...dadosCliente, estadual: e.target.value})}/>
+                                    <input className="input-documentos" value={dadosCliente.estadual} onChange={(e) => setDadosCliente({ ...dadosCliente, estadual: e.target.value })} />
                                 </div>
-                                <input type="checkbox"/>
+                                <input type="checkbox" />
                                 <label>Contribuinte de ICMS</label>
                             </div>
                         </fieldset>
@@ -413,162 +410,162 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                             <legend>Informações</legend>
                             <div>
                                 <label>Nome: </label>
-                                <input className="input-unico" value={dadosCliente.nome} onChange={(e)=> setDadosCliente({...dadosCliente, nome: e.target.value})} style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
+                                <input className="input-unico" value={dadosCliente.nome} onChange={(e) => setDadosCliente({ ...dadosCliente, nome: e.target.value })} style={{ backgroundColor: isChecked ? corSimplificado : corObrigatorios }} />
                             </div>
                             <div>
                                 <label>Fantasia/Apelido: </label>
-                                <input className="input-unico" value={dadosCliente.nome_fantasia} onChange={(e)=> setDadosCliente({...dadosCliente, nome_fantasia: e.target.value})}/>
+                                <input className="input-unico" value={dadosCliente.nome_fantasia} onChange={(e) => setDadosCliente({ ...dadosCliente, nome_fantasia: e.target.value })} />
                             </div>
                             <div className="div-input">
                                 <label>CEP: </label>
-                                <input className="codigo" value={cepMask(dadosCliente.cep)} onChange={(e) => setDadosCliente({...dadosCliente, cep: e.target.value})} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
-                                <img src="/images/LUPA.png" onClick={pesquisarCep}/>
+                                <input className="codigo" value={cepMask(dadosCliente.cep)} onChange={(e) => setDadosCliente({ ...dadosCliente, cep: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
+                                <img src="/images/LUPA.png" onClick={pesquisarCep} style={{ margin: "auto 5px 2px 0px" }} />
                                 <label>Complemento: </label>
-                                <input className="complemento" value={dadosCliente.complemento} onChange={(e)=> setDadosCliente({...dadosCliente, complemento: e.target.value})}/>
+                                <input className="complemento" value={dadosCliente.complemento} onChange={(e) => setDadosCliente({ ...dadosCliente, complemento: e.target.value })} />
                             </div>
                             <div className="div-input">
                                 <label>Logradouro: </label>
-                                <input value={dadosCliente.endereco} id="endereco" onChange={(e)=> setDadosCliente({...dadosCliente, endereco: e.target.value})} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
-                                <input className="codigo" value={dadosCliente.numero} onChange={(e)=> setDadosCliente({...dadosCliente, numero: e.target.value})}/>
+                                <input value={dadosCliente.endereco} id="endereco" onChange={(e) => setDadosCliente({ ...dadosCliente, endereco: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
+                                <input className="codigo" value={dadosCliente.numero} onChange={(e) => setDadosCliente({ ...dadosCliente, numero: e.target.value })} />
                             </div>
                             <div>
                                 <label>Bairro: </label>
-                                <input className="input-unico" id="bairro" value={dadosCliente.bairro} onChange={(e)=> setDadosCliente({...dadosCliente, bairro: e.target.value})} style={{backgroundColor: isChecked ? "" : corObrigatorios}}/>
+                                <input className="input-unico" id="bairro" value={dadosCliente.bairro} onChange={(e) => setDadosCliente({ ...dadosCliente, bairro: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
                             </div>
                             <div className="div-input">
                                 <label>Municipio: </label>
-                                <input className="codigo" id="codigoMunicipio" value={dadosCliente.cod_municipio} onDoubleClick={pesquisarMuni} onKeyDown={keyMunicipio} readOnly style={{backgroundColor: isChecked ? corSimplificado : corObrigatorios}}/>
-                                <img src="/images/add.png" onClick={pesquisarMuni}/>
-                                <input className="municipio" id="municipio" value={dadosCliente.municipio} readOnly/>
-                                <label>UF: </label>
-                                <select className="codigo" id="option" onChange={(e)=> setDadosCliente({...dadosCliente, estado: e.target.value})}>
-                                    <option value={dadosCliente.estado}>{dadosCliente.estado}</option>
-                                    {estados.sort(comparar).map((estado)=> {
-                                        return <option value={estado.sigla}>{estado.sigla}</option>
-                                    })}
-                                </select>
+                                <input className="codigo" id="codigoMunicipio" value={dadosCliente.cod_municipio} onDoubleClick={pesquisarMuni} onKeyDown={keyMunicipio} readOnly style={{ backgroundColor: isChecked ? corSimplificado : corObrigatorios }} />
+                                <img src="/images/add.png" onClick={pesquisarMuni} style={{ marginRight: "5px" }} />
+                                <input className="municipio" id="municipio" value={dadosCliente.municipio} readOnly />
+                                <div style={{ width: "auto" }}>
+                                    <label>UF: </label>
+                                    <select className="codigo" id="option" onChange={(e) => setDadosCliente({ ...dadosCliente, estado: e.target.value })}>
+                                        <option value={dadosCliente.estado}>{dadosCliente.estado}</option>
+                                        {estados.sort(comparar).map((estado) => {
+                                            return <option key={estado.sigla} value={estado.sigla}>{estado.sigla}</option>
+                                        })}
+                                    </select>
+                                </div>
                             </div>
                             <div className="div-telefone">
                                 <label>Telefone: </label>
-                                <input className="codigo" value={dadosCliente.telefone} onChange={(e)=> setDadosCliente({...dadosCliente, telefone: e.target.value})}/>
-                                <label>Celular: </label>
-                                <input className="codigo" value={dadosCliente.celular} onChange={(e)=> setDadosCliente({...dadosCliente, celular: e.target.value})}/>
-                                <label>Data Nasc: </label>
-                                <input className="codigo" id="dataNascimento" type="date" value={dadosCliente.data_nasc} onChange={(e)=> setDadosCliente({...dadosCliente, data_nasc: e.target.value})}/>
+                                <input className="codigo" value={dadosCliente.telefone} onChange={(e) => setDadosCliente({ ...dadosCliente, telefone: e.target.value })} />
+                                <div style={{ width: "auto" }}>
+                                    <label>Celular: </label>
+                                    <input className="codigo" value={dadosCliente.celular} onChange={(e) => setDadosCliente({ ...dadosCliente, celular: e.target.value })} />
+                                </div>
+                                <div style={{ width: "auto" }}>
+                                    <label>Data Nasc: </label>
+                                    <input className="codigo" id="dataNascimento" type="date" value={dadosCliente.data_nasc} onChange={(e) => setDadosCliente({ ...dadosCliente, data_nasc: e.target.value })} />
+                                </div>
                             </div>
                             <div>
                                 <label>Email: </label>
-                                <input type="email" className="input-unico" value={dadosCliente.email} onChange={(e) => setDadosCliente({...dadosCliente, email: e.target.value})}/>
+                                <input type="email" className="input-unico" value={dadosCliente.email} onChange={(e) => setDadosCliente({ ...dadosCliente, email: e.target.value })} />
                             </div>
                             <div className="div-input">
                                 <label>Perfil Tributá.: </label>
-                                <input className="codigo" value={dadosCliente.perfilRegra && dadosCliente.perfilRegra.id} onDoubleClick={()=> setIsModalPerfil(true)} onKeyDown={keyPerfil} title='Aperte F2 para listar as opções'/>
-                                <input value={dadosCliente.perfilRegra && dadosCliente.perfilRegra.descricao} readOnly/>
+                                <input className="codigo" value={dadosCliente.perfilRegra && dadosCliente.perfilRegra.id} onDoubleClick={() => setIsModalPerfil(true)} onKeyDown={keyPerfil} title='Aperte F2 para listar as opções' />
+                                <input value={dadosCliente.perfilRegra && dadosCliente.perfilRegra.descricao} readOnly />
                             </div>
                             <div className="div-input">
                                 <label>Ramo de Ativ.: </label>
-                                <input className="codigo" value={dadosCliente.ramoAtividade && dadosCliente.ramoAtividade.id} onDoubleClick={()=> setIsModalRamo(true)} onKeyDown={keyRamo} title='Aperte F2 para listar as opções'/>
-                                <input value={dadosCliente.ramoAtividade && dadosCliente.ramoAtividade.descricao} readOnly/>
+                                <input className="codigo" value={dadosCliente.ramoAtividade && dadosCliente.ramoAtividade.id} onDoubleClick={() => setIsModalRamo(true)} onKeyDown={keyRamo} title='Aperte F2 para listar as opções' />
+                                <input value={dadosCliente.ramoAtividade && dadosCliente.ramoAtividade.descricao} readOnly />
                             </div>
                             <div>
                                 <label>Última Alter.: </label>
-                                <input className="input-unico"/>
+                                <input className="input-unico" />
                             </div>
-                            <div>
+                            <div className="div-input">
                                 <label>Filial: </label>
-                                <input className="codigo" value={dadosCliente.filial && dadosCliente.filial.id} onDoubleClick={()=> setIsModalEmpresa(true)} onKeyDown={keyEmpresa} title='Aperte F2 para listar as opções'/>
-                                <input value={dadosCliente.filial && dadosCliente.filial.razaoSocial} readOnly/>
+                                <input className="codigo" value={dadosCliente.filial && dadosCliente.filial.id} onDoubleClick={() => setIsModalEmpresa(true)} onKeyDown={keyEmpresa} title='Aperte F2 para listar as opções' />
+                                <input value={dadosCliente.filial && dadosCliente.filial.razaoSocial} readOnly />
                             </div>
                         </fieldset>
                     </CC.Informacao>
                 </CC.DadosGerais>
             ) : aba === 'dados-adicionais' ? (
                 <CC.DadosAdicionais>
-                <div>
-                    <label>Vendedor: </label>
+                    <div>
+                        <label>Vendedor: </label>
                         <select id="option-funcionario">
                             <option>0 - SEM VENDEDOR</option>
                             {funcionario.map((funcionario) => {
-                                return(
+                                return (
                                     <option value={funcionario.id} key={funcionario.id}>{funcionario.id} - {funcionario.nome}</option>
                                 )
                             })}
                         </select>
-                </div>
-                <div>
-                    <label>Tipo pgt.: </label>
-                    <fieldset>
-                        <div>
-                            <label>Tabela Vinculada: </label>
-                            <select>
-                                <option>0 - Escolha uma tabela</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>N. Parcelas</label>
-                            <input/>
-                        </div>
-                        <div>
-                            <label>Prazo</label>
-                            <input/>
-                        </div>
-                        <div className="table-resp">
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th>Código</th>
-                                        <th>Ativo</th>
-                                        <th>Descrição</th>
-                                        <th>Raiz</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>1</td>
-                                        <td>1</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </fieldset>
-                </div>
-                <div>
-                    <label>Desconto (%) :</label>
-                    <input placeholder="0,000000"/>
-                </div>
-                <div>
-                    <label>obs.: </label>
-                    <textarea>
-
-                    </textarea>
-                </div>
+                    </div>
+                    <div>
+                        <label>Tipo pgt.: </label>
+                        <fieldset>
+                            <div>
+                                <label>Tabela Vinculada: </label>
+                                <select>
+                                    <option>0 - Escolha uma tabela</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>N. Parcelas</label>
+                                <input />
+                            </div>
+                            <div>
+                                <label>Prazo</label>
+                                <input />
+                            </div>
+                            <div className="table-resp">
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Ativo</th>
+                                            <th>Descrição</th>
+                                            <th>Raiz</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div>
+                        <label>Desconto (%) :</label>
+                        <input placeholder="0,000000" />
+                    </div>
+                    <div>
+                        <label>obs.: </label>
+                        <textarea></textarea>
+                    </div>
                 </CC.DadosAdicionais>
-            ) :(
+            ) : (
                 <CC.Historico>
                     <CC.NavegacaoLimites>
                         <div >Contas Vencidas/NF-es</div>
                         <div>Pagamentos</div>
                         <div>Controle de Cheques</div>
-                        <div onClick={limite} style={{backgroundColor: abaHistorico === "limite" ? "white" : "", borderBottom: abaHistorico === "limite" ? "0" : ""}}>Limite / Contas em Aberto</div>
-                        <div onClick={cupom} style={{backgroundColor: abaHistorico === "cupom" ? "white" : "", borderBottom: abaHistorico === "cupom" ? "0" : ""}}>Cupom de Crédito</div>
-                        <div onClick={vendas} style={{backgroundColor: abaHistorico === "vendas" ? "white" : "", borderBottom: abaHistorico === "vendas" ? "0" : ""}}>Vendas</div>
+                        <div onClick={limite} style={{ backgroundColor: abaHistorico === "limite" ? "white" : "", borderBottom: abaHistorico === "limite" ? "0" : "" }}>Limite / Contas em Aberto</div>
+                        <div onClick={cupom} style={{ backgroundColor: abaHistorico === "cupom" ? "white" : "", borderBottom: abaHistorico === "cupom" ? "0" : "" }}>Cupom de Crédito</div>
+                        <div onClick={vendas} style={{ backgroundColor: abaHistorico === "vendas" ? "white" : "", borderBottom: abaHistorico === "vendas" ? "0" : "" }}>Vendas</div>
                     </CC.NavegacaoLimites>
                     {abaHistorico === "limite" ? (
                         <div className="limite">
                             <div className="limites">
                                 <div>
                                     <label>Limite Total: </label>
-                                    <input/>
+                                    <input />
                                 </div>
                                 <div>
                                     <label>Saldo Devedor: </label>
-                                    <input/>
+                                    <input />
                                 </div>
                                 <div>
                                     <label>Limite disponível: </label>
-                                    <input/>
+                                    <input />
                                 </div>
                             </div>
                             <div>
@@ -592,7 +589,6 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <td>asdsad</td>
                                             </tbody>
                                         </table>
                                     </div>
@@ -628,11 +624,11 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                                 </div>
                             </fieldset>
                         </div>
-                    ): (
+                    ) : (
                         <div className="vendas">
                             <CC.NavegacaoLimites>
-                                <div onClick={nfe} style={{backgroundColor: abaVendas === "nfe" ? "white" : "", borderBottom: abaVendas === "nfe" ? "0" : ""}}>NF-e e NFC-e</div>
-                                <div onClick={pgto} style={{backgroundColor: abaVendas === "pgto" ? "white" : "", borderBottom: abaVendas === "pgto" ? "0" : ""}}>Tipos de Pagamento</div>
+                                <div onClick={nfe} style={{ backgroundColor: abaVendas === "nfe" ? "white" : "", borderBottom: abaVendas === "nfe" ? "0" : "" }}>NF-e e NFC-e</div>
+                                <div onClick={pgto} style={{ backgroundColor: abaVendas === "pgto" ? "white" : "", borderBottom: abaVendas === "pgto" ? "0" : "" }}>Tipos de Pagamento</div>
                             </CC.NavegacaoLimites>
                             {abaVendas === 'nfe' ? (
                                 <div>
@@ -665,29 +661,6 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                                                 <th>total_nota</th>
                                             </thead>
                                             <tbody>
-                                                <td>teste</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
                                             </tbody>
                                         </table>
                                     </div>
@@ -719,17 +692,17 @@ export const EditarCliente = ({codCliente, minimizado, setMinimizado}) => {
                 <CC.Foto>
                     <div></div>
                     <input/>
-                </CC.Foto>*/} 
+                </CC.Foto>*/}
             <C.Footer>
                 <div className="buttons">
-                    <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
-                    <button onClick={cancelar}><img src="/images/voltar.png"/>Cancelar</button>
+                    <button onClick={salvar}><img src="/images/salvar.png" />Salvar</button>
+                    <button onClick={cancelar}><img src="/images/voltar.png" />Cancelar</button>
                 </div>
             </C.Footer>
-            {isModalPerfil ? <PerfilCliente close={()=> setIsModalPerfil(false)} setDadosCliente={setDadosCliente} dadosCliente={dadosCliente}/> : null}
-            {isModalRamo ? <RamoAtividade close={()=> setIsModalRamo(false)} setDadosCliente={setDadosCliente} dadosCliente={dadosCliente}/> : null}
-            {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)} setDadosCliente={setDadosCliente} dadosCliente={dadosCliente}/> : null}
-            {isModalEmpresa ? <Emitente onClose={()=> setIsModalEmpresa(false)} dadosCliente={dadosCliente} setDadosCliente={setDadosCliente}/> : null}
+            {isModalPerfil ? <PerfilCliente close={() => setIsModalPerfil(false)} setDadosCliente={setDadosCliente} dadosCliente={dadosCliente} /> : null}
+            {isModalRamo ? <RamoAtividade close={() => setIsModalRamo(false)} setDadosCliente={setDadosCliente} dadosCliente={dadosCliente} /> : null}
+            {isModalMunicipio ? <ListaMunicipio close={() => setIsModalMunicipio(false)} setDadosCliente={setDadosCliente} dadosCliente={dadosCliente} /> : null}
+            {isModalEmpresa ? <Emitente onClose={() => setIsModalEmpresa(false)} dadosCliente={dadosCliente} setDadosCliente={setDadosCliente} /> : null}
         </C.Container>
     )
 }

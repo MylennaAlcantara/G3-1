@@ -16,6 +16,9 @@ export const DadosCliente = styled.div`
             text-align: left;
         }
     }
+    #codigo{
+        width: 80px;
+    }
     input{
         height: 24px;
         border: none;        
@@ -28,9 +31,6 @@ export const DadosCliente = styled.div`
     @media(max-width: 425px){
         flex-wrap: wrap;
         justify-content: start;
-        #codigo{
-            width: 60px;
-        }
         #descricao{
             width: 100px;
         }
@@ -90,6 +90,7 @@ export const Informacao = styled.div`
     justify-content: center;
     align-items: center;
     .informacao{
+        padding-bottom: 10px;
         width: 90%;
         height: 95%;
         display: block;
@@ -162,9 +163,15 @@ export const Informacao = styled.div`
             width: 20%;
         }
         .div-input{
-            width: 90%;
+            width: 100%;
             diplay: flex;
             flex-wrap: wrap;
+            .codigo{
+                width: 60px;
+            }
+            input{
+                width: 45%;
+            }
         }
         .div-telefone{
             width: 100%;
@@ -205,6 +212,7 @@ export const NavegacaoLimites = styled.div`
         width: 100%;
         border-radius: 5px 5px 0 0;
         background-color: #F0F0F0;
+        white-space: nowrap;
     }
     div:hover{
         background-color: white;
@@ -274,6 +282,7 @@ export const DadosAdicionais = styled.div`
     textarea{
         height: 200px;
         width: 100%;
+        resize: none;
     }
     @media(max-width: 700px){
         height: 78%;

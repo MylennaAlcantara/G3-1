@@ -293,11 +293,11 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
                     <CC.DadosCliente>
                         <div>
                             <label>Código: </label>
-                            <input style={{ outline: 0, color: "black" }} disabled readOnly />
+                            <input id="codigo" style={{ outline: 0, color: "black" }} disabled readOnly />
                         </div>
                         <div>
                             <label>Data: </label>
-                            <input style={{ outline: 0, color: "black" }} disabled readOnly />
+                            <input id="codigo" style={{ outline: 0, color: "black" }} disabled readOnly />
                         </div>
                         <div className="checkbox">
                             <div>
@@ -421,7 +421,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
                                     <select className="codigo" id="option" onChange={(e) => setDadosCliente({ ...dadosCliente, estado: e.target.value })}>
                                         <option value={dadosCliente.estado}>{dadosCliente.estado}</option>
                                         {estados.sort(comparar).map((estado) => {
-                                            return <option value={estado.sigla}>{estado.sigla}</option>
+                                            return <option value={estado.sigla} key={estado.sigla}>{estado.sigla}</option>
                                         })}
                                     </select>
                                 </div>
@@ -456,7 +456,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
                                 <label>Última Alter.: </label>
                                 <input className="input-unico" />
                             </div>
-                            <div>
+                            <div className="div-input">
                                 <label>Filial: </label>
                                 <input className="codigo" value={dadosCliente.filial.id} onDoubleClick={() => setIsModalEmpresa(true)} onKeyDown={keyEmpresa} title='Aperte F2 para listar as opções' />
                                 <input value={dadosCliente.filial.razaoSocial} readOnly />
