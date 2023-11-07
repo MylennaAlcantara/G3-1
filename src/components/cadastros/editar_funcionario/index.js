@@ -12,12 +12,12 @@ import { MD5 } from "crypto-js";
 
 export const EditarFuncionario = ({minimizado, setMinimizado}) => {
     const navigate = useNavigate();
-    const {user, empresa, cnpjMask} = useContext(AuthContext);
+    const {user, empresa, cnpjMask, dataMask} = useContext(AuthContext);
     const codigoFuncionario = localStorage.getItem('idFuncionario');
 
     useEffect(() => {
         async function fetchDataFuncionario (){
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+`/user/${codigoFuncionario}`);
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/user/${codigoFuncionario}`);
             const data = await response.json();
             setDadosFuncionario({
                 id: data.id,
@@ -128,25 +128,29 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
         setAba('documentos');
     }
 
-    // Abrir modais com F2
+    // Abrir modais com F1
     function filiais (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalFilial(true);
         }
     }
     function setores (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalSetor(true);
         }
     }
     function niveis (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalNivel(true);
         }
     }
+    
+    // Bloqueia o F1 padrão do site
+    document.onkeydown = function f1(e){ if(e.keyCode === 112)e.preventDefault() }
+    
     function municipios (e){
         setIsModalMunicipio(true);
     }
@@ -219,7 +223,7 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
                 <div className="campo">
                     <div style={{justifyContent: "end"}}>
                         <label>Data Modificação: </label>
-                        <input value={dadosFuncionario.data_cadastro} readOnly/>
+                        <input value={dataMask(dadosFuncionario.data_cadastro)} readOnly/>
                     </div>
                     <div style={{justifyContent: "end"}}>
                         <label>Data de Admissão: </label>
@@ -286,17 +290,17 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
                         <div className="double-input">
                             <label>Setor: </label>
                             <input className="codigo" value={dadosFuncionario.setorFuncionario && dadosFuncionario.setorFuncionario.id} onDoubleClick={()=> setIsModalSetor(true)} onKeyDown={setores} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
-                            <input value={dadosFuncionario.setorFuncionario && dadosFuncionario.setorFuncionario.descricao}/>
+                            <input value={dadosFuncionario.setorFuncionario && dadosFuncionario.setorFuncionario.descricao} style={{ outline: 0, color: "black", backgroundColor: "white" }} disabled/>
                         </div>
                         <div className="double-input">
                             <label>Nível: </label>
                             <input className="codigo" value={dadosFuncionario.nivelAcesso && dadosFuncionario.nivelAcesso.id} onKeyDown={niveis} onDoubleClick={()=> setIsModalNivel(true)} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
-                            <input value={dadosFuncionario.nivelAcesso && dadosFuncionario.nivelAcesso.descricao}/>
+                            <input value={dadosFuncionario.nivelAcesso && dadosFuncionario.nivelAcesso.descricao} style={{ outline: 0, color: "black", backgroundColor: "white" }} disabled />
                         </div>
                         <div className="double-input">
                             <label>Filial: </label>
-                            <input className="codigo" value={dadosFuncionario.filial && dadosFuncionario.filial.id} onDoubleClick={()=> setIsModalFilial(true)} onKeyDown={filiais} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
-                            <input value={dadosFuncionario.filial &&  dadosFuncionario.filial.razaoSocial}/>
+                            <input className="codigo" value={dadosFuncionario.filial && dadosFuncionario.filial.id } onDoubleClick={()=> setIsModalFilial(true)} onKeyDown={filiais} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
+                            <input value={dadosFuncionario.filial &&  dadosFuncionario.filial.razaoSocial} style={{ outline: 0, color: "black", backgroundColor: "white" }} disabled />
                         </div>
                     </div>
                 </CF.Geral>
@@ -339,7 +343,7 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
                         </div>
                         <div>
                             <label>Observação:</label>
-                            <textarea value={dadosFuncionario.obs} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, obs: e.target.value})}}/>
+                            <textarea value={dadosFuncionario.obs} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, obs: e.target.value})}} style={{resize: "none"}}/>
                         </div>
                         <div>
                             <label>Data Nasc.: </label>
@@ -376,8 +380,8 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
             </C.Footer>
             {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)} setIsModalMunicipio={setIsModalMunicipio} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario}/> : null}
             {isModalFilial ? <Emitente onClose={()=> setIsModalFilial(false)} setIsModalFilial={setIsModalFilial} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario}/> : null}
-            {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario}/> : null}
-            {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario}/> : null}
+            {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario} cadastro={{setor: null}}/> : null}
+            {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario} cadastro={{nivel: null}}/> : null}
         </C.Container>
     )
 }
