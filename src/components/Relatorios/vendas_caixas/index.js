@@ -284,7 +284,7 @@ export const VendasCaixa = ({ close }) => {
                                                                         <label style={{ marginLeft: "10px" }}>{item.nome}:</label>
                                                                     </div>
                                                                     <div style={{ width: "40%", display: "flex", justifyContent: "end", alignItems: "end" }}>
-                                                                        <label style={{ marginRight: "10px" }}>{parseFloat(item.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
+                                                                        <label style={{ marginRight: "10px" }}>{parseFloat(item.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00").replace("NaN","0,00")}</label>
                                                                     </div>
                                                                 </div>
                                                             )
@@ -300,15 +300,15 @@ export const VendasCaixa = ({ close }) => {
                             ) : (
                                 <div className={filtro === "todos" ? "caixa-pgto" : "pgto-caixa"}>
                                     <h3>CAIXAS:</h3>
-                                    {totalCaixasFiltrado.map((cx) => {
-                                        if (cx.total != null) {
+                                    {totalCaixasFiltrado.map((cx, index) => {
+                                        if (cx.total !== null) {
                                             return (
-                                                <div className="pgto">
+                                                <div className="pgto" key={index}>
                                                     <div style={{ width: "60%", display: "flex", alignItems: "start", justifyContent: "start" }}>
                                                         <label style={{ marginLeft: "10px" }}>{cx.nome}:</label>
                                                     </div>
                                                     <div style={{ width: "40%", display: "flex", justifyContent: "end", alignItems: "end" }}>
-                                                        <label style={{ marginRight: "10px" }}>{(cx.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00")}</label>
+                                                        <label style={{ marginRight: "10px" }}>{String(cx.total).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }).replace("undefined", "0,00").replace("NaN","0,00")}</label>
                                                     </div>
                                                 </div>
                                             )
@@ -368,7 +368,7 @@ export const VendasCaixa = ({ close }) => {
                         </div>
                     </V.Totais>
                     <V.Graficos>
-                        {total == null || total == 0 ? (
+                        {total === null || total === 0 ? (
                             <div style={{ color: "red", fontWeight: "bold" }}>Não foram encontradas vendas!</div>
                         ) : (
                             <>

@@ -713,7 +713,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                         {dataSelectTop.editar_preco_rotina === true && tipoVenda === 'V' ? (
                             <input
                                 className="add-item"
-                                value={parseFloat(numero2).toFixed(2).replace(".",",")}
+                                value={parseFloat(numero2).toFixed(2).replace(".",",").replace("NaN", "0,00").replace(null, "0,00")}
                                 name="valor_unitario"
                                 onChange={(e) => setNumero2(e.target.value)}
                                 onBlur={changeHandler}
