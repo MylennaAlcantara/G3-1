@@ -382,7 +382,7 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         setDescontoPorcen(calcularPorcentagem());
     }, [numero1, numero2, descontoValor, total]);
 
-    // Funções para abrir o modal de cada campo apertando F2
+    // Funções para abrir o modal de cada campo apertando F1
     function keyProduto(event) {
         if (event.keyCode === 112 && document.getElementById('emitente').value && document.getElementById('pgto').value && document.getElementById('vendedor').value && document.getElementById('top').value && document.getElementById('parceiro').value) {
             setIsModalProdutos(true);
@@ -678,10 +678,10 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
         setListItens(newList);
         setCounter(tamanho);
         decrementarItem(index);
-
+        setItensAlterados(true);
     }
 
-
+console.log(itensAlterados)
     const razaoSocial = emitente.filter((idEmitente) => {
         if (rotinas.id_empresa === idEmitente.id) {
             return idEmitente.razao_social;

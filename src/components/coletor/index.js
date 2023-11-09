@@ -40,6 +40,7 @@ export const Coletor = ({ close }) => {
     });
     const [detalhe, setDetalhe] = useState({
         id: "",
+        id_produto: "",
         id_contagem: cabecalho.id,
         gtin: "",
         descricao_produto: "",
@@ -83,7 +84,10 @@ export const Coletor = ({ close }) => {
                     ip_aberto: ip,
                     id_usuario_insercao: parseInt(localStorage.getItem("id")),
                     id_usuario_edicao: null,
-                    excluido: 0
+                    excluido: 0,
+                    importado_balanco: false,
+                    importado_preVenda: false,
+                    id_preVenda: null
                 })
             })
                 .then(response => response.json())
@@ -102,8 +106,10 @@ export const Coletor = ({ close }) => {
                 body: JSON.stringify({
                     id: 0,
                     id_contagem: cabecalho.id,
+                    id_produto: detalhe.id_produto,
                     gtin: detalhe.gtin,
                     descricao_produto: detalhe.descricao_produto,
+                    referencia: "",
                     quantidade: parseFloat(detalhe.quantidade).toFixed(4).replace(",", "."),
                     item: item + 1,
                     qtd_estoque: parseFloat(detalhe.qtd_estoque).toFixed(4).replace(",", ".")
@@ -113,6 +119,7 @@ export const Coletor = ({ close }) => {
                     setAdicionado(true);
                     setLista([...lista, {
                         id_contagem: cabecalho.id,
+                        id_produto: detalhe.id_produto,
                         gtin: detalhe.gtin,
                         descricao_produto: detalhe.descricao_produto,
                         quantidade: detalhe.quantidade,
@@ -146,19 +153,19 @@ export const Coletor = ({ close }) => {
         const codigo = localStorage.getItem("codigo");
         const tipoSistema = localStorage.getItem("tipoSistema");
         try {
-            const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${tipoSistema}/${codigo}`);
+            const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${tipoSistema}/${codigo || detalhe.gtin}`);
             const data = await response.json();
 
             if (response.status === 200 || response.status === 201) {
                 setDetalhe((prevDetalhe) => {
-                    return { ...prevDetalhe, descricao_produto: data.descricaopdv, gtin: data.gtin, qtd_estoque: data.qtd_estoque };
+                    return { ...prevDetalhe, id_produto: data.codigo, descricao_produto: data.descricaopdv, gtin: data.gtin, qtd_estoque: data.qtd_estoque };
                 });
                 //localStorage.setItem("produtoEncontrado", true);
                 setProdutoEncontrado(true);
             } else {
                 //localStorage.setItem("produtoEncontrado", false);
                 setDetalhe((prevDetalhe) => {
-                    return { ...prevDetalhe, descricao_produto: "", gtin: codigo, qtd_estoque: "" };
+                    return { ...prevDetalhe, id_produto: "", descricao_produto: "", gtin: codigo, qtd_estoque: "" };
                 });
                 setMensagem("PRODUTO NÃO ENCONTRADO!");
                 setProdutoEncontrado(false);

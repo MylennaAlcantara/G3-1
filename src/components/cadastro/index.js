@@ -203,6 +203,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
     function qtdEstoque(e) {
         setNumero1((e.target.value).replace(",", "."));
         setDataSelectItem({ ...dataSelectItem, [e.target?.name]: (e.target?.value).replace(",","."), item: counter });
+        valorUnidade();
     }
 
     function handlePorcenBlur() {
