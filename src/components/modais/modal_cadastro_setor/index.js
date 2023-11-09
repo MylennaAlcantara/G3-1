@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import * as M from "../modal/modal";
 import * as CP from "../modal_cadastro_perfil/cadastroPerfil";
 
-export const CadastroSetor = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
+export const CadastroSetor = ({close, listar, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [novoSetor, setNovoSetor] = useState('');
     const [operador, setOperador] = useState(false)
 
     async function salvar (){
         try{
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+"/setorFuncionario/save",{
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/setorFuncionario/save",{
                 method: "POST",    
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -19,6 +19,7 @@ export const CadastroSetor = ({close, minimizado, setMinimizado, minimizar, setM
             if(response.status === 200){
                 alert('Salvo com sucesso!');
                 close();
+                listar();
             }  
         }catch(err){
             console.log(err);

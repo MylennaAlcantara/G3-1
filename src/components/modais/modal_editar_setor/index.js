@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as M from "../modal/modal";
 import * as CP from "../modal_cadastro_perfil/cadastroPerfil";
 
-export const EditarSetor = ({close, dadosSetor, minimizado, setMinimizado, minimizar, setMinimizar}) => {
+export const EditarSetor = ({close, listar, dadosSetor, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const nomeSetor = dadosSetor.descricao;
     const operadorCaixa = dadosSetor.operadorDeCaixa;
     const [novoSetor, setNovoSetor] = useState(nomeSetor);
@@ -10,7 +10,7 @@ export const EditarSetor = ({close, dadosSetor, minimizado, setMinimizado, minim
 
     async function salvar (){
         try{
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+"/setorFuncionario/edit",{
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/setorFuncionario/edit",{
                 method: "PUT",    
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -22,6 +22,7 @@ export const EditarSetor = ({close, dadosSetor, minimizado, setMinimizado, minim
             if(response.status === 200 || response.status === 201){
                 alert('Salvo com sucesso!');
                 close();
+                listar();
             }  
         }catch(err){
             console.log(err);
@@ -29,7 +30,7 @@ export const EditarSetor = ({close, dadosSetor, minimizado, setMinimizado, minim
     }
 
     async function excluir (){
-        fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+`/setorFuncionario/delete`, {
+        fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/setorFuncionario/delete`, {
             method: 'DELETE',    
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
@@ -38,6 +39,7 @@ export const EditarSetor = ({close, dadosSetor, minimizado, setMinimizado, minim
                 operadorDeCaixa: operador
             })
         }).catch(err => console.log(err))
+        await listar();
         close();
         localStorage.removeItem('idSetor');
     }

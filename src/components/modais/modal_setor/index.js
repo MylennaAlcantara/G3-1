@@ -13,15 +13,15 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
     // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
     const [carregado, setCarregado] = useState(false);
 
-    useEffect(()=> {
-        async function fetchData (){
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/setorFuncionario/all');
-            const data = await response.json();
-            setSetores(data);
-            if( response.status === 200){
-                setCarregado(true);
-            }
+    async function fetchData (){
+        const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/setorFuncionario/all');
+        const data = await response.json();
+        setSetores(data);
+        if( response.status === 200){
+            setCarregado(true);
         }
+    }
+    useEffect(()=> {
         fetchData();
         document.getElementById("search").focus();
     },[])
@@ -86,7 +86,7 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" id="search" placeholder="Buscar.."/>
+                        <input className="search" id="search" placeholder="Buscar.." onKeyDown={(e)=> e.keyCode === 13 && fetchData() }/>
                     </div>
                 </M.Filtro>
                 {setores.length === 0 && carregado === false ? (
@@ -137,8 +137,8 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
                         <button onClick={close}><img src="/images/voltar.png"/>Voltar</button>
                     </div>
                 </C.Footer>
-                {modalNovoSetor ? <CadastroSetor close={()=> setModalNovoSetor(false)} minimizado={minimizado} setMinimizado = {setMinimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
-                {modalEditarSetor ? <EditarSetor close={()=> setModalEditarSetor(false)} dadosSetor={dadosSetor} minimizado={minimizado} setMinimizado = {setMinimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
+                {modalNovoSetor ? <CadastroSetor close={()=> setModalNovoSetor(false)} listar={fetchData} minimizado={minimizado} setMinimizado = {setMinimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
+                {modalEditarSetor ? <EditarSetor close={()=> setModalEditarSetor(false)} listar={fetchData} dadosSetor={dadosSetor} minimizado={minimizado} setMinimizado = {setMinimizado} setMinimizar={setMinimizar} minimizar={minimizar}/> : null}
             </M.Container>
         </M.Modal>
     )
