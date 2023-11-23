@@ -100,29 +100,39 @@ export const Informacao = styled.div`
     .codigo{
         width: 100px;
         height: 24px;
+        margin-right: 5px;
         border: none;        
         box-shadow: 0 3px 5px gray;
     }
     div{
         display: flex;
         justify-content: end;
+        align-items: center;
         width: 100%;
     }
     .input-unico{
         width: 80%;
+        margin: 0 5px 0 0;
     }
     input{
         height: 24px;
-        width: 66%;
-        margin: 5px 5px 0 0;
+        width: 100%;
+        margin: 0px;
         border: none;        
         box-shadow: 0 3px 5px gray;
     }
-    .complemento{
-        width: 46%;
-    }
-    .municipio{
-        width: 46%;
+    #municipio{
+        width: calc(80% + 83px);
+        display: flex;
+        justify-content: end;
+        margin-left: auto;
+        margin-right: 5px;
+        #telefone-celular-data{
+            margin-right: 0px;
+        }
+        .telefone-celular-data{
+            width: auto;
+        }
     }
     label{
         margin: 5px;
@@ -145,6 +155,9 @@ export const Informacao = styled.div`
         overflow: auto;
         width: 100%;
         display: flex;
+        .codigo{
+            width: 50px;
+        }
         .informacao{
             display: flex;
             flex-direction: column;
@@ -154,14 +167,36 @@ export const Informacao = styled.div`
             width: 60%;
         }
         input{
-            width: 30%;
+            width: 100%;
         }
-        .complemento{
-            width: 30%;
+        #municipio{
+            display: flex;
+            flex-wrap: wrap;
+            width: calc(80% + 45px);
+            .municipio{
+                width: calc(60% - 70px);
+            }
+            input{
+                width: 60%; 
+            }
+            #complemento{
+                width: 65%;
+            }
+            #cep{
+                width: calc(60% - 15px);
+            }
+            #codigoMunicipio{
+                width: calc(60% - 25px);
+            }
+            #telefone-celular-data{
+                width: 60%;
+                margin-right: 0px;
+            }
+            .telefone-celular-data{
+                width: 100%;
+            }
         }
-        .municipio{
-            width: 20%;
-        }
+        
         .div-input{
             width: 100%;
             diplay: flex;

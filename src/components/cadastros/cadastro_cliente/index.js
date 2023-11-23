@@ -395,30 +395,32 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
                                 <label>Fantasia/Apelido: </label>
                                 <input className="input-unico" value={dadosCliente.fantasia} onChange={(e) => setDadosCliente({ ...dadosCliente, fantasia: e.target.value })} />
                             </div>
-                            <div className="div-input">
+                            <div id="municipio" style={{width: "calc(80% + 40px)"}}>
                                 <label>CEP: </label>
-                                <input className="codigo" value={dadosCliente.cep} onChange={(e) => setDadosCliente({ ...dadosCliente, cep: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
+                                <input id="cep" className="codigo" value={dadosCliente.cep} onChange={(e) => setDadosCliente({ ...dadosCliente, cep: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
                                 <img alt="" src="/images/LUPA.png" onClick={pesquisarCep} style={{ margin: "auto 5px 2px 0px" }} />
                                 <label>Complemento: </label>
-                                <input className="complemento" value={dadosCliente.complemento} onChange={(e) => setDadosCliente({ ...dadosCliente, complemento: e.target.value })} />
+                                <input id="complemento" value={dadosCliente.complemento} onChange={(e) => setDadosCliente({ ...dadosCliente, complemento: e.target.value })}/>
                             </div>
-                            <div className="div-input">
+                            <div>
                                 <label>Logradouro: </label>
-                                <input value={dadosCliente.endereco} id="endereco" onChange={(e) => setDadosCliente({ ...dadosCliente, endereco: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
-                                <input className="codigo" value={dadosCliente.numero} onChange={(e) => setDadosCliente({ ...dadosCliente, numero: e.target.value })} />
+                                <div className="input-unico">
+                                    <input value={dadosCliente.endereco} onChange={(e) => setDadosCliente({ ...dadosCliente, endereco: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
+                                    <input className="codigo" value={dadosCliente.numero} onChange={(e) => setDadosCliente({ ...dadosCliente, numero: e.target.value })} style={{marginRight: "0px", marginLeft: "5px"}}/>
+                                </div>
                             </div>
                             <div>
                                 <label>Bairro: </label>
                                 <input className="input-unico" id="bairro" value={dadosCliente.bairro} onChange={(e) => setDadosCliente({ ...dadosCliente, bairro: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
                             </div>
-                            <div className="div-input">
+                            <div id="municipio" className="municipio">
                                 <label>Municipio: </label>
                                 <input className="codigo" id="codigoMunicipio" value={dadosCliente.cod_municipio} onDoubleClick={pesquisarMuni} onKeyDown={keyMunicipio} readOnly style={{ backgroundColor: isChecked ? corSimplificado : corObrigatorios }} />
-                                <img alt="" src="/images/add.png" onClick={pesquisarMuni} style={{ marginRight: "5px" }} />
-                                <input className="municipio" id="municipio" value={dadosCliente.municipio} readOnly />
+                                <img alt="" src="/images/add.png" onClick={pesquisarMuni} style={{ margin: "auto 5px" }} />
+                                <input className="municipio" value={dadosCliente.municipio} readOnly />
                                 <div style={{ width: "auto" }}>
                                     <label>UF: </label>
-                                    <select className="codigo" id="option" onChange={(e) => setDadosCliente({ ...dadosCliente, estado: e.target.value })}>
+                                    <select className="codigo" id="option" onChange={(e) => setDadosCliente({ ...dadosCliente, estado: e.target.value })}  style={{marginRight: "0px"}}>
                                         <option value={dadosCliente.estado}>{dadosCliente.estado}</option>
                                         {estados.sort(comparar).map((estado) => {
                                             return <option value={estado.sigla} key={estado.sigla}>{estado.sigla}</option>
@@ -426,40 +428,46 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
                                     </select>
                                 </div>
                             </div>
-                            <div className="div-telefone">
+                            <div id="municipio">
                                 <label>Telefone: </label>
-                                <input className="codigo" value={dadosCliente.telefone} onChange={(e) => setDadosCliente({ ...dadosCliente, telefone: e.target.value })} />
-                                <div style={{ width: "auto" }}>
+                                <input className="codigo" id="telefone-celular-data" value={dadosCliente.telefone} onChange={(e) => setDadosCliente({ ...dadosCliente, telefone: e.target.value })} />
+                                <div className="telefone-celular-data">
                                     <label>Celular: </label>
-                                    <input className="codigo" value={dadosCliente.celular} onChange={(e) => setDadosCliente({ ...dadosCliente, celular: e.target.value })} />
+                                    <input className="codigo" id="telefone-celular-data" value={dadosCliente.celular} onChange={(e) => setDadosCliente({ ...dadosCliente, celular: e.target.value })} />
                                 </div>
-                                <div style={{ width: "auto" }}>
+                                <div className="telefone-celular-data">
                                     <label>Data Nasc: </label>
-                                    <input className="codigo" id="dataNascimento" type="date" value={dadosCliente.data_nasc} onChange={(e) => setDadosCliente({ ...dadosCliente, data_nasc: e.target.value })} />
+                                    <input className="codigo" id="telefone-celular-data" type="date" value={dadosCliente.data_nasc} onChange={(e) => setDadosCliente({ ...dadosCliente, data_nasc: e.target.value })} />
                                 </div>
                             </div>
                             <div>
                                 <label>Email: </label>
                                 <input type="email" className="input-unico" value={dadosCliente.email} onChange={(e) => setDadosCliente({ ...dadosCliente, email: e.target.value })} />
                             </div>
-                            <div className="div-input">
+                            <div>
                                 <label>Perfil Tributá.: </label>
-                                <input className="codigo" value={dadosCliente.perfilRegra.id} onDoubleClick={() => setIsModalPerfil(true)} onKeyDown={keyPerfil} title='Aperte F2 para listar as opções' />
-                                <input value={dadosCliente.perfilRegra.descricao} readOnly />
+                                <div className="input-unico">
+                                    <input className="codigo" value={dadosCliente.perfilRegra.id} onDoubleClick={() => setIsModalPerfil(true)} onKeyDown={keyPerfil} title='Aperte F2 para listar as opções' />
+                                    <input value={dadosCliente.perfilRegra.descricao} readOnly />
+                                </div>
                             </div>
-                            <div className="div-input">
+                            <div>
                                 <label>Ramo de Ativ.: </label>
-                                <input className="codigo" value={dadosCliente.ramoAtividade.id} onDoubleClick={() => setIsModalRamo(true)} onKeyDown={keyRamo} title='Aperte F2 para listar as opções' />
-                                <input value={dadosCliente.ramoAtividade.descricao} readOnly />
+                                <div className="input-unico">
+                                    <input className="codigo" value={dadosCliente.ramoAtividade.id} onDoubleClick={() => setIsModalRamo(true)} onKeyDown={keyRamo} title='Aperte F2 para listar as opções' />
+                                    <input value={dadosCliente.ramoAtividade.descricao} readOnly />
+                                </div>
                             </div>
                             <div>
                                 <label>Última Alter.: </label>
                                 <input className="input-unico" />
                             </div>
-                            <div className="div-input">
+                            <div>
                                 <label>Filial: </label>
-                                <input className="codigo" value={dadosCliente.filial.id} onDoubleClick={() => setIsModalEmpresa(true)} onKeyDown={keyEmpresa} title='Aperte F2 para listar as opções' />
-                                <input value={dadosCliente.filial.razaoSocial} readOnly />
+                                <div className="input-unico">
+                                    <input className="codigo" value={dadosCliente.filial.id} onDoubleClick={() => setIsModalEmpresa(true)} onKeyDown={keyEmpresa} title='Aperte F2 para listar as opções' />
+                                    <input value={dadosCliente.filial.razaoSocial} readOnly />
+                                </div>
                             </div>
                         </fieldset>
                     </CC.Informacao>
