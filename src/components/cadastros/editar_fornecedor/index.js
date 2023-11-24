@@ -294,48 +294,58 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
                                 </div>
                                 <div className="div-input">
                                     <label>CEP: </label>
-                                    <input className="codigo" value={dadosFornecedor.cep} onChange={(e) => setDadosFornecedor({...dadosFornecedor, cep: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
-                                    <img src="/images/LUPA.png" onClick={pesquisarCep}/>
+                                    <div className="input-unico" style={{display: "flex", justifyContent: "start"}}>
+                                        <input className="codigo" value={dadosFornecedor.cep} onChange={(e) => setDadosFornecedor({...dadosFornecedor, cep: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
+                                        <img src="/images/LUPA.png" onClick={pesquisarCep}/>
+                                    </div>
                                 </div>
-                                <div className="div-input">
+                                <div>
                                     <label>Endereço/Nº: </label>
-                                    <input value={dadosFornecedor.endereco} id="endereco" onChange={(e)=> setDadosFornecedor({...dadosFornecedor, endereco: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
-                                    <input className="codigo" value={dadosFornecedor.numero} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, numero: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
+                                    <div className="input-unico">
+                                        <input value={dadosFornecedor.endereco} id="endereco" onChange={(e)=> setDadosFornecedor({...dadosFornecedor, endereco: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
+                                        <input className="codigo" value={dadosFornecedor.numero} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, numero: e.target.value})} style={{backgroundColor: corObrigatorios, marginRight: "0px", marginLeft: "5px"}}/>
+                                    </div>
                                 </div>
-                                <div className="div-input">
+                                <div id="bairro-complemento" className="municipio" style={{marginLeft: "auto", marginRight: "5px", width: "calc(80% + 55px)"}}>
                                     <label>Bairro: </label>
                                     <input className="bairro" id="bairro" value={dadosFornecedor.bairro} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, bairro: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
                                     <label>Complemento: </label>
-                                    <input className="complemento" value={dadosFornecedor.complemento} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, complemento: e.target.value})}/>
+                                    <input className="complemento" value={dadosFornecedor.complemento} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, complemento: e.target.value})} style={{marginRight: "0px"}}/>
                                 </div>
-                                <div className="div-input">
+                                <div id="municipio" className="municipio">
                                     <label>Municipio: </label>
                                     <input className="codigo" id="codigoMunicipio" value={dadosFornecedor.codigo_municipio} onDoubleClick={()=> setIsModalMunicipio(true)} onKeyDown={keyMunicipio} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções' readOnly/>
-                                    <img src="/images/add.png" onClick={pesquisarMuni}/>
-                                    <input className="municipio" id="municipio" value={dadosFornecedor.municipio} style={{backgroundColor: corObrigatorios}} readOnly/>
-                                    <label>UF: </label>
-                                    <select className="codigo" id="option" value={dadosFornecedor.uf} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, uf: e.target.value})}>
-                                        {estados.sort(comparar).map((estado)=> {
-                                            return <option value={estado.sigla}>{estado.sigla}</option>
-                                        })}
-                                    </select>
+                                    <img src="/images/add.png" onClick={pesquisarMuni} style={{ margin: "auto 5px" }}/>
+                                    <input className="municipio" value={dadosFornecedor.municipio} style={{backgroundColor: corObrigatorios}} readOnly/>
+                                    <div style={{ width: "auto" }}>
+                                        <label>UF: </label>
+                                        <select className="codigo" id="option" value={dadosFornecedor.uf} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, uf: e.target.value})}>
+                                            {estados.sort(comparar).map((estado, index)=> {
+                                                return <option value={estado.sigla} key={index}>{estado.sigla}</option>
+                                            })}
+                                        </select>
+                                    </div>
                                 </div>
                                 <div>
                                     <label>País:</label>
-                                    <input className="codigo" value={dadosFornecedor.codigo_pais} onKeyDown={keyPaises} onDoubleClick={()=> setIsModalPaises(true)} title='Aperte F2 para listar as opções'/>
-                                    <img src="/images/LUPA.png" onClick={pesquisarPais}/>
-                                    <label style={{color: "red"}}>{dadosFornecedor.pais}</label>
+                                    <div className="input-unico" style={{display: "flex", justifyContent: "start"}}>
+                                        <input className="codigo" value={dadosFornecedor.codigo_pais} onKeyDown={keyPaises} onDoubleClick={()=> setIsModalPaises(true)} title='Aperte F2 para listar as opções'/>
+                                        <img src="/images/LUPA.png" onClick={pesquisarPais}/>
+                                        <label style={{color: "red"}}>{dadosFornecedor.pais}</label>
+                                    </div>
+                                </div>
+                                <div id="municipio">
+                                    <label>Telefone: </label>
+                                    <input className="codigo" id="telefone-celular-data" value={dadosFornecedor.telefone} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, telefone: e.target.value})}/>
+                                    <label>Senha Cotação</label>
+                                    <input className="codigo" id="telefone-celular-data" type="password" value={dadosFornecedor.senha_cotacao} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, senha_cotacao: e.target.value})}/>
                                 </div>
                                 <div>
-                                    <label>Telefone: </label>
-                                    <input className="codigo" value={dadosFornecedor.telefone} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, telefone: e.target.value})}/>
-                                    <label>Senha Cotação</label>
-                                    <input className="codigo" type="password" value={dadosFornecedor.senha_cotacao} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, senha_cotacao: e.target.value})}/>
-                                </div>
-                                <div className="div-input">
                                     <label>Comprador: </label>
-                                    <input className="codigo" value={dadosFornecedor.id_comprador} onKeyDown={keyComprador} onDoubleClick={()=> setIsModalFuncionario(true)} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções'/>
-                                    <input value={dadosFornecedor.nome_comprador} readOnly/>
+                                    <div className="input-unico">
+                                        <input className="codigo" value={dadosFornecedor.id_comprador} onKeyDown={keyComprador} onDoubleClick={()=> setIsModalFuncionario(true)} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções'/>
+                                        <input value={dadosFornecedor.nome_comprador} readOnly/>
+                                    </div>
                                 </div>
                                 <div>
                                     <label>Última Alter.: </label>
