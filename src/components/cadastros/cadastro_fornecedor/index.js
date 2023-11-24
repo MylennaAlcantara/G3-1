@@ -79,28 +79,31 @@ export const CadastrarFornecedor = ({minimizado, setMinimizado}) => {
     const [isModalPaises, setIsModalPaises] = useState(false);
     function keyMunicipio (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalMunicipio(true);
-        }else if(e.keyCode !== 113){
+        }else if(e.keyCode !== 112){
             e.preventDefault();
         }
     }
     function keyPaises (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalPaises(true);
-        }else if(e.keyCode !== 113){
+        }else if(e.keyCode !== 112){
             e.preventDefault();
         }
     }
     function keyComprador (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalFuncionario(true);
-        }else if(e.keyCode !== 113){
+        }else if(e.keyCode !== 112){
             e.preventDefault();
         }
     }
+
+    // Bloqueia o F1 padrão do site
+    document.onkeydown = function f1(e){ if(e.keyCode === 112)e.preventDefault() }
 
     const [aba, setAba] = useState('dados-gerais');
 
