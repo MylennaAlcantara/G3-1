@@ -82,6 +82,12 @@ export const ConsultarFornecedor = () => {
                 return;
             }
             setSelectIndex(selectIndex + 1);
+        } else if (e.keyCode === 13){
+            e.preventDefault();
+            if (resultado.length > 0) {
+                selecionado(resultado[selectIndex], selectIndex);
+                abrirEditar();
+            }
         }
     };
 
@@ -175,7 +181,10 @@ export const ConsultarFornecedor = () => {
                             <tbody>
                                 {resultado.slice(0, 50).map((user, index) => {
                                     return (
-                                        <tr key={user.id} onClick={selecionado.bind(this, user, index)} style={{ background: index === selectIndex ? '#87CEFA' : '' }}>
+                                        <tr key={user.id} 
+                                            onClick={selecionado.bind(this, user, index)} 
+                                            onDoubleClick={abrirEditar}
+                                            style={{ background: index === selectIndex ? '#87CEFA' : '' }}>
                                             <td>SIM</td>
                                             <td>{user.id}</td>
                                             <td>{user.razao_social}</td>
