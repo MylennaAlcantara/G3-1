@@ -1,71 +1,84 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import * as C from "../../cadastro/cadastro";
-import * as M from "../../modais/modal/modal" 
+import * as M from "../../modais/modal/modal"
 import * as CCL from "../../cadastros/consulta_cliente/consultaCliente";
 import { AuthContext } from "../../../contexts/Auth/authContext";
-import {Loading} from "../../loading";
+import { Loading } from "../../loading";
 export const ConsultarFornecedor = () => {
     const navigate = useNavigate();
-    const {user, empresa, nivel, cnpjMask} = useContext(AuthContext);
+    const { user, empresa, nivel, cnpjMask } = useContext(AuthContext);
     const [users, setUsers] = useState([])
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('social');
+    const [filtroAtivo, setFiltroAtivo] = useState("ativo");
 
     // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
     const [carregado, setCarregado] = useState(false);
+    const resultado1 = Array.isArray(users) && users.filter((user) => {
+        if (filtro === 'fantasia') {
+            return String(user.nome_fantasia).toLowerCase().includes(busca);
+        } else if (filtro === 'codigo') {
+            return String(user.id).toLowerCase().includes(busca);
+        } else if (filtro === 'documento') {
+            return String(user.numero_documento).toLowerCase().includes(busca);
+        } else {
+            return user.razao_social.toLowerCase().includes(busca);
+        }
+    });
+
+    const resultado = resultado1.filter((user) => {
+        if (filtroAtivo === "ativo") {
+            return user.ativo && !user.excluido;
+        } else if (filtroAtivo == "desativado") {
+            return !user.ativo && !user.excluido;
+        } else {
+            return !user.excluido;
+        }
+    });
+    const [selectIndex, setSelectIndex] = useState(0);
+    const tableRef = useRef(null);
+    const [codigoFornecedor, setCodigoFornecedor] = useState();
 
     // Filtro de busca
     function handleFiltroChange(event) {
         setFiltro(event.target.value);
     }
 
+    const handleFiltroAtivoChange = (e) => {
+        setFiltroAtivo(e.target.value);
+    };
+
     useEffect(() => {
-        async function fetchData (){
-            const response = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+"/fornecedor/all");
+        async function fetchData() {
+            const response = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR + "/fornecedor/all");
             const data = await response.json();
             setUsers(data);
-            if( response.status === 200){
+            if (response.status === 200) {
                 setCarregado(true);
             }
         }
-            fetchData();
-            document.getElementById('search').focus();
+        fetchData();
+        document.getElementById('search').focus();
     }, []);
 
-    const resultado = Array.isArray(users) && users.filter((user) => {
-        if(filtro === 'fantasia'){
-            return String(user.nome_fantasia).toLowerCase().includes(busca);
-        }else if(filtro === 'codigo'){
-            return String(user.id).toLowerCase().includes(busca);
-        }else if(filtro === 'documento'){
-            return String(user.numero_documento).toLowerCase().includes(busca);
-        }else{
-            return user.razao_social.toLowerCase().includes(busca);
-        }
-    })
-
     //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
-    const [selectIndex, setSelectIndex] = useState(0);
-    const tableRef = useRef(null);
-
     const selecionado = (user, index) => {
         setSelectIndex(index);
         localStorage.setItem('idFornecedor', user.id);
         setCodigoFornecedor(user.id);
     }
 
-
     const handleKeyDown = (e) => {
-        if(e.keyCode === 38){
+        if (e.keyCode === 38) {
             e.preventDefault();
-            if(selectIndex === null || selectIndex === 0){
+            if (selectIndex === null || selectIndex === 0) {
                 return;
             }
-            setSelectIndex(selectIndex-1);
-        }else if (e.keyCode === 40){
+            setSelectIndex(selectIndex - 1);
+        } else if (e.keyCode === 40) {
             e.preventDefault();
-            if(selectIndex === null || selectIndex === resultado.length -1 ){
+            if (selectIndex === null || selectIndex === resultado.length - 1) {
                 return;
             }
             setSelectIndex(selectIndex + 1);
@@ -73,58 +86,66 @@ export const ConsultarFornecedor = () => {
     };
 
     const novo = () => {
-        if(nivel.cadastro_fornecedor_incluir){
+        if (nivel.cadastro_fornecedor_incluir) {
             navigate("/cadastrarFornecedor");
-        }else{
-            alert("Nivel de acesso negado!");
-        }
-    }
-    const [codigoFornecedor, setCodigoFornecedor] = useState();
-    const abrirEditar = async() => {
-        if(nivel.cadastro_fornecedor_editar){
-            const responseFornecedor = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/fornecedor/${codigoFornecedor}`);
-            const fornecedor = await responseFornecedor.json();
-            if(codigoFornecedor === undefined || codigoFornecedor === null){
-                console.log('nenhum fornecedor selecionado')
-            }else{
-            navigate(`/editarFornecedor/${codigoFornecedor}`);
-            }
-        }else{
+        } else {
             alert("Nivel de acesso negado!");
         }
     }
 
-    return(
+    const abrirEditar = async () => {
+        if (nivel.cadastro_fornecedor_editar) {
+            const responseFornecedor = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR + `/fornecedor/${codigoFornecedor}`);
+            const fornecedor = await responseFornecedor.json();
+            if (codigoFornecedor === undefined || codigoFornecedor === null) {
+                console.log('nenhum fornecedor selecionado')
+            } else {
+                navigate(`/editarFornecedor/${codigoFornecedor}`);
+            }
+        } else {
+            alert("Nivel de acesso negado!");
+        }
+    }
+
+    return (
         <C.Container>
-            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
+            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Fornecedores</h3>
             </C.Header>
             <M.Filtro>
                 <div className="div-checkbox">
                     <div>
-                        <input type="radio" value="codigo" className="checkbox" name="checkbox" checked={filtro === 'codigo'} onChange={handleFiltroChange}/>
+                        <input type="radio" value="codigo" className="checkbox" name="checkbox" checked={filtro === 'codigo'} onChange={handleFiltroChange} />
                         <label> Código </label>
-                        <input type="radio" value="social" className="checkbox" name="checkbox" checked={filtro === 'social'} onChange={handleFiltroChange}/>
-                        <label> R. Social </label>                            
+                        <input type="radio" value="social" className="checkbox" name="checkbox" checked={filtro === 'social'} onChange={handleFiltroChange} />
+                        <label> R. Social </label>
                     </div>
                     <div>
-                        <input type="radio" value="fantasia" className="checkbox" name="checkbox" checked={filtro === 'fantasia'} onChange={handleFiltroChange}/>
+                        <input type="radio" value="fantasia" className="checkbox" name="checkbox" checked={filtro === 'fantasia'} onChange={handleFiltroChange} />
                         <label> N. Fantasia </label>
-                        <input type="radio" value="documento" className="checkbox" name="checkbox" checked={filtro === 'documento'} onChange={handleFiltroChange}/>
-                        <label> N.Documento </label>                            
+                        <input type="radio" value="documento" className="checkbox" name="checkbox" checked={filtro === 'documento'} onChange={handleFiltroChange} />
+                        <label> N.Documento </label>
                     </div>
                 </div>
                 <div className="div-search">
-                    <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                    <div>
+                        <input type="radio" value="ativo" className="checkbox-search" onChange={(e) => handleFiltroAtivoChange(e)} checked={filtroAtivo === "ativo" ? true : false} />
+                        <label>Ativos</label>
+                        <input type="radio" value="desativado" className="checkbox-search" onChange={(e) => handleFiltroAtivoChange(e)} checked={filtroAtivo === "desativado" ? true : false} />
+                        <label>Desativados</label>
+                        <input type="radio" value="geral" className="checkbox-search" onChange={(e) => handleFiltroAtivoChange(e)} checked={filtroAtivo === "geral" ? true : false} />
+                        <label>Geral</label>
+                    </div>
+                    <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown} />
                 </div>
             </M.Filtro>
             <CCL.Lista>
                 {users.length === 0 ? (
-                    <Loading/>
+                    <Loading />
                 ) : users.length === 0 && carregado ? (
                     <div className="table-responsive">
-                        <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                        <table className="table" ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
                             <thead>
                                 <tr>
                                     <th>Ativo</th>
@@ -135,7 +156,7 @@ export const ConsultarFornecedor = () => {
                                 </tr>
                             </thead>
                         </table>
-                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                        <div style={{ height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold" }}>
                             Não Existem dados a serem exibidos!
                         </div>
                     </div>
@@ -152,9 +173,9 @@ export const ConsultarFornecedor = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {resultado.slice(0, 50).map( (user, index) => {
-                                    return(
-                                        <tr key={user.id} onClick={selecionado.bind(this, user, index)} style={{background: index === selectIndex ? '#87CEFA' : ''}}>
+                                {resultado.slice(0, 50).map((user, index) => {
+                                    return (
+                                        <tr key={user.id} onClick={selecionado.bind(this, user, index)} style={{ background: index === selectIndex ? '#87CEFA' : '' }}>
                                             <td>SIM</td>
                                             <td>{user.id}</td>
                                             <td>{user.razao_social}</td>
@@ -172,7 +193,7 @@ export const ConsultarFornecedor = () => {
                 <div className="buttons">
                     <button onClick={novo}><img src="/images/add.png" />Novo</button>
                     <button onClick={abrirEditar}><img src="/images/abrir.png" />Abrir</button>
-                    <button onClick={()=> navigate('/home')}><img src="/images/voltar.png" />Voltar</button>
+                    <button onClick={() => navigate('/home')}><img src="/images/voltar.png" />Voltar</button>
                 </div>
             </C.Footer>
         </C.Container>

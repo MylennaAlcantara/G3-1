@@ -70,6 +70,9 @@ export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
         municipio: "",
         estado: "",
         cod_municipio: "",
+        excluido: false,
+        data_exclusao: null,
+        id_usuario_exclusao: null
     })
 
     //estados dos modais
@@ -172,6 +175,9 @@ export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
                 municipio: data.municipio,
                 estado: data.estado,
                 cod_municipio: data.cod_municipio,
+                excluido: data.excluido,
+                data_exclusao: data.data_exclusao,
+                id_usuario_exclusao: data.id_usuario_exclusao
             })
         }
         fetchDataCliente();
@@ -232,7 +238,11 @@ export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
             const res = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL + "/clientes", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(dadosCliente)
+                body: JSON.stringify({
+                    ...dadosCliente,
+                    data_exclusao: dadosCliente.excluido ? String(dataAtual) : null,
+                    id_usuario_exclusao: dadosCliente.excluido ? parseInt(idFuncionario) : null
+                })
             });
             if (res.status === 200) {
                 alert('Editado com sucesso!');
@@ -292,7 +302,7 @@ export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
         navigate("/home");
         localStorage.setItem("dadosCliente", JSON.stringify(dadosCliente));
     }
-
+console.log(dadosCliente.excluido)
     return (
         <C.Container>
             <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
@@ -326,7 +336,7 @@ export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
                                 <label>SPC</label>
                             </div>
                             <div>
-                                <input className="checkbox" type='checkbox' />
+                                <input className="checkbox" type='checkbox' onChange={() => setDadosCliente({ ...dadosCliente, excluido: !dadosCliente.excluido })} checked={dadosCliente.excluido ? true : false} />
                                 <label>DESATIVADO</label>
                             </div>
                             <div>
@@ -350,7 +360,7 @@ export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
                                     ) : (
                                         <input className="input-documentos" style={{ backgroundColor: cor }} readOnly />
                                     )}
-                                    <img src="/images/LUPA.png" onClick={pesquisarCnpj} style={{ margin: "auto 0" }} />
+                                    <img alt="" src="/images/LUPA.png" onClick={pesquisarCnpj} style={{ margin: "auto 0" }} />
                                 </div>
                                 <div>
                                     <label>Inscr. Municipal: </label>
@@ -416,10 +426,10 @@ export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
                                 <label>Fantasia/Apelido: </label>
                                 <input className="input-unico" value={dadosCliente.nome_fantasia} onChange={(e) => setDadosCliente({ ...dadosCliente, nome_fantasia: e.target.value })} />
                             </div>
-                            <div id="municipio" style={{width: "calc(80% + 40px)"}}>
+                            <div id="municipio" style={{ width: "calc(80% + 40px)" }}>
                                 <label>CEP: </label>
                                 <input id="cep" className="codigo" value={cepMask(dadosCliente.cep)} onChange={(e) => setDadosCliente({ ...dadosCliente, cep: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
-                                <img src="/images/LUPA.png" onClick={pesquisarCep} style={{ margin: "auto 5px 2px 0px" }} />
+                                <img alt="" src="/images/LUPA.png" onClick={pesquisarCep} style={{ margin: "auto 5px 2px 0px" }} />
                                 <label>Complemento: </label>
                                 <input id="complemento" value={dadosCliente.complemento} onChange={(e) => setDadosCliente({ ...dadosCliente, complemento: e.target.value })} />
                             </div>
@@ -427,7 +437,7 @@ export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
                                 <label>Logradouro: </label>
                                 <div className="input-unico">
                                     <input value={dadosCliente.endereco} onChange={(e) => setDadosCliente({ ...dadosCliente, endereco: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
-                                    <input className="codigo" value={dadosCliente.numero} onChange={(e) => setDadosCliente({ ...dadosCliente, numero: e.target.value })} style={{marginRight: "0px", marginLeft: "5px"}}/>
+                                    <input className="codigo" value={dadosCliente.numero} onChange={(e) => setDadosCliente({ ...dadosCliente, numero: e.target.value })} style={{ marginRight: "0px", marginLeft: "5px" }} />
                                 </div>
                             </div>
                             <div>
@@ -437,11 +447,11 @@ export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
                             <div id="municipio" className="municipio">
                                 <label>Municipio: </label>
                                 <input className="codigo" id="codigoMunicipio" value={dadosCliente.cod_municipio} onDoubleClick={pesquisarMuni} onKeyDown={keyMunicipio} readOnly style={{ backgroundColor: isChecked ? corSimplificado : corObrigatorios }} />
-                                <img src="/images/add.png" onClick={pesquisarMuni} style={{ marginRight: "5px" }} />
-                                <input className="municipio"value={dadosCliente.municipio} readOnly />
+                                <img alt="" src="/images/add.png" onClick={pesquisarMuni} style={{ marginRight: "5px" }} />
+                                <input className="municipio" value={dadosCliente.municipio} readOnly />
                                 <div style={{ width: "auto" }}>
                                     <label>UF: </label>
-                                    <select className="codigo" id="option" onChange={(e) => setDadosCliente({ ...dadosCliente, estado: e.target.value })}  style={{marginRight: "0px"}}>
+                                    <select className="codigo" id="option" onChange={(e) => setDadosCliente({ ...dadosCliente, estado: e.target.value })} style={{ marginRight: "0px" }}>
                                         <option value={dadosCliente.estado}>{dadosCliente.estado}</option>
                                         {estados.sort(comparar).map((estado) => {
                                             return <option key={estado.sigla} value={estado.sigla}>{estado.sigla}</option>
@@ -703,8 +713,8 @@ export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
                 </CC.Foto>*/}
             <C.Footer>
                 <div className="buttons">
-                    <button onClick={salvar}><img src="/images/salvar.png" />Salvar</button>
-                    <button onClick={cancelar}><img src="/images/voltar.png" />Cancelar</button>
+                    <button onClick={salvar}><img alt="" src="/images/salvar.png" />Salvar</button>
+                    <button onClick={cancelar}><img alt="" src="/images/voltar.png" />Cancelar</button>
                 </div>
             </C.Footer>
             {isModalPerfil ? <PerfilCliente close={() => setIsModalPerfil(false)} setDadosCliente={setDadosCliente} dadosCliente={dadosCliente} /> : null}

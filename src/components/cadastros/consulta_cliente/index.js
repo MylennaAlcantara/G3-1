@@ -6,52 +6,62 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/Auth/authContext";
 import { Loading } from "../../loading";
 
-export const ConsultarCliente = ({setCliente}) => {
+export const ConsultarCliente = ({ setCliente }) => {
     const navigate = useNavigate();
-    const {user, empresa, nivel, cnpjMask, dataMask, cepMask} = useContext(AuthContext);
+    const { user, empresa, nivel, cnpjMask, dataMask, cepMask } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('nome');
+    const [filtroAtivo, setFiltroAtivo] = useState("ativo");
 
     // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
     const [carregado, setCarregado] = useState(false);
 
-    const resultado = Array.isArray(users) && users.filter((user) => {
-        if(filtro === 'codigo'){
+    const resultado1 = Array.isArray(users) && users.filter((user) => {
+        if (filtro === 'codigo') {
             return String(user.id).toLowerCase().includes(busca);
-        }else if(filtro === 'municipio'){
+        } else if (filtro === 'municipio') {
             return user.municipio.toLowerCase().includes(busca);
-        }else if(filtro === 'cpf'){
+        } else if (filtro === 'cpf') {
             return String(user.cpf_cnpj).toLowerCase().includes(busca);
-        }else if(filtro === 'nome'){
+        } else if (filtro === 'nome') {
             return user.nome.toLowerCase().includes(busca);
-        }else if(filtro === 'nome_fantasia'){
+        } else if (filtro === 'nome_fantasia') {
             return user.nome_fantasia.toLowerCase().includes(busca);
-        }else if(filtro === 'rg'){
+        } else if (filtro === 'rg') {
             return String(user.rg).toLowerCase().includes(busca);
         }
     });
 
-    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
+    const resultado = resultado1.filter((user) => {
+        if (filtroAtivo === 'ativo') {
+            return !user.excluido;
+        } else if (filtroAtivo === 'desativado') {
+            return user.excluido;
+        } else {
+            return resultado1;
+        }
+    })
+
     const [selectIndex, setSelectIndex] = useState(0);
     const tableRef = useRef(null);
     const [codigoCliente, setCodigoCliente] = useState();
 
     useEffect(() => {
-        async function fetchData (){
-            try{
-                const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/clientes");
+        async function fetchData() {
+            try {
+                const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL + "/clientes");
                 const data = await response.json();
                 setUsers(data);
-                if( response.status === 200){
+                if (response.status === 200) {
                     setCarregado(true);
                 }
-            }catch{
+            } catch {
                 setCarregado(true);
             }
         }
-            fetchData();
-            document.getElementById('search').focus();
+        fetchData();
+        document.getElementById('search').focus();
     }, []);
 
     //Filtro de busca
@@ -59,22 +69,27 @@ export const ConsultarCliente = ({setCliente}) => {
         setFiltro(e.target.value);
     };
 
+    const handleFiltroAtivoChange = (e) => {
+        setFiltroAtivo(e.target.value);
+    };
+
+    //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
     const handleKeyDown = (e) => {
-        if(e.keyCode === 38){
+        if (e.keyCode === 38) {
             e.preventDefault();
-            if(selectIndex === null || selectIndex === 0){
+            if (selectIndex === null || selectIndex === 0) {
                 return;
             }
-            setSelectIndex(selectIndex-1);
-        }else if (e.keyCode === 40){
+            setSelectIndex(selectIndex - 1);
+        } else if (e.keyCode === 40) {
             e.preventDefault();
-            if(selectIndex === null || selectIndex === resultado.length -1 ){
+            if (selectIndex === null || selectIndex === resultado.length - 1) {
                 return;
             }
             setSelectIndex(selectIndex + 1);
-        }else if(e.keyCode === 13){
+        } else if (e.keyCode === 13) {
             e.preventDefault();
-            if(resultado.length > 0){
+            if (resultado.length > 0) {
                 selecionado(resultado[selectIndex], selectIndex);
                 abrirEditar();
             }
@@ -87,67 +102,65 @@ export const ConsultarCliente = ({setCliente}) => {
         localStorage.setItem('idCliente', user.id);
         setSelectIndex(index);
     }
-    const abrirEditar = async() => {
-        if(nivel.cadastro_cliente_editar){
-            //const responseCliente = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/clientes/${codigoCliente}`); //http://10.0.1.10:8091/preVenda/id
-            //const cliente = await responseCliente.json();
-            if(codigoCliente === undefined){
+    const abrirEditar = async () => {
+        if (nivel.cadastro_cliente_editar) {
+            if (codigoCliente === undefined) {
                 console.log('nenhum cliente selecionado')
-            }else{
+            } else {
                 navigate(`/editarCliente/${codigoCliente}`);
             }
-        }else{
+        } else {
             alert('Nivel de acesso negado!');
         }
     }
     const novo = () => {
-        if(nivel.cadastro_cliente_incluir){
+        if (nivel.cadastro_cliente_incluir) {
             navigate('/cadastrarCliente');
-        }else{
+        } else {
             alert('Nivel de acesso negado!');
         }
     }
 
-    return(         
+    return (
         <C.Container>
-            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
+            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))}</C.NaviBar>
             <C.Header>
                 <h3>Clientes</h3>
             </C.Header>
             <M.Filtro>
                 <div className="div-checkbox">
                     <div>
-                        <input type="radio" value="codigo" className="checkbox" name="checkbox" checked={filtro === 'codigo'} onChange={handleFiltroChange}/>
+                        <input type="radio" value="codigo" className="checkbox" name="checkbox" checked={filtro === 'codigo'} onChange={handleFiltroChange} />
                         <label> Código </label>
-                        <input type="radio" value="municipio" className="checkbox" name="checkbox" checked={filtro === 'municipio'} onChange={handleFiltroChange}/>
+                        <input type="radio" value="municipio" className="checkbox" name="checkbox" checked={filtro === 'municipio'} onChange={handleFiltroChange} />
                         <label> Município </label>
-                        <input type="radio" value="cpf" className="checkbox" name="checkbox" checked={filtro === 'cpf'} onChange={handleFiltroChange}/>
+                        <input type="radio" value="cpf" className="checkbox" name="checkbox" checked={filtro === 'cpf'} onChange={handleFiltroChange} />
                         <label> CPF </label>
                     </div>
                     <div>
-                        <input type="radio" value="nome" className="checkbox" name="checkbox" checked={filtro === 'nome'} onChange={handleFiltroChange}/>
+                        <input type="radio" value="nome" className="checkbox" name="checkbox" checked={filtro === 'nome'} onChange={handleFiltroChange} />
                         <label> Nome </label>
-                        <input type="radio" value="fantasia" className="checkbox" name="checkbox" checked={filtro === 'fantasia'} onChange={handleFiltroChange}/>
+                        <input type="radio" value="fantasia" className="checkbox" name="checkbox" checked={filtro === 'fantasia'} onChange={handleFiltroChange} />
                         <label> Fantasia </label>
-                        <input type="radio" value="rg" className="checkbox" name="checkbox" checked={filtro === 'rg'} onChange={handleFiltroChange}/>
+                        <input type="radio" value="rg" className="checkbox" name="checkbox" checked={filtro === 'rg'} onChange={handleFiltroChange} />
                         <label> RG </label>
                     </div>
                 </div>
                 <div className="div-search">
                     <div>
-                        <input type="radio" className="checkbox-search"/>
+                        <input type="radio" value="ativo" className="checkbox-search" onChange={(e) => handleFiltroAtivoChange(e)} checked={filtroAtivo === "ativo" ? true : false} />
                         <label>Ativos</label>
-                        <input type="radio" className="checkbox-search"/>
+                        <input type="radio" value="desativado" className="checkbox-search" onChange={(e) => handleFiltroAtivoChange(e)} checked={filtroAtivo === "desativado" ? true : false} />
                         <label>Desativados</label>
-                        <input type="radio" className="checkbox-search"/>
+                        <input type="radio" value="geral" className="checkbox-search" onChange={(e) => handleFiltroAtivoChange(e)} checked={filtroAtivo === "geral" ? true : false} />
                         <label>Geral</label>
                     </div>
-                    <input className="search" id="search" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown} autoFocus/>
-                </div>                    
+                    <input className="search" id="search" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown} autoFocus />
+                </div>
             </M.Filtro>
             <CCL.Lista>
-                {users.length == 0  && carregado === false ? (
-                    <Loading/>
+                {users.length == 0 && carregado === false ? (
+                    <Loading />
                 ) : users.length === 0 && carregado ? (
                     <div className="table-responsive">
                         <table id="table" ref={tableRef} onKeyDown={handleKeyDown} tabIndex={0}>
@@ -167,8 +180,8 @@ export const ConsultarCliente = ({setCliente}) => {
                                 </tr>
                             </thead>
                         </table>
-                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
-                                Não Existem dados a serem exibidos!
+                        <div style={{ height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold" }}>
+                            Não Existem dados a serem exibidos!
                         </div>
                     </div>
                 ) : (
@@ -190,12 +203,12 @@ export const ConsultarCliente = ({setCliente}) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {Array.isArray(resultado) && resultado.map( (user, index) => {
-                                    return(
-                                        <tr key={user.id} 
-                                            onClick={selecionado.bind(this, user, index)} 
+                                {Array.isArray(resultado) && resultado.map((user, index) => {
+                                    return (
+                                        <tr key={user.id}
+                                            onClick={selecionado.bind(this, user, index)}
                                             onDoubleClick={abrirEditar}
-                                            style={{background: index === selectIndex ? '#87CEFA' : ''}}>
+                                            style={{ background: index === selectIndex ? '#87CEFA' : '' }}>
                                             <td>{user.id}</td>
                                             <td>{dataMask(user.data_cadastro)}</td>
                                             <td>{user.nome}</td>
@@ -217,9 +230,9 @@ export const ConsultarCliente = ({setCliente}) => {
             </CCL.Lista>
             <C.Footer>
                 <div className="buttons">
-                    <button onClick={novo}><img src="/images/add.png"/>Novo</button>
-                    <button onClick={abrirEditar}><img src="/images/abrir.png"/>Abrir</button>
-                    <button onClick={()=> navigate('/home')}><img src="/images/voltar.png"/>Fechar</button>
+                    <button onClick={novo}><img alt="" src="/images/add.png" />Novo</button>
+                    <button onClick={abrirEditar}><img alt="" src="/images/abrir.png" />Abrir</button>
+                    <button onClick={() => navigate('/home')}><img alt="" src="/images/voltar.png" />Fechar</button>
                 </div>
             </C.Footer>
         </C.Container>

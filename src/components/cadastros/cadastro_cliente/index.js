@@ -64,6 +64,9 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
         municipio: "",
         estado: "",
         cod_municipio: "",
+        excluido: false,
+        data_exclusao: null,
+        id_usuario_exclusao: null
     })
 
     //Pegar hora do computador
@@ -190,7 +193,11 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
                 const res = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL + "/clientes", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(dadosCliente)
+                    body: JSON.stringify({
+                        ...dadosCliente,
+                        data_exclusao: dadosCliente.excluido ? String(dataAtual) : null,
+                        id_usuario_exclusao: dadosCliente.excluido ? parseInt(idFuncionario) : null
+                    })
                 });
                 if (res.status === 201) {
                     alert('salvo com sucesso');
@@ -305,7 +312,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
                                 <label>SPC</label>
                             </div>
                             <div>
-                                <input className="checkbox" type='checkbox' />
+                                <input className="checkbox" type='checkbox' onChange={() => setDadosCliente({ ...dadosCliente, excluido: !dadosCliente.excluido })} checked={dadosCliente.excluido ? true : false} />
                                 <label>DESATIVADO</label>
                             </div>
                             <div>
@@ -395,18 +402,18 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
                                 <label>Fantasia/Apelido: </label>
                                 <input className="input-unico" value={dadosCliente.fantasia} onChange={(e) => setDadosCliente({ ...dadosCliente, fantasia: e.target.value })} />
                             </div>
-                            <div id="municipio" style={{width: "calc(80% + 40px)"}}>
+                            <div id="municipio" style={{ width: "calc(80% + 40px)" }}>
                                 <label>CEP: </label>
                                 <input id="cep" className="codigo" value={dadosCliente.cep} onChange={(e) => setDadosCliente({ ...dadosCliente, cep: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
                                 <img alt="" src="/images/LUPA.png" onClick={pesquisarCep} style={{ margin: "auto 5px 2px 0px" }} />
                                 <label>Complemento: </label>
-                                <input id="complemento" value={dadosCliente.complemento} onChange={(e) => setDadosCliente({ ...dadosCliente, complemento: e.target.value })}/>
+                                <input id="complemento" value={dadosCliente.complemento} onChange={(e) => setDadosCliente({ ...dadosCliente, complemento: e.target.value })} />
                             </div>
                             <div>
                                 <label>Logradouro: </label>
                                 <div className="input-unico">
                                     <input value={dadosCliente.endereco} onChange={(e) => setDadosCliente({ ...dadosCliente, endereco: e.target.value })} style={{ backgroundColor: isChecked ? "" : corObrigatorios }} />
-                                    <input className="codigo" value={dadosCliente.numero} onChange={(e) => setDadosCliente({ ...dadosCliente, numero: e.target.value })} style={{marginRight: "0px", marginLeft: "5px"}}/>
+                                    <input className="codigo" value={dadosCliente.numero} onChange={(e) => setDadosCliente({ ...dadosCliente, numero: e.target.value })} style={{ marginRight: "0px", marginLeft: "5px" }} />
                                 </div>
                             </div>
                             <div>
@@ -420,7 +427,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
                                 <input className="municipio" value={dadosCliente.municipio} readOnly />
                                 <div style={{ width: "auto" }}>
                                     <label>UF: </label>
-                                    <select className="codigo" id="option" onChange={(e) => setDadosCliente({ ...dadosCliente, estado: e.target.value })}  style={{marginRight: "0px"}}>
+                                    <select className="codigo" id="option" onChange={(e) => setDadosCliente({ ...dadosCliente, estado: e.target.value })} style={{ marginRight: "0px" }}>
                                         <option value={dadosCliente.estado}>{dadosCliente.estado}</option>
                                         {estados.sort(comparar).map((estado) => {
                                             return <option value={estado.sigla} key={estado.sigla}>{estado.sigla}</option>

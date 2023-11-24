@@ -8,21 +8,68 @@ import { Saler } from "../../modais/modal_vendedor";
 import * as CC from "../cadastro_cliente/cadastroCliente";
 import * as CF from "../cadastro_fornecedor/cadastroFornecedor";
 
-export const EditarFornecedor = ({minimizado, setMinimizado}) => {
+export const EditarFornecedor = ({ minimizado, setMinimizado }) => {
     const navigate = useNavigate();
-    const {user, empresa, cnpjMask} = useContext(AuthContext);
+    const { user, empresa, cnpjMask, dataMask } = useContext(AuthContext);
     const idFuncionario = Array.isArray(user) && user.map((user) => user.id)
     const [estados, setEstados] = useState([]);
 
-    const codigoFornecedor = localStorage.getItem('idFornecedor')
+    const codigoFornecedor = localStorage.getItem('idFornecedor'); 
+    const [dadosFornecedor, setDadosFornecedor] = useState((JSON.parse(localStorage.getItem("dadosFornecedor"))) || {
+        id: "",
+        razao_social: "",
+        contato: "",
+        endereco: "",
+        numero: "",
+        complemento: "",
+        municipio: "",
+        codigo_municipio: "",
+        codigo_pais: "",
+        pais: "",
+        bairro: "",
+        uf: "",
+        cep: "",
+        tipo_documento: "",
+        ie: "",
+        telefone: "",
+        fax: "",
+        email: "",
+        data_cadastro: "",
+        data_edicao: "",
+        ativo: "",
+        numero_documento: "",
+        nome_fantasia: "",
+        excluido: "",
+        id_usuario_insercao: parseInt(idFuncionario),
+        idRegimeTributario: "",
+        id_comprador: "",
+        nome_comprador: "",
+        senha_cotacao: "",
+        ativo: true,
+        excluido: false,
+        data_exclusao: null,
+        id_usuario_exclusao: null
+    })
+    const [corObrigatorios, setCorObrigatorios] = useState('');
+    const [isModalFuncionario, setIsModalFuncionario] = useState(false);
+    const [isModalMunicipio, setIsModalMunicipio] = useState(false);
+    const [isModalPaises, setIsModalPaises] = useState(false);
+    const [aba, setAba] = useState('dados-gerais');
+    //Pegar hora do computador
+    const data = new Date();
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    const dataAtual = String(ano + '-' + mes + '-' + dia);
+
     useEffect(() => {
-        async function fetchData (){
+        async function fetchData() {
             const response = await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados");
             const data = await response.json();
             setEstados(data);
         }
-        async function fetchDataFornecedor (){
-            const response = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+`/fornecedor/${codigoFornecedor}`);
+        async function fetchDataFornecedor() {
+            const response = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR + `/fornecedor/${codigoFornecedor}`);
             const data = await response.json();
             setDadosFornecedor({
                 id: data.id,
@@ -59,142 +106,114 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
         fetchDataFornecedor();
     }, []);
 
-    const [dadosFornecedor, setDadosFornecedor] = useState((JSON.parse(localStorage.getItem("dadosFornecedor"))) || {
-        id: "",
-        razao_social: "",
-        contato: "",
-        endereco: "",
-        numero: "",
-        complemento: "",
-        municipio: "",
-        codigo_municipio: "",
-        codigo_pais: "",
-        pais: "",
-        bairro: "",
-        uf: "",
-        cep: "",
-        tipo_documento: "",
-        ie: "",
-        telefone: "",
-        fax: "",
-        email: "",
-        data_cadastro: "",
-        data_edicao: "",
-        ativo: "",
-        numero_documento: "",
-        nome_fantasia: "",
-        excluido: "",
-        id_usuario_insercao: parseInt(idFuncionario),
-        idRegimeTributario: "",
-        id_comprador: "",
-        nome_comprador: "",
-        senha_cotacao: "",
-        ativo: true
-    })
-
-    const [corObrigatorios, setCorObrigatorios] = useState('');
-
-    async function pesquisarCep () {
+    async function pesquisarCep() {
         const response = await fetch(`https://viacep.com.br/ws/${dadosFornecedor.cep}/json/`);
         const data = await response.json();
-        setDadosFornecedor({...dadosFornecedor, 
+        setDadosFornecedor({
+            ...dadosFornecedor,
             endereco: data.logradouro,
             bairro: data.bairro,
             municipio: data.localidade,
             uf: data.uf,
             codigo_municipio: data.ibge
         });
-    }    
-    function pesquisarMuni(){
+    }
+    function pesquisarMuni() {
         setIsModalMunicipio(true);
     }
-    function pesquisarPais(){
+    function pesquisarPais() {
         setIsModalPaises(true);
     }
 
-    const [isModalFuncionario, setIsModalFuncionario] = useState(false);
-    const [isModalMunicipio, setIsModalMunicipio] = useState(false);
-    const [isModalPaises, setIsModalPaises] = useState(false);
-    function keyMunicipio (e){
+    function keyMunicipio(e) {
         e.preventDefault();
-        if(e.keyCode === 113){
+        if (e.keyCode === 113) {
             setIsModalMunicipio(true);
-        }else if(e.keyCode !== 113){
+        } else if (e.keyCode !== 113) {
             e.preventDefault();
         }
     }
-    function keyPaises (e){
+    function keyPaises(e) {
         e.preventDefault();
-        if(e.keyCode === 113){
+        if (e.keyCode === 113) {
             setIsModalPaises(true);
-        }else if(e.keyCode !== 113){
+        } else if (e.keyCode !== 113) {
             e.preventDefault();
         }
     }
-    function keyComprador (e){
+    function keyComprador(e) {
         e.preventDefault();
-        if(e.keyCode === 113){
+        if (e.keyCode === 113) {
             setIsModalFuncionario(true);
-        }else if(e.keyCode !== 113){
+        } else if (e.keyCode !== 113) {
             e.preventDefault();
         }
     }
 
-    const [aba, setAba] = useState('dados-gerais');
-
-    function dadosGerais (){
+    function dadosGerais() {
         setAba('dados-gerais');
     }
-    function outrosDados (){
+    function outrosDados() {
         setAba('outros-dados');
     }
-    function historico (){
+    function historico() {
         setAba('historico');
     }
-    function controleCheques (){
+    function controleCheques() {
         setAba('controle-Cheques');
     }
 
-    //Pegar hora do computador
-    const data = new Date();
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth()+ 1).padStart(2, '0') ;
-    const ano = data.getFullYear();
-    const dataAtual = String(ano + '-' + mes + '-' + dia);
-
-    useEffect(()=>{
-        async function setarHoraData(){
-            setDadosFornecedor({...dadosFornecedor, data_edicao: String(dataAtual)});
-        } 
+    useEffect(() => {
+        async function setarHoraData() {
+            setDadosFornecedor({ ...dadosFornecedor, data_edicao: String(dataAtual) });
+        }
         setarHoraData();
-    },[])
-    
+    }, [])
+
     const salvar = async () => {
-        if(dadosFornecedor.numero_documento && dadosFornecedor.razao_social && dadosFornecedor.cep && dadosFornecedor.endereco && dadosFornecedor.bairro && dadosFornecedor.numero && dadosFornecedor.codigo_municipio && dadosFornecedor.municipio && dadosFornecedor.id_comprador){
-            try{
-                const res = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR+"/fornecedor/edit", {
+        if (dadosFornecedor.numero_documento && dadosFornecedor.razao_social && dadosFornecedor.cep && dadosFornecedor.endereco && dadosFornecedor.bairro && dadosFornecedor.numero && dadosFornecedor.codigo_municipio && dadosFornecedor.municipio && dadosFornecedor.id_comprador) {
+            try {
+                const res = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR + "/fornecedor/edit", {
                     method: "PUT",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(dadosFornecedor)
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(!dadosFornecedor)
                 });
-                if(res.status === 200 || res.status === 201){
+                if (res.status === 200 || res.status === 201) {
                     navigate('/fornecedores');
                     localStorage.removeItem('idFornecedor');
                     localStorage.removeItem('dadosFornecedor');
                     alert("Alterado com sucesso!");
                 }
-            }catch (err){
+            } catch (err) {
                 console.log(err);
             }
-        }else{
+        } else {
             setCorObrigatorios('yellow');
             alert("Preencha os campos acima!")
         }
     }
 
-    function minimizar (){
-        setDadosFornecedor({...dadosFornecedor, id_usuario_insercao: parseInt([0].idFuncionario)})
-        setMinimizado({...minimizado, editarFornecedor: true})
+    const excluir = async () => {
+        try {
+            const res = await fetch(process.env.REACT_APP_LINK_PRODUTO_EMITENTE_FORNECEDOR + "/fornecedor/edit", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({...dadosFornecedor, excluido: true, id_usuario_exclusao: parseInt(idFuncionario), data_exclusao: String(dataAtual)})
+            });
+            if (res.status === 200 || res.status === 201) {
+                navigate('/fornecedores');
+                localStorage.removeItem('idFornecedor');
+                localStorage.removeItem('dadosFornecedor');
+                alert("Alterado com sucesso!");
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    function minimizar() {
+        setDadosFornecedor({ ...dadosFornecedor, id_usuario_insercao: parseInt([0].idFuncionario) })
+        setMinimizado({ ...minimizado, editarFornecedor: true })
         navigate("/home");
         localStorage.setItem("dadosFornecedor", JSON.stringify(dadosFornecedor));
     }
@@ -204,70 +223,70 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
         navigate('/fornecedores');
     }
     const comparar = (a, b) => {
-        if(a.sigla < b.sigla ){
+        if (a.sigla < b.sigla) {
             return -1;
-        }else if(a.sigla > b.sigla){
+        } else if (a.sigla > b.sigla) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
 
-    return(
+    return (
         <C.Container>
-            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))} </C.NaviBar>
+            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))} </C.NaviBar>
             <C.Header>
                 <h3>Editar Fornecedor</h3>
                 <div className="buttons">
-                    <button className="minimizar" onClick={minimizar}><div className="linha"/></button>
+                    <button className="minimizar" onClick={minimizar}><div className="linha" /></button>
                     <button className="close" onClick={voltar}>X</button>
                 </div>
             </C.Header>
             <CC.DadosCliente>
+                <div>
+                    <label>Fornecedor: </label>
+                    <input value={dadosFornecedor.id} readOnly />
+                </div>
+                <div className="checkbox">
                     <div>
-                        <label>Fornecedor: </label>
-                        <input value={dadosFornecedor.id} readOnly/>
-                    </div>
-                    <div className="checkbox">
-                        <div>
-                            <input className="checkbox" type='checkbox' checked={dadosFornecedor.ativo ? true : false} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, ativo: !dadosFornecedor.ativo})}/>
-                            <label>Ativo</label>
+                        <input className="checkbox" type='checkbox' checked={dadosFornecedor.ativo ? true : false} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, ativo: !dadosFornecedor.ativo })} />
+                        <label>Ativo</label>
                     </div>
                     <div>
                         <label>Data: </label>
-                        <input value={dadosFornecedor.data_cadastro} readOnly/>
+                        <input value={dataMask(dadosFornecedor.data_cadastro)} readOnly />
                     </div>
-                    </div>
+                </div>
             </CC.DadosCliente>
             <CC.Navegacao>
-                <div onClick={dadosGerais} style={{backgroundColor: aba === "dados-gerais" ? "white" : "", borderBottom: aba === "dados-gerais" ? "0" : ""}}>Dados Gerais</div>
-                <div onClick={outrosDados} style={{backgroundColor: aba === "outros-dados" ? "white" : "", borderBottom: aba === "outros-dados" ? "0" : ""}}>Outros Dados</div>
-                <div onClick={historico} style={{backgroundColor: aba === "historico" ? "white" : "", borderBottom: aba === "historico" ? "0" : ""}}>Histórico</div>
-                <div onClick={controleCheques} style={{backgroundColor: aba === "controle-Cheques" ? "white" : "", borderBottom: aba === "controle-Cheques" ? "0" : ""}}>Controle de Cheques</div>
+                <div onClick={dadosGerais} style={{ backgroundColor: aba === "dados-gerais" ? "white" : "", borderBottom: aba === "dados-gerais" ? "0" : "" }}>Dados Gerais</div>
+                <div onClick={outrosDados} style={{ backgroundColor: aba === "outros-dados" ? "white" : "", borderBottom: aba === "outros-dados" ? "0" : "" }}>Outros Dados</div>
+                <div onClick={historico} style={{ backgroundColor: aba === "historico" ? "white" : "", borderBottom: aba === "historico" ? "0" : "" }}>Histórico</div>
+                <div onClick={controleCheques} style={{ backgroundColor: aba === "controle-Cheques" ? "white" : "", borderBottom: aba === "controle-Cheques" ? "0" : "" }}>Controle de Cheques</div>
             </CC.Navegacao>
-            {aba === "dados-gerais" ? 
-            (   <CC.DadosGerais>
+            {aba === "dados-gerais" ?
+                (<CC.DadosGerais>
                     <CF.Documentos>
                         <fieldset className="informacao">
                             <legend>Documento</legend>
                             <div className="cnpj-cpf">
                                 <div>
                                     <label>Tipo</label>
-                                    <select id="optionTipoDoc" value={dadosFornecedor.tipo_documento} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, tipo_documento: e.target.value})}>
+                                    <select id="optionTipoDoc" value={dadosFornecedor.tipo_documento} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, tipo_documento: e.target.value })}>
                                         <option value="CNPJ">CNPJ</option>
                                         <option value="CPF">CPF</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label>Nº: </label>
-                                    <input className="input-documentos" value={dadosFornecedor.numero_documento} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, numero_documento: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
-                                    <img src="/images/LUPA.png"/>
+                                    <input className="input-documentos" value={dadosFornecedor.numero_documento} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, numero_documento: e.target.value })} style={{ backgroundColor: corObrigatorios }} />
+                                    <img alt="" src="/images/LUPA.png" />
                                 </div>
                                 <div>
                                     <label>IE.: </label>
-                                    <input className="input-documentos" value={dadosFornecedor.ie} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, ie: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
+                                    <input className="input-documentos" value={dadosFornecedor.ie} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, ie: e.target.value })} style={{ backgroundColor: corObrigatorios }} />
                                 </div>
-                                <select id="optionRegi" value={dadosFornecedor.idRegimeTributario} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, idRegimeTributario: e.target.value})}>
+                                <select id="optionRegi" value={dadosFornecedor.idRegimeTributario} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, idRegimeTributario: e.target.value })}>
                                     <option value="0">0 - Escolha um regime...</option>
                                     <option value="1">1 - SIMPLES NACIONAL</option>
                                     <option value="2">2 - SIMPLES NACIONAL EXCESSO</option>
@@ -278,164 +297,165 @@ export const EditarFornecedor = ({minimizado, setMinimizado}) => {
                         </fieldset>
                     </CF.Documentos>
                     <CF.Informacao>
-                            <fieldset className="informacao">
-                                <legend>Informações</legend>
-                                <div>
-                                    <label>Razão Social: </label>
-                                    <input className="input-unico" value={dadosFornecedor.razao_social} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, razao_social: e.target.value})} style={{backgroundColor: corObrigatorios}} />
+                        <fieldset className="informacao">
+                            <legend>Informações</legend>
+                            <div>
+                                <label>Razão Social: </label>
+                                <input className="input-unico" value={dadosFornecedor.razao_social} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, razao_social: e.target.value })} style={{ backgroundColor: corObrigatorios }} />
+                            </div>
+                            <div>
+                                <label>Nome Fantasia: </label>
+                                <input className="input-unico" value={dadosFornecedor.nome_fantasia} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, nome_fantasia: e.target.value })} />
+                            </div>
+                            <div>
+                                <label>Contato: </label>
+                                <input className="input-unico" value={dadosFornecedor.contato} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, contato: e.target.value })} />
+                            </div>
+                            <div className="div-input">
+                                <label>CEP: </label>
+                                <div className="input-unico" style={{ display: "flex", justifyContent: "start" }}>
+                                    <input className="codigo" value={dadosFornecedor.cep} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, cep: e.target.value })} style={{ backgroundColor: corObrigatorios }} />
+                                    <img alt="" src="/images/LUPA.png" onClick={pesquisarCep} />
                                 </div>
-                                <div>
-                                    <label>Nome Fantasia: </label>
-                                    <input className="input-unico" value={dadosFornecedor.nome_fantasia} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, nome_fantasia: e.target.value})}/>
+                            </div>
+                            <div>
+                                <label>Endereço/Nº: </label>
+                                <div className="input-unico">
+                                    <input value={dadosFornecedor.endereco} id="endereco" onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, endereco: e.target.value })} style={{ backgroundColor: corObrigatorios }} />
+                                    <input className="codigo" value={dadosFornecedor.numero} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, numero: e.target.value })} style={{ backgroundColor: corObrigatorios, marginRight: "0px", marginLeft: "5px" }} />
                                 </div>
-                                <div>
-                                    <label>Contato: </label>
-                                    <input className="input-unico" value={dadosFornecedor.contato} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, contato: e.target.value})}/>
+                            </div>
+                            <div id="bairro-complemento" className="municipio" style={{ marginLeft: "auto", marginRight: "5px", width: "calc(80% + 55px)" }}>
+                                <label>Bairro: </label>
+                                <input className="bairro" id="bairro" value={dadosFornecedor.bairro} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, bairro: e.target.value })} style={{ backgroundColor: corObrigatorios }} />
+                                <label>Complemento: </label>
+                                <input className="complemento" value={dadosFornecedor.complemento} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, complemento: e.target.value })} style={{ marginRight: "0px" }} />
+                            </div>
+                            <div id="municipio" className="municipio">
+                                <label>Municipio: </label>
+                                <input className="codigo" id="codigoMunicipio" value={dadosFornecedor.codigo_municipio} onDoubleClick={() => setIsModalMunicipio(true)} onKeyDown={keyMunicipio} style={{ backgroundColor: corObrigatorios }} title='Aperte F2 para listar as opções' readOnly />
+                                <img alt="" src="/images/add.png" onClick={pesquisarMuni} style={{ margin: "auto 5px" }} />
+                                <input className="municipio" value={dadosFornecedor.municipio} style={{ backgroundColor: corObrigatorios }} readOnly />
+                                <div style={{ width: "auto" }}>
+                                    <label>UF: </label>
+                                    <select className="codigo" id="option" value={dadosFornecedor.uf} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, uf: e.target.value })}>
+                                        {estados.sort(comparar).map((estado, index) => {
+                                            return <option value={estado.sigla} key={index}>{estado.sigla}</option>
+                                        })}
+                                    </select>
                                 </div>
-                                <div className="div-input">
-                                    <label>CEP: </label>
-                                    <div className="input-unico" style={{display: "flex", justifyContent: "start"}}>
-                                        <input className="codigo" value={dadosFornecedor.cep} onChange={(e) => setDadosFornecedor({...dadosFornecedor, cep: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
-                                        <img src="/images/LUPA.png" onClick={pesquisarCep}/>
-                                    </div>
+                            </div>
+                            <div>
+                                <label>País:</label>
+                                <div className="input-unico" style={{ display: "flex", justifyContent: "start" }}>
+                                    <input className="codigo" value={dadosFornecedor.codigo_pais} onKeyDown={keyPaises} onDoubleClick={() => setIsModalPaises(true)} title='Aperte F2 para listar as opções' />
+                                    <img alt="" src="/images/LUPA.png" onClick={pesquisarPais} />
+                                    <label style={{ color: "red" }}>{dadosFornecedor.pais}</label>
                                 </div>
-                                <div>
-                                    <label>Endereço/Nº: </label>
-                                    <div className="input-unico">
-                                        <input value={dadosFornecedor.endereco} id="endereco" onChange={(e)=> setDadosFornecedor({...dadosFornecedor, endereco: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
-                                        <input className="codigo" value={dadosFornecedor.numero} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, numero: e.target.value})} style={{backgroundColor: corObrigatorios, marginRight: "0px", marginLeft: "5px"}}/>
-                                    </div>
+                            </div>
+                            <div id="municipio">
+                                <label>Telefone: </label>
+                                <input className="codigo" id="telefone-celular-data" value={dadosFornecedor.telefone} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, telefone: e.target.value })} />
+                                <label>Senha Cotação</label>
+                                <input className="codigo" id="telefone-celular-data" type="password" value={dadosFornecedor.senha_cotacao} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, senha_cotacao: e.target.value })} />
+                            </div>
+                            <div>
+                                <label>Comprador: </label>
+                                <div className="input-unico">
+                                    <input className="codigo" value={dadosFornecedor.id_comprador} onKeyDown={keyComprador} onDoubleClick={() => setIsModalFuncionario(true)} style={{ backgroundColor: corObrigatorios }} title='Aperte F2 para listar as opções' />
+                                    <input value={dadosFornecedor.nome_comprador} readOnly />
                                 </div>
-                                <div id="bairro-complemento" className="municipio" style={{marginLeft: "auto", marginRight: "5px", width: "calc(80% + 55px)"}}>
-                                    <label>Bairro: </label>
-                                    <input className="bairro" id="bairro" value={dadosFornecedor.bairro} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, bairro: e.target.value})} style={{backgroundColor: corObrigatorios}}/>
-                                    <label>Complemento: </label>
-                                    <input className="complemento" value={dadosFornecedor.complemento} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, complemento: e.target.value})} style={{marginRight: "0px"}}/>
-                                </div>
-                                <div id="municipio" className="municipio">
-                                    <label>Municipio: </label>
-                                    <input className="codigo" id="codigoMunicipio" value={dadosFornecedor.codigo_municipio} onDoubleClick={()=> setIsModalMunicipio(true)} onKeyDown={keyMunicipio} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções' readOnly/>
-                                    <img src="/images/add.png" onClick={pesquisarMuni} style={{ margin: "auto 5px" }}/>
-                                    <input className="municipio" value={dadosFornecedor.municipio} style={{backgroundColor: corObrigatorios}} readOnly/>
-                                    <div style={{ width: "auto" }}>
-                                        <label>UF: </label>
-                                        <select className="codigo" id="option" value={dadosFornecedor.uf} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, uf: e.target.value})}>
-                                            {estados.sort(comparar).map((estado, index)=> {
-                                                return <option value={estado.sigla} key={index}>{estado.sigla}</option>
-                                            })}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label>País:</label>
-                                    <div className="input-unico" style={{display: "flex", justifyContent: "start"}}>
-                                        <input className="codigo" value={dadosFornecedor.codigo_pais} onKeyDown={keyPaises} onDoubleClick={()=> setIsModalPaises(true)} title='Aperte F2 para listar as opções'/>
-                                        <img src="/images/LUPA.png" onClick={pesquisarPais}/>
-                                        <label style={{color: "red"}}>{dadosFornecedor.pais}</label>
-                                    </div>
-                                </div>
-                                <div id="municipio">
-                                    <label>Telefone: </label>
-                                    <input className="codigo" id="telefone-celular-data" value={dadosFornecedor.telefone} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, telefone: e.target.value})}/>
-                                    <label>Senha Cotação</label>
-                                    <input className="codigo" id="telefone-celular-data" type="password" value={dadosFornecedor.senha_cotacao} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, senha_cotacao: e.target.value})}/>
-                                </div>
-                                <div>
-                                    <label>Comprador: </label>
-                                    <div className="input-unico">
-                                        <input className="codigo" value={dadosFornecedor.id_comprador} onKeyDown={keyComprador} onDoubleClick={()=> setIsModalFuncionario(true)} style={{backgroundColor: corObrigatorios}} title='Aperte F2 para listar as opções'/>
-                                        <input value={dadosFornecedor.nome_comprador} readOnly/>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label>Última Alter.: </label>
-                                    <input className="input-unico"/>
-                                </div>
-                            </fieldset>
+                            </div>
+                            <div>
+                                <label>Última Alter.: </label>
+                                <input className="input-unico" />
+                            </div>
+                        </fieldset>
                     </CF.Informacao>
                 </CC.DadosGerais>
-            ) : aba === "outros-dados" ? (
-                <CF.OutrosDados>
-                    <div>
-                        <label>fax: </label>
-                        <input value={dadosFornecedor.fax} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, fax: e.target.value})}/>
-                    </div>
-                    <div>
-                        <label>e-mail: </label>
-                        <input value={dadosFornecedor.email} onChange={(e)=> setDadosFornecedor({...dadosFornecedor, email: e.target.value})}/>
-                    </div>
-                </CF.OutrosDados>
-            ) : (
-                <CF.Historico>
-                    <fieldset>
-                        <label>Histórico de Notas de entrada</label>
-                        <div className="table-responsive">
-                            <table id="table" >
-                                <thead>
-                                    <tr>
-                                        <th>Modelo</th>
-                                        <th>Chave</th>
-                                        <th>Número</th>
-                                        <th>Série</th>
-                                        <th>Data Emissão</th>
-                                        <th>Data Entrada</th>
-                                        <th>Nat. Operação</th>
-                                        <th>T.OP.</th>
-                                        <th>Loja</th>
-                                        <th>Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>0,0121</td>
-                                    </tr> 
-                                    <tr>
-                                        <td>0,0121</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                ) : aba === "outros-dados" ? (
+                    <CF.OutrosDados>
+                        <div>
+                            <label>fax: </label>
+                            <input value={dadosFornecedor.fax} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, fax: e.target.value })} />
                         </div>
-                    </fieldset>
-                    <fieldset>
-                        <label>Histórico de Contas Pagar em aberto</label>
-                        <div className="table-responsive">
-                            <table id="table" >
-                                <thead>
-                                    <tr>
-                                        <th>CodigoConta</th>
-                                        <th>Filial</th>
-                                        <th>DataEmissao</th>
-                                        <th>DataVencimento</th>
-                                        <th>Referente</th>
-                                        <th>Parcela</th>
-                                        <th>NumeroNota</th>
-                                        <th>Status</th>
-                                        <th>ValorPago</th>
-                                        <th>Valor</th>
-                                        <th>ValorPagar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                        <div>
+                            <label>e-mail: </label>
+                            <input value={dadosFornecedor.email} onChange={(e) => setDadosFornecedor({ ...dadosFornecedor, email: e.target.value })} />
                         </div>
-                    </fieldset>
-                    <div>
-                        <label>Total parcelas abertas: </label>
-                        <input placeholder="0,00"/>
-                    </div>
-                </CF.Historico>
-            )
+                    </CF.OutrosDados>
+                ) : (
+                    <CF.Historico>
+                        <fieldset>
+                            <label>Histórico de Notas de entrada</label>
+                            <div className="table-responsive">
+                                <table id="table" >
+                                    <thead>
+                                        <tr>
+                                            <th>Modelo</th>
+                                            <th>Chave</th>
+                                            <th>Número</th>
+                                            <th>Série</th>
+                                            <th>Data Emissão</th>
+                                            <th>Data Entrada</th>
+                                            <th>Nat. Operação</th>
+                                            <th>T.OP.</th>
+                                            <th>Loja</th>
+                                            <th>Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>0,0121</td>
+                                        </tr>
+                                        <tr>
+                                            <td>0,0121</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <label>Histórico de Contas Pagar em aberto</label>
+                            <div className="table-responsive">
+                                <table id="table" >
+                                    <thead>
+                                        <tr>
+                                            <th>CodigoConta</th>
+                                            <th>Filial</th>
+                                            <th>DataEmissao</th>
+                                            <th>DataVencimento</th>
+                                            <th>Referente</th>
+                                            <th>Parcela</th>
+                                            <th>NumeroNota</th>
+                                            <th>Status</th>
+                                            <th>ValorPago</th>
+                                            <th>Valor</th>
+                                            <th>ValorPagar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                        <div>
+                            <label>Total parcelas abertas: </label>
+                            <input placeholder="0,00" />
+                        </div>
+                    </CF.Historico>
+                )
             }
             <C.Footer>
                 <div className="buttons">
-                    <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
-                    <button onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
+                    <button onClick={salvar}><img alt="" src="/images/salvar.png" />Salvar</button>
+                    <button onClick={excluir}><img alt="" src="/images/lixeira.png" />Excluir</button>
+                    <button onClick={voltar}><img alt="" src="/images/voltar.png" />Voltar</button>
                 </div>
             </C.Footer>
-            {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)}setDadosFornecedor={setDadosFornecedor} dadosFornecedor={dadosFornecedor}/> : null}
-            {isModalPaises ? <ListaPais close={()=> setIsModalPaises(false)} setDadosFornecedor={setDadosFornecedor} dadosFornecedor={dadosFornecedor}/> : null}
-            {isModalFuncionario ? <Saler close={()=> setIsModalFuncionario(false)} setIsModalFuncionario={setIsModalFuncionario} setDadosFornecedor={setDadosFornecedor} dadosFornecedor={dadosFornecedor}/> : null}
+            {isModalMunicipio ? <ListaMunicipio close={() => setIsModalMunicipio(false)} setDadosFornecedor={setDadosFornecedor} dadosFornecedor={dadosFornecedor} /> : null}
+            {isModalPaises ? <ListaPais close={() => setIsModalPaises(false)} setDadosFornecedor={setDadosFornecedor} dadosFornecedor={dadosFornecedor} /> : null}
+            {isModalFuncionario ? <Saler close={() => setIsModalFuncionario(false)} setIsModalFuncionario={setIsModalFuncionario} setDadosFornecedor={setDadosFornecedor} dadosFornecedor={dadosFornecedor} /> : null}
         </C.Container>
     )
 }
