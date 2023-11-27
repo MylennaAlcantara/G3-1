@@ -17,13 +17,13 @@ export const ConsultarFornecedor = () => {
     const [carregado, setCarregado] = useState(false);
     const resultado1 = Array.isArray(users) && users.filter((user) => {
         if (filtro === 'fantasia') {
-            return String(user.nome_fantasia).toLowerCase().includes(busca);
+            return String(user.nome_fantasia).toLowerCase().includes(busca.toLowerCase());
         } else if (filtro === 'codigo') {
-            return String(user.id).toLowerCase().includes(busca);
+            return String(user.id).toLowerCase().includes(busca.toLowerCase());
         } else if (filtro === 'documento') {
-            return String(user.numero_documento).toLowerCase().includes(busca);
+            return String(user.numero_documento).toLowerCase().includes(busca.toLowerCase());
         } else {
-            return user.razao_social.toLowerCase().includes(busca);
+            return user.razao_social.toLowerCase().includes(busca.toLowerCase());
         }
     });
 

@@ -73,13 +73,13 @@ export const ConsultarFuncionario = () => {
 
     const resultado = Array.isArray(resultado2) && resultado2.filter((user) => {
         if (filtroEscolhido === 'codigo') {
-            return String(user.id).toLowerCase().includes(busca);
+            return String(user.id).toLowerCase().includes(busca.toLowerCase());
         } else if (filtroEscolhido === 'nome') {
-            return user.nome.toLowerCase().includes(busca);
+            return user.nome.toLowerCase().includes(busca.toLowerCase());
         } else if (filtroEscolhido === 'municipio') {
-            return user.municipio.toLowerCase().includes(busca);
+            return user.municipio.toLowerCase().includes(busca.toLowerCase());
         } else if (filtroEscolhido === 'cpf') {
-            return user.cpf.toLowerCase().includes(busca);
+            return user.cpf.toLowerCase().includes(busca.toLowerCase());
         } else {
             return null;
         }

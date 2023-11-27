@@ -19,17 +19,17 @@ export const ConsultarCliente = ({ setCliente }) => {
 
     const resultado1 = Array.isArray(users) && users.filter((user) => {
         if (filtro === 'codigo') {
-            return String(user.id).toLowerCase().includes(busca);
+            return String(user.id).toLowerCase().includes(busca.toLowerCase());
         } else if (filtro === 'municipio') {
-            return user.municipio.toLowerCase().includes(busca);
+            return user.municipio.toLowerCase().includes(busca.toLowerCase());
         } else if (filtro === 'cpf') {
-            return String(user.cpf_cnpj).toLowerCase().includes(busca);
+            return String(user.cpf_cnpj).toLowerCase().includes(busca.toLowerCase());
         } else if (filtro === 'nome') {
-            return user.nome.toLowerCase().includes(busca);
+            return user.nome.toLowerCase().includes(busca.toLowerCase());
         } else if (filtro === 'nome_fantasia') {
-            return user.nome_fantasia.toLowerCase().includes(busca);
+            return user.nome_fantasia.toLowerCase().includes(busca.toLowerCase());
         } else if (filtro === 'rg') {
-            return String(user.rg).toLowerCase().includes(busca);
+            return String(user.rg).toLowerCase().includes(busca.toLowerCase());
         } else {
             return null;
         }

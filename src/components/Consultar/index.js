@@ -101,15 +101,15 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
 
     const resultado = Array.isArray(resultado2) && resultado2.filter((rotina) => {
         if (filtroSelecionado === 'cliente') {
-            return rotina.nome_cliente.toLowerCase().includes(busca);
+            return rotina.nome_cliente.toLowerCase().includes(busca.toLowerCase());
         } else if (filtroSelecionado === 'data') {
-            return dataMask(rotina.dataEmissao).toLowerCase().includes(busca);
+            return dataMask(rotina.dataEmissao).toLowerCase().includes(busca.toLowerCase());
         } else if (filtroSelecionado === 'top') {
-            return String(rotina.id_top).toLowerCase().includes(busca);
+            return String(rotina.id_top).toLowerCase().includes(busca.toLowerCase());
         } else if (filtroSelecionado === 'vendedor') {
-            return String(rotina.id_funcionario).toLowerCase().includes(busca);
+            return String(rotina.id_funcionario).toLowerCase().includes(busca.toLowerCase());
         } else if (filtroSelecionado === 'numero') {
-            return String(rotina.id).toLowerCase().includes(busca);
+            return String(rotina.id).toLowerCase().includes(busca.toLowerCase());
         }
     });
 
