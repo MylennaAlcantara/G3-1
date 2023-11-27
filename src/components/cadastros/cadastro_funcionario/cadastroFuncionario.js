@@ -17,7 +17,6 @@ export const DadosFuncionario = styled.div`
         align-items: center;
     }
     div{
-        //width: 100%;
         display: flex;
         align-items: center;
     }
@@ -25,35 +24,31 @@ export const DadosFuncionario = styled.div`
         height: auto;
         width: auto;
     }
-    @media (max-width: 425px){
+    @media (max-width: 460px){
         flex-wrap: wrap;
     }
 `
 
 export const Geral = styled.div`
-    height: 80%;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     overflow: auto;
-    img{
-        height: 20px;
-        width: 20px;
-    }
     input{
         height: 24px;
-        width: 85%;
+        width: 100%;
+        margin: 0px;
         border: none;        
         box-shadow: 0 3px 5px gray;
-        margin: 5px;
     }
     .checkbox{
         height: auto;
         width: auto;
     }
     .geral{
+        padding: 5px 5px 5px 0;
         width: 90%;
         background-color: #f0f0f0;
         border-radius: 10px;
@@ -61,42 +56,129 @@ export const Geral = styled.div`
         flex-direction: column;
         align-items: end;
         margin-top: 15px;
+        label{
+            margin: 5px;
+        }
+        img{
+            height: 20px;
+            width: 20px;
+        }
+        img:hover{
+            cursor: pointer;
+        }
+        #municipio-uf{
+            margin-right: 0px;
+        }
+        #municipio{
+            width: calc(80% + 83px);
+            display: flex;
+            justify-content: end;
+            margin-left: auto;
+            margin-right: 5px;
+            #telefone-celular-data{
+                margin-right: 0px;
+            }
+            .telefone-celular-data{
+                width: auto;
+            }
+        }
         .codigo{
             width: 100px;
             height: 24px;
             border: none;        
             box-shadow: 0 3px 5px gray;
         }
+        .codigo{
+            width: 100px;
+            height: 24px;
+            margin-right: 5px;
+            border: none;        
+            box-shadow: 0 3px 5px gray;
+        }
         div{
+            display: flex;
+            justify-content: end;
+            align-items: center;
             width: 100%;
+        }
+        .input-unico{
+            width: 80%;
+            margin: 0 5px 0 0;
+        }
+        .div-input{
             display: flex;
             align-items: center;
-            justify-content: end;
-        }
-        .double-input{
-            width: 90%;
-        }
-        .municipio{
-            width: 95%;
-        }
-        .telefone-comissao{
-            display: flex;
-            justify-content: center;
+            select{
+                margin-right: 5px;
+            }
         }
     }
-    @media (max-width: 425px){
+    @media (max-width: 460px){
         height: 40%;
         .geral{
             heigth: 90%;
             overflow: auto;
             .codigo{
-                width: 60px;
+                width: 50px;
             }
-        }
-        .telefone-comissao{
-            display: flex;
-            justify-content: start;
-            flex-wrap: wrap;
+            .input-unico{
+                width: 60%;
+            }
+            input{
+                width: 100%;
+            }
+            #municipio{
+                display: flex;
+                flex-wrap: wrap;
+                width: calc(80% + 45px);
+                margin-right: 0px;
+                .municipio{
+                    width: calc(60% - 70px);
+                }
+                #codigoMunicipio{
+                    width: calc(60% - 15px);
+                }
+                input{
+                    width: 60%; 
+                }
+                #telefone-celular-data{
+                    width: 60%;
+                    margin-right: 0px;
+                }
+                .telefone-celular-data{
+                    width: 100%;
+                }
+                #comissao{
+                    width: calc(60% - 10px);
+                }
+                #salario{
+                    width: 55%;
+                }
+                #meta{
+                    width: 64%;
+                }
+                #municipio-uf{
+                    width: calc(65% - 5px);
+                    margin-right: 5px;
+                }
+            }
+            
+            .div-input{
+                width: 100%;
+                diplay: flex;
+                flex-wrap: wrap;
+                .codigo{
+                    width: 60px;
+                }
+                input{
+                    width: 45%;
+                }
+            }
+            .div-telefone{
+                width: 100%;
+                diplay: flex;
+                flex-wrap: wrap;
+            }
         }
     }
 `

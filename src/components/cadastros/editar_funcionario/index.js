@@ -10,14 +10,14 @@ import * as CC from "../cadastro_cliente/cadastroCliente";
 import * as CF from "../cadastro_funcionario/cadastroFuncionario";
 import { MD5 } from "crypto-js";
 
-export const EditarFuncionario = ({minimizado, setMinimizado}) => {
+export const EditarFuncionario = ({ minimizado, setMinimizado }) => {
     const navigate = useNavigate();
-    const {user, empresa, cnpjMask, dataMask} = useContext(AuthContext);
+    const { user, empresa, cnpjMask, dataMask } = useContext(AuthContext);
     const codigoFuncionario = localStorage.getItem('idFuncionario');
 
     useEffect(() => {
-        async function fetchDataFuncionario (){
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+`/user/${codigoFuncionario}`);
+        async function fetchDataFuncionario() {
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL + `/user/${codigoFuncionario}`);
             const data = await response.json();
             setDadosFuncionario({
                 id: data.id,
@@ -31,7 +31,7 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
                 salario: data.salario,
                 cep: data.cep,
                 telefone: data.telefone,
-                celular:  data.celular,
+                celular: data.celular,
                 email: data.email,
                 bairro: data.bairro,
                 codigo_municipio: data.codigo_municipio,
@@ -80,7 +80,7 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
         salario: "",
         cep: "",
         telefone: "",
-        celular:  "",
+        celular: "",
         email: "",
         bairro: "",
         codigo_municipio: "",
@@ -121,186 +121,202 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
 
     const [aba, setAba] = useState('geral');
 
-    function geral (){
+    function geral() {
         setAba('geral');
     }
-    function documentos (){
+    function documentos() {
         setAba('documentos');
     }
 
     // Abrir modais com F1
-    function filiais (e){
+    function filiais(e) {
         e.preventDefault();
-        if(e.keyCode === 112){
+        if (e.keyCode === 112) {
             setIsModalFilial(true);
         }
     }
-    function setores (e){
+    function setores(e) {
         e.preventDefault();
-        if(e.keyCode === 112){
+        if (e.keyCode === 112) {
             setIsModalSetor(true);
         }
     }
-    function niveis (e){
+    function niveis(e) {
         e.preventDefault();
-        if(e.keyCode === 112){
+        if (e.keyCode === 112) {
             setIsModalNivel(true);
         }
     }
-    
+
     // Bloqueia o F1 padrão do site
-    document.onkeydown = function f1(e){ if(e.keyCode === 112)e.preventDefault() }
-    
-    function municipios (e){
+    document.onkeydown = function f1(e) { if (e.keyCode === 112) e.preventDefault() }
+
+    function municipios(e) {
         setIsModalMunicipio(true);
     }
 
     //Pegar hora do computador
     const data = new Date();
     const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth()+ 1).padStart(2, '0') ;
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
     const ano = data.getFullYear();
     const dataAtual = String(ano + '-' + mes + '-' + dia);
 
-    useEffect(()=>{
-        async function setarHoraData(){
+    useEffect(() => {
+        async function setarHoraData() {
             const password = MD5(dadosFuncionario.senha).toString();
-            setDadosFuncionario({...dadosFuncionario, data_cadastro: String(dataAtual), senha: password});
-        } 
+            setDadosFuncionario({ ...dadosFuncionario, data_cadastro: String(dataAtual), senha: password });
+        }
         setarHoraData();
-    },[])
+    }, [])
 
     const [cor, setCor] = useState('');
 
     const salvar = async () => {
-        try{
-            const res = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/user/edit",{
+        try {
+            const res = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL + "/user/edit", {
                 method: "PUT",
-                headers:{"Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(dadosFuncionario)
             });
-            if(res.status === 201 || res.status === 200){
+            if (res.status === 201 || res.status === 200) {
                 alert('Editado com sucesso!');
                 navigate('/funcionarios');
                 localStorage.removeItem("dadosFuncionario");
             }
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
 
-    function minimizar (){
-        setMinimizado({...minimizado, editarFuncionario: true})
+    function minimizar() {
+        setMinimizado({ ...minimizado, editarFuncionario: true })
         localStorage.setItem("dadosFuncionario", JSON.stringify(dadosFuncionario));
         navigate("/home");
     }
-    function voltar (){
+    function voltar() {
         navigate('/funcionarios');
         localStorage.removeItem("dadosFuncionario");
     }
 
-    return(
+    return (
         <C.Container>
-            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome )} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) =>dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))} </C.NaviBar>
+            <C.NaviBar>Usuário: {Array.isArray(user) && user.map(user => user.id + " - " + user.nome)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => dadosEmpresa.nome_fantasia)} - {Array.isArray(empresa) && empresa.map((dadosEmpresa) => cnpjMask(dadosEmpresa.cnpj))} </C.NaviBar>
             <C.Header>
                 <h3> Editar Funcionário</h3>
                 <div className="buttons">
-                    <button className="minimizar" onClick={minimizar}><div className="linha"/></button>
+                    <button className="minimizar" onClick={minimizar}><div className="linha" /></button>
                     <button className="close" onClick={voltar}>X</button>
                 </div>
             </C.Header>
             <CF.DadosFuncionario>
                 <div>
                     <label>Código:</label>
-                    <input value={dadosFuncionario.id} readOnly/>
+                    <input value={dadosFuncionario.id} style={{ outline: 0, color: "black" }} disabled readOnly />
                 </div>
                 <div className="campo">
-                    <div style={{justifyContent: "start", alignContent: "center", height: "100%"}}>
-                        <input className="checkbox" type="checkbox" checked={dadosFuncionario.motorista ? true : false} onChange={()=> setDadosFuncionario({...dadosFuncionario, motorista: !dadosFuncionario.motorista})}/>
+                    <div style={{ justifyContent: "start", alignContent: "center", height: "100%" }}>
+                        <input className="checkbox" type="checkbox" checked={dadosFuncionario.motorista ? true : false} onChange={() => setDadosFuncionario({ ...dadosFuncionario, motorista: !dadosFuncionario.motorista })} />
                         <label>Motorista</label>
                     </div>
                 </div>
                 <div className="campo">
-                    <div style={{justifyContent: "end"}}>
+                    <div style={{ justifyContent: "end" }}>
                         <label>Data Modificação: </label>
-                        <input value={dataMask(dadosFuncionario.data_cadastro)} readOnly/>
+                        <input value={dataMask(dadosFuncionario.data_cadastro)} style={{ outline: 0, color: "black" }} disabled readOnly />
                     </div>
-                    <div style={{justifyContent: "end"}}>
+                    <div style={{ justifyContent: "end" }}>
                         <label>Data de Admissão: </label>
-                        <input type="date" value={dadosFuncionario.data_admissao} onChange={(e)=> setDadosFuncionario({...dadosFuncionario, data_admissao: e.target.value})} style={{backgroundColor: cor}}/>
+                        <input type="date" value={dadosFuncionario.data_admissao} onChange={(e) => setDadosFuncionario({ ...dadosFuncionario, data_admissao: e.target.value })} style={{ backgroundColor: cor }} />
                     </div>
                 </div>
             </CF.DadosFuncionario>
             <CC.Navegacao>
-                <div onClick={geral} style={{backgroundColor: aba === 'geral' ? "white" : "", borderBottom: aba === 'geral' ? "none" : ""}}>Gerais</div>
-                <div onClick={documentos} style={{backgroundColor: aba === 'documentos' ? "white" : "", borderBottom: aba === 'documentos' ? "none" : ""}}>Documento/Obs</div>
+                <div onClick={geral} style={{ backgroundColor: aba === 'geral' ? "white" : "", borderBottom: aba === 'geral' ? "none" : "" }}>Gerais</div>
+                <div onClick={documentos} style={{ backgroundColor: aba === 'documentos' ? "white" : "", borderBottom: aba === 'documentos' ? "none" : "" }}>Documento/Obs</div>
             </CC.Navegacao>
             {aba === "geral" ? (
                 <CF.Geral>
                     <div className="geral">
                         <div>
                             <label>Nome: </label>
-                            <input value={dadosFuncionario.nome} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, nome: e.target.value})}} style={{backgroundColor: cor}}/>
+                            <input className="input-unico" value={dadosFuncionario.nome} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, nome: e.target.value }) }} style={{ backgroundColor: cor }} />
                         </div>
-                        <div className="double-input">
+                        <div>
                             <label>Endereço: </label>
-                            <input value={dadosFuncionario.endereco} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, endereco: e.target.value})}}/>
-                            <label>Nº: </label>
-                            <input className="codigo" value={dadosFuncionario.numero_endereco} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, numero_endereco: e.target.value})}}/>
+                            <div className="input-unico">
+                                <input value={dadosFuncionario.endereco} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, endereco: e.target.value }) }} />
+                                <label>Nº: </label>
+                                <input className="codigo" value={dadosFuncionario.numero_endereco} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, numero_endereco: e.target.value }) }} />
+                            </div>
                         </div>
                         <div>
                             <label>Complemento: </label>
-                            <input value={dadosFuncionario.complemento_endereco} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, complemento_endereco: e.target.value})}}/>
+                            <input className="input-unico" value={dadosFuncionario.complemento_endereco} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, complemento_endereco: e.target.value }) }} />
                         </div>
                         <div>
                             <label>Bairro: </label>
-                            <input value={dadosFuncionario.bairro} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, bairro: e.target.value})}}/>
+                            <input className="input-unico" value={dadosFuncionario.bairro} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, bairro: e.target.value }) }} />
                         </div>
                         <div>
                             <label>Contato: </label>
-                            <input value={dadosFuncionario.pessoa_contato} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, pessoa_contato: e.target.value})}}/>
+                            <input className="input-unico" value={dadosFuncionario.pessoa_contato} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, pessoa_contato: e.target.value }) }} />
                         </div>
-                        <div className="municipio">
+                        <div id="municipio" className="municipio">
                             <label>Municipio: </label>
-                            <input className="codigo" value={dadosFuncionario.codigo_municipio}/>
-                            <img src="/images/add.png" onClick={municipios}/>
-                            <input value={dadosFuncionario.municipio}/>
-                            <input value={dadosFuncionario.uf}/>
+                            <input className="codigo" id="codigoMunicipio" value={dadosFuncionario.codigo_municipio} />
+                            <img alt="" src="/images/add.png" onClick={municipios} style={{ margin: "auto 5px 2px 0px" }} />
+                            <input id="municipio-uf" value={dadosFuncionario.municipio} style={{ outline: 0, color: "black" }} disabled readOnly />
+                            <input id="municipio-uf" value={dadosFuncionario.uf} style={{ outline: 0, color: "black", marginLeft: "5px" }} disabled readOnly />
                         </div>
-                        <div className="telefone-comissao">
+                        <div id="municipio">
                             <label>Telefone: </label>
-                            <input className="codigo" value={dadosFuncionario.telefone} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, telefone: e.target.value})}}/>
-                            <label>CEP: </label>
-                            <input className="codigo" value={dadosFuncionario.cep} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, cep: e.target.value})}}/>
-                            <label>Celular: </label>
-                            <input className="codigo" value={dadosFuncionario.celular} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, celular: e.target.value})}}/>
+                            <input className="codigo" id="meta" value={dadosFuncionario.telefone} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, telefone: e.target.value }) }} />
+                            <div className="telefone-celular-data">
+                                <label>CEP: </label>
+                                <input className="codigo" id="meta" value={dadosFuncionario.cep} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, cep: e.target.value }) }} />
+                            </div>
+                            <div className="telefone-celular-data">
+                                <label>Celular: </label>
+                                <input className="codigo" id="meta" value={dadosFuncionario.celular} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, celular: e.target.value }) }} />
+                            </div>
                         </div>
                         <div>
                             <label>Email: </label>
-                            <input value={dadosFuncionario.email} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, email: e.target.value})}}/>
+                            <input className="input-unico" value={dadosFuncionario.email} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, email: e.target.value }) }} />
                         </div>
-                        <div className="telefone-comissao">
+                        <div id="municipio">
                             <label>Comissão: </label>
-                            <input className="codigo" value={dadosFuncionario.comissao} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, comissao: e.target.value})}}/><label style={{color: 'red', fontWeight: 'bold'}}>%</label>
-                            <label>Meta: </label>
-                            <input className="codigo" value={dadosFuncionario.meta} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, meta: e.target.value})}}/>
-                            <label>Salario: </label>
-                            <input className="codigo" value={dadosFuncionario.salario} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, salario: e.target.value})}}/><label style={{color: 'red', fontWeight: 'bold'}}>R$</label>
+                            <input className="codigo" id="comissao" value={dadosFuncionario.comissao} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, comissao: e.target.value }) }} /><label style={{ color: 'red', fontWeight: 'bold' }}>%</label>
+                            <div className="telefone-celular-data">
+                                <label>Meta: </label>
+                                <input className="codigo" id="meta" value={dadosFuncionario.meta} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, meta: e.target.value }) }} />
+                            </div>
+                            <div className="telefone-celular-data">
+                                <label>Salário: </label>
+                                <input className="codigo" id="salario" value={dadosFuncionario.salario} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, salario: e.target.value }) }} /><label style={{ color: 'red', fontWeight: 'bold' }}>R$</label>
+                            </div>
                         </div>
-                        <div className="double-input">
+                        <div>
                             <label>Setor: </label>
-                            <input className="codigo" value={dadosFuncionario.setorFuncionario && dadosFuncionario.setorFuncionario.id} onDoubleClick={()=> setIsModalSetor(true)} onKeyDown={setores} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
-                            <input value={dadosFuncionario.setorFuncionario && dadosFuncionario.setorFuncionario.descricao} style={{ outline: 0, color: "black", backgroundColor: "white" }} disabled/>
+                            <div className="input-unico">
+                                <input className="codigo" value={dadosFuncionario.setorFuncionario && dadosFuncionario.setorFuncionario.id} onDoubleClick={() => setIsModalSetor(true)} onKeyDown={setores} style={{ backgroundColor: cor }} title='Aperte F2 para listar as opções' />
+                                <input value={dadosFuncionario.setorFuncionario && dadosFuncionario.setorFuncionario.descricao} style={{ outline: 0, color: "black" }} disabled readOnly />
+                            </div>
                         </div>
-                        <div className="double-input">
+                        <div>
                             <label>Nível: </label>
-                            <input className="codigo" value={dadosFuncionario.nivelAcesso && dadosFuncionario.nivelAcesso.id} onKeyDown={niveis} onDoubleClick={()=> setIsModalNivel(true)} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
-                            <input value={dadosFuncionario.nivelAcesso && dadosFuncionario.nivelAcesso.descricao} style={{ outline: 0, color: "black", backgroundColor: "white" }} disabled />
+                            <div className="input-unico">
+                                <input className="codigo" value={dadosFuncionario.nivelAcesso && dadosFuncionario.nivelAcesso.id} onKeyDown={niveis} onDoubleClick={() => setIsModalNivel(true)} style={{ backgroundColor: cor }} title='Aperte F2 para listar as opções' />
+                                <input value={dadosFuncionario.nivelAcesso && dadosFuncionario.nivelAcesso.descricao} style={{ outline: 0, color: "black" }} disabled readOnly />
+                            </div>
                         </div>
-                        <div className="double-input">
+                        <div>
                             <label>Filial: </label>
-                            <input className="codigo" value={dadosFuncionario.filial && dadosFuncionario.filial.id } onDoubleClick={()=> setIsModalFilial(true)} onKeyDown={filiais} style={{backgroundColor: cor}} title='Aperte F2 para listar as opções'/>
-                            <input value={dadosFuncionario.filial &&  dadosFuncionario.filial.razaoSocial} style={{ outline: 0, color: "black", backgroundColor: "white" }} disabled />
+                            <div className="input-unico">
+                                <input className="codigo" value={dadosFuncionario.filial && dadosFuncionario.filial.id} onDoubleClick={() => setIsModalFilial(true)} onKeyDown={filiais} style={{ backgroundColor: cor }} title='Aperte F2 para listar as opções' />
+                                <input value={dadosFuncionario.filial && dadosFuncionario.filial.razaoSocial} style={{ outline: 0, color: "black" }} disabled readOnly />
+                            </div>
                         </div>
                     </div>
                 </CF.Geral>
@@ -311,43 +327,43 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
                             <div className="cpf-ctps">
                                 <div>
                                     <label>CPF: </label>
-                                    <input value={dadosFuncionario.cpf} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, cpf: e.target.value})}}/>
+                                    <input value={dadosFuncionario.cpf} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, cpf: e.target.value }) }} />
                                 </div>
                                 <div>
                                     <label>RG: </label>
-                                    <input value={dadosFuncionario.rg} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, rg: e.target.value})}}/>
+                                    <input value={dadosFuncionario.rg} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, rg: e.target.value }) }} />
                                 </div>
                                 <div>
                                     <label>RIC: </label>
-                                    <input value={dadosFuncionario.ric} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, ric: e.target.value})}}/>
+                                    <input value={dadosFuncionario.ric} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, ric: e.target.value }) }} />
                                 </div>
                             </div>
                             <div className="cpf-ctps">
                                 <div>
                                     <label>CTPS: </label>
-                                    <input value={dadosFuncionario.ctps} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, ctps: e.target.value})}}/>
+                                    <input value={dadosFuncionario.ctps} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, ctps: e.target.value }) }} />
                                 </div>
                                 <div>
                                     <label>CTPS Série: </label>
-                                    <input value={dadosFuncionario.ctps_serie} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, ctps_serie: e.target.value})}}/>
+                                    <input value={dadosFuncionario.ctps_serie} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, ctps_serie: e.target.value }) }} />
                                 </div>
                                 <div>
                                     <label>Título de eleitor: </label>
-                                    <input value={dadosFuncionario.titulo_eleitor} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, titulo_eleitor: e.target.value})}}/>
+                                    <input value={dadosFuncionario.titulo_eleitor} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, titulo_eleitor: e.target.value }) }} />
                                 </div>
                                 <div>
                                     <label>PIS: </label>
-                                    <input value={dadosFuncionario.pis} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, pis: e.target.value})}}/>
+                                    <input value={dadosFuncionario.pis} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, pis: e.target.value }) }} />
                                 </div>
                             </div>
                         </div>
                         <div>
                             <label>Observação:</label>
-                            <textarea value={dadosFuncionario.obs} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, obs: e.target.value})}} style={{resize: "none"}}/>
+                            <textarea value={dadosFuncionario.obs} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, obs: e.target.value }) }} style={{ resize: "none" }} />
                         </div>
                         <div>
                             <label>Data Nasc.: </label>
-                            <input type="date" value={dadosFuncionario.dataNascimento} onChange={(e)=> setDadosFuncionario({...dadosFuncionario, dataNascimento: e.target.value})}/>
+                            <input type="date" value={dadosFuncionario.dataNascimento} onChange={(e) => setDadosFuncionario({ ...dadosFuncionario, dataNascimento: e.target.value })} />
                         </div>
                     </div>
                 </CF.Documentos>
@@ -356,32 +372,32 @@ export const EditarFuncionario = ({minimizado, setMinimizado}) => {
                 <fieldset>
                     <legend>Controle de Usuário</legend>
                     <div>
-                        <input type="checkbox" className="checkbox" checked={dadosFuncionario.usuarioSistema ? true : false} onChange={()=> setDadosFuncionario({...dadosFuncionario, usuarioSistema: !dadosFuncionario.usuarioSistema})}/>
+                        <input type="checkbox" className="checkbox" checked={dadosFuncionario.usuarioSistema ? true : false} onChange={() => setDadosFuncionario({ ...dadosFuncionario, usuarioSistema: !dadosFuncionario.usuarioSistema })} />
                         <label>Usuário do sistema</label>
                     </div>
                     <div>
                         <label>Matrícula: </label>
-                        <input value={dadosFuncionario.matricula} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, matricula: e.target.value})}}/>
+                        <input value={dadosFuncionario.matricula} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, matricula: e.target.value }) }} />
                         <label>Senha: </label>
-                        <input type="password" value={dadosFuncionario.senha} onChange={(e)=> {setDadosFuncionario({...dadosFuncionario, senha: e.target.value})}}/>
+                        <input type="password" value={dadosFuncionario.senha} onChange={(e) => { setDadosFuncionario({ ...dadosFuncionario, senha: e.target.value }) }} />
                     </div>
                 </fieldset>
             </CF.Fieldset>
             <C.Footer>
                 <div className="buttons">
-                    <button onClick={salvar}><img src="/images/salvar.png"/>Salvar</button>
+                    <button onClick={salvar}><img alt="" src="/images/salvar.png" />Salvar</button>
                     {dadosFuncionario.ativo ? (
-                        <button onClick={()=> setDadosFuncionario({...dadosFuncionario, ativo: false})}><img src="/images/off.png" className="ativo"/>Desativar</button>
+                        <button onClick={() => setDadosFuncionario({ ...dadosFuncionario, ativo: false })}><img alt="" src="/images/off.png" className="ativo" />Desativar</button>
                     ) : (
-                        <button onClick={()=> setDadosFuncionario({...dadosFuncionario, ativo: true})}><img src="/images/on.png" className="ativo"/>Ativar</button>
+                        <button onClick={() => setDadosFuncionario({ ...dadosFuncionario, ativo: true })}><img alt="" src="/images/on.png" className="ativo" />Ativar</button>
                     )}
-                    <button onClick={voltar}><img src="/images/voltar.png"/>Voltar</button>
+                    <button onClick={voltar}><img alt="" src="/images/voltar.png" />Voltar</button>
                 </div>
             </C.Footer>
-            {isModalMunicipio ? <ListaMunicipio close={()=> setIsModalMunicipio(false)} setIsModalMunicipio={setIsModalMunicipio} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario}/> : null}
-            {isModalFilial ? <Emitente onClose={()=> setIsModalFilial(false)} setIsModalFilial={setIsModalFilial} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario}/> : null}
-            {isModalSetor ? <Setor close={()=> setIsModalSetor(false)} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario} cadastro={{setor: null}}/> : null}
-            {isModalNivel ? <Nivel close={()=> setIsModalNivel(false)} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario} cadastro={{nivel: null}}/> : null}
+            {isModalMunicipio ? <ListaMunicipio close={() => setIsModalMunicipio(false)} setIsModalMunicipio={setIsModalMunicipio} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario} /> : null}
+            {isModalFilial ? <Emitente onClose={() => setIsModalFilial(false)} setIsModalFilial={setIsModalFilial} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario} /> : null}
+            {isModalSetor ? <Setor close={() => setIsModalSetor(false)} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario} cadastro={{ setor: null }} /> : null}
+            {isModalNivel ? <Nivel close={() => setIsModalNivel(false)} setDadosFuncionario={setDadosFuncionario} dadosFuncionario={dadosFuncionario} cadastro={{ nivel: null }} /> : null}
         </C.Container>
     )
 }
