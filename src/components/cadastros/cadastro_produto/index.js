@@ -1,23 +1,23 @@
 import React, { useContext, useState } from "react";
-import * as C from "../../cadastro/cadastro";
-import * as CP from "./cadastroProduto";
-import * as CC from "../cadastro_cliente/cadastroCliente"
 import { useNavigate } from "react-router";
+import { AuthContext } from "../../../contexts/Auth/authContext";
+import * as C from "../../cadastro/cadastro";
+import { Cest } from "../../modais/modais_tela_produtos/modal_cest";
 import { Familia } from "../../modais/modais_tela_produtos/modal_familia";
 import { Fornecedor } from "../../modais/modais_tela_produtos/modal_fornecedor";
-import { AuthContext } from "../../../contexts/Auth/authContext";
-import { Ipi } from "../../modais/modais_tela_produtos/modal_ipi";
-import { PisCofins } from "../../modais/modais_tela_produtos/modal_pis_cofins";
-import { Ncm } from "../../modais/modais_tela_produtos/modal_ncm";
-import { Cest } from "../../modais/modais_tela_produtos/modal_cest";
 import { Grupo } from "../../modais/modais_tela_produtos/modal_icms";
+import { Ipi } from "../../modais/modais_tela_produtos/modal_ipi";
+import { Ncm } from "../../modais/modais_tela_produtos/modal_ncm";
+import { PisCofins } from "../../modais/modais_tela_produtos/modal_pis_cofins";
+import * as CC from "../cadastro_cliente/cadastroCliente";
+import * as CP from "./cadastroProduto";
 
 export const CadastroProduto = () => {
     const navigate = useNavigate();
     const {empresa, user, cnpjMask} = useContext(AuthContext);
 
     // Dados da area de informações
-    const [codigo1, setCodigo1] = useState('');
+    /*const [codigo1, setCodigo1] = useState('');
     const [codigo2, setCodigo2] = useState('');
     const [codigoRef, setCodigoRef] = useState('');
     const [descricao, setDescricao] = useState('');
@@ -73,7 +73,7 @@ export const CadastroProduto = () => {
 
     // Dados aba Movimentação
     const [dataInicial, setDataInicial] = useState();
-    const [dataFinal, setDataFinal] = useState();
+    const [dataFinal, setDataFinal] = useState();*/
 
 
     //modais de fornecedor e grupo

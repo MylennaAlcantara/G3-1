@@ -1,12 +1,8 @@
-import React, { useState, useContext } from "react";
-import Modal from 'react-modal'
-import { Loading } from "../../loading";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/Auth/authContext";
-import * as C from '../../cadastro/cadastro'
-import * as LB from '../resumo_de_faturamento/resumoFaturamento'
-import './curvaABC.css'
-import { Top } from "../../modais/modal_top";
-import { Emitente } from "../../modais/modal_emitente";
+import * as C from '../../cadastro/cadastro';
+import * as LB from '../resumo_de_faturamento/resumoFaturamento';
+import './curvaABC.css';
 
 export const CurvaABC = () => {
 
@@ -16,8 +12,8 @@ export const CurvaABC = () => {
 
     const [aba, setAba] = useState('produtos')
 
-    const [checkNFE, setCheckNFE] = useState(true); 
-    const [checkNFCE, setCheckNFCE] = useState(true); 
+    const [checkNFE, setCheckNFE] = useState(true);
+    const [checkNFCE, setCheckNFCE] = useState(true);
     const [checkTOP, setCheckTOP] = useState(true);
 
     const data = new Date();
@@ -152,11 +148,11 @@ export const CurvaABC = () => {
                 </LB.Data>
 
             </LB.Filtros>
-                            
+
             <LB.Navegacao>
                 <div>
-                    <button className='CE' onClick={() => setAba('produtos') }>Produtos</button>
-                    <button className='CD' onClick={() => setAba('classificação') } >Classificação</button>
+                    <button className='CE' onClick={() => setAba('produtos')}>Produtos</button>
+                    <button className='CD' onClick={() => setAba('classificação')} >Classificação</button>
                 </div>
             </LB.Navegacao>
 
@@ -171,7 +167,7 @@ export const CurvaABC = () => {
                                 <option>Contenha</option>
                             </select>
 
-                            <input className="ipt" placeholder="Buscar..."  />
+                            <input className="ipt" placeholder="Buscar..." />
 
                             <button className='dashboardBtn' > <img alt="" className='grafico' src="/images/printer.png" /> <p>Imprimir</p> </button>
 
@@ -204,7 +200,7 @@ export const CurvaABC = () => {
                                         <th>Margem</th>
 
                                         <th>Percentual</th>
-                                        
+
                                         <th>Classificação</th>
                                     </tr>
                                 </thead>
@@ -216,7 +212,7 @@ export const CurvaABC = () => {
             ) : aba === "classificação" ? (
                 <>
                     <LB.CData>
-                    <div className='table-responsive' >
+                        <div className='table-responsive' >
                             <table>
                                 <thead>
                                     <tr>

@@ -1,10 +1,10 @@
-import React, {useEffect, useRef, useState} from "react";
-import * as M from "../modal/modal";
+import React, { useEffect, useRef, useState } from "react";
 import * as C from "../../cadastro/cadastro";
-import { CadastroRamo } from "../modal_cadastro_ramo/index";
 import { Loading } from "../../loading";
+import * as M from "../modal/modal";
+import { CadastroRamo } from "../modal_cadastro_ramo/index";
 
-export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, minimizado, setMinimizado}) => {
+export const RamoAtividade = ({ close, dadosCliente, setDadosCliente, cadastro, minimizado, setMinimizado }) => {
     const [ramos, setRamos] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
@@ -13,22 +13,22 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
     const [carregado, setCarregado] = useState(false);
 
     useEffect(() => {
-        async function fetchData (){
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+"/ramoAtividade/all");
+        async function fetchData() {
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL + "/ramoAtividade/all");
             const data = await response.json();
             setRamos(data);
-            if( response.status === 200){
+            if (response.status === 200) {
                 setCarregado(true);
             }
         }
-            fetchData();
-            document.getElementById("search").focus();
+        fetchData();
+        document.getElementById("search").focus();
     }, []);
 
-    function selected (ramo){
+    function selected(ramo) {
         setDadosCliente && setDadosCliente({
             ...dadosCliente,
-            ramoAtividade:{
+            ramoAtividade: {
                 id: ramo.id,
                 descricao: ramo.descricao
             }
@@ -43,10 +43,12 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
     }
 
     const resultado = Array.isArray(ramos) && ramos.filter((ramo) => {
-        if(filtro === 'descricao'){
+        if (filtro === 'descricao') {
             return ramo.descricao.toLowerCase().includes(busca);
-        }else if(filtro === 'id'){
+        } else if (filtro === 'id') {
             return String(ramo.id).toLowerCase().includes(busca);
+        } else {
+            return null;
         }
     })
 
@@ -59,24 +61,24 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
     }
 
     const handleKeyDown = (e) => {
-        if(e.keyCode === 38){
+        if (e.keyCode === 38) {
             e.preventDefault();
-            if(selectIndex === null || selectIndex === 0){
+            if (selectIndex === null || selectIndex === 0) {
                 return;
             }
-            setSelectIndex(selectIndex-1);
-        }else if (e.keyCode === 40){
+            setSelectIndex(selectIndex - 1);
+        } else if (e.keyCode === 40) {
             e.preventDefault();
-            if(selectIndex === null || selectIndex === resultado.length -1 ){
+            if (selectIndex === null || selectIndex === resultado.length - 1) {
                 return;
             }
             setSelectIndex(selectIndex + 1);
-        }else if (e.keyCode === 13){
+        } else if (e.keyCode === 13) {
             e.preventDefault();
-            if(selectIndex !== null){
+            if (selectIndex !== null) {
                 setDadosCliente({
                     ...dadosCliente,
-                    ramoAtividade:{
+                    ramoAtividade: {
                         id: resultado[selectIndex].id,
                         descricao: resultado[selectIndex].descricao
                     }
@@ -89,36 +91,36 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
     // Estado que indica quando minimizado para colocar atrás de tudo
     const [minimizar, setMinimizar] = useState("");
 
-    return(
-        <M.Modal style={{zIndex: minimizado && minimizado.ramo ? minimizar : "1"}}>
+    return (
+        <M.Modal style={{ zIndex: minimizado && minimizado.ramo ? minimizar : "1" }}>
             <M.Container>
                 <M.Header>
                     <label>Ramo de Atividade</label>
                     <div className="buttons">
-                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, ramo: true})}}><div className="linha"/></button>
+                        <button className="minimizar" onClick={() => { setMinimizar("-5"); setMinimizado({ ...minimizado, ramo: true }) }}><div className="linha" /></button>
                         <button className="close" onClick={close}>X</button>
                     </div>
                 </M.Header>
                 <M.Filtro>
                     <div>
                         <div>
-                            <input name="checkbox" type="radio" value="id" checked={filtro === "id"} onChange={handleFiltroChange}/>
+                            <input name="checkbox" type="radio" value="id" checked={filtro === "id"} onChange={handleFiltroChange} />
                             <label>Código</label>
                         </div>
                         <div>
-                            <input name="checkbox" type="radio" value="descricao" checked={filtro === "descricao"} onChange={handleFiltroChange}/>
+                            <input name="checkbox" type="radio" value="descricao" checked={filtro === "descricao"} onChange={handleFiltroChange} />
                             <label>Descrição</label>
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" id="search" placeholder="Buscar" onChange={(e)=> setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                        <input className="search" id="search" placeholder="Buscar" onChange={(e) => setBusca(e.target.value)} onKeyDown={handleKeyDown} />
                     </div>
                 </M.Filtro>
                 {ramos.length === 0 && carregado === false ? (
-                    <Loading/>
+                    <Loading />
                 ) : ramos.length === 0 && carregado ? (
                     <div className="table-responsive">
-                        <table className="table"  ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
+                        <table className="table" ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
                             <thead>
                                 <tr>
                                     <th>Código</th>
@@ -126,7 +128,7 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
                                 </tr>
                             </thead>
                         </table>
-                        <div style={{height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold"}}>
+                        <div style={{ height: "90%", width: "100%", display: "flex", alignItems: "center", justifyContent: "center", color: "red", fontWeight: "bold" }}>
                             Não Existem dados a serem exibidos!
                         </div>
                     </div>
@@ -140,32 +142,32 @@ export const RamoAtividade = ({close, dadosCliente, setDadosCliente, cadastro, m
                                 </tr>
                             </thead>
                             <tbody>
-                                {resultado.map((ramo, index)=> {
-                                    return(
-                                        <tr key={ramo.id} 
+                                {resultado.map((ramo, index) => {
+                                    return (
+                                        <tr key={ramo.id}
                                             onDoubleClick={selected.bind(this, ramo)}
                                             onClick={selecionado.bind(this, index)}
-                                            style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                            style={{ backgroundColor: index === selectIndex ? '#87CEFA' : '' }}>
                                             <td>{ramo.id}</td>
                                             <td>{ramo.descricao}</td>
                                         </tr>
                                     )
                                 })}
-                                
+
                             </tbody>
                         </table>
                     </div>
                 )}
                 <C.Footer>
                     <div className="buttons">
-                        <button onClick={()=> setModalCadastro(true)}><img alt="adicionar" src="/images/add.png"/> Novo</button>
+                        <button onClick={() => setModalCadastro(true)}><img alt="adicionar" src="/images/add.png" /> Novo</button>
                         {cadastro && cadastro.ramo ? (
-                            <button><img alt="abrir" src="/images/abrir.png"/>Abrir</button>
-                        ): null}
-                        <button onClick={close}><img alt="voltar" src="/images/voltar.png"/>Voltar</button>
+                            <button><img alt="abrir" src="/images/abrir.png" />Abrir</button>
+                        ) : null}
+                        <button onClick={close}><img alt="voltar" src="/images/voltar.png" />Voltar</button>
                     </div>
                 </C.Footer>
-                {modalCadastro ? <CadastroRamo close={()=> setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
+                {modalCadastro ? <CadastroRamo close={() => setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar} /> : null}
             </M.Container>
         </M.Modal>
     )

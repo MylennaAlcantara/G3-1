@@ -7,21 +7,29 @@ export function rotinaPDF (rotina, vendedor, parceiro, tipoPagamento, emitente, 
     const descricaoParceiro = parceiro.filter((idParceiro) => {
         if(rotina.id_cliente === idParceiro.id){
             return idParceiro.nome;
+        } else {
+            return null;
         }
     });
     const descricaoVendedor = vendedor.filter((vendedor) => {
         if(rotina.id_funcionario === vendedor.id){
             return vendedor.nome;
+        } else {
+            return null;
         }
     });
     const descricaoPagamento = tipoPagamento.filter((pagamento) => {
         if(rotina.id_tipo_pagamento === pagamento.id){
             return pagamento.descricao;
+        } else {
+            return null;
         }
     });
     const descricaoEmitente = emitente.filter((idEmitente) => {
         if(rotina.id_empresa === idEmitente.id){
             return idEmitente.razao_social;
+        } else {
+            return null;
         }
     });
 

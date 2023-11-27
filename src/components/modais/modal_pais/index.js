@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Loading } from "../../loading";
 import * as M from "../modal/modal";
 

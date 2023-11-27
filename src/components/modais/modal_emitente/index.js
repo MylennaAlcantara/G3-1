@@ -1,14 +1,11 @@
-import React, {useEffect, useState, useRef} from "react";
-import {Container, Filtro, Header, Modal} from '../modal/modal';
+import React, { useEffect, useRef, useState } from "react";
 import { Loading } from "../../loading/index";
-import { ResumoFaturamento } from "../../Relatorios/resumo_de_faturamento/listAll"
+import { Container, Filtro, Header, Modal } from '../modal/modal';
 
 
 export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, setDataIdSelectEmitente, setEmitenteAlterado, setDataSelectDadosEmitente, dadosCliente, setDadosCliente, setDadosFuncionario, dadosFuncionario, setValor, valor, dadosRotina, setDadosRotina }) => {
 
     const [users, setUsers] = useState([]);
-    const [selectEmitente, setSelectEmitente] = useState();
-    const [selectIdEmitente, setSelectIdEmitente] = useState();
     const [busca, setBusca] = useState('');
     const [filtro, setFiltro] = useState('fantasia');
 
@@ -29,8 +26,6 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
     }, []);
 
     const SelectedEmitente = (user) => {
-        setSelectEmitente(user.razao_social);
-        setSelectIdEmitente(user.id);
         setValor && setValor([...valor, user]);
         setDataSelectEmitente && setDataSelectEmitente(user.razao_social);
         setDataIdSelectEmitente && setDataIdSelectEmitente(user.id);
@@ -106,8 +101,6 @@ export const Emitente = ({onClose, focoCampoSeguinte, setDataSelectEmitente, set
             }else if (e.keyCode === 13){
                 e.preventDefault();
                 if(selectIndex !== null){
-                    setSelectEmitente(resultado[selectIndex].razao_social);
-                    setSelectIdEmitente(resultado[selectIndex].id);
                     setDataSelectEmitente && setDataSelectEmitente(resultado[selectIndex].razao_social);
                     setDataIdSelectEmitente && setDataIdSelectEmitente(resultado[selectIndex].id);
                     setValor && setValor([...valor, resultado[selectIndex]]);

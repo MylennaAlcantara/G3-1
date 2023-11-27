@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Bar, BarChart, Brush, CartesianGrid, Cell, Legend, Pie, PieChart, ReferenceLine, Sector, Tooltip, XAxis, YAxis } from "recharts";
 import * as C from "../../cadastro/cadastro";
 import * as M from "../../modais/modal/modal";
 import * as V from "./vendas";
-import { Bar, BarChart, Brush, CartesianGrid, Cell, Legend, Pie, PieChart, ReferenceLine, Sector, Tooltip, XAxis, YAxis } from "recharts";
 
 const renderActiveShape = (props) => {
     const RADIAN = Math.PI / 180;
@@ -77,7 +77,6 @@ export const VendasCaixa = ({ close }) => {
     const [dataFinal, setDataFinal] = useState(dataAtual);
 
     async function consultarCaixas() {
-        setShowElement(true);
         const resultados = [];
         if (dataInicial && dataFinal) {
             const [totalRes, tipoPgtoRes] = await Promise.all([
@@ -148,7 +147,6 @@ export const VendasCaixa = ({ close }) => {
     });
 
     const [pagamentoCaixa, setPagamentoCaixa] = useState();
-    const [show, setShowElement] = useState(false);
 
     async function filtroCaixa(e) {
         setFiltro(e.target.value);

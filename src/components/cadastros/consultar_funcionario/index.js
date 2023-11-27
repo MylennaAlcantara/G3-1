@@ -164,8 +164,6 @@ export const ConsultarFuncionario = () => {
 
     const abrirEditar = async () => {
         if (nivel.cadastro_funcionario_editar) {
-            const responseFuncionario = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL + `/user/${codigoFuncionario}`);
-            const cliente = await responseFuncionario.json();
             if (codigoFuncionario === undefined) {
                 console.log('nenhum cliente selecionado')
             } else {

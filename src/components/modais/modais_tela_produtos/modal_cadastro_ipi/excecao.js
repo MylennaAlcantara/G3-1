@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
+import * as C from "../../../cadastro/cadastro";
 import * as M from "../../modal/modal";
 import * as CPC from "../modal_cadastro_piscofins/cadastroPisCofins";
-import * as C from "../../../cadastro/cadastro";
 
 export const ExcecaoIpi = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
-    const [filiais, setFiliais] = useState([]);
     const [estados, setEstados] = useState([]);
     const [perfis, setPerfis] = useState([]);
     const [tops, setTops] = useState([]);
@@ -170,8 +169,8 @@ export const ExcecaoIpi = ({close, minimizado, setMinimizado, minimizar, setMini
             </CPC.ExcecaoRegra>
             <C.Footer>
                 <div className="buttons">
-                    <button><img src="/images/salvar.png"/>Salvar</button>
-                    <button onClick={close}><img src="/images/voltar.png"/>Cancelar</button>
+                    <button><img alt="" src="/images/salvar.png"/>Salvar</button>
+                    <button onClick={close}><img alt="" src="/images/voltar.png"/>Cancelar</button>
                 </div>
             </C.Footer>
         </M.Container>

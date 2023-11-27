@@ -1,15 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import * as C from "../../cadastro/cadastro";
-import * as LB from "../resumo_de_faturamento/resumoFaturamento"
-import './evoFatu.css'
+import * as LB from "../resumo_de_faturamento/resumoFaturamento";
+import './evoFatu.css';
 
 export const EvolucaoFaturamento = () => {
 
-    const [filial, setFilial] = useState([]);
+    /*const [filial, setFilial] = useState([]);
     const [produto, setProduto] = useState([]);
     const [quantidade, setQuantidade] = useState([]);
     const [grupo, setGrupo] = useState([]);
-    const [fornecedor, setFornecedor] = useState([]);
+    const [fornecedor, setFornecedor] = useState([]);*/
 
     const [checkNFE, setCheckNFE] = useState(true);
     const [checkNFCE, setCheckNFCE] = useState(true);

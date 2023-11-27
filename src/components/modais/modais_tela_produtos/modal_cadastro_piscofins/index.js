@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import * as M from "../../modal/modal";
 import * as C from "../../../cadastro/cadastro";
+import * as M from "../../modal/modal";
 import * as CPC from "./cadastroPisCofins";
 import { Excecao } from "./excecao";
 
@@ -226,12 +226,12 @@ export const CadastroPisCofins = ({close, minimizado, setMinimizado, minimizar, 
                             </table>
                         </div>
                     </fieldset>
-                    <img src="/images/add.png" onClick={()=> setExcecao(true)}/>
+                    <img alt="" src="/images/add.png" onClick={()=> setExcecao(true)}/>
                 </CPC.Excecoes>
                 <C.Footer>
                     <div className="buttons">
-                        <button><img src="/images/salvar.png"/>Salvar</button>
-                        <button onClick={close}><img src="/images/voltar.png"/>Cancelar</button>
+                        <button><img alt="" src="/images/salvar.png"/>Salvar</button>
+                        <button onClick={close}><img alt="" src="/images/voltar.png"/>Cancelar</button>
                     </div>
                 </C.Footer>
                 {excecao ? <Excecao close={()=> setExcecao(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}

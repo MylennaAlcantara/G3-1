@@ -1,17 +1,16 @@
-import React, {useEffect, useRef, useState} from "react";
-import * as M from "../../modal/modal";
+import React, { useEffect, useRef, useState } from "react";
 import * as C from "../../../cadastro/cadastro";
-import { CadastroPisCofins } from "../modal_cadastro_piscofins";
+import * as M from "../../modal/modal";
 import { CadastroIpi } from "../modal_cadastro_ipi";
 
-export const Ipi = ({close, minimizado, setMinimizado}) => {
+export const Ipi = ({ close, minimizado, setMinimizado }) => {
     const [grupoIpi, setGrupoIpi] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
 
-    
+
     useEffect(() => {
-        async function fetchData (){
+        async function fetchData() {
             const response = await fetch("http://10.0.1.107:8080/grupoIpi/all");
             const data = await response.json();
             setGrupoIpi(data);
@@ -27,10 +26,12 @@ export const Ipi = ({close, minimizado, setMinimizado}) => {
     }
 
     const resultado = Array.isArray(grupoIpi) && grupoIpi.filter((grupoIpi) => {
-        if(filtro === 'descricao'){
+        if (filtro === 'descricao') {
             return grupoIpi.descricao.toLowerCase().includes(busca);
-        }else if(filtro === 'id'){
+        } else if (filtro === 'id') {
             return grupoIpi.id === Number(busca);
+        } else {
+            return null;
         }
     })
 
@@ -43,15 +44,15 @@ export const Ipi = ({close, minimizado, setMinimizado}) => {
     }
 
     const handleKeyDown = (e) => {
-        if(e.keyCode === 38){
+        if (e.keyCode === 38) {
             e.preventDefault();
-            if(selectIndex === null || selectIndex === 0){
+            if (selectIndex === null || selectIndex === 0) {
                 return;
             }
-            setSelectIndex(selectIndex-1);
-        }else if (e.keyCode === 40){
+            setSelectIndex(selectIndex - 1);
+        } else if (e.keyCode === 40) {
             e.preventDefault();
-            if(selectIndex === null || selectIndex === resultado.length -1 ){
+            if (selectIndex === null || selectIndex === resultado.length - 1) {
                 return;
             }
             setSelectIndex(selectIndex + 1);
@@ -61,29 +62,29 @@ export const Ipi = ({close, minimizado, setMinimizado}) => {
     // Estado que indica quando minimizado para colocar atrás de tudo
     const [minimizar, setMinimizar] = useState("");
 
-    return(
-        <M.SubModal style={{zIndex: minimizado && minimizado.ipi ? minimizar : "1"}}>
+    return (
+        <M.SubModal style={{ zIndex: minimizado && minimizado.ipi ? minimizar : "1" }}>
             <M.Container>
                 <M.Header>
                     <h3>Grupos de IPI</h3>
                     <div className="buttons">
-                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, ipi: true})}}><div className="linha"/></button>
+                        <button className="minimizar" onClick={() => { setMinimizar("-5"); setMinimizado({ ...minimizado, ipi: true }) }}><div className="linha" /></button>
                         <button className="close" onClick={close}>X</button>
                     </div>
                 </M.Header>
                 <M.Filtro>
                     <div>
                         <div>
-                            <input name="checkbox" type="radio" value="id" checked={filtro==='id'} onChange={handleFiltroChange}/>
+                            <input name="checkbox" type="radio" value="id" checked={filtro === 'id'} onChange={handleFiltroChange} />
                             <label>Código</label>
                         </div>
                         <div>
-                            <input name="checkbox" type="radio" value="descricao" checked={filtro === 'descricao'} onChange={handleFiltroChange}/>
+                            <input name="checkbox" type="radio" value="descricao" checked={filtro === 'descricao'} onChange={handleFiltroChange} />
                             <label>Descrição</label>
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                        <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown} />
                     </div>
                 </M.Filtro>
                 <div className="table-responsive">
@@ -95,11 +96,11 @@ export const Ipi = ({close, minimizado, setMinimizado}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {resultado.map((grupoIpi, index)=> {
-                                return(
+                            {resultado.map((grupoIpi, index) => {
+                                return (
                                     <tr key={grupoIpi.id}
                                         onClick={selecionado.bind(this, index)}
-                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                        style={{ backgroundColor: index === selectIndex ? '#87CEFA' : '' }}>
                                         <td>{grupoIpi.id}</td>
                                         <td>{grupoIpi.descricao}</td>
                                     </tr>
@@ -110,11 +111,11 @@ export const Ipi = ({close, minimizado, setMinimizado}) => {
                 </div>
                 <C.Footer>
                     <div className="buttons">
-                        <button onClick={()=>setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>
-                        <button onClick={close}><img src="/images/voltar.png"/> Fechar</button>
+                        <button onClick={() => setModalCadastro(true)}><img alt="" src="/images/add.png" /> Novo</button>
+                        <button onClick={close}><img alt="" src="/images/voltar.png" /> Fechar</button>
                     </div>
                 </C.Footer>
-                {modalCadastro ? <CadastroIpi close={()=> setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
+                {modalCadastro ? <CadastroIpi close={() => setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar} /> : null}
             </M.Container>
         </M.SubModal>
     )

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import * as M from "../modal/modal";
 import * as C from "../../cadastro/cadastro";
-import * as CCL from "../../cadastros/cadastro_cliente/cadastroCliente"
+import * as CCL from "../../cadastros/cadastro_cliente/cadastroCliente";
+import * as M from "../modal/modal";
 import * as CP from "./cadastroPgto";
 
 export const CadastroPgto = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
@@ -171,8 +171,8 @@ export const CadastroPgto = ({close, minimizado, setMinimizado, minimizar, setMi
                 
                 <C.Footer>
                     <div className="buttons">
-                        <button><img src="/images/salvar.png"/>Salvar</button>
-                        <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
+                        <button><img alt="" src="/images/salvar.png"/>Salvar</button>
+                        <button onClick={close}><img alt="" src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </C.Footer>
             </M.Container>

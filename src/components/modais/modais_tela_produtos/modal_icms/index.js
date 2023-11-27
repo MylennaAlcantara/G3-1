@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Loading } from "../../../loading";
 import * as M from "../../modal/modal";
-import {Lista} from "./grupo";
+import { Lista } from "./grupo";
 //import grupos from "../../../../grupos/grupos.json";
 
 export const Grupo = ({close, minimizado, setMinimizado, setGrupo}) => {
@@ -85,7 +85,7 @@ export const Grupo = ({close, minimizado, setMinimizado, setGrupo}) => {
                 </M.Filtro>
                 <Lista>
                     <div>
-                        <img src="/images/pastaFechada.png"/>
+                        <img alt="" src="/images/pastaFechada.png"/>
                         <label>Grupos:</label>
                     </div>
                     {pai.length === 0 && carregado === false ? (
@@ -116,7 +116,7 @@ export const Grupo = ({close, minimizado, setMinimizado, setGrupo}) => {
                             return(
                                 <>
                                     <div className="grupo" key={grupo.codigo} onClick={abrirFilho.bind(this, grupo)} onDoubleClick={selecionado.bind(this, grupo)}>
-                                    <img src="/images/pastaFechada.png"/>{grupo.codigo} - {grupo.descricao}
+                                    <img alt="" src="/images/pastaFechada.png"/>{grupo.codigo} - {grupo.descricao}
                                     </div>
                                     {Array.isArray(filho) && filho.map((filho)=> {
                                         if(grupo.id === filho.id_pai){

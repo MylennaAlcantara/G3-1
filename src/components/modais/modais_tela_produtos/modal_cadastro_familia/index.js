@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import * as C from "../../../cadastro/cadastro";
 import * as M from "../../modal/modal";
-import * as C from "../../../cadastro/cadastro"
-import * as CF from "./cadastroFamilia";
 import { Produtos } from "../../modal_produtos";
 import { Grupo } from "../modal_icms";
+import * as CF from "./cadastroFamilia";
 
-export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
+export const CadastrarFamilia = ({ close, minimizado, setMinimizado, minimizar, setMinimizar }) => {
     const [modalProduto, setModalProduto] = useState(false);
     const [modalGrupo, setModalGrupo] = useState(false);
     const [listItems, setListItems] = useState([]);
@@ -14,13 +14,13 @@ export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, s
         descricao: ""
     })
 
-    return(
-        <M.SubModal style={{zIndex: minimizado.familia === true ? minimizar : "1"}}>
+    return (
+        <M.SubModal style={{ zIndex: minimizado.familia === true ? minimizar : "1" }}>
             <C.Container>
                 <C.Header>
                     <h3>Cadastrar Familia</h3>
                     <div className="buttons">
-                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, familia: true})}}><div className="linha"/></button>
+                        <button className="minimizar" onClick={() => { setMinimizar("-5"); setMinimizado({ ...minimizado, familia: true }) }}><div className="linha" /></button>
                         <button className="close" onClick={close}>X</button>
                     </div>
                 </C.Header>
@@ -28,44 +28,44 @@ export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, s
                     <div className="dados-familia">
                         <div>
                             <label>Código</label>
-                            <input/>
+                            <input />
                         </div>
                         <div>
                             <label>Data de Cadastro</label>
-                            <input/>
+                            <input />
                         </div>
-                        <input type="checkbox"/>
+                        <input type="checkbox" />
                         <label>Ativo</label>
                     </div>
                     <div className="dados-familia">
                         <div id="descricao">
                             <label>Descrição</label>
-                            <input className="descricao"/>
+                            <input className="descricao" />
                         </div>
                     </div>
                 </CF.DadosFamilia>
                 <CF.DadosProduto>
-                    <div className="dados-produto" style={{borderTop: "1px solid grey"}}>
+                    <div className="dados-produto" style={{ borderTop: "1px solid grey" }}>
                         <div>
                             <label>Código</label>
-                            <input/>
+                            <input />
                         </div>
                         <div id="descricao">
                             <label>Descrição</label>
-                            <input className="descricao"/>
+                            <input className="descricao" />
                         </div>
                         <div >
                             <label>Referência</label>
-                            <input/>
+                            <input />
                         </div>
                     </div>
                     <div className="dados-produto">
                         <div className="grupo">
                             <div>
                                 <label>Grupo</label>
-                                <input value={grupo.codigo}/>
+                                <input value={grupo.codigo} />
                             </div>
-                            <button onClick={()=> setModalGrupo(true)}>...</button>
+                            <button onClick={() => setModalGrupo(true)}>...</button>
                             <select disabled>
                                 <option>{grupo.descricao}</option>
                             </select>
@@ -75,9 +75,9 @@ export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, s
                         <div className="grupo">
                             <div id="descricao">
                                 <label>Produtos</label>
-                                <input className="descricao"/>
+                                <input className="descricao" />
                             </div>
-                            <img src="/images/add.png" onClick={()=> setModalProduto(true)}/>
+                            <img alt="" src="/images/add.png" onClick={() => setModalProduto(true)} />
                         </div>
                     </div>
                 </CF.DadosProduto>
@@ -92,8 +92,8 @@ export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, s
                             </tr>
                         </thead>
                         <tbody>
-                            {listItems.map((item)=> {
-                                return(
+                            {listItems.map((item) => {
+                                return (
                                     <tr key={item.id_produto}>
                                         <td>{item.id_produto}</td>
                                         <td>{item.gtin_produto}</td>
@@ -107,12 +107,12 @@ export const CadastrarFamilia = ({close, minimizado, setMinimizado, minimizar, s
                 </div>
                 <C.Footer>
                     <div className="buttons">
-                        <button><img src="/images/salvar.png"/>Salvar</button>
-                        <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
+                        <button><img alt="" src="/images/salvar.png" />Salvar</button>
+                        <button onClick={close}><img alt="" src="/images/voltar.png" />Fechar</button>
                     </div>
                 </C.Footer>
-                {modalProduto ? <Produtos onClose={()=> setModalProduto(false)} listItems={listItems} setListItems={setListItems}/> : null}
-                {modalGrupo ? <Grupo close={()=> setModalGrupo(false)} setGrupo={setGrupo}/> : null}
+                {modalProduto ? <Produtos onClose={() => setModalProduto(false)} listItems={listItems} setListItems={setListItems} /> : null}
+                {modalGrupo ? <Grupo close={() => setModalGrupo(false)} setGrupo={setGrupo} /> : null}
             </C.Container>
         </M.SubModal>
     )

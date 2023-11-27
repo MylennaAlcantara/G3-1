@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import * as C from "../../../cadastro/cadastro";
 import * as M from "../../modal/modal";
 import * as CPC from "./cadastroPisCofins";
-import * as C from "../../../cadastro/cadastro";
 
 export const Excecao = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [filiais, setFiliais] = useState([]);
@@ -287,8 +287,8 @@ export const Excecao = ({close, minimizado, setMinimizado, minimizar, setMinimiz
             </CPC.ExcecaoRegra>
             <C.Footer>
                 <div className="buttons">
-                    <button><img src="/images/salvar.png"/>Salvar</button>
-                    <button onClick={close}><img src="/images/voltar.png"/>Cancelar</button>
+                    <button><img alt="" src="/images/salvar.png"/>Salvar</button>
+                    <button onClick={close}><img alt="" src="/images/voltar.png"/>Cancelar</button>
                 </div>
             </C.Footer>
         </M.Container>

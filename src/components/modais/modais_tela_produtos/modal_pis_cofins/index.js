@@ -1,17 +1,17 @@
-import React, {useEffect, useRef, useState} from "react";
-import * as M from "../../modal/modal";
+import React, { useEffect, useRef, useState } from "react";
 import * as C from "../../../cadastro/cadastro";
+import * as M from "../../modal/modal";
 import { CadastroPisCofins } from "../modal_cadastro_piscofins";
 
-export const PisCofins = ({close, minimizado, setMinimizado}) => {
+export const PisCofins = ({ close, minimizado, setMinimizado }) => {
     const [perfil, setPerfil] = useState([]);
     const [modalCadastro, setModalCadastro] = useState(false);
     const [busca, setBusca] = useState('');
 
-    
+
     useEffect(() => {
-        async function fetchData (){
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR+"/perfilRegra/all");
+        async function fetchData() {
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR + "/perfilRegra/all");
             const data = await response.json();
             setPerfil(data);
         }
@@ -26,10 +26,12 @@ export const PisCofins = ({close, minimizado, setMinimizado}) => {
     }
 
     const resultado = Array.isArray(perfil) && perfil.filter((perfil) => {
-        if(filtro === 'descricao'){
+        if (filtro === 'descricao') {
             return perfil.descricao.toLowerCase().includes(busca);
-        }else if(filtro === 'id'){
+        } else if (filtro === 'id') {
             return perfil.id === Number(busca);
+        } else {
+            return null;
         }
     })
 
@@ -42,15 +44,15 @@ export const PisCofins = ({close, minimizado, setMinimizado}) => {
     }
 
     const handleKeyDown = (e) => {
-        if(e.keyCode === 38){
+        if (e.keyCode === 38) {
             e.preventDefault();
-            if(selectIndex === null || selectIndex === 0){
+            if (selectIndex === null || selectIndex === 0) {
                 return;
             }
-            setSelectIndex(selectIndex-1);
-        }else if (e.keyCode === 40){
+            setSelectIndex(selectIndex - 1);
+        } else if (e.keyCode === 40) {
             e.preventDefault();
-            if(selectIndex === null || selectIndex === resultado.length -1 ){
+            if (selectIndex === null || selectIndex === resultado.length - 1) {
                 return;
             }
             setSelectIndex(selectIndex + 1);
@@ -60,29 +62,29 @@ export const PisCofins = ({close, minimizado, setMinimizado}) => {
     // Estado que indica quando minimizado para colocar atrás de tudo
     const [minimizar, setMinimizar] = useState("");
 
-    return(
-        <M.SubModal style={{zIndex: minimizado && minimizado.pis ? minimizar : "1"}}>
+    return (
+        <M.SubModal style={{ zIndex: minimizado && minimizado.pis ? minimizar : "1" }}>
             <M.Container>
                 <M.Header>
                     <label>Grupos de PIS/COFINS</label>
                     <div className="buttons">
-                        <button className="minimizar" onClick={()=> {setMinimizar("-5"); setMinimizado({...minimizado, pis: true})}}><div className="linha"/></button>
+                        <button className="minimizar" onClick={() => { setMinimizar("-5"); setMinimizado({ ...minimizado, pis: true }) }}><div className="linha" /></button>
                         <button className="close" onClick={close}>X</button>
                     </div>
                 </M.Header>
                 <M.Filtro>
                     <div>
                         <div>
-                            <input name="checkbox" type="radio" value="id" checked={filtro==='id'} onChange={handleFiltroChange}/>
+                            <input name="checkbox" type="radio" value="id" checked={filtro === 'id'} onChange={handleFiltroChange} />
                             <label>Código</label>
                         </div>
                         <div>
-                            <input name="checkbox" type="radio" value="descricao" checked={filtro === 'descricao'} onChange={handleFiltroChange}/>
+                            <input name="checkbox" type="radio" value="descricao" checked={filtro === 'descricao'} onChange={handleFiltroChange} />
                             <label>Descrição</label>
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                        <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown} />
                     </div>
                 </M.Filtro>
                 <div className="table-responsive">
@@ -94,11 +96,11 @@ export const PisCofins = ({close, minimizado, setMinimizado}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {resultado.map((perfil, index)=> {
-                                return(
+                            {resultado.map((perfil, index) => {
+                                return (
                                     <tr key={perfil.id}
                                         onClick={selecionado.bind(this, index)}
-                                        style={{backgroundColor: index === selectIndex ? '#87CEFA' : ''}}>
+                                        style={{ backgroundColor: index === selectIndex ? '#87CEFA' : '' }}>
                                         <td>{perfil.id}</td>
                                         <td>{perfil.descricao}</td>
                                     </tr>
@@ -109,11 +111,11 @@ export const PisCofins = ({close, minimizado, setMinimizado}) => {
                 </div>
                 <C.Footer>
                     <div className="buttons">
-                        <button onClick={()=>setModalCadastro(true)}><img src="/images/add.png"/> Novo</button>
-                        <button onClick={close}><img src="/images/voltar.png"/> Fechar</button>
+                        <button onClick={() => setModalCadastro(true)}><img alt="" src="/images/add.png" /> Novo</button>
+                        <button onClick={close}><img alt="" src="/images/voltar.png" /> Fechar</button>
                     </div>
                 </C.Footer>
-                {modalCadastro ? <CadastroPisCofins close={()=> setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
+                {modalCadastro ? <CadastroPisCofins close={() => setModalCadastro(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar} /> : null}
             </M.Container>
         </M.SubModal>
     )

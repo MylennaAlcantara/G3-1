@@ -1,25 +1,13 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Familia } from "../modais/modais_tela_produtos/modal_familia/index";
-import { Ipi } from "../modais/modais_tela_produtos/modal_ipi";
-import { PisCofins } from "../modais/modais_tela_produtos/modal_pis_cofins";
-import { Nivel } from "../modais/modal_nivel";
-import { Setor } from "../modais/modal_setor";
-import { OpFuncionarios } from "../opcoes_funcionario";
-import { OpProdutos } from "../opcoes_produto";
-import { GrupoIcms } from "../modais/modais_tela_produtos/modal_grupo_icms";
-import * as C from "./navBar";
 import { AuthContext } from "../../contexts/Auth/authContext";
-import { OpAuxiliar } from "../opcoes_tabela_auxiliar";
-import { PerfilCliente } from "../modais/modal_perfil_cliente";
-import { RamoAtividade } from "../modais/modal_ramo_atividade";
-import { Pgt } from "../modais/modal_pgt";
-import { Grupo } from "../modais/modais_tela_produtos/modal_icms";
-import { Top } from "../modais/modal_top";
-import { PerfilMovimentacao } from "../modais/modal_perfil_mov";
 import { VendasCaixa } from "../Relatorios/vendas_caixas";
 import { Caixa } from "../caixa";
 import { Coletor } from "../coletor";
+import { OpFuncionarios } from "../opcoes_funcionario";
+import { OpProdutos } from "../opcoes_produto";
+import { OpAuxiliar } from "../opcoes_tabela_auxiliar";
+import * as C from "./navBar";
 
 export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setModal, modal}) => {
     const navigate = useNavigate();
@@ -50,57 +38,6 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
         setOpfuncionario(false);
         setOpAuxiliar(false);
     }
-/*
-    function navegarProduto (){
-        fecharOp();
-        if(isModalFamilia === true){
-            setIsModalRegraIcms(false);
-            setIsModalGrupoIpi(false);
-            setIsModalGrupoPis(false);
-            setIsModalGrupo(false);
-        }else if(isModalRegraIcms === true){
-            setIsModalGrupoIpi(false);
-            setIsModalGrupoPis(false);
-            setIsModalFamilia(false);
-            setIsModalGrupo(false);
-        }else if(isModalGrupoIpi === true){
-            setIsModalRegraIcms(false);
-            setIsModalGrupoPis(false);
-            setIsModalFamilia(false);
-            setIsModalGrupo(false);
-        }else if(isModalGrupoPis === true){
-            setIsModalFamilia(false);
-            setIsModalRegraIcms(false);
-            setIsModalGrupoIpi(false);
-            setIsModalGrupo(false);
-        }else if(isModalGrupo === true){
-            setIsModalGrupoPis(false);
-            setIsModalFamilia(false);
-            setIsModalRegraIcms(false);
-            setIsModalGrupoIpi(false);
-        }
-    }
-    function navegarTabelaAuxi(){
-        if(perfil){
-            setRamo(false);
-            setTipoPgto(false);
-        }else if(ramo){
-            setPerfil(false);
-            setTipoPgto(false);
-        }else if(tipoPgto){
-            setPerfil(false);
-            setRamo(false);
-        }
-    }
-     
-    function navegarFuncionario(){
-        if(isModalSetor){
-            setIsModalNivel(false);
-        }else if(isModalNivel){
-            setIsModalSetor(false);
-        }
-    }
-    */
 
     const [sincronizando, setSincronizando] = useState(null);
 

@@ -1,17 +1,14 @@
 import React, { useState } from "react";
-import * as C from "../../cadastro/cadastro"
-import * as LB from "../resumo_de_faturamento/resumoFaturamento"
-import * as CS from "./consulta"
-import './style.css'
+import * as C from "../../cadastro/cadastro";
+import * as LB from "../resumo_de_faturamento/resumoFaturamento";
+import * as CS from "./consulta";
+import './style.css';
 
 export const ConsultarNFCE = () => {
 
     const [aba, setAba] = useState('Filial')
     const [abaVendas, setAbaVendas] = useState('Lista')
     const [abaIPL, setAbaIPL] = useState('Itens')
-
-    const [dataInicial, setDataInicial] = useState()
-    const [dataFinal, setDataFinal] = useState() 
 
     return (
         <C.Container>

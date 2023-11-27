@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import * as M from "../../modal/modal";
-import * as C from "../../../cadastro/cadastro"
-import { CadastrarFamilia } from "../modal_cadastro_familia";
-import { AuthContext } from "../../../../contexts/Auth/authContext";
+import React, { useEffect, useState } from "react";
+import * as C from "../../../cadastro/cadastro";
 import { Loading } from "../../../loading";
+import * as M from "../../modal/modal";
+import { CadastrarFamilia } from "../modal_cadastro_familia";
 
 export const Familia = ({close, minimizado, setMinimizado}) => {
     const [cadastrarFamilia, setCadastrarFamilia] = useState(false);
     const [familias, setFamilias] = useState([]);
-    const {dataMask} = useContext(AuthContext)
 
     // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
     const [carregado, setCarregado] = useState(false);
@@ -96,8 +94,8 @@ export const Familia = ({close, minimizado, setMinimizado}) => {
                 
                 <C.Footer>
                     <div className="buttons">
-                        <button onClick={()=> setCadastrarFamilia(true)}><img src="/images/add.png"/>Novo</button>
-                        <button onClick={close}><img src="/images/voltar.png"/>Fechar</button>
+                        <button onClick={()=> setCadastrarFamilia(true)}><img alt="" src="/images/add.png"/>Novo</button>
+                        <button onClick={close}><img alt="" src="/images/voltar.png"/>Fechar</button>
                     </div>
                 </C.Footer>
                 {cadastrarFamilia ? <CadastrarFamilia close={()=> setCadastrarFamilia(false)} minimizado={minimizado} setMinimizado={setMinimizado} minimizar={minimizar} setMinimizar={setMinimizar}/> : null}
