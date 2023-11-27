@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as M from "../modal/modal";
 import * as CP from "../modal_cadastro_perfil/cadastroPerfil";
 

@@ -12,7 +12,7 @@ import { rotinaPDF } from "../Relatorios/rotinaPDF";
 
 export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMinimizado }) => {
     const navigate = useNavigate();
-    const { autenticar, user, empresa, company, cnpjMask, dataMask } = useContext(AuthContext);
+    const { autenticar, user, empresa, cnpjMask, dataMask } = useContext(AuthContext);
 
     const [rotinas, setRotinas] = useState({});
     const [emitente, setEmitente] = useState([]);
@@ -36,7 +36,6 @@ export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMin
     const [parceiroAlterado, setParceiroAlterado] = useState(false);
     const [tipoPgtoAlterado, setTipoPgtoAlterado] = useState(false);
     const [itensAlterados, setItensAlterados] = useState(false);
-    const [usuario, setUsuario] = useState([]);
 
     useEffect(() => {
         async function fetchData() {

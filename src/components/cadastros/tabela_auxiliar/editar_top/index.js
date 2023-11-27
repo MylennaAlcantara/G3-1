@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../../../contexts/Auth/authContext";
-import * as M from "../../../modais/modal/modal";
+import React, { useEffect, useState } from "react";
 import * as C from "../../../cadastro/cadastro";
-import * as CT from "../cadastro_top/cadastroTop";
-import * as CC from "../../cadastro_cliente/cadastroCliente"
-import { Pgt } from "../../../modais/modal_pgt";
+import * as M from "../../../modais/modal/modal";
 import { PerfilMovimentacao } from "../../../modais/modal_perfil_mov";
+import { Pgt } from "../../../modais/modal_pgt";
+import * as CC from "../../cadastro_cliente/cadastroCliente";
+import * as CT from "../cadastro_top/cadastroTop";
 
 export const EditarTop = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [aba, setAba] = useState('geral');

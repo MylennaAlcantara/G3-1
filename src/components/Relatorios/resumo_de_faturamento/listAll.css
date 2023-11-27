@@ -489,7 +489,7 @@ h1 {
 
 .alinharValor{
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center ;
     margin-right: 20px;
     margin-left: 10px;

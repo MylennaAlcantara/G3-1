@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext.js";
-import * as C from "./consultar.js";
 import { rotinaPDF } from "../Relatorios/rotinaPDF.js";
 import { Loading } from "../loading";
+import * as C from "./consultar.js";
 
 export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
     const [rotinas, setRotinas] = useState([]);
     const navigate = useNavigate();
-    const { autenticar, user, empresa, filiais, nivel, cnpjMask, dataMask } = useContext(AuthContext);
+    const { autenticar, user, empresa, filiais, cnpjMask, dataMask } = useContext(AuthContext);
 
     // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
     const [carregado, setCarregado] = useState(false);
@@ -35,7 +35,9 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
         } else if (filtroEscolhido === 'E') {
             return rotina.situacao === 'E'
         } else if (filtroEscolhido === 'A') {
-            return rotina.situacao != 'E';
+            return rotina.situacao !== 'E';
+        } else {
+            return null;
         }
     });
     

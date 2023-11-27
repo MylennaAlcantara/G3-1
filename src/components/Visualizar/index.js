@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Auth/authContext";
-import * as C from "../cadastro/cadastro";
 import { rotinaPDF } from "../Relatorios/rotinaPDF";
+import * as C from "../cadastro/cadastro";
 
 export const Visualizar = ({ codRotina }) => {
     const navigate = useNavigate();
@@ -48,21 +48,29 @@ export const Visualizar = ({ codRotina }) => {
     const razaoSocial = emitente.filter((idEmitente) => {
         if (rotinas.id_empresa === idEmitente.id) {
             return idEmitente.razao_social;
+        } else {
+            return null;
         }
     });
     const descricaoTop = top.filter((top) => {
         if (rotinas.id_top === top.id) {
             return top.descricao;
+        } else {
+            return null;
         }
     });
     const descricaoVendedor = vendedor.filter((vendedor) => {
         if (rotinas.id_funcionario === vendedor.id) {
             return vendedor.nome;
+        } else {
+            return null;
         }
     });
     const descricaoPagamento = tipoPagamento.filter((pagamento) => {
         if (rotinas.id_tipo_pagamento === pagamento.id) {
             return pagamento.descricao;
+        } else {
+            return null;
         }
     });
 

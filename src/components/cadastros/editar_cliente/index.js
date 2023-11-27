@@ -111,7 +111,7 @@ export const EditarCliente = ({ codCliente, minimizado, setMinimizado }) => {
         e.preventDefault();
         if (e.keyCode === 112) {
             setIsModalMunicipio(true);
-        } else if (e.keyCode != 112) {
+        } else if (e.keyCode !== 112) {
             e.preventDefault();
         }
     }

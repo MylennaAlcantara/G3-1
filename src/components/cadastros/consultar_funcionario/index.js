@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import * as C from "../../cadastro/cadastro";
-import * as CF from "./consultarFuncionario";
-import * as CCL from "../consulta_cliente/consultaCliente";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../../contexts/Auth/authContext";
+import * as C from "../../cadastro/cadastro";
 import { Loading } from "../../loading";
+import * as CCL from "../consulta_cliente/consultaCliente";
+import * as CF from "./consultarFuncionario";
 
 export const ConsultarFuncionario = () => {
     const navigate = useNavigate();
@@ -36,6 +36,8 @@ export const ConsultarFuncionario = () => {
             return item.setorFuncionario.id === Number(setorEscolhido)
         } else if (setorEscolhido === "0") {
             return users;
+        } else {
+            return null;
         }
     });
 
@@ -44,6 +46,8 @@ export const ConsultarFuncionario = () => {
             return item.motorista
         } else if (motorista === false) {
             return resultado5;
+        } else {
+            return null;
         }
     });
 
@@ -52,6 +56,8 @@ export const ConsultarFuncionario = () => {
             return item.filial.id === Number(filialEscolhido);
         } else if (filialEscolhido === "0") {
             return resultado4;
+        } else {
+            return null;
         }
     });
 
@@ -60,6 +66,8 @@ export const ConsultarFuncionario = () => {
             return item.ativo === statusEscolhido;
         } else if (statusEscolhido === "todos") {
             return resultado3;
+        } else {
+            return null;
         }
     });
 
@@ -72,6 +80,8 @@ export const ConsultarFuncionario = () => {
             return user.municipio.toLowerCase().includes(busca);
         } else if (filtroEscolhido === 'cpf') {
             return user.cpf.toLowerCase().includes(busca);
+        } else {
+            return null;
         }
     });
 

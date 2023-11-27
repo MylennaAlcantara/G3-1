@@ -1,16 +1,13 @@
-import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../../../contexts/Auth/authContext";
-import * as M from "../../../modais/modal/modal";
+import React, { useState } from "react";
 import * as C from "../../../cadastro/cadastro";
-import * as CT from "./cadastroTop";
-import * as CC from "../../cadastro_cliente/cadastroCliente"
-import { Pgt } from "../../../modais/modal_pgt";
-import { PerfilMovimentacao } from "../../../modais/modal_perfil_mov";
-import { Grupo } from "../../../modais/modais_tela_produtos/modal_icms";
 import { Ipi } from "../../../modais/modais_tela_produtos/modal_ipi";
 import { PisCofins } from "../../../modais/modais_tela_produtos/modal_pis_cofins";
+import * as M from "../../../modais/modal/modal";
 import { MensagemNfe } from "../../../modais/modal_mensagem_nfe";
+import { PerfilMovimentacao } from "../../../modais/modal_perfil_mov";
+import { Pgt } from "../../../modais/modal_pgt";
+import * as CC from "../../cadastro_cliente/cadastroCliente";
+import * as CT from "./cadastroTop";
 
 export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMinimizar}) => {
     const [aba, setAba] = useState('geral');

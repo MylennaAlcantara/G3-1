@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import * as C from "../../cadastro/cadastro";
-import * as M from "../../modais/modal/modal"
-import * as CCL from "../../cadastros/consulta_cliente/consultaCliente";
 import { AuthContext } from "../../../contexts/Auth/authContext";
+import * as C from "../../cadastro/cadastro";
+import * as CCL from "../../cadastros/consulta_cliente/consultaCliente";
 import { Loading } from "../../loading";
+import * as M from "../../modais/modal/modal";
 export const ConsultarFornecedor = () => {
     const navigate = useNavigate();
     const { user, empresa, nivel, cnpjMask } = useContext(AuthContext);
@@ -30,7 +30,7 @@ export const ConsultarFornecedor = () => {
     const resultado = resultado1.filter((user) => {
         if (filtroAtivo === "ativo") {
             return user.ativo && !user.excluido;
-        } else if (filtroAtivo == "desativado") {
+        } else if (filtroAtivo === "desativado") {
             return !user.ativo && !user.excluido;
         } else {
             return !user.excluido;

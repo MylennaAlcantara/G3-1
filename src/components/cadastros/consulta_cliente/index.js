@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import * as M from "../../modais/modal/modal";
-import * as C from "../../cadastro/cadastro";
-import * as CCL from "./consultaCliente";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/Auth/authContext";
+import * as C from "../../cadastro/cadastro";
 import { Loading } from "../../loading";
+import * as M from "../../modais/modal/modal";
+import * as CCL from "./consultaCliente";
 
 export const ConsultarCliente = ({ setCliente }) => {
     const navigate = useNavigate();
@@ -30,6 +30,8 @@ export const ConsultarCliente = ({ setCliente }) => {
             return user.nome_fantasia.toLowerCase().includes(busca);
         } else if (filtro === 'rg') {
             return String(user.rg).toLowerCase().includes(busca);
+        } else {
+            return null;
         }
     });
 
