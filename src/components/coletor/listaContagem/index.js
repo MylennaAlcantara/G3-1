@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import * as L from "./listaContagem";
 import { AuthContext } from "../../../contexts/Auth/authContext";
 import { Loading } from "../../loading";
+import * as L from "./listaContagem";
 
 export const ListaContagem = ({ setCabecalho, abrir }) => {
     const { dataMask } = useContext(AuthContext);
@@ -63,12 +63,12 @@ export const ListaContagem = ({ setCabecalho, abrir }) => {
                                     <tr key={item.id}
                                         onClick={selecionado.bind(this, item, index)}
                                         onDoubleClick={abrir.bind(this, item)}
-                                        style={{ backgroundColor: itemSelecionado === index ? "#87CEFA" : "", color: item.aberto == 1 ? "red" : "" }}>
+                                        style={{ backgroundColor: itemSelecionado === index ? "#87CEFA" : "", color: item.aberto === 1 ? "red" : "" }}>
                                         <td>{item.id}</td>
                                         <td>{item.descricao}</td>
                                         <td>{dataMask(item.data_contagem)}</td>
                                         <td>{item.id_usuario_insercao}</td>
-                                        <td>{item.aberto == 0 ? "Não" : "Sim"}</td>
+                                        <td>{item.aberto === 0 ? "Não" : "Sim"}</td>
                                         <td>Não</td>
                                     </tr>
                                 )

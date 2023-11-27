@@ -97,19 +97,21 @@ export function resumoFaturamentoTpPgPDF(valorFilial, valorIdTop, dataIni, dataF
     }
 
     const chartDataTipoPagamento = Object.keys(totalTipoPagamento).map(key => {
-        if (key != "id_filial") {
+        if (key !== "id_filial") {
             return (
                 {
                     nome: key,
                     valor: totalTipoPagamento[key]
                 }
             )
+        } else {
+            return null;
         }
     });
 
     chartDataTipoPagamento.sort(organizarTotais).map((tp) => {
-        if (tp != undefined && tp != null) {
-            if (tp.valor != 0) {
+        if (tp !== undefined && tp !== null) {
+            if (tp.valor !== 0) {
                 totais.push({ text: String(tp.nome).toUpperCase() + ": " + parseFloat(String(tp.valor)).toLocaleString("pt-BR", { style: 'currency', currency: 'BRL' }), fontSize: 8 })
             }
         }

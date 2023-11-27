@@ -6,7 +6,7 @@ export const Loading = () =>{
         <Animacao>
             <div>
                 <div className="image">
-                    <img src="/favicon.ico"/>
+                    <img alt="" src="/favicon.ico"/>
                 </div>
                 <div id="pontos">
                     <label>Carregando</label>

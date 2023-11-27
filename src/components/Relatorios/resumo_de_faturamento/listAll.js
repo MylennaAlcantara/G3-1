@@ -1,23 +1,23 @@
-import React, { useState, useContext } from 'react';
-import './listAll.css'
-import Modal from 'react-modal'
-import { Emitente } from '../../modais/modal_emitente';
+import React, { useContext, useState } from 'react';
 import Chart from 'react-google-charts';
-import * as C from '../../cadastro/cadastro'
-import { Top } from '../../modais/modal_top';
-import { Loading } from '../../loading';
-import { resumoFaturamentoRegiaoPDF } from './PDFS/resumoFaturamentoRegiaoPDF';
-import { resumoFaturamentoVendedorPDF } from './PDFS/resumoFaturamentoPDF'
-import { resumoFaturamentoTpPgPDF } from './PDFS/resumoFaturamentoTpPgPDF';
-import { resumoFaturamentoProdutoPDF } from './PDFS/resumoFaturamentoProdutoPDF';
-import { resumoFaturamentoGrupoPDF } from './PDFS/resumoFaturamentoGrupoPDF';
-import { resumoFaturamentoFornecedorPDF } from './PDFS/resumoFaturamentoFornecedorPDF';
-import { resumoFaturamentoFilialPDF } from './PDFS/resumoFaturamentoFilialPDF';
-import { resumoFaturamentoClientePDF } from './PDFS/resumoFaturamentoClientePDF';
+import Modal from 'react-modal';
 import { Bar, BarChart, Brush, CartesianGrid, Cell, Legend, Pie, PieChart, ReferenceLine, ResponsiveContainer, Sector, Tooltip, XAxis, YAxis } from "recharts";
+import * as C from '../../cadastro/cadastro';
+import { Loading } from '../../loading';
+import { Emitente } from '../../modais/modal_emitente';
+import { Top } from '../../modais/modal_top';
+import { resumoFaturamentoClientePDF } from './PDFS/resumoFaturamentoClientePDF';
+import { resumoFaturamentoFilialPDF } from './PDFS/resumoFaturamentoFilialPDF';
+import { resumoFaturamentoFornecedorPDF } from './PDFS/resumoFaturamentoFornecedorPDF';
+import { resumoFaturamentoGrupoPDF } from './PDFS/resumoFaturamentoGrupoPDF';
+import { resumoFaturamentoVendedorPDF } from './PDFS/resumoFaturamentoPDF';
+import { resumoFaturamentoProdutoPDF } from './PDFS/resumoFaturamentoProdutoPDF';
+import { resumoFaturamentoRegiaoPDF } from './PDFS/resumoFaturamentoRegiaoPDF';
+import { resumoFaturamentoTpPgPDF } from './PDFS/resumoFaturamentoTpPgPDF';
+import './listAll.css';
 
-import { AuthContext } from "../../../contexts/Auth/authContext"
-import * as RF from "../resumo_de_faturamento/resumoFaturamento"
+import { AuthContext } from "../../../contexts/Auth/authContext";
+import * as RF from "../resumo_de_faturamento/resumoFaturamento";
 
 import { useNavigate } from 'react-router-dom';
 
@@ -182,6 +182,8 @@ export const ResumoFaturamento = () => {
                     valor: totalTipoPagamento[key]
                 }
             )
+        } else {
+            return null;
         }
     });
 
