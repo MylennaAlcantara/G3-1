@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as C from "../cadastro/cadastro";
-import { Emitente } from "../modais/modal_emitente/index.js";
-import { Saler } from "../modais/modal_vendedor/index.js";
-import { Top } from "../modais/modal_top/index.js";
-import { Pgt } from "../modais/modal_pgt/index.js";
-import { Produtos } from "../modais/modal_produtos/index.js";
-import { Modal } from "../modais/modal/index.js";
 import { AuthContext } from "../../contexts/Auth/authContext";
 import { rotinaPDF } from "../Relatorios/rotinaPDF";
+import * as C from "../cadastro/cadastro";
+import { Modal } from "../modais/modal/index.js";
+import { Emitente } from "../modais/modal_emitente/index.js";
+import { Pgt } from "../modais/modal_pgt/index.js";
+import { Produtos } from "../modais/modal_produtos/index.js";
+import { Top } from "../modais/modal_top/index.js";
+import { Saler } from "../modais/modal_vendedor/index.js";
 
 export const Editar = ({ horaEmissao, dataEmissao, codRotina, minimizado, setMinimizado }) => {
     const navigate = useNavigate();
@@ -762,7 +762,7 @@ console.log(itensAlterados)
                         {topAlterada === false ? (
                             <div>
                                 <label>T.O.P: </label>
-                                <input name="cod_top" className="f1" id="top" value={rotinas.id_top} onKeyDown={NextVendedor} onKeyUp={keyTop} onDoubleClick={() => setIsModalTop(true)} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} autoFocus readOnly />
+                                <input name="cod_top" className="f1" id="top" value={rotinas.id_top} onKeyDown={NextVendedor} onKeyUp={keyTop} onDoubleClick={() => setIsModalTop(true)} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} autoFocus readOnly />
                                 {descricaoTop.map((item) => {
                                     return <input name="top" className="option" value={item.descricao} style={{ outline: 0 }} disabled readOnly />
                                 })}
@@ -770,7 +770,7 @@ console.log(itensAlterados)
                         ) : (
                             <div>
                                 <label>T.O.P: </label>
-                                <input name="cod_top" className="f1" id="top" value={dataSelectTop.id_top} onKeyDown={NextVendedor} onKeyUp={keyTop} onDoubleClick={() => setIsModalTop(true)} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} autoFocus readOnly />
+                                <input name="cod_top" className="f1" id="top" value={dataSelectTop.id_top} onKeyDown={NextVendedor} onKeyUp={keyTop} onDoubleClick={() => setIsModalTop(true)} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} autoFocus readOnly />
                                 <input name="top" className="option" value={dataSelectTop.descricao} style={{ outline: 0 }} disabled readOnly />
                             </div>
                         )}
@@ -778,7 +778,7 @@ console.log(itensAlterados)
                         {vendedorAlterado === false ? (
                             <div>
                                 <label>Vendedor: </label>
-                                <input name="cod_vendedor" className="f1" id="vendedor" value={rotinas.id_funcionario} onKeyDown={NextParceiro} onKeyUp={keySaler} onDoubleClick={() => setIsModalSaler(true)} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} readOnly />
+                                <input name="cod_vendedor" className="f1" id="vendedor" value={rotinas.id_funcionario} onKeyDown={NextParceiro} onKeyUp={keySaler} onDoubleClick={() => setIsModalSaler(true)} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} readOnly />
                                 {descricaoVendedor.map((item) => {
                                     return <input name="vendedor" className="option" value={item.nome} style={{ outline: 0 }} disabled readOnly />
                                 })}
@@ -786,7 +786,7 @@ console.log(itensAlterados)
                         ) : (
                             <div>
                                 <label>Vendedor: </label>
-                                <input name="cod_vendedor" className="f1" id="vendedor" value={dataIdSelectSaler} onKeyDown={NextParceiro} onKeyUp={keySaler} onDoubleClick={() => setIsModalSaler(true)} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} readOnly />
+                                <input name="cod_vendedor" className="f1" id="vendedor" value={dataIdSelectSaler} onKeyDown={NextParceiro} onKeyUp={keySaler} onDoubleClick={() => setIsModalSaler(true)} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} readOnly />
                                 <input name="vendedor" className="option" value={dataSelectSaler} style={{ outline: 0 }} disabled readOnly />
                             </div>
                         )}
@@ -794,7 +794,7 @@ console.log(itensAlterados)
                         {parceiroAlterado === false ? (
                             <div>
                                 <label>Parceiro: </label>
-                                <input className="f1" name="cod_partner" id="parceiro" value={rotinas.id_cliente} onKeyDown={NextPgto} onKeyUp={keyPartner} onDoubleClick={() => setIsModalPartner(true)} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} readOnly />
+                                <input className="f1" name="cod_partner" id="parceiro" value={rotinas.id_cliente} onKeyDown={NextPgto} onKeyUp={keyPartner} onDoubleClick={() => setIsModalPartner(true)} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} readOnly />
                                 <div className="div-partner">
                                     <input name="partner" className="partner" id="nome-Parceiro" value={rotinas.nome_cliente} style={{ outline: 0 }} disabled readOnly />
                                     <label>CPF/CNPJ: </label>
@@ -804,7 +804,7 @@ console.log(itensAlterados)
                         ) : (
                             <div>
                                 <label>Parceiro: </label>
-                                <input className="f1" name="cod_partner" id="parceiro" value={dataIdSelectPartner} onKeyDown={NextPgto} onKeyUp={keyPartner} onDoubleClick={() => setIsModalPartner(true)} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} readOnly />
+                                <input className="f1" name="cod_partner" id="parceiro" value={dataIdSelectPartner} onKeyDown={NextPgto} onKeyUp={keyPartner} onDoubleClick={() => setIsModalPartner(true)} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} readOnly />
                                 <div className="div-partner">
                                     <input name="partner" className="partner" id="nome-Parceiro" value={dataSelectPartner} style={{ outline: 0 }} disabled readOnly />
                                     <label>CPF/CNPJ: </label>
@@ -816,7 +816,7 @@ console.log(itensAlterados)
                         {tipoPgtoAlterado === false ? (
                             <div>
                                 <label>Tipo pgto: </label>
-                                <input className="f1" id="pgto" value={rotinas.id_tipo_pagamento} onKeyUp={keyPgt} onKeyDown={NextPoduto} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} readOnly />
+                                <input className="f1" id="pgto" value={rotinas.id_tipo_pagamento} onKeyUp={keyPgt} onKeyDown={NextPoduto} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} readOnly />
                                 {descricaoPagamento.map((item) => {
                                     return <input id="option_pgto" className="option" value={item.descricao} style={{ outline: 0 }} disabled readOnly />
                                 })}
@@ -824,7 +824,7 @@ console.log(itensAlterados)
                         ) : (
                             <div>
                                 <label>Tipo pgto: </label>
-                                <input className="f1" id="pgto" value={dataIdSelectPgt} onKeyUp={keyPgt} onKeyDown={NextPoduto} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} readOnly />
+                                <input className="f1" id="pgto" value={dataIdSelectPgt} onKeyUp={keyPgt} onKeyDown={NextPoduto} onDoubleClick={() => setIsModalPgt(true)} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} readOnly />
                                 <input id="option_pgto" className="option" value={dataSelectPgt} style={{ outline: 0 }} disabled readOnly />
                             </div>
                         )}
@@ -848,7 +848,7 @@ console.log(itensAlterados)
                             name="id_produto"
                             onBlur={changeHandler}
                             onDoubleClick={() => setIsModalProdutos(true)}
-                            title='Aperte F2 para listar as opções'
+                            title='Aperte F1 para listar as opções'
                             style={{ backgroundColor: cor }} required />
                     </div>
                     <div>

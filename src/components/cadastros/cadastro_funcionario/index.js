@@ -1,3 +1,4 @@
+import { MD5 } from "crypto-js";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../../../contexts/Auth/authContext";
@@ -8,7 +9,6 @@ import { Nivel } from "../../modais/modal_nivel";
 import { Setor } from "../../modais/modal_setor";
 import * as CC from "../cadastro_cliente/cadastroCliente";
 import * as CF from "./cadastroFuncionario";
-import { MD5 } from "crypto-js";
 
 export const CadastroFuncionario = ({ minimizado, setMinimizado }) => {
     const navigate = useNavigate();
@@ -255,21 +255,21 @@ export const CadastroFuncionario = ({ minimizado, setMinimizado }) => {
                         <div>
                             <label>Setor: </label>
                             <div className="input-unico">
-                                <input className="codigo" value={dadosFuncionario.setorFuncionario.id} onDoubleClick={() => setIsModalSetor(true)} onKeyDown={setores} style={{ backgroundColor: cor }} title='Aperte F2 para listar as opções' />
+                                <input className="codigo" value={dadosFuncionario.setorFuncionario.id} onDoubleClick={() => setIsModalSetor(true)} onKeyDown={setores} style={{ backgroundColor: cor }} title='Aperte F1 para listar as opções' />
                                 <input value={dadosFuncionario.setorFuncionario.descricao} style={{ outline: 0, color: "black" }} disabled readOnly />
                             </div>
                         </div>
                         <div>
                             <label>Nível: </label>
                             <div className="input-unico">
-                                <input className="codigo" value={dadosFuncionario.nivelAcesso.id} onKeyDown={niveis} onDoubleClick={() => setIsModalNivel(true)} style={{ backgroundColor: cor }} title='Aperte F2 para listar as opções' />
+                                <input className="codigo" value={dadosFuncionario.nivelAcesso.id} onKeyDown={niveis} onDoubleClick={() => setIsModalNivel(true)} style={{ backgroundColor: cor }} title='Aperte F1 para listar as opções' />
                                 <input value={dadosFuncionario.nivelAcesso.descricao} style={{ outline: 0, color: "black" }} disabled readOnly />
                             </div>
                         </div>
                         <div>
                             <label>Filial: </label>
                             <div className="input-unico">
-                                <input className="codigo" value={dadosFuncionario.filial.id} onDoubleClick={() => setIsModalFilial(true)} onKeyDown={filiais} style={{ backgroundColor: cor }} title='Aperte F2 para listar as opções' />
+                                <input className="codigo" value={dadosFuncionario.filial.id} onDoubleClick={() => setIsModalFilial(true)} onKeyDown={filiais} style={{ backgroundColor: cor }} title='Aperte F1 para listar as opções' />
                                 <input value={dadosFuncionario.filial.razaoSocial} style={{ outline: 0, color: "black" }} disabled readOnly />
                             </div>
                         </div>

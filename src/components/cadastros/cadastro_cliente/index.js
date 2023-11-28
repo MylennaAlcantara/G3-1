@@ -92,7 +92,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
         setDadosCliente({ ...dadosCliente, tipo_pessoa: event.target.value });
     }
 
-    //Função para abrir o modal com F2
+    //Função para abrir o modal com F1
     function keyPerfil(e) {
         e.preventDefault();
         if (e.keyCode === 112) {
@@ -454,14 +454,14 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
                             <div>
                                 <label>Perfil Tributá.: </label>
                                 <div className="input-unico">
-                                    <input className="codigo" value={dadosCliente.perfilRegra.id} onDoubleClick={() => setIsModalPerfil(true)} onKeyDown={keyPerfil} title='Aperte F2 para listar as opções' />
+                                    <input className="codigo" value={dadosCliente.perfilRegra.id} onDoubleClick={() => setIsModalPerfil(true)} onKeyDown={keyPerfil} title='Aperte F1 para listar as opções' />
                                     <input value={dadosCliente.perfilRegra.descricao} readOnly />
                                 </div>
                             </div>
                             <div>
                                 <label>Ramo de Ativ.: </label>
                                 <div className="input-unico">
-                                    <input className="codigo" value={dadosCliente.ramoAtividade.id} onDoubleClick={() => setIsModalRamo(true)} onKeyDown={keyRamo} title='Aperte F2 para listar as opções' />
+                                    <input className="codigo" value={dadosCliente.ramoAtividade.id} onDoubleClick={() => setIsModalRamo(true)} onKeyDown={keyRamo} title='Aperte F1 para listar as opções' />
                                     <input value={dadosCliente.ramoAtividade.descricao} readOnly />
                                 </div>
                             </div>
@@ -472,7 +472,7 @@ export const CadastroCliente = ({ minimizado, setMinimizado }) => {
                             <div>
                                 <label>Filial: </label>
                                 <div className="input-unico">
-                                    <input className="codigo" value={dadosCliente.filial.id} onDoubleClick={() => setIsModalEmpresa(true)} onKeyDown={keyEmpresa} title='Aperte F2 para listar as opções' />
+                                    <input className="codigo" value={dadosCliente.filial.id} onDoubleClick={() => setIsModalEmpresa(true)} onKeyDown={keyEmpresa} title='Aperte F1 para listar as opções' />
                                     <input value={dadosCliente.filial.razaoSocial} readOnly />
                                 </div>
                             </div>

@@ -478,14 +478,14 @@ console.log(dadosCliente.excluido)
                             <div>
                                 <label>Perfil Tributá.: </label>
                                 <div className="input-unico">
-                                    <input className="codigo" value={dadosCliente.perfilRegra && dadosCliente.perfilRegra.id} onDoubleClick={() => setIsModalPerfil(true)} onKeyDown={keyPerfil} title='Aperte F2 para listar as opções' />
+                                    <input className="codigo" value={dadosCliente.perfilRegra && dadosCliente.perfilRegra.id} onDoubleClick={() => setIsModalPerfil(true)} onKeyDown={keyPerfil} title='Aperte F1 para listar as opções' />
                                     <input value={dadosCliente.perfilRegra && dadosCliente.perfilRegra.descricao} readOnly />
                                 </div>
                             </div>
                             <div>
                                 <label>Ramo de Ativ.: </label>
                                 <div className="input-unico">
-                                    <input className="codigo" value={dadosCliente.ramoAtividade && dadosCliente.ramoAtividade.id} onDoubleClick={() => setIsModalRamo(true)} onKeyDown={keyRamo} title='Aperte F2 para listar as opções' />
+                                    <input className="codigo" value={dadosCliente.ramoAtividade && dadosCliente.ramoAtividade.id} onDoubleClick={() => setIsModalRamo(true)} onKeyDown={keyRamo} title='Aperte F1 para listar as opções' />
                                     <input value={dadosCliente.ramoAtividade && dadosCliente.ramoAtividade.descricao} readOnly />
                                 </div>
                             </div>
@@ -496,7 +496,7 @@ console.log(dadosCliente.excluido)
                             <div>
                                 <label>Filial: </label>
                                 <div className="input-unico">
-                                    <input className="codigo" value={dadosCliente.filial && dadosCliente.filial.id} onDoubleClick={() => setIsModalEmpresa(true)} onKeyDown={keyEmpresa} title='Aperte F2 para listar as opções' />
+                                    <input className="codigo" value={dadosCliente.filial && dadosCliente.filial.id} onDoubleClick={() => setIsModalEmpresa(true)} onKeyDown={keyEmpresa} title='Aperte F1 para listar as opções' />
                                     <input value={dadosCliente.filial && dadosCliente.filial.razaoSocial} readOnly />
                                 </div>
                             </div>

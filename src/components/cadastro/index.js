@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Modal } from "../modais/modal/index";
-import { Saler } from "../modais/modal_vendedor/index.js";
-import "../modais/modal/modal.js";
-import * as C from './cadastro.js';
+import { useNavigate } from "react-router-dom";
 import '../../App.js';
+import { AuthContext } from "../../contexts/Auth/authContext.js";
+import { Modal } from "../modais/modal/index";
+import "../modais/modal/modal.js";
 import { Emitente } from "../modais/modal_emitente/index.js";
-import { Top } from "../modais/modal_top/index";
 import { Pgt } from "../modais/modal_pgt/index";
 import { Produtos } from "../modais/modal_produtos/index.js";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/Auth/authContext.js";
+import { Top } from "../modais/modal_top/index";
+import { Saler } from "../modais/modal_vendedor/index.js";
+import * as C from './cadastro.js';
 
 
 export const Cadastro = ({ setMinimizado, minimizado }) => {
@@ -313,7 +313,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
         setDescontoPorcen(calcularPorcentagem())
     }, [numero1, numero2, descontoValor, total]); //, descontoPorcen TO DO: tirar variavel descontoPorcent esta dando conflito, aplicar o desconto somente quando mudar foco
 
-    // Funções para abrir o modal de cada campo apertando F2
+    // Funções para abrir o modal de cada campo apertando F1
     function onKeyUp(event) {
         event.preventDefault();
         if (event.keyCode === 112) {
@@ -646,22 +646,22 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                     <form action="POST" id="information" className="information" onSubmit={handleSubmit}>
                         <div>
                             <label>Emitente: </label>
-                            <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} onDoubleClick={() => setIsModalEmitente(true)} value={dataIdSelectEmitente} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} autoFocus required />
+                            <input name="id_empresa" className="f1" id="emitente" onKeyDown={NextTop} onKeyUp={onKeyUp} onDoubleClick={() => setIsModalEmitente(true)} value={dataIdSelectEmitente} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} autoFocus required />
                             <input name="emitente" className="option" value={dataSelectEmitente} style={{ outline: 0 }} disabled />
                         </div>
                         <div>
                             <label>T.O.P: </label>
-                            <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} onDoubleClick={() => setIsModalTop(true)} value={dataSelectTop.id_top} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} required />
+                            <input name="cod_top" className="f1" id="top" onKeyDown={NextVendedor} onKeyUp={keyTop} onDoubleClick={() => setIsModalTop(true)} value={dataSelectTop.id_top} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} required />
                             <input name="top" className="option" value={dataSelectTop.descricao} style={{ outline: 0 }} disabled />
                         </div>
                         <div>
                             <label>Vendedor: </label>
-                            <input name="cod_vendedor" className="f1" id="vendedor" onKeyDown={NextParceiro} onKeyUp={keySaler} onDoubleClick={() => setIsModalSaler(true)} value={dataIdSelectSaler} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} required />
+                            <input name="cod_vendedor" className="f1" id="vendedor" onKeyDown={NextParceiro} onKeyUp={keySaler} onDoubleClick={() => setIsModalSaler(true)} value={dataIdSelectSaler} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} required />
                             <input name="vendedor" className="option" value={dataSelectSaler} style={{ outline: 0 }} disabled />
                         </div>
                         <div>
                             <label>Parceiro: </label>
-                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} onDoubleClick={() => setIsModalPartner(true)} value={dataIdSelectPartner} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} required />
+                            <input className="f1" name="cod_partner" id="parceiro" onKeyDown={NextPgto} onKeyUp={keyPartner} onDoubleClick={() => setIsModalPartner(true)} value={dataIdSelectPartner} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} required />
                             <div className="div-partner">
                                 <input name="partner" className="partner" value={dataSelectPartner} style={{ outline: 0 }} disabled />
                                 <label>CPF/CNPJ: </label>
@@ -670,7 +670,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                         </div>
                         <div>
                             <label>Tipo pgto: </label>
-                            <input className="f1" id="pgto" onKeyUp={keyPgt} onKeyDown={NextPoduto} onDoubleClick={() => setIsModalPgt(true)} value={dataIdSelectPgt} title='Aperte F2 para listar as opções' style={{ backgroundColor: cor }} required />
+                            <input className="f1" id="pgto" onKeyUp={keyPgt} onKeyDown={NextPoduto} onDoubleClick={() => setIsModalPgt(true)} value={dataIdSelectPgt} title='Aperte F1 para listar as opções' style={{ backgroundColor: cor }} required />
                             <input id="option_pgto" className="option" value={dataSelectPgt} style={{ outline: 0 }} disabled />
                         </div>
                     </form>
@@ -693,7 +693,7 @@ export const Cadastro = ({ setMinimizado, minimizado }) => {
                             name="id_produto"
                             onBlur={changeHandler}
                             onDoubleClick={() => setIsModalProdutos(true)}
-                            title='Aperte F2 para listar as opções'
+                            title='Aperte F1 para listar as opções'
                             style={{ backgroundColor: cor }} required />
                     </div>
                     <div>

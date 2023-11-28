@@ -334,7 +334,7 @@ export const EditarFornecedor = ({ minimizado, setMinimizado }) => {
                             </div>
                             <div id="municipio" className="municipio">
                                 <label>Municipio: </label>
-                                <input className="codigo" id="codigoMunicipio" value={dadosFornecedor.codigo_municipio} onDoubleClick={() => setIsModalMunicipio(true)} onKeyDown={keyMunicipio} style={{ backgroundColor: corObrigatorios }} title='Aperte F2 para listar as opções' readOnly />
+                                <input className="codigo" id="codigoMunicipio" value={dadosFornecedor.codigo_municipio} onDoubleClick={() => setIsModalMunicipio(true)} onKeyDown={keyMunicipio} style={{ backgroundColor: corObrigatorios }} title='Aperte F1 para listar as opções' readOnly />
                                 <img alt="" src="/images/add.png" onClick={pesquisarMuni} style={{ margin: "auto 5px" }} />
                                 <input className="municipio" value={dadosFornecedor.municipio} style={{ backgroundColor: corObrigatorios }} readOnly />
                                 <div style={{ width: "auto" }}>
@@ -349,7 +349,7 @@ export const EditarFornecedor = ({ minimizado, setMinimizado }) => {
                             <div>
                                 <label>País:</label>
                                 <div className="input-unico" style={{ display: "flex", justifyContent: "start" }}>
-                                    <input className="codigo" value={dadosFornecedor.codigo_pais} onKeyDown={keyPaises} onDoubleClick={() => setIsModalPaises(true)} title='Aperte F2 para listar as opções' />
+                                    <input className="codigo" value={dadosFornecedor.codigo_pais} onKeyDown={keyPaises} onDoubleClick={() => setIsModalPaises(true)} title='Aperte F1 para listar as opções' />
                                     <img alt="" src="/images/LUPA.png" onClick={pesquisarPais} />
                                     <label style={{ color: "red" }}>{dadosFornecedor.pais}</label>
                                 </div>
@@ -363,7 +363,7 @@ export const EditarFornecedor = ({ minimizado, setMinimizado }) => {
                             <div>
                                 <label>Comprador: </label>
                                 <div className="input-unico">
-                                    <input className="codigo" value={dadosFornecedor.id_comprador} onKeyDown={keyComprador} onDoubleClick={() => setIsModalFuncionario(true)} style={{ backgroundColor: corObrigatorios }} title='Aperte F2 para listar as opções' />
+                                    <input className="codigo" value={dadosFornecedor.id_comprador} onKeyDown={keyComprador} onDoubleClick={() => setIsModalFuncionario(true)} style={{ backgroundColor: corObrigatorios }} title='Aperte F1 para listar as opções' />
                                     <input value={dadosFornecedor.nome_comprador} readOnly />
                                 </div>
                             </div>
