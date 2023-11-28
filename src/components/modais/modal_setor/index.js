@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import * as M from "../modal/modal";
+import React, { useEffect, useRef, useState } from "react";
 import * as C from "../../cadastro/cadastro";
+import { Loading } from "../../loading";
+import * as M from "../modal/modal";
 import { CadastroSetor } from "../modal_cadastro_setor";
 import { EditarSetor } from "../modal_editar_setor";
-import { Loading } from "../../loading";
 
 export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, setDadosFuncionario, dadosFuncionario}) => {
     const [setores, setSetores] = useState([]);
@@ -42,13 +42,52 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
         })
         close();
     }
-    const [setorSelecionado, setSetorSelecionado] = useState();
+    var setorSelecionado = null;
     const [dadosSetor, setDadosSetor] = useState([]);
-    const [indexSetor, setIndexSetor] = useState(0);
+    const [indexSetor, setIndexSetor] = useState(-1);
+    const tableRef = useRef(null);
+    const [busca, setBusca] = useState("");
+    const [filtro, setFiltro] =  useState("descricao");
+
+    const resultado = Array.isArray(setores) && setores.filter((setor)=> {
+        if(filtro === "descricao"){
+            return String(setor.descricao).toLowerCase().includes(busca.toLowerCase());
+        } else {
+            return String(setor.id).toLowerCase().includes(busca.toLowerCase());
+        }
+    })
+
+    const handleFiltro = (e) => {
+        setFiltro(e.target.value);
+    }
+    
+    const handleKeyDown = (e) => {
+        if (e.keyCode === 38) {
+            e.preventDefault();
+            if (indexSetor === null || indexSetor === 0) {
+                return;
+            }
+            setIndexSetor(indexSetor - 1);
+        } else if (e.keyCode === 40) {
+            e.preventDefault();
+            if (indexSetor === null || indexSetor === resultado.length - 1) {
+                return;
+            }
+            setIndexSetor(indexSetor + 1);
+        } else if (e.keyCode === 13) {
+            e.preventDefault();
+            if(setores.length > 0){
+                selecionadoEditar(resultado[indexSetor], indexSetor);
+                abrirEditar();
+            }else{
+                fetchData();
+            }
+        }
+    };
 
     const selecionadoEditar = (setor, index) => {
         localStorage.setItem('idSetor', setor.id);
-        setSetorSelecionado(localStorage.getItem("idSetor"));
+        setorSelecionado = setor.id;
         setIndexSetor(index);
     }
 
@@ -77,16 +116,16 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
                 <M.Filtro>
                     <div>
                         <div>
-                            <input type="radio" name="filtro"/>
+                            <input type="radio" name="filtro" value="codigo" onChange={handleFiltro} checked={filtro === "codigo" ? true : false}/>
                             <label>Código</label>
                         </div>
                         <div>
-                            <input type="radio" name="filtro" checked/>
+                            <input type="radio" name="filtro" value="descricao" onChange={handleFiltro} checked={filtro === "descricao" ? true : false}/>
                             <label>Descrição</label>
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" id="search" placeholder="Buscar.." onKeyDown={(e)=> e.keyCode === 13 && fetchData() }/>
+                        <input className="search" id="search" placeholder="Buscar.." value={busca} onChange={(e)=> setBusca(e.target.value)} onKeyDown={handleKeyDown} autoFocus/>
                     </div>
                 </M.Filtro>
                 {setores.length === 0 && carregado === false ? (
@@ -107,7 +146,7 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
                     </div>
                 ) : (
                     <div className="table-responsive">
-                        <table className="table">
+                        <table className="table" ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
                             <thead>
                                 <tr>
                                     <th>Código</th>
@@ -115,7 +154,7 @@ export const Setor = ({setSetor, close, cadastro, minimizado, setMinimizado, set
                                 </tr>
                             </thead>
                             <tbody>
-                                {Array.isArray(setores) && setores.map((setor, index) => {
+                                {Array.isArray(resultado) && resultado.map((setor, index) => {
                                     return(
                                         <tr key={setor.id} 
                                             onDoubleClick={selecionado.bind(this, setor)}

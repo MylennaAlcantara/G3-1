@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import * as M from "../modal/modal";
+import React, { useEffect, useRef, useState } from "react";
 import * as C from "../../cadastro/cadastro";
-import { EditarNivel } from "../modal_editar_nivel";
-import { CadastrarNivel } from "../modal_cadastro_nivel";
 import { Loading } from "../../loading";
+import * as M from "../modal/modal";
+import { CadastrarNivel } from "../modal_cadastro_nivel";
+import { EditarNivel } from "../modal_editar_nivel";
 
 export const Nivel = ({setNivel, close, cadastro, minimizado, setMinimizado, setDadosFuncionario, dadosFuncionario}) => {
     const [niveis, setNiveis] = useState([]);
@@ -13,15 +13,15 @@ export const Nivel = ({setNivel, close, cadastro, minimizado, setMinimizado, set
     // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
     const [carregado, setCarregado] = useState(false);
 
-    useEffect(()=> {
-        async function fetchData (){
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/nivel/all');
-            const data = await response.json();
-            setNiveis(data);
-            if( response.status === 200){
-                setCarregado(true);
-            }
+    async function fetchData (){
+        const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL+'/nivel/all');
+        const data = await response.json();
+        setNiveis(data);
+        if( response.status === 200){
+            setCarregado(true);
         }
+    }
+    useEffect(()=> {
         fetchData();
         document.getElementById("search").focus();
     },[])
@@ -41,13 +41,52 @@ export const Nivel = ({setNivel, close, cadastro, minimizado, setMinimizado, set
         close();
     }
 
-    const [nivelSelecionado, setNivelSelecionado] = useState();
+    var nivelSelecionado = null;
     const [dadosNivel, setDadosNivel] = useState([]);
-    const [indexNivel, setIndexNivel] = useState(0);
+    const [indexNivel, setIndexNivel] = useState(-1);
+    const [busca, setBusca] = useState(""); 
+    const tableRef = useRef(null);
+    const [filtro, setFiltro] =  useState("descricao");
+
+    const resultado = Array.isArray(niveis) && niveis.filter((nivel)=> {
+        if(filtro === "descricao"){
+            return String(nivel.descricao).toLowerCase().includes(busca.toLowerCase());
+        } else {
+            return String(nivel.id).toLowerCase().includes(busca.toLowerCase());
+        }
+    })
+
+    const handleFiltro = (e) => {
+        setFiltro(e.target.value);
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.keyCode === 38) {
+            e.preventDefault();
+            if (indexNivel === null || indexNivel === 0) {
+                return;
+            }
+            setIndexNivel(indexNivel - 1);
+        } else if (e.keyCode === 40) {
+            e.preventDefault();
+            if (indexNivel === null || indexNivel === resultado.length - 1) {
+                return;
+            }
+            setIndexNivel(indexNivel + 1);
+        } else if (e.keyCode === 13) {
+            e.preventDefault();
+            if(niveis.length > 0){
+                selecionadoEditar(resultado[indexNivel], indexNivel);
+                abrirEditar();
+            }else{
+                fetchData();
+            }
+        }
+    };
 
     const selecionadoEditar = (nivel, index) => {
         localStorage.setItem('idNivel', nivel.id);
-        setNivelSelecionado(localStorage.getItem("idNivel"));
+        nivelSelecionado = nivel.id;
         setIndexNivel(index);
     }
 
@@ -77,16 +116,16 @@ export const Nivel = ({setNivel, close, cadastro, minimizado, setMinimizado, set
                 <M.Filtro>
                     <div>
                         <div>
-                            <input type="radio" name="filtro"/>
+                            <input type="radio" name="filtro" value="codigo" onChange={handleFiltro} checked={filtro === "codigo" ? true : false}/>
                             <label>Código</label>
                         </div>
                         <div>
-                            <input type="radio" name="filtro" checked/>
+                            <input type="radio" name="filtro" value="descricao" onChange={handleFiltro} checked={filtro === "descricao" ? true : false}/>
                             <label>Descrição</label>
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" id="search" placeholder="Buscar.."/>
+                        <input className="search" id="search" placeholder="Buscar.." value={busca} onChange={(e)=> setBusca(e.target.value)} onKeyDown={handleKeyDown} autoFocus/>
                     </div>
                 </M.Filtro>
                 {niveis.length === 0 && carregado === false ? (
@@ -107,7 +146,7 @@ export const Nivel = ({setNivel, close, cadastro, minimizado, setMinimizado, set
                     </div>
                 ) : (
                     <div className="table-responsive">
-                        <table className="table">
+                        <table className="table" ref={tableRef} tabIndex={0} onKeyDown={handleKeyDown}>
                             <thead>
                                 <tr>
                                     <th>Código</th>
@@ -115,7 +154,7 @@ export const Nivel = ({setNivel, close, cadastro, minimizado, setMinimizado, set
                                 </tr>
                             </thead>
                             <tbody>
-                                {Array.isArray(niveis) && niveis.map((nivel, index) => {
+                                {Array.isArray(resultado) && resultado.map((nivel, index) => {
                                     return(
                                         <tr key={nivel.id} 
                                             onDoubleClick={selecionado.bind(this, nivel)}
