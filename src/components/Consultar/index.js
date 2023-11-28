@@ -114,7 +114,7 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
     });
 
     //selecionar a rotina atraves da seta para baixo e para cima
-    const [selectIndex, setSelectIndex] = useState(0);
+    const [selectIndex, setSelectIndex] = useState(-1);
     const tableRef = useRef(null);
 
     const handleKeyDown = (e) => {
@@ -133,7 +133,7 @@ export const Consultar = ({ setCodigo, setDataEmissao, setHoraEmissao }) => {
         } else if (e.keyCode === 13) {
             e.preventDefault();
             if(rotinas.length > 0){
-                selecionado(selectIndex, rotinas[selectIndex]);
+                selecionado(selectIndex, resultado[selectIndex]);
                 abrirRotina();
             }else{
                 if (filtroSelecionado === "numero" && busca !== "") {

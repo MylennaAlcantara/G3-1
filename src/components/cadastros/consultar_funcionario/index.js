@@ -15,9 +15,9 @@ export const ConsultarFuncionario = () => {
     const [busca, setBusca] = useState('');
 
     //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
-    const [selectIndex, setSelectIndex] = useState(0);
+    const [selectIndex, setSelectIndex] = useState(-1);
     const tableRef = useRef(null);
-    const [codigoFuncionario, setCodigoFuncionario] = useState();
+    var codigoFuncionario = null;
 
     // Estado para verificar se obteve 200 da api caso não, mostre a mensagem de sem dados
     const [carregado, setCarregado] = useState(false);
@@ -157,7 +157,7 @@ export const ConsultarFuncionario = () => {
     };
 
     const selecionado = (user, index) => {
-        setCodigoFuncionario(user.id);
+        codigoFuncionario = user.id;
         localStorage.setItem('idFuncionario', user.id);
         setSelectIndex(index);
     }
@@ -214,7 +214,7 @@ export const ConsultarFuncionario = () => {
                         <option value="3">Municipio</option>
                         <option value="4">CPF</option>
                     </select>
-                    <input className="search" id="search" placeholder="Buscar..." value={busca} onChange={(e) => setBusca(e.target.value)} onKeyDown={handleKeyDown}/>
+                    <input className="search" id="search" placeholder="Buscar..." value={busca} onChange={(e) => setBusca(e.target.value)} onKeyDown={handleKeyDown} autoFocus/>
                     <label>Status: </label>
                     <select className="setor-status" id="status" onChange={filtroStatus}>
                         <option value="0">TODOS</option>

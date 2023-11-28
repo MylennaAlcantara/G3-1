@@ -45,9 +45,9 @@ export const ConsultarCliente = ({ setCliente }) => {
         }
     })
 
-    const [selectIndex, setSelectIndex] = useState(0);
+    const [selectIndex, setSelectIndex] = useState(-1);
     const tableRef = useRef(null);
-    const [codigoCliente, setCodigoCliente] = useState();
+    var codigoCliente = null;
 
     useEffect(() => {
         async function fetchData() {
@@ -99,8 +99,8 @@ export const ConsultarCliente = ({ setCliente }) => {
     };
 
     const selecionado = (user, index) => {
+        codigoCliente = user.id;
         setCliente(user.id);
-        setCodigoCliente(user.id);
         localStorage.setItem('idCliente', user.id);
         setSelectIndex(index);
     }

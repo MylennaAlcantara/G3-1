@@ -36,9 +36,9 @@ export const ConsultarFornecedor = () => {
             return !user.excluido;
         }
     });
-    const [selectIndex, setSelectIndex] = useState(0);
+    const [selectIndex, setSelectIndex] = useState(-1);
     const tableRef = useRef(null);
-    const [codigoFornecedor, setCodigoFornecedor] = useState();
+    var codigoFornecedor = null;
 
     // Filtro de busca
     function handleFiltroChange(event) {
@@ -66,7 +66,7 @@ export const ConsultarFornecedor = () => {
     const selecionado = (user, index) => {
         setSelectIndex(index);
         localStorage.setItem('idFornecedor', user.id);
-        setCodigoFornecedor(user.id);
+        codigoFornecedor = user.id;
     }
 
     const handleKeyDown = (e) => {
@@ -143,7 +143,7 @@ export const ConsultarFornecedor = () => {
                         <input type="radio" value="geral" className="checkbox-search" onChange={(e) => handleFiltroAtivoChange(e)} checked={filtroAtivo === "geral" ? true : false} />
                         <label>Geral</label>
                     </div>
-                    <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown} />
+                    <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown} autoFocus/>
                 </div>
             </M.Filtro>
             <CCL.Lista>
