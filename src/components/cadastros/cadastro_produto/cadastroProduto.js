@@ -6,12 +6,29 @@ export const InfoItem = styled.div`
     background-color: #F0F0F0;
     border-radius: 10px;
     margin-bottom: 5px;
+    label{
+        font-size: 12px;
+    }
     .div-info{
         width: 100%;
+        div{
+            display: flex;
+            justify-content: start;
+            label{
+                width: 70px;
+                text-align: end;
+                resize: none;
+            }
+        }
     }
     .campos{
         display: flex;
+        justify-content: start;
         width: 100%;
+        label{
+            width: 80px;
+            text-align: end;
+        }
         input{
             height: 24px;
             width: 120px;
@@ -24,11 +41,11 @@ export const InfoItem = styled.div`
         img:hover{
             cursor: pointer;
         }
-        div{
+        div{ 
             display:flex;
             width: 100%;
             align-items: center;
-            justify-content: center;
+            justify-content: start;
         }
         .checkbox{
             height: auto;
@@ -75,7 +92,7 @@ export const InfoItem = styled.div`
     }
 `
 export const Geral = styled.div`
-    height: 80%;
+    height: 40%;
     width: 100%;
     .geral{
         height: 100%;
@@ -92,6 +109,41 @@ export const Geral = styled.div`
         overflow: auto;
         height: 80%;
         background-color: white;
+    }
+    
+    table{
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid grey;
+        margin-top: 2%
+    }
+    thead{
+        position: sticky;
+        top:0;
+    }
+    th{    
+        font-size: 15px;
+        font-weight: bold;
+        color: #373435;    
+        background-color: #ffffff;
+        border: 1px solid grey;
+        white-space: nowrap;
+    }
+    td{
+        white-space: nowrap;
+        border: 1px solid grey;
+    }
+    table tr:nth-child(even){
+        background-color: #ffffe6;
+    }
+    table tr:nth-child(odd){
+        background-color: #f0f0f0;   
+    }
+    #table tr td{
+        cursor: pointer;
+    }
+    #table tr:hover td{
+        background-color: #87CEFA;
     }
     .unid-fornecedor{
         display: block;
@@ -113,6 +165,7 @@ export const Geral = styled.div`
             margin: 5px;
             height: 70%;
             width: 90%;
+            resize: none;
         }    
         .codigo{
             width: 50px;
@@ -142,10 +195,13 @@ export const Geral = styled.div`
         .table-responsive{
             height: 30%;
         }
+        .table-responsive{
+            height: 100px;
+        }
     }
 `
 export const Tributacao = styled.div`
-    height: 80%;
+    height: 40%;
     width: 100%;
     overflow: auto;
     .tributacao{
@@ -205,14 +261,17 @@ export const Tributacao = styled.div`
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
+            align-items: start;
         }
         .bc-icms{
-            display: block;
+            display: flex;
+            flex-direction: column;
+            width: 90%;
         }
         div{
             display: flex;
             align-items: center;
+            justify-content: end;
         }
         img{
             height: 20px;
@@ -226,7 +285,7 @@ export const Tributacao = styled.div`
     }
 `
 export const Custo = styled.div`
-    height: 80%;
+    height: 40%;
     width: 100%;
     .table-responsive{
         height: 90%;
@@ -236,6 +295,11 @@ export const Custo = styled.div`
         border-collapse: collapse;
         width: 100%;
         border: 1px solid grey;
+        margin-top: 2%
+    }
+    thead{
+        position: sticky;
+        top:0;
     }
     th{    
         font-size: 15px;
@@ -243,8 +307,10 @@ export const Custo = styled.div`
         color: #373435;    
         background-color: #ffffff;
         border: 1px solid grey;
+        white-space: nowrap;
     }
     td{
+        white-space: nowrap;
         border: 1px solid grey;
     }
     table tr:nth-child(even){
@@ -261,7 +327,7 @@ export const Custo = styled.div`
     }
 `
 export const Estoque = styled.div`
-    height: 80%;
+    height: 40%;
     width: 100%;
     .table-responsive{
         height: 90%;
@@ -271,6 +337,11 @@ export const Estoque = styled.div`
         border-collapse: collapse;
         width: 100%;
         border: 1px solid grey;
+        margin-top: 2%
+    }
+    thead{
+        position: sticky;
+        top:0;
     }
     th{    
         font-size: 15px;
@@ -278,8 +349,10 @@ export const Estoque = styled.div`
         color: #373435;    
         background-color: #ffffff;
         border: 1px solid grey;
+        white-space: nowrap;
     }
     td{
+        white-space: nowrap;
         border: 1px solid grey;
     }
     table tr:nth-child(even){
@@ -296,7 +369,7 @@ export const Estoque = styled.div`
     }
 `
 export const Movimentação = styled.div`
-    height: 80%;
+    height: 40%;
     width: 100%;
     img{
         height: 20px;
@@ -341,6 +414,11 @@ export const Movimentação = styled.div`
         border-collapse: collapse;
         width: 100%;
         border: 1px solid grey;
+        margin-top: 2%
+    }
+    thead{
+        position: sticky;
+        top:0;
     }
     th{    
         font-size: 15px;
@@ -348,8 +426,10 @@ export const Movimentação = styled.div`
         color: #373435;    
         background-color: #ffffff;
         border: 1px solid grey;
+        white-space: nowrap;
     }
     td{
+        white-space: nowrap;
         border: 1px solid grey;
     }
     table tr:nth-child(even){
@@ -364,9 +444,14 @@ export const Movimentação = styled.div`
     .table tr:hover td{
         background-color: #87CEFA;
     }
+    @media(max-width: 700px){
+        .table-responsive{
+            height: 100px;
+        }
+    }
 `
 export const Fornecedores = styled.div`
-    height: 80%;
+    height: 40%;
     width: 100%;
     img{
         height: 20px;
@@ -384,6 +469,7 @@ export const Fornecedores = styled.div`
         width: 100%;
         display: flex;
         justify-content: center;
+        overflow: auto;
         fieldset{
             height: 30%;
             background-color: #F0F0F0;
@@ -408,6 +494,7 @@ export const Fornecedores = styled.div`
             textarea{
                 height: 80%;
                 width: 90%;
+                resize: none;
             }                
             .pesos{
                 display: flex;
@@ -420,6 +507,11 @@ export const Fornecedores = styled.div`
                 border-collapse: collapse;
                 width: 100%;
                 border: 1px solid grey;
+                margin-top: 2%
+            }
+            thead{
+                position: sticky;
+                top:0;
             }
             th{    
                 font-size: 15px;
@@ -427,8 +519,10 @@ export const Fornecedores = styled.div`
                 color: #373435;    
                 background-color: #ffffff;
                 border: 1px solid grey;
+                white-space: nowrap;
             }
             td{
+                white-space: nowrap;
                 border: 1px solid grey;
             }
             table tr:nth-child(even){
@@ -454,11 +548,14 @@ export const Fornecedores = styled.div`
             .pesos{
                 flex-wrap: wrap;
             }
+            fieldset{
+                height: 100px;
+            }
         }
     }
 `
 export const Promocao = styled.div`
-    height: 80%;
+    height: 40%;
     width: 100%;
     .table-responsive{
         height: 90%;
@@ -468,6 +565,11 @@ export const Promocao = styled.div`
         border-collapse: collapse;
         width: 100%;
         border: 1px solid grey;
+        margin-top: 2%
+    }
+    thead{
+        position: sticky;
+        top:0;
     }
     th{    
         font-size: 15px;
@@ -475,8 +577,10 @@ export const Promocao = styled.div`
         color: #373435;    
         background-color: #ffffff;
         border: 1px solid grey;
+        white-space: nowrap;
     }
     td{
+        white-space: nowrap;
         border: 1px solid grey;
     }
     table tr:nth-child(even){
@@ -493,7 +597,7 @@ export const Promocao = styled.div`
     }
 `
 export const Validade = styled.div`
-    height: 80%;
+    height: 40%;
     width: 100%;
     display: flex;
     flex-direction: column;

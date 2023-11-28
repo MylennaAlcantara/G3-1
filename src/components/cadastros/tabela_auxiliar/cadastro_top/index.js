@@ -170,28 +170,31 @@ export const CadastrarTop = ({close, minimizado, setMinimizado, minimizar, setMi
 
     const keyPerfil = (e) => {
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalPerfil(true);
         }
     }
     const keyPgto = (e) => {
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalPgto(true);
         }
     }
     const keyIPI = (e) => {
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalIpi(true);
         }
     }
     const keyPIS = (e) => {
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalPis(true);
         }
     }
+
+    // Bloqueia o F1 padrão do site
+    document.onkeydown = function f1(e) { if (e.keyCode === 112) e.preventDefault() }
 
     const salvar = async () => {
         if(dadosTop.descricao && dadosTop.perfilMovimentacao.id){

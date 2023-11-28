@@ -218,14 +218,18 @@ export const Informacao = styled.div`
 export const Navegacao = styled.div`
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     position: relative;
     top: 0;
+    overflow-x: auto;
     div{
         border: 1px solid gray;
         border-radius: 5px 5px 0 0;
         width: 100%;
         background-color: #F0F0F0;
+        padding: 2px;
+        white-space: nowrap;
+        height: 20px;
     }
     div:hover{
         cursor: pointer;
@@ -234,6 +238,9 @@ export const Navegacao = styled.div`
     @media(max-width: 700px){
         overflow-x: auto;
         justify-content: start;
+        div{
+            white-space: nowrap;
+        }
     }
 `
 export const NavegacaoLimites = styled.div`

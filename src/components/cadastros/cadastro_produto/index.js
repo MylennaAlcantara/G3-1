@@ -88,34 +88,37 @@ export const CadastroProduto = () => {
 
     function modalFornecedor (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalFornecedor(true);
         }
     }
     function modalIPI (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalIpi(true);
         }
     }
     function modalPis (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalPis(true);
         }
     }    
     function modalCofins (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalCofins(true);
         }
     }    
     function modalGrupo (e){
         e.preventDefault();
-        if(e.keyCode === 113){
+        if(e.keyCode === 112){
             setIsModalGrupo(true);
         }
     }
+
+    // Bloqueia o F1 padrão do site
+    document.onkeydown = function f1(e) { if (e.keyCode === 112) e.preventDefault() }
 
     function modalFamilia () {
         setIsModalFamilia(true);
@@ -146,7 +149,7 @@ export const CadastroProduto = () => {
                     <label>Código Interno:</label>
                     <input/>
                 </div>
-                <div>
+                <div style={{display: "flex"}}>
                     <input className="checkbox" type="checkbox" />
                     <label>Desativado</label>
                 </div>
@@ -206,11 +209,11 @@ export const CadastroProduto = () => {
                         <div>
                             <label>Perfil: </label>
                             <input className="checkbox" type="checkbox"/>
-                            <label>Logística</label>
+                            <label style={{textAlign: "start"}}>Logística</label>
                         </div>
                         <div>
                             <input className="checkbox" type="checkbox"/>
-                            <label>Revenda</label>
+                            <label style={{textAlign: "start"}}>Revenda</label>
                         </div>
                     </div>
                 </div>
@@ -263,7 +266,7 @@ export const CadastroProduto = () => {
                         <div className="table-responsive">
                             <table className="table">
                                 <thead>
-                                    <tr>
+                                    <tr style={{whiteSpace: "nowrap"}}>
                                         <th>id</th>
                                         <th>Filial</th>
                                         <th>Tipo Pgto.</th>
@@ -339,12 +342,12 @@ export const CadastroProduto = () => {
                             </div>
                             <fieldset>
                                 <legend>Fornecedor</legend>
-                                <input className="codigo" onKeyDown={modalFornecedor} onDoubleClick={()=> setIsModalFornecedor(true)} title='Aperte F2 para listar as opções'/><input/>
+                                <input className="codigo" onKeyDown={modalFornecedor} onDoubleClick={()=> setIsModalFornecedor(true)} title='Aperte F1 para listar as opções'/><input style={{ outline: 0, color: "black" }} disabled readOnly />
                             </fieldset>
                             <fieldset className="fieldset">
                                 <legend>Grupo</legend>
                                 <div>
-                                    <input className="codigo" onKeyDown={modalGrupo} onDoubleClick={()=> setIsModalGrupo(true)} title='Aperte F2 para listar as opções'/><input/>
+                                    <input className="codigo" onKeyDown={modalGrupo} onDoubleClick={()=> setIsModalGrupo(true)} title='Aperte F1 para listar as opções'/><input style={{ outline: 0, color: "black" }} disabled readOnly />
                                 </div>
                                 <textarea readOnly/>
                             </fieldset>
@@ -373,30 +376,31 @@ export const CadastroProduto = () => {
                                 <div>
                                     <label>Grupo de Regra ICMS:</label>
                                     <input className="codigo"/>
+                                    <input style={{ outline: 0, color: "black" }} disabled readOnly />
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <legend>--</legend>
                                 <div>
-                                    <div>
+                                    <div style={{display: "flex", justifyContent: "end"}}>
                                         <label style={{color: "red"}}>Grupo de Regra para IPI: </label>
-                                        <input className="codigo" onKeyDown={modalIPI} onDoubleClick={()=> setIsModalIpi(true)} title='Aperte F2 para listar as opções'/>
-                                        <input/>
+                                        <input className="codigo" onKeyDown={modalIPI} onDoubleClick={()=> setIsModalIpi(true)} title='Aperte F1 para listar as opções'/>
+                                        <input style={{ outline: 0, color: "black" }} disabled readOnly />
                                     </div>
-                                    <div>
+                                    <div style={{display: "flex", justifyContent: "end"}}>
                                         <label style={{color: "blue"}}>Grupo de Regra para PIS: </label>
-                                        <input className="codigo" onKeyDown={modalPis} onDoubleClick={()=> setIsModalPis(true)} title='Aperte F2 para listar as opções'/>
-                                        <input/>
+                                        <input className="codigo" onKeyDown={modalPis} onDoubleClick={()=> setIsModalPis(true)} title='Aperte F1 para listar as opções'/>
+                                        <input style={{ outline: 0, color: "black" }} disabled readOnly />
                                     </div>
-                                    <div>
+                                    <div style={{display: "flex", justifyContent: "end"}}>
                                         <label style={{color: "blue"}}>Grupo de Regra para COFINS: </label>
-                                        <input className="codigo" onKeyDown={modalCofins} onDoubleClick={()=> setIsModalCofins(true)} title='Aperte F2 para listar as opções'/>
-                                        <input/>
+                                        <input className="codigo" onKeyDown={modalCofins} onDoubleClick={()=> setIsModalCofins(true)} title='Aperte F1 para listar as opções' style={{ outline: 0, color: "black" }} disabled readOnly />
+                                        <input style={{ outline: 0, color: "black" }} disabled readOnly />
                                     </div>
-                                    <div>
+                                    <div style={{display: "flex", justifyContent: "end"}}>
                                         <label style={{color: "green"}}>Natureza da Receita: </label>
                                         <input className="codigo"/>
-                                        <input/>
+                                        <input style={{ outline: 0, color: "black" }} disabled readOnly />
                                     </div>
                                 </div>
                             </fieldset>
@@ -431,7 +435,7 @@ export const CadastroProduto = () => {
                                         <option>6 - ESTRANGEIRA</option>
                                         <option>7 - ESTRANGEIRA</option>
                                     </select>
-                                    <textarea readOnly/>
+                                    <textarea style={{resize: "none"}} readOnly/>
                                 </div>
                             </fieldset>
                         </div>
