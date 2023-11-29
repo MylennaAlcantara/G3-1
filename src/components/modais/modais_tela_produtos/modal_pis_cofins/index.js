@@ -11,7 +11,7 @@ export const PisCofins = ({ close, minimizado, setMinimizado }) => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR + "/perfilRegra/all");
+            const response = await fetch(process.env.REACT_APP_LINK_LOGIN_USUARIO_CLIENTE_PERFIL_REGRA_RAMO_ATIVIDADE_SETOR_NIVEL + "/perfilRegra/all");
             const data = await response.json();
             setPerfil(data);
         }
@@ -27,7 +27,7 @@ export const PisCofins = ({ close, minimizado, setMinimizado }) => {
 
     const resultado = Array.isArray(perfil) && perfil.filter((perfil) => {
         if (filtro === 'descricao') {
-            return perfil.descricao.toLowerCase().includes(busca);
+            return perfil.descricao.toLowerCase().includes(busca.toLowerCase());
         } else if (filtro === 'id') {
             return perfil.id === Number(busca);
         } else {
@@ -36,7 +36,7 @@ export const PisCofins = ({ close, minimizado, setMinimizado }) => {
     })
 
     //selecionar o produto atraves da seta para baixo e para cima, adicionar o item pela tecla enter
-    const [selectIndex, setSelectIndex] = useState(0);
+    const [selectIndex, setSelectIndex] = useState(-1);
     const tableRef = useRef(null);
 
     const selecionado = (index) => {
@@ -84,7 +84,7 @@ export const PisCofins = ({ close, minimizado, setMinimizado }) => {
                         </div>
                     </div>
                     <div className="div-search">
-                        <input className="search" id="search" placeholder="Buscar" onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown} />
+                        <input className="search" id="search" placeholder="Buscar" value={busca} onChange={e => setBusca(e.target.value)} onKeyDown={handleKeyDown} autoFocus/>
                     </div>
                 </M.Filtro>
                 <div className="table-responsive">
