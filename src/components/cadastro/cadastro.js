@@ -27,11 +27,12 @@ export const Container = styled.div`
         height: 80vh;
         width: 95vw;   
     }
-    @media (max-width: 425px){
+    @media (max-width: 460px){
         width: 95%;
         height: 80%;
         position: relative;
-        display: block;
+        display: flex;
+        flex-direction: column;
         align-items: end;
         justify-content: space-between;
         margin: auto;

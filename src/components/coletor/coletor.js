@@ -21,7 +21,7 @@ export const Content = styled.div`
     }
     .cabecalho{
         width: 90%;
-        height: 5%;
+        height: auto;
         margin: 5px auto;
         display: flex;
         align-items: center;

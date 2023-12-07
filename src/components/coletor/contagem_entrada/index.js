@@ -1,16 +1,13 @@
 import { Html5QrcodeScanner } from "html5-qrcode";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { AuthContext } from "../../contexts/Auth/authContext";
-import * as C from "../cadastro/cadastro";
-import * as M from "../modais/modal/modal";
-import { BuscaPreco } from "./buscaPreco";
-import * as CO from "./coletor";
-import { ListaContagem } from "./listaContagem";
+import { AuthContext } from "../../../contexts/Auth/authContext";
+import * as C from "../../cadastro/cadastro";
+import * as M from "../../modais/modal/modal";
+import * as CO from "../coletor";
+import { ListaContagemEntrada } from "../listagemContagemEntrada";
 
-
-export const Coletor = ({ close }) => {
+export const ContagemEntrada = ({ close }) => {
     const { dataMask, user } = useContext(AuthContext);
-    const [ip, setIp] = useState();
     const [listagem, setListagem] = useState(true);
 
     const data = new Date();
@@ -22,72 +19,73 @@ export const Coletor = ({ close }) => {
     const [novo, setNovo] = useState(false);
     const [adicionado, setAdicionado] = useState(false);
     const [produtoEncontrado, setProdutoEncontrado] = useState(null);
+
     const [mensagem, setMensagem] = useState("Abra a câmera para ler o codigo!");
     const [editar, setEditar] = useState(false);
     const [auto, setAuto] = useState(false);
     const estadoAutoRef = useRef(auto);
     const [excluido, setExcluido] = useState(false);
-
-    const [aba, setAba] = useState("balanco");
     const [lista, setLista] = useState([]);
     const [cabecalho, setCabecalho] = useState({
-        id: "",
-        descricao: "",
-        data_contagem: "",
-        id_usuario_insercao: "",
-        id_usuario_edicao: "",
-        excluido: 0
+        id: '',
+        descricao: '',
+        chave: '',
+        data_conferencia: String(dataAtual),
+        id_usuario_insercao: parseInt(localStorage.getItem("id")),
+        id_usuario_edicao: '',
+        data_edicao: '',
+        id_usuario_exclusao: '',
+        data_exclusao: '',
+        excluido: 0,
+        aberto: "",
+        finalizada: 0,
+        data_finalizada: null
     });
     const [detalhe, setDetalhe] = useState({
         id: "",
+        id_contagem: "",
         id_produto: "",
-        id_contagem: cabecalho.id,
         gtin: "",
+        referencia: "",
         descricao_produto: "",
         quantidade: "",
         item: "",
-        qtd_estoque: ""
+        qtd_estoque: "",
     });
     const [detalheEditando, setDetalheEditando] = useState({
         id: "",
         id_contagem: cabecalho.id,
+        id_produto: "",
         gtin: "",
+        referencia: "",
         descricao_produto: "",
         quantidade: "",
         item: "",
-        qtd_estoque: ""
+        qtd_estoque: "",
     });
-
-    useEffect(() => {
-        async function pegarIp() {
-            fetch("http://10.0.1.107:8091/coletor/ip")
-                .then(response => response.text())
-                .then(data => setIp(data))
-                .catch(error => console.log(error));
-        }
-        pegarIp();
-    }, [])
+    const [item, setItem] = useState(0);
+    const [estadoAuto, setEstadoAuto] = useState(false);
 
     // Função que salva o cabeçalho no banco caso tenha descrição
     function salvarCabecalho() {
-        if (cabecalho.descricao) {
-            fetch("http://10.0.1.107:8091/coletor/cabecalhoSalvar", {
+        if (cabecalho.descricao && cabecalho.chave) {
+            fetch("http://10.0.1.107:8091/contagemEntrada/cabecalhoSalvar", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({
                     id: 0,
                     descricao: cabecalho.descricao,
-                    data_contagem: dataAtual,
-                    aberto: 1,
-                    finalizada: 0,
-                    data_finalizada: null,
-                    ip_aberto: ip,
+                    chave: cabecalho.chave,
+                    data_conferencia: dataAtual,
                     id_usuario_insercao: parseInt(localStorage.getItem("id")),
                     id_usuario_edicao: null,
+                    data_edicao: null,
+                    id_usuario_exclusao: null,
+                    data_exclusao: null,
                     excluido: 0,
-                    importado_balanco: false,
-                    importado_preVenda: false,
-                    id_preVenda: null
+                    aberto: parseInt(localStorage.getItem("id")),
+                    finalizada: 0,
+                    data_finalizada: null
                 })
             })
                 .then(response => response.json())
@@ -95,14 +93,13 @@ export const Coletor = ({ close }) => {
         }
     }
 
-    const [item, setItem] = useState(0);
     // Função que salva um produto caso a busca no banco encontre um produto
     async function salvarDetalhe() {
         await buscarProduto();
         const codigo = localStorage.getItem("codigo");
         const autoAtual = estadoAutoRef.current;
         if (produtoEncontrado) {
-            fetch("http://10.0.1.107:8091/coletor/detalheSalvar", {
+            fetch("http://10.0.1.107:8091/contagemEntrada/detalheSalvar", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({
@@ -110,8 +107,8 @@ export const Coletor = ({ close }) => {
                     id_contagem: cabecalho.id,
                     id_produto: detalhe.id_produto,
                     gtin: codigo,
+                    referencia: detalhe.referencia,
                     descricao_produto: detalhe.descricao_produto,
-                    referencia: "",
                     quantidade: autoAtual === true ? parseFloat(1).toFixed(4).replace(",", ".") : parseFloat(detalhe.quantidade).toFixed(4).replace(",", "."),
                     item: item + 1,
                     qtd_estoque: parseFloat(detalhe.qtd_estoque).toFixed(4).replace(",", ".")
@@ -123,6 +120,7 @@ export const Coletor = ({ close }) => {
                         id_contagem: cabecalho.id,
                         id_produto: detalhe.id_produto,
                         gtin: codigo,
+                        referencia: detalhe.referencia,
                         descricao_produto: detalhe.descricao_produto,
                         quantidade: autoAtual === true ? 1 : detalhe.quantidade,
                         item: item + 1,
@@ -131,9 +129,9 @@ export const Coletor = ({ close }) => {
                     document.getElementById("codigo").focus();
                     document.getElementById("codigo").select();
                     setItem(item + 1);
-                    const itensIguais = lista.filter((item) => item.gtin == detalhe.gtin);
+                    const itensIguais = lista.filter((item) => item.gtin == codigo);
                     const ultimoItem = lista[lista.length - 1];
-                    if (itensIguais.length < 50 && ultimoItem.gtin != detalhe.gtin) {
+                    if (itensIguais.length < 50 && ultimoItem.gtin != codigo) {
                         agrupar();
                     } else if (itensIguais.length >= 50) {
                         agrupar();
@@ -156,26 +154,23 @@ export const Coletor = ({ close }) => {
         const codigo = localStorage.getItem("codigo");
         const tipoSistema = localStorage.getItem("tipoSistema");
         try {
-            const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${tipoSistema}/${codigo}`);
+            const response = await fetch(`http://10.0.1.107:8091/contagemEntrada/buscarProduto/${tipoSistema}/${codigo}`);
             const data = await response.json();
-
             if (response.status === 200 || response.status === 201) {
-                setDetalhe({ id_produto: data.codigo, descricao_produto: data.descricaopdv, gtin: data.gtin, qtd_estoque: data.qtd_estoque, ...(!auto ? {} : { quantidade: 1 }) });
+                setDetalhe({ id_produto: data.codigo, descricao_produto: data.descricaopdv, referencia: data.referencia, gtin: data.gtin, qtd_estoque: data.qtd_estoque, ...(!auto ? {} : { quantidade: 1 }) });
                 setProdutoEncontrado(true);
             } else {
-                setDetalhe({ id_produto: "", descricao_produto: "", gtin: codigo, qtd_estoque: "", ...(!auto ? {} : { quantidade: 1 }) });
+                setDetalhe({ id_produto: "", descricao_produto: "", referencia: "", gtin: codigo, qtd_estoque: "", ...(!auto ? {} : { quantidade: 1 }) })
                 setMensagem("PRODUTO NÃO ENCONTRADO!");
                 setProdutoEncontrado(false);
             }
         } catch (error) {
             console.error("Erro ao buscar o produto:", error);
-            setDetalhe({ descricao_produto: "", gtin: codigo, qtd_estoque: "", ...(!auto ? {} : { quantidade: 1 }) });
+            setDetalhe({ id_produto: "", descricao_produto: "", referencia: "", gtin: codigo, qtd_estoque: "", ...(!auto ? {} : { quantidade: 1 }) });
             setMensagem("PRODUTO NÃO ENCONTRADO!");
-            setProdutoEncontrado(false);
+            setProdutoEncontrado(null);
         }
     }
-
-    const [estadoAuto, setEstadoAuto] = useState(false);
 
     //Função para iniciar o scanner, ao iniciar quando encontrar um codigo ele irá pegar o codigo e fechar o scanner
     function scanner() {
@@ -193,13 +188,13 @@ export const Coletor = ({ close }) => {
         async function success(result) {
             scanner.clear();
             localStorage.setItem("codigo", result);
-            window.navigator.vibrate(200);
+            window.navigator.vibrate(200)
 
             const autoAtual = estadoAutoRef.current;
 
             if (autoAtual) {
                 await buscarProduto();
-                setEstadoAuto(!estadoAuto)
+                setEstadoAuto(!estadoAuto);
             } else {
                 setDetalhe({ ...detalhe, gtin: result });
             }
@@ -209,6 +204,29 @@ export const Coletor = ({ close }) => {
             //console.warn(err);
         }
     }
+
+    function scannerChave() {
+        const scanner = new Html5QrcodeScanner('scanner-chave', {
+            qrbox: {
+                width: 250,
+                height: 250,
+            },
+            fps: 5,
+        });
+
+        scanner.render(success, error);
+
+        async function success(result) {
+            scanner.clear();
+            window.navigator.vibrate(200)
+            setCabecalho({ ...cabecalho, chave: result });
+        }
+
+        function error(err) {
+            //console.warn(err);
+        }
+    }
+
     useEffect(() => {
         salvarDetalhe();
     }, [estadoAuto]);
@@ -218,7 +236,7 @@ export const Coletor = ({ close }) => {
         var novaLista = lista.filter((item, i) => i !== index);
 
         //Função para procurar o item na tabela do banco e excluir, caso excluido no banco, ele remove da lista tambem
-        fetch(`http://10.0.1.107:8091/coletor/deletarItem/${item.item}/${item.id_contagem}`, {
+        fetch(`http://10.0.1.107:8091/contagemEntrada/deletarItem/${item.item}/${item.id_contagem}`, {
             method: "DELETE"
         })
             .then((resp) => {
@@ -237,7 +255,7 @@ export const Coletor = ({ close }) => {
     //Função para editar o item na lista e no banco
     async function editarDetalhe() {
         //Função para procurar o item na tabela do banco e editar, caso editado no banco, ele edita da lista tambem
-        fetch(`http://10.0.1.107:8091/coletor/editarItem/${parseInt(detalheEditando.item)}/${parseInt(detalheEditando.id_contagem)}/${parseFloat(detalheEditando.quantidade)}`, {
+        fetch(`http://10.0.1.107:8091/contagemEntrada/editarItem/${parseInt(detalheEditando.item)}/${parseInt(detalheEditando.id_contagem)}/${parseFloat(detalheEditando.quantidade)}`, {
             method: "PUT"
         }).then((resp) => {
             if (resp.status === 200 || resp.status === 201) {
@@ -251,7 +269,7 @@ export const Coletor = ({ close }) => {
     }
 
     async function agrupar() {
-        await fetch(`http://10.0.1.107:8091/coletor/detalhe/ajustaContagem/${cabecalho.id}`);
+        await fetch(`http://10.0.1.107:8091/contagemEntrada/detalhe/ajustaContagem/${cabecalho.id}`);
         await fetchDetalhes();
     }
 
@@ -287,14 +305,14 @@ export const Coletor = ({ close }) => {
         setCabecalho({});
         setNovo(false);
         setLista([]);
-        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
+        fetch(`http://10.0.1.107:8091/contagemEntrada/alterarStatus/${cabecalho.id}/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
             method: "PUT"
         })
     }
 
     async function excluir() {
         const usuario = localStorage.getItem("id");
-        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
+        fetch(`http://10.0.1.107:8091/contagemEntrada/alterarStatus/${cabecalho.id}/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
             method: "PUT"
         })
     }
@@ -304,7 +322,7 @@ export const Coletor = ({ close }) => {
 
     function finalizar() {
         const usuario = localStorage.getItem("id");
-        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/1/${dataAtual}/${usuario}/${excluido ? 1 : 0}`, {
+        fetch(`http://10.0.1.107:8091/contagemEntrada/alterarStatus/${cabecalho.id}/null/1/${dataAtual}/${usuario}/${excluido ? 1 : 0}`, {
             method: "PUT"
         })
         setListagem(true);
@@ -316,21 +334,22 @@ export const Coletor = ({ close }) => {
     }
 
     async function abrir() {
-        fetch(`http://10.0.1.107:8091/coletor/cabecalho/${cabecalho.id}`)
+        var usuario = localStorage.getItem("id");
+        fetch(`http://10.0.1.107:8091/contagemEntrada/cabecalho/${cabecalho.id}`)
             .then((resp) => resp.json())
             .then((data) => {
-                if (data.aberto == 0) {
+                if (data.aberto === "null" || data.aberto === null) {
                     fetchDetalhes(cabecalho).then(() => {
-                        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null/${cabecalho.id_usuario_insercao}/0`, { // id/aberto/finalizada/data_finalizada
+                        fetch(`http://10.0.1.107:8091/contagemEntrada/alterarStatus/${cabecalho.id}/${usuario}/0/null/${parseInt(usuario)}/0`, { // id/aberto/finalizada/data_finalizada
                             method: "PUT"
                         }).then((resp) => {
                             if (resp.status === 201 || resp.status === 200) {
                                 setCabecalho({
-                                    id: cabecalho.id,
-                                    descricao: cabecalho.descricao,
-                                    data_contagem: cabecalho.data_contagem,
-                                    aberto: cabecalho.aberto,
-                                    ip_aberto: ip
+                                    id: data.id,
+                                    descricao: data.descricao,
+                                    chave: data.chave,
+                                    data_conferencia: data.data_conferencia,
+                                    aberto: data.aberto,
                                 });
                                 setListagem(false);
                                 setNovo(true);
@@ -338,18 +357,18 @@ export const Coletor = ({ close }) => {
                         })
                     })
                 } else {
-                    if (data.ip_aberto == ip) {
+                    if (data.aberto === localStorage.getItem("id")) {
                         fetchDetalhes(cabecalho).then(() => {
-                            fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null/${cabecalho.id_usuario_insercao}/0`, { // id/aberto/finalizada/data_finalizada
+                            fetch(`http://10.0.1.107:8091/contagemEntrada/alterarStatus/${cabecalho.id}/${usuario}/0/null/${parseInt(usuario)}/0`, { // id/aberto/finalizada/data_finalizada
                                 method: "PUT"
                             }).then((resp) => {
                                 if (resp.status === 201 || resp.status === 200) {
                                     setCabecalho({
                                         id: cabecalho.id,
                                         descricao: cabecalho.descricao,
-                                        data_contagem: cabecalho.data_contagem,
+                                        chave: cabecalho.chave,
+                                        data_conferencia: cabecalho.data_conferencia,
                                         aberto: cabecalho.aberto,
-                                        ip_aberto: ip
                                     });
                                     setListagem(false);
                                     setNovo(true);
@@ -357,7 +376,7 @@ export const Coletor = ({ close }) => {
                             })
                         })
                     } else {
-                        alert("Contagem aberta no ip: " + data.ip_aberto);
+                        alert("Contagem aberta pelo usuário: " + data.aberto);
                     }
                 }
             });
@@ -365,7 +384,7 @@ export const Coletor = ({ close }) => {
     }
 
     async function fetchDetalhes() {
-        fetch(`http://10.0.1.107:8091/coletor/detalhe/${cabecalho.id}`)
+        fetch(`http://10.0.1.107:8091/contagemEntrada/detalhe/${cabecalho.id}`)
             .then((resp) => resp.json())
             .then((data) => {
                 setLista(data);
@@ -396,24 +415,29 @@ export const Coletor = ({ close }) => {
         <M.Modal>
             <C.Container>
                 <C.Header>
-                    <h3>Coletor</h3>
+                    <h3>Recepção Nota de Entrada</h3>
                     <div className="buttons">
                         <button className="close" onClick={close}>X</button>
                     </div>
                 </C.Header>
-                <CO.NaviBar>
-                    <button onClick={() => setAba("balanco")} style={{ backgroundColor: aba === "balanco" ? "white" : "" }}>Balanço</button>
-                    <button onClick={() => setAba("preco")} style={{ backgroundColor: aba === "preco" ? "white" : "" }}>Busca preço</button>
-                </CO.NaviBar>
-                {aba === "balanco" ? (
-                    listagem ? (
-                        <ListaContagem setCabecalho={setCabecalho} abrir={abrir} />
-                    ) : (
+                {
+                    !listagem ? (
                         <CO.Content>
                             <div className="cabecalho">
+                                <div style={{ display: "flex", alignItems: "center" }}>
+                                    <label style={{ fontWeight: "bold" }}>Chave NFe:</label>
+                                    {novo ? (
+                                        <input value={cabecalho.chave ? cabecalho.chave : ""} style={{ backgroundColor: "#f0f0f0" }} readOnly />
+                                    ) : (
+                                        <>
+                                            <input value={cabecalho.chave ? cabecalho.chave : ""} onChange={(e) => setCabecalho({ ...cabecalho, chave: e.target.value })} />
+                                            <img alt="" src="/images/camera.png" onClick={scannerChave} />
+                                        </>
+                                    )}
+                                </div>
                                 <label style={{ fontWeight: "bold" }}>Código:</label>
                                 <label style={{ marginLeft: "5px", fontWeight: "bold", width: "50px" }}>{cabecalho.id ? cabecalho.id : ""}</label>
-                                <div>
+                                <div style={{ display: "flex", alignItems: "center" }}>
                                     <label style={{ marginRight: "10px", fontWeight: "bold" }}>Descrição:</label>
                                     {novo ? (
                                         <input value={cabecalho.descricao ? cabecalho.descricao : ""} style={{ backgroundColor: "#f0f0f0" }} readOnly />
@@ -421,11 +445,16 @@ export const Coletor = ({ close }) => {
                                         <input value={cabecalho.descricao ? cabecalho.descricao : ""} onChange={(e) => setCabecalho({ ...cabecalho, descricao: e.target.value })} />
                                     )}
                                 </div>
-                                <label style={{ fontWeight: "bold", width: "150px", textAlign: "start" }}>Data: <label style={{ fontWeight: "normal" }}>{cabecalho.data_contagem ? dataMask(cabecalho.data_contagem) : ""}</label></label>
+                                <label style={{ fontWeight: "bold", width: "150px", textAlign: "start" }}>Data: <label style={{ fontWeight: "normal" }}>{cabecalho.data_conferencia ? dataMask(cabecalho.data_conferencia) : ""}</label></label>
                                 {!novo && <button onClick={salvarCabecalho}><img alt="" src="/images/add.png" />Criar</button>}
                                 <label style={{ fontWeight: "bold" }}>Usuário: <label style={{ fontWeight: "normal" }}>{user.map(user => user.id + " - " + user.nome)}</label></label>
-                                {novo && <input type="checkbox" onChange={(e) => setExcluido(e.target.checked)} checked={excluido} />}
-                                {novo && <label>Excluir</label>}
+                                {novo &&
+                                    <div>
+                                        <input type="checkbox" onChange={(e) => setExcluido(e.target.checked)} checked={excluido} />
+                                        <label>Excluir</label>
+                                    </div>
+                                }
+                                {!novo && <div id="scanner-chave" />}
                             </div>
                             {novo ? (
                                 <>
@@ -448,7 +477,7 @@ export const Coletor = ({ close }) => {
                                         </div>
                                         <div style={{ display: "flex", alignItems: "center" }}>
                                             <label>Código: </label>
-                                            <input id="codigo" value={detalhe.gtin} onChange={(e) => setDetalhe({ ...detalhe, gtin: e.target.value })} onFocus={() => setAdicionado(false)} onKeyDown={enterCodigo} />
+                                            <input id="codigo" value={String(detalhe.gtin).replace(undefined, "")} onChange={(e) => setDetalhe({ ...detalhe, gtin: e.target.value })} onFocus={() => setAdicionado(false)} onKeyDown={enterCodigo} />
                                         </div>
                                         <div style={{ display: "flex", alignItems: "center" }}>
                                             <label>Quantidade: </label>
@@ -514,24 +543,23 @@ export const Coletor = ({ close }) => {
                                 </>
                             ) : null}
                         </CO.Content>
+                    ) : (
+                        <ListaContagemEntrada setCabecalho={setCabecalho} abrir={abrir} />
                     )
-                ) : (
-                    <BuscaPreco />
-                )}
-
+                }
                 <C.Footer>
-                    {listagem && aba === "balanco" ? (
+                    {listagem ? (
                         <div className="buttons">
                             <button onClick={novaContagem}><img alt="" src="/images/add.png" />Novo</button>
                             <button onClick={abrir}><img alt="" src="/images/abrir.png" />Abrir</button>
                             <button onClick={close}><img alt="" src="/images/voltar.png" />Voltar</button>
                         </div>
-                    ) : aba === "balanco" ? (
+                    ) : (
                         <div className="buttons">
                             <button onClick={finalizar}><img alt="" src="/images/check.png" />Finalizar</button>
                             <button onClick={voltar}><img alt="" src="/images/voltar.png" />Voltar</button>
                         </div>
-                    ) : null}
+                    )}
                 </C.Footer>
             </C.Container>
         </M.Modal>

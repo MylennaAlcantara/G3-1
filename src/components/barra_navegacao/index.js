@@ -4,6 +4,7 @@ import { AuthContext } from "../../contexts/Auth/authContext";
 import { VendasCaixa } from "../Relatorios/vendas_caixas";
 import { Caixa } from "../caixa";
 import { Coletor } from "../coletor";
+import { ContagemEntrada } from "../coletor/contagem_entrada";
 import { OpFuncionarios } from "../opcoes_funcionario";
 import { OpProdutos } from "../opcoes_produto";
 import { OpAuxiliar } from "../opcoes_tabela_auxiliar";
@@ -29,6 +30,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
 
     const [caixa, setCaixa] = useState(false);
     const [coletor, setColetor] = useState(false);
+    const [contagemEntrada, setContagemEntrada] = useState(false);
 
     function abrirBarra (){
         setAberto(!aberto);
@@ -137,6 +139,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
                         </>
                     ) : null}
                     <div onClick={()=> setColetor(true)}>Coletor</div>
+                    <div onClick={()=> setContagemEntrada(true)}>Recepção Nota de Entrada</div>
                     <div onClick={()=> setCaixa(true)}><img alt="" src="/images/ponto-de-venda.png"/>Caixa</div>
                     {sincronizando === true ? (
                         <div className="sincronizando">
@@ -158,6 +161,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
             {vendas ? <VendasCaixa close={()=> setVendas(false)}/> : null}
             {caixa ? <Caixa /> : null}
             {coletor ? <Coletor close={()=> setColetor(false)}/> : null}
+            {contagemEntrada ? <ContagemEntrada close={()=> setContagemEntrada(false)}/> : null}
         </C.Container>
     )
 }
