@@ -11,7 +11,7 @@ export const ListaContagemEntrada = ({ setCabecalho, abrir }) => {
 
     async function fetchContagensPendentes() {
         setCabecalho([]);
-        fetch("http://10.0.1.107:8091/contagemEntrada/cabecalho")
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+"/contagemEntrada/cabecalho")
             .then((resp) => resp.json())
             .then((data) => {
                 setCabecalhos(data);

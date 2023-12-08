@@ -80,8 +80,8 @@ export const VendasCaixa = ({ close }) => {
         const resultados = [];
         if (dataInicial && dataFinal) {
             const [totalRes, tipoPgtoRes] = await Promise.all([
-                fetch(`http://10.0.1.107:8091/totalVendas/${dataInicial}/${dataFinal}`),//http://8b38091fc43d.sn.mynetname.net:2006 
-                fetch(`http://10.0.1.107:8091/totalVendas/totalTipoPagamento/${dataInicial}/${dataFinal}`),
+                fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/totalVendas/${dataInicial}/${dataFinal}`),//http://8b38091fc43d.sn.mynetname.net:2006 
+                fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/totalVendas/totalTipoPagamento/${dataInicial}/${dataFinal}`),
             ]);
 
             const totalData = await totalRes.json();
@@ -93,7 +93,7 @@ export const VendasCaixa = ({ close }) => {
             for (let i = 0; i < caixa.length; i++) {
                 const id = caixa[i].id;
                 const nomeCaixa = caixa[i].nome;
-                const response = await fetch(`http://10.0.1.107:8091/totalVendas/${id}/${dataInicial}/${dataFinal}`);
+                const response = await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/totalVendas/${id}/${dataInicial}/${dataFinal}`);
                 const data = await response.json();
                 resultados.push({ idCaixa: id, nome: nomeCaixa, total: data.total, id_empresa: data.id_ecf_empresa });
             }
@@ -102,7 +102,7 @@ export const VendasCaixa = ({ close }) => {
             for (let i = 0; i < caixa.length; i++) {
                 const id = caixa[i].id;
                 const nomeCaixa = caixa[i].nome;
-                const response = await fetch(`http://10.0.1.107:8091/totalVendas/${id}`);
+                const response = await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/totalVendas/${id}`);
                 const data = await response.json();
                 resultados.push({ nome: nomeCaixa, total: data });
             }
@@ -114,9 +114,9 @@ export const VendasCaixa = ({ close }) => {
         async function fetchData() {
             try {
                 const [caixasRes, totalRes, tipoPgtoRes] = await Promise.all([
-                    fetch('http://10.0.1.107:8091/caixas'),
-                    fetch('http://10.0.1.107:8091/totalVendas'),
-                    fetch('http://10.0.1.107:8091/totalVendas/totalTipoPagamento') //http://10.0.1.107:8091/totalVendas/totalTipoPagamento
+                    fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+'/caixas'),
+                    fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+'/totalVendas'),
+                    fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+'/totalVendas/totalTipoPagamento') //http://10.0.1.107:8091/totalVendas/totalTipoPagamento
                 ]);
 
                 const caixasData = await caixasRes.json();
@@ -152,21 +152,21 @@ export const VendasCaixa = ({ close }) => {
         setFiltro(e.target.value);
         if (e.target.value === 'todos' && dataInicial === '' && dataFinal === '') {
             async function getTotal() {
-                const res = await fetch('http://10.0.1.107:8091/totalVendas')
+                const res = await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+'/totalVendas')
                 const data = await res.json();
                 setTotal(data)
             }
             getTotal();
         } else if (e.target.value === 'todos' && dataInicial && dataFinal) {
             async function getTotal() {
-                const res = await fetch(`http://10.0.1.107:8091/totalVendas/${dataInicial}/${dataFinal}`)
+                const res = await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/totalVendas/${dataInicial}/${dataFinal}`)
                 const data = await res.json();
                 setTotal(data)
             }
             getTotal();
         } else if (e.target.value !== "todos" && dataInicial && dataFinal) {
             async function getTotal() {
-                const res = await fetch(`http://10.0.1.107:8091/totalVendas/${e.target.value}/${dataInicial}/${dataFinal}`);
+                const res = await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/totalVendas/${e.target.value}/${dataInicial}/${dataFinal}`);
                 const data = await res.json();
                 setTotal(data.total);
             }
@@ -175,7 +175,7 @@ export const VendasCaixa = ({ close }) => {
             setPagamentoCaixa(filtrado);
         } else if (e.target.value !== "todos" && dataInicial === '' && dataFinal === '') {
             async function getTotal() {
-                const res = await fetch(`http://10.0.1.107:8091/totalVendas/${e.target.value}`);
+                const res = await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/totalVendas/${e.target.value}`);
                 const data = await res.json();
                 setTotal(data);
             }

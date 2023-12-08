@@ -69,7 +69,7 @@ export const ContagemEntrada = ({ close }) => {
     // Função que salva o cabeçalho no banco caso tenha descrição
     function salvarCabecalho() {
         if (cabecalho.descricao && cabecalho.chave) {
-            fetch("http://10.0.1.107:8091/contagemEntrada/cabecalhoSalvar", {
+            fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+"/contagemEntrada/cabecalhoSalvar", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({
@@ -99,7 +99,7 @@ export const ContagemEntrada = ({ close }) => {
         const codigo = localStorage.getItem("codigo");
         const autoAtual = estadoAutoRef.current;
         if (produtoEncontrado) {
-            fetch("http://10.0.1.107:8091/contagemEntrada/detalheSalvar", {
+            fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+"/contagemEntrada/detalheSalvar", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({
@@ -154,7 +154,7 @@ export const ContagemEntrada = ({ close }) => {
         const codigo = localStorage.getItem("codigo");
         const tipoSistema = localStorage.getItem("tipoSistema");
         try {
-            const response = await fetch(`http://10.0.1.107:8091/contagemEntrada/buscarProduto/${tipoSistema}/${codigo}`);
+            const response = await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/contagemEntrada/buscarProduto/${tipoSistema}/${codigo}`);
             const data = await response.json();
             if (response.status === 200 || response.status === 201) {
                 setDetalhe({ id_produto: data.codigo, descricao_produto: data.descricaopdv, referencia: data.referencia, gtin: data.gtin, qtd_estoque: data.qtd_estoque, ...(!auto ? {} : { quantidade: 1 }) });
@@ -236,7 +236,7 @@ export const ContagemEntrada = ({ close }) => {
         var novaLista = lista.filter((item, i) => i !== index);
 
         //Função para procurar o item na tabela do banco e excluir, caso excluido no banco, ele remove da lista tambem
-        fetch(`http://10.0.1.107:8091/contagemEntrada/deletarItem/${item.item}/${item.id_contagem}`, {
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/contagemEntrada/deletarItem/${item.item}/${item.id_contagem}`, {
             method: "DELETE"
         })
             .then((resp) => {
@@ -255,7 +255,7 @@ export const ContagemEntrada = ({ close }) => {
     //Função para editar o item na lista e no banco
     async function editarDetalhe() {
         //Função para procurar o item na tabela do banco e editar, caso editado no banco, ele edita da lista tambem
-        fetch(`http://10.0.1.107:8091/contagemEntrada/editarItem/${parseInt(detalheEditando.item)}/${parseInt(detalheEditando.id_contagem)}/${parseFloat(detalheEditando.quantidade)}`, {
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/contagemEntrada/editarItem/${parseInt(detalheEditando.item)}/${parseInt(detalheEditando.id_contagem)}/${parseFloat(detalheEditando.quantidade)}`, {
             method: "PUT"
         }).then((resp) => {
             if (resp.status === 200 || resp.status === 201) {
@@ -269,7 +269,7 @@ export const ContagemEntrada = ({ close }) => {
     }
 
     async function agrupar() {
-        await fetch(`http://10.0.1.107:8091/contagemEntrada/detalhe/ajustaContagem/${cabecalho.id}`);
+        await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/contagemEntrada/detalhe/ajustaContagem/${cabecalho.id}`);
         await fetchDetalhes();
     }
 
@@ -305,14 +305,14 @@ export const ContagemEntrada = ({ close }) => {
         setCabecalho({});
         setNovo(false);
         setLista([]);
-        fetch(`http://10.0.1.107:8091/contagemEntrada/alterarStatus/${cabecalho.id}/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/contagemEntrada/alterarStatus/${cabecalho.id}/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
             method: "PUT"
         })
     }
 
     async function excluir() {
         const usuario = localStorage.getItem("id");
-        fetch(`http://10.0.1.107:8091/contagemEntrada/alterarStatus/${cabecalho.id}/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/contagemEntrada/alterarStatus/${cabecalho.id}/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
             method: "PUT"
         })
     }
@@ -322,7 +322,7 @@ export const ContagemEntrada = ({ close }) => {
 
     function finalizar() {
         const usuario = localStorage.getItem("id");
-        fetch(`http://10.0.1.107:8091/contagemEntrada/alterarStatus/${cabecalho.id}/null/1/${dataAtual}/${usuario}/${excluido ? 1 : 0}`, {
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/contagemEntrada/alterarStatus/${cabecalho.id}/null/1/${dataAtual}/${usuario}/${excluido ? 1 : 0}`, {
             method: "PUT"
         })
         setListagem(true);
@@ -335,12 +335,12 @@ export const ContagemEntrada = ({ close }) => {
 
     async function abrir() {
         var usuario = localStorage.getItem("id");
-        fetch(`http://10.0.1.107:8091/contagemEntrada/cabecalho/${cabecalho.id}`)
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/contagemEntrada/cabecalho/${cabecalho.id}`)
             .then((resp) => resp.json())
             .then((data) => {
                 if (data.aberto === "null" || data.aberto === null) {
                     fetchDetalhes(cabecalho).then(() => {
-                        fetch(`http://10.0.1.107:8091/contagemEntrada/alterarStatus/${cabecalho.id}/${usuario}/0/null/${parseInt(usuario)}/0`, { // id/aberto/finalizada/data_finalizada
+                        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/contagemEntrada/alterarStatus/${cabecalho.id}/${usuario}/0/null/${parseInt(usuario)}/0`, { // id/aberto/finalizada/data_finalizada
                             method: "PUT"
                         }).then((resp) => {
                             if (resp.status === 201 || resp.status === 200) {
@@ -359,7 +359,7 @@ export const ContagemEntrada = ({ close }) => {
                 } else {
                     if (data.aberto === localStorage.getItem("id")) {
                         fetchDetalhes(cabecalho).then(() => {
-                            fetch(`http://10.0.1.107:8091/contagemEntrada/alterarStatus/${cabecalho.id}/${usuario}/0/null/${parseInt(usuario)}/0`, { // id/aberto/finalizada/data_finalizada
+                            fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/contagemEntrada/alterarStatus/${cabecalho.id}/${usuario}/0/null/${parseInt(usuario)}/0`, { // id/aberto/finalizada/data_finalizada
                                 method: "PUT"
                             }).then((resp) => {
                                 if (resp.status === 201 || resp.status === 200) {
@@ -384,7 +384,7 @@ export const ContagemEntrada = ({ close }) => {
     }
 
     async function fetchDetalhes() {
-        fetch(`http://10.0.1.107:8091/contagemEntrada/detalhe/${cabecalho.id}`)
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/contagemEntrada/detalhe/${cabecalho.id}`)
             .then((resp) => resp.json())
             .then((data) => {
                 setLista(data);

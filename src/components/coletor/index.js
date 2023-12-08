@@ -60,7 +60,7 @@ export const Coletor = ({ close }) => {
 
     useEffect(() => {
         async function pegarIp() {
-            fetch("http://10.0.1.107:8091/coletor/ip")
+            fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+"/coletor/ip")
                 .then(response => response.text())
                 .then(data => setIp(data))
                 .catch(error => console.log(error));
@@ -71,7 +71,7 @@ export const Coletor = ({ close }) => {
     // Função que salva o cabeçalho no banco caso tenha descrição
     function salvarCabecalho() {
         if (cabecalho.descricao) {
-            fetch("http://10.0.1.107:8091/coletor/cabecalhoSalvar", {
+            fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+"/coletor/cabecalhoSalvar", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({
@@ -102,7 +102,7 @@ export const Coletor = ({ close }) => {
         const codigo = localStorage.getItem("codigo");
         const autoAtual = estadoAutoRef.current;
         if (produtoEncontrado) {
-            fetch("http://10.0.1.107:8091/coletor/detalheSalvar", {
+            fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+"/coletor/detalheSalvar", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({
@@ -131,9 +131,9 @@ export const Coletor = ({ close }) => {
                     document.getElementById("codigo").focus();
                     document.getElementById("codigo").select();
                     setItem(item + 1);
-                    const itensIguais = lista.filter((item) => item.gtin == detalhe.gtin);
+                    const itensIguais = lista.filter((item) => item.gtin == codigo);
                     const ultimoItem = lista[lista.length - 1];
-                    if (itensIguais.length < 50 && ultimoItem.gtin != detalhe.gtin) {
+                    if (itensIguais.length < 50 && ultimoItem.gtin != codigo) {
                         agrupar();
                     } else if (itensIguais.length >= 50) {
                         agrupar();
@@ -156,7 +156,7 @@ export const Coletor = ({ close }) => {
         const codigo = localStorage.getItem("codigo");
         const tipoSistema = localStorage.getItem("tipoSistema");
         try {
-            const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${tipoSistema}/${codigo}`);
+            const response = await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/buscarProduto/${tipoSistema}/${codigo}`);
             const data = await response.json();
 
             if (response.status === 200 || response.status === 201) {
@@ -171,7 +171,11 @@ export const Coletor = ({ close }) => {
             console.error("Erro ao buscar o produto:", error);
             setDetalhe({ descricao_produto: "", gtin: codigo, qtd_estoque: "", ...(!auto ? {} : { quantidade: 1 }) });
             setMensagem("PRODUTO NÃO ENCONTRADO!");
-            setProdutoEncontrado(false);
+            if(listagem){
+                setProdutoEncontrado(null);
+            }else{
+                setProdutoEncontrado(false);
+            }
         }
     }
 
@@ -218,7 +222,7 @@ export const Coletor = ({ close }) => {
         var novaLista = lista.filter((item, i) => i !== index);
 
         //Função para procurar o item na tabela do banco e excluir, caso excluido no banco, ele remove da lista tambem
-        fetch(`http://10.0.1.107:8091/coletor/deletarItem/${item.item}/${item.id_contagem}`, {
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/deletarItem/${item.item}/${item.id_contagem}`, {
             method: "DELETE"
         })
             .then((resp) => {
@@ -237,7 +241,7 @@ export const Coletor = ({ close }) => {
     //Função para editar o item na lista e no banco
     async function editarDetalhe() {
         //Função para procurar o item na tabela do banco e editar, caso editado no banco, ele edita da lista tambem
-        fetch(`http://10.0.1.107:8091/coletor/editarItem/${parseInt(detalheEditando.item)}/${parseInt(detalheEditando.id_contagem)}/${parseFloat(detalheEditando.quantidade)}`, {
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/editarItem/${parseInt(detalheEditando.item)}/${parseInt(detalheEditando.id_contagem)}/${parseFloat(detalheEditando.quantidade)}`, {
             method: "PUT"
         }).then((resp) => {
             if (resp.status === 200 || resp.status === 201) {
@@ -251,7 +255,7 @@ export const Coletor = ({ close }) => {
     }
 
     async function agrupar() {
-        await fetch(`http://10.0.1.107:8091/coletor/detalhe/ajustaContagem/${cabecalho.id}`);
+        await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/detalhe/ajustaContagem/${cabecalho.id}`);
         await fetchDetalhes();
     }
 
@@ -287,14 +291,14 @@ export const Coletor = ({ close }) => {
         setCabecalho({});
         setNovo(false);
         setLista([]);
-        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/alterarStatus/${cabecalho.id}/0/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
             method: "PUT"
         })
     }
 
     async function excluir() {
         const usuario = localStorage.getItem("id");
-        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/alterarStatus/${cabecalho.id}/0/null/0/null/${usuario}/${excluido ? 1 : 0}`, {
             method: "PUT"
         })
     }
@@ -304,7 +308,7 @@ export const Coletor = ({ close }) => {
 
     function finalizar() {
         const usuario = localStorage.getItem("id");
-        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/0/null/1/${dataAtual}/${usuario}/${excluido ? 1 : 0}`, {
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/alterarStatus/${cabecalho.id}/0/null/1/${dataAtual}/${usuario}/${excluido ? 1 : 0}`, {
             method: "PUT"
         })
         setListagem(true);
@@ -316,12 +320,12 @@ export const Coletor = ({ close }) => {
     }
 
     async function abrir() {
-        fetch(`http://10.0.1.107:8091/coletor/cabecalho/${cabecalho.id}`)
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/cabecalho/${cabecalho.id}`)
             .then((resp) => resp.json())
             .then((data) => {
                 if (data.aberto == 0) {
                     fetchDetalhes(cabecalho).then(() => {
-                        fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null/${cabecalho.id_usuario_insercao}/0`, { // id/aberto/finalizada/data_finalizada
+                        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null/${cabecalho.id_usuario_insercao}/0`, { // id/aberto/finalizada/data_finalizada
                             method: "PUT"
                         }).then((resp) => {
                             if (resp.status === 201 || resp.status === 200) {
@@ -340,7 +344,7 @@ export const Coletor = ({ close }) => {
                 } else {
                     if (data.ip_aberto == ip) {
                         fetchDetalhes(cabecalho).then(() => {
-                            fetch(`http://10.0.1.107:8091/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null/${cabecalho.id_usuario_insercao}/0`, { // id/aberto/finalizada/data_finalizada
+                            fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/alterarStatus/${cabecalho.id}/1/${ip}/0/null/${cabecalho.id_usuario_insercao}/0`, { // id/aberto/finalizada/data_finalizada
                                 method: "PUT"
                             }).then((resp) => {
                                 if (resp.status === 201 || resp.status === 200) {
@@ -365,7 +369,7 @@ export const Coletor = ({ close }) => {
     }
 
     async function fetchDetalhes() {
-        fetch(`http://10.0.1.107:8091/coletor/detalhe/${cabecalho.id}`)
+        fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/detalhe/${cabecalho.id}`)
             .then((resp) => resp.json())
             .then((data) => {
                 setLista(data);

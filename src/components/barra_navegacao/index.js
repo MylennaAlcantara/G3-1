@@ -45,7 +45,7 @@ export const NavBar = ({minimizado, setMinimizado, setCadastro, cadastro, setMod
 
     const sincronizar = async () => {
         setSincronizando(true);
-        const response = await fetch("http://10.0.1.107:8091/sincronizar",{
+        const response = await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+"/sincronizar",{
             method: "POST"
         });
         if(response.ok){
