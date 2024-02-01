@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import * as B from "./buscaPreco";
 import { Html5QrcodeScanner } from "html5-qrcode";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import * as B from "./buscaPreco";
 
 export const BuscaPreco = () => {
     const [produtoEncontrado, setProdutoEncontrado] = useState(false);
@@ -24,7 +23,7 @@ export const BuscaPreco = () => {
         const tipoSistema = localStorage.getItem("tipoSistema");
         const codigo = localStorage.getItem("codigo");
         try {
-            const response = await fetch(`http://10.0.1.107:8091/coletor/buscarProduto/${tipoSistema}/${codigo}`);
+            const response = await fetch(process.env.REACT_APP_LINK_PICO_COLETOR_SINCRONIZADOR_VENDAS_FLASH+`/coletor/buscarProduto/${tipoSistema}/${codigo}`);
             const data = await response.json();
 
             if (response.status === 200 || response.status === 201) {
